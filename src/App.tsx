@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import HomePage from './pages/HomePage'
 import ProjectPage from './pages/ProjectPage'
 import RoutePaths from './shared/enums/routes-paths'
-import Layout from './components/ui/Layout'
+import Layout from './components/common/Layout'
 import ArticlePage from './pages/ArticlePage'
 
 function App() {

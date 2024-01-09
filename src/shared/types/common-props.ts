@@ -1,7 +1,7 @@
-interface ChildrenProps {
+interface ChildrenProp {
   children?: React.ReactNode
 }
 
 export type {
-  ChildrenProps,
+  ChildrenProp,
 }
