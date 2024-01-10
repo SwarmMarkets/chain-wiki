@@ -1,18 +1,30 @@
 import styled from 'styled-components'
 
-const StyledText = styled.span`
-  color: #d4af37;
-  font-family: 'SweetHoliday', sans-serif;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+import { ChildrenProp } from '@src/shared/types/common-props'
+
+interface StyledTextProps extends ChildrenProp {
+  $color?: string
+  $size?: string
+  $weight?: number
+}
+
+const StyledText = styled.span<StyledTextProps>`
+  color: ${props => props.$color || props.theme.palette.textColor};
+  font-size: ${props => props.$size || props.theme.fontSizes.medium};
+  font-weight: ${props => props.$weight || props.theme.fontWeights.regular};
+  font-family: ${({ theme }) => theme.fontFamilies.roboto};
 `
 
 interface TextProps extends React.ParamHTMLAttributes<HTMLParagraphElement> {
-  as?: string
+  as?: string,
+  color?: string,
+  size?: string,
+  weight?: number,
 }
 
-const Text = ({ as: HTMLElement = 'span', children, ...props }: TextProps) => {
+const Text = ({ as: HTMLElement = 'span', color, size, weight, children, ...props }: TextProps) => {
   return (
-    <StyledText as={HTMLElement} {...props}>
+    <StyledText as={HTMLElement} $color={color} $size={size} $weight={weight} {...props}>
       {children}
     </StyledText>
   )
