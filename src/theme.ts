@@ -19,6 +19,9 @@ const theme = {
     regular: 400,
     bold: 700,
   },
+  fontFamilies: {
+    roboto: "'Roboto', sans-serif",
+  }
 };
 
 export default theme;
