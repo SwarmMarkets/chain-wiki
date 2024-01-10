@@ -6,6 +6,7 @@ const theme = {
 
     // Background colors
     bgColor: '#f8f9fa',
+    bgColorWhite: '#fff',
 
     // Border colors
     borderColor: '#ccc',
