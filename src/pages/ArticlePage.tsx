@@ -1,13 +1,13 @@
-import { useParams } from "react-router-dom"
+import { useParams } from 'react-router-dom';
 
 const ArticlePage = () => {
-  const { id } = useParams()
+  const { articleId } = useParams();
 
-  return <>
-    <h1>
-      Article Page ID: {id}
-    </h1>
-  </>
-}
+  return (
+    <>
+      <h1>Article Page ID: {articleId}</h1>
+    </>
+  );
+};
 
-export default ArticlePage
+export default ArticlePage;

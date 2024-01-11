@@ -8,15 +8,14 @@ import ArticlePage from './pages/ArticlePage'
 import theme from './theme';
 
 function App() {
-  return (
+    return (
     <ThemeProvider theme={theme}>
       <Router>
         <Layout>
         <Routes>
           <Route path={RoutePaths.HOME} element={<HomePage />} />
-          <Route path={RoutePaths.PROJECT} element={<ProjectPage />}>
-            <Route path={RoutePaths.PROJECT + RoutePaths.ARTICLE} element={<ArticlePage />} />
-          </Route>
+          <Route path={RoutePaths.PROJECT} element={<ProjectPage />} />
+          <Route path={RoutePaths.PROJECT + RoutePaths.ARTICLE} element={<ArticlePage />} />
         </Routes>
         </Layout>
       </Router>

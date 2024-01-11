@@ -4,18 +4,17 @@ import { Link, generatePath, useNavigate, useParams } from "react-router-dom"
 
 
 const ProjectPage = () => {
-  const { id } = useParams()
+  const { projectId } = useParams()
   const uniqId = useId()
   const navigate = useNavigate();
-
   const handleClick = () => {
-    navigate(generatePath(RoutePaths.ARTICLE, { id: uniqId }));
+    navigate(generatePath(RoutePaths.PROJECT + RoutePaths.ARTICLE, { articleId: uniqId, projectId }));
   }
 
   return <>
-    <h1>Project Page ID: {id}
-    <Link to={generatePath(RoutePaths.ARTICLE, { id: uniqId })}>Go to Article with random id {id}</Link>
-      <button onClick={handleClick}>Go to Article with random id {id}</button>
+    <h1>Project Page ID: {projectId}
+    <Link to={generatePath(RoutePaths.PROJECT + RoutePaths.ARTICLE, { articleId: uniqId, projectId })}>Go to Article with random id {projectId}</Link>
+      <button onClick={handleClick}>Go to Article with random id {projectId}</button>
     </h1>
   </>
 }

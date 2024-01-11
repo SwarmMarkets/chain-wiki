@@ -1,7 +1,7 @@
 enum RoutePaths {
   HOME = '/',
-  ARTICLE = '/article/:id',
-  PROJECT = '/project/:id'
+  ARTICLE = '/article/:articleId',
+  PROJECT = '/project/:projectId'
 }
 
 export default RoutePaths

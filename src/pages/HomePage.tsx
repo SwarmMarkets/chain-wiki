@@ -7,7 +7,7 @@ const HomePage = () => {
   const navigate = useNavigate();
   
   const handleClick = () => {
-    navigate(generatePath(RoutePaths.PROJECT, { id }));
+    navigate(generatePath(RoutePaths.PROJECT, { projectId: id }));
   }
 
   return <>
