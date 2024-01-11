@@ -25,13 +25,7 @@ const Header = () => {
         />
       </Flex>
 
-      <Button
-        onClick={() => {
-          alert('click!');
-        }}
-      >
-        Log in
-      </Button>
+      <Button>Log in</Button>
     </HeaderContainer>
   );
 };
