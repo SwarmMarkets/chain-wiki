@@ -9,7 +9,7 @@ interface StyledTextProps extends ChildrenProp {
 }
 
 const StyledText = styled.span<StyledTextProps>`
-  color: ${props => props.$color || props.theme.palette.textColor};
+  color: ${props => props.$color || props.theme.palette.textPrimary};
   font-size: ${props => props.$size || props.theme.fontSizes.medium};
   font-weight: ${props => props.$weight || props.theme.fontWeights.regular};
   font-family: ${({ theme }) => theme.fontFamilies.roboto};

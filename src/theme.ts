@@ -1,15 +1,20 @@
 const theme = {
   palette: {
+    // Common
+    white: '#fff',
+
     // Text Colors
-    textColor: '#212121',
-    linkColor: '#3366cc',
+    textPrimary: '#212121',
+    linkPrimary: '#3366cc',
 
     // Background colors
-    bgColor: '#f8f9fa',
-    bgColorWhite: '#fff',
+    bgPrimary: '#f8f9fa',
 
     // Border colors
-    borderColor: '#ccc',
+    borderPrimary: '#c8ccd1',
+
+    // Icon colors
+    iconPrimary: '#72777d',
   },
   fontSizes: {
     small: '12px',
