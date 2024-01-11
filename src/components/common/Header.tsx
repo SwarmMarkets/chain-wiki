@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 import Container from '../ui/Container';
-import { Link } from 'react-router-dom';
 import Flex from '../ui/Flex';
 import TextField from '../ui/TextField';
 import logo from '@src/assets/logo.png';
 import SearchIcon from '../icons/SearchIcon';
+import Button from '../ui/Button';
 
 const HeaderContainer = styled(Container)`
   display: flex;
@@ -19,9 +19,19 @@ const Header = () => {
     <HeaderContainer as="header">
       <Flex $gap="60px">
         <img src={logo} alt="ChainWiki" />
-        <TextField prependIcon={<SearchIcon />} placeholder='Search ChainWiki' />
+        <TextField
+          prependIcon={<SearchIcon />}
+          placeholder="Search ChainWiki"
+        />
       </Flex>
-      <Link to="/">Log in</Link>
+
+      <Button
+        onClick={() => {
+          alert('click!');
+        }}
+      >
+        Log in
+      </Button>
     </HeaderContainer>
   );
 };
