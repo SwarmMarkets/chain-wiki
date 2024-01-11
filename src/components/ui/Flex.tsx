@@ -7,6 +7,7 @@ interface FlexProps extends ChildrenProp {
   $flexWrap?: string
   $flexDirection?: string
   $display?: string
+  $gap?: string
 }
 
 const Flex = styled.div<FlexProps>`
@@ -15,6 +16,7 @@ const Flex = styled.div<FlexProps>`
   align-items: ${props => props.$alignItems || 'initial'};
   flex-wrap: ${props => props.$flexWrap || 'nowrap'};
   flex-direction: ${props => props.$flexDirection || 'row'};
+  gap: ${props => props.$gap};
 `
 
 export default Flex

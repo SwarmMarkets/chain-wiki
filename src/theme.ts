@@ -11,7 +11,8 @@ const theme = {
     bgPrimary: '#f8f9fa',
 
     // Border colors
-    borderPrimary: '#c8ccd1',
+    borderPrimary: '#a2a9b1',
+    borderBlue: '#36c',
 
     // Icon colors
     iconPrimary: '#72777d',
