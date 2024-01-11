@@ -17,6 +17,8 @@ interface IconContainerProps {
 }
 
 const IconContainer = styled.div<IconContainerProps>`
+  width: 20px;
+  height: 20px;
   position: absolute;
   left: 8px;
   top: 50%;
