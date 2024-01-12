@@ -4,6 +4,8 @@ import Header from './Header';
 import styled from 'styled-components';
 
 const PageContainer = styled(Container)`
+  width: 100%;
+  flex: 1;
   padding-top: 24px;
   padding-bottom: 24px;
 `

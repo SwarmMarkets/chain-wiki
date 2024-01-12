@@ -7,6 +7,7 @@ import SearchIcon from '../icons/SearchIcon';
 import Button from '../ui/Button';
 
 const HeaderContainer = styled(Container)`
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
