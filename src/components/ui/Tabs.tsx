@@ -12,6 +12,7 @@ interface Tab {
 
 interface TabsProps {
   tabs: Tab[];
+  onChange?: (index: number) => void;
 }
 
 const TabsWrapper = styled.div`
@@ -35,11 +36,12 @@ const TabContent = styled.div`
   padding: 15px 0;
 `;
 
-const Tabs: React.FC<TabsProps> = ({ tabs }) => {
+const Tabs: React.FC<TabsProps> = ({ tabs, onChange }) => {
   const [activeTab, setActiveTab] = useState(0);
 
   const handleTabClick = (index: number) => {
     setActiveTab(index);
+    onChange && onChange(index);
   };
 
   return (
