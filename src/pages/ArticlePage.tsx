@@ -35,7 +35,7 @@ const ArticlePage = () => {
       <Text.h1 size="24px" weight={700}>
         Steve Jobs Article ID: {articleId}
       </Text.h1>
-      <Tabs tabs={tabs}></Tabs>
+      <Tabs tabs={tabs} />
     </>
   );
 };

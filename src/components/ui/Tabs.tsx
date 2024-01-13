@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 
 interface TabProps {
-  active: boolean;
+  $active: boolean;
 }
 
 interface Tab {
@@ -24,9 +24,9 @@ const Tab = styled.div<TabProps>`
   padding: 10px 15px;
   cursor: pointer;
   border-bottom: ${(props) =>
-    props.active ? `2px solid ${props.theme.palette.borderBlue}` : 'none'};
+    props.$active ? `2px solid ${props.theme.palette.borderBlue}` : 'none'};
   color: ${(props) =>
-    props.active
+    props.$active
       ? props.theme.palette.borderBlue
       : props.theme.palette.textPrimary};
 `;
@@ -48,7 +48,7 @@ const Tabs: React.FC<TabsProps> = ({ tabs }) => {
         {tabs.map((tab, index) => (
           <Tab
             key={index}
-            active={index === activeTab}
+            $active={index === activeTab}
             onClick={() => handleTabClick(index)}
           >
             {tab.title}
