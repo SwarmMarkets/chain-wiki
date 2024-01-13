@@ -8,6 +8,9 @@ import Button from '../ui/Button';
 
 const HeaderContainer = styled(Container)`
   width: 100%;
+  width: -moz-available;
+  width: -webkit-fill-available;
+  width: fill-available;
   display: flex;
   justify-content: space-between;
   align-items: center;
