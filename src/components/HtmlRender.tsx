@@ -1,14 +1,16 @@
+import { forwardRef, useEffect } from 'react';
 import styled from 'styled-components';
 
 interface HtmlRenderProps {
   html: string;
+  onMount?: () => void;
 }
 
 const HtmlWrapper = styled.div`
   /* Styles for patagraphs and headings */
   line-height: 1.4;
   color: ${({ theme }) => theme.palette.textPrimary};
-  
+
   p {
     margin-bottom: 10px;
   }
@@ -74,8 +76,18 @@ const HtmlWrapper = styled.div`
   }
 `;
 
-const HtmlRender: React.FC<HtmlRenderProps> = ({ html }) => {
-  return <HtmlWrapper dangerouslySetInnerHTML={{ __html: html }}></HtmlWrapper>;
-};
+const HtmlRender = forwardRef<HTMLDivElement, HtmlRenderProps>(
+  ({ html, onMount }, ref) => {
+    useEffect(() => {
+      onMount && onMount();
+    }, [onMount]);
+
+    return (
+      <div ref={ref}>
+        <HtmlWrapper dangerouslySetInnerHTML={{ __html: html }}></HtmlWrapper>
+      </div>
+    );
+  }
+);
 
 export default HtmlRender;
