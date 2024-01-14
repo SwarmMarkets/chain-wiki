@@ -1,6 +1,8 @@
 import React from 'react';
-import { Editor as TinyEditor } from '@tinymce/tinymce-react';
 import { Editor as TinyEditorType } from 'tinymce';
+import { Editor as TinyEditor } from '@tinymce/tinymce-react';
+import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
+import { storage } from '@src/firebase';
 
 interface EditorProps {
   content: string;
@@ -12,10 +14,24 @@ const Editor: React.FC<EditorProps> = ({ onChange, content }) => {
     onChange && onChange(content, editor);
   };
 
-  const handleImageUpload = () => {
-    return Promise.resolve(
-      'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg'
-    );
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleImageUpload = (image: any) => {
+    const imageBlob = image.blob();
+    const storageRef = ref(storage, `images/${imageBlob.name}`);
+    const uploadTask = uploadBytesResumable(storageRef, imageBlob);
+
+    return new Promise<string>((resolve, reject) => {
+      uploadTask.on('state_changed', {
+        error: (error) => {
+          console.error('Error uploading image: ', error);
+          reject(error);
+        },
+        complete: async () => {
+          const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+          resolve(downloadURL);
+        },
+      });
+    });
   };
 
   return (
@@ -37,9 +53,8 @@ const Editor: React.FC<EditorProps> = ({ onChange, content }) => {
         menubar: '',
         image_description: true, // Включаем поле описания для изображений
         image_caption: true, // Включаем подписи для изображений
-        images_upload_url: 'host',
-        automatic_uploads: true,
-        images_reuse_filename: true,
+        // automatic_uploads: true,
+        // images_reuse_filename: true,
         images_upload_handler: handleImageUpload,
         content_style:
           'body { font-family: "Roboto", sans-serif; font-size: 14px; }',
