@@ -34,26 +34,22 @@ const Content: React.FC<ContentProps> = ({ contentElem, className }) => {
   return (
     <div className={className}>
       <ContentsTitle>Contents</ContentsTitle>
-      {contentData.map((item) =>
-        item.childs ? (
-          <ExpandableList
-            onClickTitle={() => onClickTitle(item.elem)}
-            onClickItem={(listItem: ExpandableListItem) =>
-              onClickItem(
-                item.childs?.find((child) => child.id === listItem.id)?.elem
-              )
-            }
-            key={item.id}
-            title={item.title}
-            items={item.childs?.map((child) => ({
-              id: child.id,
-              value: child.title,
-            }))}
-          />
-        ) : (
-          <div key={item.id}>{item.title}</div>
-        )
-      )}
+      {contentData.map((item) => (
+        <ExpandableList
+          onClickTitle={() => onClickTitle(item.elem)}
+          onClickItem={(listItem: ExpandableListItem) =>
+            onClickItem(
+              item.childs?.find((child) => child.id === listItem.id)?.elem
+            )
+          }
+          key={item.id}
+          title={item.title}
+          items={item.childs?.map((child) => ({
+            id: child.id,
+            value: child.title,
+          }))}
+        />
+      ))}
     </div>
   );
 };

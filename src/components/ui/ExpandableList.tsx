@@ -5,7 +5,7 @@ import { ExpandableListItem } from '@src/shared/types/expandedList';
 
 interface ExpandableListProps {
   title: string;
-  items: ExpandableListItem[];
+  items?: ExpandableListItem[];
   initialExpanded?: boolean;
   onClickTitle?: () => void;
   onClickItem?: (item: ExpandableListItem) => void;
@@ -70,10 +70,10 @@ const ExpandableList: React.FC<ExpandableListProps> = ({
   return (
     <div>
       <StyledTitleBlock $expanded={isExpanded}>
-        <ChevronRight onClick={onExpandList} />
+        {items && <ChevronRight onClick={onExpandList} />}
         <span onClick={onClickTitleBlock}>{title}</span>
       </StyledTitleBlock>
-      {isExpanded && (
+      {isExpanded && items && (
         <StyledList>
           {items.map((item) => (
             <StyledListItem
