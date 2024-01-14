@@ -41,6 +41,7 @@ const Content: React.FC<ContentProps> = ({ contentElem, className }) => {
       <ExpandableList title="Beginning" onClickTitle={onClickBeginning} />
       {contentData.map((item) => (
         <ExpandableList
+          initialExpanded={true}
           onClickTitle={() => onClickTitle(item.elem)}
           onClickItem={(listItem: ExpandableListItem) =>
             onClickItem(
