@@ -31,9 +31,14 @@ const Content: React.FC<ContentProps> = ({ contentElem, className }) => {
     elem?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  const onClickBeginning = () => {
+    document.body.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
     <div className={className}>
       <ContentsTitle>Contents</ContentsTitle>
+      <ExpandableList title="Beginning" onClickTitle={onClickBeginning} />
       {contentData.map((item) => (
         <ExpandableList
           onClickTitle={() => onClickTitle(item.elem)}
