@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import ChevronRight from '../icons/ChevronRightIcon';
+import ChevronRightIcon from '../icons/ChevronRightIcon';
 import { ExpandableListItem } from '@src/shared/types/expandedList';
 
 interface ExpandableListProps {
@@ -70,7 +70,7 @@ const ExpandableList: React.FC<ExpandableListProps> = ({
   return (
     <div>
       <StyledTitleBlock $expanded={isExpanded}>
-        {items && <ChevronRight onClick={onExpandList} />}
+        {items && <ChevronRightIcon onClick={onExpandList} />}
         <span onClick={onClickTitleBlock}>{title}</span>
       </StyledTitleBlock>
       {isExpanded && items && (

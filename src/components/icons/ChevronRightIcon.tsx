@@ -1,7 +1,7 @@
 import { SVGProps } from "react";
 import { JSX } from "react/jsx-runtime";
 
-const ChevronRight = (props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) => {
+const ChevronRightIcon = (props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) => {
   return (
     <svg
       {...props}
@@ -21,4 +21,4 @@ const ChevronRight = (props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) 
   );
 };
 
-export default ChevronRight;
+export default ChevronRightIcon;
