@@ -42,6 +42,7 @@ const ArticlePage = () => {
 
   const [content, setContent] = useState(htmlArticleMock);
   const [contentElem, setContentElem] = useState<HTMLDivElement | null>(null);
+  const [activeTab, setActiveTab] = useState(1);
 
   const contentRef = useRef<HTMLDivElement>(null);
 
@@ -53,18 +54,25 @@ const ArticlePage = () => {
     setContentElem(contentRef?.current);
   };
 
+  const onChangeTab = (id: number) => {
+    setActiveTab(id);
+  };
+
   const tabs = [
     {
+      id: 1,
       title: 'Read',
       content: (
         <HtmlRender onMount={onMountContent} ref={contentRef} html={content} />
       ),
     },
     {
+      id: 2,
       title: 'Edit source',
       content: <TinyEditor content={content} onChange={onChangeEditor} />,
     },
     {
+      id: 3,
       title: 'View history',
       content: <p>History</p>,
     },
@@ -73,7 +81,7 @@ const ArticlePage = () => {
   return (
     <>
       <ArticleWrapper>
-        {contentElem ? (
+        {activeTab === 1 && contentElem ? (
           <StyledContent contentElem={contentElem} />
         ) : (
           <ContentPlaceholder />
@@ -82,7 +90,7 @@ const ArticlePage = () => {
           <Text.h1 size="24px" weight={700}>
             Steve Jobs Article ID: {articleId}
           </Text.h1>
-          <Tabs tabs={tabs} />
+          <Tabs tabs={tabs} activeTab={activeTab} onChange={onChangeTab} />
         </ArticleContent>
       </ArticleWrapper>
     </>

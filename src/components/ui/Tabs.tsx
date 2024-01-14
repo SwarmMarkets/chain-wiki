@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 interface TabProps {
@@ -6,13 +6,15 @@ interface TabProps {
 }
 
 interface Tab {
+  id: number;
   title: string;
   content: React.ReactNode;
 }
 
 interface TabsProps {
   tabs: Tab[];
-  onChange?: (index: number) => void;
+  activeTab: number;
+  onChange: (index: number) => void;
 }
 
 const TabsWrapper = styled.div`
@@ -36,28 +38,27 @@ const TabContent = styled.div`
   padding: 15px 0;
 `;
 
-const Tabs: React.FC<TabsProps> = ({ tabs, onChange }) => {
-  const [activeTab, setActiveTab] = useState(0);
-
-  const handleTabClick = (index: number) => {
-    setActiveTab(index);
-    onChange && onChange(index);
+const Tabs: React.FC<TabsProps> = ({ tabs, onChange, activeTab }) => {
+  const handleTabClick = (id: number) => {
+    onChange && onChange(id);
   };
+
+  const activeTabContent = tabs.find((tab) => tab.id === activeTab)?.content;
 
   return (
     <div>
       <TabsWrapper>
-        {tabs.map((tab, index) => (
+        {tabs.map((tab) => (
           <Tab
-            key={index}
-            $active={index === activeTab}
-            onClick={() => handleTabClick(index)}
+            key={tab.id}
+            $active={tab.id === activeTab}
+            onClick={() => handleTabClick(tab.id)}
           >
             {tab.title}
           </Tab>
         ))}
       </TabsWrapper>
-      <TabContent>{tabs[activeTab].content}</TabContent>
+      <TabContent>{activeTabContent}</TabContent>
     </div>
   );
 };
