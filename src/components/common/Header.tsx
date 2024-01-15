@@ -5,6 +5,8 @@ import TextField from '../ui/TextField';
 import logo from '@src/assets/logo.png';
 import SearchIcon from '../icons/SearchIcon';
 import Button from '../ui/Button';
+import { Link } from 'react-router-dom';
+import RoutePaths from '@src/shared/enums/routes-paths';
 
 const HeaderContainer = styled(Container)`
   width: 100%;
@@ -22,7 +24,9 @@ const Header = () => {
   return (
     <HeaderContainer as="header">
       <Flex $gap="60px">
-        <img src={logo} alt="ChainWiki" />
+        <Link to={RoutePaths.HOME}>
+          <img src={logo} alt="ChainWiki" />
+        </Link>
         <TextField
           prependIcon={<SearchIcon />}
           placeholder="Search ChainWiki"
