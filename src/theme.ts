@@ -20,6 +20,7 @@ const theme = {
   fontSizes: {
     small: '12px',
     medium: '14px',
+    mediumPlus: '18px',
     large: '24px',
   },
   fontWeights: {

@@ -79,21 +79,19 @@ const ArticlePage = () => {
   ];
 
   return (
-    <>
-      <ArticleWrapper>
-        {activeTab === 1 && contentElem ? (
-          <StyledContent contentElem={contentElem} />
-        ) : (
-          <ContentPlaceholder />
-        )}
-        <ArticleContent>
-          <Text.h1 size="24px" weight={700}>
-            Steve Jobs Article ID: {articleId}
-          </Text.h1>
-          <Tabs tabs={tabs} activeTab={activeTab} onChange={onChangeTab} />
-        </ArticleContent>
-      </ArticleWrapper>
-    </>
+    <ArticleWrapper>
+      {activeTab === 1 && contentElem ? (
+        <StyledContent contentElem={contentElem} />
+      ) : (
+        <ContentPlaceholder />
+      )}
+      <ArticleContent>
+        <Text.h1 size="24px" weight={700}>
+          Steve Jobs Article ID: {articleId}
+        </Text.h1>
+        <Tabs tabs={tabs} activeTab={activeTab} onChange={onChangeTab} />
+      </ArticleContent>
+    </ArticleWrapper>
   );
 };
 
