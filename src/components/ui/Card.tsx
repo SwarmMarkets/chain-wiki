@@ -1,10 +1,11 @@
-import React from 'react';
-import Text from './Text';
+import { Link } from 'react-router-dom';
 import styled, { useTheme } from 'styled-components';
+import Text from './Text';
 
 interface CardProps {
   title: string;
   description: string;
+  to?: string;
 }
 
 const CardRoot = styled.div`
@@ -19,18 +20,39 @@ const Description = styled(Text.p)`
   text-overflow: ellipsis;
 `;
 
-const Card: React.FC<CardProps> = ({ title, description }) => {
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: inherit;
+  
+  &:hover {
+    text-decoration: underline !important;
+  }
+`;
+
+const Card: React.FC<CardProps> = ({ title, description, to }) => {
   const theme = useTheme();
-  console.log(theme);
 
   return (
     <CardRoot>
-      <Text.h2
-        size={theme.fontSizes.mediumPlus}
-        weight={theme.fontWeights.bold}
-      >
-        {title}
-      </Text.h2>
+      {to ? (
+        <StyledLink style={{ textDecoration: 'none' }} to={to}>
+          <Text.h2
+            
+            color={theme.palette.linkPrimary}
+            size={theme.fontSizes.mediumPlus}
+            weight={theme.fontWeights.bold}
+          >
+            {title}
+          </Text.h2>
+        </StyledLink>
+      ) : (
+        <Text.h2
+          size={theme.fontSizes.mediumPlus}
+          weight={theme.fontWeights.bold}
+        >
+          {title}
+        </Text.h2>
+      )}
       <Description>{description}</Description>
     </CardRoot>
   );
