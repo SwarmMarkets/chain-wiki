@@ -69,6 +69,7 @@ const Editor: React.FC<EditorProps> = ({ onChange, content }) => {
               { value: 'First.Name', title: 'First Name' },
               { value: 'Email', title: 'Email' },
             ],
+            height: 700,
             font_size_formats: '10px 12px 14px 16px 18px 24px 36px 48px',
             menubar: '',
             image_description: true, // Включаем поле описания для изображений
