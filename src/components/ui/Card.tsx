@@ -22,7 +22,7 @@ const Description = styled(Text.p)`
 
 const StyledLink = styled(Link)`
   text-decoration: none;
-  color: inherit;
+  color: ${({ theme }) => theme.palette.linkPrimary};
   
   &:hover {
     text-decoration: underline !important;
@@ -35,7 +35,7 @@ const Card: React.FC<CardProps> = ({ title, description, to }) => {
   return (
     <CardRoot>
       {to ? (
-        <StyledLink style={{ textDecoration: 'none' }} to={to}>
+        <StyledLink to={to}>
           <Text.h2
             
             color={theme.palette.linkPrimary}
