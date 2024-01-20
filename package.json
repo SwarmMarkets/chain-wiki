@@ -14,9 +14,11 @@
     "@thirdweb-dev/sdk": "^4.0.25",
     "@tinymce/tinymce-react": "^4.3.2",
     "diff": "^5.1.0",
+    "diff-match-patch": "^1.0.5",
     "ethers": "^5.7.2",
     "firebase": "^10.7.1",
     "i18next": "^23.7.16",
+    "js-beautify": "^1.14.11",
     "react": "^18.2.0",
     "react-content-loader": "^6.2.1",
     "react-dom": "^18.2.0",
@@ -26,6 +28,8 @@
     "zustand": "^4.4.7"
   },
   "devDependencies": {
+    "@types/diff-match-patch": "^1.0.36",
+    "@types/js-beautify": "^1.14.3",
     "@types/react": "^18.2.43",
     "@types/react-dom": "^18.2.17",
     "@typescript-eslint/eslint-plugin": "^6.14.0",
