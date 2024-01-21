@@ -10,6 +10,7 @@ const StyledButton = styled.button`
   border: 1px solid ${({ theme }) => theme.palette.borderPrimary};
   border-radius: 4px;
   background-color: transparent;
+  height: 44px;
   cursor: pointer;
   font-family: ${({ theme }) => theme.fontFamilies.roboto};
   font-weight: ${({ theme }) => theme.fontWeights.bold};

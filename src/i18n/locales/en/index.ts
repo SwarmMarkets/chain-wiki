@@ -1,1 +1,1 @@
-export { default as TestEn } from './test.json'
+export { default as LayoutEn } from './layout.json'

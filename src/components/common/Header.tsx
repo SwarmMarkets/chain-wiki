@@ -1,12 +1,14 @@
 import styled from 'styled-components'
 import Container from '../ui/Container'
 import Flex from '../ui/Flex'
-import TextField from '../ui/TextField'
+import TextField from '../ui/TextField/TextField'
 import logo from '@src/assets/logo.png'
 import SearchIcon from '../icons/SearchIcon'
-import { Link } from 'react-router-dom'
+import { Link, generatePath, useNavigate } from 'react-router-dom'
 import RoutePaths from '@src/shared/enums/routes-paths'
 import ConnectButton from './ConnectButton'
+import Button from '../ui/Button'
+import { useTranslation } from 'react-i18next'
 
 const HeaderContainer = styled(Container)`
   width: 100%;
@@ -22,6 +24,11 @@ const HeaderContainer = styled(Container)`
 `
 
 const Header = () => {
+  const { t } = useTranslation('layout')
+  const navigate = useNavigate();
+
+  const goToCreateProject = () => navigate(generatePath(RoutePaths.CREATE_PROJECT))
+
   return (
     <HeaderContainer as="header">
       <Flex $gap="60px">
@@ -31,7 +38,12 @@ const Header = () => {
         <TextField prependIcon={<SearchIcon />} placeholder="Search ChainWiki" />
       </Flex>
 
-      <ConnectButton />
+      <Flex $gap={'1rem'} $alignItems='center'>
+        <Button onClick={goToCreateProject}>
+          {t('header.createProject')}
+        </Button>
+        <ConnectButton />
+      </Flex>
     </HeaderContainer>
   )
 }

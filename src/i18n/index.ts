@@ -1,10 +1,11 @@
 import i18n from 'i18next'
 import { initReactI18next } from 'react-i18next'
-import { TestEn } from './locales/en'
+import { LayoutEn } from './locales/en'
+
 
 const resources = {
   en: {
-    test: TestEn,
+    layout: LayoutEn,
   },
 }
 
