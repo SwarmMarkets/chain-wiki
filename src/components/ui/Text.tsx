@@ -10,16 +10,16 @@ interface StyledTextProps extends ChildrenProp {
 
 const StyledText = styled.span<StyledTextProps>`
   color: ${props => props.$color || props.theme.palette.textPrimary};
-  font-size: ${props => props.$size || props.theme.fontSizes.medium};
-  font-weight: ${props => props.$weight || props.theme.fontWeights.regular};
+  font-size: ${props => props.$size};
+  font-weight: ${props => props.$weight};
   font-family: ${({ theme }) => theme.fontFamilies.roboto};
 `
 
 interface TextProps extends React.ParamHTMLAttributes<HTMLParagraphElement> {
-  as?: string,
-  color?: string,
-  size?: string,
-  weight?: number,
+  as?: string
+  color?: string
+  size?: string
+  weight?: number
 }
 
 const Text = ({ as: HTMLElement = 'span', color, size, weight, children, ...props }: TextProps) => {
