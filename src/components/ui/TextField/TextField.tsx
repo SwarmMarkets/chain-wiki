@@ -18,7 +18,7 @@ interface TextFieldProps extends SpaceProps, LayoutProps {
 }
 
 const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
-  ({ prependIcon, error, inputProps, ...props }, forwardedRef) => {
+  ({ prependIcon, error, inputProps, placeholder, value, ...props }, forwardedRef) => {
     const [isFocused, setIsFocused] = useState(false)
 
     const onFocusInput = () => setIsFocused(true)
@@ -32,6 +32,8 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
           <StyledInput
             type="text"
             ref={forwardedRef}
+            value={value}
+            placeholder={placeholder}
             $focused={isFocused}
             $prependIconExists={!!prependIcon}
             onFocus={onFocusInput}
