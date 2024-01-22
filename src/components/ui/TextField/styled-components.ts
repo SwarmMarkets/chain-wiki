@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import Text from '../Text';
+import { LayoutProps, layout, space } from 'styled-system';
 
 interface IconContainerProps {
   $focused: boolean;
@@ -24,7 +25,7 @@ export const IconContainer = styled.div<IconContainerProps>`
   }
 `;
 
-interface StyledInputProps {
+interface StyledInputProps extends LayoutProps {
   $focused: boolean;
   $prependIconExists: boolean;
 }
@@ -44,7 +45,8 @@ export const StyledInput = styled.input<StyledInputProps>`
       : `inset 0 0 0 1px ${props.theme.palette.borderPrimary}`};
   transition: box-shadow 0.3s;
   box-sizing: border-box;
-  width: fit-content;
+  width: 100%;
+  ${layout}
 `;
 
 export const ErrorText = styled(Text)`
@@ -60,4 +62,6 @@ export const InputWrapper = styled.div`
 export const TextFieldWrapper = styled.div`
   display: inline-flex;
   flex-direction: column;
+  ${space}
+  ${layout}
 `;

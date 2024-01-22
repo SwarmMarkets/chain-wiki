@@ -6,17 +6,19 @@ import {
   StyledInput,
   TextFieldWrapper
 } from './styled-components'
+import { LayoutProps, SpaceProps } from 'styled-system'
 
-interface TextFieldProps extends React.ParamHTMLAttributes<HTMLInputElement> {
+interface TextFieldProps extends SpaceProps, LayoutProps {
   prependIcon?: ReactNode
   placeholder?: string
   error?: string
   value?: string
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void
+  inputProps?: React.ParamHTMLAttributes<HTMLInputElement> & LayoutProps
 }
 
 const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
-  ({ prependIcon, error, ...props }, forwardedRef) => {
+  ({ prependIcon, error, inputProps, ...props }, forwardedRef) => {
     const [isFocused, setIsFocused] = useState(false)
 
     const onFocusInput = () => setIsFocused(true)
@@ -24,7 +26,7 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
     const onBlurInput = () => setIsFocused(false)
 
     return (
-      <TextFieldWrapper>
+      <TextFieldWrapper {...props}>
         <InputWrapper>
           {prependIcon && <IconContainer $focused={isFocused}>{prependIcon}</IconContainer>}
           <StyledInput
@@ -34,7 +36,7 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
             $prependIconExists={!!prependIcon}
             onFocus={onFocusInput}
             onBlur={onBlurInput}
-            {...props}
+            {...inputProps}
           />
         </InputWrapper>
         {error ? <ErrorText>{error}</ErrorText> : null}
