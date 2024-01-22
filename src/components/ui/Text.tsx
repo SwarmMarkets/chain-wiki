@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 
 import { ChildrenProp } from '@src/shared/types/common-props'
+import { SpaceProps, TextAlignProps, space, textAlign } from 'styled-system'
 
 interface StyledTextProps extends ChildrenProp {
   $color?: string
@@ -13,9 +14,14 @@ const StyledText = styled.span<StyledTextProps>`
   font-size: ${props => props.$size};
   font-weight: ${props => props.$weight};
   font-family: ${({ theme }) => theme.fontFamilies.roboto};
+  ${textAlign}
+  ${space}
 `
 
-interface TextProps extends React.ParamHTMLAttributes<HTMLParagraphElement> {
+interface TextProps
+  extends React.ParamHTMLAttributes<HTMLParagraphElement>,
+    TextAlignProps,
+    SpaceProps {
   as?: string
   color?: string
   size?: string
