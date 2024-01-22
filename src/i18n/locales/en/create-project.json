@@ -1,0 +1,11 @@
+{
+  "title": "Create project",
+  "form": {
+    "name": "Project name",
+    "symbol": "Project symbol",
+    "adminAddress": "Admin address",
+    "issuerAddress": "Issuer address",
+    "editorAddress": "Editor address",
+    "submit": "Create"
+  }
+}

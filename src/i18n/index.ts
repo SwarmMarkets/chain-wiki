@@ -1,11 +1,13 @@
 import i18n from 'i18next'
 import { initReactI18next } from 'react-i18next'
-import { LayoutEn } from './locales/en'
+import { CreateProjectEn, ErrorsEn, LayoutEn } from './locales/en'
 
 
 const resources = {
   en: {
     layout: LayoutEn,
+    errors: ErrorsEn,
+    createProject: CreateProjectEn,
   },
 }
 
