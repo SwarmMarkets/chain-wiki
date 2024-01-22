@@ -1,22 +1,11 @@
-import React, { ChangeEvent, ReactNode, useState } from 'react';
 import styled from 'styled-components';
-
-interface TextFieldProps {
-  prependIcon?: ReactNode;
-  placeholder?: string;
-  value?: string;
-  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
-}
-
-const TextFieldWrapper = styled.div`
-  position: relative;
-`;
+import Text from '../Text';
 
 interface IconContainerProps {
   $focused: boolean;
 }
 
-const IconContainer = styled.div<IconContainerProps>`
+export const IconContainer = styled.div<IconContainerProps>`
   width: 20px;
   height: 20px;
   position: absolute;
@@ -40,7 +29,7 @@ interface StyledInputProps {
   $prependIconExists: boolean;
 }
 
-const StyledInput = styled.input<StyledInputProps>`
+export const StyledInput = styled.input<StyledInputProps>`
   color: ${({ theme }) => theme.palette.textPrimary};
   font-family: ${({ theme }) => theme.fontFamilies.roboto};
   font-size: ${({ theme }) => theme.fontSizes.medium};
@@ -58,28 +47,17 @@ const StyledInput = styled.input<StyledInputProps>`
   width: fit-content;
 `;
 
-const TextField: React.FC<TextFieldProps> = ({ prependIcon, ...props }) => {
-  const [isFocused, setIsFocused] = useState(false);
+export const ErrorText = styled(Text)`
+  margin-top: 4px;
+  height: 16px;
+  color: ${(props) => props.theme.palette.errorPrimary}
+`
 
-  const onFocusInput = () => setIsFocused(true);
+export const InputWrapper = styled.div`
+  position: relative;
+`;
 
-  const onBlurInput = () => setIsFocused(false);
-
-  return (
-    <TextFieldWrapper>
-      {prependIcon && (
-        <IconContainer $focused={isFocused}>{prependIcon}</IconContainer>
-      )}
-      <StyledInput
-        type="text"
-        $focused={isFocused}
-        $prependIconExists={!!prependIcon}
-        onFocus={onFocusInput}
-        onBlur={onBlurInput}
-        {...props}
-      />
-    </TextFieldWrapper>
-  );
-};
-
-export default TextField;
+export const TextFieldWrapper = styled.div`
+  display: inline-flex;
+  flex-direction: column;
+`;
