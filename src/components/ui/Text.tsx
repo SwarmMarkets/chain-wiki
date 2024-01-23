@@ -2,6 +2,7 @@ import styled from 'styled-components'
 
 import { ChildrenProp } from '@src/shared/types/common-props'
 import { SpaceProps, TextAlignProps, space, textAlign } from 'styled-system'
+import shouldForwardProp from '@styled-system/should-forward-prop'
 
 interface StyledTextProps extends ChildrenProp {
   $color?: string
@@ -9,7 +10,7 @@ interface StyledTextProps extends ChildrenProp {
   $weight?: number
 }
 
-const StyledText = styled.span<StyledTextProps>`
+const StyledText = styled.span.withConfig({ shouldForwardProp })<StyledTextProps>`
   color: ${props => props.$color || props.theme.palette.textPrimary};
   font-size: ${props => props.$size};
   font-weight: ${props => props.$weight};

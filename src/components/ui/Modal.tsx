@@ -1,7 +1,8 @@
 import { BasicModalProps } from '@src/shared/types/common-props'
+import shouldForwardProp from '@styled-system/should-forward-prop'
 import React, { useEffect } from 'react'
 import styled from 'styled-components'
-import { LayoutProps, layout } from 'styled-system'
+import { LayoutProps, SpaceProps, layout, space } from 'styled-system'
 
 const ModalBackdrop = styled.div`
   display: flex;
@@ -16,7 +17,7 @@ const ModalBackdrop = styled.div`
   z-index: 1000;
 `
 
-const ModalContainer = styled.div`
+const ModalContainer = styled.div.withConfig({ shouldForwardProp })`
   background: white;
   padding: 20px;
   min-width: 420px;
@@ -24,6 +25,7 @@ const ModalContainer = styled.div`
   border-radius: 5px;
   position: relative;
   ${layout}
+  ${space}
 `
 
 const CloseButton = styled.span`
@@ -34,7 +36,7 @@ const CloseButton = styled.span`
   font-size: 30px;
 `
 
-interface ModalProps extends BasicModalProps, LayoutProps {}
+interface ModalProps extends BasicModalProps, LayoutProps, SpaceProps {}
 
 const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children, ...props }) => {
   useEffect(() => {

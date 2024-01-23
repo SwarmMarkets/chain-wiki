@@ -1,10 +1,12 @@
 import styled from 'styled-components'
-import { LayoutProps, SpaceProps, layout, space } from 'styled-system'
+import { BackgroundProps, LayoutProps, SpaceProps, background, layout, space } from 'styled-system'
+import shouldForwardProp from '@styled-system/should-forward-prop'
 
-interface Props extends LayoutProps, SpaceProps {}
+interface Props extends LayoutProps, SpaceProps, BackgroundProps {}
 
-const Box = styled.div<Props>`
+const Box = styled.div.withConfig({ shouldForwardProp })<Props>`
   ${layout}
+  ${background}
   ${space}
 `
 
