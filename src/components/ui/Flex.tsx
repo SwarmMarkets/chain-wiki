@@ -10,6 +10,7 @@ interface FlexProps extends ChildrenProp, FlexboxProps, LayoutProps, SpaceProps 
 
 const Flex = styled.div.withConfig({ shouldForwardProp })<FlexProps>`
   display: flex;
+  gap: ${props => props.$gap};
   ${flexbox}
   ${layout}
   ${space}
