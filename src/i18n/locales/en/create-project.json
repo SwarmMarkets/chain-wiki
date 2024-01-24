@@ -7,5 +7,12 @@
     "issuerAddress": "Issuer address",
     "editorAddress": "Editor address",
     "submit": "Create"
+  },
+  "formPlaceholders": {
+    "name": "Enter full name of the project",
+    "symbol": "Enter project symbol (e.g., ABC)",
+    "adminAddress": "Enter admin's Ethereum address",
+    "issuerAddress": "Enter issuer's Ethereum address",
+    "editorAddress": "Enter editor's Ethereum address"
   }
 }

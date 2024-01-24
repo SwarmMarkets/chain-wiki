@@ -1,14 +1,17 @@
+import logo from '@src/assets/logo.png'
+import useModalState from '@src/hooks/useModalState'
+import RoutePaths from '@src/shared/enums/routes-paths'
+import { useTranslation } from 'react-i18next'
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
+import CreateProjectModal from '../CreateProject/CreateProjectModal'
+import SearchIcon from '../icons/SearchIcon'
+import Button from '../ui/Button/Button'
 import Container from '../ui/Container'
 import Flex from '../ui/Flex'
 import TextField from '../ui/TextField/TextField'
-import logo from '@src/assets/logo.png'
-import SearchIcon from '../icons/SearchIcon'
-import { Link, generatePath, useNavigate } from 'react-router-dom'
-import RoutePaths from '@src/shared/enums/routes-paths'
 import ConnectButton from './ConnectButton'
-import Button from '../ui/Button'
-import { useTranslation } from 'react-i18next'
+import { useAddress } from '@thirdweb-dev/react'
 
 const HeaderContainer = styled(Container)`
   width: 100%;
@@ -25,9 +28,8 @@ const HeaderContainer = styled(Container)`
 
 const Header = () => {
   const { t } = useTranslation('layout')
-  const navigate = useNavigate();
-
-  const goToCreateProject = () => navigate(generatePath(RoutePaths.CREATE_PROJECT))
+  const { isOpen, open, close } = useModalState(false)
+  const address = useAddress()
 
   return (
     <HeaderContainer as="header">
@@ -38,12 +40,16 @@ const Header = () => {
         <TextField prependIcon={<SearchIcon />} placeholder="Search ChainWiki" />
       </Flex>
 
-      <Flex $gap={'1rem'} $alignItems='center'>
-        <Button onClick={goToCreateProject}>
-          {t('header.createProject')}
-        </Button>
+      <Flex $gap={'1rem'} alignItems="center">
+        {address ? (
+          <Button onClick={open} mr={3}>
+            {t('header.createProject')}
+          </Button>
+        ) : null}
         <ConnectButton />
       </Flex>
+
+      <CreateProjectModal isOpen={isOpen} onClose={close} />
     </HeaderContainer>
   )
 }
