@@ -11,7 +11,7 @@ import Container from '../ui/Container'
 import Flex from '../ui/Flex'
 import TextField from '../ui/TextField/TextField'
 import ConnectButton from './ConnectButton'
-import { useAddress } from '@thirdweb-dev/react'
+import RequirePermissions from './RequirePermissions'
 
 const HeaderContainer = styled(Container)`
   width: 100%;
@@ -29,7 +29,6 @@ const HeaderContainer = styled(Container)`
 const Header = () => {
   const { t } = useTranslation('layout')
   const { isOpen, open, close } = useModalState(false)
-  const address = useAddress()
 
   return (
     <HeaderContainer as="header">
@@ -41,15 +40,15 @@ const Header = () => {
       </Flex>
 
       <Flex $gap={'1rem'} alignItems="center">
-        {address ? (
+        <RequirePermissions canCreateProject>
           <Button onClick={open} mr={3}>
             {t('header.createProject')}
           </Button>
-        ) : null}
+
+          <CreateProjectModal isOpen={isOpen} onClose={close} />
+        </RequirePermissions>
         <ConnectButton />
       </Flex>
-
-      <CreateProjectModal isOpen={isOpen} onClose={close} />
     </HeaderContainer>
   )
 }

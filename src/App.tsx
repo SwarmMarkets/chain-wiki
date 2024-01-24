@@ -14,6 +14,7 @@ import HomePage from './pages/HomePage'
 import ProjectPage from './pages/ProjectPage'
 import RoutePaths from './shared/enums/routes-paths'
 import theme from './theme'
+import { PermissionsProvider } from './components/providers/PermissionProvider'
 
 function App() {
   return (
@@ -23,15 +24,17 @@ function App() {
       locale={en()}
       supportedWallets={[metamaskWallet(), coinbaseWallet({ recommended: true }), walletConnect()]}>
       <ThemeProvider theme={theme}>
-        <Router>
-          <Layout>
-            <Routes>
-              <Route path={RoutePaths.HOME} element={<HomePage />} />
-              <Route path={RoutePaths.PROJECT} element={<ProjectPage />} />
-              <Route path={RoutePaths.PROJECT + RoutePaths.ARTICLE} element={<ArticlePage />} />
-            </Routes>
-          </Layout>
-        </Router>
+        <PermissionsProvider>
+          <Router>
+            <Layout>
+              <Routes>
+                <Route path={RoutePaths.HOME} element={<HomePage />} />
+                <Route path={RoutePaths.PROJECT} element={<ProjectPage />} />
+                <Route path={RoutePaths.PROJECT + RoutePaths.ARTICLE} element={<ArticlePage />} />
+              </Routes>
+            </Layout>
+          </Router>
+        </PermissionsProvider>
       </ThemeProvider>
     </ThirdwebProvider>
   )
