@@ -1,28 +1,14 @@
 import styled from 'styled-components';
 import Text from '../Text';
 import { LayoutProps, layout, space } from 'styled-system';
+import Icon from '../Icon';
 
-interface IconContainerProps {
-  $focused: boolean;
-}
-
-export const IconContainer = styled.div<IconContainerProps>`
-  width: 20px;
-  height: 20px;
+export const StyledIcon = styled(Icon)`
   position: absolute;
   left: 8px;
   top: 50%;
   transform: translateY(-50%);
-
-  svg {
-    width: 20px;
-    height: 20px;
-    fill: ${(props) =>
-      props.$focused
-        ? props.theme.palette.textPrimary
-        : props.theme.palette.iconPrimary};
-    transition: fill 0.3s;
-  }
+  transition: fill 0.3s;
 `;
 
 interface StyledInputProps extends LayoutProps {

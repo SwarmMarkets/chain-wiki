@@ -1,17 +1,16 @@
-import logo from '@src/assets/logo.png'
-import useModalState from '@src/hooks/useModalState'
-import RoutePaths from '@src/shared/enums/routes-paths'
-import { useTranslation } from 'react-i18next'
-import { Link } from 'react-router-dom'
-import styled from 'styled-components'
-import CreateProjectModal from '../CreateProject/CreateProjectModal'
-import SearchIcon from '../icons/SearchIcon'
-import Button from '../ui/Button/Button'
-import Container from '../ui/Container'
-import Flex from '../ui/Flex'
-import TextField from '../ui/TextField/TextField'
-import ConnectButton from './ConnectButton'
-import RequirePermissions from './RequirePermissions'
+import logo from '@src/assets/logo.png';
+import useModalState from '@src/hooks/useModalState';
+import RoutePaths from '@src/shared/enums/routes-paths';
+import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+import CreateProjectModal from '../CreateProject/CreateProjectModal';
+import Button from '../ui/Button/Button';
+import Container from '../ui/Container';
+import Flex from '../ui/Flex';
+import TextField from '../ui/TextField/TextField';
+import ConnectButton from './ConnectButton';
+import RequirePermissions from './RequirePermissions';
 
 const HeaderContainer = styled(Container)`
   width: 100%;
@@ -24,11 +23,11 @@ const HeaderContainer = styled(Container)`
   align-items: center;
   padding-top: 12px;
   padding-bottom: 12px;
-`
+`;
 
 const Header = () => {
-  const { t } = useTranslation('layout')
-  const { isOpen, open, close } = useModalState(false)
+  const { t } = useTranslation('layout');
+  const { isOpen, open, close } = useModalState(false);
 
   return (
     <HeaderContainer as="header">
@@ -37,7 +36,7 @@ const Header = () => {
           <img src={logo} alt="ChainWiki" />
         </Link>
         <TextField
-          prependIcon={<SearchIcon />}
+          prependIcon="search"
           placeholder={t('header.searchPlaceholder')}
         />
       </Flex>
@@ -53,7 +52,7 @@ const Header = () => {
         <ConnectButton />
       </Flex>
     </HeaderContainer>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;

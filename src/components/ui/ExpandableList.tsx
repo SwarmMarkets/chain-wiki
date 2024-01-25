@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
-import ChevronRightIcon from '../icons/ChevronRightIcon';
+import styled, { useTheme } from 'styled-components';
 import { ExpandableListItem } from '@src/shared/types/expandedList';
+import Icon from './Icon';
 
 interface ExpandableListProps {
   title: string;
@@ -28,11 +28,8 @@ const StyledTitleBlock = styled.div<StyledTitleBlockProps>`
   }
 
   svg {
-    width: 12px;
-    height: 12px;
     transform: rotate(${({ $expanded }) => ($expanded ? 90 : 0)}deg);
     transition: transform 0.2s ease-in-out;
-    fill: ${({ theme }) => theme.palette.textPrimary};
   }
 `;
 
@@ -57,6 +54,7 @@ const ExpandableList: React.FC<ExpandableListProps> = ({
   onClickTitle,
   onClickItem,
 }) => {
+  const theme = useTheme();
   const [isExpanded, setIsExpanded] = useState(initialExpanded);
 
   const onClickTitleBlock = () => {
@@ -70,7 +68,7 @@ const ExpandableList: React.FC<ExpandableListProps> = ({
   return (
     <div>
       <StyledTitleBlock $expanded={isExpanded}>
-        {items && <ChevronRightIcon onClick={onExpandList} />}
+        {items && <Icon name="chevronRight" color={theme.palette.textPrimary} width={12} height={12} onClick={onExpandList} />}
         <span onClick={onClickTitleBlock}>{title}</span>
       </StyledTitleBlock>
       {isExpanded && items && (
