@@ -1,12 +1,17 @@
+import logo from '@src/assets/logo.png'
+import useModalState from '@src/hooks/useModalState'
+import RoutePaths from '@src/shared/enums/routes-paths'
+import { useTranslation } from 'react-i18next'
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
+import CreateProjectModal from '../CreateProject/CreateProjectModal'
+import SearchIcon from '../icons/SearchIcon'
+import Button from '../ui/Button/Button'
 import Container from '../ui/Container'
 import Flex from '../ui/Flex'
-import TextField from '../ui/TextField'
-import logo from '@src/assets/logo.png'
-import SearchIcon from '../icons/SearchIcon'
-import { Link } from 'react-router-dom'
-import RoutePaths from '@src/shared/enums/routes-paths'
+import TextField from '../ui/TextField/TextField'
 import ConnectButton from './ConnectButton'
+import RequirePermissions from './RequirePermissions'
 
 const HeaderContainer = styled(Container)`
   width: 100%;
@@ -22,6 +27,9 @@ const HeaderContainer = styled(Container)`
 `
 
 const Header = () => {
+  const { t } = useTranslation('layout')
+  const { isOpen, open, close } = useModalState(false)
+
   return (
     <HeaderContainer as="header">
       <Flex $gap="60px">
@@ -31,7 +39,16 @@ const Header = () => {
         <TextField prependIcon={<SearchIcon />} placeholder="Search ChainWiki" />
       </Flex>
 
-      <ConnectButton />
+      <Flex $gap={'1rem'} alignItems="center">
+        <RequirePermissions canCreateProject>
+          <Button onClick={open} mr={3}>
+            {t('header.createProject')}
+          </Button>
+
+          <CreateProjectModal isOpen={isOpen} onClose={close} />
+        </RequirePermissions>
+        <ConnectButton />
+      </Flex>
     </HeaderContainer>
   )
 }

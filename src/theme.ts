@@ -16,6 +16,9 @@ const theme = {
 
     // Icon colors
     iconPrimary: '#72777d',
+
+    // Error
+    errorPrimary: '#ff3333',
   },
   fontSizes: {
     small: '12px',
@@ -29,6 +32,13 @@ const theme = {
   },
   fontFamilies: {
     roboto: "'Roboto', sans-serif",
+  },
+  breakpoints: {
+    xs: 0,
+    sm: 640,
+    md: 960,
+    lg: 1024,
+    xl: 1440,
   }
 };
 

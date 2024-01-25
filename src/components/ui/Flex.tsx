@@ -1,22 +1,18 @@
 import { ChildrenProp } from '@src/shared/types/common-props'
+import shouldForwardProp from '@styled-system/should-forward-prop'
 import styled from 'styled-components'
+import { flexbox, FlexboxProps, layout, LayoutProps, space, SpaceProps } from 'styled-system'
 
-interface FlexProps extends ChildrenProp {
-  $alignItems?: string
-  $justifyContent?: string
-  $flexWrap?: string
-  $flexDirection?: string
-  $display?: string
+interface FlexProps extends ChildrenProp, FlexboxProps, LayoutProps, SpaceProps {
   $gap?: string
 }
 
-const Flex = styled.div<FlexProps>`
+const Flex = styled.div.withConfig({ shouldForwardProp })<FlexProps>`
   display: flex;
-  justify-content: ${props => props.$justifyContent || 'initial'};
-  align-items: ${props => props.$alignItems || 'initial'};
-  flex-wrap: ${props => props.$flexWrap || 'nowrap'};
-  flex-direction: ${props => props.$flexDirection || 'row'};
   gap: ${props => props.$gap};
+  ${flexbox}
+  ${layout}
+  ${space}
 `
 
 export default Flex
