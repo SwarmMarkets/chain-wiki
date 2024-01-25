@@ -45,9 +45,7 @@ const Editor: React.FC<EditorProps> = ({ onChange, content }) => {
       });
     });
   };
-  console.log('editor');
   const onInitEdiror = () => {
-    console.log('init');
     setEditorInit(true);
   };
 

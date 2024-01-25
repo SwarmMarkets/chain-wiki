@@ -6,7 +6,9 @@ import TinyEditor from '@src/components/Editor';
 import HtmlRender from '@src/components/HtmlRender';
 import Tabs from '@src/components/ui/Tabs';
 import Text from '@src/components/ui/Text';
+import History from '@src/components/History';
 import htmlArticleMock from '@src/shared/consts/htmlArticleMock';
+import editedHtmlArticleMock from '@src/shared/consts/editedHtmlArticleMock';
 
 const ArticleWrapper = styled.div`
   display: flex;
@@ -74,7 +76,7 @@ const ArticlePage = () => {
     {
       id: 3,
       title: 'View history',
-      content: <p>History</p>,
+      content: <History history={[htmlArticleMock, editedHtmlArticleMock]} />,
     },
   ];
 
