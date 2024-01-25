@@ -13,7 +13,6 @@ export const useWeb3Contract = <C extends BaseContract>(contractAddress: string,
   const { contract, ...rest } = useContract(contractAddress, abi)
 
   const call = async (method: CallMethodsParam<C>, args: CallArgumentsParam<C>) => {
-
     try {
       setTxLoading(true)
       const res = await contract?.call(method, args)

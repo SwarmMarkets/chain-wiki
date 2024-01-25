@@ -2,10 +2,10 @@ import { useSX1155NFTFactory } from '@src/hooks/contracts/useSX1155NFTFactory'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import Box from '../ui/Box'
+import LoadingButton from '../ui/Button/LoadingButton'
 import Flex from '../ui/Flex'
 import Text from '../ui/Text'
 import { StyledTextField, TextFieldBox, TextFieldTitle } from './styled-components'
-import AsyncButton from '../ui/Button/LoadingButton'
 
 type FormInputs = {
   name: string
@@ -86,7 +86,7 @@ const CreateProjectForm = () => {
           />
         </TextFieldBox>
 
-        <AsyncButton loading={txLoading}>{t('form.submit')}</AsyncButton>
+        <LoadingButton loading={txLoading}>{t('form.submit')}</LoadingButton>
       </Flex>
     </Box>
   )
