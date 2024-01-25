@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import Content from '@src/components/Content';
 import TinyEditor from '@src/components/Editor';
@@ -41,7 +42,7 @@ const ContentPlaceholder = styled.div`
 
 const ArticlePage = () => {
   const { articleId } = useParams();
-
+  const { t } = useTranslation('article');
   const [content, setContent] = useState(htmlArticleMock);
   const [contentElem, setContentElem] = useState<HTMLDivElement | null>(null);
   const [activeTab, setActiveTab] = useState(1);
@@ -63,19 +64,19 @@ const ArticlePage = () => {
   const tabs = [
     {
       id: 1,
-      title: 'Read',
+      title: t('tabs.read'),
       content: (
         <HtmlRender onMount={onMountContent} ref={contentRef} html={content} />
       ),
     },
     {
       id: 2,
-      title: 'Edit source',
+      title: t('tabs.edit'),
       content: <TinyEditor content={content} onChange={onChangeEditor} />,
     },
     {
       id: 3,
-      title: 'View history',
+      title: t('tabs.history'),
       content: <History history={[htmlArticleMock, editedHtmlArticleMock]} />,
     },
   ];

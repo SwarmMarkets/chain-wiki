@@ -1,5 +1,6 @@
 {
   "header": {
-    "createProject": "Create Project"
+    "createProject": "Create Project",
+    "searchPlaceholder": "Search ChainWiki"
   }
 }

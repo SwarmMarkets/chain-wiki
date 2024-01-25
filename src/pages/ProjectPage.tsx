@@ -8,6 +8,7 @@ import Tabs from '@src/components/ui/Tabs';
 import Text from '@src/components/ui/Text';
 import htmlArticleMock from '@src/shared/consts/htmlArticleMock';
 import ArticleList from '@src/components/ArticleList';
+import { useTranslation } from 'react-i18next';
 
 const ProjectWrapper = styled.div`
   display: flex;
@@ -42,6 +43,7 @@ const ArticlePage = () => {
   const { projectId } = useParams();
 
   const theme = useTheme();
+  const { t } = useTranslation('project');
   const [content, setContent] = useState(htmlArticleMock);
   const [contentElem, setContentElem] = useState<HTMLDivElement | null>(null);
   const [activeProjectTab, setActiveProjectTab] = useState(1);
@@ -69,19 +71,19 @@ const ArticlePage = () => {
   const projectTabs = [
     {
       id: 1,
-      title: 'Project',
+      title: t('tabs.project'),
       content: (
         <HtmlRender onMount={onMountContent} ref={contentRef} html={content} />
       ),
     },
     {
       id: 2,
-      title: 'Articles',
+      title: t('tabs.articles'),
       content: <ArticleList articles={articleListData} />,
     },
     {
       id: 3,
-      title: 'Edit project',
+      title: t('tabs.edit'),
       content: <TinyEditor content={content} onChange={onChangeEditor} />,
     },
   ];

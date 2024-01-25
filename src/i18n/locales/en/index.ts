@@ -1,3 +1,6 @@
 export { default as LayoutEn } from './layout.json'
 export { default as CreateProjectEn } from './create-project.json'
 export { default as ErrorsEn } from './errors.json'
+export { default as ProjectEn } from './project.json'
+export { default as ArticleEn } from './article.json'
+export { default as ContentsEn } from './contents.json'

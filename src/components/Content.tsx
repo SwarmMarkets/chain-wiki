@@ -4,6 +4,7 @@ import ExpandableList from './ui/ExpandableList';
 import { ExpandableListItem } from '@src/shared/types/expandedList';
 import { ContentItemParent } from '@src/shared/types/content';
 import { buildContentHierarchy } from '@src/shared/utils';
+import { useTranslation } from 'react-i18next';
 
 interface ContentProps {
   contentElem: HTMLDivElement;
@@ -19,6 +20,8 @@ const ContentsTitle = styled.div`
 `;
 
 const Content: React.FC<ContentProps> = ({ contentElem, className }) => {
+  const { t } = useTranslation('contents');
+
   const headings = contentElem?.querySelectorAll('h1, h2');
 
   const contentData: ContentItemParent[] = buildContentHierarchy(headings);
@@ -37,8 +40,8 @@ const Content: React.FC<ContentProps> = ({ contentElem, className }) => {
 
   return (
     <div className={className}>
-      <ContentsTitle>Contents</ContentsTitle>
-      <ExpandableList title="Beginning" onClickTitle={onClickBeginning} />
+      <ContentsTitle>{t('title')}</ContentsTitle>
+      <ExpandableList title={t('beginning')} onClickTitle={onClickBeginning} />
       {contentData.map((item) => (
         <ExpandableList
           initialExpanded={true}

@@ -36,7 +36,10 @@ const Header = () => {
         <Link to={RoutePaths.HOME}>
           <img src={logo} alt="ChainWiki" />
         </Link>
-        <TextField prependIcon={<SearchIcon />} placeholder="Search ChainWiki" />
+        <TextField
+          prependIcon={<SearchIcon />}
+          placeholder={t('header.searchPlaceholder')}
+        />
       </Flex>
 
       <Flex $gap={'1rem'} alignItems="center">
