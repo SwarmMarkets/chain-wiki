@@ -27,9 +27,14 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
     const theme = useTheme();
     const [isFocused, setIsFocused] = useState(false);
 
-    const onFocusInput = () => setIsFocused(true);
+    const onFocusInput = () => {
+      setIsFocused(true);
+    };
 
-    const onBlurInput = () => setIsFocused(false);
+    const onBlurInput = (e: React.FocusEvent<HTMLInputElement, Element>) => {
+      inputProps?.onBlur && inputProps.onBlur(e);
+      setIsFocused(false);
+    };
 
     return (
       <TextFieldWrapper {...props}>
@@ -54,8 +59,8 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
             $focused={isFocused}
             $prependIconExists={!!prependIcon}
             onFocus={onFocusInput}
-            onBlur={onBlurInput}
             {...inputProps}
+            onBlur={onBlurInput}
           />
         </InputWrapper>
         {error ? <ErrorText>{error}</ErrorText> : null}
