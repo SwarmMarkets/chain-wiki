@@ -1,10 +1,10 @@
 import { Link } from 'react-router-dom';
 import styled, { useTheme } from 'styled-components';
 import Text from './Text';
+import { ChildrenProp } from '@src/shared/types/common-props';
 
-interface CardProps {
-  title: string;
-  description: string;
+interface CardProps extends ChildrenProp {
+  title?: string;
   to?: string;
 }
 
@@ -15,21 +15,20 @@ const CardRoot = styled.div`
   background: ${({ theme }) => theme.palette.bgPrimary};
 `;
 
-const Description = styled(Text.p)`
+const ChildrenWrapper = styled.div`
   margin-top: 10px;
-  text-overflow: ellipsis;
 `;
 
 const StyledLink = styled(Link)`
   text-decoration: none;
   color: ${({ theme }) => theme.palette.linkPrimary};
-  
+
   &:hover {
     text-decoration: underline !important;
   }
 `;
 
-const Card: React.FC<CardProps> = ({ title, description, to }) => {
+const Card: React.FC<CardProps> = ({ title, to, children }) => {
   const theme = useTheme();
 
   return (
@@ -37,7 +36,6 @@ const Card: React.FC<CardProps> = ({ title, description, to }) => {
       {to ? (
         <StyledLink to={to}>
           <Text.h2
-            
             color={theme.palette.linkPrimary}
             size={theme.fontSizes.mediumPlus}
             weight={theme.fontWeights.bold}
@@ -53,7 +51,7 @@ const Card: React.FC<CardProps> = ({ title, description, to }) => {
           {title}
         </Text.h2>
       )}
-      <Description>{description}</Description>
+      {children && <ChildrenWrapper>{children}</ChildrenWrapper>}
     </CardRoot>
   );
 };

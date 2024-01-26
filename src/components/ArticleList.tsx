@@ -1,39 +1,43 @@
-import RoutePaths from '@src/shared/enums/routes-paths'
-import { generatePath } from 'react-router-dom'
-import { useId } from 'react'
-import Card from './ui/Card'
-import Flex from './ui/Flex'
+import RoutePaths from '@src/shared/enums/routes-paths';
+import { generatePath } from 'react-router-dom';
+import { useId } from 'react';
+import Card from './ui/Card';
+import Flex from './ui/Flex';
+import Text from './ui/Text';
 
 interface Article {
-  id: number
-  title: string
-  description: string
+  id: number;
+  title: string;
+  description: string;
 }
 
 interface ArticleListProps {
-  articles: Article[]
+  articles: Article[];
 }
 
 const ArticleList: React.FC<ArticleListProps> = ({ articles }) => {
-  const id = useId()
+  const id = useId();
   const getLimitedDescription = (description: string) =>
-    description.length > 700 ? description.substring(0, 700) + '...' : description
+    description.length > 700
+      ? description.substring(0, 700) + '...'
+      : description;
 
   return (
     <Flex flexDirection="column" $gap="10px">
-      {articles.map(article => (
+      {articles.map((article) => (
         <Card
           to={generatePath(RoutePaths.PROJECT + RoutePaths.ARTICLE, {
             projectId: id,
-            articleId: id
+            articleId: id,
           })}
           title={article.title}
-          description={getLimitedDescription(article.description)}
           key={article.id}
-        />
+        >
+          <Text.p>{getLimitedDescription(article.description)}</Text.p>
+        </Card>
       ))}
     </Flex>
-  )
-}
+  );
+};
 
-export default ArticleList
+export default ArticleList;
