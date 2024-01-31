@@ -1,7 +1,13 @@
 import { useRef, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import {
+  useLocation,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
+import queryString from 'query-string';
 import Content from '@src/components/Content';
 import TinyEditor from '@src/components/Editor';
 import HtmlRender from '@src/components/HtmlRender';
@@ -9,7 +15,7 @@ import Tabs from '@src/components/ui/Tabs';
 import Text from '@src/components/ui/Text';
 import History from '@src/components/History';
 import htmlArticleMock from '@src/shared/consts/htmlArticleMock';
-import editedHtmlArticleMock from '@src/shared/consts/editedHtmlArticleMock';
+import { Tab } from '@src/shared/types/tabs';
 
 const ArticleWrapper = styled.div`
   display: flex;
@@ -42,10 +48,14 @@ const ContentPlaceholder = styled.div`
 
 const ArticlePage = () => {
   const { articleId } = useParams();
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const location = useLocation();
   const { t } = useTranslation('article');
   const [content, setContent] = useState(htmlArticleMock);
   const [contentElem, setContentElem] = useState<HTMLDivElement | null>(null);
-  const [activeTab, setActiveTab] = useState(1);
+  const initialTab = Number(searchParams.get('tab')) || 1;
+  const [activeTab, setActiveTab] = useState(initialTab);
 
   const contentRef = useRef<HTMLDivElement>(null);
 
@@ -57,8 +67,15 @@ const ArticlePage = () => {
     setContentElem(contentRef?.current);
   };
 
-  const onChangeTab = (id: number) => {
-    setActiveTab(id);
+  const onChangeTab = (tab: Tab) => {
+    setActiveTab(tab.id);
+    if (tab.id === 1) {
+      const params = queryString.exclude(location.search, ['tab']);
+      navigate({ search: params });
+      return;
+    }
+    const params = queryString.stringify({ tab: tab.id });
+    navigate({ search: `?${params}` }, { replace: true });
   };
 
   const tabs = [
@@ -77,7 +94,7 @@ const ArticlePage = () => {
     {
       id: 3,
       title: t('tabs.history'),
-      content: <History history={[htmlArticleMock, editedHtmlArticleMock]} />,
+      content: <History />,
     },
   ];
 

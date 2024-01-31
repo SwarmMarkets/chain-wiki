@@ -1,20 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Tab as ITab } from '../../shared/types/tabs';
 
 interface TabProps {
   $active: boolean;
 }
 
-interface Tab {
-  id: number;
-  title: string;
-  content: React.ReactNode;
-}
-
 interface TabsProps {
-  tabs: Tab[];
+  tabs: ITab[];
   activeTab: number;
-  onChange: (index: number) => void;
+  onChange: (tab: ITab) => void;
 }
 
 const TabsWrapper = styled.div`
@@ -39,8 +34,8 @@ const TabContent = styled.div`
 `;
 
 const Tabs: React.FC<TabsProps> = ({ tabs, onChange, activeTab }) => {
-  const handleTabClick = (id: number) => {
-    onChange && onChange(id);
+  const handleTabClick = (tab: ITab) => {
+    onChange && onChange(tab);
   };
 
   const activeTabContent = tabs.find((tab) => tab.id === activeTab)?.content;
@@ -52,7 +47,7 @@ const Tabs: React.FC<TabsProps> = ({ tabs, onChange, activeTab }) => {
           <Tab
             key={tab.id}
             $active={tab.id === activeTab}
-            onClick={() => handleTabClick(tab.id)}
+            onClick={() => handleTabClick(tab)}
           >
             {tab.title}
           </Tab>

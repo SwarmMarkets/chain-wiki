@@ -4,8 +4,8 @@ import ReactDiffViewer, { DiffMethod } from 'react-diff-viewer';
 import styled from 'styled-components';
 
 interface HistoryChangesProps {
-  beforeHtml: string;
-  afterHtml: string;
+  oldHtml: string;
+  newHtml: string;
 }
 const ReactDiffWrapper = styled.div`
   overflow: auto;
@@ -17,8 +17,8 @@ const ReactDiffWrapper = styled.div`
 `;
 
 const HistoryChanges: React.FC<HistoryChangesProps> = ({
-  beforeHtml,
-  afterHtml,
+  oldHtml,
+  newHtml,
 }) => {
   const htmlOptions = {
     wrap_line_length: 30,
@@ -26,14 +26,14 @@ const HistoryChanges: React.FC<HistoryChangesProps> = ({
     eol: '\n',
   };
 
-  const beautifiedBeforeHtml = js_beautify.html(beforeHtml, htmlOptions);
-  const beautifiedAfterHtml = js_beautify.html(afterHtml, htmlOptions);
+  const beautifiedOldHtml = js_beautify.html(oldHtml, htmlOptions);
+  const beautifiedNewHtml = js_beautify.html(newHtml, htmlOptions);
 
   return (
     <ReactDiffWrapper>
       <ReactDiffViewer
-        oldValue={beautifiedBeforeHtml}
-        newValue={beautifiedAfterHtml}
+        oldValue={beautifiedOldHtml}
+        newValue={beautifiedNewHtml}
         compareMethod={DiffMethod.LINES}
       />
     </ReactDiffWrapper>

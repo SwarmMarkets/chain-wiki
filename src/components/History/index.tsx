@@ -1,14 +1,29 @@
-import React from 'react';
-import HistoryChanges from './HistoryChanges';
+import { useMemo } from 'react';
+import { useLocation } from 'react-router-dom';
+import queryString from 'query-string';
+import HistoryDifference from './HistoryDifference';
+import articleHistoryMock from '@src/shared/consts/articleHistoryMock';
+import HistoryList from './HistoryList';
 
-interface HistoryProps {
-  history: string[];
-}
+const History = () => {
+  const location = useLocation();
+  const mode = useMemo(() => {
+    const params = queryString.parse(location.search);
 
-const History: React.FC<HistoryProps> = ({ history }) => {
+    if (params.oldTokenId && params.newTokenId) {
+      return 'difference';
+    } else {
+      return 'list';
+    }
+  }, [location.search]);
+
   return (
     <div>
-      <HistoryChanges beforeHtml={history[0]} afterHtml={history[1]} />
+      {mode === 'list' ? (
+        <HistoryList historyItems={articleHistoryMock} />
+      ) : (
+        <HistoryDifference />
+      )}
     </div>
   );
 };
