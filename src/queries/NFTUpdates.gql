@@ -1,0 +1,18 @@
+query NFTUpdates(
+  $limit: Int,
+  $skip: Int = 0,
+  $filter: NFTURIUpdate_filter
+) {
+  nfturiupdates(
+    where: $filter
+    first: $limit
+    skip: $skip
+    orderBy: "updatedAt"
+    orderDirection: "desc"
+  ) {
+    id
+    newURI
+    previousURI
+    updatedAt
+  }
+}

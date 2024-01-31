@@ -1,0 +1,11 @@
+query NFT($id: String!) {
+  nft(id: $id) {
+    createdAt
+    creator
+    id
+    name
+    symbol
+    updatedAt
+    uri
+  }
+}
