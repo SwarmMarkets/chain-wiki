@@ -1,0 +1,18 @@
+query NFTs(
+  $limit: Int,
+  $skip: Int = 0,
+  $filter: NFT_filter
+) {
+  nfts(
+    where: $filter
+    first: $limit
+    skip: $skip
+    orderBy: "updatedAt"
+    orderDirection: "desc"
+  ) {
+    id
+    newURI
+    previousURI
+    updatedAt
+  }
+}
