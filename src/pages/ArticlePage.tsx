@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import queryString from 'query-string';
 import Content from '@src/components/Content';
-import TinyEditor from '@src/components/Editor';
+import Editor from '@src/components/Editor';
 import HtmlRender from '@src/components/HtmlRender';
 import Tabs from '@src/components/ui/Tabs';
 import Text from '@src/components/ui/Text';
@@ -63,6 +63,10 @@ const ArticlePage = () => {
     setContent(content);
   };
 
+  const onSaveEditor = (content: string) => {
+    console.log(content);
+  }
+
   const onMountContent = () => {
     setContentElem(contentRef?.current);
   };
@@ -89,7 +93,7 @@ const ArticlePage = () => {
     {
       id: 2,
       title: t('tabs.edit'),
-      content: <TinyEditor content={content} onChange={onChangeEditor} />,
+      content: <Editor initialContent={htmlArticleMock} onChange={onChangeEditor} onSave={onSaveEditor} />,
     },
     {
       id: 3,

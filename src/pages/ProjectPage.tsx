@@ -2,7 +2,7 @@ import { useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styled, { useTheme } from 'styled-components';
 import Content from '@src/components/Content';
-import TinyEditor from '@src/components/Editor';
+import Editor from '@src/components/Editor';
 import HtmlRender from '@src/components/HtmlRender';
 import Tabs from '@src/components/ui/Tabs';
 import Text from '@src/components/ui/Text';
@@ -55,6 +55,10 @@ const ArticlePage = () => {
     setContent(content);
   };
 
+  const onSaveEditor = (content: string) => {
+    console.log(content);
+  };
+
   const onMountContent = () => {
     setContentElem(contentRef?.current);
   };
@@ -85,7 +89,13 @@ const ArticlePage = () => {
     {
       id: 3,
       title: t('tabs.edit'),
-      content: <TinyEditor content={content} onChange={onChangeEditor} />,
+      content: (
+        <Editor
+          initialContent={htmlArticleMock}
+          onChange={onChangeEditor}
+          onSave={onSaveEditor}
+        />
+      ),
     },
   ];
 

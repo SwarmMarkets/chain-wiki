@@ -5,10 +5,13 @@ import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { storage } from '@src/firebase';
 import styled from 'styled-components';
 import EditorSkeleton from './EditorSkeleton';
+import Button from '../ui/Button/Button';
+import { useTranslation } from 'react-i18next';
 
 interface EditorProps {
-  content: string;
+  initialContent: string;
   onChange?: (content: string, editor: TinyEditorType) => void;
+  onSave?: (content: string) => void;
 }
 
 interface EditorWrapperProps {
@@ -19,11 +22,22 @@ const EditorWrapper = styled.div<EditorWrapperProps>`
   display: ${({ $editorInit }) => ($editorInit ? 'block' : 'none')};
 `;
 
-const Editor: React.FC<EditorProps> = ({ onChange, content }) => {
+const Editor: React.FC<EditorProps> = ({
+  onChange,
+  onSave,
+  initialContent,
+}) => {
+  const { t } = useTranslation('buttons');
   const [editorInit, setEditorInit] = useState(false);
+  const [currContent, setCurrContent] = useState(initialContent);
 
   const onEditorChange = (content: string, editor: TinyEditorType) => {
     onChange && onChange(content, editor);
+    setCurrContent(content);
+  };
+
+  const onEditorSave = () => {
+    onSave && onSave(currContent);
   };
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -67,7 +81,7 @@ const Editor: React.FC<EditorProps> = ({ onChange, content }) => {
               { value: 'First.Name', title: 'First Name' },
               { value: 'Email', title: 'Email' },
             ],
-            height: 700,
+            height: 650,
             font_size_formats: '10px 12px 14px 16px 18px 24px 36px 48px',
             menubar: '',
             image_description: true, // Включаем поле описания для изображений
@@ -78,8 +92,12 @@ const Editor: React.FC<EditorProps> = ({ onChange, content }) => {
             content_style:
               'body { font-family: "Roboto", sans-serif; font-size: 14px; }',
           }}
-          value={content}
+          initialValue={initialContent}
+          value={currContent}
         />
+        <Button mt={15} onClick={onEditorSave}>
+          {t('save')}
+        </Button>
       </EditorWrapper>
       {!editorInit && <EditorSkeleton />}
     </>
