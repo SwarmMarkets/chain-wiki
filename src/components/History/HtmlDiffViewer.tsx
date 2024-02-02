@@ -3,7 +3,7 @@ import React from 'react';
 import ReactDiffViewer, { DiffMethod } from 'react-diff-viewer';
 import styled from 'styled-components';
 
-interface HistoryChangesProps {
+interface HtmlDiffViewerProps {
   oldHtml: string;
   newHtml: string;
 }
@@ -16,7 +16,7 @@ const ReactDiffWrapper = styled.div`
   }
 `;
 
-const HistoryChanges: React.FC<HistoryChangesProps> = ({
+const HtmlDiffViewer: React.FC<HtmlDiffViewerProps> = ({
   oldHtml,
   newHtml,
 }) => {
@@ -40,4 +40,4 @@ const HistoryChanges: React.FC<HistoryChangesProps> = ({
   );
 };
 
-export default HistoryChanges;
+export default HtmlDiffViewer;

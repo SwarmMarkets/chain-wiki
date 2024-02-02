@@ -1,4 +1,4 @@
-import HistoryChanges from '@src/components/History/HistoryChanges';
+import HtmlDiffViewer from './HtmlDiffViewer';
 import Flex from '@src/components/ui/Flex';
 import articleHistoryMock from '@src/shared/consts/articleHistoryMock';
 import { HistoryItem, HistoryItemIpfsData } from '@src/shared/types/history';
@@ -67,7 +67,7 @@ const HistoryDifference = () => {
               </Flex>
             ))}
           </Flex>
-          <HistoryChanges
+          <HtmlDiffViewer
             oldHtml={fullArticlesData[0].htmlContent}
             newHtml={fullArticlesData[1].htmlContent}
           />
