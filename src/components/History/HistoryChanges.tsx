@@ -34,7 +34,7 @@ const HistoryChanges: React.FC<HistoryChangesProps> = ({
       <ReactDiffViewer
         oldValue={beautifiedOldHtml}
         newValue={beautifiedNewHtml}
-        compareMethod={DiffMethod.LINES}
+        compareMethod={DiffMethod.CHARS}
       />
     </ReactDiffWrapper>
   );
