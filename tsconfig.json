@@ -28,5 +28,6 @@
     "noFallthroughCasesInSwitch": true,
   },
   "include": ["src"],
+  "exclude": ["src/gql/**/*.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

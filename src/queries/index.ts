@@ -1,5 +1,3 @@
-import { loader } from 'graphql.macro' // TO DOWNLOAD
-
-export const NFTsQuery = loader('./NFTs.gql')
-export const NFTQuery = loader('./NFT.gql')
-export const NFTUpdatesQuery = loader('./NFTUpdates.gql')
+export { NFTURIUpdatesQuery } from './NFTURIUpdatesQuery';
+export { NFTQuery } from './NFTQuery'
+export { NFTsQuery } from './NFTsQuery'

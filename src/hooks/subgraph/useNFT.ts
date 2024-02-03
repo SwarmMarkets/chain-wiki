@@ -1,13 +1,12 @@
 import { NetworkStatus, useQuery } from '@apollo/client'
 import { useMemo } from 'react'
 
-import { NFTsQuery } from '@src/queries'
-import { QueryNftsArgs } from '@src/queries/gql/graphql'
+import { NFTQuery } from '@src/queries'
+import { QueryNftArgs } from '@src/queries/gql/graphql'
 
-const PAGE_LIMIT = 10
 const POLL_INTERVAL = 5000
 
-const useNFTs = (options?: QueryNftsArgs) => {
+const useNFT = (id: QueryNftArgs['id']) => {
   const {
     data,
     loading,
@@ -15,20 +14,18 @@ const useNFTs = (options?: QueryNftsArgs) => {
     fetchMore,
     networkStatus,
     refetch,
-  } = useQuery(NFTsQuery, {
+  } = useQuery(NFTQuery, {
     fetchPolicy: 'cache-first',
     notifyOnNetworkStatusChange: true,
     pollInterval: POLL_INTERVAL,
     variables: {
-      limit: PAGE_LIMIT,
-      skip: 0,
-      ...options
+      id
     },
   })
 
   return useMemo(
     () => ({
-      nfts: data?.nfts,
+      nft: data?.nft,
       loadingOffers:
         loading ||
         ![
@@ -40,8 +37,8 @@ const useNFTs = (options?: QueryNftsArgs) => {
       refetch,
       fetchMore,
     }),
-    [data?.nfts, error, fetchMore, loading, networkStatus, refetch],
+    [data?.nft, error, fetchMore, loading, networkStatus, refetch],
   )
 }
 
-export default useNFTs
+export default useNFT
