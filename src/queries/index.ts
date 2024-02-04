@@ -1,3 +1,3 @@
 export { NFTURIUpdatesQuery } from './NFTURIUpdatesQuery';
-export { NFTQuery } from './NFTQuery'
+export { NFTQuery, NFTAccessRolesQuery } from './NFTQuery'
 export { NFTsQuery } from './NFTsQuery'

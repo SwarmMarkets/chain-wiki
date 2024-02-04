@@ -1,12 +1,22 @@
+import useProjectPermissions, {
+  Permissions,
+} from '@src/hooks/permissions/useProjectPermissions'
 import { ChildrenProp } from '@src/shared/types/common-props'
-import { Permissions, usePermissions } from '../providers/PermissionProvider'
 
-interface RequirePermissionsProps extends Partial<Permissions>, ChildrenProp {}
+interface RequirePermissionsProps extends Partial<Permissions>, ChildrenProp {
+  projectAddress?: string
+}
 
-const RequirePermissions = ({ children, ...requiredPermissions }: RequirePermissionsProps) => {
-  const { hasPermission } = usePermissions()
+const RequirePermissions = ({
+  children,
+  projectAddress,
+  ...requiredPermissions
+}: RequirePermissionsProps) => {
+  const { hasPermission } = useProjectPermissions(projectAddress)
 
-  const permissionKeys = Object.keys(requiredPermissions) as Array<keyof Permissions>
+  const permissionKeys = Object.keys(requiredPermissions) as Array<
+    keyof Permissions
+  >
   const hasAllRequiredPermissions = permissionKeys.every(hasPermission)
 
   if (hasAllRequiredPermissions) {
