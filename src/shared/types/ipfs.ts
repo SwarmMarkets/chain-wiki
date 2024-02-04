@@ -1,3 +1,5 @@
+import { NfTsQuery } from "@src/queries/gql/graphql"
+
 export interface IpfsProjectContent {
   name: string
   address: string
@@ -10,3 +12,5 @@ export interface IpfsArticleContent {
   tokenId: string
   htmlContent: string
 }
+
+export type NftFullData = NfTsQuery['nfts'][0] & IpfsProjectContent;

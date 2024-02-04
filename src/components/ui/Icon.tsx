@@ -33,8 +33,8 @@ const IconWrapper = styled.div.withConfig({
 const Icon: React.FC<IconProps> = ({
   name,
   size = 20,
-  width = 20,
-  height = 20,
+  width,
+  height,
   color,
   ...props
 }) => {
@@ -43,12 +43,12 @@ const Icon: React.FC<IconProps> = ({
   return (
     <React.Suspense fallback={<div />}>
       <IconWrapper
-        $width={size || width}
-        $height={size || height}
+        $width={width || size}
+        $height={height || size}
         color={color}
         {...props}
       >
-        <IconComponent width={size || width} height={size || height} />
+        <IconComponent width={width || size} height={height || size} />
       </IconWrapper>
     </React.Suspense>
   )

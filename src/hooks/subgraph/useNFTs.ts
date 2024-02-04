@@ -2,67 +2,61 @@ import { NetworkStatus, useQuery } from '@apollo/client'
 import { useMemo, useState } from 'react'
 
 import { NFTsQuery } from '@src/queries'
-import { NfTsQuery, QueryNftsArgs } from '@src/queries/gql/graphql'
+import { QueryNftsArgs } from '@src/queries/gql/graphql'
 import { useStorage } from '@thirdweb-dev/react'
+import { NftFullData } from '@src/shared/types/ipfs'
 
 const PAGE_LIMIT = 10
 const POLL_INTERVAL = 5000
 
-type FullNft = NfTsQuery & {name: string; htmlContent: string};
-
 interface UseNftConfig {
-  fetchFullData?: boolean;
+  fetchFullData?: boolean
 }
 
 const useNFTs = (options?: QueryNftsArgs, config?: UseNftConfig) => {
-  const storage = useStorage();
-  const [fullData, setFullData] = useState<FullNft[] | null>(null);
+  const storage = useStorage()
+  const [fullData, setFullData] = useState<NftFullData[] | null>(null)
 
-  const {
-    data,
-    loading,
-    error,
-    fetchMore,
-    networkStatus,
-    refetch,
-  } = useQuery(NFTsQuery, {
-    fetchPolicy: 'cache-first',
-    notifyOnNetworkStatusChange: true,
-    pollInterval: POLL_INTERVAL,
-    variables: {
-      limit: PAGE_LIMIT,
-      skip: 0,
-      ...options
-    },
-    async onCompleted(data) {
-      if(!config?.fetchFullData) {
-        return;
-      }
-
-      const promises = data.nfts.map((item) =>
-        storage?.downloadJSON(item.uri)
-      );
-
-      const additionalData = await Promise.all(promises);
-
-      const fullData = data.nfts.map((item, index) => {
-        if (additionalData[index].error) {
-          return item;
+  const { data, loading, error, fetchMore, networkStatus, refetch } = useQuery(
+    NFTsQuery,
+    {
+      fetchPolicy: 'cache-first',
+      notifyOnNetworkStatusChange: true,
+      pollInterval: POLL_INTERVAL,
+      variables: {
+        limit: PAGE_LIMIT,
+        skip: 0,
+        ...options,
+      },
+      async onCompleted(data) {
+        if (!config?.fetchFullData) {
+          return
         }
 
-        return {
-          ...item,
-          ...additionalData[index],
-        };
-      });
+        const promises = data.nfts.map(item => storage?.downloadJSON(item.uri))
 
-      setFullData(fullData)
-    },
-  })
+        const additionalData = await Promise.all(promises)
+
+        const fullData = data.nfts.map((item, index) => {
+          if (additionalData[index].error) {
+            return item
+          }
+
+          return {
+            ...item,
+            ...additionalData[index],
+          }
+        })
+
+        setFullData(fullData)
+      },
+    }
+  )
 
   return useMemo(
     () => ({
-      nfts: config?.fetchFullData ? fullData : data?.nfts,
+      nfts: data?.nfts,
+      fullNfts: fullData,
       loadingNfts:
         loading ||
         ![
@@ -75,7 +69,7 @@ const useNFTs = (options?: QueryNftsArgs, config?: UseNftConfig) => {
       refetchingNfts: [NetworkStatus.poll].includes(networkStatus),
       fetchMoreNfts: fetchMore,
     }),
-    [config?.fetchFullData, data?.nfts, error, fetchMore, fullData, loading, networkStatus, refetch],
+    [data?.nfts, error, fetchMore, fullData, loading, networkStatus, refetch]
   )
 }
 
