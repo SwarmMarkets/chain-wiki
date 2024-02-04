@@ -1,9 +1,9 @@
 import ProjectList from '@src/components/Project/ProjectList'
 import useNFTs from '@src/hooks/subgraph/useNFTs'
 import { useEffect } from 'react'
-import ProjectListSkeletons from '@src/components/Project/ProjectListSkeletons'
 import Box from '@src/components/ui/Box'
 import { useTranslation } from 'react-i18next'
+import ProjectSkeletonList from '@src/components/Project/ProjectSkeletonList'
 
 const HomePage = () => {
   const { t } = useTranslation('projects')
@@ -23,12 +23,10 @@ const HomePage = () => {
   return (
     <>
       <h1>{t('title')}</h1>
-      {fullNfts && (
-        <Box mt={20}>
-          {skeletonsAreVisible && <ProjectListSkeletons />}
-          <ProjectList projects={fullNfts} />
-        </Box>
-      )}
+      <Box mt={20}>
+        {fullNfts && <ProjectList projects={fullNfts} />}
+        {skeletonsAreVisible && <ProjectSkeletonList />}
+      </Box>
     </>
   )
 }
