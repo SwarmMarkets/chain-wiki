@@ -1,79 +1,68 @@
-import React, { useState } from 'react';
-import { Editor as TinyEditorType } from 'tinymce';
-import { Editor as TinyEditor } from '@tinymce/tinymce-react';
-import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
-import { storage } from '@src/firebase';
-import styled from 'styled-components';
-import EditorSkeleton from './EditorSkeleton';
-import Button from '../ui/Button/Button';
-import { useTranslation } from 'react-i18next';
+import { storage } from '@src/firebase'
+import { Editor as TinyEditor } from '@tinymce/tinymce-react'
+import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
+import React, { useState } from 'react'
+import styled from 'styled-components'
+import { Editor as TinyEditorType } from 'tinymce'
+import UpdateContentButton from '../UpdateContent'
+import EditorSkeleton from './EditorSkeleton'
 
 interface EditorProps {
-  initialContent: string;
-  onChange?: (content: string, editor: TinyEditorType) => void;
-  onSave?: (content: string) => void;
+  initialContent: string
+  onChange?: (content: string, editor: TinyEditorType) => void
 }
 
 interface EditorWrapperProps {
-  $editorInit: boolean;
+  $editorInit: boolean
 }
 
 const EditorWrapper = styled.div<EditorWrapperProps>`
   display: ${({ $editorInit }) => ($editorInit ? 'block' : 'none')};
-`;
+`
 
-const Editor: React.FC<EditorProps> = ({
-  onChange,
-  onSave,
-  initialContent,
-}) => {
-  const { t } = useTranslation('buttons');
-  const [editorInit, setEditorInit] = useState(false);
-  const [currContent, setCurrContent] = useState(initialContent);
+const Editor: React.FC<EditorProps> = ({ onChange, initialContent }) => {
+  const [editorInit, setEditorInit] = useState(false)
+  const [currContent, setCurrContent] = useState(initialContent)
 
   const onEditorChange = (content: string, editor: TinyEditorType) => {
-    onChange && onChange(content, editor);
-    setCurrContent(content);
-  };
-
-  const onEditorSave = () => {
-    onSave && onSave(currContent);
-  };
+    onChange && onChange(content, editor)
+    setCurrContent(content)
+  }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleImageUpload = (image: any) => {
-    const imageBlob = image.blob();
-    const storageRef = ref(storage, `images/${imageBlob.name}`);
-    const uploadTask = uploadBytesResumable(storageRef, imageBlob);
+    const imageBlob = image.blob()
+    const storageRef = ref(storage, `images/${imageBlob.name}`)
+    const uploadTask = uploadBytesResumable(storageRef, imageBlob)
 
     return new Promise<string>((resolve, reject) => {
       uploadTask.on('state_changed', {
-        error: (error) => {
-          console.error('Error uploading image: ', error);
-          reject(error);
+        error: error => {
+          console.error('Error uploading image: ', error)
+          reject(error)
         },
         complete: async () => {
-          const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-          resolve(downloadURL);
+          const downloadURL = await getDownloadURL(uploadTask.snapshot.ref)
+          resolve(downloadURL)
         },
-      });
-    });
-  };
+      })
+    })
+  }
   const onInitEdiror = () => {
-    setEditorInit(true);
-  };
+    setEditorInit(true)
+  }
 
   return (
     <>
       <EditorWrapper $editorInit={editorInit}>
         <TinyEditor
-          apiKey="osr60izccxxfs99zbrmmbiqk16ux1fas0muug1e2hvh16kgg"
+          apiKey='osr60izccxxfs99zbrmmbiqk16ux1fas0muug1e2hvh16kgg'
           onEditorChange={onEditorChange}
           onInit={onInitEdiror}
           init={{
             plugins:
-            // TO DO: Remove plugins or update account subscription
-            // 'tinycomments mentions anchor autolink charmap codesample emoticons image link lists searchreplace table visualblocks wordcount mediaembed casechange export formatpainter pageembed permanentpen footnotes advtemplate advtable advcode editimage tableofcontents powerpaste tinymcespellchecker autocorrect a11ychecker typography inlinecss',            
+              // TO DO: Remove plugins or update account subscription
+              // 'tinycomments mentions anchor autolink charmap codesample emoticons image link lists searchreplace table visualblocks wordcount mediaembed casechange export formatpainter pageembed permanentpen footnotes advtemplate advtable advcode editimage tableofcontents powerpaste tinymcespellchecker autocorrect a11ychecker typography inlinecss',
               'anchor autolink charmap codesample emoticons image link lists searchreplace table visualblocks wordcount',
             toolbar:
               'undo redo | blocks fontsize | bold italic underline strikethrough | link image media table mergetags | align | tinycomments | numlist bullist indent outdent | emoticons charmap | removeformat',
@@ -97,13 +86,14 @@ const Editor: React.FC<EditorProps> = ({
           initialValue={initialContent}
           value={currContent}
         />
-        <Button mt={15} onClick={onEditorSave}>
-          {t('save')}
-        </Button>
+        <UpdateContentButton
+          projectAddress='0x25d8A5815ddfcB613326691b1953294e2c667918'
+          content={currContent}
+        />
       </EditorWrapper>
       {!editorInit && <EditorSkeleton />}
     </>
-  );
-};
+  )
+}
 
-export default Editor;
+export default Editor

@@ -1,0 +1,14 @@
+{
+  "project": {
+    "title": "Update Project",
+    "description": "You are about to update your project content. This includes several steps to finalize content update."
+  },
+  "steps": {
+    "0": "Preparing content to upload to IPFS",
+    "1": "Uploading content to IPFS",
+    "2": "Sign the transaction to authorize your content update"
+  },
+  "actions": {
+    "cancel": "Cancel"
+  }
+}
