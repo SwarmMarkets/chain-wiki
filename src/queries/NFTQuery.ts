@@ -10,6 +10,10 @@ export const NFTQuery = graphql(`
       symbol
       updatedAt
       uri
+      admins
+      issuers
+      agents
+      editors
     }
   }
 `)
