@@ -1,6 +1,7 @@
 import React, { HTMLAttributes } from 'react';
 import styled from 'styled-components';
 import shouldForwardProp from '@styled-system/should-forward-prop';
+import icons from '@src/shared/consts/icons';
 
 interface IconProps extends HTMLAttributes<HTMLDivElement> {
   name: keyof typeof icons;
@@ -25,13 +26,6 @@ const IconWrapper = styled.div.withConfig({
     }
   }
 `;
-
-const icons = {
-  chevronRight: React.lazy(
-    () => import('@src/assets/icons/chevronRight.svg?react')
-  ),
-  search: React.lazy(() => import('@src/assets/icons/search.svg?react')),
-};
 
 const Icon: React.FC<IconProps> = ({
   name,
