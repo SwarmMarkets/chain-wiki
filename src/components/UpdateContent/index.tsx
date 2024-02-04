@@ -11,7 +11,10 @@ interface UpdateContentButtonProps {
   content: string
 }
 
-const UpdateContentButton: React.FC<UpdateContentButtonProps> = ({ projectAddress, content }) => {
+const UpdateContentButton: React.FC<UpdateContentButtonProps> = ({
+  projectAddress,
+  content,
+}) => {
   const { t } = useTranslation('buttons')
   const { isOpen, open, close } = useModalState(false)
   const { call, txLoading, result } = useSX1155NFT(projectAddress)
@@ -21,7 +24,7 @@ const UpdateContentButton: React.FC<UpdateContentButtonProps> = ({ projectAddres
     const ipfsContent = generateIpfsProjectContent({
       name: projectAddress,
       address: projectAddress,
-      htmlContent: content
+      htmlContent: content,
     })
     const filesToUpload = [ipfsContent]
     const uris = await upload({ data: filesToUpload })
@@ -29,12 +32,14 @@ const UpdateContentButton: React.FC<UpdateContentButtonProps> = ({ projectAddres
     return firstUri
   }
 
+  const signTransaction = (uri: string) => {
+    call('setKya', [uri])
+  }
+
   const startContentUpdate = async () => {
     open()
     const uri = await uploadContent()
-    if (uri) {
-      call('setKya', [uri])
-    }
+    if (uri) signTransaction(uri)
   }
 
   return (
@@ -43,13 +48,13 @@ const UpdateContentButton: React.FC<UpdateContentButtonProps> = ({ projectAddres
         steps={{
           0: { isSuccess: true, isLoading: false },
           1: { isSuccess: isSuccess, isLoading: isLoading },
-          2: { isSuccess: !!result, isLoading: txLoading }
+          2: { isSuccess: !!result, isLoading: txLoading },
         }}
         isOpen={isOpen}
         onClose={close}
       />
       <Button mt={15} onClick={startContentUpdate}>
-        {t('save')}
+        {t('updateContent')}
       </Button>
     </>
   )
