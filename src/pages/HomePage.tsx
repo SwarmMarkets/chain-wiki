@@ -1,45 +1,36 @@
-import { useEffect, useState } from 'react';
-import ProjectList from '@src/components/Project/ProjectList';
-import useNFTs from '@src/hooks/subgraph/useNFTs';
-// import { generatePath, useNavigate } from 'react-router-dom';
-// import RoutePaths from '@src/shared/enums/routes-paths';
-import ProjectListSkeletons from '@src/components/Project/ProjectListSkeletons';
-import Box from '@src/components/ui/Box';
-import { useStorage } from '@thirdweb-dev/react';
-import { useTranslation } from 'react-i18next';
-import { toast } from 'react-toastify';
+import ProjectList from '@src/components/Project/ProjectList'
+import useNFTs from '@src/hooks/subgraph/useNFTs'
+import { useEffect } from 'react'
+import ProjectListSkeletons from '@src/components/Project/ProjectListSkeletons'
+import Box from '@src/components/ui/Box'
+import { useTranslation } from 'react-i18next'
 
 const HomePage = () => {
-  // const navigate = useNavigate();
-
-  // const handleClick = () => {
-  //   navigate(generatePath(RoutePaths.PROJECT, { projectId: id }));
-  // };
-  const { t } = useTranslation('projects');
-  const { nfts, loadingNfts, error, refetchingNfts } = useNFTs(
+  const { t } = useTranslation('projects')
+  const { fullNfts, loadingNfts, error, refetchingNfts } = useNFTs(
     {},
     { fetchFullData: true }
-  );
+  )
 
-  const skeletonsAreVisible = loadingNfts && !refetchingNfts;
-  console.log(nfts);
+  const skeletonsAreVisible = loadingNfts && !refetchingNfts
+
   useEffect(() => {
     if (error) {
-      console.log('error', error);
+      console.log('error', error)
     }
-  }, [error]);
+  }, [error])
 
   return (
     <>
       <h1>{t('title')}</h1>
-      {nfts && (
+      {fullNfts && (
         <Box mt={20}>
           {skeletonsAreVisible && <ProjectListSkeletons />}
-          <ProjectList projects={nfts} />
+          <ProjectList projects={fullNfts} />
         </Box>
       )}
     </>
-  );
-};
+  )
+}
 
-export default HomePage;
+export default HomePage

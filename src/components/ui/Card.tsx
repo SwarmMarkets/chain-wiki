@@ -1,8 +1,8 @@
-import { Link } from 'react-router-dom';
-import styled, { useTheme } from 'styled-components';
-import Text from './Text';
-import { ChildrenProp } from '@src/shared/types/common-props';
-import shouldForwardProp from '@styled-system/should-forward-prop';
+import { Link } from 'react-router-dom'
+import styled, { useTheme } from 'styled-components'
+import Text from './Text'
+import { ChildrenProp } from '@src/shared/types/common-props'
+import shouldForwardProp from '@styled-system/should-forward-prop'
 import {
   FlexboxProps,
   LayoutProps,
@@ -10,15 +10,15 @@ import {
   flexbox,
   layout,
   space,
-} from 'styled-system';
+} from 'styled-system'
 
 interface CardProps
   extends ChildrenProp,
     FlexboxProps,
     LayoutProps,
     SpaceProps {
-  title?: string;
-  to?: string;
+  title?: string
+  to?: string
 }
 
 const CardRoot = styled.div.withConfig({
@@ -31,13 +31,13 @@ const CardRoot = styled.div.withConfig({
   ${flexbox}
   ${layout}
   ${space}
-`;
+`
 
 const ChildrenWrapper = styled.div.withConfig({
   shouldForwardProp,
 })<SpaceProps>`
   ${space}
-`;
+`
 
 const StyledLink = styled(Link)`
   text-decoration: none;
@@ -46,34 +46,42 @@ const StyledLink = styled(Link)`
   &:hover {
     text-decoration: underline !important;
   }
-`;
+`
+
+const Title = styled(Text.h2)`
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+`
 
 const Card: React.FC<CardProps> = ({ title, to, children, ...props }) => {
-  const theme = useTheme();
+  const theme = useTheme()
 
   return (
     <CardRoot {...props}>
       {to ? (
         <StyledLink to={to}>
-          <Text.h2
+          <Title
             color={theme.palette.linkPrimary}
             size={theme.fontSizes.mediumPlus}
             weight={theme.fontWeights.bold}
           >
             {title}
-          </Text.h2>
+          </Title>
         </StyledLink>
       ) : (
-        <Text.h2
+        <Title
           size={theme.fontSizes.mediumPlus}
           weight={theme.fontWeights.bold}
         >
           {title}
-        </Text.h2>
+        </Title>
       )}
-      {children && <ChildrenWrapper mt={title ? 10 : 0} >{children}</ChildrenWrapper>}
+      {children && (
+        <ChildrenWrapper mt={title ? 10 : 0}>{children}</ChildrenWrapper>
+      )}
     </CardRoot>
-  );
-};
+  )
+}
 
-export default Card;
+export default Card
