@@ -1,9 +1,12 @@
 import React, { HTMLAttributes } from 'react';
 import styled from 'styled-components';
 import shouldForwardProp from '@styled-system/should-forward-prop';
+import icons from '@src/shared/consts/icons';
+import { SpaceProps, space } from 'styled-system';
 
-interface IconProps extends HTMLAttributes<HTMLDivElement> {
+interface IconProps extends HTMLAttributes<HTMLDivElement>, SpaceProps {
   name: keyof typeof icons;
+  size?: number;
   width?: number;
   height?: number;
   color?: string;
@@ -24,17 +27,12 @@ const IconWrapper = styled.div.withConfig({
       fill: ${(props) => props.color};
     }
   }
+  ${space}
 `;
-
-const icons = {
-  chevronRight: React.lazy(
-    () => import('@src/assets/icons/chevronRight.svg?react')
-  ),
-  search: React.lazy(() => import('@src/assets/icons/search.svg?react')),
-};
 
 const Icon: React.FC<IconProps> = ({
   name,
+  size = 20,
   width = 20,
   height = 20,
   color,
@@ -43,9 +41,11 @@ const Icon: React.FC<IconProps> = ({
   const IconComponent = icons[name];
 
   return (
-    <IconWrapper $width={width} $height={height} color={color} {...props}>
-      <IconComponent width={width} height={height} />
-    </IconWrapper>
+    <React.Suspense fallback={<div />}>
+      <IconWrapper $width={size || width} $height={size || height} color={color} {...props}>
+        <IconComponent width={size || width} height={size || height} />
+      </IconWrapper>
+    </React.Suspense>
   );
 };
 
