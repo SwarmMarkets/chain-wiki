@@ -7,6 +7,7 @@ import { Editor as TinyEditorType } from 'tinymce'
 import UpdateContentButton from '../UpdateContent'
 import RequirePermissions from '../common/RequirePermissions'
 import EditorSkeleton from './EditorSkeleton'
+import Flex from '../ui/Flex'
 
 interface EditorProps {
   projectAddress: string
@@ -90,12 +91,14 @@ const Editor: React.FC<EditorProps> = ({
           initialValue={initialContent}
           value={currContent}
         />
-        <RequirePermissions projectAddress={projectAddress} canUpdateContent>
-          <UpdateContentButton
-            projectAddress={projectAddress}
-            content={currContent}
-          />
-        </RequirePermissions>
+        <Flex justifyContent='flex-end'>
+          <RequirePermissions projectAddress={projectAddress} canUpdateContent>
+            <UpdateContentButton
+              projectAddress={projectAddress}
+              content={currContent}
+            />
+          </RequirePermissions>
+        </Flex>
       </EditorWrapper>
       {!editorInit && <EditorSkeleton />}
     </>
