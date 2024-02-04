@@ -22,11 +22,11 @@ const useNFT = (id: QueryNftArgs['id']) => {
       id
     },
   })
-
+  
   return useMemo(
     () => ({
       nft: data?.nft,
-      loadingOffers:
+      loadingNft:
         loading ||
         ![
           NetworkStatus.ready,
@@ -35,7 +35,8 @@ const useNFT = (id: QueryNftArgs['id']) => {
         ].includes(networkStatus),
       error,
       refetch,
-      fetchMore,
+      refetchingNft: [NetworkStatus.poll].includes(networkStatus),
+      fetchMoreNfts: fetchMore,
     }),
     [data?.nft, error, fetchMore, loading, networkStatus, refetch],
   )

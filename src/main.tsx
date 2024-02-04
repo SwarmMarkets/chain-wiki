@@ -6,6 +6,7 @@ import theme from './theme'
 import { GlobalStyle } from './globalStyle'
 import './i18n'
 import './index.css'
+import 'react-toastify/dist/ReactToastify.css'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

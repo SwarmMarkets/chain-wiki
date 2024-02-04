@@ -1,6 +1,6 @@
 import i18n from 'i18next'
 import { initReactI18next } from 'react-i18next'
-import { CreateProjectEn, ErrorsEn, LayoutEn, ProjectEn, ArticleEn, ContentsEn, ButtonsEn } from './locales/en'
+import { CreateProjectEn, ErrorsEn, LayoutEn, ProjectEn, ArticleEn, ContentsEn, ButtonsEn, ProjectsEn } from './locales/en'
 
 
 const resources = {
@@ -12,6 +12,7 @@ const resources = {
     article: ArticleEn,
     contents: ContentsEn,
     buttons: ButtonsEn,
+    projects: ProjectsEn,
   },
 }
 

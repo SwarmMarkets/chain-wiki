@@ -15,8 +15,8 @@ export type Scalars = {
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
   BigDecimal: { input: any; output: any; }
-  BigInt: { input: any; output: any; }
-  Bytes: { input: any; output: any; }
+  BigInt: { input: string; output: string; }
+  Bytes: { input: string; output: string; }
   /**
    * 8 bytes signed integer
    *
@@ -798,7 +798,7 @@ export type NftQueryVariables = Exact<{
 }>;
 
 
-export type NftQuery = { __typename?: 'Query', nft?: { __typename?: 'NFT', createdAt: any, creator: any, id: string, name: string, symbol: string, updatedAt: any, uri: string } | null };
+export type NftQuery = { __typename?: 'Query', nft?: { __typename?: 'NFT', createdAt: string, creator: string, id: string, name: string, symbol: string, updatedAt: string, uri: string } | null };
 
 export type NfturiUpdatesQueryVariables = Exact<{
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -809,7 +809,7 @@ export type NfturiUpdatesQueryVariables = Exact<{
 }>;
 
 
-export type NfturiUpdatesQuery = { __typename?: 'Query', nfturiupdates: Array<{ __typename?: 'NFTURIUpdate', id: string, newURI: string, previousURI: string, updatedAt: any }> };
+export type NfturiUpdatesQuery = { __typename?: 'Query', nfturiupdates: Array<{ __typename?: 'NFTURIUpdate', id: string, newURI: string, previousURI: string, updatedAt: string }> };
 
 export type NfTsQueryVariables = Exact<{
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -820,7 +820,7 @@ export type NfTsQueryVariables = Exact<{
 }>;
 
 
-export type NfTsQuery = { __typename?: 'Query', nfts: Array<{ __typename?: 'NFT', id: string, name: string, symbol: string, createdAt: any, updatedAt: any, creator: any, uri: string }> };
+export type NfTsQuery = { __typename?: 'Query', nfts: Array<{ __typename?: 'NFT', id: string, name: string, symbol: string, createdAt: string, updatedAt: string, creator: string, uri: string }> };
 
 
 export const NftDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"NFT"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nft"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"creator"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"symbol"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"uri"}}]}}]}}]} as unknown as DocumentNode<NftQuery, NftQueryVariables>;

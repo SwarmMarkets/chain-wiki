@@ -1,13 +1,23 @@
 import { NetworkStatus, useQuery } from '@apollo/client'
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 
 import { NFTsQuery } from '@src/queries'
-import { QueryNftsArgs } from '@src/queries/gql/graphql'
+import { NfTsQuery, QueryNftsArgs } from '@src/queries/gql/graphql'
+import { useStorage } from '@thirdweb-dev/react'
 
 const PAGE_LIMIT = 10
 const POLL_INTERVAL = 5000
 
-const useNFTs = (options?: QueryNftsArgs) => {
+type FullNft = NfTsQuery & {name: string; htmlContent: string};
+
+interface UseNftConfig {
+  fetchFullData?: boolean;
+}
+
+const useNFTs = (options?: QueryNftsArgs, config?: UseNftConfig) => {
+  const storage = useStorage();
+  const [fullData, setFullData] = useState<FullNft[] | null>(null);
+
   const {
     data,
     loading,
@@ -24,12 +34,36 @@ const useNFTs = (options?: QueryNftsArgs) => {
       skip: 0,
       ...options
     },
+    async onCompleted(data) {
+      if(!config?.fetchFullData) {
+        return;
+      }
+
+      const promises = data.nfts.map((item) =>
+        storage?.downloadJSON(item.uri)
+      );
+
+      const additionalData = await Promise.all(promises);
+
+      const fullData = data.nfts.map((item, index) => {
+        if (additionalData[index].error) {
+          return item;
+        }
+
+        return {
+          ...item,
+          ...additionalData[index],
+        };
+      });
+
+      setFullData(fullData)
+    },
   })
 
   return useMemo(
     () => ({
-      nfts: data?.nfts,
-      loadingOffers:
+      nfts: config?.fetchFullData ? fullData : data?.nfts,
+      loadingNfts:
         loading ||
         ![
           NetworkStatus.ready,
@@ -38,9 +72,10 @@ const useNFTs = (options?: QueryNftsArgs) => {
         ].includes(networkStatus),
       error,
       refetch,
-      fetchMore,
+      refetchingNfts: [NetworkStatus.poll].includes(networkStatus),
+      fetchMoreNfts: fetchMore,
     }),
-    [data?.nfts, error, fetchMore, loading, networkStatus, refetch],
+    [config?.fetchFullData, data?.nfts, error, fetchMore, fullData, loading, networkStatus, refetch],
   )
 }
 

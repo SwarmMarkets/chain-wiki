@@ -17,6 +17,7 @@ import theme from './theme'
 import { PermissionsProvider } from './components/providers/PermissionProvider'
 import { ApolloProvider } from '@apollo/client'
 import client from './services/apollo'
+import { ToastContainer } from 'react-toastify'
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
                 </Routes>
               </Layout>
             </Router>
+            <ToastContainer />
           </PermissionsProvider>
         </ThemeProvider>
       </ThirdwebProvider>
