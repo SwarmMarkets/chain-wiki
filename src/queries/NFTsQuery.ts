@@ -22,6 +22,10 @@ export const NFTsQuery = graphql(`
       updatedAt
       creator
       uri
+      admins
+      issuers
+      agents
+      editors
     }
   }
 `)
