@@ -11,6 +11,12 @@ const config: CodegenConfig = {
       preset: "client",
       plugins: []
     },
+  },
+  config: {
+    scalars: {
+      BigInt: "string",
+      Bytes: "string",
+    }
   }
 };
 
