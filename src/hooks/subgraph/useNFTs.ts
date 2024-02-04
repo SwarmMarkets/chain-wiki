@@ -7,7 +7,7 @@ import { useStorage } from '@thirdweb-dev/react'
 import { NftFullData } from '@src/shared/types/ipfs'
 
 const PAGE_LIMIT = 10
-const POLL_INTERVAL = 5000
+const POLL_INTERVAL = 15000
 
 interface UseNftConfig {
   fetchFullData?: boolean
