@@ -2,6 +2,8 @@ const theme = {
   palette: {
     // Common
     white: '#fff',
+    lightGray: "#A9A9A9",
+    nearBlack: "#333333",
 
     // Text Colors
     textPrimary: '#212121',
