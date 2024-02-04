@@ -72,7 +72,9 @@ const Editor: React.FC<EditorProps> = ({
           onInit={onInitEdiror}
           init={{
             plugins:
-              'tinycomments mentions anchor autolink charmap codesample emoticons image link lists searchreplace table visualblocks wordcount mediaembed casechange export formatpainter pageembed permanentpen footnotes advtemplate advtable advcode editimage tableofcontents powerpaste tinymcespellchecker autocorrect a11ychecker typography inlinecss',
+            // TO DO: Remove plugins or update account subscription
+            // 'tinycomments mentions anchor autolink charmap codesample emoticons image link lists searchreplace table visualblocks wordcount mediaembed casechange export formatpainter pageembed permanentpen footnotes advtemplate advtable advcode editimage tableofcontents powerpaste tinymcespellchecker autocorrect a11ychecker typography inlinecss',            
+              'anchor autolink charmap codesample emoticons image link lists searchreplace table visualblocks wordcount',
             toolbar:
               'undo redo | blocks fontsize | bold italic underline strikethrough | link image media table mergetags | align | tinycomments | numlist bullist indent outdent | emoticons charmap | removeformat',
             tinycomments_mode: 'embedded',
