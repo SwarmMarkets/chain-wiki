@@ -15,19 +15,23 @@ interface UpdateProjectContentModalProps extends BasicModalProps {
 enum Steps {
   PrepareContent = 0,
   UploadToIPFS = 1,
-  SignTransaction = 2
+  SignTransaction = 2,
 }
 
 const UpdateProjectContentModal: React.FC<UpdateProjectContentModalProps> = ({
   steps,
   onClose,
-  isOpen
+  isOpen,
 }) => {
   const { t } = useTranslation('updateContent')
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} maxWidth="500px" width="100%">
-      <Flex flexDirection="column" justifyContent="space-between" minHeight="inherit">
+    <Modal isOpen={isOpen} onClose={onClose} maxWidth='500px' width='100%'>
+      <Flex
+        flexDirection='column'
+        justifyContent='space-between'
+        minHeight='inherit'
+      >
         <Box>
           <Text.h1 my={3}>{t('project.title')}</Text.h1>
           <TextDescription>{t('project.description')}</TextDescription>
@@ -35,23 +39,26 @@ const UpdateProjectContentModal: React.FC<UpdateProjectContentModalProps> = ({
           <List>
             <ListItem
               loading={steps[Steps.PrepareContent].isLoading}
-              success={steps[Steps.PrepareContent].isSuccess}>
+              success={steps[Steps.PrepareContent].isSuccess}
+            >
               {t(`steps.${Steps.PrepareContent}`)}
             </ListItem>
             <ListItem
               loading={steps[Steps.UploadToIPFS].isLoading}
-              success={steps[Steps.UploadToIPFS].isSuccess}>
+              success={steps[Steps.UploadToIPFS].isSuccess}
+            >
               {t(`steps.${Steps.UploadToIPFS}`)}
             </ListItem>
             <ListItem
               loading={steps[Steps.SignTransaction].isLoading}
-              success={steps[Steps.SignTransaction].isSuccess}>
+              success={steps[Steps.SignTransaction].isSuccess}
+            >
               {t(`steps.${Steps.SignTransaction}`)}
             </ListItem>
           </List>
         </Box>
 
-        <Button onClick={close}>{t('actions.cancel')}</Button>
+        <Button onClick={onClose}>{t('actions.cancel')}</Button>
       </Flex>
     </Modal>
   )
