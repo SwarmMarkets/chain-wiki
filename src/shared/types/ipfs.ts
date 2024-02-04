@@ -1,17 +1,12 @@
-interface IpfsProjectContent {
+export interface IpfsProjectContent {
   name: string
   address: string
   htmlContent: string
 }
 
-interface IpfsArticleContent {
+export interface IpfsArticleContent {
   name: string
   address: string
   tokenId: string
   htmlContent: string
-}
-
-export type {
-  IpfsProjectContent,
-  IpfsArticleContent
 }
