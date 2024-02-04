@@ -5,9 +5,11 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import { Editor as TinyEditorType } from 'tinymce'
 import UpdateContentButton from '../UpdateContent'
+import RequirePermissions from '../common/RequirePermissions'
 import EditorSkeleton from './EditorSkeleton'
 
 interface EditorProps {
+  projectAddress: string
   initialContent: string
   onChange?: (content: string, editor: TinyEditorType) => void
 }
@@ -20,7 +22,11 @@ const EditorWrapper = styled.div<EditorWrapperProps>`
   display: ${({ $editorInit }) => ($editorInit ? 'block' : 'none')};
 `
 
-const Editor: React.FC<EditorProps> = ({ onChange, initialContent }) => {
+const Editor: React.FC<EditorProps> = ({
+  onChange,
+  initialContent,
+  projectAddress,
+}) => {
   const [editorInit, setEditorInit] = useState(false)
   const [currContent, setCurrContent] = useState(initialContent)
 
@@ -61,8 +67,6 @@ const Editor: React.FC<EditorProps> = ({ onChange, initialContent }) => {
           onInit={onInitEdiror}
           init={{
             plugins:
-              // TO DO: Remove plugins or update account subscription
-              // 'tinycomments mentions anchor autolink charmap codesample emoticons image link lists searchreplace table visualblocks wordcount mediaembed casechange export formatpainter pageembed permanentpen footnotes advtemplate advtable advcode editimage tableofcontents powerpaste tinymcespellchecker autocorrect a11ychecker typography inlinecss',
               'anchor autolink charmap codesample emoticons image link lists searchreplace table visualblocks wordcount',
             toolbar:
               'undo redo | blocks fontsize | bold italic underline strikethrough | link image media table mergetags | align | tinycomments | numlist bullist indent outdent | emoticons charmap | removeformat',
@@ -86,10 +90,12 @@ const Editor: React.FC<EditorProps> = ({ onChange, initialContent }) => {
           initialValue={initialContent}
           value={currContent}
         />
-        <UpdateContentButton
-          projectAddress='0x25d8A5815ddfcB613326691b1953294e2c667918'
-          content={currContent}
-        />
+        <RequirePermissions projectAddress={projectAddress} canUpdateContent>
+          <UpdateContentButton
+            projectAddress={projectAddress}
+            content={currContent}
+          />
+        </RequirePermissions>
       </EditorWrapper>
       {!editorInit && <EditorSkeleton />}
     </>

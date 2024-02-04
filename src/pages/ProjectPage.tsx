@@ -40,7 +40,7 @@ const ContentPlaceholder = styled.div`
   word-wrap: break-word;
 `
 
-const ArticlePage = () => {
+const ProjectPage = () => {
   const { projectId } = useParams()
 
   const theme = useTheme()
@@ -86,7 +86,11 @@ const ArticlePage = () => {
       id: 3,
       title: t('tabs.edit'),
       content: (
-        <Editor initialContent={htmlArticleMock} onChange={onChangeEditor} />
+        <Editor
+          projectAddress={projectId!}
+          initialContent={htmlArticleMock}
+          onChange={onChangeEditor}
+        />
       ),
     },
   ]
@@ -112,4 +116,4 @@ const ArticlePage = () => {
   )
 }
 
-export default ArticlePage
+export default ProjectPage
