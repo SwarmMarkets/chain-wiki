@@ -1,8 +1,8 @@
 import styled from 'styled-components'
 
 import { ChildrenProp } from '@src/shared/types/common-props'
-import { SpaceProps, TextAlignProps, space, textAlign } from 'styled-system'
 import shouldForwardProp from '@styled-system/should-forward-prop'
+import { FontSizeProps, FontStyleProps, FontWeightProps, LineHeightProps, SpaceProps, TextAlignProps, fontSize, fontStyle, fontWeight, lineHeight, space, textAlign } from 'styled-system'
 
 interface StyledTextProps extends ChildrenProp {
   $color?: string
@@ -16,12 +16,20 @@ const StyledText = styled.span.withConfig({ shouldForwardProp })<StyledTextProps
   font-weight: ${props => props.$weight};
   font-family: ${({ theme }) => theme.fontFamilies.roboto};
   ${textAlign}
+  ${fontWeight}
+  ${fontSize}
+  ${fontStyle}
+  ${lineHeight}
   ${space}
 `
 
 interface TextProps
   extends React.ParamHTMLAttributes<HTMLParagraphElement>,
     TextAlignProps,
+    LineHeightProps,
+    FontWeightProps,
+    FontSizeProps,
+    FontStyleProps,
     SpaceProps {
   as?: string
   color?: string
