@@ -26,7 +26,7 @@ const PeojectList: React.FC<PeojectListProps> = ({ projects }) => {
           to={generatePath(RoutePaths.PROJECT, { projectId: project.id })}
           key={project.id}
         >
-          <Card title={project.name}>
+          <Card title={project.name} height='200px'>
             {project.htmlContent
               ? limitString(getTextContentFromHtml(project.htmlContent), 300)
               : 'Description is not received'}
