@@ -1,3 +1,10 @@
 {
-  "title": "Projects"
+  "title": "Projects",
+  "myProjectsTitle": "My Projects",
+  "filter": {
+    "all": "All",
+    "admin": "Admin",
+    "editor": "Editor",
+    "issuer": "Issuer"
+  }
 }

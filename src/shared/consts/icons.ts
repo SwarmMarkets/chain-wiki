@@ -6,6 +6,7 @@ const icons = {
   loader: React.lazy(() => import('@src/assets/icons/loader.svg?react')),
   checkbox: React.lazy(() => import('@src/assets/icons/checkbox.svg?react')),
   emptyCircle: React.lazy(() => import('@src/assets/icons/emptyCircle.svg?react')),
+  plus: React.lazy(() => import('@src/assets/icons/plus.svg?react')),
 };
 
 export default icons;

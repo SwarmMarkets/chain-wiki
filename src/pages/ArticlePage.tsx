@@ -15,7 +15,7 @@ import Tabs from '@src/components/ui/Tabs';
 import Text from '@src/components/ui/Text';
 import History from '@src/components/History';
 import htmlArticleMock from '@src/shared/consts/htmlArticleMock';
-import { Tab } from '@src/shared/types/tabs';
+import { Tab } from '@src/shared/types/ui-components';
 
 const ArticleWrapper = styled.div`
   display: flex;

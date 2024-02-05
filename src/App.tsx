@@ -17,6 +17,7 @@ import theme from './theme'
 import { ApolloProvider } from '@apollo/client'
 import client from './services/apollo'
 import { ToastContainer } from 'react-toastify'
+import MyProjectsPage from './pages/MyProjectsPage'
 
 function App() {
   return (
@@ -40,6 +41,10 @@ function App() {
                 <Route
                   path={RoutePaths.PROJECT + RoutePaths.ARTICLE}
                   element={<ArticlePage />}
+                />
+                <Route
+                  path={RoutePaths.MY_PROJECTS}
+                  element={<MyProjectsPage />}
                 />
               </Routes>
             </Layout>

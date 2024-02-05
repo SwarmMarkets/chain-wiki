@@ -9,7 +9,7 @@ import Text from '@src/components/ui/Text'
 import htmlArticleMock from '@src/shared/consts/htmlArticleMock'
 import ArticleList from '@src/components/ArticleList'
 import { useTranslation } from 'react-i18next'
-import { Tab } from '@src/shared/types/tabs'
+import { Tab } from '@src/shared/types/ui-components'
 
 const ProjectWrapper = styled.div`
   display: flex;

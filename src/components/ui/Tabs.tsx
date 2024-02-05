@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Tab as ITab } from '../../shared/types/tabs';
+import { Tab as ITab } from '../../shared/types/ui-components';
 
 interface TabProps {
   $active: boolean;

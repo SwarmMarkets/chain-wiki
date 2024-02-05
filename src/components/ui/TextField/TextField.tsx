@@ -8,7 +8,7 @@ import {
   StyledInput,
   TextFieldWrapper,
 } from './styled-components';
-import { IconName } from '@src/shared/types/iconTypes';
+import { IconName } from '@src/shared/types/ui-components';
 
 interface TextFieldProps extends SpaceProps, LayoutProps {
   prependIcon?: IconName;

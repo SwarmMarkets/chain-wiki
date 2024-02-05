@@ -1,8 +1,8 @@
-import { NetworkStatus, useQuery } from '@apollo/client'
+import { NetworkStatus, QueryHookOptions, useQuery } from '@apollo/client'
 import { useMemo, useState } from 'react'
 
 import { NFTsQuery } from '@src/queries'
-import { QueryNftsArgs } from '@src/queries/gql/graphql'
+import { NfTsQuery, NfTsQueryVariables } from '@src/queries/gql/graphql'
 import { useStorage } from '@thirdweb-dev/react'
 import { NftFullData } from '@src/shared/types/ipfs'
 
@@ -13,7 +13,7 @@ interface UseNftConfig {
   fetchFullData?: boolean
 }
 
-const useNFTs = (options?: QueryNftsArgs, config?: UseNftConfig) => {
+const useNFTs = (options?: QueryHookOptions<NfTsQuery, NfTsQueryVariables>, config?: UseNftConfig) => {
   const storage = useStorage()
   const [fullData, setFullData] = useState<NftFullData[] | null>(null)
 
@@ -23,10 +23,11 @@ const useNFTs = (options?: QueryNftsArgs, config?: UseNftConfig) => {
       fetchPolicy: 'cache-first',
       notifyOnNetworkStatusChange: true,
       pollInterval: POLL_INTERVAL,
+      ...options,
       variables: {
         limit: PAGE_LIMIT,
         skip: 0,
-        ...options,
+        ...options?.variables,
       },
       async onCompleted(data) {
         if (!config?.fetchFullData) {

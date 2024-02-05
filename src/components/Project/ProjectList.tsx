@@ -8,36 +8,71 @@ import {
 } from '@src/shared/utils/stringFormatting'
 import { Link, generatePath } from 'react-router-dom'
 import RoutePaths from '@src/shared/enums/routes-paths'
-import styled from 'styled-components'
+import styled, { useTheme } from 'styled-components'
 import { useTranslation } from 'react-i18next'
+import Icon from '../ui/Icon'
+import Flex from '../ui/Flex'
+import Text from '../ui/Text'
+import useModalState from '@src/hooks/useModalState'
+import CreateProjectModal from '../CreateProject/CreateProjectModal'
 
-interface PeojectListProps {
+interface ProjectListProps {
   projects: NftFullData[]
+  addProjectCard?: boolean
 }
 
 const StyledLink = styled(Link)`
   display: contents;
 `
 
-const PeojectList: React.FC<PeojectListProps> = ({ projects }) => {
+const StyledCard = styled(Card)`
+  cursor: pointer;
+`
+
+const ProjectList: React.FC<ProjectListProps> = ({
+  projects,
+  addProjectCard,
+}) => {
   const { t } = useTranslation('errors')
+  const theme = useTheme()
+  const { isOpen, open, close } = useModalState(false)
 
   return (
-    <Grid gap='20px' minColumnWidth='250px'>
-      {projects.map(project => (
-        <StyledLink
-          to={generatePath(RoutePaths.PROJECT, { projectId: project.id })}
-          key={project.id}
-        >
-          <Card title={project.name} height='200px'>
-            {project.htmlContent
-              ? limitString(getTextContentFromHtml(project.htmlContent), 300)
-              : t('project.descriptionNotFound')}
-          </Card>
-        </StyledLink>
-      ))}
-    </Grid>
+    <>
+      <Grid gap='20px' minColumnWidth='250px'>
+        {addProjectCard && (
+          <StyledCard
+            {...(!projects.length && { height: 200, width: 250 })}
+            onClick={open}
+          >
+            <Flex
+              flexDirection='column'
+              justifyContent='center'
+              alignItems='center'
+              height='100%'
+              $gap='5px'
+            >
+              <Icon name='plus' size={70} color={theme.palette.borderPrimary} />
+              <Text color={theme.palette.borderPrimary}>Add project</Text>
+            </Flex>
+          </StyledCard>
+        )}
+        {projects.map(project => (
+          <StyledLink
+            to={generatePath(RoutePaths.PROJECT, { projectId: project.id })}
+            key={project.id}
+          >
+            <Card title={project.name} height='200px'>
+              {project.htmlContent
+                ? limitString(getTextContentFromHtml(project.htmlContent), 300)
+                : t('project.descriptionNotFound')}
+            </Card>
+          </StyledLink>
+        ))}
+      </Grid>
+      <CreateProjectModal isOpen={isOpen} onClose={close} />
+    </>
   )
 }
 
-export default PeojectList
+export default ProjectList
