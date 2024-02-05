@@ -9,6 +9,7 @@ import {
 import { Link, generatePath } from 'react-router-dom'
 import RoutePaths from '@src/shared/enums/routes-paths'
 import styled from 'styled-components'
+import { useTranslation } from 'react-i18next'
 
 interface PeojectListProps {
   projects: NftFullData[]
@@ -19,6 +20,8 @@ const StyledLink = styled(Link)`
 `
 
 const PeojectList: React.FC<PeojectListProps> = ({ projects }) => {
+  const { t } = useTranslation('errors')
+
   return (
     <Grid gap='20px' minColumnWidth='250px'>
       {projects.map(project => (
@@ -29,7 +32,7 @@ const PeojectList: React.FC<PeojectListProps> = ({ projects }) => {
           <Card title={project.name} height='200px'>
             {project.htmlContent
               ? limitString(getTextContentFromHtml(project.htmlContent), 300)
-              : 'Description is not received'}
+              : t('project.descriptionNotFound')}
           </Card>
         </StyledLink>
       ))}
