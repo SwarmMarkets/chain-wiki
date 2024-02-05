@@ -1,28 +1,31 @@
+import { ApolloProvider } from '@apollo/client'
+import { supportedChains } from '@src/environment/networks'
 import {
   ThirdwebProvider,
   coinbaseWallet,
   en,
   metamaskWallet,
-  walletConnect,
+  walletConnect
 } from '@thirdweb-dev/react'
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
+import { ToastContainer } from 'react-toastify'
 import { ThemeProvider } from 'styled-components'
 import Layout from './components/common/Layout'
 import { environment } from './environment'
 import ArticlePage from './pages/ArticlePage'
 import HomePage from './pages/HomePage'
 import ProjectPage from './pages/ProjectPage'
+import client from './services/apollo'
 import RoutePaths from './shared/enums/routes-paths'
 import theme from './theme'
-import { ApolloProvider } from '@apollo/client'
-import client from './services/apollo'
-import { ToastContainer } from 'react-toastify'
 import MyProjectsPage from './pages/MyProjectsPage'
 
 function App() {
+
   return (
     <ApolloProvider client={client}>
       <ThirdwebProvider
+        supportedChains={supportedChains}
         activeChain='mumbai'
         clientId={environment.thirdWebClientId}
         locale={en()}
