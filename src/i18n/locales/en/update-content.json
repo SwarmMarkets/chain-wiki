@@ -9,6 +9,7 @@
     "2": "Sign the transaction to authorize your content update"
   },
   "actions": {
+    "retry": "Retry",
     "cancel": "Cancel"
   }
 }

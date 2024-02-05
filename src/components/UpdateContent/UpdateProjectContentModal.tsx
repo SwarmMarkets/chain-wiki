@@ -5,14 +5,15 @@ import Button from '../ui/Button/Button'
 import Flex from '../ui/Flex'
 import Modal from '../ui/Modal'
 import Text from '../ui/Text'
-import { List, ListItem } from './StepsList'
+import { List, ListItem, ListItemProps } from './StepsList'
 import { TextDescription } from './styled-components'
 
 interface UpdateProjectContentModalProps extends BasicModalProps {
-  steps: Record<Steps, { isSuccess: boolean; isLoading: boolean }>
+  steps: Record<Steps, ListItemProps>
 }
 
-enum Steps {
+// eslint-disable-next-line react-refresh/only-export-components
+export enum Steps {
   PrepareContent = 0,
   UploadToIPFS = 1,
   SignTransaction = 2,
@@ -38,20 +39,22 @@ const UpdateProjectContentModal: React.FC<UpdateProjectContentModalProps> = ({
 
           <List>
             <ListItem
-              loading={steps[Steps.PrepareContent].isLoading}
-              success={steps[Steps.PrepareContent].isSuccess}
+              loading={steps[Steps.PrepareContent].loading}
+              success={steps[Steps.PrepareContent].success}
             >
               {t(`steps.${Steps.PrepareContent}`)}
             </ListItem>
             <ListItem
-              loading={steps[Steps.UploadToIPFS].isLoading}
-              success={steps[Steps.UploadToIPFS].isSuccess}
+              loading={steps[Steps.UploadToIPFS].loading}
+              success={steps[Steps.UploadToIPFS].success}
             >
               {t(`steps.${Steps.UploadToIPFS}`)}
             </ListItem>
             <ListItem
-              loading={steps[Steps.SignTransaction].isLoading}
-              success={steps[Steps.SignTransaction].isSuccess}
+              loading={steps[Steps.SignTransaction].loading}
+              success={steps[Steps.SignTransaction].success}
+              error={steps[Steps.SignTransaction].error}
+              retry={steps[Steps.SignTransaction].retry}
             >
               {t(`steps.${Steps.SignTransaction}`)}
             </ListItem>

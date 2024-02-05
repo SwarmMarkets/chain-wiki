@@ -9,17 +9,20 @@ type CallArgumentsParam<C extends BaseContract> = Parameters<Contract<C>['call']
 
 export const useWeb3Contract = <C extends BaseContract>(contractAddress: string, abi: ContractInterface) => {
   const [txLoading, setTxLoading] = useState(false)
+  const [isTxError, setIsTxError] = useState(false)
   const [result, setResult] = useState()
   const { contract, ...rest } = useContract(contractAddress, abi)
 
   const call = async (method: CallMethodsParam<C>, args: CallArgumentsParam<C>) => {
     try {
+      setIsTxError(false)
       setTxLoading(true)
       const res = await contract?.call(method, args)
       setResult(res)
       
       console.log(res)
     } catch (e) {
+      setIsTxError(true)
       console.log(e)
     } finally {
       setTxLoading(false)
@@ -31,6 +34,7 @@ export const useWeb3Contract = <C extends BaseContract>(contractAddress: string,
     contractState: rest,
     call,
     result,
+    isTxError,
     txLoading,
   }
 }

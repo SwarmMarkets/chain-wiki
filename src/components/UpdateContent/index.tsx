@@ -4,7 +4,8 @@ import { generateIpfsProjectContent } from '@src/shared/utils/ipfs'
 import { useStorageUpload } from '@thirdweb-dev/react'
 import { useTranslation } from 'react-i18next'
 import Button from '../ui/Button/Button'
-import UpdateProjectContentModal from './UpdateProjectContentModal'
+import UpdateProjectContentModal, { Steps } from './UpdateProjectContentModal'
+import { useCallback, useMemo, useState } from 'react'
 
 interface UpdateContentButtonProps {
   projectAddress: string
@@ -15,9 +16,11 @@ const UpdateContentButton: React.FC<UpdateContentButtonProps> = ({
   projectAddress,
   content,
 }) => {
+  const [ipfsUri, setIpfsUri] = useState('')
   const { t } = useTranslation('buttons')
   const { isOpen, open, close } = useModalState(false)
-  const { call, txLoading, result } = useSX1155NFT(projectAddress)
+
+  const { call, txLoading, result, isTxError } = useSX1155NFT(projectAddress)
   const { mutateAsync: upload, isLoading, isSuccess } = useStorageUpload()
 
   const uploadContent = async () => {
@@ -32,24 +35,45 @@ const UpdateContentButton: React.FC<UpdateContentButtonProps> = ({
     return firstUri
   }
 
-  const signTransaction = (uri: string) => {
-    call('setKya', [uri])
-  }
+  const signTransaction = useCallback(
+    (uri: string) => {
+      call('setKya', [uri])
+    },
+    [call]
+  )
 
   const startContentUpdate = async () => {
     open()
     const uri = await uploadContent()
+    setIpfsUri(uri)
     if (uri) signTransaction(uri)
   }
+
+  const steps = useMemo(() => {
+    return {
+      [Steps.PrepareContent]: { success: true, loading: false },
+      [Steps.UploadToIPFS]: { success: isSuccess, loading: isLoading },
+      [Steps.SignTransaction]: {
+        success: !!result,
+        loading: txLoading,
+        error: isTxError,
+        retry: () => signTransaction(ipfsUri),
+      },
+    }
+  }, [
+    ipfsUri,
+    isLoading,
+    isSuccess,
+    isTxError,
+    result,
+    signTransaction,
+    txLoading,
+  ])
 
   return (
     <>
       <UpdateProjectContentModal
-        steps={{
-          0: { isSuccess: true, isLoading: false },
-          1: { isSuccess: isSuccess, isLoading: isLoading },
-          2: { isSuccess: !!result, isLoading: txLoading },
-        }}
+        steps={steps}
         isOpen={isOpen}
         onClose={close}
       />

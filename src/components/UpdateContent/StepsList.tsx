@@ -1,10 +1,14 @@
-import { ChildrenProp } from "@src/shared/types/common-props"
-import Icon from "../ui/Icon"
-import styled from "styled-components"
+import { ChildrenProp } from '@src/shared/types/common-props'
+import Icon from '../ui/Icon'
+import styled from 'styled-components'
+import { RetryButton } from './styled-components'
+import { useTranslation } from 'react-i18next'
 
-interface ListItemProps extends ChildrenProp {
+export interface ListItemProps extends ChildrenProp {
   success: boolean
   loading: boolean
+  error?: boolean
+  retry?(): void
 }
 
 const StyledLi = styled.li`
@@ -21,29 +25,28 @@ const List = styled.ul`
   gap: 1rem;
 `
 
-const ListItem: React.FC<ListItemProps> = ({ loading, success, children }) => {
-  const pending = !loading && !success
+const ListItem: React.FC<ListItemProps> = ({
+  loading,
+  success,
+  error,
+  retry,
+  children,
+}) => {
+  const { t } = useTranslation('updateContent')
+  const iconName = loading ? 'loader' : success ? 'checkbox' : 'emptyCircle'
 
-  if (pending) {
-    return <StyledLi>
-      <Icon mr={2} name="emptyCircle" size={25}/>
+  return (
+    <StyledLi>
+      <Icon mr={2} name={iconName} size={25} />
       {children}
-    </StyledLi>
-  }
 
-  if (loading) {
-    return <StyledLi>
-      <Icon mr={2} name="loader" size={25}/>
-      {children}
+      {error ? (
+        <RetryButton ml={2} onClick={retry}>
+          {t('actions.retry')}
+        </RetryButton>
+      ) : null}
     </StyledLi>
-  }
-
-  if (success) {
-    return <StyledLi>
-      <Icon mr={2} name="checkbox" size={25}/>
-      {children}
-    </StyledLi>
-  }
+  )
 }
 
 export { List, ListItem }
