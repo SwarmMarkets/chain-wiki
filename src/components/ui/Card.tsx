@@ -17,6 +17,7 @@ interface CardProps
     FlexboxProps,
     LayoutProps,
     SpaceProps {
+  onClick?(): void
   title?: string
   to?: string
 }
@@ -36,6 +37,7 @@ const CardRoot = styled.div.withConfig({
 const ChildrenWrapper = styled.div.withConfig({
   shouldForwardProp,
 })<SpaceProps>`
+  height: 100%;
   ${space}
 `
 
@@ -54,11 +56,17 @@ const Title = styled(Text.h2)`
   text-overflow: ellipsis;
 `
 
-const Card: React.FC<CardProps> = ({ title, to, children, ...props }) => {
+const Card: React.FC<CardProps> = ({
+  onClick,
+  title,
+  to,
+  children,
+  ...props
+}) => {
   const theme = useTheme()
 
   return (
-    <CardRoot {...props}>
+    <CardRoot onClick={onClick} {...props}>
       {to ? (
         <StyledLink to={to}>
           <Title
