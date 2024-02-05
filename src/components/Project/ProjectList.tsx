@@ -33,7 +33,7 @@ const ProjectList: React.FC<ProjectListProps> = ({
   projects,
   addProjectCard,
 }) => {
-  const { t } = useTranslation('errors')
+  const { t } = useTranslation(['errors', 'projects'])
   const theme = useTheme()
   const { isOpen, open, close } = useModalState(false)
 
@@ -53,7 +53,7 @@ const ProjectList: React.FC<ProjectListProps> = ({
               $gap='5px'
             >
               <Icon name='plus' size={70} color={theme.palette.borderPrimary} />
-              <Text color={theme.palette.borderPrimary}>Add project</Text>
+              <Text color={theme.palette.borderPrimary}>{t('addProject', { ns: 'projects' })}</Text>
             </Flex>
           </StyledCard>
         )}
