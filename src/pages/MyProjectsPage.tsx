@@ -83,7 +83,7 @@ const MyProjectsPage = () => {
       />
       <Box mt={20}>
         {fullNfts && !skeletonsAreVisible && (
-          <ProjectList addProjectCard projects={fullNfts} />
+          <ProjectList addProjectCard showRole projects={fullNfts} />
         )}
         {skeletonsAreVisible && <ProjectSkeletonList />}
       </Box>

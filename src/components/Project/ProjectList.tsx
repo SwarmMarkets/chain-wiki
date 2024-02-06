@@ -2,10 +2,6 @@ import React from 'react'
 import Grid from '../ui/Grid'
 import Card from '../ui/Card'
 import { NftFullData } from '@src/shared/types/ipfs'
-import {
-  getTextContentFromHtml,
-  limitString,
-} from '@src/shared/utils/stringFormatting'
 import { Link, generatePath } from 'react-router-dom'
 import RoutePaths from '@src/shared/enums/routes-paths'
 import styled, { useTheme } from 'styled-components'
@@ -15,10 +11,12 @@ import Flex from '../ui/Flex'
 import Text from '../ui/Text'
 import useModalState from '@src/hooks/useModalState'
 import CreateProjectModal from '../CreateProject/CreateProjectModal'
+import ProjectCard from './ProjectCard'
 
 interface ProjectListProps {
   projects: NftFullData[]
   addProjectCard?: boolean
+  showRole?: boolean
 }
 
 const StyledLink = styled(Link)`
@@ -32,6 +30,7 @@ const StyledCard = styled(Card)`
 const ProjectList: React.FC<ProjectListProps> = ({
   projects,
   addProjectCard,
+  showRole,
 }) => {
   const { t } = useTranslation(['errors', 'projects'])
   const theme = useTheme()
@@ -53,7 +52,9 @@ const ProjectList: React.FC<ProjectListProps> = ({
               $gap='5px'
             >
               <Icon name='plus' size={70} color={theme.palette.borderPrimary} />
-              <Text color={theme.palette.borderPrimary}>{t('addProject', { ns: 'projects' })}</Text>
+              <Text color={theme.palette.borderPrimary}>
+                {t('addProject', { ns: 'projects' })}
+              </Text>
             </Flex>
           </StyledCard>
         )}
@@ -62,11 +63,7 @@ const ProjectList: React.FC<ProjectListProps> = ({
             to={generatePath(RoutePaths.PROJECT, { projectId: project.id })}
             key={project.id}
           >
-            <Card title={project.name} height='200px'>
-              {project.htmlContent
-                ? limitString(getTextContentFromHtml(project.htmlContent), 300)
-                : t('project.descriptionNotFound')}
-            </Card>
+            <ProjectCard project={project} showRole={showRole} />
           </StyledLink>
         ))}
       </Grid>
