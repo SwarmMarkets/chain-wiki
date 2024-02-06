@@ -1,8 +1,9 @@
-import React, { useMemo } from 'react'
+import React, { MouseEvent, useMemo } from 'react'
 import { NftFullData } from '@src/shared/types/ipfs'
 import { useTranslation } from 'react-i18next'
 import Card from '../ui/Card'
 import {
+  getExplorerUrl,
   getTextContentFromHtml,
   isSameEthereumAddress,
   limitString,
@@ -11,7 +12,8 @@ import Flex from '../ui/Flex'
 import Icon from '../ui/Icon'
 import Text from '../ui/Text'
 import styled, { useTheme } from 'styled-components'
-import { useAddress } from '@thirdweb-dev/react'
+import { shortenAddress, useAddress, useChainId } from '@thirdweb-dev/react'
+import { Link } from 'react-router-dom'
 
 interface ProjectCardProps {
   project: NftFullData
@@ -24,6 +26,13 @@ const Title = styled(Text.h2)`
   text-overflow: ellipsis;
 `
 
+const ExplorerLink = styled(Link)`
+  color: ${({ theme }) => theme.palette.linkPrimary};
+  &:hover {
+    text-decoration: underline;
+  }
+`
+
 const ProjectCard: React.FC<ProjectCardProps> = ({
   project,
   showRole = false,
@@ -31,6 +40,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   const { t } = useTranslation(['errors', 'projects'])
   const theme = useTheme()
   const account = useAddress()
+  const chainId = useChainId()
 
   const role = useMemo(() => {
     if (!showRole) return
@@ -54,6 +64,20 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
     }
   }, [account, project.admins, project.editors, project.issuers, t, showRole])
 
+  const explorerUrl = useMemo(
+    () =>
+      getExplorerUrl({
+        type: 'address',
+        chainId,
+        hash: project.id,
+      }),
+    [chainId, project.id]
+  )
+
+  const handleLinkClick = (event: MouseEvent<HTMLAnchorElement>) => {
+    event.stopPropagation()
+  }
+
   return (
     <Card height='200px'>
       <Flex flexDirection='column' justifyContent='space-between' height='100%'>
@@ -68,9 +92,16 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
               : t('project.descriptionNotFound')}
           </Text.p>
         </div>
-        <Flex justifyContent='end'>
+        <Flex flexDirection='column' alignItems='end' pt={10} $gap='5px'>
+          <ExplorerLink
+            onClick={handleLinkClick}
+            target='_blank'
+            to={explorerUrl}
+          >
+            {shortenAddress(project.id)}
+          </ExplorerLink>
           {role && (
-            <Text color={theme.palette.borderPrimary} pt='10px'>
+            <Text color={theme.palette.borderPrimary}>
               {t('role', { ns: 'projects' })}
               {role}
             </Text>
