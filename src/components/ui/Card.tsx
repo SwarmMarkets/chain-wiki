@@ -28,7 +28,8 @@ const CardRoot = styled.div.withConfig({
   padding: 16px;
   border: 1px solid ${({ theme }) => theme.palette.borderPrimary};
   border-radius: 10px;
-  background: ${({ theme }) => theme.palette.bgPrimary};
+  background: ${({ theme }) => theme.palette.white};
+  box-shadow: 3px 5px 6px rgba(0, 0, 0, 0.1);
   ${flexbox}
   ${layout}
   ${space}
