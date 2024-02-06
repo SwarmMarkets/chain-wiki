@@ -25,7 +25,7 @@ interface CardProps
 const CardRoot = styled.div.withConfig({
   shouldForwardProp,
 })`
-  padding: 16px;
+  padding: 24px;
   border: 1px solid ${({ theme }) => theme.palette.borderPrimary};
   border-radius: 10px;
   background: ${({ theme }) => theme.palette.white};
