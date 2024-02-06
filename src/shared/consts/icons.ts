@@ -8,6 +8,7 @@ const icons = {
   emptyCircle: React.lazy(() => import('@src/assets/icons/emptyCircle.svg?react')),
   plus: React.lazy(() => import('@src/assets/icons/plus.svg?react')),
   document: React.lazy(() => import('@src/assets/icons/document.svg?react')),
+  externalLink: React.lazy(() => import('@src/assets/icons/externalLink.svg?react')),
 };
 
 export default icons;

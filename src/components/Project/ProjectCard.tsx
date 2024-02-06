@@ -98,7 +98,10 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
             target='_blank'
             to={explorerUrl}
           >
-            {shortenAddress(project.id)}
+            <Flex $gap='5px' alignItems='center'>
+              <Icon name='externalLink' color={theme.palette.linkPrimary} />
+              {shortenAddress(project.id, false)}
+            </Flex>
           </ExplorerLink>
           {role && (
             <Text color={theme.palette.borderPrimary}>
