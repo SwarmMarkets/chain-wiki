@@ -53,19 +53,19 @@ const MyProjectsPage = () => {
     } else if (value === ProjectButtonOptions.ADMIN) {
       refetch({
         filter: {
-          or: [{ admins_contains_nocase: [address] }],
+          admins_contains_nocase: [address],
         },
       })
     } else if (value === ProjectButtonOptions.EDITOR) {
       refetch({
         filter: {
-          or: [{ editors_contains_nocase: [address] }],
+          editors_contains_nocase: [address],
         },
       })
     } else {
       refetch({
         filter: {
-          or: [{ issuers_contains_nocase: [address] }],
+          issuers_contains_nocase: [address],
         },
       })
     }
@@ -83,10 +83,7 @@ const MyProjectsPage = () => {
       />
       <Box mt={20}>
         {fullNfts && !skeletonsAreVisible && (
-          <ProjectList
-            addProjectCard
-            projects={fullNfts}
-          />
+          <ProjectList addProjectCard projects={fullNfts} />
         )}
         {skeletonsAreVisible && <ProjectSkeletonList />}
       </Box>
