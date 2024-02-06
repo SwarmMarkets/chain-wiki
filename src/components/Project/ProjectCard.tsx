@@ -13,7 +13,6 @@ import Icon from '../ui/Icon'
 import Text from '../ui/Text'
 import styled, { useTheme } from 'styled-components'
 import { shortenAddress, useAddress, useChainId } from '@thirdweb-dev/react'
-import { Link } from 'react-router-dom'
 
 interface ProjectCardProps {
   project: NftFullData
@@ -26,7 +25,7 @@ const Title = styled(Text.h2)`
   text-overflow: ellipsis;
 `
 
-const ExplorerLink = styled(Link)`
+const ExplorerLink = styled.span`
   color: ${({ theme }) => theme.palette.linkPrimary};
   &:hover {
     text-decoration: underline;
@@ -76,6 +75,8 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
 
   const handleLinkClick = (event: MouseEvent<HTMLAnchorElement>) => {
     event.stopPropagation()
+    event.preventDefault()
+    window.open(explorerUrl, '_blank')
   }
 
   return (
@@ -93,11 +94,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           </Text.p>
         </div>
         <Flex flexDirection='column' alignItems='end' pt={10} $gap='5px'>
-          <ExplorerLink
-            onClick={handleLinkClick}
-            target='_blank'
-            to={explorerUrl}
-          >
+          <ExplorerLink onClick={handleLinkClick}>
             <Flex $gap='5px' alignItems='center'>
               <Icon name='externalLink' color={theme.palette.linkPrimary} />
               {shortenAddress(project.id, false)}
