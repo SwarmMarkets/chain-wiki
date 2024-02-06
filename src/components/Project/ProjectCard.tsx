@@ -79,7 +79,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   }
 
   return (
-    <Card height='200px'>
+    <Card minHeight='200px'>
       <Flex flexDirection='column' justifyContent='space-between' height='100%'>
         <div>
           <Flex alignItems='center' $gap='3px'>
