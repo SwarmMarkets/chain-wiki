@@ -42,7 +42,7 @@ const ArticleList: React.FC<ArticleListProps> = ({
       return
     }
 
-    ;(async () => {
+    (async () => {
       const promises = articles.map(item => storage?.downloadJSON(item.uri))
 
       const ipfsArticlesData = await Promise.all(promises)
