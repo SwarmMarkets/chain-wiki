@@ -98,7 +98,7 @@ const ProjectPage = () => {
         {
           id: 2,
           title: t('tabs.articles'),
-          content: <ArticleList articles={nft.tokens} />
+          content: <ArticleList projectAddress={projectId!} articles={nft.tokens} />
         },
         {
           id: 3,
