@@ -124,7 +124,7 @@ const ArticlePage = () => {
         ) : (
           <>
             <Text.h1 size='24px' weight={700}>
-              Steve Jobs Article ID: {articleId}
+              {token?.ipfsContent?.name}
             </Text.h1>
             <Tabs tabs={tabs} activeTab={activeTab} onChange={onChangeTab} />
           </>
