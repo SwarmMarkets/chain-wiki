@@ -1,16 +1,18 @@
 import RoutePaths from '@src/shared/enums/routes-paths'
-import { generatePath, useParams } from 'react-router-dom'
-import { useEffect, useState } from 'react'
-import Card from '../ui/Card'
-import Flex from '../ui/Flex'
-import Text from '../ui/Text'
+import { IpfsArticleContent, NfTQueryFullData } from '@src/shared/types/ipfs'
 import {
   getTextContentFromHtml,
   limitString,
 } from '@src/shared/utils/stringFormatting'
-import { IpfsArticleContent, NfTQueryFullData } from '@src/shared/types/ipfs'
 import { useStorage } from '@thirdweb-dev/react'
+import { useEffect, useState } from 'react'
+import { generatePath, useParams } from 'react-router-dom'
+import ContentMissing from '../common/ContentMissing'
+import Card from '../ui/Card'
+import Flex from '../ui/Flex'
+import Text from '../ui/Text'
 import ArticleCardSkeleton from './ArticleCardSkeleton'
+import CreateArticleCard from './CreateArticleCard'
 
 interface ArticleListProps {
   articles: NfTQueryFullData['tokens']
@@ -48,8 +50,11 @@ const ArticleList: React.FC<ArticleListProps> = ({ articles }) => {
     })()
   }, [articles, storage])
 
+  const noContent = !articles || articles.length === 0
+
   return (
     <Flex flexDirection='column' $gap='10px'>
+      <CreateArticleCard />
       {ipfsArticleContent
         ? articles?.map((article, index) => (
             <Card
@@ -71,6 +76,7 @@ const ArticleList: React.FC<ArticleListProps> = ({ articles }) => {
         : [...new Array(5)].map((_, index) => (
             <ArticleCardSkeleton key={index} />
           ))}
+        {noContent ? <ContentMissing message='Articles missing' /> : null}
     </Flex>
   )
 }
