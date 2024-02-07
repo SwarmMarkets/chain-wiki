@@ -87,11 +87,25 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
             <Icon name='document' size={40} />
             <Title>{project.name}</Title>
           </Flex>
-          <Text.p mt={10}>
-            {project.htmlContent
-              ? limitString(getTextContentFromHtml(project.htmlContent), 300)
-              : t('project.descriptionNotFound')}
-          </Text.p>
+          {project.htmlContent ? (
+            <Text.p mt={10}>
+              {limitString(getTextContentFromHtml(project.htmlContent), 300)}
+            </Text.p>
+          ) : (
+            <Flex
+              mt={10}
+              height='100%'
+              flexDirection='column'
+              $gap='5px'
+              alignItems='center'
+              justifyContent='center'
+            >
+              <Icon name='empty' size={60} color={theme.palette.gray} />
+              <Text.p color={theme.palette.gray}>
+                {t('project.contentNotFound')}
+              </Text.p>
+            </Flex>
+          )}
         </div>
         <Flex flexDirection='column' alignItems='end' pt={10} $gap='5px'>
           <ExplorerLink onClick={handleLinkClick}>

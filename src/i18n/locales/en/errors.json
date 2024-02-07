@@ -4,6 +4,6 @@
     "incorrectWalletAddress": "Incorrect wallet address"
   },
   "project": {
-    "descriptionNotFound": "Description is not found"
+    "contentNotFound": "Content is not found"
   }
 }
