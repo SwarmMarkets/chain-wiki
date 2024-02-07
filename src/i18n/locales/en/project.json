@@ -5,7 +5,7 @@
     "edit": "Edit project"
   },
   "createProject": {
-    "title": "Create project",
+    "title": "Create Project",
     "form": {
       "name": "Project name",
       "symbol": "Project symbol",

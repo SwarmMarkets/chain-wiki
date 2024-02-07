@@ -15,10 +15,11 @@ import ArticleCardSkeleton from './ArticleCardSkeleton'
 import CreateArticleCard from './CreateArticleCard'
 
 interface ArticleListProps {
+  projectAddress: string
   articles: NfTQueryFullData['tokens']
 }
 
-const ArticleList: React.FC<ArticleListProps> = ({ articles }) => {
+const ArticleList: React.FC<ArticleListProps> = ({ articles, projectAddress }) => {
   const storage = useStorage()
   const { projectId } = useParams()
   const [ipfsArticleContent, setIpfsArticleContent] = useState<
@@ -54,7 +55,7 @@ const ArticleList: React.FC<ArticleListProps> = ({ articles }) => {
 
   return (
     <Flex flexDirection='column' $gap='10px'>
-      <CreateArticleCard />
+      <CreateArticleCard projectAddress={projectAddress} />
       {ipfsArticleContent
         ? articles?.map((article, index) => (
             <Card

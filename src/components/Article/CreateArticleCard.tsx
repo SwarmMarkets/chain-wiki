@@ -5,18 +5,43 @@ import Text from '../ui/Text'
 import styled, { useTheme } from 'styled-components'
 import Icon from '../ui/Icon'
 import Flex from '../ui/Flex'
+import { useSX1155NFT } from '@src/hooks/contracts/useSX1155NFT'
+import { useAddress } from '@thirdweb-dev/react'
 
-const StyledCard = styled(Card)`
+interface StyledCardProps {
+  $disabled: boolean
+}
+
+const StyledCard = styled(Card)<StyledCardProps>`
   cursor: pointer;
+  ${({ $disabled }) => $disabled && 'opacity: 0.4; filter: alpha(opacity=40);'}
 `
 
-const CreateArticleCard: React.FC = () => {
+interface CreateArticleCardProps {
+  projectAddress: string
+}
+
+const CreateArticleCard: React.FC<CreateArticleCardProps> = ({ projectAddress }) => {
   const { t } = useTranslation('article')
   const theme = useTheme()
 
+  const address = useAddress()
+  const { call, txLoading } = useSX1155NFT(projectAddress)
+
+  const createNFTToken = () => {
+    if (!address) return
+    const to = address
+    const amount = 1
+    const tokenURI = ''
+    const data = '0x'
+    return call('mint', [to, amount, tokenURI, data])
+  }
+
+  const icon = txLoading ? 'loader' : 'plus'
+
   return (
     <>
-      <StyledCard>
+      <StyledCard onClick={createNFTToken} $disabled={txLoading}>
         <Flex
           flexDirection='column'
           justifyContent='center'
@@ -24,7 +49,7 @@ const CreateArticleCard: React.FC = () => {
           height='100%'
           $gap='5px'
         >
-          <Icon name='plus' size={50} color={theme.palette.borderPrimary} />
+          <Icon name={icon} size={50} color={theme.palette.borderPrimary} />
           <Text mt={2} color={theme.palette.borderPrimary}>{t('addArticle')}</Text>
         </Flex>
       </StyledCard>
