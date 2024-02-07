@@ -9,6 +9,7 @@ export interface IpfsProjectContent {
   name: string
   address: string
   htmlContent: string
+  error?: string
 }
 
 export interface IpfsArticleContent {
@@ -16,6 +17,7 @@ export interface IpfsArticleContent {
   address: string
   tokenId: string
   htmlContent: string
+  error?: string
 }
 
 export type NFTsQueryFullData = NfTsQuery['nfts'][0] & IpfsProjectContent
