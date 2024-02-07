@@ -26,7 +26,7 @@ const useNFT = (id: QueryNftArgs['id']) => {
           setNftData({ ...data.nft, ...ipfsContent })
           return
         }
-        setNftData(data?.nft as NfTQueryFullData)
+        data?.nft && setNftData(data?.nft)
       },
     }
   )
