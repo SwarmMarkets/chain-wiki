@@ -14,7 +14,7 @@ export interface IpfsProjectContent {
 export interface IpfsArticleContent {
   name: string
   address: string
-  tokenId: string
+  tokenId: number
   htmlContent: string
 }
 

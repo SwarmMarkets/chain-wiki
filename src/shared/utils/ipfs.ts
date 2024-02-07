@@ -7,7 +7,7 @@ const initialProjectContent = {
 }
 
 const initialArticleContent = {
-  tokenId: '',
+  tokenId: 0,
   ...initialProjectContent,
 }
 

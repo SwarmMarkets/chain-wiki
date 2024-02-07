@@ -1,18 +1,30 @@
 import { useSX1155NFT } from '@src/hooks/contracts/useSX1155NFT'
 import useModalState from '@src/hooks/useModalState'
-import { generateIpfsProjectContent } from '@src/shared/utils/ipfs'
+import { generateIpfsArticleContent, generateIpfsProjectContent } from '@src/shared/utils/ipfs'
 import { useStorageUpload } from '@thirdweb-dev/react'
+import { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import Button from '../ui/Button/Button'
-import UpdateProjectContentModal, { Steps } from './UpdateProjectContentModal'
-import { useCallback, useMemo, useState } from 'react'
+import UpdateContentModal, { Steps } from './UpdateContentModal'
 
-interface UpdateContentButtonProps {
-  projectAddress: string
-  content: string
+interface ProjectProps {
+  contentType: 'project';
+  tokenId?: never; // `tokenId` is not applicable for projects, so it's never present.
+}
+
+interface ArticleProps {
+  contentType: 'article';
+  tokenId: number; // For articles, `tokenId` is required.
+}
+
+type UpdateContentButtonProps = (ProjectProps | ArticleProps) & {
+  projectAddress: string;
+  content: string;
 }
 
 const UpdateContentButton: React.FC<UpdateContentButtonProps> = ({
+  contentType,
+  tokenId,
   projectAddress,
   content,
 }) => {
@@ -24,11 +36,21 @@ const UpdateContentButton: React.FC<UpdateContentButtonProps> = ({
   const { mutateAsync: upload, isLoading, isSuccess } = useStorageUpload()
 
   const uploadContent = async () => {
-    const ipfsContent = generateIpfsProjectContent({
-      name: projectAddress,
-      address: projectAddress,
-      htmlContent: content,
-    })
+    let ipfsContent
+    if (contentType === 'project') {
+      ipfsContent = generateIpfsProjectContent({
+        name: projectAddress,
+        address: projectAddress,
+        htmlContent: content,
+      })
+    } else {
+      ipfsContent = generateIpfsArticleContent({
+        tokenId: tokenId,
+        name: projectAddress,
+        address: projectAddress,
+        htmlContent: content,
+      })
+    }
     const filesToUpload = [ipfsContent]
     const uris = await upload({ data: filesToUpload })
     const firstUri = uris[0]
@@ -37,9 +59,13 @@ const UpdateContentButton: React.FC<UpdateContentButtonProps> = ({
 
   const signTransaction = useCallback(
     (uri: string) => {
-      call('setKya', [uri])
+      if (contentType === 'project') {
+        return call('setKya', [uri])
+      } else {
+        return call('setTokenKya', [tokenId, uri])
+      }
     },
-    [call]
+    [call, contentType, tokenId]
   )
 
   const startContentUpdate = async () => {
@@ -72,7 +98,8 @@ const UpdateContentButton: React.FC<UpdateContentButtonProps> = ({
 
   return (
     <>
-      <UpdateProjectContentModal
+      <UpdateContentModal
+        contentType={contentType}
         steps={steps}
         isOpen={isOpen}
         onClose={close}

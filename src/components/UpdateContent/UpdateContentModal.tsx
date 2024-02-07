@@ -8,9 +8,13 @@ import Text from '../ui/Text'
 import { List, ListItem, ListItemProps } from './StepsList'
 import { TextDescription } from './styled-components'
 
+export type ContentType = 'project' | 'article'
+
 interface UpdateProjectContentModalProps extends BasicModalProps {
+  contentType: ContentType
   steps: Record<Steps, ListItemProps>
 }
+
 
 // eslint-disable-next-line react-refresh/only-export-components
 export enum Steps {
@@ -19,12 +23,17 @@ export enum Steps {
   SignTransaction = 2,
 }
 
-const UpdateProjectContentModal: React.FC<UpdateProjectContentModalProps> = ({
+const UpdateContentModal: React.FC<UpdateProjectContentModalProps> = ({
+  contentType,
   steps,
   onClose,
   isOpen,
 }) => {
   const { t } = useTranslation('updateContent')
+
+  const isProject = contentType === 'project'
+  const title = isProject ? t('project.title') : t('article.title')
+  const description = isProject? t('project.title') : t('article.title')
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} maxWidth='500px' width='100%'>
@@ -34,8 +43,8 @@ const UpdateProjectContentModal: React.FC<UpdateProjectContentModalProps> = ({
         minHeight='inherit'
       >
         <Box>
-          <Text.h1 my={3}>{t('project.title')}</Text.h1>
-          <TextDescription>{t('project.description')}</TextDescription>
+          <Text.h1 my={3}>{title}</Text.h1>
+          <TextDescription>{description}</TextDescription>
 
           <List>
             <ListItem
@@ -67,4 +76,4 @@ const UpdateProjectContentModal: React.FC<UpdateProjectContentModalProps> = ({
   )
 }
 
-export default UpdateProjectContentModal
+export default UpdateContentModal

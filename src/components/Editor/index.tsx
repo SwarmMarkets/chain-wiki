@@ -94,6 +94,7 @@ const Editor: React.FC<EditorProps> = ({
         <Flex justifyContent='flex-end'>
           <RequirePermissions projectAddress={projectAddress} canUpdateContent>
             <UpdateContentButton
+              contentType="project"
               projectAddress={projectAddress}
               content={currContent}
             />
