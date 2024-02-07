@@ -1,4 +1,4 @@
-import { NfTsQuery, NftQuery } from '@src/queries/gql/graphql'
+import { NfTsQuery, NftQuery, TokenQuery } from '@src/queries/gql/graphql'
 
 export interface IpfsProjectContent {
   name: string
@@ -17,4 +17,8 @@ export type NfTsQueryFullData = NfTsQuery['nfts'][0] & IpfsProjectContent
 
 export type NfTQueryFullData = NftQuery['nft'] & {
   ipfsContent?: IpfsProjectContent
+}
+
+export type TokenQueryFullData = TokenQuery['token'] & {
+  ipfsContent?: IpfsArticleContent
 }
