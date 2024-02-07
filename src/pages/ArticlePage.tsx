@@ -17,6 +17,7 @@ import History from '@src/components/History'
 import { Tab } from '@src/shared/types/ui-components'
 import useToken from '@src/hooks/subgraph/useToken'
 import ArticleContentSkeleton from '@src/components/Article/ArticleContentSkeleton'
+import ContentMissing from '@src/components/common/ContentMissing'
 
 const ArticleWrapper = styled.div`
   display: flex;
@@ -82,12 +83,14 @@ const ArticlePage = () => {
         {
           id: 1,
           title: t('tabs.read'),
-          content: (
+          content: token.ipfsContent?.htmlContent ? (
             <HtmlRender
               onMount={onMountContent}
               ref={contentRef}
               html={token.ipfsContent.htmlContent}
             />
+          ) : (
+            <ContentMissing message='Article content missing' />
           ),
         },
         {
