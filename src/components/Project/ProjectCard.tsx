@@ -1,7 +1,6 @@
 import React, { MouseEvent, useMemo } from 'react'
 import { NFTsQueryFullData } from '@src/shared/types/ipfs'
 import { useTranslation } from 'react-i18next'
-import Card from '../ui/Card'
 import {
   getExplorerUrl,
   getTextContentFromHtml,
@@ -11,26 +10,14 @@ import {
 import Flex from '../ui/Flex'
 import Icon from '../ui/Icon'
 import Text from '../ui/Text'
-import styled, { useTheme } from 'styled-components'
+import { useTheme } from 'styled-components'
 import { shortenAddress, useAddress, useChainId } from '@thirdweb-dev/react'
+import { ExplorerLink, StyledCard, Title } from './styled-components'
 
 interface ProjectCardProps {
   project: NFTsQueryFullData
   showRole?: boolean
 }
-
-const Title = styled(Text.h2)`
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-`
-
-const ExplorerLink = styled.span`
-  color: ${({ theme }) => theme.palette.linkPrimary};
-  &:hover {
-    text-decoration: underline;
-  }
-`
 
 const ProjectCard: React.FC<ProjectCardProps> = ({
   project,
@@ -80,7 +67,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   }
 
   return (
-    <Card minHeight='200px'>
+    <StyledCard minHeight='200px'>
       <Flex flexDirection='column' justifyContent='space-between' height='100%'>
         <div>
           <Flex alignItems='center' $gap='3px'>
@@ -122,7 +109,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           )}
         </Flex>
       </Flex>
-    </Card>
+    </StyledCard>
   )
 }
 
