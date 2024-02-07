@@ -93,7 +93,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
             </Text.p>
           ) : (
             <Flex
-              mt={10}
               height='100%'
               flexDirection='column'
               $gap='5px'

@@ -11,6 +11,7 @@ const POLL_INTERVAL = 5000
 const useNFT = (id: QueryNftArgs['id']) => {
   const storage = useStorage()
   const [nftData, setNftData] = useState<NfTQueryFullData | null>(null)
+
   const { loading, error, fetchMore, networkStatus, refetch } = useQuery(
     NFTQuery,
     {
@@ -23,7 +24,7 @@ const useNFT = (id: QueryNftArgs['id']) => {
       async onCompleted(data) {
         if (data.nft?.uri) {
           const ipfsContent = await storage?.downloadJSON(data.nft?.uri)
-          setNftData({ ...data.nft, ...ipfsContent })
+          setNftData({ ...data.nft, ipfsContent })
           return
         }
         data?.nft && setNftData(data?.nft)

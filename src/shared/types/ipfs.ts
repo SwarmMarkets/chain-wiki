@@ -15,4 +15,6 @@ export interface IpfsArticleContent {
 
 export type NfTsQueryFullData = NfTsQuery['nfts'][0] & IpfsProjectContent
 
-export type NfTQueryFullData = NftQuery['nft'] & Partial<IpfsProjectContent>
+export type NfTQueryFullData = NftQuery['nft'] & {
+  ipfsContent?: IpfsProjectContent
+}
