@@ -1,5 +1,5 @@
 import RoutePaths from '@src/shared/enums/routes-paths'
-import { IpfsArticleContent, NfTQueryFullData } from '@src/shared/types/ipfs'
+import { IpfsArticleContent, NFTQueryFullData } from '@src/shared/types/ipfs'
 import {
   getTextContentFromHtml,
   limitString,
@@ -16,7 +16,7 @@ import CreateArticleCard from './CreateArticleCard'
 
 interface ArticleListProps {
   projectAddress: string
-  articles: NfTQueryFullData['tokens']
+  articles: NFTQueryFullData['tokens']
 }
 
 const ArticleList: React.FC<ArticleListProps> = ({ articles, projectAddress }) => {

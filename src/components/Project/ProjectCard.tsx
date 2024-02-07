@@ -1,5 +1,5 @@
 import React, { MouseEvent, useMemo } from 'react'
-import { NfTsQueryFullData } from '@src/shared/types/ipfs'
+import { NFTsQueryFullData } from '@src/shared/types/ipfs'
 import { useTranslation } from 'react-i18next'
 import Card from '../ui/Card'
 import {
@@ -15,7 +15,7 @@ import styled, { useTheme } from 'styled-components'
 import { shortenAddress, useAddress, useChainId } from '@thirdweb-dev/react'
 
 interface ProjectCardProps {
-  project: NfTsQueryFullData
+  project: NFTsQueryFullData
   showRole?: boolean
 }
 

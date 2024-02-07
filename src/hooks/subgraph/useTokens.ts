@@ -1,30 +1,30 @@
 import { NetworkStatus, QueryHookOptions, useQuery } from '@apollo/client'
 import { useMemo, useState } from 'react'
 
-import { NFTsQuery } from '@src/queries'
 import {
-  NfTsQuery as NFTsQueryGQL,
-  NfTsQueryVariables,
+  TokensQuery as TokensQueryGQL,
+  TokensQueryVariables,
 } from '@src/queries/gql/graphql'
+import { TokensQueryFullData } from '@src/shared/types/ipfs'
 import { useStorage } from '@thirdweb-dev/react'
-import { NFTsQueryFullData } from '@src/shared/types/ipfs'
+import { TokensQuery } from '@src/queries'
 
 const PAGE_LIMIT = 10
 const POLL_INTERVAL = 15000
 
-interface UseNftConfig {
+interface UseTokensConfig {
   fetchFullData?: boolean
 }
 
-const useNFTs = (
-  options?: QueryHookOptions<NFTsQueryGQL, NfTsQueryVariables>,
-  config?: UseNftConfig
+const useTokens = (
+  options?: QueryHookOptions<TokensQueryGQL, TokensQueryVariables>,
+  config?: UseTokensConfig
 ) => {
   const storage = useStorage()
-  const [fullData, setFullData] = useState<NFTsQueryFullData[] | null>(null)
+  const [fullData, setFullData] = useState<TokensQueryFullData[] | null>(null)
 
   const { data, loading, error, fetchMore, networkStatus, refetch } = useQuery(
-    NFTsQuery,
+    TokensQuery,
     {
       fetchPolicy: 'cache-first',
       notifyOnNetworkStatusChange: true,
@@ -40,11 +40,13 @@ const useNFTs = (
           return
         }
 
-        const promises = data.nfts.map(item => storage?.downloadJSON(item.uri))
+        const promises = data.tokens.map(item =>
+          storage?.downloadJSON(item.uri)
+        )
 
         const additionalData = await Promise.all(promises)
 
-        const fullData = data.nfts.map((item, index) => {
+        const fullData = data.tokens.map((item, index) => {
           if (additionalData[index].error) {
             return item
           }
@@ -62,9 +64,9 @@ const useNFTs = (
 
   return useMemo(
     () => ({
-      nfts: data?.nfts,
-      fullNfts: fullData,
-      loadingNfts:
+      tokens: data?.tokens,
+      fullTokens: fullData,
+      loadingTokens:
         loading ||
         ![
           NetworkStatus.ready,
@@ -73,11 +75,11 @@ const useNFTs = (
         ].includes(networkStatus),
       error,
       refetch,
-      refetchingNfts: [NetworkStatus.poll].includes(networkStatus),
-      fetchMoreNfts: fetchMore,
+      refetchingTokens: [NetworkStatus.poll].includes(networkStatus),
+      fetchMoreTokens: fetchMore,
     }),
-    [data?.nfts, error, fetchMore, fullData, loading, networkStatus, refetch]
+    [data?.tokens, error, fetchMore, fullData, loading, networkStatus, refetch]
   )
 }
 
-export default useNFTs
+export default useTokens

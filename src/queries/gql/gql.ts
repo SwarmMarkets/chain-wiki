@@ -18,6 +18,7 @@ const documents = {
     "\n  query NFTURIUpdates(\n    $limit: Int,\n    $skip: Int = 0,\n    $filter: NFTURIUpdate_filter\n    $orderBy: NFTURIUpdate_orderBy\n    $orderDirection: OrderDirection\n  ) {\n    nfturiupdates(\n      where: $filter\n      first: $limit\n      skip: $skip\n      orderBy: $orderBy\n      orderDirection: $orderDirection\n    ) {\n      id\n      newURI\n      previousURI\n      updatedAt\n    }\n  }\n": types.NfturiUpdatesDocument,
     "\n  query NFTs(\n    $limit: Int,\n    $skip: Int = 0,\n    $filter: NFT_filter\n    $orderBy: NFT_orderBy\n    $orderDirection: OrderDirection\n  ) {\n    nfts(\n      where: $filter\n      first: $limit\n      skip: $skip\n      orderBy: $orderBy\n      orderDirection: $orderDirection\n    ) {\n      id\n      name\n      symbol\n      createdAt\n      updatedAt\n      creator\n      uri\n      admins\n      issuers\n      agents\n      editors\n    }\n  }\n": types.NfTsDocument,
     "\n  query Token($id: ID!) {\n    token(id: $id) {\n      createdAt\n      id\n      updatedAt\n      uri\n      nft {\n        createdAt\n        creator\n        id\n        name\n        symbol\n        updatedAt\n        uri\n      }\n    }\n  }\n": types.TokenDocument,
+    "\n  query Tokens(\n    $limit: Int\n    $skip: Int = 0\n    $filter: Token_filter\n    $orderBy: Token_orderBy\n    $orderDirection: OrderDirection\n  ) {\n    tokens(\n      where: $filter\n      first: $limit\n      skip: $skip\n      orderBy: $orderBy\n      orderDirection: $orderDirection\n    ) {\n      id\n      updatedAt\n      createdAt\n      uri\n      nft {\n        name\n        symbol\n        id\n      }\n    }\n  }\n": types.TokensDocument,
 };
 
 /**
@@ -54,6 +55,10 @@ export function graphql(source: "\n  query NFTs(\n    $limit: Int,\n    $skip: I
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  query Token($id: ID!) {\n    token(id: $id) {\n      createdAt\n      id\n      updatedAt\n      uri\n      nft {\n        createdAt\n        creator\n        id\n        name\n        symbol\n        updatedAt\n        uri\n      }\n    }\n  }\n"): (typeof documents)["\n  query Token($id: ID!) {\n    token(id: $id) {\n      createdAt\n      id\n      updatedAt\n      uri\n      nft {\n        createdAt\n        creator\n        id\n        name\n        symbol\n        updatedAt\n        uri\n      }\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query Tokens(\n    $limit: Int\n    $skip: Int = 0\n    $filter: Token_filter\n    $orderBy: Token_orderBy\n    $orderDirection: OrderDirection\n  ) {\n    tokens(\n      where: $filter\n      first: $limit\n      skip: $skip\n      orderBy: $orderBy\n      orderDirection: $orderDirection\n    ) {\n      id\n      updatedAt\n      createdAt\n      uri\n      nft {\n        name\n        symbol\n        id\n      }\n    }\n  }\n"): (typeof documents)["\n  query Tokens(\n    $limit: Int\n    $skip: Int = 0\n    $filter: Token_filter\n    $orderBy: Token_orderBy\n    $orderDirection: OrderDirection\n  ) {\n    tokens(\n      where: $filter\n      first: $limit\n      skip: $skip\n      orderBy: $orderBy\n      orderDirection: $orderDirection\n    ) {\n      id\n      updatedAt\n      createdAt\n      uri\n      nft {\n        name\n        symbol\n        id\n      }\n    }\n  }\n"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};
