@@ -7,6 +7,7 @@ import Icon from '../ui/Icon'
 import Flex from '../ui/Flex'
 import { useSX1155NFT } from '@src/hooks/contracts/useSX1155NFT'
 import { useAddress } from '@thirdweb-dev/react'
+import Box from '../ui/Box'
 
 interface StyledCardProps {
   $disabled: boolean
@@ -21,7 +22,9 @@ interface CreateArticleCardProps {
   projectAddress: string
 }
 
-const CreateArticleCard: React.FC<CreateArticleCardProps> = ({ projectAddress }) => {
+const CreateArticleCard: React.FC<CreateArticleCardProps> = ({
+  projectAddress,
+}) => {
   const { t } = useTranslation('article')
   const theme = useTheme()
 
@@ -49,8 +52,12 @@ const CreateArticleCard: React.FC<CreateArticleCardProps> = ({ projectAddress })
           height='100%'
           $gap='5px'
         >
-          <Icon name={icon} size={50} color={theme.palette.borderPrimary} />
-          <Text mt={2} color={theme.palette.borderPrimary}>{t('addArticle')}</Text>
+          <Box height={50}>
+            <Icon name={icon} size={50} color={theme.palette.borderPrimary} />
+          </Box>
+          <Text mt={2} color={theme.palette.borderPrimary}>
+            {t('addArticle')}
+          </Text>
         </Flex>
       </StyledCard>
     </>
