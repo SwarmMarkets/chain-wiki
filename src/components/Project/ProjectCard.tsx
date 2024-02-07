@@ -19,6 +19,13 @@ interface ProjectCardProps {
   showRole?: boolean
 }
 
+const StyledCard = styled(Card)`
+  transition: box-shadow 0.2s;
+  &:hover {
+    box-shadow: 3px 5px 6px rgba(0, 0, 0, 0.2);
+  }
+`
+
 const Title = styled(Text.h2)`
   overflow: hidden;
   white-space: nowrap;
@@ -80,7 +87,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   }
 
   return (
-    <Card minHeight='200px'>
+    <StyledCard minHeight='200px'>
       <Flex flexDirection='column' justifyContent='space-between' height='100%'>
         <div>
           <Flex alignItems='center' $gap='3px'>
@@ -122,7 +129,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           )}
         </Flex>
       </Flex>
-    </Card>
+    </StyledCard>
   )
 }
 
