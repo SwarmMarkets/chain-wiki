@@ -16,6 +16,7 @@ import { getExplorerUrl } from '@src/shared/utils'
 import { useChainId } from '@thirdweb-dev/react'
 import Flex from '@src/components/ui/Flex'
 import Icon from '@src/components/ui/Icon'
+import useProjectPermissions from '@src/hooks/permissions/useProjectPermissions'
 
 const ProjectWrapper = styled.div`
   display: flex;
@@ -57,6 +58,7 @@ const ProjectPage = () => {
   const chainId = useChainId()
   const theme = useTheme()
   const { t } = useTranslation('project')
+  const { permissions } = useProjectPermissions(projectId)
   const [contentElem, setContentElem] = useState<HTMLDivElement | null>(null)
   const [activeProjectTab, setActiveProjectTab] = useState(1)
   const { nft, loadingNft, refetchingNft } = useNFT(projectId || '')
@@ -80,8 +82,9 @@ const ProjectPage = () => {
     setActiveProjectTab(tab.id)
   }
 
-  const projectTabs = nft
-    ? [
+  const projectTabs = useMemo(() => {
+    if (nft) {
+      const tabs = [
         {
           id: 1,
           title: t('tabs.project'),
@@ -98,9 +101,14 @@ const ProjectPage = () => {
         {
           id: 2,
           title: t('tabs.articles'),
-          content: <ArticleList projectAddress={projectId!} articles={nft.tokens} />
+          content: (
+            <ArticleList projectAddress={projectId!} articles={nft.tokens} />
+          ),
         },
-        {
+      ]
+
+      permissions.canUpdateContent &&
+        tabs.push({
           id: 3,
           title: t('tabs.edit'),
           content: (
@@ -109,9 +117,13 @@ const ProjectPage = () => {
               initialContent={nft.ipfsContent?.htmlContent || ''}
             />
           ),
-        },
-      ]
-    : []
+        })
+
+      return tabs
+    } else {
+      return []
+    }
+  }, [nft, permissions.canUpdateContent, projectId, t])
 
   return (
     <ProjectWrapper>
