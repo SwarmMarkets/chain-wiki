@@ -52,7 +52,7 @@ const ArticleList: React.FC<ArticleListProps> = ({
   }, [articles, storage])
 
   const noContent = !articles || articles.length === 0
-  console.log(articles)
+
   return (
     <Flex flexDirection='column' $gap='10px'>
       <CreateArticleCard projectAddress={projectAddress} />

@@ -49,7 +49,7 @@ const ContentPlaceholder = styled.div`
 `
 
 const ArticlePage = () => {
-  const { articleId } = useParams()
+  const { articleId, projectId } = useParams()
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
   const location = useLocation()
@@ -99,7 +99,7 @@ const ArticlePage = () => {
           content: (
             <Editor
               initialContent={token.ipfsContent?.htmlContent || ''}
-              projectAddress={''}
+              projectAddress={projectId || ''}
             />
           ),
         },
@@ -110,8 +110,8 @@ const ArticlePage = () => {
         },
       ]
     : []
-  console.log(token)
-  return (
+
+    return (
     <ArticleWrapper>
       {activeTab === 1 && contentElem ? (
         <StyledContent contentElem={contentElem} />
