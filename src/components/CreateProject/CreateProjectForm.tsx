@@ -21,7 +21,7 @@ const CreateProjectForm = () => {
     handleSubmit,
     formState: { errors }
   } = useForm<FormInputs>()
-  const { t } = useTranslation('createProject')
+  const { t } = useTranslation('project', { keyPrefix: 'createProject' })
 
   const { call, txLoading } = useSX1155NFTFactory()
 
