@@ -6,7 +6,7 @@ import {
 } from '@src/shared/utils/stringFormatting'
 import { useStorage } from '@thirdweb-dev/react'
 import { useEffect, useState } from 'react'
-import { generatePath, useParams } from 'react-router-dom'
+import { Link, generatePath, useParams } from 'react-router-dom'
 import ContentMissing from '../common/ContentMissing'
 import Card from '../ui/Card'
 import Flex from '../ui/Flex'
@@ -16,6 +16,8 @@ import CreateArticleCard from './CreateArticleCard'
 import { useTheme } from 'styled-components'
 import Icon from '../ui/Icon'
 import { useTranslation } from 'react-i18next'
+import useProjectPermissions from '@src/hooks/permissions/useProjectPermissions'
+import Button from '../ui/Button/Button'
 
 interface ArticleListProps {
   projectAddress: string
@@ -29,17 +31,18 @@ const ArticleList: React.FC<ArticleListProps> = ({
   const storage = useStorage()
   const { projectId } = useParams()
   const theme = useTheme()
-  const { t } = useTranslation('errors')
+  const { t } = useTranslation(['errors', 'article'])
   const [ipfsArticleContent, setIpfsArticleContent] = useState<
     IpfsArticleContent[] | null
   >(null)
+  const { permissions } = useProjectPermissions(projectId)
 
   useEffect(() => {
     if (!articles) {
       return
     }
 
-    (async () => {
+    ;(async () => {
       const promises = articles.map(item => storage?.downloadJSON(item.uri))
 
       const ipfsArticlesData = await Promise.all(promises)
@@ -49,7 +52,7 @@ const ArticleList: React.FC<ArticleListProps> = ({
   }, [articles, storage])
 
   const noContent = !articles || articles.length === 0
-  console.log(ipfsArticleContent)
+  console.log(articles)
   return (
     <Flex flexDirection='column' $gap='10px'>
       <CreateArticleCard projectAddress={projectAddress} />
@@ -75,15 +78,27 @@ const ArticleList: React.FC<ArticleListProps> = ({
               </Card>
             ) : (
               <Card>
-                <Flex $gap='8px' alignItems='center'>
-                  <Icon
-                    name='empty'
-                    size={30}
-                    color={theme.palette.borderPrimary}
-                  />
-                  <Text.p color={theme.palette.borderPrimary}>
-                    {t('article.pendingDetails')}
-                  </Text.p>
+                <Flex justifyContent='space-between'>
+                  <Flex $gap='8px' alignItems='center'>
+                    <Icon
+                      name='empty'
+                      size={30}
+                      color={theme.palette.borderPrimary}
+                    />
+                    <Text.p color={theme.palette.borderPrimary}>
+                      {t('article.pendingDetails')}
+                    </Text.p>
+                  </Flex>
+                  {permissions.canUpdateContent && (
+                    <Link
+                      to={`${generatePath(
+                        RoutePaths.PROJECT + RoutePaths.ARTICLE,
+                        { projectId, articleId: article.id }
+                      )}?tab=2`}
+                    >
+                      <Button>{t('updateArticle', { ns: 'article' })}</Button>
+                    </Link>
+                  )}
                 </Flex>
               </Card>
             )

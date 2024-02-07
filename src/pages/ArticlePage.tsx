@@ -78,7 +78,7 @@ const ArticlePage = () => {
     navigate({ search: `?${params}` }, { replace: true })
   }
 
-  const tabs = token?.ipfsContent
+  const tabs = token
     ? [
         {
           id: 1,
@@ -98,7 +98,7 @@ const ArticlePage = () => {
           title: t('tabs.edit'),
           content: (
             <Editor
-              initialContent={token.ipfsContent.htmlContent}
+              initialContent={token.ipfsContent?.htmlContent || ''}
               projectAddress={''}
             />
           ),
@@ -110,7 +110,7 @@ const ArticlePage = () => {
         },
       ]
     : []
-
+  console.log(token)
   return (
     <ArticleWrapper>
       {activeTab === 1 && contentElem ? (
