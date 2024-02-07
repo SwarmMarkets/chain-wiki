@@ -98,12 +98,7 @@ const ProjectPage = () => {
         {
           id: 2,
           title: t('tabs.articles'),
-          content:
-            nft.tokens && nft.tokens.length > 0 ? (
-              <ArticleList articles={nft.tokens} />
-            ) : (
-              <ContentMissing message='Articles missing' />
-            ),
+          content: <ArticleList articles={nft.tokens} />
         },
         {
           id: 3,
