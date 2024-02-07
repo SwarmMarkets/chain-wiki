@@ -1,5 +1,5 @@
-import { useRef, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useMemo, useRef, useState } from 'react'
+import { Link, useParams } from 'react-router-dom'
 import styled, { useTheme } from 'styled-components'
 import Content from '@src/components/Content'
 import Editor from '@src/components/Editor'
@@ -12,6 +12,10 @@ import { Tab } from '@src/shared/types/ui-components'
 import useNFT from '@src/hooks/subgraph/useNFT'
 import ProjectContentSkeleton from '@src/components/Project/ProjectContentSkeleton'
 import ContentMissing from '@src/components/common/ContentMissing'
+import { getExplorerUrl } from '@src/shared/utils'
+import { useChainId } from '@thirdweb-dev/react'
+import Flex from '@src/components/ui/Flex'
+import Icon from '@src/components/ui/Icon'
 
 const ProjectWrapper = styled.div`
   display: flex;
@@ -42,15 +46,29 @@ const ContentPlaceholder = styled.div`
   word-wrap: break-word;
 `
 
+const ExplorerLink = styled(Link)`
+  &:hover {
+    text-decoration: underline;
+  }
+`
+
 const ProjectPage = () => {
   const { projectId } = useParams()
-
+  const chainId = useChainId()
   const theme = useTheme()
   const { t } = useTranslation('project')
   const [contentElem, setContentElem] = useState<HTMLDivElement | null>(null)
   const [activeProjectTab, setActiveProjectTab] = useState(1)
   const { nft, loadingNft, refetchingNft } = useNFT(projectId || '')
-
+  const explorerUrl = useMemo(
+    () =>
+      getExplorerUrl({
+        type: 'address',
+        chainId,
+        hash: projectId,
+      }),
+    [chainId, projectId]
+  )
   const contentRef = useRef<HTMLDivElement>(null)
   const showSkeleton = loadingNft && !refetchingNft
 
@@ -112,9 +130,18 @@ const ProjectPage = () => {
           <ProjectContentSkeleton />
         ) : (
           <>
-            <Text.h1 size={theme.fontSizes.large} weight={700}>
-              {nft?.name}
-            </Text.h1>
+            <Flex $gap='15px' alignItems='end'>
+              <Text.h1 size={theme.fontSizes.large} weight={700}>
+                {nft?.name}
+              </Text.h1>
+              <ExplorerLink target='_blank' to={explorerUrl}>
+                <Flex $gap='3px' alignItems='end'>
+                  <Icon name='externalLink' color={theme.palette.linkPrimary} />
+                  <Text color={theme.palette.linkPrimary}>{projectId}</Text>
+                </Flex>
+              </ExplorerLink>
+            </Flex>
+
             <Tabs
               tabs={projectTabs}
               activeTab={activeProjectTab}
