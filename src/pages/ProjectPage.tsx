@@ -85,11 +85,11 @@ const ProjectPage = () => {
         {
           id: 1,
           title: t('tabs.project'),
-          content: nft?.htmlContent ? (
+          content: nft.ipfsContent?.htmlContent ? (
             <HtmlRender
               onMount={onMountContent}
               ref={contentRef}
-              html={nft.htmlContent}
+              html={nft.ipfsContent.htmlContent}
             />
           ) : (
             <ContentMissing message='Project content missing' />
@@ -111,7 +111,7 @@ const ProjectPage = () => {
           content: (
             <Editor
               projectAddress={projectId!}
-              initialContent={nft.htmlContent || ''}
+              initialContent={nft.ipfsContent?.htmlContent || ''}
             />
           ),
         },
