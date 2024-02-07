@@ -1,10 +1,9 @@
 import React from 'react'
 import Grid from '../ui/Grid'
-import Card from '../ui/Card'
 import { NfTsQueryFullData } from '@src/shared/types/ipfs'
-import { Link, generatePath } from 'react-router-dom'
+import { generatePath } from 'react-router-dom'
 import RoutePaths from '@src/shared/enums/routes-paths'
-import styled, { useTheme } from 'styled-components'
+import { useTheme } from 'styled-components'
 import { useTranslation } from 'react-i18next'
 import Icon from '../ui/Icon'
 import Flex from '../ui/Flex'
@@ -12,20 +11,13 @@ import Text from '../ui/Text'
 import useModalState from '@src/hooks/useModalState'
 import CreateProjectModal from '../CreateProject/CreateProjectModal'
 import ProjectCard from './ProjectCard'
+import { StyledCard, StyledLink } from './styled-components'
 
 interface ProjectListProps {
   projects: NfTsQueryFullData[]
   addProjectCard?: boolean
   showRole?: boolean
 }
-
-const StyledLink = styled(Link)`
-  display: contents;
-`
-
-const StyledCard = styled(Card)`
-  cursor: pointer;
-`
 
 const ProjectList: React.FC<ProjectListProps> = ({
   projects,

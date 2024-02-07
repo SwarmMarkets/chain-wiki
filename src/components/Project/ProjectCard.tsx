@@ -1,7 +1,6 @@
 import React, { MouseEvent, useMemo } from 'react'
 import { NfTsQueryFullData } from '@src/shared/types/ipfs'
 import { useTranslation } from 'react-i18next'
-import Card from '../ui/Card'
 import {
   getExplorerUrl,
   getTextContentFromHtml,
@@ -11,33 +10,14 @@ import {
 import Flex from '../ui/Flex'
 import Icon from '../ui/Icon'
 import Text from '../ui/Text'
-import styled, { useTheme } from 'styled-components'
+import { useTheme } from 'styled-components'
 import { shortenAddress, useAddress, useChainId } from '@thirdweb-dev/react'
+import { ExplorerLink, StyledCard, Title } from './styled-components'
 
 interface ProjectCardProps {
   project: NfTsQueryFullData
   showRole?: boolean
 }
-
-const StyledCard = styled(Card)`
-  transition: box-shadow 0.2s;
-  &:hover {
-    box-shadow: 3px 5px 6px rgba(0, 0, 0, 0.2);
-  }
-`
-
-const Title = styled(Text.h2)`
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-`
-
-const ExplorerLink = styled.span`
-  color: ${({ theme }) => theme.palette.linkPrimary};
-  &:hover {
-    text-decoration: underline;
-  }
-`
 
 const ProjectCard: React.FC<ProjectCardProps> = ({
   project,
