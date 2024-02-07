@@ -3,14 +3,14 @@ import { useMemo, useState } from 'react'
 
 import { NFTQuery } from '@src/queries'
 import { QueryNftArgs } from '@src/queries/gql/graphql'
-import { NfTQueryFullData } from '@src/shared/types/ipfs'
+import { NFTQueryFullData } from '@src/shared/types/ipfs'
 import { useStorage } from '@thirdweb-dev/react'
 
 const POLL_INTERVAL = 5000
 
 const useNFT = (id: QueryNftArgs['id']) => {
   const storage = useStorage()
-  const [nftData, setNftData] = useState<NfTQueryFullData | null>(null)
+  const [nftData, setNftData] = useState<NFTQueryFullData | null>(null)
 
   const { loading, error, fetchMore, networkStatus, refetch } = useQuery(
     NFTQuery,

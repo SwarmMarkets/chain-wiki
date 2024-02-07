@@ -1,6 +1,6 @@
 import React from 'react'
 import Grid from '../ui/Grid'
-import { NfTsQueryFullData } from '@src/shared/types/ipfs'
+import { NFTsQueryFullData } from '@src/shared/types/ipfs'
 import { generatePath } from 'react-router-dom'
 import RoutePaths from '@src/shared/enums/routes-paths'
 import { useTheme } from 'styled-components'
@@ -14,7 +14,7 @@ import ProjectCard from './ProjectCard'
 import { StyledCard, StyledLink } from './styled-components'
 
 interface ProjectListProps {
-  projects: NfTsQueryFullData[]
+  projects: NFTsQueryFullData[]
   addProjectCard?: boolean
   showRole?: boolean
 }
