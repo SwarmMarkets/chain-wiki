@@ -1,31 +1,39 @@
 import { NetworkStatus, useQuery } from '@apollo/client'
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 
 import { NFTQuery } from '@src/queries'
 import { QueryNftArgs } from '@src/queries/gql/graphql'
+import { NfTQueryFullData } from '@src/shared/types/ipfs'
+import { useStorage } from '@thirdweb-dev/react'
 
 const POLL_INTERVAL = 5000
 
 const useNFT = (id: QueryNftArgs['id']) => {
-  const {
-    data,
-    loading,
-    error,
-    fetchMore,
-    networkStatus,
-    refetch,
-  } = useQuery(NFTQuery, {
-    fetchPolicy: 'cache-first',
-    notifyOnNetworkStatusChange: true,
-    pollInterval: POLL_INTERVAL,
-    variables: {
-      id
-    },
-  })
-  
+  const storage = useStorage()
+  const [nftData, setNftData] = useState<NfTQueryFullData | null>(null)
+  const { loading, error, fetchMore, networkStatus, refetch } = useQuery(
+    NFTQuery,
+    {
+      fetchPolicy: 'cache-first',
+      notifyOnNetworkStatusChange: true,
+      pollInterval: POLL_INTERVAL,
+      variables: {
+        id,
+      },
+      async onCompleted(data) {
+        if (data.nft?.uri) {
+          const ipfsContent = await storage?.downloadJSON(data.nft?.uri)
+          setNftData({ ...data.nft, ...ipfsContent })
+          return
+        }
+        setNftData(data?.nft as NfTQueryFullData)
+      },
+    }
+  )
+
   return useMemo(
     () => ({
-      nft: data?.nft,
+      nft: nftData,
       loadingNft:
         loading ||
         ![
@@ -38,7 +46,7 @@ const useNFT = (id: QueryNftArgs['id']) => {
       refetchingNft: [NetworkStatus.poll].includes(networkStatus),
       fetchMoreNfts: fetchMore,
     }),
-    [data?.nft, error, fetchMore, loading, networkStatus, refetch],
+    [error, fetchMore, loading, networkStatus, nftData, refetch]
   )
 }
 

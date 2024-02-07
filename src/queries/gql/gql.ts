@@ -13,7 +13,7 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
-    "\n  query NFT($id: ID!) {\n    nft(id: $id) {\n      id\n      name\n      symbol\n      updatedAt\n      createdAt\n      uri\n      creator\n      admins\n      issuers\n      agents\n      editors\n    }\n  }\n": types.NftDocument,
+    "\n  query NFT($id: ID!) {\n    nft(id: $id) {\n      id\n      name\n      symbol\n      updatedAt\n      createdAt\n      uri\n      creator\n      admins\n      issuers\n      agents\n      editors\n      tokens {\n        createdAt\n        id\n        updatedAt\n        uri\n      }\n    }\n  }\n": types.NftDocument,
     "\n  query NFTAccessRoles($id: ID!) {\n    nft(id: $id) {\n      id\n      creator\n      admins\n      issuers\n      agents\n      editors\n    }\n  }\n": types.NftAccessRolesDocument,
     "\n  query NFTURIUpdates(\n    $limit: Int,\n    $skip: Int = 0,\n    $filter: NFTURIUpdate_filter\n    $orderBy: NFTURIUpdate_orderBy\n    $orderDirection: OrderDirection\n  ) {\n    nfturiupdates(\n      where: $filter\n      first: $limit\n      skip: $skip\n      orderBy: $orderBy\n      orderDirection: $orderDirection\n    ) {\n      id\n      newURI\n      previousURI\n      updatedAt\n    }\n  }\n": types.NfturiUpdatesDocument,
     "\n  query NFTs(\n    $limit: Int,\n    $skip: Int = 0,\n    $filter: NFT_filter\n    $orderBy: NFT_orderBy\n    $orderDirection: OrderDirection\n  ) {\n    nfts(\n      where: $filter\n      first: $limit\n      skip: $skip\n      orderBy: $orderBy\n      orderDirection: $orderDirection\n    ) {\n      id\n      name\n      symbol\n      createdAt\n      updatedAt\n      creator\n      uri\n      admins\n      issuers\n      agents\n      editors\n    }\n  }\n": types.NfTsDocument,
@@ -36,7 +36,7 @@ export function graphql(source: string): unknown;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  query NFT($id: ID!) {\n    nft(id: $id) {\n      id\n      name\n      symbol\n      updatedAt\n      createdAt\n      uri\n      creator\n      admins\n      issuers\n      agents\n      editors\n    }\n  }\n"): (typeof documents)["\n  query NFT($id: ID!) {\n    nft(id: $id) {\n      id\n      name\n      symbol\n      updatedAt\n      createdAt\n      uri\n      creator\n      admins\n      issuers\n      agents\n      editors\n    }\n  }\n"];
+export function graphql(source: "\n  query NFT($id: ID!) {\n    nft(id: $id) {\n      id\n      name\n      symbol\n      updatedAt\n      createdAt\n      uri\n      creator\n      admins\n      issuers\n      agents\n      editors\n      tokens {\n        createdAt\n        id\n        updatedAt\n        uri\n      }\n    }\n  }\n"): (typeof documents)["\n  query NFT($id: ID!) {\n    nft(id: $id) {\n      id\n      name\n      symbol\n      updatedAt\n      createdAt\n      uri\n      creator\n      admins\n      issuers\n      agents\n      editors\n      tokens {\n        createdAt\n        id\n        updatedAt\n        uri\n      }\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

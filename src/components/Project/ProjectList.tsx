@@ -1,7 +1,7 @@
 import React from 'react'
 import Grid from '../ui/Grid'
 import Card from '../ui/Card'
-import { NftFullData } from '@src/shared/types/ipfs'
+import { NfTsQueryFullData } from '@src/shared/types/ipfs'
 import { Link, generatePath } from 'react-router-dom'
 import RoutePaths from '@src/shared/enums/routes-paths'
 import styled, { useTheme } from 'styled-components'
@@ -14,7 +14,7 @@ import CreateProjectModal from '../CreateProject/CreateProjectModal'
 import ProjectCard from './ProjectCard'
 
 interface ProjectListProps {
-  projects: NftFullData[]
+  projects: NfTsQueryFullData[]
   addProjectCard?: boolean
   showRole?: boolean
 }

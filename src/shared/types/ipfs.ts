@@ -1,4 +1,4 @@
-import { NfTsQuery } from "@src/queries/gql/graphql"
+import { NfTsQuery, NftQuery } from '@src/queries/gql/graphql'
 
 export interface IpfsProjectContent {
   name: string
@@ -13,4 +13,6 @@ export interface IpfsArticleContent {
   htmlContent: string
 }
 
-export type NftFullData = NfTsQuery['nfts'][0] & IpfsProjectContent;
+export type NfTsQueryFullData = NfTsQuery['nfts'][0] & IpfsProjectContent
+
+export type NfTQueryFullData = NftQuery['nft'] & Partial<IpfsProjectContent>

@@ -2,8 +2,9 @@ const theme = {
   palette: {
     // Common
     white: '#fff',
-    lightGray: "#A9A9A9",
-    nearBlack: "#333333",
+    lightGray: '#A9A9A9',
+    gray: '#C0C0C0',
+    nearBlack: '	#A9A9A9',
 
     // Text Colors
     textPrimary: '#212121',
@@ -41,8 +42,8 @@ const theme = {
     md: 960,
     lg: 1024,
     xl: 1440,
-  }
-};
+  },
+}
 
-export default theme;
-export type Theme = typeof theme;
+export default theme
+export type Theme = typeof theme

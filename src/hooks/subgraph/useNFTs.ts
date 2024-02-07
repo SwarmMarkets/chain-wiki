@@ -4,7 +4,7 @@ import { useMemo, useState } from 'react'
 import { NFTsQuery } from '@src/queries'
 import { NfTsQuery, NfTsQueryVariables } from '@src/queries/gql/graphql'
 import { useStorage } from '@thirdweb-dev/react'
-import { NftFullData } from '@src/shared/types/ipfs'
+import { NfTsQueryFullData } from '@src/shared/types/ipfs'
 
 const PAGE_LIMIT = 10
 const POLL_INTERVAL = 15000
@@ -15,7 +15,7 @@ interface UseNftConfig {
 
 const useNFTs = (options?: QueryHookOptions<NfTsQuery, NfTsQueryVariables>, config?: UseNftConfig) => {
   const storage = useStorage()
-  const [fullData, setFullData] = useState<NftFullData[] | null>(null)
+  const [fullData, setFullData] = useState<NfTsQueryFullData[] | null>(null)
 
   const { data, loading, error, fetchMore, networkStatus, refetch } = useQuery(
     NFTsQuery,

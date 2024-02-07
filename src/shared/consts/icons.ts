@@ -9,6 +9,7 @@ const icons = {
   plus: React.lazy(() => import('@src/assets/icons/plus.svg?react')),
   document: React.lazy(() => import('@src/assets/icons/document.svg?react')),
   externalLink: React.lazy(() => import('@src/assets/icons/externalLink.svg?react')),
+  empty: React.lazy(() => import('@src/assets/icons/empty.svg?react')),
 };
 
 export default icons;
