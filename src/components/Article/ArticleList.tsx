@@ -13,15 +13,23 @@ import Flex from '../ui/Flex'
 import Text from '../ui/Text'
 import ArticleCardSkeleton from './ArticleCardSkeleton'
 import CreateArticleCard from './CreateArticleCard'
+import { useTheme } from 'styled-components'
+import Icon from '../ui/Icon'
+import { useTranslation } from 'react-i18next'
 
 interface ArticleListProps {
   projectAddress: string
   articles: NFTQueryFullData['tokens']
 }
 
-const ArticleList: React.FC<ArticleListProps> = ({ articles, projectAddress }) => {
+const ArticleList: React.FC<ArticleListProps> = ({
+  articles,
+  projectAddress,
+}) => {
   const storage = useStorage()
   const { projectId } = useParams()
+  const theme = useTheme()
+  const { t } = useTranslation('errors')
   const [ipfsArticleContent, setIpfsArticleContent] = useState<
     IpfsArticleContent[] | null
   >(null)
@@ -34,50 +42,56 @@ const ArticleList: React.FC<ArticleListProps> = ({ articles, projectAddress }) =
     (async () => {
       const promises = articles.map(item => storage?.downloadJSON(item.uri))
 
-      const additionalData = await Promise.all(promises)
-
-      const ipfsArticlesData = articles.map((item, index) => {
-        if (additionalData[index].error) {
-          return item
-        }
-
-        return {
-          ...item,
-          ...additionalData[index],
-        }
-      })
+      const ipfsArticlesData = await Promise.all(promises)
 
       setIpfsArticleContent(ipfsArticlesData)
     })()
   }, [articles, storage])
 
   const noContent = !articles || articles.length === 0
-
+  console.log(ipfsArticleContent)
   return (
     <Flex flexDirection='column' $gap='10px'>
       <CreateArticleCard projectAddress={projectAddress} />
       {ipfsArticleContent
-        ? articles?.map((article, index) => (
-            <Card
-              to={generatePath(RoutePaths.PROJECT + RoutePaths.ARTICLE, {
-                projectId,
-                articleId: article.id,
-              })}
-              title={ipfsArticleContent[index].name}
-              key={article.id}
-            >
-              <Text.p>
-                {limitString(
-                  getTextContentFromHtml(ipfsArticleContent[index].htmlContent),
-                  700
-                )}
-              </Text.p>
-            </Card>
-          ))
+        ? articles?.map((article, index) =>
+            !ipfsArticleContent[index].error ? (
+              <Card
+                to={generatePath(RoutePaths.PROJECT + RoutePaths.ARTICLE, {
+                  projectId,
+                  articleId: article.id,
+                })}
+                title={ipfsArticleContent[index].name}
+                key={article.id}
+              >
+                <Text.p>
+                  {limitString(
+                    getTextContentFromHtml(
+                      ipfsArticleContent[index].htmlContent
+                    ),
+                    700
+                  )}
+                </Text.p>
+              </Card>
+            ) : (
+              <Card>
+                <Flex $gap='8px' alignItems='center'>
+                  <Icon
+                    name='empty'
+                    size={30}
+                    color={theme.palette.borderPrimary}
+                  />
+                  <Text.p color={theme.palette.borderPrimary}>
+                    {t('article.pendingDetails')}
+                  </Text.p>
+                </Flex>
+              </Card>
+            )
+          )
         : [...new Array(5)].map((_, index) => (
             <ArticleCardSkeleton key={index} />
           ))}
-        {noContent ? <ContentMissing message='Articles missing' /> : null}
+      {noContent ? <ContentMissing message='Articles missing' /> : null}
     </Flex>
   )
 }

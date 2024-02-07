@@ -5,5 +5,8 @@
   },
   "project": {
     "contentNotFound": "Content is not found"
+  },
+  "article": {
+    "pendingDetails": "This article is pending details to be added by an admin."
   }
 }
