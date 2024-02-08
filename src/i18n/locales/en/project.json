@@ -39,7 +39,7 @@
       "role": "Role"
     },
     "formPlaceholders": {
-      "grantRole": "Enter user's address 0x1234...",
+      "grantRole": "  0x1234...",
       "role": "Select role"
     }
   },
