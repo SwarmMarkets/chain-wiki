@@ -7,6 +7,7 @@ export interface Permissions {
   canCreateProject: boolean
   canUpdateContent: boolean
   canCreateArticle: boolean
+  canManageRoles: boolean
 }
 
 type HasPermissionsFunction = (permission: keyof Permissions) => boolean
@@ -15,38 +16,43 @@ const initialPermissions: Permissions = {
   canCreateProject: false,
   canUpdateContent: false,
   canCreateArticle: false,
+  canManageRoles: false,
 }
 
 const useProjectPermissions = (projectAddress?: string) => {
-  const address = projectAddress ? unifyAddressToId(projectAddress) : ""
+  const address = projectAddress ? unifyAddressToId(projectAddress) : ''
   const { nft } = useNFTRoles(address)
 
   const account = useAddress()
   const connected = useConnectionStatus()
 
-  const permissions: Permissions = useMemo(
-    () => {
-      const canCreateProject = connected === 'connected'
+  const permissions: Permissions = useMemo(() => {
+    const canCreateProject = connected === 'connected'
 
-      if (!nft) {
-        return {
-          ...initialPermissions,
-          canCreateProject,
-        }
-      }
-
-      const isEditor = nft.editors.some(address => isSameEthereumAddress(address, account))
-      const isIssuer = nft.issuers.some(address => isSameEthereumAddress(address, account))
-      const isAdmin = nft.admins.some(address => isSameEthereumAddress(address, account))
-
+    if (!nft) {
       return {
-        canCreateProject: connected === 'connected',
-        canUpdateContent: isAdmin || isEditor,
-        canCreateArticle: isAdmin || isIssuer
+        ...initialPermissions,
+        canCreateProject,
       }
-    },
-    [account, connected, nft]
-  )
+    }
+
+    const isEditor = nft.editors.some(address =>
+      isSameEthereumAddress(address, account)
+    )
+    const isIssuer = nft.issuers.some(address =>
+      isSameEthereumAddress(address, account)
+    )
+    const isAdmin = nft.admins.some(address =>
+      isSameEthereumAddress(address, account)
+    )
+
+    return {
+      canCreateProject: connected === 'connected',
+      canManageRoles: isAdmin,
+      canUpdateContent: isAdmin || isEditor,
+      canCreateArticle: isAdmin || isIssuer,
+    }
+  }, [account, connected, nft])
 
   const hasPermission: HasPermissionsFunction = useCallback(
     (permission: keyof Permissions) => {
