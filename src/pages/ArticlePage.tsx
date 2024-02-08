@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import {
   useLocation,
   useNavigate,
@@ -18,6 +18,7 @@ import { Tab } from '@src/shared/types/ui-components'
 import useToken from '@src/hooks/subgraph/useToken'
 import ArticleContentSkeleton from '@src/components/Article/ArticleContentSkeleton'
 import ContentMissing from '@src/components/common/ContentMissing'
+import useProjectPermissions from '@src/hooks/permissions/useProjectPermissions'
 
 const ArticleWrapper = styled.div`
   display: flex;
@@ -54,6 +55,7 @@ const ArticlePage = () => {
   const navigate = useNavigate()
   const location = useLocation()
   const { t } = useTranslation('article')
+  const { permissions } = useProjectPermissions(projectId)
   const [contentElem, setContentElem] = useState<HTMLDivElement | null>(null)
   const initialTab = Number(searchParams.get('tab')) || 1
   const [activeTab, setActiveTab] = useState(initialTab)
@@ -80,8 +82,9 @@ const ArticlePage = () => {
 
   const tokenId = Number(token?.id.split('-')[1])
 
-  const tabs = token
-    ? [
+  const tabs = useMemo(() => {
+    if (token) {
+      const tabs = [
         {
           id: 1,
           title: t('tabs.read'),
@@ -95,7 +98,9 @@ const ArticlePage = () => {
             <ContentMissing message='Article content missing' />
           ),
         },
-        {
+      ]
+      permissions.canUpdateContent &&
+        tabs.push({
           id: 2,
           title: t('tabs.edit'),
           content: (
@@ -105,16 +110,20 @@ const ArticlePage = () => {
               articleId={tokenId}
             />
           ),
-        },
-        {
-          id: 3,
-          title: t('tabs.history'),
-          content: <History />,
-        },
-      ]
-    : []
+        })
+      tabs.push({
+        id: 3,
+        title: t('tabs.history'),
+        content: <History />,
+      })
 
-    return (
+      return tabs
+    } else {
+      return []
+    }
+  }, [permissions.canUpdateContent, projectId, t, token, tokenId])
+
+  return (
     <ArticleWrapper>
       {activeTab === 1 && contentElem ? (
         <StyledContent contentElem={contentElem} />
