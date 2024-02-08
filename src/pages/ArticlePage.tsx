@@ -49,7 +49,7 @@ const ContentPlaceholder = styled.div`
 `
 
 const ArticlePage = () => {
-  const { articleId, projectId } = useParams()
+  const { articleId = '', projectId = '' } = useParams()
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
   const location = useLocation()
@@ -57,7 +57,7 @@ const ArticlePage = () => {
   const [contentElem, setContentElem] = useState<HTMLDivElement | null>(null)
   const initialTab = Number(searchParams.get('tab')) || 1
   const [activeTab, setActiveTab] = useState(initialTab)
-  const { token, loadingToken, refetchingToken } = useToken(articleId || '')
+  const { token, loadingToken, refetchingToken } = useToken(articleId)
 
   const contentRef = useRef<HTMLDivElement>(null)
 
@@ -99,7 +99,8 @@ const ArticlePage = () => {
           content: (
             <Editor
               initialContent={token.ipfsContent?.htmlContent || ''}
-              projectAddress={projectId || ''}
+              projectAddress={projectId}
+              articleId={Number(articleId)}
             />
           ),
         },

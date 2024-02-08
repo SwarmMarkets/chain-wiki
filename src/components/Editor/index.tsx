@@ -11,6 +11,7 @@ import Flex from '../ui/Flex'
 
 interface EditorProps {
   projectAddress: string
+  articleId?: number
   initialContent: string
   onChange?: (content: string, editor: TinyEditorType) => void
 }
@@ -26,6 +27,7 @@ const EditorWrapper = styled.div<EditorWrapperProps>`
 const Editor: React.FC<EditorProps> = ({
   onChange,
   initialContent,
+  articleId,
   projectAddress,
 }) => {
   const [editorInit, setEditorInit] = useState(false)
@@ -93,11 +95,20 @@ const Editor: React.FC<EditorProps> = ({
         />
         <Flex justifyContent='flex-end'>
           <RequirePermissions projectAddress={projectAddress} canUpdateContent>
-            <UpdateContentButton
-              contentType="project"
-              projectAddress={projectAddress}
-              content={currContent}
-            />
+            {articleId ? (
+              <UpdateContentButton
+                articleId={articleId}
+                contentType='article'
+                projectAddress={projectAddress}
+                content={currContent}
+              />
+            ) : (
+              <UpdateContentButton
+                contentType='project'
+                projectAddress={projectAddress}
+                content={currContent}
+              />
+            )}
           </RequirePermissions>
         </Flex>
       </EditorWrapper>

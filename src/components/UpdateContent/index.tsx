@@ -9,12 +9,12 @@ import UpdateContentModal, { Steps } from './UpdateContentModal'
 
 interface ProjectProps {
   contentType: 'project';
-  tokenId?: never; // `tokenId` is not applicable for projects, so it's never present.
+  articleId?: never; // `articleId` is not applicable for projects, so it's never present.
 }
 
 interface ArticleProps {
   contentType: 'article';
-  tokenId: number; // For articles, `tokenId` is required.
+  articleId: number; // For articles, `articleId` is required.
 }
 
 type UpdateContentButtonProps = (ProjectProps | ArticleProps) & {
@@ -24,7 +24,7 @@ type UpdateContentButtonProps = (ProjectProps | ArticleProps) & {
 
 const UpdateContentButton: React.FC<UpdateContentButtonProps> = ({
   contentType,
-  tokenId,
+  articleId,
   projectAddress,
   content,
 }) => {
@@ -45,7 +45,7 @@ const UpdateContentButton: React.FC<UpdateContentButtonProps> = ({
       })
     } else {
       ipfsContent = generateIpfsArticleContent({
-        tokenId: tokenId,
+        tokenId: articleId,
         name: projectAddress,
         address: projectAddress,
         htmlContent: content,
@@ -62,10 +62,10 @@ const UpdateContentButton: React.FC<UpdateContentButtonProps> = ({
       if (contentType === 'project') {
         return call('setKya', [uri])
       } else {
-        return call('setTokenKya', [tokenId, uri])
+        return call('setTokenKya', [articleId, uri])
       }
     },
-    [call, contentType, tokenId]
+    [call, contentType, articleId]
   )
 
   const startContentUpdate = async () => {
