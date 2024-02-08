@@ -1,5 +1,5 @@
 import { NetworkStatus, QueryHookOptions, useQuery } from '@apollo/client'
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 
 import { TokenURIUpdatesQuery } from '@src/queries'
 import {
@@ -8,17 +8,29 @@ import {
   TokenUriUpdatesQueryVariables,
 } from '@src/queries/gql/graphql'
 import { unifyAddressToId } from '@src/shared/utils'
+import { useStorage } from '@thirdweb-dev/react'
+import { TokenUriUpdatesQueryFullData } from '@src/shared/types/ipfs'
 
 const PAGE_LIMIT = 10
 const POLL_INTERVAL = 15000
+
+interface UseTokenURIUpdatesConfig {
+  fetchFullData?: boolean
+}
 
 const useTokenURIUpdates = (
   id: TokenQueryVariables['id'],
   options?: QueryHookOptions<
     TokenURIUpdatesQueryGQL,
     TokenUriUpdatesQueryVariables
-  >
+  >,
+  config?: UseTokenURIUpdatesConfig
 ) => {
+  const [fullData, setFullData] = useState<
+    TokenUriUpdatesQueryFullData[] | null
+  >(null)
+  const storage = useStorage()
+
   const { data, loading, error, networkStatus, refetch, fetchMore } = useQuery(
     TokenURIUpdatesQuery,
     {
@@ -35,12 +47,39 @@ const useTokenURIUpdates = (
         },
         ...options?.variables,
       },
+      async onCompleted(data) {
+        if (!config?.fetchFullData) {
+          return
+        }
+
+        const newUriPromises = data.tokenURIUpdates.map(item =>
+          storage?.downloadJSON(item.newURI)
+        )
+        const prevUriPromises = data.tokenURIUpdates.map(item =>
+          storage?.downloadJSON(item.previousURI)
+        )
+        const newUriData = await Promise.all(newUriPromises)
+        const prevUriData = await Promise.all(prevUriPromises)
+
+        const fullData = data.tokenURIUpdates.map((item, index) => {
+          if (newUriData[index].error || prevUriData[index].error) {
+            return item
+          }
+
+          return {
+            ...item,
+            ipfsNewUriContent: newUriData[index],
+            ipfsPrevUriContent: prevUriData[index],
+          }
+        })
+        setFullData(fullData)
+      },
     }
   )
-
   return useMemo(
     () => ({
       tokenUriUpdates: data?.tokenURIUpdates,
+      fullTokenUriTokens: fullData,
       loading:
         loading ||
         ![
@@ -53,7 +92,7 @@ const useTokenURIUpdates = (
       refetching: [NetworkStatus.poll].includes(networkStatus),
       fetchMore: fetchMore,
     }),
-    [data?.tokenURIUpdates, error, fetchMore, loading, networkStatus, refetch]
+    [data, error, fetchMore, fullData, loading, networkStatus, refetch]
   )
 }
 

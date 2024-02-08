@@ -13,7 +13,7 @@ import Editor from '@src/components/Editor'
 import HtmlRender from '@src/components/HtmlRender'
 import Tabs from '@src/components/ui/Tabs'
 import Text from '@src/components/ui/Text'
-import History from '@src/components/History'
+import HistoryArticle from '@src/components/History/HistoryArticle'
 import { Tab } from '@src/shared/types/ui-components'
 import useToken from '@src/hooks/subgraph/useToken'
 import ArticleContentSkeleton from '@src/components/Article/ArticleContentSkeleton'
@@ -114,7 +114,7 @@ const ArticlePage = () => {
       tabs.push({
         id: 3,
         title: t('tabs.history'),
-        content: <History />,
+        content: <HistoryArticle />,
       })
 
       return tabs

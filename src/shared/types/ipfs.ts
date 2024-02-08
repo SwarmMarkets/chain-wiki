@@ -2,6 +2,7 @@ import {
   NfTsQuery,
   NftQuery,
   TokenQuery,
+  TokenUriUpdatesQuery,
   TokensQuery,
 } from '@src/queries/gql/graphql'
 
@@ -32,4 +33,9 @@ export type TokenQueryFullData = TokenQuery['token'] & {
 
 export type TokensQueryFullData = TokensQuery['tokens'] & {
   ipfsContent?: IpfsArticleContent
+}
+
+export type TokenUriUpdatesQueryFullData = TokenUriUpdatesQuery['tokenURIUpdates'][0] & {
+  ipfsNewUriContent?: IpfsArticleContent
+  ipfsPrevUriContent?: IpfsArticleContent
 }
