@@ -1,7 +1,7 @@
 import ContentLoader, { IContentLoaderProps } from "react-content-loader"
 import { JSX } from "react/jsx-runtime"
 
-const EditorSkeleton = (props: JSX.IntrinsicAttributes & IContentLoaderProps) => (
+const ArticleCardSkeleton = (props: JSX.IntrinsicAttributes & IContentLoaderProps) => (
   <ContentLoader 
     speed={2}
     width="100%"
@@ -15,4 +15,4 @@ const EditorSkeleton = (props: JSX.IntrinsicAttributes & IContentLoaderProps) =>
   </ContentLoader>
 )
 
-export default EditorSkeleton
+export default ArticleCardSkeleton
