@@ -12,6 +12,7 @@ interface ExplorerLinkProps extends ChildrenProp {
 
 export const StyledLink = styled.span`
   color: ${({ theme }) => theme.palette.linkPrimary};
+  cursor: pointer;
   &:hover {
     text-decoration: underline;
   }
