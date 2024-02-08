@@ -48,10 +48,10 @@ const useNFTs = (
           if (additionalData[index].error) {
             return item
           }
-
+          
           return {
-            ...item,
             ...additionalData[index],
+            ...item,
           }
         })
 
