@@ -78,6 +78,8 @@ const ArticlePage = () => {
     navigate({ search: `?${params}` }, { replace: true })
   }
 
+  const tokenId = Number(token?.id.split('-')[1])
+
   const tabs = token
     ? [
         {
@@ -100,7 +102,7 @@ const ArticlePage = () => {
             <Editor
               initialContent={token.ipfsContent?.htmlContent || ''}
               projectAddress={projectId}
-              articleId={Number(articleId)}
+              articleId={tokenId}
             />
           ),
         },
