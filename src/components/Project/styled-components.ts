@@ -1,7 +1,7 @@
-import styled from "styled-components"
-import Card from "../ui/Card"
-import Text from "../ui/Text"
-import { Link } from "react-router-dom"
+import styled from 'styled-components'
+import Card from '../ui/Card'
+import Text from '../ui/Text'
+import { Link } from 'react-router-dom'
 
 export const StyledCard = styled(Card)`
   cursor: pointer;
@@ -26,4 +26,11 @@ export const ExplorerLink = styled.span`
 
 export const StyledLink = styled(Link)`
   display: contents;
+`
+
+export const StyledRolesDescription = styled(Text.p)`
+  max-width: 700px;
+  font-size: 1.05rem;
+  line-height: 1.3;
+  color: ${({ theme }) => theme.palette.gray};
 `

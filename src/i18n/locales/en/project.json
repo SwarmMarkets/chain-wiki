@@ -2,7 +2,8 @@
   "tabs": {
     "project": "Project",
     "articles": "Articles",
-    "edit": "Edit project"
+    "edit": "Edit project",
+    "manageRoles": "Manage Roles"
   },
   "createProject": {
     "title": "Create Project",
@@ -21,5 +22,18 @@
       "issuerAddress": "Enter issuer's Ethereum address",
       "editorAddress": "Enter editor's Ethereum address"
     }
+  },
+  "roleManager": {
+    "title": "Manage your project roles",
+    "description": "This page is dedicated to managing user roles within the project. It allows for the assignment and adjustment of roles to ensure proper access control and responsibility distribution across the team.",
+    "tableHead": {
+      "address": "Address",
+      "role": "Role"
+    }
+  },
+  "roles": {
+    "admin": "Admin",
+    "editor": "Editor",
+    "issuer": "Issuer"
   }
 }

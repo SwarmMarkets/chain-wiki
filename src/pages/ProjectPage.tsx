@@ -17,6 +17,7 @@ import { useChainId } from '@thirdweb-dev/react'
 import Flex from '@src/components/ui/Flex'
 import Icon from '@src/components/ui/Icon'
 import useProjectPermissions from '@src/hooks/permissions/useProjectPermissions'
+import ProjectRoleManager from '@src/components/Project/ProjectRoleManager'
 
 const ProjectWrapper = styled.div`
   display: flex;
@@ -98,6 +99,11 @@ const ProjectPage = () => {
             <ContentMissing message='Project content missing' />
           ),
         },
+        ...(permissions.canManageRoles ? [{
+          id: 4,
+          title: t('tabs.manageRoles'),
+          content: <ProjectRoleManager projectAddress={projectId!} />
+        }] : []),
         {
           id: 2,
           title: t('tabs.articles'),
@@ -123,7 +129,7 @@ const ProjectPage = () => {
     } else {
       return []
     }
-  }, [nft, permissions.canUpdateContent, projectId, t])
+  }, [nft, permissions.canManageRoles, permissions.canUpdateContent, projectId, t])
 
   return (
     <ProjectWrapper>
