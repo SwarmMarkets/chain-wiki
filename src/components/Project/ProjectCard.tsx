@@ -8,7 +8,7 @@ import { shortenAddress, useAddress } from '@thirdweb-dev/react'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useTheme } from 'styled-components'
-import ExternalLink from '../common/ExternalLink'
+import ExplorerLink from '../common/ExplorerLink'
 import Flex from '../ui/Flex'
 import Icon from '../ui/Icon'
 import Text from '../ui/Text'
@@ -78,9 +78,9 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           </Flex>
         )}
         <Flex flexDirection='column' alignItems='end' pt={10} $gap='5px'>
-          <ExternalLink type="address" hash={project.id}>
+          <ExplorerLink type="address" hash={project.id}>
             {shortenAddress(project.id, false)}
-          </ExternalLink>
+          </ExplorerLink>
           {role && (
             <Text color={theme.palette.borderPrimary}>
               {t('role', { ns: 'projects' })}

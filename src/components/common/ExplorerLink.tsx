@@ -5,7 +5,7 @@ import styled, { useTheme } from "styled-components"
 import Flex from "../ui/Flex"
 import Icon from "../ui/Icon"
 
-interface ExternalLinkProps extends ChildrenProp {
+interface ExplorerLinkProps extends ChildrenProp {
   type: ExplorerLinkType
   hash?: string
 }
@@ -17,7 +17,7 @@ export const StyledLink = styled.span`
   }
 `
 
-const ExternalLink: React.FC<ExternalLinkProps> = ({ type, hash, children }) => {
+const ExplorerLink: React.FC<ExplorerLinkProps> = ({ type, hash, children }) => {
   const chainId = useChainId()
   const theme = useTheme()
 
@@ -38,4 +38,4 @@ const ExternalLink: React.FC<ExternalLinkProps> = ({ type, hash, children }) => 
   </StyledLink>
 }
 
-export default ExternalLink
+export default ExplorerLink
