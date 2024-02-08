@@ -80,7 +80,7 @@ const ArticleList: React.FC<ArticleListProps> = ({
                 </Text.p>
               </Card>
             ) : (
-              <Card>
+              <Card key={article.id}>
                 <Flex justifyContent='space-between'>
                   <Flex $gap='8px' alignItems='center'>
                     <Icon
