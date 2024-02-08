@@ -4,23 +4,22 @@ import { useMemo } from 'react'
 import { NFTAccessRolesQuery } from '@src/queries'
 import { QueryNftArgs } from '@src/queries/gql/graphql'
 
+const POLL_INTERVAL = 15000
+
 const useNFTRoles = (id?: QueryNftArgs['id']) => {
-  const {
-    data,
-    loading,
-    error,
-    fetchMore,
-    networkStatus,
-    refetch,
-  } = useQuery(NFTAccessRolesQuery, {
-    fetchPolicy: 'cache-first',
-    notifyOnNetworkStatusChange: true,
-    skip: !id,
-    variables: {
-      id: id || '',
-    },
-  })
-  
+  const { data, loading, error, fetchMore, networkStatus, refetch } = useQuery(
+    NFTAccessRolesQuery,
+    {
+      fetchPolicy: 'cache-first',
+      notifyOnNetworkStatusChange: true,
+      pollInterval: POLL_INTERVAL,
+      skip: !id,
+      variables: {
+        id: id || '',
+      },
+    }
+  )
+
   return useMemo(
     () => ({
       nft: data?.nft,
@@ -36,7 +35,7 @@ const useNFTRoles = (id?: QueryNftArgs['id']) => {
       refetchingNft: [NetworkStatus.poll].includes(networkStatus),
       fetchMoreNfts: fetchMore,
     }),
-    [data?.nft, error, fetchMore, loading, networkStatus, refetch],
+    [data?.nft, error, fetchMore, loading, networkStatus, refetch]
   )
 }
 

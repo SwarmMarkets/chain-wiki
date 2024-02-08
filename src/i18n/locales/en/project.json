@@ -29,6 +29,18 @@
     "tableHead": {
       "address": "Address",
       "role": "Role"
+    },
+    "actions": {
+      "grantRole": "Grant Role",
+      "revokeRole": "Revoke Role"
+    },
+    "form": {
+      "grantRole": "Enter the user's Ethereum address to assign a role",
+      "role": "Role"
+    },
+    "formPlaceholders": {
+      "grantRole": "Enter user's address 0x1234...",
+      "role": "Select role"
     }
   },
   "roles": {

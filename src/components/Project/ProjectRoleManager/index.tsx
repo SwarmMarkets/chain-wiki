@@ -1,11 +1,14 @@
 import useNFTRoles from '@src/hooks/subgraph/useNFTRoles'
-import { Table, TableRow, TableHeader, TableCell } from '../../ui/Table'
-import Text from '../../ui/Text'
-import { useTranslation } from 'react-i18next'
-import Box from '../../ui/Box'
-import { StyledRolesDescription } from '../styled-components'
+import { Roles } from '@src/shared/enums/roles'
 import { useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 import ExplorerLink from '../../common/ExplorerLink'
+import Box from '../../ui/Box'
+import { Table, TableCell, TableHeader, TableRow } from '../../ui/Table'
+import Text from '../../ui/Text'
+import { StyledRolesDescription } from '../styled-components'
+import GrantRoleForm from './GrantRoleForm'
+import RevokeRoleButton from './RevokeRoleButton'
 
 interface ProjectRoleManagerProps {
   projectAddress: string
@@ -22,17 +25,20 @@ const ProjectRoleManager: React.FC<ProjectRoleManagerProps> = ({
 
     const admins = nft.admins.map(admin => ({
       address: admin,
-      role: t('roles.admin')
+      role: t('roles.admin'),
+      roleType: Roles.ADMIN,
     }))
 
     const editors = nft.editors.map(editor => ({
       address: editor,
-      role: t('roles.admin')
+      role: t('roles.editor'),
+      roleType: Roles.EDITOR,
     }))
 
     const issuers = nft.issuers.map(issuer => ({
       address: issuer,
-      role: t('roles.admin')
+      role: t('roles.issuer'),
+      roleType: Roles.ISSUER,
     }))
 
     return [...issuers, ...editors, ...admins]
@@ -41,33 +47,42 @@ const ProjectRoleManager: React.FC<ProjectRoleManagerProps> = ({
   return (
     <Box>
       <Text.h2 mb={3}>{t('roleManager.title')}</Text.h2>
-      <StyledRolesDescription mb={3}>
+      <StyledRolesDescription mb={4}>
         {t('roleManager.description')}
       </StyledRolesDescription>
       <Table mb={4}>
         <thead>
           <TableRow>
-            <TableHeader p={2}>{t('roleManager.tableHead.address')}</TableHeader>
+            <TableHeader p={2}>
+              {t('roleManager.tableHead.address')}
+            </TableHeader>
             <TableHeader p={2}>{t('roleManager.tableHead.role')}</TableHeader>
             <TableHeader p={2}></TableHeader>
           </TableRow>
         </thead>
         <tbody>
-          {users?.map(user => 
-            <TableRow>
-              <TableCell p={2}>    
-              <ExplorerLink type="address" hash={projectAddress}>
-                {projectAddress}
-              </ExplorerLink>
-              </TableCell>
-              <TableCell width="30%" p={2}>{user.role}</TableCell>
+          {users?.map(user => (
+            <TableRow key={user.address + user.role}>
               <TableCell p={2}>
-                Actions
+                <ExplorerLink type='address' hash={user.address}>
+                  {user.address}
+                </ExplorerLink>
+              </TableCell>
+              <TableCell width='30%' p={2}>
+                {user.role}
+              </TableCell>
+              <TableCell p={2}>
+                <RevokeRoleButton
+                  from={user.address}
+                  role={user.roleType}
+                  projectAddress={projectAddress}
+                />
               </TableCell>
             </TableRow>
-          )}
+          ))}
         </tbody>
       </Table>
+      <GrantRoleForm projectAddress={projectAddress} />
     </Box>
   )
 }
