@@ -1,23 +1,26 @@
 import { NetworkStatus, QueryHookOptions, useQuery } from '@apollo/client'
 import { useMemo } from 'react'
 
-import { NFTURIUpdatesQuery } from '@src/queries'
+import { TokenURIUpdatesQuery } from '@src/queries'
 import {
-  NfturiUpdatesQuery as NFTURIUpdatesQueryGQL,
-  NftQueryVariables,
-  NfturiUpdatesQueryVariables,
+  TokenQueryVariables,
+  TokenUriUpdatesQuery as TokenURIUpdatesQueryGQL,
+  TokenUriUpdatesQueryVariables,
 } from '@src/queries/gql/graphql'
 import { unifyAddressToId } from '@src/shared/utils'
 
 const PAGE_LIMIT = 10
 const POLL_INTERVAL = 15000
 
-const useNFTURIUpdates = (
-  id: NftQueryVariables['id'],
-  options?: QueryHookOptions<NFTURIUpdatesQueryGQL, NfturiUpdatesQueryVariables>
+const useTokenURIUpdates = (
+  id: TokenQueryVariables['id'],
+  options?: QueryHookOptions<
+    TokenURIUpdatesQueryGQL,
+    TokenUriUpdatesQueryVariables
+  >
 ) => {
   const { data, loading, error, networkStatus, refetch, fetchMore } = useQuery(
-    NFTURIUpdatesQuery,
+    TokenURIUpdatesQuery,
     {
       fetchPolicy: 'cache-first',
       notifyOnNetworkStatusChange: true,
@@ -28,7 +31,7 @@ const useNFTURIUpdates = (
         limit: PAGE_LIMIT,
         skip: 0,
         filter: {
-          nft: unifyAddressToId(id),
+          token: unifyAddressToId(id),
         },
         ...options?.variables,
       },
@@ -37,7 +40,7 @@ const useNFTURIUpdates = (
 
   return useMemo(
     () => ({
-      nftUriUpdates: data?.nfturiupdates,
+      tokenUriUpdates: data?.tokenURIUpdates,
       loading:
         loading ||
         ![
@@ -50,8 +53,8 @@ const useNFTURIUpdates = (
       refetching: [NetworkStatus.poll].includes(networkStatus),
       fetchMore: fetchMore,
     }),
-    [data?.nfturiupdates, error, fetchMore, loading, networkStatus, refetch]
+    [data?.tokenURIUpdates, error, fetchMore, loading, networkStatus, refetch]
   )
 }
 
-export default useNFTURIUpdates
+export default useTokenURIUpdates
