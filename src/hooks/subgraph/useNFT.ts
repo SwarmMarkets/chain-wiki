@@ -12,25 +12,22 @@ const useNFT = (id: QueryNftArgs['id']) => {
   const storage = useStorage()
   const [nftData, setNftData] = useState<NFTQueryFullData | null>(null)
 
-  const { loading, error, fetchMore, networkStatus, refetch } = useQuery(
-    NFTQuery,
-    {
-      fetchPolicy: 'cache-first',
-      notifyOnNetworkStatusChange: true,
-      pollInterval: POLL_INTERVAL,
-      variables: {
-        id,
-      },
-      async onCompleted(data) {
-        if (data.nft?.uri) {
-          const ipfsContent = await storage?.downloadJSON(data.nft?.uri)
-          setNftData({ ...data.nft, ipfsContent })
-          return
-        }
-        data?.nft && setNftData(data?.nft)
-      },
-    }
-  )
+  const { loading, error, networkStatus, refetch } = useQuery(NFTQuery, {
+    fetchPolicy: 'cache-first',
+    notifyOnNetworkStatusChange: true,
+    pollInterval: POLL_INTERVAL,
+    variables: {
+      id,
+    },
+    async onCompleted(data) {
+      if (data.nft?.uri) {
+        const ipfsContent = await storage?.downloadJSON(data.nft?.uri)
+        setNftData({ ...data.nft, ipfsContent })
+        return
+      }
+      data?.nft && setNftData(data?.nft)
+    },
+  })
 
   return useMemo(
     () => ({
@@ -45,9 +42,8 @@ const useNFT = (id: QueryNftArgs['id']) => {
       error,
       refetch,
       refetchingNft: [NetworkStatus.poll].includes(networkStatus),
-      fetchMoreNfts: fetchMore,
     }),
-    [error, fetchMore, loading, networkStatus, nftData, refetch]
+    [error, loading, networkStatus, nftData, refetch]
   )
 }
 
