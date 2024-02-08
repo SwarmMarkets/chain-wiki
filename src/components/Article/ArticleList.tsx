@@ -18,6 +18,7 @@ import Icon from '../ui/Icon'
 import { useTranslation } from 'react-i18next'
 import useProjectPermissions from '@src/hooks/permissions/useProjectPermissions'
 import Button from '../ui/Button/Button'
+import RequirePermissions from '../common/RequirePermissions'
 
 interface ArticleListProps {
   projectAddress: string
@@ -55,7 +56,9 @@ const ArticleList: React.FC<ArticleListProps> = ({
 
   return (
     <Flex flexDirection='column' $gap='10px'>
-      <CreateArticleCard projectAddress={projectAddress} />
+      <RequirePermissions canCreateArticle projectAddress={projectId}>
+        <CreateArticleCard projectAddress={projectAddress} />
+      </RequirePermissions>
       {ipfsArticleContent
         ? articles?.map((article, index) =>
             !ipfsArticleContent[index].error ? (
