@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import queryString from 'query-string'
-import HistoryDifference from './HistoryDifference'
+import HistoryArticleDifference from './HistoryArticleDifference'
 import HistoryArticleList from './HistoryArticleList'
 import { TokenUriUpdatesQuery } from '@src/queries/gql/graphql'
 import Box from '../ui/Box'
@@ -13,7 +13,7 @@ const HistoryArticle = () => {
   const location = useLocation()
   const mode = useMemo(() => {
     const params = queryString.parse(location.search)
-    if (params.oldTokenId && params.newTokenId) {
+    if (params.oldArticleId && params.newArticleId) {
       return 'difference'
     } else {
       return 'list'
@@ -42,8 +42,8 @@ const HistoryArticle = () => {
               onClick={() => onSelectArticles([])}
               to={`?${queryString.stringify({
                 ...queryString.parse(location.search),
-                oldTokenId: sortedArticlesByUpdatedAt[0]?.id,
-                newTokenId: sortedArticlesByUpdatedAt[1]?.id,
+                oldArticleId: sortedArticlesByUpdatedAt[0]?.id,
+                newArticleId: sortedArticlesByUpdatedAt[1]?.id,
               })}`}
             >
               <Button>{t('compare')}</Button>
@@ -59,7 +59,7 @@ const HistoryArticle = () => {
           </Box>
         </Box>
       ) : (
-        <HistoryDifference />
+        <HistoryArticleDifference />
       )}
     </div>
   )

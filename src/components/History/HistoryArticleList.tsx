@@ -83,8 +83,8 @@ const HistoryArticleList: React.FC<HistoryArticleListProps> = ({
                   onClick={resetSelectedArticles}
                   to={`?${queryString.stringify({
                     ...queryString.parse(location.search),
-                    oldTokenId: tokenUriUpdates[0]?.id,
-                    newTokenId: item.id,
+                    oldArticleId: tokenUriUpdates[0]?.id,
+                    newArticleId: item.id,
                   })}`}
                 >
                   curr
@@ -98,8 +98,8 @@ const HistoryArticleList: React.FC<HistoryArticleListProps> = ({
                   onClick={resetSelectedArticles}
                   to={`?${queryString.stringify({
                     ...queryString.parse(location.search),
-                    oldTokenId: tokenUriUpdates[index + 1]?.id,
-                    newTokenId: item.id,
+                    oldArticleId: tokenUriUpdates[index + 1]?.id,
+                    newArticleId: item.id,
                   })}`}
                 >
                   prev

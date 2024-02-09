@@ -10,21 +10,21 @@ import {
 } from '@src/queries/gql/graphql'
 import HistoryDifferenceSkeleton from './HistoryDIfferenceSkeleton'
 
-const HistoryDifference = () => {
+const HistoryArticleDifference = () => {
   const location = useLocation()
   const {
-    oldTokenId,
-    newTokenId,
-  }: { oldTokenId?: string; newTokenId?: string } = useMemo(
+    oldArticleId,
+    newArticleId,
+  }: { oldArticleId?: string; newArticleId?: string } = useMemo(
     () => queryString.parse(location.search),
     [location.search]
   )
   const { fullTokenUriTokens } = useTokenURIUpdates(
-    oldTokenId || '',
+    oldArticleId || '',
     {
       variables: {
         filter: {
-          or: [{ id: newTokenId }, { id: oldTokenId }],
+          or: [{ id: newArticleId }, { id: oldArticleId }],
         },
         orderBy: TokenUriUpdate_OrderBy.UpdatedAt,
         orderDirection: OrderDirection.Asc,
@@ -64,4 +64,4 @@ const HistoryDifference = () => {
   )
 }
 
-export default HistoryDifference
+export default HistoryArticleDifference
