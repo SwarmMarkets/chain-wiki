@@ -4,7 +4,7 @@ import { useMemo } from 'react'
 import { NFTAccessRolesQuery } from '@src/queries'
 import { QueryNftArgs } from '@src/queries/gql/graphql'
 
-const POLL_INTERVAL = 15000
+const POLL_INTERVAL = 7000
 
 const useNFTRoles = (id?: QueryNftArgs['id']) => {
   const { data, loading, error, fetchMore, networkStatus, refetch } = useQuery(
