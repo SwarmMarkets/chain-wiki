@@ -1,5 +1,5 @@
 import { NetworkStatus, QueryHookOptions, useQuery } from '@apollo/client'
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 
 import { NFTURIUpdatesQuery } from '@src/queries'
 import {
@@ -8,14 +8,29 @@ import {
   NfturiUpdatesQueryVariables,
 } from '@src/queries/gql/graphql'
 import { unifyAddressToId } from '@src/shared/utils'
+import { useStorage } from '@thirdweb-dev/react'
+import { NftUriUpdatesQueryFullData } from '@src/shared/types/ipfs'
 
 const PAGE_LIMIT = 10
 const POLL_INTERVAL = 15000
 
+interface UseNftURIUpdatesConfig {
+  fetchFullData?: boolean
+}
+
 const useNFTURIUpdates = (
   id: NftQueryVariables['id'],
-  options?: QueryHookOptions<NFTURIUpdatesQueryGQL, NfturiUpdatesQueryVariables>
+  options?: QueryHookOptions<
+    NFTURIUpdatesQueryGQL,
+    NfturiUpdatesQueryVariables
+  >,
+  config?: UseNftURIUpdatesConfig
 ) => {
+  const [fullData, setFullData] = useState<
+    NftUriUpdatesQueryFullData[] | null
+  >(null)
+  const storage = useStorage()
+
   const { data, loading, error, networkStatus, refetch, fetchMore } = useQuery(
     NFTURIUpdatesQuery,
     {
@@ -32,12 +47,40 @@ const useNFTURIUpdates = (
         },
         ...options?.variables,
       },
+      async onCompleted(data) {
+        if (!config?.fetchFullData) {
+          return
+        }
+
+        const newUriPromises = data.nfturiupdates.map(item =>
+          storage?.downloadJSON(item.newURI)
+        )
+        const prevUriPromises = data.nfturiupdates.map(item =>
+          storage?.downloadJSON(item.previousURI)
+        )
+        const newUriData = await Promise.all(newUriPromises)
+        const prevUriData = await Promise.all(prevUriPromises)
+
+        const fullData = data.nfturiupdates.map((item, index) => {
+          if (newUriData[index].error || prevUriData[index].error) {
+            return item
+          }
+
+          return {
+            ...item,
+            ipfsNewUriContent: newUriData[index],
+            ipfsPrevUriContent: prevUriData[index],
+          }
+        })
+        setFullData(fullData)
+      },
     }
   )
 
   return useMemo(
     () => ({
       nftUriUpdates: data?.nfturiupdates,
+      fullNftUriUpdates: fullData,
       loading:
         loading ||
         ![
@@ -50,7 +93,7 @@ const useNFTURIUpdates = (
       refetching: [NetworkStatus.poll].includes(networkStatus),
       fetchMore: fetchMore,
     }),
-    [data?.nfturiupdates, error, fetchMore, loading, networkStatus, refetch]
+    [data?.nfturiupdates, error, fetchMore, fullData, loading, networkStatus, refetch]
   )
 }
 

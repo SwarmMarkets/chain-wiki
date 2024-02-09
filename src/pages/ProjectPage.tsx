@@ -18,6 +18,7 @@ import Flex from '@src/components/ui/Flex'
 import Icon from '@src/components/ui/Icon'
 import useProjectPermissions from '@src/hooks/permissions/useProjectPermissions'
 import ProjectRoleManager from '@src/components/Project/ProjectRoleManager'
+import HistoryProject from '@src/components/History/HistoryProject'
 
 const ProjectWrapper = styled.div`
   display: flex;
@@ -99,11 +100,15 @@ const ProjectPage = () => {
             <ContentMissing message='Project content missing' />
           ),
         },
-        ...(permissions.canManageRoles ? [{
-          id: 4,
-          title: t('tabs.manageRoles'),
-          content: <ProjectRoleManager projectAddress={projectId!} />
-        }] : []),
+        ...(permissions.canManageRoles
+          ? [
+              {
+                id: 4,
+                title: t('tabs.manageRoles'),
+                content: <ProjectRoleManager projectAddress={projectId!} />,
+              },
+            ]
+          : []),
         {
           id: 2,
           title: t('tabs.articles'),
@@ -111,25 +116,37 @@ const ProjectPage = () => {
             <ArticleList projectAddress={projectId!} articles={nft.tokens} />
           ),
         },
+        ...(permissions.canUpdateContent
+          ? [
+              {
+                id: 3,
+                title: t('tabs.edit'),
+                content: (
+                  <Editor
+                    projectAddress={projectId!}
+                    initialContent={nft.ipfsContent?.htmlContent || ''}
+                  />
+                ),
+              },
+            ]
+          : []),
+        {
+          id: 5,
+          title: t('tabs.history'),
+          content: <HistoryProject />,
+        },
       ]
-
-      permissions.canUpdateContent &&
-        tabs.push({
-          id: 3,
-          title: t('tabs.edit'),
-          content: (
-            <Editor
-              projectAddress={projectId!}
-              initialContent={nft.ipfsContent?.htmlContent || ''}
-            />
-          ),
-        })
-
       return tabs
     } else {
       return []
     }
-  }, [nft, permissions.canManageRoles, permissions.canUpdateContent, projectId, t])
+  }, [
+    nft,
+    permissions.canManageRoles,
+    permissions.canUpdateContent,
+    projectId,
+    t,
+  ])
 
   return (
     <ProjectWrapper>

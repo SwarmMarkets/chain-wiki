@@ -3,7 +3,8 @@
     "project": "Project",
     "articles": "Articles",
     "edit": "Edit project",
-    "manageRoles": "Manage Roles"
+    "manageRoles": "Manage Roles",
+    "history": "History"
   },
   "createProject": {
     "title": "Create Project",

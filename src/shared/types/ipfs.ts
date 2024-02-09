@@ -1,6 +1,7 @@
 import {
   NfTsQuery,
   NftQuery,
+  NfturiUpdatesQuery,
   TokenQuery,
   TokenUriUpdatesQuery,
   TokensQuery,
@@ -27,6 +28,11 @@ export type NFTQueryFullData = NftQuery['nft'] & {
   ipfsContent?: IpfsProjectContent
 }
 
+export type NftUriUpdatesQueryFullData = NfturiUpdatesQuery['nfturiupdates'][0] & {
+  ipfsNewUriContent?: IpfsProjectContent
+  ipfsPrevUriContent?: IpfsProjectContent
+}
+
 export type TokenQueryFullData = TokenQuery['token'] & {
   ipfsContent?: IpfsArticleContent
 }
@@ -39,3 +45,4 @@ export type TokenUriUpdatesQueryFullData = TokenUriUpdatesQuery['tokenURIUpdates
   ipfsNewUriContent?: IpfsArticleContent
   ipfsPrevUriContent?: IpfsArticleContent
 }
+
