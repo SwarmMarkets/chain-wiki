@@ -26,6 +26,11 @@ export const StyledLink = styled(Link)`
   }
 `
 
+const StyledCard = styled(Card)`
+  padding: 18px;
+  user-select: none;
+`
+
 const HistoryArticleList: React.FC<HistoryArticleListProps> = ({
   onSelectArticles,
   selectedArticles,
@@ -73,7 +78,7 @@ const HistoryArticleList: React.FC<HistoryArticleListProps> = ({
       {tokenUriUpdates &&
         selectedArticles &&
         tokenUriUpdates.map((item, index) => (
-          <Card key={item.id}>
+          <StyledCard key={item.id}>
             <Text>
               (
               {index === 0 ? (
@@ -123,7 +128,7 @@ const HistoryArticleList: React.FC<HistoryArticleListProps> = ({
               onChange={() => onChangeCheckbox(item)}
             />
             <Text ml='20px'>{new Date(+item.updatedAt).toLocaleString()} </Text>
-          </Card>
+          </StyledCard>
         ))}
     </Flex>
   )
