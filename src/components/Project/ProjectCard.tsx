@@ -2,7 +2,7 @@ import { NFTsQueryFullData } from '@src/shared/types/ipfs'
 import {
   getTextContentFromHtml,
   isSameEthereumAddress,
-  limitString
+  limitString,
 } from '@src/shared/utils'
 import { shortenAddress, useAddress } from '@thirdweb-dev/react'
 import React, { useMemo } from 'react'
@@ -27,26 +27,29 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   const theme = useTheme()
   const account = useAddress()
 
-  const role = useMemo(() => {
+  const roles = useMemo(() => {
     if (!showRole) return
-    const isEditor = project.editors.some(address =>
-      isSameEthereumAddress(address, account)
-    )
-    if (isEditor) {
-      return t('filter.editor', { ns: 'projects' })
-    }
-    const isIssuer = project.issuers.some(address =>
-      isSameEthereumAddress(address, account)
-    )
-    if (isIssuer) {
-      return t('filter.issuer', { ns: 'projects' })
-    }
     const isAdmin = project.admins.some(address =>
       isSameEthereumAddress(address, account)
     )
+    const isEditor = project.editors.some(address =>
+      isSameEthereumAddress(address, account)
+    )
+    const isIssuer = project.issuers.some(address =>
+      isSameEthereumAddress(address, account)
+    )
+    const roles = []
     if (isAdmin) {
-      return t('filter.admin', { ns: 'projects' })
+      roles.push(t('filter.admin', { ns: 'projects' }))
     }
+    if (isEditor) {
+      roles.push(t('filter.editor', { ns: 'projects' }))
+    }
+    if (isIssuer) {
+      roles.push(t('filter.issuer', { ns: 'projects' }))
+    }
+
+    return roles
   }, [account, project.admins, project.editors, project.issuers, t, showRole])
 
   return (
@@ -78,13 +81,12 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           </Flex>
         )}
         <Flex flexDirection='column' alignItems='end' pt={10} $gap='5px'>
-          <ExplorerLink type="address" hash={project.id}>
+          <ExplorerLink type='address' hash={project.id}>
             {shortenAddress(project.id, false)}
           </ExplorerLink>
-          {role && (
-            <Text color={theme.palette.borderPrimary}>
-              {t('role', { ns: 'projects' })}
-              {role}
+          {roles && roles.length > 0 && (
+            <Text>
+              {t('roles', { ns: 'projects' })} {roles.join(', ')}
             </Text>
           )}
         </Flex>
