@@ -13,6 +13,7 @@ import {
   TokenUriUpdate_OrderBy,
   TokenUriUpdatesQuery,
 } from '@src/queries/gql/graphql'
+import { useTranslation } from 'react-i18next'
 
 interface HistoryArticleListProps {
   onSelectArticles: (articles: TokenUriUpdatesQuery['tokenURIUpdates']) => void
@@ -36,6 +37,7 @@ const HistoryArticleList: React.FC<HistoryArticleListProps> = ({
   selectedArticles,
 }) => {
   const location = useLocation()
+  const { t } = useTranslation('history')
   const { articleId = '' } = useParams()
   const { tokenUriUpdates, loading, refetching } = useTokenURIUpdates(
     articleId,
@@ -82,7 +84,7 @@ const HistoryArticleList: React.FC<HistoryArticleListProps> = ({
             <Text>
               (
               {index === 0 ? (
-                <Text>curr</Text>
+                <Text>{t('curr')}</Text>
               ) : (
                 <StyledLink
                   onClick={resetSelectedArticles}
@@ -92,12 +94,12 @@ const HistoryArticleList: React.FC<HistoryArticleListProps> = ({
                     newArticleId: item.id,
                   })}`}
                 >
-                  curr
+                  {t('curr')}
                 </StyledLink>
               )}{' '}
               |{' '}
               {index === tokenUriUpdates.length - 1 ? (
-                <Text>prev</Text>
+                <Text>{t('prev')}</Text>
               ) : (
                 <StyledLink
                   onClick={resetSelectedArticles}
@@ -107,7 +109,7 @@ const HistoryArticleList: React.FC<HistoryArticleListProps> = ({
                     newArticleId: item.id,
                   })}`}
                 >
-                  prev
+                  {t('prev')}
                 </StyledLink>
               )}
               )

@@ -9,9 +9,11 @@ import {
   TokenUriUpdate_OrderBy,
 } from '@src/queries/gql/graphql'
 import HistoryDifferenceSkeleton from './HistoryDIfferenceSkeleton'
+import { useTranslation } from 'react-i18next'
 
 const HistoryArticleDifference = () => {
   const location = useLocation()
+  const { t } = useTranslation('history')
   const {
     oldArticleId,
     newArticleId,
@@ -47,7 +49,7 @@ const HistoryArticleDifference = () => {
                 key={article.id}
               >
                 <span>
-                  Revision as of {new Date(+article.updatedAt).toLocaleString()}
+                  {t('revisionAsOf')} {new Date(+article.updatedAt).toLocaleString()}
                 </span>
               </Flex>
             ))}
