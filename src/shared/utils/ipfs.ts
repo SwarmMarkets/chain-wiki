@@ -6,10 +6,10 @@ const initialProjectContent = {
   htmlContent: '',
 }
 
-const initialArticleContent = {
-  tokenId: 0,
-  ...initialProjectContent,
-}
+// const initialArticleContent = {
+//   tokenId: 0,
+//   ...initialProjectContent,
+// }
 
 export const generateIpfsProjectContent = (args: IpfsProjectContent) => {
   const content: IpfsProjectContent = {

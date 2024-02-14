@@ -49,8 +49,8 @@ const useProjectPermissions = (projectAddress?: string) => {
     return {
       canCreateProject: connected === 'connected',
       canManageRoles: isAdmin,
-      canUpdateContent: isAdmin || isEditor,
-      canCreateArticle: isAdmin || isIssuer,
+      canUpdateContent: isEditor,
+      canCreateArticle: isIssuer,
     }
   }, [account, connected, nft])
 
