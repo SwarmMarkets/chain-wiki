@@ -5,7 +5,7 @@ import {
   coinbaseWallet,
   en,
   metamaskWallet,
-  walletConnect
+  walletConnect,
 } from '@thirdweb-dev/react'
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
@@ -19,9 +19,9 @@ import client from './services/apollo'
 import RoutePaths from './shared/enums/routes-paths'
 import theme from './theme'
 import MyProjectsPage from './pages/MyProjectsPage'
+import { GlobalStyle } from './globalStyle'
 
 function App() {
-
   return (
     <ApolloProvider client={client}>
       <ThirdwebProvider
@@ -52,6 +52,7 @@ function App() {
               </Routes>
             </Layout>
           </Router>
+          <GlobalStyle />
           <ToastContainer />
         </ThemeProvider>
       </ThirdwebProvider>
