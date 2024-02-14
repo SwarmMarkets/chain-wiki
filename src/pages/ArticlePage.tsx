@@ -30,7 +30,7 @@ const ArticleWrapper = styled.div`
 `
 
 const ArticleContent = styled.div`
-  max-width: 1052px;
+  max-width: 980px;
   width: 100%;
 `
 

@@ -30,7 +30,7 @@ const ProjectWrapper = styled.div`
 `
 
 const ProjectContent = styled.div`
-  max-width: 1052px;
+  max-width: 980px;
   width: 100%;
 `
 
