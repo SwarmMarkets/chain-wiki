@@ -1,3 +1,4 @@
+import shouldForwardProp from '@styled-system/should-forward-prop';
 import styled from 'styled-components';
 import { ColorProps, LayoutProps, SpaceProps, TypographyProps, color, layout, space, typography } from 'styled-system';
 
@@ -6,7 +7,7 @@ type TableProps = SpaceProps & LayoutProps;
 type TableCellProps = TypographyProps & SpaceProps & ColorProps;
 
 // Table container that applies spacing and layout styles from styled-system
-export const Table = styled.table<TableProps>`
+export const Table = styled.table.withConfig({ shouldForwardProp })<TableProps>`
   ${space}
   ${layout}
   width: 100%;
@@ -22,7 +23,7 @@ export const TableRow = styled.tr`
 `;
 
 // TableHeader with improved typography and spacing
-export const TableHeader = styled.th<TableCellProps>`
+export const TableHeader = styled.th.withConfig({ shouldForwardProp })<TableCellProps>`
   ${typography}
   ${space}
   ${color}
@@ -33,7 +34,7 @@ export const TableHeader = styled.th<TableCellProps>`
 `;
 
 // TableCell with consistent styling and padding
-export const TableCell = styled.td<TableCellProps>`
+export const TableCell = styled.td.withConfig({ shouldForwardProp })<TableCellProps>`
   ${typography}
   ${space}
   ${color}
