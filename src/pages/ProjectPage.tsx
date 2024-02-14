@@ -8,7 +8,6 @@ import Tabs from '@src/components/ui/Tabs'
 import Text from '@src/components/ui/Text'
 import ArticleList from '@src/components/Article/ArticleList'
 import { useTranslation } from 'react-i18next'
-import { Tab } from '@src/shared/types/ui-components'
 import useNFT from '@src/hooks/subgraph/useNFT'
 import ProjectContentSkeleton from '@src/components/Project/ProjectContentSkeleton'
 import ContentMissing from '@src/components/common/ContentMissing'
@@ -19,6 +18,10 @@ import Icon from '@src/components/ui/Icon'
 import useProjectPermissions from '@src/hooks/permissions/useProjectPermissions'
 import ProjectRoleManager from '@src/components/Project/ProjectRoleManager'
 import HistoryProject from '@src/components/History/HistoryProject'
+import TabContext from '@src/components/ui/Tabs/TabContext'
+import TabPanel from '@src/components/ui/Tabs/TabPanel'
+import Tab from '@src/components/ui/Tabs/Tab'
+import { Tab as ITab } from '@src/shared/types/ui-components'
 
 const ProjectWrapper = styled.div`
   display: flex;
@@ -62,7 +65,7 @@ const ProjectPage = () => {
   const { t } = useTranslation('project')
   const { permissions } = useProjectPermissions(projectId)
   const [contentElem, setContentElem] = useState<HTMLDivElement | null>(null)
-  const [activeProjectTab, setActiveProjectTab] = useState(1)
+  const [activeProjectTab, setActiveProjectTab] = useState('1')
   const { nft, loadingNft, refetchingNft } = useNFT(projectId || '')
   const explorerUrl = useMemo(
     () =>
@@ -80,77 +83,13 @@ const ProjectPage = () => {
     setContentElem(contentRef?.current)
   }
 
-  const onChangeProjectTab = (tab: Tab) => {
-    setActiveProjectTab(tab.id)
+  const onChangeProjectTab = (tab: ITab) => {
+    setActiveProjectTab(tab.value)
   }
-
-  const projectTabs = useMemo(() => {
-    if (nft) {
-      const tabs = [
-        {
-          id: 1,
-          title: t('tabs.project'),
-          content: nft.ipfsContent?.htmlContent ? (
-            <HtmlRender
-              onMount={onMountContent}
-              ref={contentRef}
-              html={nft.ipfsContent.htmlContent}
-            />
-          ) : (
-            <ContentMissing message='Project content missing' />
-          ),
-        },
-        ...(permissions.canManageRoles
-          ? [
-              {
-                id: 4,
-                title: t('tabs.manageRoles'),
-                content: <ProjectRoleManager projectAddress={projectId!} />,
-              },
-            ]
-          : []),
-        {
-          id: 2,
-          title: t('tabs.articles'),
-          content: (
-            <ArticleList projectAddress={projectId!} articles={nft.tokens} />
-          ),
-        },
-        ...(permissions.canUpdateContent
-          ? [
-              {
-                id: 3,
-                title: t('tabs.edit'),
-                content: (
-                  <Editor
-                    projectAddress={projectId!}
-                    initialContent={nft.ipfsContent?.htmlContent || ''}
-                  />
-                ),
-              },
-            ]
-          : []),
-        {
-          id: 5,
-          title: t('tabs.history'),
-          content: <HistoryProject />,
-        },
-      ]
-      return tabs
-    } else {
-      return []
-    }
-  }, [
-    nft,
-    permissions.canManageRoles,
-    permissions.canUpdateContent,
-    projectId,
-    t,
-  ])
 
   return (
     <ProjectWrapper>
-      {activeProjectTab === 1 && contentElem ? (
+      {activeProjectTab === '1' && contentElem ? (
         <StyledContent contentElem={contentElem} />
       ) : (
         <ContentPlaceholder />
@@ -172,11 +111,48 @@ const ProjectPage = () => {
               </ExplorerLink>
             </Flex>
 
-            <Tabs
-              tabs={projectTabs}
-              activeTab={activeProjectTab}
-              onChange={onChangeProjectTab}
-            />
+            <TabContext value={activeProjectTab}>
+              <Tabs onChange={onChangeProjectTab}>
+                <Tab value='1' label={t('tabs.project')} />
+                {permissions.canManageRoles && (
+                  <Tab value='4' label={t('tabs.manageRoles')} />
+                )}
+                <Tab value='2' label={t('tabs.articles')} />
+                {permissions.canUpdateContent && (
+                  <Tab value='3' label={t('tabs.edit')} />
+                )}
+                <Tab value='5' label={t('tabs.history')} />
+              </Tabs>
+              <TabPanel value='1'>
+                {nft?.ipfsContent?.htmlContent ? (
+                  <HtmlRender
+                    onMount={onMountContent}
+                    ref={contentRef}
+                    html={nft.ipfsContent.htmlContent}
+                  />
+                ) : (
+                  <ContentMissing message='Project content missing' />
+                )}
+              </TabPanel>
+              <TabPanel value='2'>
+                <ArticleList
+                  projectAddress={projectId!}
+                  articles={nft?.tokens}
+                />
+              </TabPanel>
+              <TabPanel value='3'>
+                <Editor
+                  projectAddress={projectId!}
+                  initialContent={nft?.ipfsContent?.htmlContent || ''}
+                />
+              </TabPanel>
+              <TabPanel value='4'>
+                <ProjectRoleManager projectAddress={projectId!} />
+              </TabPanel>
+              <TabPanel value='5'>
+                <HistoryProject />
+              </TabPanel>
+            </TabContext>
           </>
         )}
       </ProjectContent>

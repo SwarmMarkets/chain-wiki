@@ -1,14 +1,13 @@
 import icons from '../consts/icons'
 
 export interface Tab {
-  id: number
-  title: string
-  content: React.ReactNode
+  value: string
+  label: string
 }
 
 export interface ButtonOption {
-  value: string;
-  label: string;
+  value: string
+  label: string
 }
 
 export type IconName = keyof typeof icons

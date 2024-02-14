@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import {
   useLocation,
   useNavigate,
@@ -14,11 +14,14 @@ import HtmlRender from '@src/components/HtmlRender'
 import Tabs from '@src/components/ui/Tabs'
 import Text from '@src/components/ui/Text'
 import HistoryArticle from '@src/components/History/HistoryArticle'
-import { Tab } from '@src/shared/types/ui-components'
+import { Tab as ITab } from '@src/shared/types/ui-components'
 import useToken from '@src/hooks/subgraph/useToken'
 import ArticleContentSkeleton from '@src/components/Article/ArticleContentSkeleton'
 import ContentMissing from '@src/components/common/ContentMissing'
 import useProjectPermissions from '@src/hooks/permissions/useProjectPermissions'
+import TabContext from '@src/components/ui/Tabs/TabContext'
+import Tab from '@src/components/ui/Tabs/Tab'
+import TabPanel from '@src/components/ui/Tabs/TabPanel'
 
 const ArticleWrapper = styled.div`
   display: flex;
@@ -57,7 +60,7 @@ const ArticlePage = () => {
   const { t } = useTranslation('article')
   const { permissions } = useProjectPermissions(projectId)
   const [contentElem, setContentElem] = useState<HTMLDivElement | null>(null)
-  const initialTab = Number(searchParams.get('tab')) || 1
+  const initialTab = searchParams.get('tab') || '1'
   const [activeTab, setActiveTab] = useState(initialTab)
   const { token, loadingToken, refetchingToken } = useToken(articleId)
 
@@ -69,63 +72,22 @@ const ArticlePage = () => {
     setContentElem(contentRef?.current)
   }
 
-  const onChangeTab = (tab: Tab) => {
-    setActiveTab(tab.id)
-    if (tab.id === 1) {
+  const onChangeTab = (tab: ITab) => {
+    setActiveTab(tab.value)
+    if (tab.value === '1') {
       const params = queryString.exclude(location.search, ['tab'])
       navigate({ search: params })
       return
     }
-    const params = queryString.stringify({ tab: tab.id })
+    const params = queryString.stringify({ tab: tab.value })
     navigate({ search: `?${params}` }, { replace: true })
   }
 
   const tokenId = Number(token?.id.split('-')[1])
 
-  const tabs = useMemo(() => {
-    if (token) {
-      const tabs = [
-        {
-          id: 1,
-          title: t('tabs.read'),
-          content: token.ipfsContent?.htmlContent ? (
-            <HtmlRender
-              onMount={onMountContent}
-              ref={contentRef}
-              html={token.ipfsContent.htmlContent}
-            />
-          ) : (
-            <ContentMissing message='Article content missing' />
-          ),
-        },
-      ]
-      permissions.canUpdateContent &&
-        tabs.push({
-          id: 2,
-          title: t('tabs.edit'),
-          content: (
-            <Editor
-              initialContent={token.ipfsContent?.htmlContent || ''}
-              projectAddress={projectId}
-              articleId={tokenId}
-            />
-          ),
-        })
-      tabs.push({
-        id: 3,
-        title: t('tabs.history'),
-        content: <HistoryArticle />,
-      })
-
-      return tabs
-    } else {
-      return []
-    }
-  }, [permissions.canUpdateContent, projectId, t, token, tokenId])
-
   return (
     <ArticleWrapper>
-      {activeTab === 1 && contentElem ? (
+      {activeTab === '1' && contentElem ? (
         <StyledContent contentElem={contentElem} />
       ) : (
         <ContentPlaceholder />
@@ -138,7 +100,36 @@ const ArticlePage = () => {
             <Text.h1 size='24px' weight={700}>
               {token?.ipfsContent?.name}
             </Text.h1>
-            <Tabs tabs={tabs} activeTab={activeTab} onChange={onChangeTab} />
+            <TabContext value={activeTab}>
+              <Tabs onChange={onChangeTab}>
+                <Tab value='1' label={t('tabs.read')} />
+                {permissions.canUpdateContent && (
+                  <Tab value='2' label={t('tabs.edit')} />
+                )}
+                <Tab value='3' label={t('tabs.history')} />
+              </Tabs>
+              <TabPanel value='1'>
+                {token?.ipfsContent?.htmlContent ? (
+                  <HtmlRender
+                    onMount={onMountContent}
+                    ref={contentRef}
+                    html={token.ipfsContent.htmlContent}
+                  />
+                ) : (
+                  <ContentMissing message='Article content missing' />
+                )}
+              </TabPanel>
+              <TabPanel value='2'>
+                <Editor
+                  initialContent={token?.ipfsContent?.htmlContent || ''}
+                  projectAddress={projectId}
+                  articleId={tokenId}
+                />
+              </TabPanel>
+              <TabPanel value='3'>
+                <HistoryArticle />
+              </TabPanel>
+            </TabContext>
           </>
         )}
       </ArticleContent>
