@@ -22,6 +22,7 @@ import useProjectPermissions from '@src/hooks/permissions/useProjectPermissions'
 import TabContext from '@src/components/ui/Tabs/TabContext'
 import Tab from '@src/components/ui/Tabs/Tab'
 import TabPanel from '@src/components/ui/Tabs/TabPanel'
+import { ArticleTabs } from '@src/shared/enums/tabs'
 
 const ArticleWrapper = styled.div`
   display: flex;
@@ -60,7 +61,7 @@ const ArticlePage = () => {
   const { t } = useTranslation('article')
   const { permissions } = useProjectPermissions(projectId)
   const [contentElem, setContentElem] = useState<HTMLDivElement | null>(null)
-  const initialTab = searchParams.get('tab') || '1'
+  const initialTab = searchParams.get('tab') || ArticleTabs.READ
   const [activeTab, setActiveTab] = useState(initialTab)
   const { token, loadingToken, refetchingToken } = useToken(articleId)
 
@@ -74,7 +75,7 @@ const ArticlePage = () => {
 
   const onChangeTab = (tab: ITab) => {
     setActiveTab(tab.value)
-    if (tab.value === '1') {
+    if (tab.value === ArticleTabs.READ) {
       const params = queryString.exclude(location.search, ['tab'])
       navigate({ search: params })
       return
@@ -102,13 +103,13 @@ const ArticlePage = () => {
             </Text.h1>
             <TabContext value={activeTab}>
               <Tabs onChange={onChangeTab}>
-                <Tab value='1' label={t('tabs.read')} />
+                <Tab value={ArticleTabs.READ} label={t('tabs.read')} />
                 {permissions.canUpdateContent && (
-                  <Tab value='2' label={t('tabs.edit')} />
+                  <Tab value={ArticleTabs.EDIT} label={t('tabs.edit')} />
                 )}
-                <Tab value='3' label={t('tabs.history')} />
+                <Tab value={ArticleTabs.HISTORY} label={t('tabs.history')} />
               </Tabs>
-              <TabPanel value='1'>
+              <TabPanel value={ArticleTabs.READ}>
                 {token?.ipfsContent?.htmlContent ? (
                   <HtmlRender
                     onMount={onMountContent}
@@ -119,14 +120,14 @@ const ArticlePage = () => {
                   <ContentMissing message='Article content missing' />
                 )}
               </TabPanel>
-              <TabPanel value='2'>
+              <TabPanel value={ArticleTabs.EDIT}>
                 <Editor
                   initialContent={token?.ipfsContent?.htmlContent || ''}
                   projectAddress={projectId}
                   articleId={tokenId}
                 />
               </TabPanel>
-              <TabPanel value='3'>
+              <TabPanel value={ArticleTabs.HISTORY}>
                 <HistoryArticle />
               </TabPanel>
             </TabContext>

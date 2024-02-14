@@ -22,6 +22,7 @@ import TabContext from '@src/components/ui/Tabs/TabContext'
 import TabPanel from '@src/components/ui/Tabs/TabPanel'
 import Tab from '@src/components/ui/Tabs/Tab'
 import { Tab as ITab } from '@src/shared/types/ui-components'
+import { ProjectTabs } from '@src/shared/enums/tabs'
 
 const ProjectWrapper = styled.div`
   display: flex;
@@ -65,7 +66,7 @@ const ProjectPage = () => {
   const { t } = useTranslation('project')
   const { permissions } = useProjectPermissions(projectId)
   const [contentElem, setContentElem] = useState<HTMLDivElement | null>(null)
-  const [activeProjectTab, setActiveProjectTab] = useState('1')
+  const [activeProjectTab, setActiveProjectTab] = useState<string>(ProjectTabs.PROJECT)
   const { nft, loadingNft, refetchingNft } = useNFT(projectId || '')
   const explorerUrl = useMemo(
     () =>
@@ -89,7 +90,7 @@ const ProjectPage = () => {
 
   return (
     <ProjectWrapper>
-      {activeProjectTab === '1' && contentElem ? (
+      {activeProjectTab === ProjectTabs.PROJECT && contentElem ? (
         <StyledContent contentElem={contentElem} />
       ) : (
         <ContentPlaceholder />
@@ -113,17 +114,20 @@ const ProjectPage = () => {
 
             <TabContext value={activeProjectTab}>
               <Tabs onChange={onChangeProjectTab}>
-                <Tab value='1' label={t('tabs.project')} />
+                <Tab value={ProjectTabs.PROJECT} label={t('tabs.project')} />
                 {permissions.canManageRoles && (
-                  <Tab value='4' label={t('tabs.manageRoles')} />
+                  <Tab
+                    value={ProjectTabs.MANAGE}
+                    label={t('tabs.manageRoles')}
+                  />
                 )}
-                <Tab value='2' label={t('tabs.articles')} />
+                <Tab value={ProjectTabs.ARTICLES} label={t('tabs.articles')} />
                 {permissions.canUpdateContent && (
-                  <Tab value='3' label={t('tabs.edit')} />
+                  <Tab value={ProjectTabs.EDIT} label={t('tabs.edit')} />
                 )}
-                <Tab value='5' label={t('tabs.history')} />
+                <Tab value={ProjectTabs.HISTORY} label={t('tabs.history')} />
               </Tabs>
-              <TabPanel value='1'>
+              <TabPanel value={ProjectTabs.PROJECT}>
                 {nft?.ipfsContent?.htmlContent ? (
                   <HtmlRender
                     onMount={onMountContent}
@@ -134,22 +138,22 @@ const ProjectPage = () => {
                   <ContentMissing message='Project content missing' />
                 )}
               </TabPanel>
-              <TabPanel value='2'>
+              <TabPanel value={ProjectTabs.ARTICLES}>
                 <ArticleList
                   projectAddress={projectId!}
                   articles={nft?.tokens}
                 />
               </TabPanel>
-              <TabPanel value='3'>
+              <TabPanel value={ProjectTabs.EDIT}>
                 <Editor
                   projectAddress={projectId!}
                   initialContent={nft?.ipfsContent?.htmlContent || ''}
                 />
               </TabPanel>
-              <TabPanel value='4'>
+              <TabPanel value={ProjectTabs.MANAGE}>
                 <ProjectRoleManager projectAddress={projectId!} />
               </TabPanel>
-              <TabPanel value='5'>
+              <TabPanel value={ProjectTabs.HISTORY}>
                 <HistoryProject />
               </TabPanel>
             </TabContext>
