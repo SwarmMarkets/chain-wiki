@@ -1,7 +1,6 @@
 import { useMemo, useRef, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
-import styled, { useTheme } from 'styled-components'
-import Content from '@src/components/Content'
+import { useParams } from 'react-router-dom'
+import { useTheme } from 'styled-components'
 import Editor from '@src/components/Editor'
 import HtmlRender from '@src/components/HtmlRender'
 import Tabs from '@src/components/ui/Tabs'
@@ -23,41 +22,13 @@ import TabPanel from '@src/components/ui/Tabs/TabPanel'
 import Tab from '@src/components/ui/Tabs/Tab'
 import { Tab as ITab } from '@src/shared/types/ui-components'
 import { ProjectTabs } from '@src/shared/enums/tabs'
-
-const ProjectWrapper = styled.div`
-  display: flex;
-  gap: 20px;
-`
-
-const ProjectContent = styled.div`
-  max-width: 980px;
-  width: 100%;
-`
-
-const StyledContent = styled(Content)`
-  width: 210px;
-  margin-top: 20px;
-  word-wrap: break-word;
-  overflow-x: hidden;
-  overflow-y: auto;
-  position: sticky;
-  top: 24px;
-  contain: paint;
-  box-sizing: border-box;
-  max-height: calc(100vh - (24px * 2));
-`
-
-const ContentPlaceholder = styled.div`
-  width: 210px;
-  margin-top: 20px;
-  word-wrap: break-word;
-`
-
-const ExplorerLink = styled(Link)`
-  &:hover {
-    text-decoration: underline;
-  }
-`
+import {
+  ContentPlaceholder,
+  ExplorerLink,
+  InnerContainer,
+  StyledContent,
+  Wrapper,
+} from './styled-components'
 
 const ProjectPage = () => {
   const { projectId } = useParams()
@@ -66,7 +37,9 @@ const ProjectPage = () => {
   const { t } = useTranslation('project')
   const { permissions } = useProjectPermissions(projectId)
   const [contentElem, setContentElem] = useState<HTMLDivElement | null>(null)
-  const [activeProjectTab, setActiveProjectTab] = useState<string>(ProjectTabs.PROJECT)
+  const [activeProjectTab, setActiveProjectTab] = useState<string>(
+    ProjectTabs.PROJECT
+  )
   const { nft, loadingNft, refetchingNft } = useNFT(projectId || '')
   const explorerUrl = useMemo(
     () =>
@@ -89,13 +62,13 @@ const ProjectPage = () => {
   }
 
   return (
-    <ProjectWrapper>
+    <Wrapper>
       {activeProjectTab === ProjectTabs.PROJECT && contentElem ? (
         <StyledContent contentElem={contentElem} />
       ) : (
         <ContentPlaceholder />
       )}
-      <ProjectContent>
+      <InnerContainer>
         {showSkeleton ? (
           <ProjectContentSkeleton />
         ) : (
@@ -159,8 +132,8 @@ const ProjectPage = () => {
             </TabContext>
           </>
         )}
-      </ProjectContent>
-    </ProjectWrapper>
+      </InnerContainer>
+    </Wrapper>
   )
 }
 

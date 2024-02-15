@@ -6,9 +6,7 @@ import {
   useSearchParams,
 } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import styled from 'styled-components'
 import queryString from 'query-string'
-import Content from '@src/components/Content'
 import Editor from '@src/components/Editor'
 import HtmlRender from '@src/components/HtmlRender'
 import Tabs from '@src/components/ui/Tabs'
@@ -23,35 +21,7 @@ import TabContext from '@src/components/ui/Tabs/TabContext'
 import Tab from '@src/components/ui/Tabs/Tab'
 import TabPanel from '@src/components/ui/Tabs/TabPanel'
 import { ArticleTabs } from '@src/shared/enums/tabs'
-
-const ArticleWrapper = styled.div`
-  display: flex;
-  gap: 20px;
-`
-
-const ArticleContent = styled.div`
-  max-width: 980px;
-  width: 100%;
-`
-
-const StyledContent = styled(Content)`
-  width: 210px;
-  margin-top: 20px;
-  word-wrap: break-word;
-  overflow-x: hidden;
-  overflow-y: auto;
-  position: sticky;
-  top: 24px;
-  contain: paint;
-  box-sizing: border-box;
-  max-height: calc(100vh - (24px * 2));
-`
-
-const ContentPlaceholder = styled.div`
-  width: 210px;
-  margin-top: 20px;
-  word-wrap: break-word;
-`
+import { ContentPlaceholder, InnerContainer, StyledContent, Wrapper } from './styled-components'
 
 const ArticlePage = () => {
   const { articleId = '', projectId = '' } = useParams()
@@ -87,13 +57,13 @@ const ArticlePage = () => {
   const tokenId = Number(token?.id.split('-')[1])
 
   return (
-    <ArticleWrapper>
-      {activeTab === '1' && contentElem ? (
+    <Wrapper>
+      {activeTab === ArticleTabs.READ && contentElem ? (
         <StyledContent contentElem={contentElem} />
       ) : (
         <ContentPlaceholder />
       )}
-      <ArticleContent>
+      <InnerContainer>
         {showSkeleton ? (
           <ArticleContentSkeleton />
         ) : (
@@ -133,8 +103,8 @@ const ArticlePage = () => {
             </TabContext>
           </>
         )}
-      </ArticleContent>
-    </ArticleWrapper>
+      </InnerContainer>
+    </Wrapper>
   )
 }
 
