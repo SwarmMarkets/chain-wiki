@@ -21,7 +21,12 @@ import TabContext from '@src/components/ui/Tabs/TabContext'
 import Tab from '@src/components/ui/Tabs/Tab'
 import TabPanel from '@src/components/ui/Tabs/TabPanel'
 import { ArticleTabs } from '@src/shared/enums/tabs'
-import { ContentPlaceholder, InnerContainer, StyledContent, Wrapper } from './styled-components'
+import {
+  ContentPlaceholder,
+  InnerContainer,
+  StyledContent,
+  Wrapper,
+} from './styled-components'
 
 const ArticlePage = () => {
   const { articleId = '', projectId = '' } = useParams()
@@ -58,11 +63,6 @@ const ArticlePage = () => {
 
   return (
     <Wrapper>
-      {activeTab === ArticleTabs.READ && contentElem ? (
-        <StyledContent contentElem={contentElem} />
-      ) : (
-        <ContentPlaceholder />
-      )}
       <InnerContainer>
         {showSkeleton ? (
           <ArticleContentSkeleton />
@@ -104,6 +104,11 @@ const ArticlePage = () => {
           </>
         )}
       </InnerContainer>
+      {activeTab === ArticleTabs.READ && contentElem ? (
+        <StyledContent contentElem={contentElem} />
+      ) : (
+        <ContentPlaceholder />
+      )}
     </Wrapper>
   )
 }

@@ -63,11 +63,6 @@ const ProjectPage = () => {
 
   return (
     <Wrapper>
-      {activeProjectTab === ProjectTabs.PROJECT && contentElem ? (
-        <StyledContent contentElem={contentElem} />
-      ) : (
-        <ContentPlaceholder />
-      )}
       <InnerContainer>
         {showSkeleton ? (
           <ProjectContentSkeleton />
@@ -133,6 +128,11 @@ const ProjectPage = () => {
           </>
         )}
       </InnerContainer>
+      {activeProjectTab === ProjectTabs.PROJECT && contentElem ? (
+        <StyledContent contentElem={contentElem} />
+      ) : (
+        <ContentPlaceholder />
+      )}
     </Wrapper>
   )
 }
