@@ -8,12 +8,12 @@ import {
 } from '@src/components/Article/styled-components'
 import Editor from '@src/components/Editor'
 import HistoryArticle from '@src/components/History/HistoryArticle'
-import RequirePermissions from '@src/components/common/RequirePermissions'
 import Tabs from '@src/components/ui/Tabs'
 import Tab from '@src/components/ui/Tabs/Tab'
 import TabContext from '@src/components/ui/Tabs/TabContext'
 import TabPanel from '@src/components/ui/Tabs/TabPanel'
 import Text from '@src/components/ui/Text'
+import useProjectPermissions from '@src/hooks/permissions/useProjectPermissions'
 import useToken from '@src/hooks/subgraph/useToken'
 import { ArticleTabs } from '@src/shared/enums/tabs'
 import { Tab as ITab } from '@src/shared/types/ui-components'
@@ -33,6 +33,7 @@ const ArticlePage = () => {
   const navigate = useNavigate()
   const location = useLocation()
   const { t } = useTranslation('article')
+  const { permissions } = useProjectPermissions(projectId)
 
   const initialTab = searchParams.get('tab') || ArticleTabs.READ
   const [activeTab, setActiveTab] = useState(initialTab)
@@ -83,9 +84,9 @@ const ArticlePage = () => {
         <TabContext value={activeTab}>
           <Tabs onChange={onChangeTab}>
             <Tab value={ArticleTabs.READ} label={t('tabs.read')} />
-            <RequirePermissions projectAddress={token?.nft.id} canUpdateContent>
+            {permissions.canUpdateContent && (
               <Tab value={ArticleTabs.EDIT} label={t('tabs.edit')} />
-            </RequirePermissions>
+            )}
             <Tab value={ArticleTabs.HISTORY} label={t('tabs.history')} />
           </Tabs>
 
