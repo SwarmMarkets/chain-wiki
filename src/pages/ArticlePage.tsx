@@ -67,6 +67,8 @@ const ArticlePage = () => {
         <InnerContainer>
           <ArticleContentSkeleton />
         </InnerContainer>
+
+        <ContentPlaceholder />
       </Wrapper>
     )
   }
@@ -81,7 +83,7 @@ const ArticlePage = () => {
         <TabContext value={activeTab}>
           <Tabs onChange={onChangeTab}>
             <Tab value={ArticleTabs.READ} label={t('tabs.read')} />
-            <RequirePermissions canUpdateContent>
+            <RequirePermissions projectAddress={token?.nft.id} canUpdateContent>
               <Tab value={ArticleTabs.EDIT} label={t('tabs.edit')} />
             </RequirePermissions>
             <Tab value={ArticleTabs.HISTORY} label={t('tabs.history')} />
