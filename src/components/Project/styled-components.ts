@@ -2,6 +2,7 @@ import styled from 'styled-components'
 import Card from '../ui/Card'
 import Text from '../ui/Text'
 import { Link } from 'react-router-dom'
+import Content from '../Content'
 
 export const StyledCard = styled(Card)`
   cursor: pointer;
@@ -17,13 +18,6 @@ export const Title = styled(Text.h2)`
   text-overflow: ellipsis;
 `
 
-export const ExplorerLink = styled.span`
-  color: ${({ theme }) => theme.palette.linkPrimary};
-  &:hover {
-    text-decoration: underline;
-  }
-`
-
 export const StyledLink = styled(Link)`
   display: contents;
 `
@@ -33,4 +27,34 @@ export const StyledRolesDescription = styled(Text.p)`
   font-size: 1.05rem;
   line-height: 1.3;
   color: ${({ theme }) => theme.palette.gray};
+`
+
+export const Wrapper = styled.div`
+  display: flex;
+  justify-content: end;
+  gap: 20px;
+`
+
+export const InnerContainer = styled.div`
+  max-width: 980px;
+  width: 100%;
+`
+
+export const StyledContent = styled(Content)`
+  width: 210px;
+  margin-top: 20px;
+  word-wrap: break-word;
+  overflow-x: hidden;
+  overflow-y: auto;
+  position: sticky;
+  top: 24px;
+  contain: paint;
+  box-sizing: border-box;
+  max-height: calc(100vh - (24px * 2));
+`
+
+export const ContentPlaceholder = styled.div`
+  width: 210px;
+  margin-top: 20px;
+  word-wrap: break-word;
 `

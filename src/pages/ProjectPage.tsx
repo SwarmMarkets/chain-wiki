@@ -1,38 +1,34 @@
-import { useMemo, useRef, useState } from 'react'
-import { useParams } from 'react-router-dom'
-import { useTheme } from 'styled-components'
-import Editor from '@src/components/Editor'
-import HtmlRender from '@src/components/HtmlRender'
-import Tabs from '@src/components/ui/Tabs'
-import Text from '@src/components/ui/Text'
 import ArticleList from '@src/components/Article/ArticleList'
-import { useTranslation } from 'react-i18next'
-import useNFT from '@src/hooks/subgraph/useNFT'
-import ProjectContentSkeleton from '@src/components/Project/ProjectContentSkeleton'
-import ContentMissing from '@src/components/common/ContentMissing'
-import { getExplorerUrl } from '@src/shared/utils'
-import { useChainId } from '@thirdweb-dev/react'
-import Flex from '@src/components/ui/Flex'
-import Icon from '@src/components/ui/Icon'
-import useProjectPermissions from '@src/hooks/permissions/useProjectPermissions'
-import ProjectRoleManager from '@src/components/Project/ProjectRoleManager'
+import Editor from '@src/components/Editor'
 import HistoryProject from '@src/components/History/HistoryProject'
-import TabContext from '@src/components/ui/Tabs/TabContext'
-import TabPanel from '@src/components/ui/Tabs/TabPanel'
-import Tab from '@src/components/ui/Tabs/Tab'
-import { Tab as ITab } from '@src/shared/types/ui-components'
-import { ProjectTabs } from '@src/shared/enums/tabs'
+import HtmlRender from '@src/components/HtmlRender'
+import ProjectContentSkeleton from '@src/components/Project/ProjectContentSkeleton'
+import ProjectRoleManager from '@src/components/Project/ProjectRoleManager'
 import {
   ContentPlaceholder,
-  ExplorerLink,
   InnerContainer,
   StyledContent,
   Wrapper,
-} from './styled-components'
+} from '@src/components/Project/styled-components'
+import ContentMissing from '@src/components/common/ContentMissing'
+import ExplorerLink from '@src/components/common/ExplorerLink'
+import Flex from '@src/components/ui/Flex'
+import Tabs from '@src/components/ui/Tabs'
+import Tab from '@src/components/ui/Tabs/Tab'
+import TabContext from '@src/components/ui/Tabs/TabContext'
+import TabPanel from '@src/components/ui/Tabs/TabPanel'
+import Text from '@src/components/ui/Text'
+import useProjectPermissions from '@src/hooks/permissions/useProjectPermissions'
+import useNFT from '@src/hooks/subgraph/useNFT'
+import { ProjectTabs } from '@src/shared/enums/tabs'
+import { Tab as ITab } from '@src/shared/types/ui-components'
+import { useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { useParams } from 'react-router-dom'
+import { useTheme } from 'styled-components'
 
 const ProjectPage = () => {
   const { projectId } = useParams()
-  const chainId = useChainId()
   const theme = useTheme()
   const { t } = useTranslation('project')
   const { permissions } = useProjectPermissions(projectId)
@@ -41,15 +37,7 @@ const ProjectPage = () => {
     ProjectTabs.PROJECT
   )
   const { nft, loadingNft, refetchingNft } = useNFT(projectId || '')
-  const explorerUrl = useMemo(
-    () =>
-      getExplorerUrl({
-        type: 'address',
-        chainId,
-        hash: projectId,
-      }),
-    [chainId, projectId]
-  )
+
   const contentRef = useRef<HTMLDivElement>(null)
   const showSkeleton = loadingNft && !refetchingNft
 
@@ -72,11 +60,8 @@ const ProjectPage = () => {
               <Text.h1 size={theme.fontSizes.large} weight={700}>
                 {nft?.name}
               </Text.h1>
-              <ExplorerLink target='_blank' to={explorerUrl}>
-                <Flex $gap='3px' alignItems='end'>
-                  <Icon name='externalLink' color={theme.palette.linkPrimary} />
-                  <Text color={theme.palette.linkPrimary}>{projectId}</Text>
-                </Flex>
+              <ExplorerLink type='address' hash={projectId}>
+                {projectId}
               </ExplorerLink>
             </Flex>
 

@@ -1,5 +1,4 @@
 import Content from '@src/components/Content'
-import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
 export const Wrapper = styled.div`
@@ -30,10 +29,4 @@ export const ContentPlaceholder = styled.div`
   width: 210px;
   margin-top: 20px;
   word-wrap: break-word;
-`
-
-export const ExplorerLink = styled(Link)`
-  &:hover {
-    text-decoration: underline;
-  }
 `

@@ -1,32 +1,31 @@
-import { useRef, useState } from 'react'
+import ArticleContentSkeleton from '@src/components/Article/ArticleContentSkeleton'
+import ArticleView from '@src/components/Article/ArticleView'
+import {
+  ContentPlaceholder,
+  InnerContainer,
+  StyledContent,
+  Wrapper,
+} from '@src/components/Article/styled-components'
+import Editor from '@src/components/Editor'
+import HistoryArticle from '@src/components/History/HistoryArticle'
+import RequirePermissions from '@src/components/common/RequirePermissions'
+import Tabs from '@src/components/ui/Tabs'
+import Tab from '@src/components/ui/Tabs/Tab'
+import TabContext from '@src/components/ui/Tabs/TabContext'
+import TabPanel from '@src/components/ui/Tabs/TabPanel'
+import Text from '@src/components/ui/Text'
+import useToken from '@src/hooks/subgraph/useToken'
+import { ArticleTabs } from '@src/shared/enums/tabs'
+import { Tab as ITab } from '@src/shared/types/ui-components'
+import queryString from 'query-string'
+import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import {
   useLocation,
   useNavigate,
   useParams,
   useSearchParams,
 } from 'react-router-dom'
-import { useTranslation } from 'react-i18next'
-import queryString from 'query-string'
-import Editor from '@src/components/Editor'
-import HtmlRender from '@src/components/HtmlRender'
-import Tabs from '@src/components/ui/Tabs'
-import Text from '@src/components/ui/Text'
-import HistoryArticle from '@src/components/History/HistoryArticle'
-import { Tab as ITab } from '@src/shared/types/ui-components'
-import useToken from '@src/hooks/subgraph/useToken'
-import ArticleContentSkeleton from '@src/components/Article/ArticleContentSkeleton'
-import ContentMissing from '@src/components/common/ContentMissing'
-import useProjectPermissions from '@src/hooks/permissions/useProjectPermissions'
-import TabContext from '@src/components/ui/Tabs/TabContext'
-import Tab from '@src/components/ui/Tabs/Tab'
-import TabPanel from '@src/components/ui/Tabs/TabPanel'
-import { ArticleTabs } from '@src/shared/enums/tabs'
-import {
-  ContentPlaceholder,
-  InnerContainer,
-  StyledContent,
-  Wrapper,
-} from './styled-components'
 
 const ArticlePage = () => {
   const { articleId = '', projectId = '' } = useParams()
@@ -34,19 +33,15 @@ const ArticlePage = () => {
   const navigate = useNavigate()
   const location = useLocation()
   const { t } = useTranslation('article')
-  const { permissions } = useProjectPermissions(projectId)
-  const [contentElem, setContentElem] = useState<HTMLDivElement | null>(null)
+
   const initialTab = searchParams.get('tab') || ArticleTabs.READ
   const [activeTab, setActiveTab] = useState(initialTab)
+
+  const [contentElem, setContentElem] = useState<HTMLDivElement | null>(null)
+
   const { token, loadingToken, refetchingToken } = useToken(articleId)
 
-  const contentRef = useRef<HTMLDivElement>(null)
-
   const showSkeleton = loadingToken && !refetchingToken
-
-  const onMountContent = () => {
-    setContentElem(contentRef?.current)
-  }
 
   const onChangeTab = (tab: ITab) => {
     setActiveTab(tab.value)
@@ -59,52 +54,56 @@ const ArticlePage = () => {
     navigate({ search: `?${params}` }, { replace: true })
   }
 
+  const onMount = (element: HTMLDivElement) => {
+    setContentElem(element)
+  }
+
   const tokenId = Number(token?.id.split('-')[1])
+  const isReadTab = activeTab === ArticleTabs.READ
+
+  if (showSkeleton) {
+    return (
+      <Wrapper>
+        <InnerContainer>
+          <ArticleContentSkeleton />
+        </InnerContainer>
+      </Wrapper>
+    )
+  }
 
   return (
     <Wrapper>
       <InnerContainer>
-        {showSkeleton ? (
-          <ArticleContentSkeleton />
-        ) : (
-          <>
-            <Text.h1 size='24px' weight={700}>
-              {token?.ipfsContent?.name}
-            </Text.h1>
-            <TabContext value={activeTab}>
-              <Tabs onChange={onChangeTab}>
-                <Tab value={ArticleTabs.READ} label={t('tabs.read')} />
-                {permissions.canUpdateContent && (
-                  <Tab value={ArticleTabs.EDIT} label={t('tabs.edit')} />
-                )}
-                <Tab value={ArticleTabs.HISTORY} label={t('tabs.history')} />
-              </Tabs>
-              <TabPanel value={ArticleTabs.READ}>
-                {token?.ipfsContent?.htmlContent ? (
-                  <HtmlRender
-                    onMount={onMountContent}
-                    ref={contentRef}
-                    html={token.ipfsContent.htmlContent}
-                  />
-                ) : (
-                  <ContentMissing message='Article content missing' />
-                )}
-              </TabPanel>
-              <TabPanel value={ArticleTabs.EDIT}>
-                <Editor
-                  initialContent={token?.ipfsContent?.htmlContent || ''}
-                  projectAddress={projectId}
-                  articleId={tokenId}
-                />
-              </TabPanel>
-              <TabPanel value={ArticleTabs.HISTORY}>
-                <HistoryArticle />
-              </TabPanel>
-            </TabContext>
-          </>
-        )}
+        <Text.h1 size='24px' weight={700}>
+          {token?.ipfsContent?.name}
+        </Text.h1>
+
+        <TabContext value={activeTab}>
+          <Tabs onChange={onChangeTab}>
+            <Tab value={ArticleTabs.READ} label={t('tabs.read')} />
+            <RequirePermissions canUpdateContent>
+              <Tab value={ArticleTabs.EDIT} label={t('tabs.edit')} />
+            </RequirePermissions>
+            <Tab value={ArticleTabs.HISTORY} label={t('tabs.history')} />
+          </Tabs>
+
+          <TabPanel value={ArticleTabs.READ}>
+            <ArticleView token={token} onMount={onMount} />
+          </TabPanel>
+          <TabPanel value={ArticleTabs.EDIT}>
+            <Editor
+              initialContent={token?.ipfsContent?.htmlContent || ''}
+              projectAddress={projectId}
+              articleId={tokenId}
+            />
+          </TabPanel>
+          <TabPanel value={ArticleTabs.HISTORY}>
+            <HistoryArticle />
+          </TabPanel>
+        </TabContext>
       </InnerContainer>
-      {activeTab === ArticleTabs.READ && contentElem ? (
+
+      {contentElem && isReadTab ? (
         <StyledContent contentElem={contentElem} />
       ) : (
         <ContentPlaceholder />
