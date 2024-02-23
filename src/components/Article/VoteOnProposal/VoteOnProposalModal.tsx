@@ -31,7 +31,9 @@ const VoteOnProposalModal: React.FC<BasicModalProps> = ({ ...props }) => {
         <Text.h3 color='nearBlack' mb={3}>
           {voteProposal?.title}
         </Text.h3>
-        <Text.p mb={3}>{voteProposal?.body}</Text.p>
+        <Text.p mb={3} lineHeight={1.5}>
+          {voteProposal?.body}
+        </Text.p>
 
         <VoteOnProposalForm />
       </Box>

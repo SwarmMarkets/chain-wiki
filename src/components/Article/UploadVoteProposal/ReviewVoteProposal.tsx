@@ -92,7 +92,9 @@ const ReviewVoteProposal: React.FC<ReviewVoteProposalProps> = ({
         <Text.h3 color='nearBlack' mb={3}>
           {data.message.title}
         </Text.h3>
-        <Text.p mb={3}>{data.message.body}</Text.p>
+        <Text.p mb={3} lineHeight={1.5}>
+          {data.message.body}
+        </Text.p>
 
         <Text.p mb={2}>{`${t('proposal.choices')}:`}</Text.p>
         <Flex $gap='10px' mb={3}>
