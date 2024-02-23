@@ -5,16 +5,19 @@ import Button from '../ui/Button/Button'
 import Flex from '../ui/Flex'
 import Modal from '../ui/Modal'
 import Text from '../ui/Text'
-import { List, ListItem, ListItemProps } from './StepsList'
 import { TextDescription } from './styled-components'
+import {
+  ActionStateItem,
+  ActionStateItemProps,
+  ActionStateWrap,
+} from '../ui/ActionState'
 
 export type ContentType = 'project' | 'article'
 
 interface UpdateProjectContentModalProps extends BasicModalProps {
   contentType: ContentType
-  steps: Record<Steps, ListItemProps>
+  steps: Record<Steps, ActionStateItemProps>
 }
-
 
 // eslint-disable-next-line react-refresh/only-export-components
 export enum Steps {
@@ -33,7 +36,7 @@ const UpdateContentModal: React.FC<UpdateProjectContentModalProps> = ({
 
   const isProject = contentType === 'project'
   const title = isProject ? t('project.title') : t('article.title')
-  const description = isProject? t('project.title') : t('article.title')
+  const description = isProject ? t('project.title') : t('article.title')
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} maxWidth='500px' width='100%'>
@@ -46,28 +49,28 @@ const UpdateContentModal: React.FC<UpdateProjectContentModalProps> = ({
           <Text.h1 my={3}>{title}</Text.h1>
           <TextDescription>{description}</TextDescription>
 
-          <List>
-            <ListItem
+          <ActionStateWrap>
+            <ActionStateItem
               loading={steps[Steps.PrepareContent].loading}
               success={steps[Steps.PrepareContent].success}
             >
               {t(`steps.${Steps.PrepareContent}`)}
-            </ListItem>
-            <ListItem
+            </ActionStateItem>
+            <ActionStateItem
               loading={steps[Steps.UploadToIPFS].loading}
               success={steps[Steps.UploadToIPFS].success}
             >
               {t(`steps.${Steps.UploadToIPFS}`)}
-            </ListItem>
-            <ListItem
+            </ActionStateItem>
+            <ActionStateItem
               loading={steps[Steps.SignTransaction].loading}
               success={steps[Steps.SignTransaction].success}
               error={steps[Steps.SignTransaction].error}
               retry={steps[Steps.SignTransaction].retry}
             >
               {t(`steps.${Steps.SignTransaction}`)}
-            </ListItem>
-          </List>
+            </ActionStateItem>
+          </ActionStateWrap>
         </Box>
 
         <Button onClick={onClose}>{t('actions.cancel')}</Button>
