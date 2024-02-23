@@ -1,4 +1,3 @@
-import React from 'react'
 import ArticleContentSkeleton from '@src/components/Article/ArticleContentSkeleton'
 import ArticleView from '@src/components/Article/ArticleView'
 import {
@@ -9,6 +8,7 @@ import {
 } from '@src/components/Article/styled-components'
 import Editor from '@src/components/Editor'
 import HistoryArticle from '@src/components/History/HistoryArticle'
+import { TokenContextProvider } from '@src/components/providers/TokenContext'
 import Tabs from '@src/components/ui/Tabs'
 import Tab from '@src/components/ui/Tabs/Tab'
 import TabContext from '@src/components/ui/Tabs/TabContext'
@@ -17,7 +17,6 @@ import Text from '@src/components/ui/Text'
 import useProjectPermissions from '@src/hooks/permissions/useProjectPermissions'
 import useToken from '@src/hooks/subgraph/useToken'
 import { ArticleTabs } from '@src/shared/enums/tabs'
-import { TokenQueryFullData } from '@src/shared/types/ipfs'
 import { Tab as ITab } from '@src/shared/types/ui-components'
 import queryString from 'query-string'
 import { useState } from 'react'
@@ -28,8 +27,6 @@ import {
   useParams,
   useSearchParams,
 } from 'react-router-dom'
-
-export const TokenContext = React.createContext<TokenQueryFullData | null>(null) 
 
 const ArticlePage = () => {
   const { articleId = '', projectId = '' } = useParams()
@@ -79,7 +76,7 @@ const ArticlePage = () => {
   }
 
   return (
-    <TokenContext.Provider value={token}>
+    <TokenContextProvider value={token}>
       <Wrapper>
         <InnerContainer>
           <Text.h1 size='24px' weight={700}>
@@ -117,7 +114,7 @@ const ArticlePage = () => {
           <ContentPlaceholder />
         )}
       </Wrapper>
-    </TokenContext.Provider>
+    </TokenContextProvider>
   )
 }
 
