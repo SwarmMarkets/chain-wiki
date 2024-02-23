@@ -14,7 +14,6 @@
   },
   "success": "Your content has been updated on IPFS and the new hash has been recorded on the blockchain.",
   "actions": {
-    "retry": "Retry",
     "cancel": "Cancel"
   }
 }
