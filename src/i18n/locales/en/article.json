@@ -28,6 +28,7 @@
     "stepBack": "Step Back",
     "submit": "Sign Transaction"
   },
+  "vote": "Vote",
   "proposeToVote": "Propose to Vote",
   "addArticle": "Add Article",
   "updateArticle": "Update"
