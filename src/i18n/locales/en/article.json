@@ -35,6 +35,15 @@
     "title": "Vote Submission Successful",
     "description": "Your proposal has been successfully uploaded to IPFS and integrated with Snapshot. Other community members can now view the details of your vote and participate."
   },
+  "voteOnProposal": {
+    "title": "Cast Your Vote",
+    "description": "A new proposal is on the table, and it's your opportunity to weigh in. Dive into the specifics, evaluate the options, and submit your vote to help guide our collective path forward. Your involvement is key to our community's success and progress. Let's shape our future together.",
+    "formPlaceholders": {
+      "choice": "Select",
+      "email": "Enter your email to count your vote"
+    },
+    "submit": "Submit"
+  },
   "vote": "Vote",
   "proposeToVote": "Propose to Vote",
   "addArticle": "Add Article",

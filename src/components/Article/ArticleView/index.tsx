@@ -32,7 +32,7 @@ const ArticleView: React.FC<ArticleViewProps> = ({ article, onMount }) => {
       />
 
       <Flex justifyContent='flex-end' mt={3}>
-        <ArticleViewActions articleId={article.id} />
+        <ArticleViewActions />
       </Flex>
     </Flex>
   )

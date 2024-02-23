@@ -1,9 +1,9 @@
 import UpdateContentButton from '@src/components/UpdateContent'
 import ExplorerLink from '@src/components/common/ExplorerLink'
+import { useTokenContext } from '@src/components/providers/TokenContext'
 import Flex from '@src/components/ui/Flex'
 import Icon from '@src/components/ui/Icon'
 import Text from '@src/components/ui/Text'
-import useToken from '@src/hooks/subgraph/useToken'
 import { IpfsVoteProposal } from '@src/shared/types/ipfs'
 import { VoteProposal } from '@src/shared/types/vote-proposal'
 import { convertUnixToLocaleString } from '@src/shared/utils'
@@ -18,19 +18,18 @@ import {
 
 interface ReviewVoteProposalProps {
   voteProposal: VoteProposal
-  articleId: string
   backStep(): void
   nextStep(): void
 }
 
 const ReviewVoteProposal: React.FC<ReviewVoteProposalProps> = ({
   voteProposal,
-  articleId,
   backStep,
   nextStep,
 }) => {
   const { t } = useTranslation('article', { keyPrefix: 'reviewProposal' })
-  const { token } = useToken(articleId)
+
+  const token = useTokenContext()
   const theme = useTheme()
 
   const { data, address, hash } = voteProposal
@@ -39,7 +38,7 @@ const ReviewVoteProposal: React.FC<ReviewVoteProposalProps> = ({
   const endDate = convertUnixToLocaleString(data.message.end)
   const creationDate = convertUnixToLocaleString(data.message.timestamp)
 
-  const [nftId, tokenId] = articleId.split('-')
+  const [nftId, tokenId] = token?.id ? token.id.split('-') : []
 
   const htmlContent = token?.ipfsContent?.htmlContent || ''
   const proposal: IpfsVoteProposal = useMemo(() => {

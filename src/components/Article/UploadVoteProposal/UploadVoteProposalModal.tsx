@@ -9,12 +9,7 @@ import ReviewVoteProposal from './ReviewVoteProposal'
 import UploadVoteProposal from './UploadVoteProposal'
 import Box from '@src/components/ui/Box'
 
-interface UploadVoteProposalModalProps extends BasicModalProps {
-  articleId?: string
-}
-
-const UploadVoteProposalModal: React.FC<UploadVoteProposalModalProps> = ({
-  articleId,
+const UploadVoteProposalModal: React.FC<BasicModalProps> = ({
   isOpen,
   onClose,
 }) => {
@@ -31,8 +26,6 @@ const UploadVoteProposalModal: React.FC<UploadVoteProposalModalProps> = ({
     reset()
     onClose()
   }
-
-  if (!articleId) return null
 
   return (
     <Modal
@@ -52,7 +45,6 @@ const UploadVoteProposalModal: React.FC<UploadVoteProposalModalProps> = ({
         <ReviewVoteProposal
           backStep={backStep}
           nextStep={nextStep}
-          articleId={articleId}
           voteProposal={voteProposal!}
         />
       )}
