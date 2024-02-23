@@ -20,10 +20,9 @@ export interface IpfsVoteProposal {
   type: string
   title: string
   body: string
-  discussion: string
-  choices: Array<string>,
-  start: number,
-  end: number,
+  choices: Array<string>
+  start: number
+  end: number
   timestamp: number
 }
 
@@ -42,10 +41,11 @@ export type NFTQueryFullData = NftQuery['nft'] & {
   ipfsContent?: IpfsProjectContent
 }
 
-export type NftUriUpdatesQueryFullData = NfturiUpdatesQuery['nfturiupdates'][0] & {
-  ipfsNewUriContent?: IpfsProjectContent
-  ipfsPrevUriContent?: IpfsProjectContent
-}
+export type NftUriUpdatesQueryFullData =
+  NfturiUpdatesQuery['nfturiupdates'][0] & {
+    ipfsNewUriContent?: IpfsProjectContent
+    ipfsPrevUriContent?: IpfsProjectContent
+  }
 
 export type TokenQueryFullData = TokenQuery['token'] & {
   ipfsContent?: IpfsArticleContent
@@ -55,8 +55,8 @@ export type TokensQueryFullData = TokensQuery['tokens'] & {
   ipfsContent?: IpfsArticleContent
 }
 
-export type TokenUriUpdatesQueryFullData = TokenUriUpdatesQuery['tokenURIUpdates'][0] & {
-  ipfsNewUriContent?: IpfsArticleContent
-  ipfsPrevUriContent?: IpfsArticleContent
-}
-
+export type TokenUriUpdatesQueryFullData =
+  TokenUriUpdatesQuery['tokenURIUpdates'][0] & {
+    ipfsNewUriContent?: IpfsArticleContent
+    ipfsPrevUriContent?: IpfsArticleContent
+  }

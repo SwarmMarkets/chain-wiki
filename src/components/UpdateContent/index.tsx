@@ -1,32 +1,39 @@
 import { useSX1155NFT } from '@src/hooks/contracts/useSX1155NFT'
 import useModalState from '@src/hooks/useModalState'
-import { generateIpfsArticleContent, generateIpfsProjectContent } from '@src/shared/utils/ipfs'
+import {
+  generateIpfsArticleContent,
+  generateIpfsProjectContent,
+} from '@src/shared/utils/ipfs'
 import { useStorageUpload } from '@thirdweb-dev/react'
 import { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import Button from '../ui/Button/Button'
+import Button, { ButtonProps } from '../ui/Button/Button'
 import UpdateContentModal, { Steps } from './UpdateContentModal'
+import { IpfsVoteProposal } from '@src/shared/types/ipfs'
 
 interface ProjectProps {
-  contentType: 'project';
-  articleId?: never; // `articleId` is not applicable for projects, so it's never present.
+  contentType: 'project'
+  articleId?: never // `articleId` is not applicable for projects, so it's never present.
 }
 
 interface ArticleProps {
-  contentType: 'article';
-  articleId: number; // For articles, `articleId` is required.
+  contentType: 'article'
+  articleId: number // For articles, `articleId` is required.
 }
 
 type UpdateContentButtonProps = (ProjectProps | ArticleProps) & {
-  projectAddress: string;
-  content: string;
-}
+  projectAddress: string
+  content: string
+  voteProposal?: IpfsVoteProposal
+} & ButtonProps
 
 const UpdateContentButton: React.FC<UpdateContentButtonProps> = ({
   contentType,
   articleId,
   projectAddress,
   content,
+  voteProposal,
+  ...buttonProps
 }) => {
   const [ipfsUri, setIpfsUri] = useState('')
   const { t } = useTranslation('buttons')
@@ -49,6 +56,7 @@ const UpdateContentButton: React.FC<UpdateContentButtonProps> = ({
         name: projectAddress,
         address: projectAddress,
         htmlContent: content,
+        voteProposal: voteProposal,
       })
     }
     const filesToUpload = [ipfsContent]
@@ -104,7 +112,7 @@ const UpdateContentButton: React.FC<UpdateContentButtonProps> = ({
         isOpen={isOpen}
         onClose={close}
       />
-      <Button mt={15} onClick={startContentUpdate}>
+      <Button mt={15} onClick={startContentUpdate} {...buttonProps}>
         {t('updateContent')}
       </Button>
     </>

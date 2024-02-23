@@ -30,6 +30,7 @@ export const generateIpfsArticleContent = (args: IpfsArticleContent) => {
     name: args.name,
     address: args.address,
     htmlContent: args.htmlContent,
+    voteProposal: args.voteProposal,
   }
 
   return JSON.stringify(content)
