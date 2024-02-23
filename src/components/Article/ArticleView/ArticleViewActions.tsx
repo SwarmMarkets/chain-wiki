@@ -5,6 +5,7 @@ import UploadVoteProposalModal from '../UploadVoteProposal/UploadVoteProposalMod
 import useModalState from '@src/hooks/useModalState'
 import Select from '@src/components/ui/Select'
 import { useState } from 'react'
+import { useTokenContext } from '@src/hooks/context/useTokenContext'
 
 interface ArticleViewActionsProps {
   articleId?: string
@@ -15,11 +16,12 @@ const ArticleViewActions: React.FC<ArticleViewActionsProps> = ({
 }) => {
   const { t } = useTranslation('article')
 
+  const token = useTokenContext()
   const { isOpen, open, close } = useModalState(false)
-  const [selectedChoice, setSelectedChoice] = useState(0)
+  const [selectedChoiceValue, setSelectedChoiceValue] = useState(0)
 
   const onChangeChoice = (value: number) => {
-    setSelectedChoice(value)
+    setSelectedChoiceValue(value)
   }
 
   return (
@@ -28,7 +30,7 @@ const ArticleViewActions: React.FC<ArticleViewActionsProps> = ({
         <Button>{t('vote')}</Button>
         <Select
           onChange={onChangeChoice}
-          value={selectedChoice}
+          value={selectedChoiceValue}
           options={['One', 'Two', 'Three']}
         />
       </Flex>

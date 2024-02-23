@@ -29,7 +29,7 @@ import {
   useSearchParams,
 } from 'react-router-dom'
 
-const TokenContext = React.createContext<TokenQueryFullData | null>(null) 
+export const TokenContext = React.createContext<TokenQueryFullData | null>(null) 
 
 const ArticlePage = () => {
   const { articleId = '', projectId = '' } = useParams()

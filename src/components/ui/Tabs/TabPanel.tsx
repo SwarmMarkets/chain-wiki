@@ -1,4 +1,4 @@
-import { useTabContext } from '@src/hooks/useTabContext'
+import { useTabContext } from '@src/hooks/context/useTabContext'
 import { ChildrenProp } from '@src/shared/types/common-props'
 import React from 'react'
 import styled from 'styled-components'
