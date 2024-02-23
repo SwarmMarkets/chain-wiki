@@ -17,7 +17,7 @@ const ArticleViewActions: React.FC<ArticleViewActionsProps> = ({
   const { t } = useTranslation('article')
 
   const token = useTokenContext()
-  console.log(token)
+
   const { isOpen, open, close } = useModalState(false)
   const [selectedChoiceValue, setSelectedChoiceValue] = useState('')
 
@@ -30,11 +30,7 @@ const ArticleViewActions: React.FC<ArticleViewActionsProps> = ({
       <Flex $gap='5px' alignItems='center'>
         <Button>{t('vote')}</Button>
         {token?.ipfsContent?.voteProposal?.choices && (
-          <Select
-            defaultValue=''
-            value={selectedChoiceValue}
-            onChange={onChangeChoice}
-          >
+          <Select value={selectedChoiceValue} onChange={onChangeChoice}>
             {Object.values(token?.ipfsContent?.voteProposal?.choices).map(
               choice => (
                 <option key={choice} value={choice}>
