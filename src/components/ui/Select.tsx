@@ -12,18 +12,9 @@ import {
   LayoutProps,
 } from 'styled-system'
 
-const SelectContainer = styled.div.withConfig({
+const StyledSelect = styled.select.withConfig({
   shouldForwardProp,
-})<StyledContainerProps>`
-  position: relative;
-
-  ${space}
-  ${color}
-  ${typography}
-  ${layout}
-`
-
-const StyledSelect = styled.select`
+})<StyledSelectProps>`
   width: 100%;
   padding: 10px;
   border: 1px solid ${({ theme }) => theme.palette.borderPrimary};
@@ -43,6 +34,11 @@ const StyledSelect = styled.select`
       disabled ? theme.palette.textPrimary : theme.palette.borderBlue};
     cursor: ${({ disabled }) => (disabled ? 'default' : 'pointer')};
   }
+
+  ${space}
+  ${color}
+  ${typography}
+  ${layout}
 `
 
 interface Option {
@@ -50,27 +46,25 @@ interface Option {
   value: string
 }
 
-interface StyledContainerProps
+interface StyledSelectProps
   extends SpaceProps,
     ColorProps,
     TypographyProps,
     LayoutProps {}
 
-interface SelectProps extends StyledContainerProps {
+interface SelectProps extends StyledSelectProps {
   options: Option[]
 }
 
 const Select: React.FC<SelectProps> = ({ options, ...props }) => {
   return (
-    <SelectContainer {...props}>
-      <StyledSelect>
-        {options.map(option => (
-          <option key={option.value} value={option.value}>
-            {option.label}
-          </option>
-        ))}
-      </StyledSelect>
-    </SelectContainer>
+    <StyledSelect {...props}>
+      {options.map(option => (
+        <option key={option.value} value={option.value}>
+          {option.label}
+        </option>
+      ))}
+    </StyledSelect>
   )
 }
 
