@@ -1,4 +1,3 @@
-import Button from '@src/components/ui/Button/Button'
 import Flex from '@src/components/ui/Flex'
 import Icon from '@src/components/ui/Icon'
 import Text from '@src/components/ui/Text'
@@ -13,6 +12,9 @@ import {
   VoteProposalWrap,
 } from './styled-components'
 import ExplorerLink from '@src/components/common/ExplorerLink'
+import UpdateContentButton from '@src/components/UpdateContent'
+import { useMemo } from 'react'
+import { IpfsVoteProposal } from '@src/shared/types/ipfs'
 
 interface ReviewVoteProposalProps {
   voteProposal: VoteProposal
@@ -29,11 +31,31 @@ const ReviewVoteProposal: React.FC<ReviewVoteProposalProps> = ({
   const { token } = useToken(articleId)
   const theme = useTheme()
 
-  const { data, address } = voteProposal
+  const { data, address, hash } = voteProposal
 
   const startDate = convertUnixToLocaleString(data.message.start)
   const endDate = convertUnixToLocaleString(data.message.end)
   const creationDate = convertUnixToLocaleString(data.message.timestamp)
+
+  const [nftId, tokenId] = articleId.split('-')
+
+  const htmlContent = token?.ipfsContent?.htmlContent || ''
+  const proposal: IpfsVoteProposal = useMemo(() => {
+    const { start, end, choices, title, body, timestamp, type, space } =
+      data.message
+
+    return {
+      id: hash,
+      space,
+      type,
+      title,
+      body,
+      choices: choices || [],
+      start,
+      end,
+      timestamp,
+    }
+  }, [data.message, hash])
 
   return (
     <Flex
@@ -89,7 +111,14 @@ const ReviewVoteProposal: React.FC<ReviewVoteProposalProps> = ({
         </ExplorerLink>
       </VoteProposalWrap>
 
-      <Button width='100%'>{t('submit')}</Button>
+      <UpdateContentButton
+        width='100%'
+        articleId={Number(tokenId)}
+        contentType='article'
+        content={htmlContent}
+        voteProposal={proposal}
+        projectAddress={nftId}
+      />
     </Flex>
   )
 }
