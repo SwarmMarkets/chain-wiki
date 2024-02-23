@@ -41,11 +41,6 @@ const StyledSelect = styled.select.withConfig({
   ${layout}
 `
 
-interface Option {
-  label: string
-  value: string
-}
-
 interface StyledSelectProps
   extends SpaceProps,
     ColorProps,
@@ -53,15 +48,22 @@ interface StyledSelectProps
     LayoutProps {}
 
 interface SelectProps extends StyledSelectProps {
-  options: Option[]
+  options: string[],
+  value?: number,
+  onChange?: (value: number) => void
 }
 
-const Select: React.FC<SelectProps> = ({ options, ...props }) => {
+const Select: React.FC<SelectProps> = ({ options, value, onChange, ...props }) => {
+  const onChangeSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const index = parseInt(e.target.value)
+    onChange && onChange(index)
+  }
+
   return (
-    <StyledSelect {...props}>
-      {options.map(option => (
-        <option key={option.value} value={option.value}>
-          {option.label}
+    <StyledSelect onChange={onChangeSelect} value={value} {...props}>
+      {options.map((option, index) => (
+        <option key={index} value={index}>
+          {option}
         </option>
       ))}
     </StyledSelect>

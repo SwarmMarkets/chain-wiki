@@ -1,3 +1,4 @@
+import React from 'react'
 import ArticleContentSkeleton from '@src/components/Article/ArticleContentSkeleton'
 import ArticleView from '@src/components/Article/ArticleView'
 import {
@@ -16,6 +17,7 @@ import Text from '@src/components/ui/Text'
 import useProjectPermissions from '@src/hooks/permissions/useProjectPermissions'
 import useToken from '@src/hooks/subgraph/useToken'
 import { ArticleTabs } from '@src/shared/enums/tabs'
+import { TokenQueryFullData } from '@src/shared/types/ipfs'
 import { Tab as ITab } from '@src/shared/types/ui-components'
 import queryString from 'query-string'
 import { useState } from 'react'
@@ -26,6 +28,8 @@ import {
   useParams,
   useSearchParams,
 } from 'react-router-dom'
+
+const TokenContext = React.createContext<TokenQueryFullData | null>(null) 
 
 const ArticlePage = () => {
   const { articleId = '', projectId = '' } = useParams()
@@ -75,43 +79,45 @@ const ArticlePage = () => {
   }
 
   return (
-    <Wrapper>
-      <InnerContainer>
-        <Text.h1 size='24px' weight={700}>
-          {token?.ipfsContent?.name}
-        </Text.h1>
+    <TokenContext.Provider value={token}>
+      <Wrapper>
+        <InnerContainer>
+          <Text.h1 size='24px' weight={700}>
+            {token?.ipfsContent?.name}
+          </Text.h1>
 
-        <TabContext value={activeTab}>
-          <Tabs onChange={onChangeTab}>
-            <Tab value={ArticleTabs.READ} label={t('tabs.read')} />
-            {permissions.canUpdateContent && (
-              <Tab value={ArticleTabs.EDIT} label={t('tabs.edit')} />
-            )}
-            <Tab value={ArticleTabs.HISTORY} label={t('tabs.history')} />
-          </Tabs>
+          <TabContext value={activeTab}>
+            <Tabs onChange={onChangeTab}>
+              <Tab value={ArticleTabs.READ} label={t('tabs.read')} />
+              {permissions.canUpdateContent && (
+                <Tab value={ArticleTabs.EDIT} label={t('tabs.edit')} />
+              )}
+              <Tab value={ArticleTabs.HISTORY} label={t('tabs.history')} />
+            </Tabs>
 
-          <TabPanel value={ArticleTabs.READ}>
-            <ArticleView article={token} onMount={onMount} />
-          </TabPanel>
-          <TabPanel value={ArticleTabs.EDIT}>
-            <Editor
-              initialContent={token?.ipfsContent?.htmlContent || ''}
-              projectAddress={projectId}
-              articleId={tokenId}
-            />
-          </TabPanel>
-          <TabPanel value={ArticleTabs.HISTORY}>
-            <HistoryArticle />
-          </TabPanel>
-        </TabContext>
-      </InnerContainer>
+            <TabPanel value={ArticleTabs.READ}>
+              <ArticleView article={token} onMount={onMount} />
+            </TabPanel>
+            <TabPanel value={ArticleTabs.EDIT}>
+              <Editor
+                initialContent={token?.ipfsContent?.htmlContent || ''}
+                projectAddress={projectId}
+                articleId={tokenId}
+              />
+            </TabPanel>
+            <TabPanel value={ArticleTabs.HISTORY}>
+              <HistoryArticle />
+            </TabPanel>
+          </TabContext>
+        </InnerContainer>
 
-      {contentElem && isReadTab ? (
-        <StyledContent contentElem={contentElem} />
-      ) : (
-        <ContentPlaceholder />
-      )}
-    </Wrapper>
+        {contentElem && isReadTab ? (
+          <StyledContent contentElem={contentElem} />
+        ) : (
+          <ContentPlaceholder />
+        )}
+      </Wrapper>
+    </TokenContext.Provider>
   )
 }
 
