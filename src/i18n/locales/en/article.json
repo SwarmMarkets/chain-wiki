@@ -11,6 +11,9 @@
       "1": "Find your proposal's IPFS hash on Snapshot. It's a unique string starting with \"Qm...\" in the proposal details or URL.",
       "2": "Paste the IPFS hash in the field below. This lets us fetch and display your proposal's vote name, title, purpose, and voting options."
     },
+    "uploadToValidate": "Upload your proposal to validate content",
+    "validating": "Your vote proposal is currently being validated and parsed.",
+    "successValidation": "Your vote proposal is now ready for community voting.",
     "proposalHash": "Put an IPFS hash of your proposal from Snapshot",
     "upload": "Upload",
     "continue": "Continue"

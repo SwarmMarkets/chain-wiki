@@ -1,6 +1,15 @@
+import {
+  ActionStateItem,
+  ActionStateWrap,
+} from '@src/components/ui/ActionState'
 import Box from '@src/components/ui/Box'
+import Button from '@src/components/ui/Button/Button'
+import LoadingButton from '@src/components/ui/Button/LoadingButton'
+import Flex from '@src/components/ui/Flex'
 import Text from '@src/components/ui/Text'
-import { ChangeEvent, useState } from 'react'
+import useVoteProposal from '@src/hooks/snapshot/useVoteProposal'
+import { VoteProposal } from '@src/shared/types/vote-proposal'
+import { ChangeEvent, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useTheme } from 'styled-components'
 import {
@@ -8,11 +17,6 @@ import {
   StyledListItem,
   StyledTextField,
 } from './styled-components'
-import useVoteProposal from '@src/hooks/snapshot/useVoteProposal'
-import LoadingButton from '@src/components/ui/Button/LoadingButton'
-import Flex from '@src/components/ui/Flex'
-import Button from '@src/components/ui/Button/Button'
-import { VoteProposal } from '@src/shared/types/vote-proposal'
 
 interface UploadVoteProposalProps {
   onUploadVoteProposal(value: VoteProposal): void
@@ -42,7 +46,21 @@ const UploadVoteProposal: React.FC<UploadVoteProposalProps> = ({
 
   const theme = useTheme()
 
-  const validProposal = !loading && !error && result
+  const validProposal = Boolean(!loading && !error && result)
+
+  const actionItemText = useMemo(() => {
+    if (loading) {
+      return t('validating')
+    }
+    if (error) {
+      return error
+    }
+    if (validProposal) {
+      return t('successValidation')
+    }
+
+    return t('uploadToValidate')
+  }, [error, loading, t, validProposal])
 
   return (
     <Box py={2} px={2}>
@@ -62,18 +80,27 @@ const UploadVoteProposal: React.FC<UploadVoteProposalProps> = ({
         <StyledListItem>{t('steps.2')}</StyledListItem>
       </StyledList>
 
-      <Flex flexDirection='row' $gap='10px' height='50px' mb={3}>
+      <Flex flexDirection='row' $gap='10px' height='50px' mb={1}>
         <StyledTextField
           onChange={handleUpdateProposalHash}
           width='100%'
           placeholder={t('proposalHash')}
-          error={error}
         />
 
         <LoadingButton height='40px' onClick={uploadProposal} loading={loading}>
           {t('upload')}
         </LoadingButton>
       </Flex>
+
+      <ActionStateWrap mb={3}>
+        <ActionStateItem
+          loading={loading}
+          success={validProposal}
+          error={!!error}
+        >
+          {actionItemText}
+        </ActionStateItem>
+      </ActionStateWrap>
 
       <Button disabled={!validProposal} onClick={nextStep} width='100%'>
         {t('continue')}
