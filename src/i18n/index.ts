@@ -1,7 +1,17 @@
 import i18n from 'i18next'
 import { initReactI18next } from 'react-i18next'
-import { ErrorsEn, LayoutEn, ProjectEn, ArticleEn, ContentsEn, ButtonsEn, UpdateContentEn, ProjectsEn, HistoryEn } from './locales/en'
-
+import {
+  ErrorsEn,
+  LayoutEn,
+  ProjectEn,
+  ArticleEn,
+  ContentsEn,
+  ButtonsEn,
+  UpdateContentEn,
+  ProjectsEn,
+  HistoryEn,
+  CommonEn,
+} from './locales/en'
 
 const resources = {
   en: {
@@ -14,6 +24,7 @@ const resources = {
     buttons: ButtonsEn,
     projects: ProjectsEn,
     history: HistoryEn,
+    common: CommonEn,
   },
 }
 

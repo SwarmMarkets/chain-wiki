@@ -12,6 +12,7 @@
     "1": "Uploading content to IPFS",
     "2": "Sign the transaction to authorize your content update"
   },
+  "success": "Your content has been updated on IPFS and the new hash has been recorded on the blockchain.",
   "actions": {
     "retry": "Retry",
     "cancel": "Cancel"
