@@ -7,11 +7,11 @@ import { useRef } from 'react'
 import ArticleViewActions from './ArticleViewActions'
 
 interface ArticleViewProps {
-  token?: TokenQueryFullData | null
+  article?: TokenQueryFullData | null
   onMount: (element: HTMLDivElement) => void
 }
 
-const ArticleView: React.FC<ArticleViewProps> = ({ token, onMount }) => {
+const ArticleView: React.FC<ArticleViewProps> = ({ article, onMount }) => {
   const contentRef = useRef<HTMLDivElement>(null)
 
   const onMountContent = () => {
@@ -20,7 +20,7 @@ const ArticleView: React.FC<ArticleViewProps> = ({ token, onMount }) => {
     }
   }
 
-  if (!token?.ipfsContent?.htmlContent)
+  if (!article?.ipfsContent?.htmlContent)
     return <ContentMissing message='Article content missing' />
 
   return (
@@ -28,11 +28,11 @@ const ArticleView: React.FC<ArticleViewProps> = ({ token, onMount }) => {
       <HtmlRender
         onMount={onMountContent}
         ref={contentRef}
-        html={token?.ipfsContent?.htmlContent}
+        html={article?.ipfsContent?.htmlContent}
       />
 
       <Flex justifyContent='flex-end' mt={3}>
-        <ArticleViewActions />
+        <ArticleViewActions articleId={article.id} />
       </Flex>
     </Flex>
   )

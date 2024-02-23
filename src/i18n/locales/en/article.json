@@ -4,6 +4,30 @@
     "edit": "Edit source",
     "history": "View history"
   },
+  "uploadProposal": {
+    "title": "Submit Your Snapshot Proposal",
+    "description": "To submit your Snapshot proposal for voting, please follow the steps below. This process allows us to retrieve and display your proposal details, including the vote name, title, purpose, and voting options, to all eligible voters.",
+    "steps": {
+      "1": "Find your proposal's IPFS hash on Snapshot. It's a unique string starting with \"Qm...\" in the proposal details or URL.",
+      "2": "Paste the IPFS hash in the field below. This lets us fetch and display your proposal's vote name, title, purpose, and voting options."
+    },
+    "proposalHash": "Put an IPFS hash of your proposal from Snapshot",
+    "upload": "Upload",
+    "continue": "Continue"
+  },
+  "reviewProposal": {
+    "title": "Review Your Proposal",
+    "description": "Verify the retrieved information. Once confirmed, click submit and sign the transaction. So your proposal is ready for community voting.",
+    "proposal": {
+      "startDate": "Start date",
+      "endDate": "End date",
+      "choices": "Choices",
+      "creationDate": "Creation date",
+      "creator": "Creator"
+    },
+    "stepBack": "Step Back",
+    "submit": "Sign Transaction"
+  },
   "proposeToVote": "Propose to Vote",
   "addArticle": "Add Article",
   "updateArticle": "Update"

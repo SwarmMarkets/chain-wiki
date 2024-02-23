@@ -91,7 +91,7 @@ const ArticlePage = () => {
           </Tabs>
 
           <TabPanel value={ArticleTabs.READ}>
-            <ArticleView token={token} onMount={onMount} />
+            <ArticleView article={token} onMount={onMount} />
           </TabPanel>
           <TabPanel value={ArticleTabs.EDIT}>
             <Editor

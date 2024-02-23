@@ -14,11 +14,25 @@ export interface IpfsProjectContent {
   error?: string
 }
 
+export interface IpfsVoteProposal {
+  id: string
+  space: string
+  type: string
+  title: string
+  body: string
+  discussion: string
+  choices: Array<string>,
+  start: number,
+  end: number,
+  timestamp: number
+}
+
 export interface IpfsArticleContent {
   name: string
   address: string
   tokenId: number
   htmlContent: string
+  voteProposal?: IpfsVoteProposal
   error?: string
 }
 

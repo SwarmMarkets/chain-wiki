@@ -2,8 +2,9 @@ const theme = {
   palette: {
     // Common
     white: '#fff',
-    lightGray: '#A9A9A9',
+    lightGray: '#DCDCDC',
     gray: '#C0C0C0',
+    darkGray: '#545454',
     nearBlack: '	#A9A9A9',
     nearWhite: '#f8f9fa',
 
