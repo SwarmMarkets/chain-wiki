@@ -1,7 +1,7 @@
 import Box from '@src/components/ui/Box'
 import LoadingButton from '@src/components/ui/Button/LoadingButton'
 import Flex from '@src/components/ui/Flex'
-import { Select } from '@src/components/ui/Select'
+import Select from '@src/components/ui/Select'
 import Text from '@src/components/ui/Text'
 import { Roles } from '@src/shared/enums/roles'
 import { SubmitHandler, useForm } from 'react-hook-form'
