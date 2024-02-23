@@ -3,7 +3,7 @@ import Flex from '@src/components/ui/Flex'
 import { useTranslation } from 'react-i18next'
 import UploadVoteProposalModal from '../UploadVoteProposal/UploadVoteProposalModal'
 import useModalState from '@src/hooks/useModalState'
-import Select from '@src/components/ui/Select'
+import MySelect from '@src/components/ui/Select/MySelect'
 import { useState } from 'react'
 import { useTokenContext } from '@src/hooks/context/useTokenContext'
 
@@ -17,6 +17,7 @@ const ArticleViewActions: React.FC<ArticleViewActionsProps> = ({
   const { t } = useTranslation('article')
 
   const token = useTokenContext()
+  console.log(token)
   const { isOpen, open, close } = useModalState(false)
   const [selectedChoiceValue, setSelectedChoiceValue] = useState(0)
 
@@ -26,9 +27,9 @@ const ArticleViewActions: React.FC<ArticleViewActionsProps> = ({
 
   return (
     <Flex justifyContent='space-between' width='100%'>
-      <Flex $gap='5px'>
+      <Flex $gap='5px' alignItems='center'>
         <Button>{t('vote')}</Button>
-        <Select
+        <MySelect
           onChange={onChangeChoice}
           value={selectedChoiceValue}
           options={['One', 'Two', 'Three']}
