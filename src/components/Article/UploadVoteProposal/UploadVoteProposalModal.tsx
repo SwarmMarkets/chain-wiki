@@ -1,10 +1,13 @@
-import { BasicModalProps } from '@src/shared/types/common-props'
-import UploadVoteProposal from './UploadVoteProposal'
 import Modal from '@src/components/ui/Modal'
+import SuccessContent from '@src/components/ui/SuccessScreens/SuccessContent'
 import useSteps from '@src/hooks/useSteps'
-import { useState } from 'react'
+import { BasicModalProps } from '@src/shared/types/common-props'
 import { VoteProposal } from '@src/shared/types/vote-proposal'
+import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import ReviewVoteProposal from './ReviewVoteProposal'
+import UploadVoteProposal from './UploadVoteProposal'
+import Box from '@src/components/ui/Box'
 
 interface UploadVoteProposalModalProps extends BasicModalProps {
   articleId?: string
@@ -12,19 +15,33 @@ interface UploadVoteProposalModalProps extends BasicModalProps {
 
 const UploadVoteProposalModal: React.FC<UploadVoteProposalModalProps> = ({
   articleId,
-  ...props
+  isOpen,
+  onClose,
 }) => {
-  const { step, nextStep, backStep } = useSteps(2)
+  const { t } = useTranslation('article')
+
+  const { step, nextStep, backStep, reset } = useSteps(3)
   const [voteProposal, setVoteProposal] = useState<VoteProposal>()
 
   const handleUploadVoteProposal = (value: VoteProposal) => {
     setVoteProposal(value)
   }
 
+  const handleOnClose = () => {
+    reset()
+    onClose()
+  }
+
   if (!articleId) return null
 
   return (
-    <Modal {...props} maxWidth='500px' width='100%'>
+    <Modal
+      isOpen={isOpen}
+      onClose={handleOnClose}
+      maxWidth='500px'
+      width='100%'
+      minHeight='300px'
+    >
       {step === 1 && (
         <UploadVoteProposal
           nextStep={nextStep}
@@ -34,9 +51,19 @@ const UploadVoteProposalModal: React.FC<UploadVoteProposalModalProps> = ({
       {step === 2 && (
         <ReviewVoteProposal
           backStep={backStep}
+          nextStep={nextStep}
           articleId={articleId}
           voteProposal={voteProposal!}
         />
+      )}
+      {step === 3 && (
+        <Box pt={3} minHeight='inherit'>
+          <SuccessContent
+            title={t('successProposal.title')}
+            description={t('successProposal.description')}
+            onClick={handleOnClose}
+          />
+        </Box>
       )}
     </Modal>
   )

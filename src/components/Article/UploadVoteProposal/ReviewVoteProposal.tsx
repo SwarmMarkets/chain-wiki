@@ -1,9 +1,13 @@
+import UpdateContentButton from '@src/components/UpdateContent'
+import ExplorerLink from '@src/components/common/ExplorerLink'
 import Flex from '@src/components/ui/Flex'
 import Icon from '@src/components/ui/Icon'
 import Text from '@src/components/ui/Text'
 import useToken from '@src/hooks/subgraph/useToken'
+import { IpfsVoteProposal } from '@src/shared/types/ipfs'
 import { VoteProposal } from '@src/shared/types/vote-proposal'
 import { convertUnixToLocaleString } from '@src/shared/utils'
+import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useTheme } from 'styled-components'
 import {
@@ -11,21 +15,19 @@ import {
   VoteProposalVariant,
   VoteProposalWrap,
 } from './styled-components'
-import ExplorerLink from '@src/components/common/ExplorerLink'
-import UpdateContentButton from '@src/components/UpdateContent'
-import { useMemo } from 'react'
-import { IpfsVoteProposal } from '@src/shared/types/ipfs'
 
 interface ReviewVoteProposalProps {
   voteProposal: VoteProposal
   articleId: string
   backStep(): void
+  nextStep(): void
 }
 
 const ReviewVoteProposal: React.FC<ReviewVoteProposalProps> = ({
   voteProposal,
   articleId,
   backStep,
+  nextStep,
 }) => {
   const { t } = useTranslation('article', { keyPrefix: 'reviewProposal' })
   const { token } = useToken(articleId)
@@ -118,6 +120,7 @@ const ReviewVoteProposal: React.FC<ReviewVoteProposalProps> = ({
         content={htmlContent}
         voteProposal={proposal}
         projectAddress={nftId}
+        onSuccess={nextStep}
       />
     </Flex>
   )

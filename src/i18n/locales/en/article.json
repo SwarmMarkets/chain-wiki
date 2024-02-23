@@ -28,6 +28,10 @@
     "stepBack": "Step Back",
     "submit": "Sign Transaction"
   },
+  "successProposal": {
+    "title": "Vote Submission Successful",
+    "description": "Your proposal has been successfully uploaded to IPFS and integrated with Snapshot. Other community members can now view the details of your vote and participate."
+  },
   "vote": "Vote",
   "proposeToVote": "Propose to Vote",
   "addArticle": "Add Article",
