@@ -16,6 +16,11 @@ const SelectContainer = styled.div.withConfig({
   shouldForwardProp,
 })<StyledContainerProps>`
   position: relative;
+
+  ${space}
+  ${color}
+  ${typography}
+  ${layout}
 `
 
 const StyledSelect = styled.select`
@@ -38,11 +43,6 @@ const StyledSelect = styled.select`
       disabled ? theme.palette.textPrimary : theme.palette.borderBlue};
     cursor: ${({ disabled }) => (disabled ? 'default' : 'pointer')};
   }
-
-  ${space}
-  ${color}
-  ${typography}
-  ${layout}
 `
 
 interface Option {
