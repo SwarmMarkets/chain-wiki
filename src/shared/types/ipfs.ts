@@ -51,7 +51,7 @@ export type TokenQueryFullData = TokenQuery['token'] & {
   ipfsContent?: IpfsArticleContent
 }
 
-export type TokensQueryFullData = TokensQuery['tokens'] & {
+export type TokensQueryFullData = TokensQuery['tokens'][0] & {
   ipfsContent?: IpfsArticleContent
 }
 

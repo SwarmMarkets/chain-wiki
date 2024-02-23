@@ -92,10 +92,7 @@ const ProjectPage = () => {
                 )}
               </TabPanel>
               <TabPanel value={ProjectTabs.ARTICLES}>
-                <ArticleList
-                  projectAddress={projectId!}
-                  articles={nft?.tokens}
-                />
+                <ArticleList projectAddress={projectId!} />
               </TabPanel>
               <TabPanel value={ProjectTabs.EDIT}>
                 <Editor

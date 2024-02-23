@@ -14,12 +14,6 @@ export const NFTQuery = graphql(`
       issuers
       agents
       editors
-      tokens {
-        createdAt
-        id
-        updatedAt
-        uri
-      }
     }
   }
 `)

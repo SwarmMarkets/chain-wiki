@@ -40,8 +40,8 @@ const useTokens = (
           return
         }
 
-        const promises = data.tokens.map(item =>
-          storage?.downloadJSON(item.uri)
+        const promises = data.tokens.map(
+          item => item.uri && storage?.downloadJSON(item.uri)
         )
 
         const additionalData = await Promise.all(promises)
@@ -66,7 +66,7 @@ const useTokens = (
     () => ({
       tokens: data?.tokens,
       fullTokens: fullData,
-      loadingTokens:
+      loading:
         loading ||
         ![
           NetworkStatus.ready,
@@ -75,8 +75,8 @@ const useTokens = (
         ].includes(networkStatus),
       error,
       refetch,
-      refetchingTokens: [NetworkStatus.poll].includes(networkStatus),
-      fetchMoreTokens: fetchMore,
+      refetching: [NetworkStatus.poll].includes(networkStatus),
+      fetchMore: fetchMore,
     }),
     [data?.tokens, error, fetchMore, fullData, loading, networkStatus, refetch]
   )
