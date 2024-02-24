@@ -6,6 +6,7 @@ import UploadVoteProposalModal from '../UploadVoteProposal/UploadVoteProposalMod
 import VoteOnProposalModal from '../VoteOnProposal/VoteOnProposalModal'
 import RequirePermissions from '@src/components/common/RequirePermissions'
 import { useTokenContext } from '@src/components/providers/TokenContext'
+import * as dayjs from 'dayjs'
 
 const ArticleViewActions: React.FC = () => {
   const { t } = useTranslation('article')
@@ -14,7 +15,15 @@ const ArticleViewActions: React.FC = () => {
   const voteOnProposal = useModalState(false)
 
   const projectId = token?.id.split('-')[0]
-  const isVotingEnabled = token?.ipfsContent?.voteProposal
+
+  const voteProposal = token?.ipfsContent?.voteProposal
+
+  const isVotingStarted =
+    voteProposal?.start && dayjs().isAfter(dayjs.unix(voteProposal.start))
+  const isVotingEnded =
+    voteProposal?.end && dayjs().isAfter(dayjs.unix(voteProposal.end))
+
+  const isVotingEnabled = voteProposal && isVotingStarted && !isVotingEnded
 
   return (
     <Flex justifyContent='flex-end' width='100%' $gap='20px'>
