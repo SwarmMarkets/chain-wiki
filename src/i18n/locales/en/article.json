@@ -44,7 +44,7 @@
     "submit": "Submit"
   },
   "vote": "Vote",
-  "proposeToVote": "Propose to Vote",
+  "connectProposal": "Connect Proposal",
   "addArticle": "Add Article",
   "updateArticle": "Update"
 }

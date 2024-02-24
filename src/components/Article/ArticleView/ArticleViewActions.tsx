@@ -19,16 +19,19 @@ const ArticleViewActions: React.FC = () => {
   const voteProposal = token?.ipfsContent?.voteProposal
 
   const isVotingStarted =
-    voteProposal?.start && dayjs().isAfter(dayjs.unix(voteProposal.start))
+    !!voteProposal?.start && dayjs().isAfter(dayjs.unix(voteProposal.start))
   const isVotingEnded =
-    voteProposal?.end && dayjs().isAfter(dayjs.unix(voteProposal.end))
+    !!voteProposal?.end && dayjs().isAfter(dayjs.unix(voteProposal.end))
 
   const isVotingEnabled = voteProposal && isVotingStarted && !isVotingEnded
 
   return (
     <Flex justifyContent='flex-end' width='100%' $gap='20px'>
       <RequirePermissions canUpdateContent projectAddress={projectId}>
-        <Button onClick={uploadVoteProposal.open}>{t('proposeToVote')}</Button>
+        {/* TODO CHECK IF PROPOSAL DISABLED ON CONTRACT SIDE */}
+        <Button onClick={uploadVoteProposal.open} disabled={isVotingEnabled}>
+          {t('connectProposal')}
+        </Button>
       </RequirePermissions>
 
       {isVotingEnabled ? (
