@@ -29,7 +29,7 @@ const VoteOnProposalForm: React.FC = () => {
     e?.preventDefault()
     if (!voteProposal) return
     const { email, choice } = data
-    const choiceIndex = voteProposal.choices.indexOf(choice)
+    const choiceIndex = voteProposal.choices.indexOf(choice) + 1
 
     try {
       setLoading(true)
