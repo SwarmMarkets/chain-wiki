@@ -6,6 +6,7 @@ import { BasicModalProps } from '@src/shared/types/common-props'
 import { useTranslation } from 'react-i18next'
 import { useTheme } from 'styled-components'
 import VoteOnProposalForm from './VoteOnProposalForm'
+import { VoteProposalWrap } from '../UploadVoteProposal/styled-components'
 
 const VoteOnProposalModal: React.FC<BasicModalProps> = ({ ...props }) => {
   const token = useTokenContext()
@@ -28,12 +29,12 @@ const VoteOnProposalModal: React.FC<BasicModalProps> = ({ ...props }) => {
           {t('description')}
         </Text.p>
 
-        <Text.h3 color='nearBlack' mb={3}>
-          {voteProposal?.title}
-        </Text.h3>
-        <Text.p mb={3} lineHeight={1.5}>
-          {voteProposal?.body}
-        </Text.p>
+        <VoteProposalWrap mb={3}>
+          <Text.h3 color='nearBlack' mb={3}>
+            {voteProposal?.title}
+          </Text.h3>
+          <Text.p lineHeight={1.5}>{voteProposal?.body}</Text.p>
+        </VoteProposalWrap>
 
         <VoteOnProposalForm />
       </Box>
