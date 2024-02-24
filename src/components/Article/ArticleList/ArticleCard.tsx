@@ -17,7 +17,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
   projectId,
   content,
 }) => {
-  if (!content?.error || !content) {
+  if (content?.error || !content) {
     return <ArticleEmptyCard articleId={articleId} projectId={projectId} />
   }
 

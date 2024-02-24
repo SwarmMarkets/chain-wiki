@@ -53,7 +53,7 @@ const useTokens = (
 
           return {
             ...item,
-            ...additionalData[index],
+            ipfsContent: additionalData[index],
           }
         })
 

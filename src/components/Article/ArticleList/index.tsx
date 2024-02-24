@@ -21,8 +21,6 @@ const ArticleList: React.FC<ArticleListProps> = ({ projectAddress }) => {
     { fetchFullData: true }
   )
 
-  const ipfsArticleContent = articles?.map(article => article.ipfsContent)
-
   const noContent = !loading && articles?.length === 0
 
   if (loading) {
@@ -48,12 +46,12 @@ const ArticleList: React.FC<ArticleListProps> = ({ projectAddress }) => {
       <RequirePermissions canCreateArticle projectAddress={projectId}>
         <CreateArticleCard projectAddress={projectAddress} />
       </RequirePermissions>
-      {articles?.map((article, index) => (
+      {articles?.map(article => (
         <ArticleCard
           key={article.id}
           articleId={article.id}
           projectId={projectId}
-          content={ipfsArticleContent?.[index]}
+          content={article.ipfsContent}
         />
       ))}
     </Flex>
