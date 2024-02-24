@@ -79,15 +79,6 @@ const ReviewVoteProposal: React.FC<ReviewVoteProposalProps> = ({
 
       <Text.h2 mb={3}>{t('title')}</Text.h2>
 
-      <Text.p
-        mb={3}
-        lineHeight={1.3}
-        fontSize={16}
-        color={theme.palette.darkGray}
-      >
-        {t('description')}
-      </Text.p>
-
       <VoteProposalWrap mb={3}>
         <Text.h3 color='nearBlack' mb={3}>
           {data.message.title}
@@ -122,6 +113,7 @@ const ReviewVoteProposal: React.FC<ReviewVoteProposalProps> = ({
         voteProposal={proposal}
         projectAddress={nftId}
         onSuccess={nextStep}
+        buttonText={t('submit')}
       />
     </Flex>
   )

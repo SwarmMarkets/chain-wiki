@@ -36,7 +36,9 @@ const UpdateContentModal: React.FC<UpdateProjectContentModalProps> = ({
 
   const isProject = contentType === 'project'
   const title = isProject ? t('project.title') : t('article.title')
-  const description = isProject ? t('project.title') : t('article.title')
+  const description = isProject
+    ? t('project.description')
+    : t('article.description')
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} maxWidth='500px' width='100%'>

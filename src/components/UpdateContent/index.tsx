@@ -26,6 +26,7 @@ type UpdateContentButtonProps = (ProjectProps | ArticleProps) & {
   content: string
   voteProposal?: IpfsVoteProposal
 
+  buttonText?: string
   onSuccess?(): void
 } & ButtonProps
 
@@ -36,6 +37,7 @@ const UpdateContentButton: React.FC<UpdateContentButtonProps> = ({
   content,
   voteProposal,
   onSuccess,
+  buttonText,
   ...buttonProps
 }) => {
   const [ipfsUri, setIpfsUri] = useState('')
@@ -127,6 +129,8 @@ const UpdateContentButton: React.FC<UpdateContentButtonProps> = ({
     txLoading,
   ])
 
+  const text = buttonText || t('updateContent')
+
   return (
     <>
       <UpdateContentModal
@@ -136,7 +140,7 @@ const UpdateContentButton: React.FC<UpdateContentButtonProps> = ({
         onClose={close}
       />
       <Button mt={15} onClick={startContentUpdate} {...buttonProps}>
-        {t('updateContent')}
+        {text}
       </Button>
     </>
   )

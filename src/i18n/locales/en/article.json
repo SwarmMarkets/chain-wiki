@@ -8,19 +8,18 @@
     "title": "Submit Your Snapshot Proposal",
     "description": "To submit your Snapshot proposal for voting, please follow the steps below. This process allows us to retrieve and display your proposal details, including the vote name, title, purpose, and voting options, to all eligible voters.",
     "steps": {
-      "1": "Find your proposal's IPFS hash on Snapshot. It's a unique string starting with \"Qm...\" in the proposal details or URL.",
-      "2": "Paste the IPFS hash in the field below. This lets us fetch and display your proposal's vote name, title, purpose, and voting options."
+      "1": "Find your proposal's IPFS hash on Snapshot. It is usually displayed under the \"Information\" section on the proposal page.",
+      "2": "Paste the IPFS hash or link in the field below. This lets us connect the proposal to the article and enables community members to vote as soon as the voting phase begins."
     },
     "uploadToValidate": "Upload your proposal to validate content",
     "validating": "Your vote proposal is currently being validated and parsed.",
-    "successValidation": "Your vote proposal is now ready for community voting.",
+    "successValidation": "Your proposal is now ready for linking.",
     "proposalHash": "Put an IPFS hash of your proposal from Snapshot",
     "upload": "Upload",
     "continue": "Continue"
   },
   "reviewProposal": {
     "title": "Review Your Proposal",
-    "description": "Verify the retrieved information. Once confirmed, click submit and sign the transaction. So your proposal is ready for community voting.",
     "proposal": {
       "startDate": "Start date",
       "endDate": "End date",
@@ -29,11 +28,11 @@
       "creator": "Creator"
     },
     "stepBack": "Step Back",
-    "submit": "Sign Transaction"
+    "submit": "Submit Proposal"
   },
   "successProposal": {
-    "title": "Vote Submission Successful",
-    "description": "Your proposal has been successfully uploaded to IPFS and integrated with Snapshot. Other community members can now view the details of your vote and participate."
+    "title": "Proposal Submission Successful",
+    "description": "Your Snapshot proposal has been successfully linked to the article. Other community members can now view the details of your vote and participate as soon as the voting phase starts."
   },
   "voteOnProposal": {
     "title": "Cast Your Vote",
