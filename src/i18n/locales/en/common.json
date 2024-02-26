@@ -4,7 +4,6 @@
     "done": "Done"
   },
   "switchNetwork": {
-    "title": "Wrong network",
     "description": "Connect your wallet to {{networkName}} to continue.",
     "button": "Switch network"
   }

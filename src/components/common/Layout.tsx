@@ -3,7 +3,6 @@ import styled from 'styled-components'
 import Container from '../ui/Container'
 import Header from './Header'
 import SwitchNetworkAlert from './SwitchNetworkAlert'
-import Box from '../ui/Box'
 
 const PageContainer = styled(Container)`
   width: 100%;
@@ -18,11 +17,9 @@ const PageContainer = styled(Container)`
 const Layout = ({ children }: ChildrenProp) => {
   return (
     <>
+      <SwitchNetworkAlert />
       <Header />
       <PageContainer>
-        <Box maxWidth='500px'>
-          <SwitchNetworkAlert />
-        </Box>
         <main>{children}</main>
       </PageContainer>
     </>

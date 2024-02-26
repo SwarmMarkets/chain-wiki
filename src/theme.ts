@@ -5,7 +5,8 @@ const theme = {
     lightGray: '#DCDCDC',
     gray: '#C0C0C0',
     darkGray: '#545454',
-    nearBlack: '	#A9A9A9',
+    nearBlack: '#A9A9A9',
+    black: '#000000',
     nearWhite: '#f8f9fa',
 
     // Text Colors

@@ -1,18 +1,14 @@
+import Text from '@src/components/ui/Text'
+import { checkNetworkSupported } from '@src/shared/utils'
 import {
   useChainId,
   useSupportedChains,
   useSwitchChain,
 } from '@thirdweb-dev/react'
-import { AlertWrap } from './styled-components'
-import Button from '@src/components/ui/Button/Button'
-import Flex from '@src/components/ui/Flex'
-import Text from '@src/components/ui/Text'
-import { checkNetworkSupported } from '@src/shared/utils'
 import { useTranslation } from 'react-i18next'
+import { AlertWrap, StyledButton } from './styled-components'
 
-interface SwitchNetworkAlertProps {}
-
-const SwitchNetworkAlert: React.FC<SwitchNetworkAlertProps> = () => {
+const SwitchNetworkAlert: React.FC = () => {
   const chainId = useChainId()
   const { t } = useTranslation('common', { keyPrefix: 'switchNetwork' })
   const supportedChains = useSupportedChains()
@@ -29,14 +25,13 @@ const SwitchNetworkAlert: React.FC<SwitchNetworkAlertProps> = () => {
   if (isNetworkSupported) return null
 
   return (
-    <AlertWrap mt={2} mb={4}>
-      <Text.h2 mb={3}>{t('title')}</Text.h2>
-      <Flex alignItems='center' justifyContent='space-between'>
-        <Text.p>
-          {t('description', { networkName: supportedNetwork.name })}
-        </Text.p>
-        <Button onClick={handleSwitchNetwork}>{t('button')}</Button>
-      </Flex>
+    <AlertWrap>
+      <Text.p color='white'>
+        {t('description', { networkName: supportedNetwork.name })}
+      </Text.p>
+      <StyledButton ml={3} color='white' onClick={handleSwitchNetwork}>
+        {t('button')}
+      </StyledButton>
     </AlertWrap>
   )
 }
