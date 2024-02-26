@@ -1,6 +1,7 @@
 import { BasicModalProps } from '@src/shared/types/common-props'
 import Modal from '../../ui/Modal'
 import SuccessContent from './SuccessContent'
+import Box from '../Box'
 
 export type ContentType = 'project' | 'article'
 
@@ -20,14 +21,17 @@ const SuccessModal: React.FC<SuccessModalProps> = ({
       isOpen={isOpen}
       onClose={onClose}
       maxWidth='500px'
-      minHeight='200px'
+      minHeight='240px'
+      pt={4}
       width='100%'
     >
-      <SuccessContent
-        title={title}
-        description={description}
-        onClick={onClose}
-      />
+      <Box minHeight='inherit'>
+        <SuccessContent
+          title={title}
+          description={description}
+          onClick={onClose}
+        />
+      </Box>
     </Modal>
   )
 }
