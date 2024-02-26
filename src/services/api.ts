@@ -25,7 +25,7 @@ export const genericRequest = async (url: string, options?: IRequestInit) => {
   }
 }
 
-const apiUrl = 'https://f280-84-40-97-121.ngrok-free.app/'
+const apiUrl = 'https://api.app.swarm.com/'
 
 export const request = async (endpoint: string, options?: IRequestInit) =>
   genericRequest(`${apiUrl}${endpoint}`, options)
