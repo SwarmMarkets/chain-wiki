@@ -2,10 +2,10 @@ import { useTokenContext } from '@src/components/providers/TokenContext'
 import LoadingButton from '@src/components/ui/Button/LoadingButton'
 import { Select } from '@src/components/ui/Select'
 import api from '@src/services/api'
+import { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { StyledTextField } from './styled-components'
-import { useState } from 'react'
 
 type FormInputs = {
   choice: string
@@ -20,7 +20,9 @@ const VoteOnProposalForm: React.FC<VoteOnProposalFormProps> = ({
   onSuccessSubmit,
 }) => {
   const token = useTokenContext()
-  const { t } = useTranslation('article', { keyPrefix: 'voteOnProposal' })
+  const { t } = useTranslation(['article', 'errors'], {
+    keyPrefix: 'voteOnProposal',
+  })
   const {
     register,
     handleSubmit,
@@ -28,6 +30,7 @@ const VoteOnProposalForm: React.FC<VoteOnProposalFormProps> = ({
   } = useForm<FormInputs>()
 
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   const voteProposal = token?.ipfsContent?.voteProposal
 
@@ -38,6 +41,7 @@ const VoteOnProposalForm: React.FC<VoteOnProposalFormProps> = ({
     const choiceIndex = voteProposal.choices.indexOf(choice) + 1
 
     try {
+      setError(null)
       setLoading(true)
       await api.citiesdaoVote(
         email,
@@ -45,7 +49,10 @@ const VoteOnProposalForm: React.FC<VoteOnProposalFormProps> = ({
         voteProposal.id,
         choiceIndex
       )
+
       onSuccessSubmit()
+    } catch {
+      setError(t('genericError', { ns: 'errors' }))
     } finally {
       setLoading(false)
     }
@@ -73,7 +80,7 @@ const VoteOnProposalForm: React.FC<VoteOnProposalFormProps> = ({
 
       <StyledTextField
         inputProps={register('email', { required: true })}
-        error={errors.email?.message}
+        error={errors.email?.message || error}
         placeholder={t('formPlaceholders.email')}
         mb={3}
       />

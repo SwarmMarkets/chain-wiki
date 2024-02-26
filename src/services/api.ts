@@ -1,10 +1,14 @@
+import {
+  CitiesdaoVoteResponse,
+  CitiesdaoVoteStatus,
+} from '@src/shared/types/api'
+
 export interface IRequestInit extends RequestInit {
-  shouldNotReturnDataProperty?: boolean
+  shouldReturnDataProperty?: boolean
 }
 
 export const genericRequest = async (url: string, options?: IRequestInit) => {
   const response = await fetch(url, options)
-
   let json
 
   try {
@@ -14,14 +18,14 @@ export const genericRequest = async (url: string, options?: IRequestInit) => {
   }
 
   if (response.ok) {
-    if (options?.shouldNotReturnDataProperty) {
-      return json
+    if (options?.shouldReturnDataProperty) {
+      return json.data
     }
-    return json.data
+    return json
   }
 }
 
-const apiUrl = 'https://api.app.swarm.com/'
+const apiUrl = 'https://f280-84-40-97-121.ngrok-free.app/'
 
 export const request = async (endpoint: string, options?: IRequestInit) =>
   genericRequest(`${apiUrl}${endpoint}`, options)
@@ -51,16 +55,23 @@ const citiesdaoVote = async (
   space: string,
   proposal: string,
   choice: number
-): Promise<void> => {
+): Promise<CitiesdaoVoteResponse> => {
   const body = JSON.stringify({
     email,
     space,
     proposal,
     choice,
   })
-  return post(`citiesdao/vote`, {
+
+  const res = await post<CitiesdaoVoteResponse>(`citiesdao/vote`, {
     body,
   })
+
+  if (res.status !== CitiesdaoVoteStatus.statusSuccess) {
+    throw Error(res.status)
+  } else {
+    return res
+  }
 }
 
 export default {

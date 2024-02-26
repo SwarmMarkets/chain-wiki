@@ -8,5 +8,8 @@
   },
   "article": {
     "pendingDetails": "This article is pending details to be added by an admin."
+  },
+  "voteOnProposal": {
+    "genericError": "Your vote wasn't counted due to an error. Please try again."
   }
 }
