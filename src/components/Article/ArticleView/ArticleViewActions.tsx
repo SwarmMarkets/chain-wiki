@@ -6,7 +6,7 @@ import UploadVoteProposalModal from '../UploadVoteProposal/UploadVoteProposalMod
 import VoteOnProposalModal from '../VoteOnProposal/VoteOnProposalModal'
 import RequirePermissions from '@src/components/common/RequirePermissions'
 import { useTokenContext } from '@src/components/providers/TokenContext'
-import * as dayjs from 'dayjs'
+import dayjs from 'dayjs'
 
 const ArticleViewActions: React.FC = () => {
   const { t } = useTranslation('article')
@@ -20,6 +20,7 @@ const ArticleViewActions: React.FC = () => {
 
   const isVotingStarted =
     !!voteProposal?.start && dayjs().isAfter(dayjs.unix(voteProposal.start))
+  console.log(dayjs())
   const isVotingEnded =
     !!voteProposal?.end && dayjs().isAfter(dayjs.unix(voteProposal.end))
 
