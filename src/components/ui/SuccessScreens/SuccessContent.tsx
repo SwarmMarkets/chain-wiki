@@ -28,13 +28,15 @@ const SuccessContent: React.FC<SuccessContentProps> = ({
       minHeight='inherit'
     >
       <Icon name='checkbox' color='green' size={60} mb={4} />
-      <Text.h1 mb={3}>{title}</Text.h1>
+      {title && <Text.h1 mb={3}>{title}</Text.h1>}
 
-      <Box maxWidth='400px'>
-        <Text.p fontSize='16px' mb={4} textAlign='center' lineHeight='1.2'>
-          {description}
-        </Text.p>
-      </Box>
+      {description && (
+        <Box maxWidth='400px'>
+          <Text.p fontSize='16px' mb={4} textAlign='center' lineHeight='1.2'>
+            {description}
+          </Text.p>
+        </Box>
+      )}
 
       <Button onClick={onClick} width='100%'>
         {t('done')}

@@ -12,7 +12,13 @@ type FormInputs = {
   email: string
 }
 
-const VoteOnProposalForm: React.FC = () => {
+interface VoteOnProposalFormProps {
+  onSuccessSubmit(): void
+}
+
+const VoteOnProposalForm: React.FC<VoteOnProposalFormProps> = ({
+  onSuccessSubmit,
+}) => {
   const token = useTokenContext()
   const { t } = useTranslation('article', { keyPrefix: 'voteOnProposal' })
   const {
@@ -39,6 +45,7 @@ const VoteOnProposalForm: React.FC = () => {
         voteProposal.id,
         choiceIndex
       )
+      onSuccessSubmit()
     } finally {
       setLoading(false)
     }

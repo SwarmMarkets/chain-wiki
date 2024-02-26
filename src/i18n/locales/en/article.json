@@ -43,6 +43,10 @@
     },
     "submit": "Submit"
   },
+  "successVote": {
+    "title": "Vote Submission Successful",
+    "description": "Your vote counted."
+  },
   "vote": "Vote",
   "connectProposal": "Connect Proposal",
   "addArticle": "Add Article",

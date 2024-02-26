@@ -5,8 +5,8 @@ import SuccessContent from './SuccessContent'
 export type ContentType = 'project' | 'article'
 
 interface SuccessModalProps extends BasicModalProps {
-  title: string
-  description: string
+  title?: string
+  description?: string
 }
 
 const SuccessModal: React.FC<SuccessModalProps> = ({

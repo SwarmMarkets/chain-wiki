@@ -8,7 +8,14 @@ import { useTheme } from 'styled-components'
 import VoteOnProposalForm from './VoteOnProposalForm'
 import { VoteProposalWrap } from '../UploadVoteProposal/styled-components'
 
-const VoteOnProposalModal: React.FC<BasicModalProps> = ({ ...props }) => {
+interface VoteOnProposalModalProps extends BasicModalProps {
+  nextStep(): void
+}
+
+const VoteOnProposalModal: React.FC<VoteOnProposalModalProps> = ({
+  nextStep,
+  ...props
+}) => {
   const token = useTokenContext()
   const { t } = useTranslation('article', { keyPrefix: 'voteOnProposal' })
   const theme = useTheme()
@@ -36,7 +43,7 @@ const VoteOnProposalModal: React.FC<BasicModalProps> = ({ ...props }) => {
           <Text.p lineHeight={1.5}>{voteProposal?.body}</Text.p>
         </VoteProposalWrap>
 
-        <VoteOnProposalForm />
+        <VoteOnProposalForm onSuccessSubmit={nextStep} />
       </Box>
     </Modal>
   )

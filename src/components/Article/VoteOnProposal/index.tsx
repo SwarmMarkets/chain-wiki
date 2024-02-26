@@ -1,22 +1,42 @@
-import Button from '@src/components/ui/Button/Button'
-import Flex from '@src/components/ui/Flex'
+import Button, { ButtonProps } from '@src/components/ui/Button/Button'
 import useModalState from '@src/hooks/useModalState'
 import { useTranslation } from 'react-i18next'
 import VoteOnProposalModal from './VoteOnProposalModal'
+import useSteps from '@src/hooks/useSteps'
+import SuccessModal from '@src/components/ui/SuccessScreens/SuccessModal'
 
-const VoteOnProposalButton = () => {
+const VoteOnProposalButton: React.FC<ButtonProps> = props => {
   const { t } = useTranslation('article')
 
+  const { step, nextStep, reset } = useSteps(2)
   const { isOpen, open, close } = useModalState(false)
 
+  const handleFinishVoting = () => {
+    reset()
+    close()
+  }
+
   return (
-    <Flex $gap='5px' alignItems='center'>
-      <Button onClick={open} px={4}>
+    <>
+      <Button onClick={open} {...props}>
         {t('vote')}
       </Button>
 
-      <VoteOnProposalModal isOpen={isOpen} onClose={close} />
-    </Flex>
+      {step === 1 && (
+        <VoteOnProposalModal
+          isOpen={isOpen}
+          onClose={close}
+          nextStep={nextStep}
+        />
+      )}
+      {step === 2 && (
+        <SuccessModal
+          isOpen
+          onClose={handleFinishVoting}
+          title={t('successVote.title')}
+        />
+      )}
+    </>
   )
 }
 
