@@ -1,4 +1,5 @@
-import { ethers } from "ethers"
+import { supportedChains } from '@src/environment/networks'
+import { ethers } from 'ethers'
 
 export const unifyAddressToId = (address: string) => {
   return address.toLowerCase()
@@ -14,7 +15,7 @@ export const unifyAddress = (address: string) => {
 
 export const isSameEthereumAddress = (
   addressA?: string | null,
-  addressB?: string | null,
+  addressB?: string | null
 ): boolean => {
   if (
     addressA === null ||
@@ -33,4 +34,8 @@ export const isSameEthereumAddress = (
   } catch {
     return false
   }
+}
+
+export const checkNetworkSupported = (chainId?: number) => {
+  return supportedChains.some(chain => chain.chainId === chainId)
 }
