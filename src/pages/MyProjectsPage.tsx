@@ -1,5 +1,4 @@
 import ProjectList from '@src/components/Project/ProjectList'
-import ProjectSkeletonList from '@src/components/Project/ProjectSkeletonList'
 import Box from '@src/components/ui/Box'
 import ButtonGroup from '@src/components/ui/Button/ButtonGroup'
 import useNFTs from '@src/hooks/subgraph/useNFTs'
@@ -30,8 +29,6 @@ const MyProjectsPage = () => {
     },
     { fetchFullData: true }
   )
-  const skeletonsAreVisible = loadingNfts && !refetchingNfts
-
   const options: ButtonOption[] = [
     { value: ProjectButtonOptions.ALL, label: t('filter.all') },
     { value: ProjectButtonOptions.ADMIN, label: t('filter.admin') },
@@ -72,6 +69,8 @@ const MyProjectsPage = () => {
     setSelectedOption(value)
   }
 
+  const loading = loadingNfts && !refetchingNfts
+
   return (
     <>
       <h1>{t('myProjectsTitle')}</h1>
@@ -82,10 +81,12 @@ const MyProjectsPage = () => {
         onSelect={handleSelect}
       />
       <Box mt={20}>
-        {fullNfts && !skeletonsAreVisible && (
-          <ProjectList addProjectCard showRole projects={fullNfts} />
-        )}
-        {skeletonsAreVisible && <ProjectSkeletonList />}
+        <ProjectList
+          projects={fullNfts}
+          loading={loading}
+          addProjectCard
+          showRole
+        />
       </Box>
     </>
   )

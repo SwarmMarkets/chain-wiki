@@ -1,56 +1,35 @@
-import React from 'react'
-import Grid from '../ui/Grid'
-import { NFTsQueryFullData } from '@src/shared/types/ipfs'
-import { generatePath } from 'react-router-dom'
 import RoutePaths from '@src/shared/enums/routes-paths'
-import { useTheme } from 'styled-components'
-import { useTranslation } from 'react-i18next'
-import Icon from '../ui/Icon'
-import Flex from '../ui/Flex'
-import Text from '../ui/Text'
-import useModalState from '@src/hooks/useModalState'
-import CreateProjectModal from '../CreateProject/CreateProjectModal'
+import { NFTsQueryFullData } from '@src/shared/types/ipfs'
+import React from 'react'
+import { generatePath } from 'react-router-dom'
+import Grid from '../ui/Grid'
+import AddProjectCard from './AddProjectCard'
 import ProjectCard from './ProjectCard'
-import { StyledCard, StyledLink } from './styled-components'
+import { StyledLink } from './styled-components'
+import ProjectSkeletonList from './ProjectSkeletonList'
 
 interface ProjectListProps {
-  projects: NFTsQueryFullData[]
+  loading: boolean
+  projects?: NFTsQueryFullData[] | null
   addProjectCard?: boolean
   showRole?: boolean
 }
 
 const ProjectList: React.FC<ProjectListProps> = ({
+  loading,
   projects,
   addProjectCard,
   showRole,
 }) => {
-  const { t } = useTranslation(['errors', 'projects'])
-  const theme = useTheme()
-  const { isOpen, open, close } = useModalState(false)
+  if (loading) {
+    return <ProjectSkeletonList />
+  }
 
   return (
     <>
       <Grid gap='20px' minColumnWidth='250px'>
-        {addProjectCard && (
-          <StyledCard
-            {...(!projects.length && { height: 200, width: 250 })}
-            onClick={open}
-          >
-            <Flex
-              flexDirection='column'
-              justifyContent='center'
-              alignItems='center'
-              height='100%'
-              $gap='5px'
-            >
-              <Icon name='plus' size={70} color={theme.palette.borderPrimary} />
-              <Text color={theme.palette.borderPrimary}>
-                {t('addProject', { ns: 'projects' })}
-              </Text>
-            </Flex>
-          </StyledCard>
-        )}
-        {projects.map(project => (
+        {addProjectCard && <AddProjectCard />}
+        {projects?.map(project => (
           <StyledLink
             to={generatePath(RoutePaths.PROJECT, { projectId: project.id })}
             key={project.id}
@@ -59,7 +38,6 @@ const ProjectList: React.FC<ProjectListProps> = ({
           </StyledLink>
         ))}
       </Grid>
-      <CreateProjectModal isOpen={isOpen} onClose={close} />
     </>
   )
 }
