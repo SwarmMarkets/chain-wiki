@@ -18,8 +18,6 @@ interface AttestationDrawerProps {
   onClose: () => void
 }
 
-const INITIAL_EDITOR_CONTENT = ''
-
 interface Attestation {
   id: number
   address: string
@@ -35,7 +33,7 @@ const AttestationDrawer: React.FC<AttestationDrawerProps> = ({
   const { t } = useTranslation('article')
   const address = useAddress()
   const { permissions } = useProjectPermissions()
-  const [editorContent, setEditorContent] = useState(INITIAL_EDITOR_CONTENT)
+  const [editorContent, setEditorContent] = useState('')
   const [attestations, setAttestations] = useState<Attestation[]>([])
 
   const handleChangeEditor = (value: string) => {
