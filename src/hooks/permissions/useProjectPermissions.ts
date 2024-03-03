@@ -39,9 +39,6 @@ const useProjectPermissions = (projectAddress?: string) => {
     const isEditor = nft.editors.some(address =>
       isSameEthereumAddress(address, account)
     )
-    const isIssuer = nft.issuers.some(address =>
-      isSameEthereumAddress(address, account)
-    )
     const isAdmin = nft.admins.some(address =>
       isSameEthereumAddress(address, account)
     )
@@ -50,7 +47,7 @@ const useProjectPermissions = (projectAddress?: string) => {
       canCreateProject: connected === 'connected',
       canManageRoles: isAdmin,
       canUpdateContent: isEditor,
-      canCreateArticle: isIssuer,
+      canCreateArticle: isEditor,
     }
   }, [account, connected, nft])
 

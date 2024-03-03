@@ -20,7 +20,6 @@ const MyProjectsPage = () => {
         filter: {
           or: [
             { admins_contains_nocase: [address] },
-            { issuers_contains_nocase: [address] },
             { editors_contains_nocase: [address] },
           ],
         },
@@ -33,39 +32,30 @@ const MyProjectsPage = () => {
     { value: ProjectButtonOptions.ALL, label: t('filter.all') },
     { value: ProjectButtonOptions.ADMIN, label: t('filter.admin') },
     { value: ProjectButtonOptions.EDITOR, label: t('filter.editor') },
-    { value: ProjectButtonOptions.ISSUER, label: t('filter.issuer') },
   ]
 
   const handleSelect = (value: string) => {
-    if (value === ProjectButtonOptions.ALL) {
-      refetch({
-        filter: {
+    const isAllFilter = value === ProjectButtonOptions.ALL
+    const isAdminFilter = value === ProjectButtonOptions.ADMIN
+    const isEditorFiter = value === ProjectButtonOptions.EDITOR
+
+    refetch({
+      filter: {
+        ...(isAllFilter && {
           or: [
             { admins_contains_nocase: [address] },
-            { issuers_contains_nocase: [address] },
             { editors_contains_nocase: [address] },
           ],
-        },
-      })
-    } else if (value === ProjectButtonOptions.ADMIN) {
-      refetch({
-        filter: {
+        }),
+        ...(isAdminFilter && {
           admins_contains_nocase: [address],
-        },
-      })
-    } else if (value === ProjectButtonOptions.EDITOR) {
-      refetch({
-        filter: {
+        }),
+        ...(isEditorFiter && {
           editors_contains_nocase: [address],
-        },
-      })
-    } else {
-      refetch({
-        filter: {
-          issuers_contains_nocase: [address],
-        },
-      })
-    }
+        }),
+      },
+    })
+
     setSelectedOption(value)
   }
 
