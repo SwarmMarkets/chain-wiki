@@ -16,7 +16,37 @@ const _abi = [
       {
         indexed: false,
         internalType: "contract SX1155NFT",
-        name: "deployedAt",
+        name: "deployedAddress",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "string",
+        name: "name",
+        type: "string",
+      },
+      {
+        indexed: false,
+        internalType: "string",
+        name: "symbol",
+        type: "string",
+      },
+      {
+        indexed: false,
+        internalType: "string",
+        name: "uri",
+        type: "string",
+      },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "admin",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "editor",
         type: "address",
       },
     ],
@@ -36,13 +66,13 @@ const _abi = [
         type: "string",
       },
       {
-        internalType: "address",
-        name: "_admin",
-        type: "address",
+        internalType: "string",
+        name: "_uri",
+        type: "string",
       },
       {
         internalType: "address",
-        name: "_issuer",
+        name: "_admin",
         type: "address",
       },
       {
@@ -52,7 +82,13 @@ const _abi = [
       },
     ],
     name: "deployNFTContract",
-    outputs: [],
+    outputs: [
+      {
+        internalType: "contract SX1155NFT",
+        name: "newSx1155",
+        type: "address",
+      },
+    ],
     stateMutability: "nonpayable",
     type: "function",
   },

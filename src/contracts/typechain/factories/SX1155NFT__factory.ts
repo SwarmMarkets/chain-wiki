@@ -20,13 +20,13 @@ const _abi = [
         type: "string",
       },
       {
-        internalType: "address",
-        name: "_admin",
-        type: "address",
+        internalType: "string",
+        name: "_uri",
+        type: "string",
       },
       {
         internalType: "address",
-        name: "_issuer",
+        name: "_admin",
         type: "address",
       },
       {
@@ -57,34 +57,28 @@ const _abi = [
         type: "address",
       },
     ],
-    name: "AccountIsGreylisted",
-    type: "error",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "account",
-        type: "address",
-      },
-    ],
     name: "AccountNotAuthorized",
-    type: "error",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "account",
-        type: "address",
-      },
-    ],
-    name: "AccountNotGreylisted",
     type: "error",
   },
   {
     inputs: [],
     name: "ArraysSizeNotEqual",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "commentId",
+        type: "uint256",
+      },
+    ],
+    name: "ComentNotExists",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "EmptyStringPassed",
     type: "error",
   },
   {
@@ -131,11 +125,22 @@ const _abi = [
   },
   {
     inputs: [],
-    name: "OnlyOwnerOfRequest",
+    name: "OnlyCommentator",
     type: "error",
   },
   {
     inputs: [],
+    name: "OnlyOwnerOfRequest",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+    ],
     name: "TokenNotExists",
     type: "error",
   },
@@ -172,6 +177,68 @@ const _abi = [
       },
     ],
     name: "ApprovalForAll",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "address",
+        name: "removedBy",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "string",
+        name: "comment",
+        type: "string",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "commentId",
+        type: "uint256",
+      },
+    ],
+    name: "CommentRemoved",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "address",
+        name: "commentator",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "string",
+        name: "comment",
+        type: "string",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "commentId",
+        type: "uint256",
+      },
+    ],
+    name: "Commented",
     type: "event",
   },
   {
@@ -259,99 +326,6 @@ const _abi = [
     anonymous: false,
     inputs: [
       {
-        indexed: true,
-        internalType: "uint256",
-        name: "reqId",
-        type: "uint256",
-      },
-      {
-        indexed: true,
-        internalType: "address",
-        name: "issuer",
-        type: "address",
-      },
-      {
-        indexed: true,
-        internalType: "uint256",
-        name: "tokenId",
-        type: "uint256",
-      },
-    ],
-    name: "GreylistTransferApproved",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: "uint256",
-        name: "reqId",
-        type: "uint256",
-      },
-      {
-        indexed: true,
-        internalType: "address",
-        name: "from",
-        type: "address",
-      },
-      {
-        indexed: true,
-        internalType: "address",
-        name: "to",
-        type: "address",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "tokenId",
-        type: "uint256",
-      },
-    ],
-    name: "GreylistTransferCancelled",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: "uint256",
-        name: "reqId",
-        type: "uint256",
-      },
-      {
-        indexed: true,
-        internalType: "address",
-        name: "from",
-        type: "address",
-      },
-      {
-        indexed: true,
-        internalType: "address",
-        name: "to",
-        type: "address",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "tokenId",
-        type: "uint256",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "quantity",
-        type: "uint256",
-      },
-    ],
-    name: "GreylistTransferRequestCreated",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
         indexed: false,
         internalType: "address",
         name: "from",
@@ -365,6 +339,49 @@ const _abi = [
       },
     ],
     name: "KyaUpdated",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "address",
+        name: "minter",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "receiver",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "string",
+        name: "uri",
+        type: "string",
+      },
+      {
+        indexed: false,
+        internalType: "bytes",
+        name: "data",
+        type: "bytes",
+      },
+    ],
+    name: "Minted",
     type: "event",
   },
   {
@@ -473,11 +490,11 @@ const _abi = [
       {
         indexed: false,
         internalType: "string",
-        name: "kya",
+        name: "uri",
         type: "string",
       },
     ],
-    name: "TokenKyaUpdated",
+    name: "TokenURISet",
     type: "event",
   },
   {
@@ -575,19 +592,6 @@ const _abi = [
   },
   {
     inputs: [],
-    name: "AGENT_ROLE",
-    outputs: [
-      {
-        internalType: "bytes32",
-        name: "",
-        type: "bytes32",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
     name: "DEFAULT_ADMIN_ROLE",
     outputs: [
       {
@@ -602,19 +606,6 @@ const _abi = [
   {
     inputs: [],
     name: "EDITOR_ROLE",
-    outputs: [
-      {
-        internalType: "bytes32",
-        name: "",
-        type: "bytes32",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "ISSUER_ROLE",
     outputs: [
       {
         internalType: "bytes32",
@@ -674,12 +665,36 @@ const _abi = [
     type: "function",
   },
   {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "commentId",
+        type: "uint256",
+      },
+    ],
+    name: "commentatorByCommentsId",
+    outputs: [
+      {
+        internalType: "address",
+        name: "commentator",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
     inputs: [],
-    name: "contractURI",
+    name: "contractUri",
     outputs: [
       {
         internalType: "string",
-        name: "",
+        name: "_uri",
         type: "string",
       },
     ],
@@ -697,6 +712,24 @@ const _abi = [
       },
     ],
     stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "commentId",
+        type: "uint256",
+      },
+    ],
+    name: "deleteAttestation",
+    outputs: [],
+    stateMutability: "nonpayable",
     type: "function",
   },
   {
@@ -810,33 +843,7 @@ const _abi = [
         type: "address",
       },
     ],
-    name: "grantAgentRole",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "to",
-        type: "address",
-      },
-    ],
     name: "grantEditorRole",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "to",
-        type: "address",
-      },
-    ],
-    name: "grantIssuerRole",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -857,65 +864,6 @@ const _abi = [
     name: "grantRole",
     outputs: [],
     stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "greylistNextReqId",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "reqId",
-        type: "uint256",
-      },
-    ],
-    name: "greylistTransferRequests",
-    outputs: [
-      {
-        components: [
-          {
-            internalType: "address",
-            name: "from",
-            type: "address",
-          },
-          {
-            internalType: "address",
-            name: "to",
-            type: "address",
-          },
-          {
-            internalType: "uint256",
-            name: "tokenId",
-            type: "uint256",
-          },
-          {
-            internalType: "uint256",
-            name: "quantity",
-            type: "uint256",
-          },
-          {
-            internalType: "bool",
-            name: "valid",
-            type: "bool",
-          },
-        ],
-        internalType: "struct GreylistTransferRequest",
-        name: "",
-        type: "tuple",
-      },
-    ],
-    stateMutability: "view",
     type: "function",
   },
   {
@@ -967,16 +915,21 @@ const _abi = [
     type: "function",
   },
   {
-    inputs: [],
-    name: "kya",
-    outputs: [
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
       {
         internalType: "string",
-        name: "",
+        name: "comment",
         type: "string",
       },
     ],
-    stateMutability: "view",
+    name: "makeAttestation",
+    outputs: [],
+    stateMutability: "nonpayable",
     type: "function",
   },
   {
@@ -1083,37 +1036,11 @@ const _abi = [
     inputs: [
       {
         internalType: "address",
-        name: "account",
-        type: "address",
-      },
-    ],
-    name: "revokeAgentRole",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "account",
+        name: "from",
         type: "address",
       },
     ],
     name: "revokeEditorRole",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "account",
-        type: "address",
-      },
-    ],
-    name: "revokeIssuerRole",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -1224,24 +1151,11 @@ const _abi = [
     inputs: [
       {
         internalType: "string",
-        name: "_contract_uri",
+        name: "_contractUri",
         type: "string",
       },
     ],
-    name: "setContractURI",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "string",
-        name: "_kya",
-        type: "string",
-      },
-    ],
-    name: "setKya",
+    name: "setContractUri",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -1268,11 +1182,11 @@ const _abi = [
       },
       {
         internalType: "string",
-        name: "_kya",
+        name: "_uri",
         type: "string",
       },
     ],
-    name: "setTokenKya",
+    name: "setTokenUri",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -1281,7 +1195,7 @@ const _abi = [
     inputs: [
       {
         internalType: "bytes4",
-        name: "_interfaceId",
+        name: "interfaceId",
         type: "bytes4",
       },
     ],
@@ -1313,22 +1227,74 @@ const _abi = [
     inputs: [
       {
         internalType: "uint256",
-        name: "",
+        name: "tokenId",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "commentId",
         type: "uint256",
       },
     ],
-    name: "tokens",
+    name: "tokenCommentByCommentId",
     outputs: [
       {
         internalType: "string",
-        name: "kya",
+        name: "comment",
         type: "string",
       },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+    ],
+    name: "tokenData",
+    outputs: [
+      {
+        internalType: "bytes",
+        name: "data",
+        type: "bytes",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+    ],
+    name: "tokenUri",
+    outputs: [
       {
         internalType: "string",
-        name: "uri",
+        name: "_uri",
         type: "string",
       },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+    ],
+    name: "totalTokenIdsSupply",
+    outputs: [
       {
         internalType: "uint256",
         name: "supply",
@@ -1342,26 +1308,7 @@ const _abi = [
     inputs: [
       {
         internalType: "uint256",
-        name: "_id",
-        type: "uint256",
-      },
-    ],
-    name: "totalSupply",
-    outputs: [
-      {
-        internalType: "uint256",
         name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "_id",
         type: "uint256",
       },
     ],
