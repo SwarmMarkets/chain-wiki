@@ -35,13 +35,7 @@ const ProjectRoleManager: React.FC<ProjectRoleManagerProps> = ({
       roleType: Roles.EDITOR,
     }))
 
-    const issuers = nft.issuers.map(issuer => ({
-      address: issuer,
-      role: t('roles.issuer'),
-      roleType: Roles.ISSUER,
-    }))
-
-    return [...issuers, ...editors, ...admins]
+    return [...editors, ...admins]
   }, [nft, t])
 
   return (

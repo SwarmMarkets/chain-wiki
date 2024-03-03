@@ -4,8 +4,7 @@
   "filter": {
     "all": "All",
     "admin": "Admin",
-    "editor": "Editor",
-    "issuer": "Issuer"
+    "editor": "Editor"
   },
   "addProject": "Add Project",
   "roles": "Roles: "

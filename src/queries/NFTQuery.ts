@@ -11,8 +11,6 @@ export const NFTQuery = graphql(`
       uri
       creator
       admins
-      issuers
-      agents
       editors
     }
   }
@@ -24,8 +22,6 @@ export const NFTAccessRolesQuery = graphql(`
       id
       creator
       admins
-      issuers
-      agents
       editors
     }
   }

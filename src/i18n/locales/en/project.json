@@ -12,7 +12,7 @@
       "name": "Project name",
       "symbol": "Project symbol",
       "adminAddress": "Admin address",
-      "issuerAddress": "Issuer address",
+      "uri": "IPFS hash",
       "editorAddress": "Editor address",
       "submit": "Create"
     },
@@ -20,9 +20,13 @@
       "name": "Enter full name of the project",
       "symbol": "Enter project symbol (e.g., ABC)",
       "adminAddress": "Enter admin's Ethereum address",
-      "issuerAddress": "Enter issuer's Ethereum address",
+      "uri": "Paste IPFS hash or URI",
       "editorAddress": "Enter editor's Ethereum address"
     }
+  },
+  "successCreateProject": {
+    "title": "Project Creation Successful",
+    "description": "Your project is visible on \"My projects\" page."
   },
   "roleManager": {
     "title": "Manage your project roles",

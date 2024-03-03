@@ -35,9 +35,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
     const isEditor = project.editors.some(address =>
       isSameEthereumAddress(address, account)
     )
-    const isIssuer = project.issuers.some(address =>
-      isSameEthereumAddress(address, account)
-    )
     const roles = []
     if (isAdmin) {
       roles.push(t('filter.admin', { ns: 'projects' }))
@@ -45,15 +42,12 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
     if (isEditor) {
       roles.push(t('filter.editor', { ns: 'projects' }))
     }
-    if (isIssuer) {
-      roles.push(t('filter.issuer', { ns: 'projects' }))
-    }
 
     return roles
-  }, [account, project.admins, project.editors, project.issuers, t, showRole])
+  }, [account, project.admins, project.editors, t, showRole])
 
   return (
-    <StyledCard minHeight='200px'>
+    <StyledCard>
       <Flex flexDirection='column' justifyContent='space-between' height='100%'>
         <div>
           <Flex alignItems='center' $gap='3px'>

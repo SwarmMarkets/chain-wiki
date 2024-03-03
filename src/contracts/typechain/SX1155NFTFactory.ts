@@ -27,7 +27,7 @@ import type {
 
 export interface SX1155NFTFactoryInterface extends utils.Interface {
   functions: {
-    "deployNFTContract(string,string,address,address,address)": FunctionFragment;
+    "deployNFTContract(string,string,string,address,address)": FunctionFragment;
   };
 
   getFunction(nameOrSignatureOrTopic: "deployNFTContract"): FunctionFragment;
@@ -43,17 +43,22 @@ export interface SX1155NFTFactoryInterface extends utils.Interface {
   ): Result;
 
   events: {
-    "SX1155NFTDeployed(address)": EventFragment;
+    "SX1155NFTDeployed(address,string,string,string,address,address)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "SX1155NFTDeployed"): EventFragment;
 }
 
 export interface SX1155NFTDeployedEventObject {
-  deployedAt: string;
+  deployedAddress: string;
+  name: string;
+  symbol: string;
+  uri: string;
+  admin: string;
+  editor: string;
 }
 export type SX1155NFTDeployedEvent = TypedEvent<
-  [string],
+  [string, string, string, string, string, string],
   SX1155NFTDeployedEventObject
 >;
 
@@ -90,8 +95,8 @@ export interface SX1155NFTFactory extends BaseContract {
     deployNFTContract(
       _name: string,
       _symbol: string,
+      _uri: string,
       _admin: string,
-      _issuer: string,
       _editor: string,
       overrides?: Overrides & { from?: string }
     ): Promise<ContractTransaction>;
@@ -100,8 +105,8 @@ export interface SX1155NFTFactory extends BaseContract {
   deployNFTContract(
     _name: string,
     _symbol: string,
+    _uri: string,
     _admin: string,
-    _issuer: string,
     _editor: string,
     overrides?: Overrides & { from?: string }
   ): Promise<ContractTransaction>;
@@ -110,26 +115,38 @@ export interface SX1155NFTFactory extends BaseContract {
     deployNFTContract(
       _name: string,
       _symbol: string,
+      _uri: string,
       _admin: string,
-      _issuer: string,
       _editor: string,
       overrides?: CallOverrides
-    ): Promise<void>;
+    ): Promise<string>;
   };
 
   filters: {
-    "SX1155NFTDeployed(address)"(
-      deployedAt?: null
+    "SX1155NFTDeployed(address,string,string,string,address,address)"(
+      deployedAddress?: null,
+      name?: null,
+      symbol?: null,
+      uri?: null,
+      admin?: null,
+      editor?: null
     ): SX1155NFTDeployedEventFilter;
-    SX1155NFTDeployed(deployedAt?: null): SX1155NFTDeployedEventFilter;
+    SX1155NFTDeployed(
+      deployedAddress?: null,
+      name?: null,
+      symbol?: null,
+      uri?: null,
+      admin?: null,
+      editor?: null
+    ): SX1155NFTDeployedEventFilter;
   };
 
   estimateGas: {
     deployNFTContract(
       _name: string,
       _symbol: string,
+      _uri: string,
       _admin: string,
-      _issuer: string,
       _editor: string,
       overrides?: Overrides & { from?: string }
     ): Promise<BigNumber>;
@@ -139,8 +156,8 @@ export interface SX1155NFTFactory extends BaseContract {
     deployNFTContract(
       _name: string,
       _symbol: string,
+      _uri: string,
       _admin: string,
-      _issuer: string,
       _editor: string,
       overrides?: Overrides & { from?: string }
     ): Promise<PopulatedTransaction>;
