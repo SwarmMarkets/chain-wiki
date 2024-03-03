@@ -54,6 +54,7 @@ function App() {
           </Router>
           <GlobalStyle />
           <ToastContainer />
+          <div id='drawers'></div>
         </ThemeProvider>
       </ThirdwebProvider>
     </ApolloProvider>

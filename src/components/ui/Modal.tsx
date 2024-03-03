@@ -1,8 +1,9 @@
-import { BasicModalProps } from '@src/shared/types/common-props';
-import shouldForwardProp from '@styled-system/should-forward-prop';
-import React, { useEffect } from 'react';
-import styled from 'styled-components';
-import { LayoutProps, SpaceProps, layout, space } from 'styled-system';
+import useScrollBlock from '@src/hooks/useScrollBlock'
+import { BasicModalProps } from '@src/shared/types/common-props'
+import shouldForwardProp from '@styled-system/should-forward-prop'
+import React, { useLayoutEffect } from 'react'
+import styled from 'styled-components'
+import { LayoutProps, SpaceProps, layout, space } from 'styled-system'
 
 const ModalBackdrop = styled.div`
   display: flex;
@@ -15,7 +16,7 @@ const ModalBackdrop = styled.div`
   justify-content: center;
   align-items: center;
   z-index: 1000;
-`;
+`
 
 const ModalContainer = styled.div.withConfig({ shouldForwardProp })`
   background: white;
@@ -26,7 +27,7 @@ const ModalContainer = styled.div.withConfig({ shouldForwardProp })`
   position: relative;
   ${layout}
   ${space}
-`;
+`
 
 const CloseButton = styled.span`
   position: absolute;
@@ -34,7 +35,7 @@ const CloseButton = styled.span`
   right: 10px;
   cursor: pointer;
   font-size: 30px;
-`;
+`
 
 interface ModalProps extends BasicModalProps, LayoutProps, SpaceProps {}
 
@@ -44,38 +45,22 @@ const Modal: React.FC<ModalProps> = ({
   children,
   ...props
 }) => {
-  useEffect(() => {
-    const getScrollBarWidth = () => {
-      const el = document.createElement('div');
-      el.style.cssText =
-        'overflow:scroll; visibility:hidden; position:absolute;';
-      document.body.appendChild(el);
-      const width = el.offsetWidth - el.clientWidth;
-      el.remove();
+  const { updateIsBlock } = useScrollBlock()
 
-      return width;
-    };
+  useLayoutEffect(() => {
+    updateIsBlock(isOpen)
+  }, [isOpen, updateIsBlock])
 
-    if (!isOpen) return;
-    document.body.style.paddingRight = `${getScrollBarWidth()}px`;
-    document.body.style.overflowY = 'hidden';
-
-    return () => {
-      document.body.style.removeProperty('overflow-y');
-      document.body.style.removeProperty('padding-right');
-    };
-  }, [isOpen]);
-
-  if (!isOpen) return null;
+  if (!isOpen) return null
 
   return (
     <ModalBackdrop onClick={onClose}>
-      <ModalContainer onClick={(e) => e.stopPropagation()} {...props}>
+      <ModalContainer onClick={e => e.stopPropagation()} {...props}>
         <CloseButton onClick={onClose}>&times;</CloseButton>
         {children}
       </ModalContainer>
     </ModalBackdrop>
-  );
-};
+  )
+}
 
-export default Modal;
+export default Modal

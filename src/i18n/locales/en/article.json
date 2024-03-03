@@ -50,5 +50,10 @@
   "vote": "Vote",
   "connectProposal": "Connect Proposal",
   "addArticle": "Add Article",
-  "updateArticle": "Update"
+  "updateArticle": "Update",
+  "attestation": {
+    "title": "Attestation",
+    "send": "Send",
+    "author": "Author:"
+  }
 }

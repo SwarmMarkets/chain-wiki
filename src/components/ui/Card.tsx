@@ -6,9 +6,11 @@ import shouldForwardProp from '@styled-system/should-forward-prop'
 import {
   FlexboxProps,
   LayoutProps,
+  PositionProps,
   SpaceProps,
   flexbox,
   layout,
+  position,
   space,
 } from 'styled-system'
 
@@ -16,7 +18,8 @@ interface CardProps
   extends ChildrenProp,
     FlexboxProps,
     LayoutProps,
-    SpaceProps {
+    SpaceProps,
+    PositionProps {
   onClick?(): void
   title?: string
   to?: string
@@ -33,6 +36,7 @@ const CardRoot = styled.div.withConfig({
   ${flexbox}
   ${layout}
   ${space}
+  ${position}
 `
 
 const ChildrenWrapper = styled.div.withConfig({

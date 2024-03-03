@@ -81,7 +81,7 @@ const Editor: React.FC<EditorProps> = ({
             ],
             height: 650,
             font_size_formats: '10px 12px 14px 16px 18px 24px 36px 48px',
-            menubar: '',
+            menubar: false,
             image_description: true, // Включаем поле описания для изображений
             image_caption: true, // Включаем подписи для изображений
             // automatic_uploads: true,
@@ -112,7 +112,7 @@ const Editor: React.FC<EditorProps> = ({
           </RequirePermissions>
         </Flex>
       </EditorWrapper>
-      {!editorInit && <EditorSkeleton />}
+      {!editorInit && <EditorSkeleton height={650} />}
     </>
   )
 }

@@ -2,9 +2,12 @@ import React, { HTMLAttributes } from 'react'
 import styled from 'styled-components'
 import shouldForwardProp from '@styled-system/should-forward-prop'
 import icons from '@src/shared/consts/icons'
-import { SpaceProps, space } from 'styled-system'
+import { PositionProps, SpaceProps, position, space } from 'styled-system'
 
-interface IconProps extends HTMLAttributes<HTMLDivElement>, SpaceProps {
+interface IconProps
+  extends HTMLAttributes<HTMLDivElement>,
+    SpaceProps,
+    PositionProps {
   name: keyof typeof icons
   size?: number
   width?: number
@@ -28,6 +31,7 @@ const IconWrapper = styled.div.withConfig({
     }
   }
   ${space}
+  ${position}
 `
 
 const Icon: React.FC<IconProps> = ({
