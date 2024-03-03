@@ -15,7 +15,7 @@ const AddProjectCard: React.FC = () => {
 
   return (
     <>
-      <StyledCard width={250} height={200} onClick={open}>
+      <StyledCard onClick={open}>
         <Flex
           flexDirection='column'
           justifyContent='center'

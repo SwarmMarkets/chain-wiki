@@ -2,11 +2,11 @@ import RoutePaths from '@src/shared/enums/routes-paths'
 import { NFTsQueryFullData } from '@src/shared/types/ipfs'
 import React from 'react'
 import { generatePath } from 'react-router-dom'
-import Grid from '../ui/Grid'
 import AddProjectCard from './AddProjectCard'
 import ProjectCard from './ProjectCard'
 import { StyledLink } from './styled-components'
 import ProjectSkeletonList from './ProjectSkeletonList'
+import styled from 'styled-components'
 
 interface ProjectListProps {
   loading: boolean
@@ -14,6 +14,14 @@ interface ProjectListProps {
   addProjectCard?: boolean
   showRole?: boolean
 }
+
+const Wrapper = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-template-rows: minmax(250px, 1fr);
+  box-sizing: border-box;
+  gap: 20px;
+`
 
 const ProjectList: React.FC<ProjectListProps> = ({
   loading,
@@ -27,7 +35,7 @@ const ProjectList: React.FC<ProjectListProps> = ({
 
   return (
     <>
-      <Grid gap='20px' minColumnWidth='250px'>
+      <Wrapper>
         {addProjectCard && <AddProjectCard />}
         {projects?.map(project => (
           <StyledLink
@@ -37,7 +45,7 @@ const ProjectList: React.FC<ProjectListProps> = ({
             <ProjectCard project={project} showRole={showRole} />
           </StyledLink>
         ))}
-      </Grid>
+      </Wrapper>
     </>
   )
 }

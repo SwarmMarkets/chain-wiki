@@ -47,7 +47,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   }, [account, project.admins, project.editors, t, showRole])
 
   return (
-    <StyledCard minHeight='200px'>
+    <StyledCard>
       <Flex flexDirection='column' justifyContent='space-between' height='100%'>
         <div>
           <Flex alignItems='center' $gap='3px'>
