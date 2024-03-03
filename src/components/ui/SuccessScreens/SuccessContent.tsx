@@ -9,7 +9,7 @@ import Button from '../Button/Button'
 
 export type ContentType = 'project' | 'article'
 
-interface SuccessContentProps extends SuccessProps {
+interface SuccessContentProps extends Partial<SuccessProps> {
   onClick(): void
 }
 
