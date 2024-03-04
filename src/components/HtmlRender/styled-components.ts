@@ -1,18 +1,11 @@
 import shouldForwardProp from '@styled-system/should-forward-prop'
-import { forwardRef, useEffect, useRef } from 'react'
 import styled from 'styled-components'
-
-interface HtmlRenderProps {
-  html: string
-  onMount?: () => void
-  onSelectSection?: (html: string) => void
-}
 
 interface HtmlWrapperProps {
   commentable?: boolean
 }
 
-const HtmlWrapper = styled.div.withConfig({
+export const HtmlWrapper = styled.div.withConfig({
   shouldForwardProp,
 })<HtmlWrapperProps>`
   line-height: 1.4;
@@ -95,49 +88,3 @@ const HtmlWrapper = styled.div.withConfig({
     font-style: italic;
   }
 `
-
-const HtmlRender = forwardRef<HTMLDivElement, HtmlRenderProps>(
-  ({ html, onMount, onSelectSection }, ref) => {
-    useEffect(() => {
-      onMount && onMount()
-    }, [onMount])
-
-    const htmlWrapperRef = useRef<HTMLDivElement>(null)
-
-    useEffect(() => {
-      if (!onSelectSection) return
-
-      const children = htmlWrapperRef.current?.children
-      if (!children) return
-
-      const childrenArray = Array.from(children)
-
-      const handleChildClick = (event: Event) => {
-        const target = event.currentTarget as HTMLElement
-        onSelectSection && onSelectSection(target.outerHTML)
-      }
-
-      childrenArray.forEach(child => {
-        child.addEventListener('click', handleChildClick)
-      })
-
-      return () => {
-        childrenArray.forEach(child =>
-          child.removeEventListener('click', handleChildClick)
-        )
-      }
-    }, [html, htmlWrapperRef, onSelectSection])
-
-    return (
-      <div ref={ref}>
-        <HtmlWrapper
-          commentable={!!onSelectSection}
-          ref={htmlWrapperRef}
-          dangerouslySetInnerHTML={{ __html: html }}
-        ></HtmlWrapper>
-      </div>
-    )
-  }
-)
-
-export default HtmlRender
