@@ -45,6 +45,7 @@ const LiteEditor: React.FC<LiteEditorProps> = ({
             content_style:
               'body { font-family: "Roboto", sans-serif; font-size: 14px; }',
             menubar: false,
+            resize: false,
           }}
           value={value}
         />
