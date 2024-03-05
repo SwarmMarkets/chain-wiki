@@ -27,7 +27,7 @@ const useNFTRoleManager = (nftAddress: string) => {
   const revokeRole = (from: string, role: Roles) => {
     const roleToRevoke = rolesMapping[role]
 
-    call('grantRole', [roleToRevoke, from])
+    call('revokeRole', [roleToRevoke, from])
   }
 
   return {
