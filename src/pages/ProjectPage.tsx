@@ -49,6 +49,10 @@ const ProjectPage = () => {
     setActiveProjectTab(tab.value)
   }
 
+  const handleSuccessUpdate = () => {
+    setActiveProjectTab(ProjectTabs.PROJECT)
+  }
+
   return (
     <Wrapper>
       <InnerContainer>
@@ -96,6 +100,7 @@ const ProjectPage = () => {
               </TabPanel>
               <TabPanel value={ProjectTabs.EDIT}>
                 <Editor
+                  onSuccessUpdate={handleSuccessUpdate}
                   projectAddress={projectId!}
                   initialContent={nft?.ipfsContent?.htmlContent || ''}
                 />
