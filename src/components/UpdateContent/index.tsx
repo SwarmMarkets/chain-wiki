@@ -84,9 +84,9 @@ const UpdateContentButton: React.FC<UpdateContentButtonProps> = ({
   const signTransaction = useCallback(
     (uri: string) => {
       if (contentType === 'project') {
-        return call('setKya', [uri])
+        return call('setContractUri', [uri])
       } else {
-        return call('setTokenKya', [articleId, uri])
+        return call('setTokenUri', [articleId, uri])
       }
     },
     [call, contentType, articleId]
