@@ -1,0 +1,64 @@
+import { forwardRef, useEffect, useRef } from 'react'
+import { HtmlRenderProps } from '.'
+import { HtmlRenderHover } from './styled-components'
+import { createCommentIconElement } from './utils'
+
+interface AttestationHtmlRenderProps extends HtmlRenderProps {
+  onSelectSection: (html: string) => void
+}
+
+const AttestationHtmlRender = forwardRef<
+  HTMLDivElement,
+  AttestationHtmlRenderProps
+>(({ onSelectSection, ...props }, ref) => {
+  const htmlWrapperRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const children = htmlWrapperRef.current?.children
+    if (!children) return
+    const childrenArray = Array.from(children)
+
+    const handleChildEnter = (event: Event) => {
+      const currentTarget = event.currentTarget as HTMLElement
+      const commentIconElem = currentTarget.lastElementChild as HTMLElement
+      commentIconElem.style.display = 'block'
+    }
+
+    const handleChildLeave = (event: Event) => {
+      const currentTarget = event.currentTarget as HTMLElement
+      const commentIconElem = currentTarget.lastElementChild as HTMLElement
+      commentIconElem.style.display = 'none'
+    }
+
+    const handleChildClick = (_: Event, element: HTMLElement) => {
+      const elementCopy = element.cloneNode(true) as HTMLElement
+      elementCopy.lastChild?.remove()
+      onSelectSection(elementCopy.outerHTML)
+    }
+
+    childrenArray.forEach(child => {
+      const childElem = child as HTMLElement
+      childElem.addEventListener('mouseenter', handleChildEnter)
+      childElem.addEventListener('mouseleave', handleChildLeave)
+      childElem.style.position = 'relative'
+
+      const commentIconElem = createCommentIconElement()
+
+      commentIconElem.addEventListener('load', function () {
+        commentIconElem?.contentDocument?.addEventListener('click', e =>
+          handleChildClick(e, childElem)
+        )
+      })
+
+      child.appendChild(commentIconElem)
+    })
+  }, [])
+
+  return (
+    <div ref={ref}>
+      <HtmlRenderHover ref={htmlWrapperRef} {...props} />
+    </div>
+  )
+})
+
+export default AttestationHtmlRender

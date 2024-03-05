@@ -1,4 +1,4 @@
-import HtmlRender from '@src/components/HtmlRender'
+import AttestationHtmlRenderWrapper from '@src/components/HtmlRender/AttestationHtmlRender'
 import ContentMissing from '@src/components/common/ContentMissing'
 import Flex from '@src/components/ui/Flex'
 import { useRef, useState } from 'react'
@@ -32,11 +32,11 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
 
   return (
     <Flex flexDirection='column'>
-      <HtmlRender
+      <AttestationHtmlRenderWrapper
+        html={article?.ipfsContent?.htmlContent}
         onSelectSection={onSelectSection}
         onMount={onMountContent}
         ref={contentRef}
-        html={article?.ipfsContent?.htmlContent}
       />
 
       <Flex justifyContent='flex-end' mt={3}>
