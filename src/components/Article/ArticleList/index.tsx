@@ -33,27 +33,23 @@ const ArticleList: React.FC<ArticleListProps> = ({ projectAddress }) => {
     )
   }
 
-  if (noContent) {
-    return (
-      <Flex flexDirection='column' $gap='10px'>
-        <ContentMissing message='Articles missing' />
-      </Flex>
-    )
-  }
-
   return (
     <Flex flexDirection='column' $gap='10px'>
       <RequirePermissions canCreateArticle projectAddress={projectId}>
         <CreateArticleCard projectAddress={projectAddress} />
       </RequirePermissions>
-      {articles?.map(article => (
-        <ArticleCard
-          key={article.id}
-          articleId={article.id}
-          projectId={projectId}
-          content={article.ipfsContent}
-        />
-      ))}
+      {noContent ? (
+        <ContentMissing message='Articles missing' />
+      ) : (
+        articles?.map(article => (
+          <ArticleCard
+            key={article.id}
+            articleId={article.id}
+            projectId={projectId}
+            content={article.ipfsContent}
+          />
+        ))
+      )}
     </Flex>
   )
 }
