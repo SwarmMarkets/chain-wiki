@@ -13,7 +13,7 @@ const ContentMissing: React.FC<ContentMissingProps> = ({ message }) => {
 
   return (
     <Flex flexDirection='column' justifyContent='center' alignItems='center'>
-      <Icon name='empty' size={250} color={theme.palette.gray} />
+      <Icon name='empty' size={200} color={theme.palette.gray} />
       <Text fontSize={theme.fontSizes.large} color={theme.palette.gray}>
         {message}
       </Text>
