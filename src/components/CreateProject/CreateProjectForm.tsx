@@ -37,7 +37,7 @@ const CreateProjectForm: React.FC<CreateProjectFormProps> = ({
 
   const onSubmit: SubmitHandler<FormInputs> = async (data, e) => {
     e?.preventDefault()
-    const { name, symbol, admin, uri, editor } = data
+    const { name, symbol, admin, uri = '', editor } = data
 
     try {
       await call('deployNFTContract', [name, symbol, uri, admin, editor])
@@ -74,7 +74,8 @@ const CreateProjectForm: React.FC<CreateProjectFormProps> = ({
             />
           </TextFieldBox>
         </Flex>
-        <TextFieldBox>
+        {/* TODO: implement URI */}
+        {/* <TextFieldBox>
           <TextFieldTitle>{t('form.uri')}</TextFieldTitle>
           <StyledTextField
             width='100%'
@@ -82,7 +83,7 @@ const CreateProjectForm: React.FC<CreateProjectFormProps> = ({
             placeholder={t('formPlaceholders.uri')}
             error={errors.uri?.message}
           />
-        </TextFieldBox>
+        </TextFieldBox> */}
         <TextFieldBox>
           <TextFieldTitle>{t('form.adminAddress')}</TextFieldTitle>
           <StyledTextField
