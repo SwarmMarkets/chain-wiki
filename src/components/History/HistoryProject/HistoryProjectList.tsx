@@ -1,18 +1,18 @@
-import { TokenUriUpdatesQuery } from '@src/queries/gql/graphql'
+import { NfturiUpdatesQuery } from '@src/queries/gql/graphql'
 import queryString from 'query-string'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, useLocation } from 'react-router-dom'
 import styled from 'styled-components'
-import Checkbox from '../Checkbox'
-import Card from '../ui/Card'
-import Flex from '../ui/Flex'
-import Text from '../ui/Text'
+import Checkbox from '@src/components/Checkbox'
+import Card from '@src/components/ui/Card'
+import Flex from '@src/components/ui/Flex'
+import Text from '@src/components/ui/Text'
 
-interface HistoryArticleListProps {
-  onSelectArticles: (articles: TokenUriUpdatesQuery['tokenURIUpdates']) => void
-  selectedArticles: TokenUriUpdatesQuery['tokenURIUpdates']
-  history: TokenUriUpdatesQuery['tokenURIUpdates']
+interface HistoryProjectListProps {
+  onSelectProjects: (projects: NfturiUpdatesQuery['nfturiupdates']) => void
+  selectedProjects: NfturiUpdatesQuery['nfturiupdates']
+  history: NfturiUpdatesQuery['nfturiupdates']
 }
 
 export const StyledLink = styled(Link)`
@@ -22,58 +22,53 @@ export const StyledLink = styled(Link)`
   }
 `
 
-const StyledCard = styled(Card)`
-  padding: 18px;
-  user-select: none;
-`
-
-const HistoryArticleList: React.FC<HistoryArticleListProps> = ({
-  onSelectArticles,
-  selectedArticles,
+const HistoryProjectList: React.FC<HistoryProjectListProps> = ({
+  onSelectProjects,
+  selectedProjects,
   history,
 }) => {
   const location = useLocation()
   const { t } = useTranslation('history')
 
   const onChangeCheckbox = (
-    article: TokenUriUpdatesQuery['tokenURIUpdates'][0]
+    project: NfturiUpdatesQuery['nfturiupdates'][0]
   ) => {
-    if (!selectedArticles) return
-    const articleIsSelected = selectedArticles.find(
-      item => item.id === article.id
+    if (!selectedProjects) return
+    const projectIsSelected = selectedProjects.find(
+      item => item.id === project.id
     )
 
-    if (articleIsSelected) {
-      const newArticles = selectedArticles.filter(
-        item => item.id !== article.id
+    if (projectIsSelected) {
+      const newProjects = selectedProjects.filter(
+        item => item.id !== project.id
       )
-      onSelectArticles(newArticles)
+      onSelectProjects(newProjects)
       return
     }
-    onSelectArticles([...selectedArticles, article])
+    onSelectProjects([...selectedProjects, project])
   }
 
-  const resetSelectedArticles = () => {
-    onSelectArticles([])
+  const resetSelectedProjects = () => {
+    onSelectProjects([])
   }
 
   return (
     <Flex flexDirection='column' $gap='10px'>
       {history &&
-        selectedArticles &&
+        selectedProjects &&
         history.map((item, index) => (
-          <StyledCard key={item.id}>
+          <Card key={item.id}>
             <Text>
               (
               {index === 0 ? (
                 <Text>{t('curr')}</Text>
               ) : (
                 <StyledLink
-                  onClick={resetSelectedArticles}
+                  onClick={resetSelectedProjects}
                   to={`?${queryString.stringify({
                     ...queryString.parse(location.search),
-                    oldArticleId: history[0]?.id,
-                    newArticleId: item.id,
+                    oldProjectId: history[0]?.id,
+                    newProjectId: item.id,
                   })}`}
                 >
                   {t('curr')}
@@ -84,11 +79,11 @@ const HistoryArticleList: React.FC<HistoryArticleListProps> = ({
                 <Text>{t('prev')}</Text>
               ) : (
                 <StyledLink
-                  onClick={resetSelectedArticles}
+                  onClick={resetSelectedProjects}
                   to={`?${queryString.stringify({
                     ...queryString.parse(location.search),
-                    oldArticleId: history[index + 1]?.id,
-                    newArticleId: item.id,
+                    oldProjectId: history[index + 1]?.id,
+                    newProjectId: item.id,
                   })}`}
                 >
                   {t('prev')}
@@ -99,23 +94,23 @@ const HistoryArticleList: React.FC<HistoryArticleListProps> = ({
             <Checkbox
               ml='10px'
               checked={
-                !!selectedArticles.find(
+                !!selectedProjects.find(
                   selectedItem => selectedItem.id === item.id
                 )
               }
               disabled={
-                selectedArticles.length >= 2 &&
-                !selectedArticles.find(
+                selectedProjects.length >= 2 &&
+                !selectedProjects.find(
                   selectedItem => selectedItem.id === item.id
                 )
               }
               onChange={() => onChangeCheckbox(item)}
             />
             <Text ml='20px'>{new Date(+item.updatedAt).toLocaleString()} </Text>
-          </StyledCard>
+          </Card>
         ))}
     </Flex>
   )
 }
 
-export default HistoryArticleList
+export default HistoryProjectList

@@ -8,11 +8,12 @@ import {
   TokenUriUpdate_OrderBy,
   TokenUriUpdatesQuery,
 } from '@src/queries/gql/graphql'
-import Box from '../ui/Box'
-import Button from '../ui/Button/Button'
+import Box from '../../ui/Box'
+import Button from '../../ui/Button/Button'
 import { useTranslation } from 'react-i18next'
 import useTokenURIUpdates from '@src/hooks/subgraph/useTokenURIUpdates'
-import HistoryCardSkeleton from './HistoryCardSkeleton'
+import HistoryCardSkeleton from '../HistoryCardSkeleton'
+import ContentMissing from '../../common/ContentMissing'
 
 const HistoryArticle = () => {
   const { t } = useTranslation('buttons')
@@ -53,6 +54,9 @@ const HistoryArticle = () => {
     () => selectedArticles.sort((a, b) => +a.updatedAt - +b.updatedAt),
     [selectedArticles]
   )
+
+  if (!tokenUriUpdates && !showSkeletons)
+    return <ContentMissing message='Article history missing' />
 
   return (
     <div>

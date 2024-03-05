@@ -8,11 +8,12 @@ import {
   NfturiUpdatesQuery,
   OrderDirection,
 } from '@src/queries/gql/graphql'
-import Box from '../ui/Box'
-import Button from '../ui/Button/Button'
+import Box from '@src/components/ui/Box'
+import Button from '@src/components/ui/Button/Button'
 import { useTranslation } from 'react-i18next'
 import useNFTURIUpdates from '@src/hooks/subgraph/useNFTURIUpdates'
-import HistoryCardSkeleton from './HistoryCardSkeleton'
+import ContentMissing from '@src/components/common/ContentMissing'
+import HistoryCardSkeleton from '../HistoryCardSkeleton'
 
 const HistoryProject = () => {
   const { t } = useTranslation('buttons')
@@ -45,6 +46,10 @@ const HistoryProject = () => {
     () => selectedProjects.sort((a, b) => +a.updatedAt - +b.updatedAt),
     [selectedProjects]
   )
+
+  if (!nftUriUpdates && !showSkeletons)
+    return <ContentMissing message='Project history missing' />
+
   return (
     <div>
       {mode === 'list' ? (

@@ -3,12 +3,12 @@ import useTokenURIUpdates from '@src/hooks/subgraph/useTokenURIUpdates'
 import queryString from 'query-string'
 import { useMemo } from 'react'
 import { useLocation } from 'react-router-dom'
-import HtmlDiffViewer from './HtmlDiffViewer'
+import HtmlDiffViewer from '../HtmlDiffViewer'
 import {
   OrderDirection,
   TokenUriUpdate_OrderBy,
 } from '@src/queries/gql/graphql'
-import HistoryDifferenceSkeleton from './HistoryDIfferenceSkeleton'
+import HistoryDifferenceSkeleton from '../HistoryDIfferenceSkeleton'
 import { useTranslation } from 'react-i18next'
 
 const HistoryArticleDifference = () => {
@@ -49,7 +49,8 @@ const HistoryArticleDifference = () => {
                 key={article.id}
               >
                 <span>
-                  {t('revisionAsOf')} {new Date(+article.updatedAt).toLocaleString()}
+                  {t('revisionAsOf')}{' '}
+                  {new Date(+article.updatedAt).toLocaleString()}
                 </span>
               </Flex>
             ))}
