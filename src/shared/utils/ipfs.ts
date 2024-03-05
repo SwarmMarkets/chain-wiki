@@ -3,7 +3,7 @@ import { IpfsArticleContent, IpfsProjectContent } from '../types/ipfs'
 import { VoteProposal } from '../types/vote-proposal'
 import { isObject } from './isObject'
 
-const initialProjectContent = {
+const initialProjectContent: IpfsProjectContent = {
   name: '',
   address: '',
   htmlContent: '',
@@ -89,13 +89,21 @@ export const verifyVoteProposalValid = (proposal: VoteProposal) => {
   }
 }
 
+export const verifyProjectValid = (project: IpfsProjectContent) => {
+  try {
+    return verifyObjectKeysDeep(initialProjectContent, project)
+  } catch {
+    throw Error('Project content is invalid.')
+  }
+}
+
 export const parseIpfsProjectContent = (
   content: string
 ): IpfsProjectContent => {
   try {
     const parsedContent = JSON.parse(content)
     const validKeys = Object.keys(initialProjectContent)
-    verifyObjectKeys(validKeys, parsedContent)
+    verifyObjectKeysDeep(validKeys, parsedContent)
     return parsedContent
   } catch {
     throw Error('Invalid JSON format')

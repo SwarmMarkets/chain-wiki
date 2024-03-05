@@ -6,8 +6,9 @@ import {
   NfTsQuery as NFTsQueryGQL,
   NfTsQueryVariables,
 } from '@src/queries/gql/graphql'
+import { IpfsProjectContent, NFTQueryFullData } from '@src/shared/types/ipfs'
+import { verifyProjectValid } from '@src/shared/utils'
 import { useStorage } from '@thirdweb-dev/react'
-import { NFTsQueryFullData } from '@src/shared/types/ipfs'
 
 const PAGE_LIMIT = 10
 const POLL_INTERVAL = 15000
@@ -21,7 +22,24 @@ const useNFTs = (
   config?: UseNftConfig
 ) => {
   const storage = useStorage()
-  const [fullData, setFullData] = useState<NFTsQueryFullData[] | null>(null)
+  const [fullData, setFullData] = useState<NFTQueryFullData[] | null>(null)
+
+  const getBatchIpfsData = async (nfts: NFTsQueryGQL['nfts']) => {
+    const results = new Map<string, IpfsProjectContent>()
+
+    const promises = nfts.map(item =>
+      storage
+        ?.downloadJSON(item.uri)
+        .then(res => {
+          verifyProjectValid(res)
+          results.set(item.id, res)
+        })
+        .catch(e => e)
+    )
+
+    await Promise.all(promises)
+    return results
+  }
 
   const { data, loading, error, fetchMore, networkStatus, refetch } = useQuery(
     NFTsQuery,
@@ -36,21 +54,18 @@ const useNFTs = (
         ...options?.variables,
       },
       async onCompleted(data) {
-        if (!config?.fetchFullData) {
-          return
-        }
+        if (!config?.fetchFullData) return
 
-        const promises = data.nfts.map(item => storage?.downloadJSON(item.uri))
+        const nftsIpfsData = await getBatchIpfsData(
+          data.nfts
+        )
 
-        const additionalData = await Promise.all(promises)
+        const fullData = data.nfts.map((item) => {
+          const ipfsData = nftsIpfsData.get(item.id)
+          if (!ipfsData) return item
 
-        const fullData = data.nfts.map((item, index) => {
-          if (additionalData[index].error) {
-            return item
-          }
-          
           return {
-            ...additionalData[index],
+            ...ipfsData,
             ...item,
           }
         })
