@@ -56,6 +56,12 @@ const ArticlePage = () => {
     navigate({ search: `?${params}` }, { replace: true })
   }
 
+  const handleSuccessUpdate = () => {
+    setActiveTab(ArticleTabs.READ)
+    const params = queryString.exclude(location.search, ['tab'])
+    navigate({ search: params })
+  }
+
   const onMount = (element: HTMLDivElement) => {
     setContentElem(element)
   }
@@ -97,6 +103,7 @@ const ArticlePage = () => {
             </TabPanel>
             <TabPanel value={ArticleTabs.EDIT}>
               <Editor
+                onSuccessUpdate={handleSuccessUpdate}
                 initialContent={token?.ipfsContent?.htmlContent || ''}
                 projectAddress={projectId}
                 articleId={tokenId}

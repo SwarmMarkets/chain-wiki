@@ -6,14 +6,15 @@ import styled from 'styled-components'
 import { Editor as TinyEditorType } from 'tinymce'
 import UpdateContentButton from '../UpdateContent'
 import RequirePermissions from '../common/RequirePermissions'
-import EditorSkeleton from './EditorSkeleton'
 import Flex from '../ui/Flex'
+import EditorSkeleton from './EditorSkeleton'
 
 interface EditorProps {
   projectAddress: string
   articleId?: number
   initialContent: string
   onChange?: (content: string, editor: TinyEditorType) => void
+  onSuccessUpdate?: () => void
 }
 
 interface EditorWrapperProps {
@@ -29,6 +30,7 @@ const Editor: React.FC<EditorProps> = ({
   initialContent,
   articleId,
   projectAddress,
+  onSuccessUpdate,
 }) => {
   const [editorInit, setEditorInit] = useState(false)
   const [currContent, setCurrContent] = useState(initialContent)
@@ -97,6 +99,7 @@ const Editor: React.FC<EditorProps> = ({
           <RequirePermissions projectAddress={projectAddress} canUpdateContent>
             {articleId ? (
               <UpdateContentButton
+                onSuccess={onSuccessUpdate}
                 articleId={articleId}
                 contentType='article'
                 projectAddress={projectAddress}
@@ -104,6 +107,7 @@ const Editor: React.FC<EditorProps> = ({
               />
             ) : (
               <UpdateContentButton
+                onSuccess={onSuccessUpdate}
                 contentType='project'
                 projectAddress={projectAddress}
                 content={currContent}
