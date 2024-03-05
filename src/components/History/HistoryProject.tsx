@@ -1,16 +1,29 @@
 import { useMemo, useState } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useParams } from 'react-router-dom'
 import queryString from 'query-string'
 import HistoryProjcetDifference from './HistoryProjectDifference'
 import HistoryProjectList from './HistoryProjectList'
-import { NfturiUpdatesQuery } from '@src/queries/gql/graphql'
+import {
+  NfturiUpdate_OrderBy,
+  NfturiUpdatesQuery,
+  OrderDirection,
+} from '@src/queries/gql/graphql'
 import Box from '../ui/Box'
 import Button from '../ui/Button/Button'
 import { useTranslation } from 'react-i18next'
+import useNFTURIUpdates from '@src/hooks/subgraph/useNFTURIUpdates'
+import HistoryCardSkeleton from './HistoryCardSkeleton'
 
 const HistoryProject = () => {
   const { t } = useTranslation('buttons')
   const location = useLocation()
+  const { projectId = '' } = useParams()
+  const { nftUriUpdates, loading, refetching } = useNFTURIUpdates(projectId, {
+    variables: {
+      orderBy: NfturiUpdate_OrderBy.UpdatedAt,
+      orderDirection: OrderDirection.Desc,
+    },
+  })
   const mode = useMemo(() => {
     const params = queryString.parse(location.search)
     if (params.oldProjectId && params.newProjectId) {
@@ -22,6 +35,7 @@ const HistoryProject = () => {
   const [selectedProjects, setSelectedProjects] = useState<
     NfturiUpdatesQuery['nfturiupdates']
   >([])
+  const showSkeletons = loading && !refetching
 
   const onSelectProjects = (projects: NfturiUpdatesQuery['nfturiupdates']) => {
     setSelectedProjects(projects)
@@ -35,25 +49,34 @@ const HistoryProject = () => {
     <div>
       {mode === 'list' ? (
         <Box>
-          {selectedProjects.length === 2 ? (
-            <Link
-              onClick={() => onSelectProjects([])}
-              to={`?${queryString.stringify({
-                ...queryString.parse(location.search),
-                oldProjectId: sortedProjectsByUpdatedAt[0]?.id,
-                newProjectId: sortedProjectsByUpdatedAt[1]?.id,
-              })}`}
-            >
-              <Button>{t('compare')}</Button>
-            </Link>
-          ) : (
-            <Button disabled>{t('compare')}</Button>
-          )}
+          {nftUriUpdates &&
+            nftUriUpdates?.length > 1 &&
+            (selectedProjects.length === 2 ? (
+              <Link
+                onClick={() => onSelectProjects([])}
+                to={`?${queryString.stringify({
+                  ...queryString.parse(location.search),
+                  oldProjectId: sortedProjectsByUpdatedAt[0]?.id,
+                  newProjectId: sortedProjectsByUpdatedAt[1]?.id,
+                })}`}
+              >
+                <Button>{t('compare')}</Button>
+              </Link>
+            ) : (
+              <Button disabled>{t('compare')}</Button>
+            ))}
           <Box mt='10px'>
-            <HistoryProjectList
-              selectedProjects={selectedProjects}
-              onSelectProjects={onSelectProjects}
-            />
+            {showSkeletons &&
+              [...Array(5)].map((_, index) => (
+                <HistoryCardSkeleton key={index} />
+              ))}
+            {nftUriUpdates && (
+              <HistoryProjectList
+                selectedProjects={selectedProjects}
+                onSelectProjects={onSelectProjects}
+                history={nftUriUpdates}
+              />
+            )}
           </Box>
         </Box>
       ) : (

@@ -1,23 +1,18 @@
+import { NfturiUpdatesQuery } from '@src/queries/gql/graphql'
+import queryString from 'query-string'
 import React from 'react'
-import { Link, useLocation, useParams } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
+import { Link, useLocation } from 'react-router-dom'
+import styled from 'styled-components'
+import Checkbox from '../Checkbox'
 import Card from '../ui/Card'
 import Flex from '../ui/Flex'
 import Text from '../ui/Text'
-import queryString from 'query-string'
-import styled from 'styled-components'
-import Checkbox from '../Checkbox'
-import HistoryCardSkeleton from './HistoryCardSkeleton'
-import {
-  NfturiUpdate_OrderBy,
-  NfturiUpdatesQuery,
-  OrderDirection,
-} from '@src/queries/gql/graphql'
-import { useTranslation } from 'react-i18next'
-import useNFTURIUpdates from '@src/hooks/subgraph/useNFTURIUpdates'
 
 interface HistoryProjectListProps {
   onSelectProjects: (projects: NfturiUpdatesQuery['nfturiupdates']) => void
   selectedProjects: NfturiUpdatesQuery['nfturiupdates']
+  history: NfturiUpdatesQuery['nfturiupdates']
 }
 
 export const StyledLink = styled(Link)`
@@ -30,18 +25,10 @@ export const StyledLink = styled(Link)`
 const HistoryProjectList: React.FC<HistoryProjectListProps> = ({
   onSelectProjects,
   selectedProjects,
+  history,
 }) => {
   const location = useLocation()
   const { t } = useTranslation('history')
-  const { projectId = '' } = useParams()
-  const { nftUriUpdates, loading, refetching } = useNFTURIUpdates(projectId, {
-    variables: {
-      orderBy: NfturiUpdate_OrderBy.UpdatedAt,
-      orderDirection: OrderDirection.Desc,
-    },
-  })
-
-  const showSkeletons = loading && !refetching
 
   const onChangeCheckbox = (
     project: NfturiUpdatesQuery['nfturiupdates'][0]
@@ -67,11 +54,9 @@ const HistoryProjectList: React.FC<HistoryProjectListProps> = ({
 
   return (
     <Flex flexDirection='column' $gap='10px'>
-      {showSkeletons &&
-        [...Array(5)].map((_, index) => <HistoryCardSkeleton key={index} />)}
-      {nftUriUpdates &&
+      {history &&
         selectedProjects &&
-        nftUriUpdates.map((item, index) => (
+        history.map((item, index) => (
           <Card key={item.id}>
             <Text>
               (
@@ -82,7 +67,7 @@ const HistoryProjectList: React.FC<HistoryProjectListProps> = ({
                   onClick={resetSelectedProjects}
                   to={`?${queryString.stringify({
                     ...queryString.parse(location.search),
-                    oldProjectId: nftUriUpdates[0]?.id,
+                    oldProjectId: history[0]?.id,
                     newProjectId: item.id,
                   })}`}
                 >
@@ -90,14 +75,14 @@ const HistoryProjectList: React.FC<HistoryProjectListProps> = ({
                 </StyledLink>
               )}{' '}
               |{' '}
-              {index === nftUriUpdates.length - 1 ? (
+              {index === history.length - 1 ? (
                 <Text>{t('prev')}</Text>
               ) : (
                 <StyledLink
                   onClick={resetSelectedProjects}
                   to={`?${queryString.stringify({
                     ...queryString.parse(location.search),
-                    oldProjectId: nftUriUpdates[index + 1]?.id,
+                    oldProjectId: history[index + 1]?.id,
                     newProjectId: item.id,
                   })}`}
                 >
