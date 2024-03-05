@@ -4,6 +4,7 @@ import Card from '@src/components/ui/Card'
 import Flex from '@src/components/ui/Flex'
 import Icon from '@src/components/ui/Icon'
 import Text from '@src/components/ui/Text'
+import { ArticleTabs } from '@src/shared/enums'
 import RoutePaths from '@src/shared/enums/routes-paths'
 import { useTranslation } from 'react-i18next'
 import { Link, generatePath } from 'react-router-dom'
@@ -35,7 +36,7 @@ const ArticleEmptyCard: React.FC<ArticleEmptyCardProps> = ({
             to={`${generatePath(RoutePaths.PROJECT + RoutePaths.ARTICLE, {
               projectId,
               articleId: articleId,
-            })}?tab=2`}
+            })}?tab=${ArticleTabs.EDIT}`}
           >
             <Button>{t('updateArticle', { ns: 'article' })}</Button>
           </Link>
