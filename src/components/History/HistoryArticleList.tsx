@@ -1,23 +1,18 @@
+import { TokenUriUpdatesQuery } from '@src/queries/gql/graphql'
+import queryString from 'query-string'
 import React from 'react'
-import { Link, useLocation, useParams } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
+import { Link, useLocation } from 'react-router-dom'
+import styled from 'styled-components'
+import Checkbox from '../Checkbox'
 import Card from '../ui/Card'
 import Flex from '../ui/Flex'
 import Text from '../ui/Text'
-import queryString from 'query-string'
-import useTokenURIUpdates from '@src/hooks/subgraph/useTokenURIUpdates'
-import styled from 'styled-components'
-import Checkbox from '../Checkbox'
-import HistoryCardSkeleton from './HistoryCardSkeleton'
-import {
-  OrderDirection,
-  TokenUriUpdate_OrderBy,
-  TokenUriUpdatesQuery,
-} from '@src/queries/gql/graphql'
-import { useTranslation } from 'react-i18next'
 
 interface HistoryArticleListProps {
   onSelectArticles: (articles: TokenUriUpdatesQuery['tokenURIUpdates']) => void
   selectedArticles: TokenUriUpdatesQuery['tokenURIUpdates']
+  history: TokenUriUpdatesQuery['tokenURIUpdates']
 }
 
 export const StyledLink = styled(Link)`
@@ -35,21 +30,10 @@ const StyledCard = styled(Card)`
 const HistoryArticleList: React.FC<HistoryArticleListProps> = ({
   onSelectArticles,
   selectedArticles,
+  history,
 }) => {
   const location = useLocation()
   const { t } = useTranslation('history')
-  const { articleId = '' } = useParams()
-  const { tokenUriUpdates, loading, refetching } = useTokenURIUpdates(
-    articleId,
-    {
-      variables: {
-        orderBy: TokenUriUpdate_OrderBy.UpdatedAt,
-        orderDirection: OrderDirection.Desc,
-      },
-    }
-  )
-
-  const showSkeletons = loading && !refetching
 
   const onChangeCheckbox = (
     article: TokenUriUpdatesQuery['tokenURIUpdates'][0]
@@ -75,11 +59,9 @@ const HistoryArticleList: React.FC<HistoryArticleListProps> = ({
 
   return (
     <Flex flexDirection='column' $gap='10px'>
-      {showSkeletons &&
-        [...Array(5)].map((_, index) => <HistoryCardSkeleton key={index} />)}
-      {tokenUriUpdates &&
+      {history &&
         selectedArticles &&
-        tokenUriUpdates.map((item, index) => (
+        history.map((item, index) => (
           <StyledCard key={item.id}>
             <Text>
               (
@@ -90,7 +72,7 @@ const HistoryArticleList: React.FC<HistoryArticleListProps> = ({
                   onClick={resetSelectedArticles}
                   to={`?${queryString.stringify({
                     ...queryString.parse(location.search),
-                    oldArticleId: tokenUriUpdates[0]?.id,
+                    oldArticleId: history[0]?.id,
                     newArticleId: item.id,
                   })}`}
                 >
@@ -98,14 +80,14 @@ const HistoryArticleList: React.FC<HistoryArticleListProps> = ({
                 </StyledLink>
               )}{' '}
               |{' '}
-              {index === tokenUriUpdates.length - 1 ? (
+              {index === history.length - 1 ? (
                 <Text>{t('prev')}</Text>
               ) : (
                 <StyledLink
                   onClick={resetSelectedArticles}
                   to={`?${queryString.stringify({
                     ...queryString.parse(location.search),
-                    oldArticleId: tokenUriUpdates[index + 1]?.id,
+                    oldArticleId: history[index + 1]?.id,
                     newArticleId: item.id,
                   })}`}
                 >
