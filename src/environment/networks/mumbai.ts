@@ -4,7 +4,7 @@ import { Mumbai } from "@thirdweb-dev/chains";
 export const mumbai: NetworkConfiguration = {
   subgraphURL: 'https://api.studio.thegraph.com/proxy/46523/chain-wiki/version/latest',
   contracts: {
-    sx1155NFTFactoryAddress: '0xdEA790E5888B04004b6890a8DBAcd07358006273'
+    sx1155NFTFactoryAddress: '0x695d66762C05c0B1644eD34467215cCf1AdAe3d0'
   }
 }
 
