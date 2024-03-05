@@ -23,16 +23,6 @@ const ArticleList: React.FC<ArticleListProps> = ({ projectAddress }) => {
 
   const noContent = !loading && articles?.length === 0
 
-  if (loading) {
-    return (
-      <Flex flexDirection='column' $gap='10px'>
-        {[...new Array(5)].map((_, index) => (
-          <ArticleCardSkeleton key={index} />
-        ))}
-      </Flex>
-    )
-  }
-
   return (
     <Flex flexDirection='column' $gap='10px'>
       <RequirePermissions canCreateArticle projectAddress={projectId}>
@@ -50,6 +40,11 @@ const ArticleList: React.FC<ArticleListProps> = ({ projectAddress }) => {
           />
         ))
       )}
+
+      {loading &&
+        [...new Array(5)].map((_, index) => (
+          <ArticleCardSkeleton key={index} />
+        ))}
     </Flex>
   )
 }
