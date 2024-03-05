@@ -1,31 +1,33 @@
 import { useSX1155NFT } from '@src/hooks/contracts/useSX1155NFT'
 import { Roles } from '@src/shared/enums/roles'
+import { stringToByteArray } from '@src/shared/utils'
+import { getRoleHash } from '@thirdweb-dev/sdk'
+
+
+const DEFAULT_ADMIN_ROLE_BYTES = getRoleHash('admin')
+
+const EDITOR_ROLE_BYTES = stringToByteArray(
+  'EDITOR_ROLE',
+)
+
+const rolesMapping = {
+  [Roles.ADMIN]: DEFAULT_ADMIN_ROLE_BYTES,
+  [Roles.EDITOR]: EDITOR_ROLE_BYTES
+}
 
 const useNFTRoleManager = (nftAddress: string) => {
   const { call, txLoading } = useSX1155NFT(nftAddress)
 
   const grantRole = (to: string, role: Roles) => {
-    if (role === 'agent') {
-      call('grantAgentRole', [to])
-    }
-    if (role === 'editor') {
-      call('grantEditorRole', [to])
-    }
-    if (role === 'issuer') {
-      call('grantIssuerRole', [to])
-    }
+    const roleToGrant = rolesMapping[role]
+
+    call('grantRole', [roleToGrant, to])
   }
 
   const revokeRole = (from: string, role: Roles) => {
-    if (role === 'agent') {
-      call('revokeAgentRole', [from])
-    }
-    if (role === 'editor') {
-      call('revokeEditorRole', [from])
-    }
-    if (role === 'issuer') {
-      call('revokeIssuerRole', [from])
-    }
+    const roleToRevoke = rolesMapping[role]
+
+    call('revokeRole', [roleToRevoke, from])
   }
 
   return {

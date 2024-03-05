@@ -39,3 +39,15 @@ export const isSameEthereumAddress = (
 export const checkNetworkSupported = (chainId?: number) => {
   return supportedChains.some(chain => chain.chainId === chainId)
 }
+
+// Function to convert a string to a byte array and then hash it using keccak256
+export const stringToByteArray = (str: string) => {
+  // Convert the string to a byte array
+  const bytes = ethers.utils.toUtf8Bytes(str);
+
+  // Hash the byte array using keccak256
+  const hashed = ethers.utils.keccak256(bytes);
+
+  // Return the hashed value
+  return hashed;
+}

@@ -2,6 +2,8 @@ import LoadingButton from '@src/components/ui/Button/LoadingButton'
 import { useTranslation } from 'react-i18next'
 import useNFTRoleManager from './useNFTRoleManager'
 import { Roles } from '@src/shared/enums/roles'
+import { useAddress } from '@thirdweb-dev/react'
+import { isSameEthereumAddress } from '@src/shared/utils'
 
 interface RevokeRoleButtonProps {
   from: string
@@ -16,8 +18,9 @@ const RevokeRoleButton: React.FC<RevokeRoleButtonProps> = ({
 }) => {
   const { t } = useTranslation('project', { keyPrefix: 'roleManager.actions' })
   const { revokeRole, txLoading } = useNFTRoleManager(projectAddress)
+  const account = useAddress()
 
-  if (role === Roles.ADMIN) return null
+  if (role === Roles.ADMIN && isSameEthereumAddress(account, from)) return null
 
   return (
     <LoadingButton onClick={() => revokeRole(from, role)} loading={txLoading}>
