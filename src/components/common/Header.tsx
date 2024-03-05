@@ -23,14 +23,18 @@ const HeaderContainer = styled(Container)`
   padding-bottom: 12px;
 `
 
+const Logo = styled.img`
+  width: 230px;
+`
+
 const Header = () => {
   const { t } = useTranslation('layout')
 
   return (
     <HeaderContainer as='header'>
-      <Flex $gap='60px'>
+      <Flex $gap='60px' alignItems='center'>
         <Link to={RoutePaths.HOME}>
-          <img src={logo} alt='ChainWiki' />
+          <Logo src={logo} alt='ChainWiki' />
         </Link>
         <TextField
           prependIcon='search'
