@@ -47,7 +47,7 @@ const HistoryProject = () => {
     [selectedProjects]
   )
 
-  if (!nftUriUpdates && !showSkeletons)
+  if ((!nftUriUpdates || !nftUriUpdates.length) && !showSkeletons)
     return <ContentMissing message='Project history missing' />
 
   return (

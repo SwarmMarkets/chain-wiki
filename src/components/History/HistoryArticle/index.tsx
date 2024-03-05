@@ -55,7 +55,7 @@ const HistoryArticle = () => {
     [selectedArticles]
   )
 
-  if (!tokenUriUpdates && !showSkeletons)
+if ((!tokenUriUpdates || !tokenUriUpdates.length) && !showSkeletons)
     return <ContentMissing message='Article history missing' />
 
   return (
