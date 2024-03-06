@@ -44,11 +44,9 @@ const AttestationHtmlRender = forwardRef<
 
       const commentIconElem = createCommentIconElement()
 
-      commentIconElem.addEventListener('load', function () {
-        commentIconElem?.contentDocument?.addEventListener('click', e =>
-          handleChildClick(e, childElem)
-        )
-      })
+      commentIconElem?.addEventListener('click', e =>
+        handleChildClick(e, childElem)
+      )
 
       child.appendChild(commentIconElem)
     })
