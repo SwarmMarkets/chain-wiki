@@ -85,11 +85,11 @@ const ProjectPage = () => {
                 <Tab value={ProjectTabs.HISTORY} label={t('tabs.history')} />
               </Tabs>
               <TabPanel value={ProjectTabs.PROJECT}>
-                {nft?.ipfsContent?.htmlContent ? (
+                {nft?.htmlContent ? (
                   <HtmlRender
                     onMount={onMountContent}
                     ref={contentRef}
-                    html={nft.ipfsContent.htmlContent}
+                    html={nft.htmlContent}
                   />
                 ) : (
                   <ContentMissing message='Project content missing' />
@@ -102,7 +102,7 @@ const ProjectPage = () => {
                 <Editor
                   onSuccessUpdate={handleSuccessUpdate}
                   projectAddress={projectId!}
-                  initialContent={nft?.ipfsContent?.htmlContent || ''}
+                  initialContent={nft?.htmlContent || ''}
                 />
               </TabPanel>
               <TabPanel value={ProjectTabs.MANAGE}>

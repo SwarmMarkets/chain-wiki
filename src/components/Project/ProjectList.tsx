@@ -1,16 +1,16 @@
 import RoutePaths from '@src/shared/enums/routes-paths'
-import { NFTsQueryFullData } from '@src/shared/types/ipfs'
+import { NFTQueryFullData } from '@src/shared/types/ipfs'
 import React from 'react'
 import { generatePath } from 'react-router-dom'
+import styled from 'styled-components'
 import AddProjectCard from './AddProjectCard'
 import ProjectCard from './ProjectCard'
-import { StyledLink } from './styled-components'
 import ProjectSkeletonList from './ProjectSkeletonList'
-import styled from 'styled-components'
+import { StyledLink } from './styled-components'
 
 interface ProjectListProps {
   loading: boolean
-  projects?: NFTsQueryFullData[] | null
+  projects?: NFTQueryFullData[] | null
   addProjectCard?: boolean
   showRole?: boolean
 }

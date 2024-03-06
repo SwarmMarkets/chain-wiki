@@ -1,4 +1,4 @@
-import { NFTsQueryFullData } from '@src/shared/types/ipfs'
+import { NFTQueryFullData } from '@src/shared/types/ipfs'
 import {
   getTextContentFromHtml,
   isSameEthereumAddress,
@@ -15,7 +15,7 @@ import Text from '../ui/Text'
 import { StyledCard, Title } from './styled-components'
 
 interface ProjectCardProps {
-  project: NFTsQueryFullData
+  project: NFTQueryFullData
   showRole?: boolean
 }
 
