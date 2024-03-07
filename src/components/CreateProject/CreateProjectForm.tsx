@@ -59,7 +59,12 @@ const CreateProjectForm: React.FC<CreateProjectFormProps> = ({
             <TextFieldTitle>{t('form.name')}</TextFieldTitle>
             <StyledTextField
               width='100%'
-              inputProps={register('name', { required: true })}
+              inputProps={register('name', {
+                required: {
+                  value: true,
+                  message: t('formErrors.name.required'),
+                },
+              })}
               placeholder={t('formPlaceholders.name')}
               error={errors.name?.message}
             />
@@ -68,7 +73,12 @@ const CreateProjectForm: React.FC<CreateProjectFormProps> = ({
             <TextFieldTitle>{t('form.symbol')}</TextFieldTitle>
             <StyledTextField
               width='100%'
-              inputProps={register('symbol', { required: true })}
+              inputProps={register('symbol', {
+                required: {
+                  value: true,
+                  message: t('formErrors.symbol.required'),
+                },
+              })}
               placeholder={t('formPlaceholders.symbol')}
               error={errors.symbol?.message}
             />
@@ -88,7 +98,12 @@ const CreateProjectForm: React.FC<CreateProjectFormProps> = ({
           <TextFieldTitle>{t('form.adminAddress')}</TextFieldTitle>
           <StyledTextField
             width='100%'
-            inputProps={register('admin', { required: true })}
+            inputProps={register('admin', {
+              required: {
+                value: true,
+                message: t('formErrors.admin.required'),
+              },
+            })}
             placeholder={t('formPlaceholders.adminAddress')}
             error={errors.admin?.message}
           />
@@ -97,7 +112,12 @@ const CreateProjectForm: React.FC<CreateProjectFormProps> = ({
           <TextFieldTitle>{t('form.editorAddress')}</TextFieldTitle>
           <StyledTextField
             width='100%'
-            inputProps={register('editor', { required: true })}
+            inputProps={register('editor', {
+              required: {
+                value: true,
+                message: t('formErrors.editor.required'),
+              },
+            })}
             placeholder={t('formPlaceholders.editorAddress')}
             error={errors.editor?.message}
           />

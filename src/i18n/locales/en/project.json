@@ -22,6 +22,20 @@
       "adminAddress": "Enter admin's Ethereum address",
       "uri": "Paste IPFS hash or URI",
       "editorAddress": "Enter editor's Ethereum address"
+    },
+    "formErrors": {
+      "name": {
+        "required": "Name is required"
+      },
+      "symbol": {
+        "required": "Symbol is required"
+      },
+      "admin": {
+        "required": "Admin address is required"
+      },
+      "editor": {
+        "required": "Editor address is required"
+      }
     }
   },
   "successCreateProject": {
