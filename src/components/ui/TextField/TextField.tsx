@@ -56,9 +56,10 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
             ref={forwardedRef}
             value={value}
             placeholder={placeholder}
-            $focused={isFocused}
-            $prependIconExists={!!prependIcon}
+            focused={isFocused}
+            prependIconExists={!!prependIcon}
             onFocus={onFocusInput}
+            error={!!error}
             {...inputProps}
             onBlur={onBlurInput}
           />
