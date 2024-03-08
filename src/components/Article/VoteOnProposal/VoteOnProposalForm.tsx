@@ -62,10 +62,12 @@ const VoteOnProposalForm: React.FC<VoteOnProposalFormProps> = ({
     <form onSubmit={handleSubmit(onSubmit)}>
       {voteProposal?.choices && (
         <Select
-          defaultValue=''
+          inputProps={{
+            ...register('choice', { required: true }),
+            defaultValue: '',
+          }}
           mb={3}
           height='44px'
-          {...register('choice', { required: true })}
         >
           <option value='' disabled hidden>
             {t('formPlaceholders.choice')}

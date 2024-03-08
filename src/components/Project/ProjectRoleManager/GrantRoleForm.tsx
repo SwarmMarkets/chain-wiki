@@ -43,14 +43,17 @@ const GrantRoleForm: React.FC<GrantRoleFormProps> = ({ projectAddress }) => {
         <Text.h3 mb={2}>{t('roleManager.form.grantRole')}</Text.h3>
         <StyledTextField
           width='100%'
-          inputProps={register('to', { required: true })}
+          inputProps={register('to')}
           placeholder={t('roleManager.formPlaceholders.grantRole')}
           error={errors.to?.message}
         />
       </Box>
 
       <Box mr={3}>
-        <Select defaultValue='' {...register('role', { required: true })}>
+        <Select
+          inputProps={{ ...register('role'), defaultValue: '' }}
+          error={errors.role?.message}
+        >
           <option value='' disabled hidden>
             {t('roleManager.formPlaceholders.role')}
           </option>
