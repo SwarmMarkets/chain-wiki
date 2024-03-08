@@ -38,7 +38,7 @@ export const StyledInput = styled.input.withConfig({
       : `inset 0 0 0 1px ${
           props.error
             ? props.theme.palette.errorPrimary
-            : props.theme.palette.borderBlue
+            : props.theme.palette.borderPrimary
         }`};
   transition: box-shadow 0.3s;
   box-sizing: border-box;
