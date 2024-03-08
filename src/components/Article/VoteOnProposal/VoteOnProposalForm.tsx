@@ -3,14 +3,12 @@ import LoadingButton from '@src/components/ui/Button/LoadingButton'
 import { Select } from '@src/components/ui/Select'
 import api from '@src/services/api'
 import { useState } from 'react'
-import { SubmitHandler, useForm } from 'react-hook-form'
+import { SubmitHandler } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { StyledTextField } from './styled-components'
-
-type FormInputs = {
-  choice: string
-  email: string
-}
+import useVoteOnProposalForm, {
+  VoteOnProposalFormInputs,
+} from '@src/hooks/forms/useVoteOnProposalForm'
 
 interface VoteOnProposalFormProps {
   onSuccessSubmit(): void
@@ -27,14 +25,14 @@ const VoteOnProposalForm: React.FC<VoteOnProposalFormProps> = ({
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormInputs>()
+  } = useVoteOnProposalForm()
 
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
   const voteProposal = token?.ipfsContent?.voteProposal
 
-  const onSubmit: SubmitHandler<FormInputs> = async (data, e) => {
+  const onSubmit: SubmitHandler<VoteOnProposalFormInputs> = async (data, e) => {
     e?.preventDefault()
     if (!voteProposal) return
     const { email, choice } = data
@@ -63,11 +61,11 @@ const VoteOnProposalForm: React.FC<VoteOnProposalFormProps> = ({
       {voteProposal?.choices && (
         <Select
           inputProps={{
-            ...register('choice', { required: true }),
+            ...register('choice'),
             defaultValue: '',
           }}
-          mb={3}
-          height='44px'
+          mb='25px'
+          error={errors.choice?.message}
         >
           <option value='' disabled hidden>
             {t('formPlaceholders.choice')}
@@ -84,7 +82,7 @@ const VoteOnProposalForm: React.FC<VoteOnProposalFormProps> = ({
         inputProps={register('email', { required: true })}
         error={errors.email?.message || error}
         placeholder={t('formPlaceholders.email')}
-        mb={3}
+        mb='30px'
       />
 
       <LoadingButton width='100%' height='40px' loading={loading}>
