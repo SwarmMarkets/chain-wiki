@@ -31,10 +31,12 @@
         "required": "Symbol is required"
       },
       "admin": {
-        "required": "Admin address is required"
+        "required": "Admin address is required",
+        "invalid": "Admin address is invalid"
       },
       "editor": {
-        "required": "Editor address is required"
+        "required": "Editor address is required",
+        "invalid": "Editor address is invalid"
       }
     }
   },

@@ -11,6 +11,9 @@ import {
   TextFieldTitle,
 } from './styled-components'
 
+import yup from '@src/shared/validations/yup'
+import useYupValidationResolver from '@src/hooks/useYupValidationResolvber'
+
 type FormInputs = {
   name: string
   symbol: string
@@ -26,12 +29,27 @@ interface CreateProjectFormProps {
 const CreateProjectForm: React.FC<CreateProjectFormProps> = ({
   onSuccessSubmit,
 }) => {
+  const { t } = useTranslation('project', { keyPrefix: 'createProject' })
+  const resolver = useYupValidationResolver(
+    yup.object({
+      name: yup.string().required(t('formErrors.name.required')),
+      symbol: yup.string().required(t('formErrors.symbol.required')),
+      admin: yup
+        .string()
+        .required(t('formErrors.admin.required'))
+        .isEthereumAddress(t('formErrors.admin.invalid')),
+      editor: yup
+        .string()
+        .required(t('formErrors.editor.required'))
+        .isEthereumAddress(t('formErrors.editor.invalid')),
+    })
+  )
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormInputs>()
-  const { t } = useTranslation('project', { keyPrefix: 'createProject' })
+  } = useForm<FormInputs>({ resolver })
 
   const { call, txLoading } = useSX1155NFTFactory()
 
@@ -59,12 +77,7 @@ const CreateProjectForm: React.FC<CreateProjectFormProps> = ({
             <TextFieldTitle>{t('form.name')}</TextFieldTitle>
             <StyledTextField
               width='100%'
-              inputProps={register('name', {
-                required: {
-                  value: true,
-                  message: t('formErrors.name.required'),
-                },
-              })}
+              inputProps={register('name')}
               placeholder={t('formPlaceholders.name')}
               error={errors.name?.message}
             />
@@ -73,12 +86,7 @@ const CreateProjectForm: React.FC<CreateProjectFormProps> = ({
             <TextFieldTitle>{t('form.symbol')}</TextFieldTitle>
             <StyledTextField
               width='100%'
-              inputProps={register('symbol', {
-                required: {
-                  value: true,
-                  message: t('formErrors.symbol.required'),
-                },
-              })}
+              inputProps={register('symbol')}
               placeholder={t('formPlaceholders.symbol')}
               error={errors.symbol?.message}
             />
@@ -98,12 +106,7 @@ const CreateProjectForm: React.FC<CreateProjectFormProps> = ({
           <TextFieldTitle>{t('form.adminAddress')}</TextFieldTitle>
           <StyledTextField
             width='100%'
-            inputProps={register('admin', {
-              required: {
-                value: true,
-                message: t('formErrors.admin.required'),
-              },
-            })}
+            inputProps={register('admin')}
             placeholder={t('formPlaceholders.adminAddress')}
             error={errors.admin?.message}
           />
