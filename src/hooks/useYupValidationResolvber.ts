@@ -15,7 +15,6 @@ interface Errors {
 const useYupValidationResolver = (validationSchema: ObjectSchema<any>) =>
   useCallback(
     async (data: any) => {
-      console.log(data)
       try {
         const values = await validationSchema.validate(data, {
           abortEarly: false,

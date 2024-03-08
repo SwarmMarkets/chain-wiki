@@ -1,5 +1,5 @@
 import { useSX1155NFTFactory } from '@src/hooks/contracts/useSX1155NFTFactory'
-import { SubmitHandler, useForm } from 'react-hook-form'
+import { SubmitHandler } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import Box from '../ui/Box'
 import LoadingButton from '../ui/Button/LoadingButton'
@@ -11,16 +11,9 @@ import {
   TextFieldTitle,
 } from './styled-components'
 
-import yup from '@src/shared/validations/yup'
-import useYupValidationResolver from '@src/hooks/useYupValidationResolvber'
-
-type FormInputs = {
-  name: string
-  symbol: string
-  uri: string
-  admin: string
-  editor: string
-}
+import useCreateProjectForm, {
+  CreateProjectFormInputs,
+} from '@src/hooks/forms/useCreateProjectForm'
 
 interface CreateProjectFormProps {
   onSuccessSubmit(): void
@@ -30,30 +23,16 @@ const CreateProjectForm: React.FC<CreateProjectFormProps> = ({
   onSuccessSubmit,
 }) => {
   const { t } = useTranslation('project', { keyPrefix: 'createProject' })
-  const resolver = useYupValidationResolver(
-    yup.object({
-      name: yup.string().required(t('formErrors.name.required')),
-      symbol: yup.string().required(t('formErrors.symbol.required')),
-      admin: yup
-        .string()
-        .required(t('formErrors.admin.required'))
-        .isEthereumAddress(t('formErrors.admin.invalid')),
-      editor: yup
-        .string()
-        .required(t('formErrors.editor.required'))
-        .isEthereumAddress(t('formErrors.editor.invalid')),
-    })
-  )
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormInputs>({ resolver })
+  } = useCreateProjectForm()
 
   const { call, txLoading } = useSX1155NFTFactory()
 
-  const onSubmit: SubmitHandler<FormInputs> = async (data, e) => {
+  const onSubmit: SubmitHandler<CreateProjectFormInputs> = async (data, e) => {
     e?.preventDefault()
     const { name, symbol, admin, uri = '', editor } = data
 
