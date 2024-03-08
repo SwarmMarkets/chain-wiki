@@ -4,18 +4,16 @@ import Flex from '@src/components/ui/Flex'
 import { Select } from '@src/components/ui/Select'
 import Text from '@src/components/ui/Text'
 import { Roles } from '@src/shared/enums/roles'
-import { SubmitHandler, useForm } from 'react-hook-form'
+import { SubmitHandler } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { StyledTextField } from './styled-components'
 import useNFTRoleManager from './useNFTRoleManager'
+import useGrantRoleForm, {
+  GrantRoleFormInputs,
+} from '@src/hooks/forms/useGrantRoleForm'
 
 interface GrantRoleFormProps {
   projectAddress: string
-}
-
-type FormInputs = {
-  to: string
-  role: Roles
 }
 
 const GrantRoleForm: React.FC<GrantRoleFormProps> = ({ projectAddress }) => {
@@ -24,11 +22,11 @@ const GrantRoleForm: React.FC<GrantRoleFormProps> = ({ projectAddress }) => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormInputs>()
+  } = useGrantRoleForm()
 
   const { grantRole, txLoading } = useNFTRoleManager(projectAddress)
 
-  const onSubmit: SubmitHandler<FormInputs> = async (data, e) => {
+  const onSubmit: SubmitHandler<GrantRoleFormInputs> = async (data, e) => {
     e?.preventDefault()
     const { to, role } = data
     return grantRole(to, role)
