@@ -4,18 +4,16 @@ import Flex from '@src/components/ui/Flex'
 import { Select } from '@src/components/ui/Select'
 import Text from '@src/components/ui/Text'
 import { Roles } from '@src/shared/enums/roles'
-import { SubmitHandler, useForm } from 'react-hook-form'
+import { SubmitHandler } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { StyledTextField } from './styled-components'
 import useNFTRoleManager from './useNFTRoleManager'
+import useGrantRoleForm, {
+  GrantRoleFormInputs,
+} from '@src/hooks/forms/useGrantRoleForm'
 
 interface GrantRoleFormProps {
   projectAddress: string
-}
-
-type FormInputs = {
-  to: string
-  role: Roles
 }
 
 const GrantRoleForm: React.FC<GrantRoleFormProps> = ({ projectAddress }) => {
@@ -24,11 +22,11 @@ const GrantRoleForm: React.FC<GrantRoleFormProps> = ({ projectAddress }) => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormInputs>()
+  } = useGrantRoleForm()
 
   const { grantRole, txLoading } = useNFTRoleManager(projectAddress)
 
-  const onSubmit: SubmitHandler<FormInputs> = async (data, e) => {
+  const onSubmit: SubmitHandler<GrantRoleFormInputs> = async (data, e) => {
     e?.preventDefault()
     const { to, role } = data
     return grantRole(to, role)
@@ -45,14 +43,17 @@ const GrantRoleForm: React.FC<GrantRoleFormProps> = ({ projectAddress }) => {
         <Text.h3 mb={2}>{t('roleManager.form.grantRole')}</Text.h3>
         <StyledTextField
           width='100%'
-          inputProps={register('to', { required: true })}
+          inputProps={register('to')}
           placeholder={t('roleManager.formPlaceholders.grantRole')}
           error={errors.to?.message}
         />
       </Box>
 
       <Box mr={3}>
-        <Select defaultValue='' {...register('role', { required: true })}>
+        <Select
+          inputProps={{ ...register('role'), defaultValue: '' }}
+          error={errors.role?.message}
+        >
           <option value='' disabled hidden>
             {t('roleManager.formPlaceholders.role')}
           </option>

@@ -22,6 +22,22 @@
       "adminAddress": "Enter admin's Ethereum address",
       "uri": "Paste IPFS hash or URI",
       "editorAddress": "Enter editor's Ethereum address"
+    },
+    "formErrors": {
+      "name": {
+        "required": "Name is required"
+      },
+      "symbol": {
+        "required": "Symbol is required"
+      },
+      "admin": {
+        "required": "Admin address is required",
+        "invalid": "Admin address is invalid"
+      },
+      "editor": {
+        "required": "Editor address is required",
+        "invalid": "Editor address is invalid"
+      }
     }
   },
   "successCreateProject": {
@@ -46,6 +62,15 @@
     "formPlaceholders": {
       "grantRole": "  0x1234...",
       "role": "Select role"
+    },
+    "formErrors": {
+      "to": {
+        "required": "User address is required",
+        "invalid": "User address is invalid"
+      },
+      "role": {
+        "required": "Role is required"
+      }
     }
   },
   "roles": {
