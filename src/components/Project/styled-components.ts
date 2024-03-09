@@ -3,6 +3,7 @@ import Card from '../ui/Card'
 import Text from '../ui/Text'
 import { Link } from 'react-router-dom'
 import Content from '../Content'
+import ArticlesPreview from '../Article/ArticlesPreview'
 
 export const StyledCard = styled(Card)`
   cursor: pointer;
@@ -30,6 +31,19 @@ export const StyledRolesDescription = styled(Text.p)`
 `
 
 export const StyledContent = styled(Content)`
+  min-width: 210px;
+  margin-top: 20px;
+  word-wrap: break-word;
+  overflow-x: hidden;
+  overflow-y: auto;
+  position: sticky;
+  top: 24px;
+  contain: paint;
+  box-sizing: border-box;
+  max-height: calc(100vh - (24px * 2));
+`
+
+export const StyledArticlesPreview = styled(ArticlesPreview)`
   min-width: 210px;
   margin-top: 20px;
   word-wrap: break-word;

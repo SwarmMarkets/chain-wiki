@@ -4,7 +4,10 @@ import HistoryProject from '@src/components/History/HistoryProject'
 import ProjectContentSkeleton from '@src/components/Project/ProjectContentSkeleton'
 import ProjectRoleManager from '@src/components/Project/ProjectRoleManager'
 import { ProjectView } from '@src/components/Project/ProjectView'
-import { StyledContent } from '@src/components/Project/styled-components'
+import {
+  StyledArticlesPreview,
+  StyledContent,
+} from '@src/components/Project/styled-components'
 import ExplorerLink from '@src/components/common/ExplorerLink'
 import Box from '@src/components/ui/Box'
 import Flex from '@src/components/ui/Flex'
@@ -67,7 +70,10 @@ const ProjectPage = () => {
   return (
     <Flex justifyContent='center' $gap='20px'>
       {activeProjectTab === ProjectTabs.PROJECT && contentElem && (
-        <StyledContent contentElem={contentElem} />
+        <StyledArticlesPreview
+          articles={fullTokens}
+          projectAddress={projectId}
+        />
       )}
       <Box maxWidth='920px' width='100%'>
         <Flex $gap='15px' alignItems='end'>

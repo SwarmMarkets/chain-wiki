@@ -1,24 +1,16 @@
 import React from 'react'
-import styled from 'styled-components'
 import ExpandableList from './ui/ExpandableList'
 import { ExpandableListItem } from '@src/shared/types/expandedList'
 import { ContentItemParent } from '@src/shared/types/content'
 import { buildContentHierarchy } from '@src/shared/utils'
 import { useTranslation } from 'react-i18next'
+import Text from './ui/Text'
+import Divider from './ui/Divider'
 
 interface ContentProps {
   contentElem: HTMLDivElement
   className?: string
 }
-
-const ContentsTitle = styled.div`
-  font-weight: ${({ theme }) => theme.fontWeights.bold};
-  font-size: 16px;
-  padding: 12px;
-  padding-left: 0px;
-  margin-bottom: 12px;
-  border-bottom: 1px solid ${({ theme }) => theme.palette.borderPrimary};
-`
 
 const Content: React.FC<ContentProps> = ({ contentElem, className }) => {
   const { t } = useTranslation('contents')
@@ -41,7 +33,8 @@ const Content: React.FC<ContentProps> = ({ contentElem, className }) => {
 
   return (
     <div className={className}>
-      <ContentsTitle>{t('title')}</ContentsTitle>
+      <Text.h3>{t('title')}</Text.h3>
+      <Divider my='10px' />
       <ExpandableList title={t('beginning')} onClickTitle={onClickBeginning} />
       {contentData.map(item => (
         <ExpandableList
