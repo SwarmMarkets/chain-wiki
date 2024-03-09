@@ -37,7 +37,9 @@ export interface IpfsArticleContent {
 
 export type NFTsQueryFullData = NfTsQuery['nfts'][0] & IpfsProjectContent
 
-export type NFTQueryFullData = NftQuery['nft'] & Partial<IpfsProjectContent>
+export type NFTQueryFullData = NftQuery['nft'] & {
+  ipfsContent?: IpfsProjectContent
+}
 
 export type NftUriUpdatesQueryFullData =
   NfturiUpdatesQuery['nfturiupdates'][0] & {
