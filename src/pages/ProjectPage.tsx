@@ -21,7 +21,7 @@ import useProjectPermissions from '@src/hooks/permissions/useProjectPermissions'
 import useNFT from '@src/hooks/subgraph/useNFT'
 import { ProjectTabs } from '@src/shared/enums/tabs'
 import { Tab as ITab } from '@src/shared/types/ui-components'
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
 import { useTheme } from 'styled-components'
@@ -37,11 +37,10 @@ const ProjectPage = () => {
   )
   const { nft, loadingNft, refetchingNft } = useNFT(projectId || '')
 
-  const contentRef = useRef<HTMLDivElement>(null)
   const showSkeleton = loadingNft && !refetchingNft
 
-  const onMountContent = () => {
-    setContentElem(contentRef?.current)
+  const onMountContent = (element: HTMLDivElement) => {
+    setContentElem(element)
   }
 
   const onChangeProjectTab = (tab: ITab) => {
