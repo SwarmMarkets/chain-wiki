@@ -4,13 +4,9 @@ import HistoryProject from '@src/components/History/HistoryProject'
 import ProjectContentSkeleton from '@src/components/Project/ProjectContentSkeleton'
 import ProjectRoleManager from '@src/components/Project/ProjectRoleManager'
 import { ProjectView } from '@src/components/Project/ProjectView'
-import {
-  ContentPlaceholder,
-  InnerContainer,
-  StyledContent,
-  Wrapper,
-} from '@src/components/Project/styled-components'
+import { StyledContent } from '@src/components/Project/styled-components'
 import ExplorerLink from '@src/components/common/ExplorerLink'
+import Box from '@src/components/ui/Box'
 import Flex from '@src/components/ui/Flex'
 import Tabs from '@src/components/ui/Tabs'
 import Tab from '@src/components/ui/Tabs/Tab'
@@ -19,15 +15,17 @@ import TabPanel from '@src/components/ui/Tabs/TabPanel'
 import Text from '@src/components/ui/Text'
 import useProjectPermissions from '@src/hooks/permissions/useProjectPermissions'
 import useNFT from '@src/hooks/subgraph/useNFT'
+import useTokens from '@src/hooks/subgraph/useTokens'
 import { ProjectTabs } from '@src/shared/enums/tabs'
 import { Tab as ITab } from '@src/shared/types/ui-components'
+import { unifyAddressToId } from '@src/shared/utils'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
 import { useTheme } from 'styled-components'
 
 const ProjectPage = () => {
-  const { projectId } = useParams()
+  const { projectId = '' } = useParams()
   const theme = useTheme()
   const { t } = useTranslation('project')
   const { permissions } = useProjectPermissions(projectId)
@@ -35,8 +33,13 @@ const ProjectPage = () => {
   const [activeProjectTab, setActiveProjectTab] = useState<string>(
     ProjectTabs.PROJECT
   )
-  const { nft, loadingNft, refetchingNft } = useNFT(projectId || '')
-
+  const { nft, loadingNft, refetchingNft } = useNFT(projectId)
+  const { fullTokens, loading: tokensLoading } = useTokens(
+    {
+      variables: { filter: { nft: unifyAddressToId(projectId) } },
+    },
+    { fetchFullData: true }
+  )
   const showSkeleton = loadingNft && !refetchingNft
 
   const onMountContent = (element: HTMLDivElement) => {
@@ -53,69 +56,70 @@ const ProjectPage = () => {
 
   if (showSkeleton) {
     return (
-      <Wrapper>
-        <InnerContainer>
+      <Flex justifyContent='center' $gap='20px'>
+        <Box maxWidth='920px' width='100%'>
           <ProjectContentSkeleton />
-        </InnerContainer>
-
-        <ContentPlaceholder />
-      </Wrapper>
+        </Box>
+      </Flex>
     )
   }
 
   return (
-    <Wrapper>
-      <InnerContainer>
-        <>
-          <Flex $gap='15px' alignItems='end'>
-            <Text.h1 size={theme.fontSizes.large} weight={700}>
-              {nft?.name}
-            </Text.h1>
-            <ExplorerLink type='address' hash={projectId}>
-              {projectId}
-            </ExplorerLink>
-          </Flex>
-
-          <TabContext value={activeProjectTab}>
-            <Tabs onChange={onChangeProjectTab}>
-              <Tab value={ProjectTabs.PROJECT} label={t('tabs.project')} />
-              {permissions.canManageRoles && (
-                <Tab value={ProjectTabs.MANAGE} label={t('tabs.manageRoles')} />
-              )}
-              <Tab value={ProjectTabs.ARTICLES} label={t('tabs.articles')} />
-              {permissions.canUpdateContent && (
-                <Tab value={ProjectTabs.EDIT} label={t('tabs.edit')} />
-              )}
-              <Tab value={ProjectTabs.HISTORY} label={t('tabs.history')} />
-            </Tabs>
-            <TabPanel value={ProjectTabs.PROJECT}>
-              <ProjectView project={nft} onMount={onMountContent} />
-            </TabPanel>
-            <TabPanel value={ProjectTabs.ARTICLES}>
-              <ArticleList projectAddress={projectId!} />
-            </TabPanel>
-            <TabPanel value={ProjectTabs.EDIT}>
-              <Editor
-                onSuccessUpdate={handleSuccessUpdate}
-                projectAddress={projectId!}
-                initialContent={nft?.ipfsContent?.htmlContent || ''}
-              />
-            </TabPanel>
-            <TabPanel value={ProjectTabs.MANAGE}>
-              <ProjectRoleManager projectAddress={projectId!} />
-            </TabPanel>
-            <TabPanel value={ProjectTabs.HISTORY}>
-              <HistoryProject />
-            </TabPanel>
-          </TabContext>
-        </>
-      </InnerContainer>
-      {activeProjectTab === ProjectTabs.PROJECT && contentElem ? (
+    <Flex justifyContent='center' $gap='20px'>
+      {activeProjectTab === ProjectTabs.PROJECT && contentElem && (
         <StyledContent contentElem={contentElem} />
-      ) : (
-        <ContentPlaceholder />
       )}
-    </Wrapper>
+      <Box maxWidth='920px' width='100%'>
+        <Flex $gap='15px' alignItems='end'>
+          <Text.h1 size={theme.fontSizes.large} weight={700}>
+            {nft?.name}
+          </Text.h1>
+          <ExplorerLink type='address' hash={projectId}>
+            {projectId}
+          </ExplorerLink>
+        </Flex>
+
+        <TabContext value={activeProjectTab}>
+          <Tabs onChange={onChangeProjectTab}>
+            <Tab value={ProjectTabs.PROJECT} label={t('tabs.project')} />
+            {permissions.canManageRoles && (
+              <Tab value={ProjectTabs.MANAGE} label={t('tabs.manageRoles')} />
+            )}
+            <Tab value={ProjectTabs.ARTICLES} label={t('tabs.articles')} />
+            {permissions.canUpdateContent && (
+              <Tab value={ProjectTabs.EDIT} label={t('tabs.edit')} />
+            )}
+            <Tab value={ProjectTabs.HISTORY} label={t('tabs.history')} />
+          </Tabs>
+          <TabPanel value={ProjectTabs.PROJECT}>
+            <ProjectView project={nft} onMount={onMountContent} />
+          </TabPanel>
+          <TabPanel value={ProjectTabs.ARTICLES}>
+            <ArticleList
+              articles={fullTokens}
+              loading={tokensLoading}
+              projectAddress={projectId!}
+            />
+          </TabPanel>
+          <TabPanel value={ProjectTabs.EDIT}>
+            <Editor
+              onSuccessUpdate={handleSuccessUpdate}
+              projectAddress={projectId!}
+              initialContent={nft?.ipfsContent?.htmlContent || ''}
+            />
+          </TabPanel>
+          <TabPanel value={ProjectTabs.MANAGE}>
+            <ProjectRoleManager projectAddress={projectId!} />
+          </TabPanel>
+          <TabPanel value={ProjectTabs.HISTORY}>
+            <HistoryProject />
+          </TabPanel>
+        </TabContext>
+      </Box>
+      {activeProjectTab === ProjectTabs.PROJECT && contentElem && (
+        <StyledContent contentElem={contentElem} />
+      )}
+    </Flex>
   )
 }
 

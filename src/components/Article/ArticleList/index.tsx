@@ -1,27 +1,26 @@
-import useTokens from '@src/hooks/subgraph/useTokens'
-import { unifyAddressToId } from '@src/shared/utils'
+import { TokensQueryFullData } from '@src/shared/types/ipfs'
 import { useParams } from 'react-router-dom'
 import ContentMissing from '../../common/ContentMissing'
 import RequirePermissions from '../../common/RequirePermissions'
 import Flex from '../../ui/Flex'
 import ArticleCardSkeleton from '../ArticleCardSkeleton'
-import ArticleCard from './ArticleCard'
 import CreateArticleCard from '../CreateArticleCard'
+import ArticleCard from './ArticleCard'
 
 interface ArticleListProps {
+  articles: TokensQueryFullData[] | null
   projectAddress: string
+  loading?: boolean
 }
 
-const ArticleList: React.FC<ArticleListProps> = ({ projectAddress }) => {
+const ArticleList: React.FC<ArticleListProps> = ({
+  articles,
+  projectAddress,
+  loading,
+}) => {
   const { projectId = '' } = useParams()
-  const { fullTokens: articles, loading } = useTokens(
-    {
-      variables: { filter: { nft: unifyAddressToId(projectAddress) } },
-    },
-    { fetchFullData: true }
-  )
 
-  const noContent = !loading && articles?.length === 0
+  const noContent = !loading && (articles?.length === 0 || !articles)
 
   return (
     <Flex flexDirection='column' $gap='10px'>

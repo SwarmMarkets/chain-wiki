@@ -29,19 +29,8 @@ export const StyledRolesDescription = styled(Text.p)`
   color: ${({ theme }) => theme.palette.gray};
 `
 
-export const Wrapper = styled.div`
-  display: flex;
-  justify-content: end;
-  gap: 20px;
-`
-
-export const InnerContainer = styled.div`
-  max-width: 980px;
-  width: 100%;
-`
-
 export const StyledContent = styled(Content)`
-  width: 210px;
+  min-width: 210px;
   margin-top: 20px;
   word-wrap: break-word;
   overflow-x: hidden;
@@ -54,7 +43,7 @@ export const StyledContent = styled(Content)`
 `
 
 export const ContentPlaceholder = styled.div`
-  width: 210px;
+  min-width: 210px;
   margin-top: 20px;
   word-wrap: break-word;
 `
