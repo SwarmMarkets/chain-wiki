@@ -4,6 +4,7 @@ import shouldForwardProp from '@styled-system/should-forward-prop'
 import React, { useLayoutEffect } from 'react'
 import styled from 'styled-components'
 import { LayoutProps, SpaceProps, layout, space } from 'styled-system'
+import ReactPortal from '../ReactPortal'
 
 const ModalBackdrop = styled.div`
   display: flex;
@@ -54,12 +55,14 @@ const Modal: React.FC<ModalProps> = ({
   if (!isOpen) return null
 
   return (
-    <ModalBackdrop onClick={onClose}>
-      <ModalContainer onClick={e => e.stopPropagation()} {...props}>
-        <CloseButton onClick={onClose}>&times;</CloseButton>
-        {children}
-      </ModalContainer>
-    </ModalBackdrop>
+    <ReactPortal wrapperId='modals'>
+      <ModalBackdrop onClick={onClose}>
+        <ModalContainer onClick={e => e.stopPropagation()} {...props}>
+          <CloseButton onClick={onClose}>&times;</CloseButton>
+          {children}
+        </ModalContainer>
+      </ModalBackdrop>
+    </ReactPortal>
   )
 }
 
