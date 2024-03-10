@@ -5,7 +5,7 @@ import ProjectContentSkeleton from '@src/components/Project/ProjectContentSkelet
 import ProjectRoleManager from '@src/components/Project/ProjectRoleManager'
 import { ProjectView } from '@src/components/Project/ProjectView'
 import {
-  StyledArticlesPreview,
+  StyledIndexPages,
   StyledContent,
 } from '@src/components/Project/styled-components'
 import ExplorerLink from '@src/components/common/ExplorerLink'
@@ -70,7 +70,7 @@ const ProjectPage = () => {
   return (
     <Flex justifyContent='center' $gap='20px'>
       {activeProjectTab === ProjectTabs.PROJECT && contentElem && (
-        <StyledArticlesPreview
+        <StyledIndexPages
           articles={fullTokens}
           projectAddress={projectId}
         />

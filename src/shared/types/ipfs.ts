@@ -12,6 +12,7 @@ export interface IpfsProjectContent {
   address: string
   htmlContent: string
   error?: string
+  
 }
 
 export interface IpfsVoteProposal {

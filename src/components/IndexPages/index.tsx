@@ -12,18 +12,18 @@ import { useTranslation } from 'react-i18next'
 import { generatePath } from 'react-router-dom'
 import { EditableItem, StyledLink } from './styled-components'
 
-interface ArticlesPreviewProps {
+interface IndexPagesProps {
   articles: TokensQueryFullData[] | null
   projectAddress: string
 }
 
-const ArticlesPreview: React.FC<ArticlesPreviewProps> = ({
+const IndexPages: React.FC<IndexPagesProps> = ({
   articles,
   projectAddress,
   ...props
 }) => {
   const { permissions } = useProjectPermissions(projectAddress)
-  const { t } = useTranslation(['article', 'buttons'])
+  const { t } = useTranslation(['project', 'buttons'])
   const [isEdit, setIsEdit] = useState(false)
   const [checkboxes, setCheckboxes] = useState<Record<string, boolean>>({})
 
@@ -39,7 +39,7 @@ const ArticlesPreview: React.FC<ArticlesPreviewProps> = ({
 
   return (
     <Box {...props}>
-      <Text.h3>{t('articlesPreview.title')}</Text.h3>
+      <Text.h3>{t('indexPages.title')}</Text.h3>
       <Divider my='10px' />
       <Flex flexDirection='column' $gap='8px' py='8px'>
         {articles?.map(article =>
@@ -80,4 +80,4 @@ const ArticlesPreview: React.FC<ArticlesPreviewProps> = ({
     </Box>
   )
 }
-export default ArticlesPreview
+export default IndexPages

@@ -77,5 +77,8 @@
     "admin": "Admin",
     "editor": "Editor",
     "issuer": "Issuer"
+  },
+  "indexPages": {
+    "title": "Index Pages"
   }
 }

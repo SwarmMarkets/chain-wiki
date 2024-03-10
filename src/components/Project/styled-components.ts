@@ -3,7 +3,7 @@ import Card from '../ui/Card'
 import Text from '../ui/Text'
 import { Link } from 'react-router-dom'
 import Content from '../Content'
-import ArticlesPreview from '../Article/ArticlesPreview'
+import IndexPages from '../IndexPages'
 
 export const StyledCard = styled(Card)`
   cursor: pointer;
@@ -44,7 +44,7 @@ export const StyledContent = styled(Content)`
   max-height: calc(100vh - (24px * 2));
 `
 
-export const StyledArticlesPreview = styled(ArticlesPreview)`
+export const StyledIndexPages = styled(IndexPages)`
   max-width: 210px;
   width: 100%;
   margin-top: 20px;
