@@ -1,4 +1,3 @@
-import UpdateContentButton from '@src/components/UpdateContent'
 import ExplorerLink from '@src/components/common/ExplorerLink'
 import { useTokenContext } from '@src/components/providers/TokenContext'
 import Flex from '@src/components/ui/Flex'
@@ -15,6 +14,7 @@ import {
   VoteProposalVariant,
   VoteProposalWrap,
 } from './styled-components'
+import UpdateArticleContentButton from '@src/components/UpdateContent/UpdateArticleContentButton'
 
 interface ReviewVoteProposalProps {
   voteProposal: VoteProposal
@@ -38,9 +38,8 @@ const ReviewVoteProposal: React.FC<ReviewVoteProposalProps> = ({
   const endDate = convertUnixToLocaleString(data.message.end)
   const creationDate = convertUnixToLocaleString(data.message.timestamp)
 
-  const [nftId, tokenId] = token?.id ? token.id.split('-') : []
+  const [nftId] = token?.id ? token.id.split('-') : []
 
-  const htmlContent = token?.ipfsContent?.htmlContent || ''
   const proposal: IpfsVoteProposal = useMemo(() => {
     const { start, end, choices, title, body, timestamp, type, space } =
       data.message
@@ -105,16 +104,17 @@ const ReviewVoteProposal: React.FC<ReviewVoteProposalProps> = ({
         </ExplorerLink>
       </VoteProposalWrap>
 
-      <UpdateContentButton
-        width='100%'
-        articleId={Number(tokenId)}
-        contentType='article'
-        content={htmlContent}
-        voteProposal={proposal}
-        projectAddress={nftId}
-        onSuccess={nextStep}
-        buttonText={t('submit')}
-      />
+      {token && (
+        <UpdateArticleContentButton
+          width='100%'
+          articleAddress={token?.id}
+          articleContentToUpdate={{ voteProposal: proposal }}
+          projectAddress={nftId}
+          onSuccess={nextStep}
+        >
+          {t('submit')}
+        </UpdateArticleContentButton>
+      )}
     </Flex>
   )
 }

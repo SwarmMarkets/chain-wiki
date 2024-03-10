@@ -66,7 +66,6 @@ const ArticlePage = () => {
     setContentElem(element)
   }
 
-  const tokenId = Number(token?.id.split('-')[1])
   const isReadTab = activeTab === ArticleTabs.READ
 
   if (showSkeleton) {
@@ -80,7 +79,7 @@ const ArticlePage = () => {
       </Wrapper>
     )
   }
-
+  
   return (
     <TokenContextProvider value={token}>
       <Wrapper>
@@ -106,7 +105,7 @@ const ArticlePage = () => {
                 onSuccessUpdate={handleSuccessUpdate}
                 initialContent={token?.ipfsContent?.htmlContent || ''}
                 projectAddress={projectId}
-                articleId={tokenId}
+                articleAddress={token?.id}
               />
             </TabPanel>
             <TabPanel value={ArticleTabs.HISTORY}>

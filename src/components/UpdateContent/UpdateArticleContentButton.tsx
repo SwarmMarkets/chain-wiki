@@ -1,0 +1,132 @@
+import { useSX1155NFT } from '@src/hooks/contracts/useSX1155NFT'
+import useModalState from '@src/hooks/useModalState'
+import { IpfsArticleContent } from '@src/shared/types/ipfs'
+import { generateIpfsArticleContent } from '@src/shared/utils/ipfs'
+import { useStorageUpload } from '@thirdweb-dev/react'
+import { useCallback, useMemo, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import Button, { ButtonProps } from '../ui/Button/Button'
+import UpdateContentModal, { Steps } from './UpdateContentModal'
+import { ChildrenProp } from '@src/shared/types/common-props'
+import useToken from '@src/hooks/subgraph/useToken'
+
+interface UpdateArticleContentButtonProps extends ButtonProps, ChildrenProp {
+  articleAddress: string
+  projectAddress: string
+  articleContentToUpdate: Partial<IpfsArticleContent>
+  onSuccess?(): void
+}
+
+const UpdateArticleContentButton: React.FC<UpdateArticleContentButtonProps> = ({
+  articleAddress,
+  projectAddress,
+  articleContentToUpdate,
+  onSuccess,
+  children,
+  ...buttonProps
+}) => {
+  const [ipfsUri, setIpfsUri] = useState('')
+  const { t } = useTranslation('buttons')
+  const { isOpen, open, close } = useModalState(false)
+
+  const {
+    call,
+    txLoading,
+    result,
+    isTxError,
+    reset: resetCallState,
+  } = useSX1155NFT(projectAddress)
+  const {
+    mutateAsync: upload,
+    isLoading,
+    isSuccess,
+    reset: resetStorageState,
+  } = useStorageUpload()
+  const { token } = useToken(articleAddress)
+  const articleId = Number(token?.id.split('-')[1])
+
+  const uploadContent = async () => {
+    if (!token?.ipfsContent) return
+
+    const ipfsContent = generateIpfsArticleContent({
+      // tokenId: articleId,
+      // name: articleContentToUpdate.name || projectAddress,
+      // address: projectAddress,
+      // htmlContent:
+      //   articleContentToUpdate.htmlContent ||
+      //   token?.ipfsContent?.htmlContent ||
+      //   '',
+      // voteProposal:
+      //   articleContentToUpdate.voteProposal || token?.ipfsContent?.voteProposal,
+      ...token?.ipfsContent,
+      ...articleContentToUpdate,
+    })
+    const filesToUpload = [ipfsContent]
+    const uris = await upload({ data: filesToUpload })
+    const firstUri = uris[0]
+    return firstUri
+  }
+
+  const signTransaction = useCallback(
+    (uri: string) => {
+      return call('setTokenUri', [articleId, uri])
+    },
+    [call, articleId]
+  )
+
+  const startContentUpdate = async () => {
+    open()
+    const uri = await uploadContent()
+    if (!uri) return
+
+    setIpfsUri(uri)
+
+    const res = await signTransaction(uri)
+
+    if (res) {
+      onSuccess?.()
+      close()
+      resetCallState()
+      resetStorageState()
+    }
+  }
+
+  const steps = useMemo(() => {
+    return {
+      [Steps.PrepareContent]: { success: true, loading: false },
+      [Steps.UploadToIPFS]: { success: isSuccess, loading: isLoading },
+      [Steps.SignTransaction]: {
+        success: !!result,
+        loading: txLoading,
+        error: isTxError,
+        retry: () => signTransaction(ipfsUri),
+      },
+    }
+  }, [
+    ipfsUri,
+    isLoading,
+    isSuccess,
+    isTxError,
+    result,
+    signTransaction,
+    txLoading,
+  ])
+
+  const caption = children || t('updateContent')
+
+  return (
+    <>
+      <UpdateContentModal
+        contentType='article'
+        steps={steps}
+        isOpen={isOpen}
+        onClose={close}
+      />
+      <Button mt={15} onClick={startContentUpdate} {...buttonProps}>
+        {caption}
+      </Button>
+    </>
+  )
+}
+
+export default UpdateArticleContentButton

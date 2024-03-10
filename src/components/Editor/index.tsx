@@ -8,10 +8,11 @@ import UpdateContentButton from '../UpdateContent'
 import RequirePermissions from '../common/RequirePermissions'
 import Flex from '../ui/Flex'
 import EditorSkeleton from './EditorSkeleton'
+import UpdateArticleContentButton from '../UpdateContent/UpdateArticleContentButton'
 
 interface EditorProps {
   projectAddress: string
-  articleId?: number
+  articleAddress?: string
   initialContent: string
   onChange?: (content: string, editor: TinyEditorType) => void
   onSuccessUpdate?: () => void
@@ -28,7 +29,7 @@ const EditorWrapper = styled.div<EditorWrapperProps>`
 const Editor: React.FC<EditorProps> = ({
   onChange,
   initialContent,
-  articleId,
+  articleAddress,
   projectAddress,
   onSuccessUpdate,
 }) => {
@@ -97,13 +98,12 @@ const Editor: React.FC<EditorProps> = ({
         />
         <Flex justifyContent='flex-end'>
           <RequirePermissions projectAddress={projectAddress} canUpdateContent>
-            {articleId ? (
-              <UpdateContentButton
+            {articleAddress ? (
+              <UpdateArticleContentButton
                 onSuccess={onSuccessUpdate}
-                articleId={articleId}
-                contentType='article'
+                articleAddress={articleAddress}
                 projectAddress={projectAddress}
-                content={currContent}
+                articleContentToUpdate={{ htmlContent: currContent }}
               />
             ) : (
               <UpdateContentButton
