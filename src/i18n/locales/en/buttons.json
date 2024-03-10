@@ -2,5 +2,7 @@
   "updateContent": "Update Content",
   "cancel": "Cancel",
   "compare": "Compare selected revisions",
-  "retry": "Retry"
+  "retry": "Retry",
+  "edit": "Edit",
+  "save": "Save"
 }

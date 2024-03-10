@@ -31,7 +31,8 @@ export const StyledRolesDescription = styled(Text.p)`
 `
 
 export const StyledContent = styled(Content)`
-  min-width: 210px;
+  max-width: 210px;
+  width: 100%;
   margin-top: 20px;
   word-wrap: break-word;
   overflow-x: hidden;
@@ -44,7 +45,8 @@ export const StyledContent = styled(Content)`
 `
 
 export const StyledArticlesPreview = styled(ArticlesPreview)`
-  min-width: 210px;
+  max-width: 210px;
+  width: 100%;
   margin-top: 20px;
   word-wrap: break-word;
   overflow-x: hidden;

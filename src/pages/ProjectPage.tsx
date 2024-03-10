@@ -60,7 +60,7 @@ const ProjectPage = () => {
   if (showSkeleton) {
     return (
       <Flex justifyContent='center' $gap='20px'>
-        <Box maxWidth='920px' width='100%'>
+        <Box width='900px'>
           <ProjectContentSkeleton />
         </Box>
       </Flex>
@@ -75,7 +75,7 @@ const ProjectPage = () => {
           projectAddress={projectId}
         />
       )}
-      <Box maxWidth='920px' width='100%'>
+      <Box width='900px'>
         <Flex $gap='15px' alignItems='end'>
           <Text.h1 size={theme.fontSizes.large} weight={700}>
             {nft?.name}
