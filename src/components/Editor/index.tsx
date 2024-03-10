@@ -9,6 +9,7 @@ import Flex from '../ui/Flex'
 import EditorSkeleton from './EditorSkeleton'
 import UpdateArticleContentButton from '../UpdateContent/UpdateArticleContentButton'
 import UpdateProjectContentButton from '../UpdateContent/UpdateProjectContentButton'
+import { getUniqueId } from '@src/shared/utils'
 
 interface EditorProps {
   projectAddress: string
@@ -38,7 +39,18 @@ const Editor: React.FC<EditorProps> = ({
 
   const onEditorChange = (content: string, editor: TinyEditorType) => {
     onChange && onChange(content, editor)
-    setCurrContent(content)
+    const body = editor.getBody()
+    const children = Array.from(body.children)
+
+    for (let i = 0; i < children.length; i++) {
+      const item = children[i]
+      if (!item.hasAttribute('data-id')) {
+        item.setAttribute('data-id', getUniqueId())
+      }
+    }
+
+    const contentWithIds = body.outerHTML
+    setCurrContent(contentWithIds)
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -94,7 +106,6 @@ const Editor: React.FC<EditorProps> = ({
               'body { font-family: "Roboto", sans-serif; font-size: 14px; }',
           }}
           initialValue={initialContent}
-          value={currContent}
         />
         <Flex justifyContent='flex-end'>
           <RequirePermissions projectAddress={projectAddress} canUpdateContent>
