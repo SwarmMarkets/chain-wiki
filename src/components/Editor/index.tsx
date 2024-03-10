@@ -4,11 +4,11 @@ import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import { Editor as TinyEditorType } from 'tinymce'
-import UpdateContentButton from '../UpdateContent'
 import RequirePermissions from '../common/RequirePermissions'
 import Flex from '../ui/Flex'
 import EditorSkeleton from './EditorSkeleton'
 import UpdateArticleContentButton from '../UpdateContent/UpdateArticleContentButton'
+import UpdateProjectContentButton from '../UpdateContent/UpdateProjectContentButton'
 
 interface EditorProps {
   projectAddress: string
@@ -106,11 +106,10 @@ const Editor: React.FC<EditorProps> = ({
                 articleContentToUpdate={{ htmlContent: currContent }}
               />
             ) : (
-              <UpdateContentButton
+              <UpdateProjectContentButton
                 onSuccess={onSuccessUpdate}
-                contentType='project'
                 projectAddress={projectAddress}
-                content={currContent}
+                projectContentToUpdate={{ htmlContent: currContent }}
               />
             )}
           </RequirePermissions>
