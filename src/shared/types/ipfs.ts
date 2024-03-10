@@ -11,6 +11,7 @@ export interface IpfsProjectContent {
   name: string
   address: string
   htmlContent: string
+  indexPages: string[]
   error?: string
   
 }

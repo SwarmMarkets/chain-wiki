@@ -7,6 +7,7 @@ const initialProjectContent: IpfsProjectContent = {
   name: '',
   address: '',
   htmlContent: '',
+  indexPages: [],
 }
 
 // const initialArticleContent = {
@@ -19,6 +20,7 @@ export const generateIpfsProjectContent = (args: IpfsProjectContent) => {
     name: args.name,
     address: args.address,
     htmlContent: args.htmlContent,
+    indexPages: args.indexPages,
   }
 
   return JSON.stringify(content)

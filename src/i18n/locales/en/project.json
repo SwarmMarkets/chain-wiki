@@ -79,6 +79,8 @@
     "issuer": "Issuer"
   },
   "indexPages": {
-    "title": "Index Pages"
+    "title": "Index Pages",
+    "noIndexPages": "Index pages does not exist",
+    "noArticles": "Articles does not exist"
   }
 }

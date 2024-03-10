@@ -69,10 +69,11 @@ const ProjectPage = () => {
 
   return (
     <Flex justifyContent='center' $gap='20px'>
-      {activeProjectTab === ProjectTabs.PROJECT && contentElem && (
+      {activeProjectTab === ProjectTabs.PROJECT && nft && (
         <StyledIndexPages
           articles={fullTokens}
-          projectAddress={projectId}
+          project={nft}
+          indexPages={nft.ipfsContent?.indexPages}
         />
       )}
       <Box width='900px'>
