@@ -9,6 +9,7 @@ import Button, { ButtonProps } from '../ui/Button/Button'
 import UpdateContentModal, { Steps } from './UpdateContentModal'
 import { ChildrenProp } from '@src/shared/types/common-props'
 import useToken from '@src/hooks/subgraph/useToken'
+import { getUniqueId } from '@src/shared/utils'
 
 interface UpdateArticleContentButtonProps extends ButtonProps, ChildrenProp {
   articleAddress: string
@@ -48,19 +49,27 @@ const UpdateArticleContentButton: React.FC<UpdateArticleContentButtonProps> = ({
   const uploadContent = async () => {
     if (!token?.ipfsContent) return
 
-    const ipfsContent = generateIpfsArticleContent({
-      // tokenId: articleId,
-      // name: articleContentToUpdate.name || projectAddress,
-      // address: projectAddress,
-      // htmlContent:
-      //   articleContentToUpdate.htmlContent ||
-      //   token?.ipfsContent?.htmlContent ||
-      //   '',
-      // voteProposal:
-      //   articleContentToUpdate.voteProposal || token?.ipfsContent?.voteProposal,
+    const content = {
       ...token?.ipfsContent,
       ...articleContentToUpdate,
-    })
+    }
+
+    // set data-id attributes
+    if (articleContentToUpdate.htmlContent) {
+      const contentElem = document.createElement('div')
+      contentElem.innerHTML = articleContentToUpdate.htmlContent
+      const children = Array.from(contentElem.children)
+
+      for (let i = 0; i < children.length; i++) {
+        const item = children[i]
+        if (!item.hasAttribute('data-id')) {
+          item.setAttribute('data-id', getUniqueId())
+        }
+      }
+      content.htmlContent = contentElem.innerHTML
+    }
+
+    const ipfsContent = generateIpfsArticleContent(content)
     const filesToUpload = [ipfsContent]
     const uris = await upload({ data: filesToUpload })
     const firstUri = uris[0]
