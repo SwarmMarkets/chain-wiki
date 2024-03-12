@@ -22,7 +22,6 @@ interface IndexPagesProps {
 const IndexPages: React.FC<IndexPagesProps> = ({
   articles,
   project,
-  indexPages,
   ...props
 }) => {
   const { permissions } = useProjectPermissions(project.id)
@@ -53,12 +52,11 @@ const IndexPages: React.FC<IndexPagesProps> = ({
 
   const visibleIndexPages = useMemo(
     () =>
-      indexPages
+      project.ipfsContent?.indexPages
         ?.map(id => articles?.find(article => article?.id === id))
         .filter(article => article?.ipfsContent?.name),
-    [articles, indexPages]
+    [articles, project.ipfsContent?.indexPages]
   )
-
   const noArticles = notEmptyArticles?.length === 0
   if (noArticles) {
     return (

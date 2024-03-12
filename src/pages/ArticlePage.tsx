@@ -1,23 +1,24 @@
 import ArticleContentSkeleton from '@src/components/Article/ArticleContentSkeleton'
 import ArticleView from '@src/components/Article/ArticleView'
-import {
-  ContentPlaceholder,
-  InnerContainer,
-  StyledContent,
-  Wrapper,
-} from '@src/components/Article/styled-components'
+import { StyledContent } from '@src/components/Article/styled-components'
 import Editor from '@src/components/Editor'
 import HistoryArticle from '@src/components/History/HistoryArticle'
+import { StyledIndexPages } from '@src/components/Project/styled-components'
 import { TokenContextProvider } from '@src/components/providers/TokenContext'
+import Box from '@src/components/ui/Box'
+import Flex from '@src/components/ui/Flex'
 import Tabs from '@src/components/ui/Tabs'
 import Tab from '@src/components/ui/Tabs/Tab'
 import TabContext from '@src/components/ui/Tabs/TabContext'
 import TabPanel from '@src/components/ui/Tabs/TabPanel'
 import Text from '@src/components/ui/Text'
 import useProjectPermissions from '@src/hooks/permissions/useProjectPermissions'
+import useNFT from '@src/hooks/subgraph/useNFT'
 import useToken from '@src/hooks/subgraph/useToken'
+import useTokens from '@src/hooks/subgraph/useTokens'
 import { ArticleTabs } from '@src/shared/enums/tabs'
 import { Tab as ITab } from '@src/shared/types/ui-components'
+import { unifyAddressToId } from '@src/shared/utils'
 import queryString from 'query-string'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -42,6 +43,13 @@ const ArticlePage = () => {
   const [contentElem, setContentElem] = useState<HTMLDivElement | null>(null)
 
   const { token, loadingToken, refetchingToken } = useToken(articleId)
+  const { nft } = useNFT(projectId)
+  const { fullTokens } = useTokens(
+    {
+      variables: { filter: { nft: unifyAddressToId(projectId) } },
+    },
+    { fetchFullData: true }
+  )
 
   const showSkeleton = loadingToken && !refetchingToken
 
@@ -70,20 +78,25 @@ const ArticlePage = () => {
 
   if (showSkeleton) {
     return (
-      <Wrapper>
-        <InnerContainer>
+      <Flex justifyContent='center' $gap='20px'>
+        <Box width='900px'>
           <ArticleContentSkeleton />
-        </InnerContainer>
-
-        <ContentPlaceholder />
-      </Wrapper>
+        </Box>
+      </Flex>
     )
   }
-  
+
   return (
     <TokenContextProvider value={token}>
-      <Wrapper>
-        <InnerContainer>
+      <Flex justifyContent='center' $gap='20px'>
+        {activeTab === ArticleTabs.READ && nft && fullTokens && (
+          <StyledIndexPages
+            articles={fullTokens}
+            project={nft}
+            indexPages={nft.ipfsContent?.indexPages}
+          />
+        )}
+        <Box width='900px'>
           <Text.h1 size='24px' weight={700}>
             {token?.ipfsContent?.name}
           </Text.h1>
@@ -112,14 +125,12 @@ const ArticlePage = () => {
               <HistoryArticle />
             </TabPanel>
           </TabContext>
-        </InnerContainer>
+        </Box>
 
-        {contentElem && isReadTab ? (
+        {isReadTab && contentElem && (
           <StyledContent contentElem={contentElem} />
-        ) : (
-          <ContentPlaceholder />
         )}
-      </Wrapper>
+      </Flex>
     </TokenContextProvider>
   )
 }
