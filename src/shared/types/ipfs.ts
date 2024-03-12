@@ -13,7 +13,6 @@ export interface IpfsProjectContent {
   htmlContent: string
   indexPages: string[]
   error?: string
-  
 }
 
 export interface IpfsVoteProposal {
@@ -35,6 +34,11 @@ export interface IpfsArticleContent {
   htmlContent: string
   voteProposal?: IpfsVoteProposal
   error?: string
+}
+
+export interface IpfsAttestationContent {
+  sectionId: string
+  htmlContent: string
 }
 
 export type NFTsQueryFullData = NfTsQuery['nfts'][0] & IpfsProjectContent

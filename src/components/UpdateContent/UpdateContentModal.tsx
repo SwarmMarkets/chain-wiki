@@ -12,7 +12,7 @@ import {
   ActionStateWrap,
 } from '../ui/ActionState'
 
-export type ContentType = 'project' | 'article'
+export type ContentType = 'project' | 'article' | 'attestation'
 
 interface UpdateProjectContentModalProps extends BasicModalProps {
   contentType: ContentType
@@ -34,11 +34,8 @@ const UpdateContentModal: React.FC<UpdateProjectContentModalProps> = ({
 }) => {
   const { t } = useTranslation('updateContent')
 
-  const isProject = contentType === 'project'
-  const title = isProject ? t('project.title') : t('article.title')
-  const description = isProject
-    ? t('project.description')
-    : t('article.description')
+  const title = t(`${contentType}.title`)
+  const description = t(`${contentType}.description`)
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} maxWidth='500px' width='100%'>

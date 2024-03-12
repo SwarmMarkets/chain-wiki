@@ -7,6 +7,10 @@
     "title": "Update Article",
     "description": "You are about to update your article content. This includes several steps to finalize content update."
   },
+  "attestation": {
+    "title": "Send Attestation",
+    "description": "You are about to send your attestation. This includes several steps to finalize content update."
+  },
   "steps": {
     "0": "Preparing content to upload to IPFS",
     "1": "Uploading content to IPFS",

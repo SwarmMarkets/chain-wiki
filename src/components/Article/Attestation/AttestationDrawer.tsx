@@ -1,20 +1,20 @@
 import LiteEditor from '@src/components/Editor/LiteEditor'
 import HtmlRender from '@src/components/HtmlRender'
 import Box from '@src/components/ui/Box'
-import Button from '@src/components/ui/Button/Button'
 import Divider from '@src/components/ui/Divider'
 import Drawer from '@src/components/ui/Drawer'
 import Flex from '@src/components/ui/Flex'
 import { useTranslation } from 'react-i18next'
-import dayjs from 'dayjs'
-import { useAddress } from '@thirdweb-dev/react'
 import { useState } from 'react'
 import useProjectPermissions from '@src/hooks/permissions/useProjectPermissions'
 import AttestationCard from './AttestationCard'
+import MakeAttestationButton from '@src/components/UpdateContent/MakeAttestationButton'
+import { useParams } from 'react-router-dom'
+import { SelectedSection } from '../ArticleView/ArticleView'
 
 interface AttestationDrawerProps {
   isOpen: boolean
-  contentHtml: string
+  section: SelectedSection
   onClose: () => void
 }
 
@@ -27,11 +27,11 @@ interface Attestation {
 
 const AttestationDrawer: React.FC<AttestationDrawerProps> = ({
   isOpen,
-  contentHtml,
+  section,
   onClose,
 }) => {
+  const { projectId = '', articleId = '' } = useParams()
   const { t } = useTranslation('article')
-  const address = useAddress()
   const { permissions } = useProjectPermissions()
   const [editorContent, setEditorContent] = useState('')
   const [attestations, setAttestations] = useState<Attestation[]>([])
@@ -40,20 +40,20 @@ const AttestationDrawer: React.FC<AttestationDrawerProps> = ({
     setEditorContent(value)
   }
 
-  const handleSendAttestation = () => {
-    if (!address) return
+  // const handleSendAttestation = () => {
+  //   if (!address) return
 
-    setAttestations([
-      ...attestations,
-      {
-        id: Date.now(),
-        address,
-        message: editorContent,
-        date: dayjs().format('MMMM D, YYYY h:mm A'),
-      },
-    ])
-    setEditorContent('')
-  }
+  //   setAttestations([
+  //     ...attestations,
+  //     {
+  //       id: Date.now(),
+  //       address,
+  //       message: editorContent,
+  //       date: dayjs().format('MMMM D, YYYY h:mm A'),
+  //     },
+  //   ])
+  //   setEditorContent('')
+  // }
 
   const handleDeleteAttestation = (id: number) => {
     setAttestations(attestations.filter(item => item.id !== id))
@@ -73,7 +73,7 @@ const AttestationDrawer: React.FC<AttestationDrawerProps> = ({
         flexDirection='column'
       >
         <Box>
-          <HtmlRender html={contentHtml} />
+          <HtmlRender html={section.htmlContent || ''} />
           <Divider />
           <Flex flexDirection='column' py={20} $gap='10px'>
             {attestations.map(item => (
@@ -94,13 +94,20 @@ const AttestationDrawer: React.FC<AttestationDrawerProps> = ({
               onChange={handleChangeEditor}
               value={editorContent}
             />
-            <Button
+            {/* <Button
               mt={2}
-              onClick={handleSendAttestation}
               disabled={!editorContent}
             >
               {t('attestation.send')}
-            </Button>
+            </Button> */}
+            <MakeAttestationButton
+              projectAddress={projectId}
+              sectionId={section.id}
+              attestationContent={editorContent}
+              tokenId={articleId}
+            >
+              {t('attestation.send')}
+            </MakeAttestationButton>
           </Flex>
         )}
       </Flex>

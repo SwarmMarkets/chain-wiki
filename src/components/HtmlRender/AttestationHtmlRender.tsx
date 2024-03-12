@@ -2,9 +2,10 @@ import { forwardRef, useEffect, useRef } from 'react'
 import { HtmlRenderProps } from '.'
 import { HtmlRenderHover } from './styled-components'
 import { createCommentIconElement } from './utils'
+import { SelectedSection } from '../Article/ArticleView/ArticleView'
 
 interface AttestationHtmlRenderProps extends HtmlRenderProps {
-  onSelectSection: (html: string) => void
+  onSelectSection: (section: SelectedSection) => void
 }
 
 const AttestationHtmlRender = forwardRef<
@@ -33,7 +34,10 @@ const AttestationHtmlRender = forwardRef<
     const handleChildClick = (_: Event, element: HTMLElement) => {
       const elementCopy = element.cloneNode(true) as HTMLElement
       elementCopy.lastChild?.remove()
-      onSelectSection(elementCopy.outerHTML)
+      onSelectSection({
+        id: elementCopy.getAttribute('data-id'),
+        htmlContent: elementCopy.outerHTML,
+      })
     }
 
     childrenArray.forEach(child => {

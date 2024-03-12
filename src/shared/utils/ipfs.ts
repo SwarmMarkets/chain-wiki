@@ -1,5 +1,9 @@
 import { initialVoteProposal } from './../consts/ipfs/vote-proposal'
-import { IpfsArticleContent, IpfsProjectContent } from '../types/ipfs'
+import {
+  IpfsArticleContent,
+  IpfsAttestationContent,
+  IpfsProjectContent,
+} from '../types/ipfs'
 import { VoteProposal } from '../types/vote-proposal'
 import { isObject } from './isObject'
 
@@ -33,6 +37,17 @@ export const generateIpfsArticleContent = (args: IpfsArticleContent) => {
     address: args.address,
     htmlContent: args.htmlContent,
     voteProposal: args.voteProposal,
+  }
+
+  return JSON.stringify(content)
+}
+
+export const generateIpfsAttestationContent = (
+  args: IpfsAttestationContent
+) => {
+  const content: IpfsAttestationContent = {
+    sectionId: args.sectionId,
+    htmlContent: args.htmlContent,
   }
 
   return JSON.stringify(content)

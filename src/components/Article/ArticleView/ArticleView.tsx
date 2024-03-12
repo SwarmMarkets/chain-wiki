@@ -6,11 +6,19 @@ import { ArticleViewProps } from '.'
 import AttestationDrawer from '../Attestation/AttestationDrawer'
 import ArticleViewActions from './ArticleViewActions'
 
+export interface SelectedSection {
+  id: string | null
+  htmlContent: string | null
+}
+
 export const ArticleView: React.FC<ArticleViewProps> = ({
   article,
   onMount,
 }) => {
-  const [selectedSection, setSelectedSection] = useState('')
+  const [selectedSection, setSelectedSection] = useState<SelectedSection>({
+    id: null,
+    htmlContent: null,
+  })
   const contentRef = useRef<HTMLDivElement>(null)
 
   const onMountContent = () => {
@@ -19,16 +27,21 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
     }
   }
 
-  const onSelectSection = (html: string) => {
-    setSelectedSection(html)
+  const onSelectSection = (section: SelectedSection) => {
+    setSelectedSection(section)
   }
 
   const onCloseDrawer = () => {
-    setSelectedSection('')
+    setSelectedSection({
+      id: null,
+      htmlContent: null,
+    })
   }
 
   if (!article?.ipfsContent?.htmlContent)
     return <ContentMissing message='Article content missing' />
+
+  const isOpen = !!(selectedSection.htmlContent && selectedSection.id)
 
   return (
     <Flex flexDirection='column'>
@@ -44,8 +57,8 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
       </Flex>
 
       <AttestationDrawer
-        isOpen={!!selectedSection}
-        contentHtml={selectedSection}
+        isOpen={isOpen}
+        section={selectedSection}
         onClose={onCloseDrawer}
       />
     </Flex>
