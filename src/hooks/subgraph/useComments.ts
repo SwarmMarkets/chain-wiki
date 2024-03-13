@@ -58,7 +58,6 @@ const useComments = (
         const commentsIpfsData = await getBatchIpfsData(data.comments)
 
         const fullData = data.comments.map(item => {
-          console.log('tem.id', item.id)
           const ipfsData = commentsIpfsData.get(item.id)
           if (!ipfsData) return item
 
@@ -72,7 +71,7 @@ const useComments = (
       },
     }
   )
-  console.log('fullData', fullData)
+
   return useMemo(
     () => ({
       comments: data?.comments,
