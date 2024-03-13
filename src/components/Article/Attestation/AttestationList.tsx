@@ -14,12 +14,11 @@ const AttestationList: React.FC<AttestationListProps> = ({
   attestations,
   loading,
 }) => {
-
   if (loading) {
     return (
       <Flex flexDirection='column' py={20} $gap='10px'>
-        {[...new Array(3)].map(() => (
-          <ArticleCardSkeleton />
+        {[...new Array(3)].map((_, index) => (
+          <ArticleCardSkeleton key={index} />
         ))}
       </Flex>
     )
