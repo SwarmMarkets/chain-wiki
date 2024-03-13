@@ -1,7 +1,7 @@
 import { storage } from '@src/firebase'
 import { Editor as TinyEditor } from '@tinymce/tinymce-react'
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import styled from 'styled-components'
 import { Editor as TinyEditorType } from 'tinymce'
 import RequirePermissions from '../common/RequirePermissions'
@@ -9,6 +9,7 @@ import Flex from '../ui/Flex'
 import EditorSkeleton from './EditorSkeleton'
 import UpdateArticleContentButton from '../UpdateContent/UpdateArticleContentButton'
 import UpdateProjectContentButton from '../UpdateContent/UpdateProjectContentButton'
+import { findElementWithMatchedDataId } from './utils'
 
 interface EditorProps {
   projectAddress: string
@@ -35,6 +36,7 @@ const Editor: React.FC<EditorProps> = ({
 }) => {
   const [editorInit, setEditorInit] = useState(false)
   const [currContent, setCurrContent] = useState(initialContent)
+  const editorRef = useRef<TinyEditor | null>(null)
 
   const onEditorChange = (content: string, editor: TinyEditorType) => {
     onChange && onChange(content, editor)
@@ -65,10 +67,32 @@ const Editor: React.FC<EditorProps> = ({
     setEditorInit(true)
   }
 
+  const handleNodeChange = (event: {
+    element: Element
+    parents: Node[]
+    selectionChange?: boolean
+  }) => {
+    const editorBody = editorRef.current?.editor?.getBody()
+    if (!editorBody) return
+
+    const bodyChildren = Array.from(editorBody?.children)
+
+    const matchedElement = findElementWithMatchedDataId(
+      bodyChildren,
+      event.element
+    )
+
+    if (matchedElement === event.element) return
+
+    event.element.removeAttribute('data-id')
+  }
+
   return (
     <>
       <EditorWrapper $editorInit={editorInit}>
         <TinyEditor
+          ref={editorRef}
+          onNodeChange={handleNodeChange}
           apiKey='osr60izccxxfs99zbrmmbiqk16ux1fas0muug1e2hvh16kgg'
           onEditorChange={onEditorChange}
           onInit={onInitEdiror}
