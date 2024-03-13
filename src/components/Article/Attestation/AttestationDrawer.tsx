@@ -7,22 +7,16 @@ import Flex from '@src/components/ui/Flex'
 import { useTranslation } from 'react-i18next'
 import { useState } from 'react'
 import useProjectPermissions from '@src/hooks/permissions/useProjectPermissions'
-import AttestationCard from './AttestationCard'
 import MakeAttestationButton from '@src/components/UpdateContent/MakeAttestationButton'
 import { useParams } from 'react-router-dom'
 import { SelectedSection } from '../ArticleView/ArticleView'
+import useComments from '@src/hooks/subgraph/useComments'
+import AttestationList from './AttestationList'
 
 interface AttestationDrawerProps {
   isOpen: boolean
   section: SelectedSection
   onClose: () => void
-}
-
-interface Attestation {
-  id: number
-  address: string
-  message: string
-  date: string
 }
 
 const AttestationDrawer: React.FC<AttestationDrawerProps> = ({
@@ -34,29 +28,21 @@ const AttestationDrawer: React.FC<AttestationDrawerProps> = ({
   const { t } = useTranslation('article')
   const { permissions } = useProjectPermissions()
   const [editorContent, setEditorContent] = useState('')
-  const [attestations, setAttestations] = useState<Attestation[]>([])
+
+  const { fullComments, refetchingComments, loadingComments } = useComments(
+    {
+      variables: { filter: { sectionId: section.id } },
+    },
+    { fetchFullData: true }
+  )
+  const showSkeletons = loadingComments && !refetchingComments
 
   const handleChangeEditor = (value: string) => {
     setEditorContent(value)
   }
 
-  // const handleSendAttestation = () => {
-  //   if (!address) return
-
-  //   setAttestations([
-  //     ...attestations,
-  //     {
-  //       id: Date.now(),
-  //       address,
-  //       message: editorContent,
-  //       date: dayjs().format('MMMM D, YYYY h:mm A'),
-  //     },
-  //   ])
-  //   setEditorContent('')
-  // }
-
-  const handleDeleteAttestation = (id: number) => {
-    setAttestations(attestations.filter(item => item.id !== id))
+  const handleSendAttestation = () => {
+    setEditorContent('')
   }
 
   return (
@@ -75,17 +61,10 @@ const AttestationDrawer: React.FC<AttestationDrawerProps> = ({
         <Box>
           <HtmlRender html={section.htmlContent || ''} />
           <Divider />
-          <Flex flexDirection='column' py={20} $gap='10px'>
-            {attestations.map(item => (
-              <AttestationCard
-                onDelete={() => handleDeleteAttestation(item.id)}
-                key={item.id}
-                address={item.address}
-                message={item.message}
-                date={item.date}
-              />
-            ))}
-          </Flex>
+          <AttestationList
+            attestations={fullComments}
+            loading={showSkeletons}
+          />
         </Box>
         {permissions.canCreateProject && (
           <Flex flexDirection='column'>
@@ -94,13 +73,8 @@ const AttestationDrawer: React.FC<AttestationDrawerProps> = ({
               onChange={handleChangeEditor}
               value={editorContent}
             />
-            {/* <Button
-              mt={2}
-              disabled={!editorContent}
-            >
-              {t('attestation.send')}
-            </Button> */}
             <MakeAttestationButton
+              onSuccess={handleSendAttestation}
               projectAddress={projectId}
               sectionId={section.id}
               attestationContent={editorContent}
