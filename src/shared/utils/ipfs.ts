@@ -14,10 +14,9 @@ const initialProjectContent: IpfsProjectContent = {
   indexPages: [],
 }
 
-// const initialArticleContent = {
-//   tokenId: 0,
-//   ...initialProjectContent,
-// }
+const initialAttestationContent: IpfsAttestationContent = {
+  htmlContent: '',
+}
 
 export const generateIpfsProjectContent = (args: IpfsProjectContent) => {
   const content: IpfsProjectContent = {
@@ -46,7 +45,6 @@ export const generateIpfsAttestationContent = (
   args: IpfsAttestationContent
 ) => {
   const content: IpfsAttestationContent = {
-    sectionId: args.sectionId,
     htmlContent: args.htmlContent,
   }
 
@@ -114,6 +112,13 @@ export const verifyProjectValid = (project: IpfsProjectContent) => {
   }
 }
 
+export const verifyAttestationValid = (attestation: IpfsAttestationContent) => {
+  try {
+    return verifyObjectKeysDeep(initialAttestationContent, attestation)
+  } catch {
+    throw Error('Attestation content is invalid.')
+  }
+}
 export const parseIpfsProjectContent = (
   content: string
 ): IpfsProjectContent => {

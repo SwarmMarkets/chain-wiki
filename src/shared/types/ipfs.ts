@@ -38,7 +38,6 @@ export interface IpfsArticleContent {
 }
 
 export interface IpfsAttestationContent {
-  sectionId: string
   htmlContent: string
 }
 

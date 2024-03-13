@@ -7,7 +7,7 @@ import {
   CommentsQueryFullData,
   IpfsAttestationContent,
 } from '@src/shared/types/ipfs'
-import { verifyProjectValid } from '@src/shared/utils'
+import { verifyAttestationValid } from '@src/shared/utils'
 import { useStorage } from '@thirdweb-dev/react'
 
 const PAGE_LIMIT = 10
@@ -31,7 +31,7 @@ const useComments = (
       storage
         ?.downloadJSON(item.uri)
         .then(res => {
-          verifyProjectValid(res)
+          verifyAttestationValid(res)
           results.set(item.id, res)
         })
         .catch(e => e)
@@ -55,15 +55,15 @@ const useComments = (
       },
       async onCompleted(data) {
         if (!config?.fetchFullData) return
-
         const commentsIpfsData = await getBatchIpfsData(data.comments)
 
         const fullData = data.comments.map(item => {
+          console.log('tem.id', item.id)
           const ipfsData = commentsIpfsData.get(item.id)
           if (!ipfsData) return item
 
           return {
-            ...ipfsData,
+            ipfsContent: ipfsData,
             ...item,
           }
         })
@@ -72,7 +72,7 @@ const useComments = (
       },
     }
   )
-
+  console.log('fullData', fullData)
   return useMemo(
     () => ({
       comments: data?.comments,

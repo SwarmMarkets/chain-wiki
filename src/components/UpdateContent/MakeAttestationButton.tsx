@@ -49,7 +49,6 @@ const MakeAttestationButton: React.FC<MakeAttestationButtonProps> = ({
     if (!sectionId) return
 
     const ipfsContent = generateIpfsAttestationContent({
-      sectionId,
       htmlContent: attestationContent,
     })
     const filesToUpload = [ipfsContent]
