@@ -2,8 +2,8 @@ import Flex from '@src/components/ui/Flex'
 import { CommentsQueryFullData } from '@src/shared/types/ipfs'
 import dayjs from 'dayjs'
 import React from 'react'
-import ArticleCardSkeleton from '../ArticleCardSkeleton'
 import AttestationCard from './AttestationCard'
+import AttestationCardSkeleton from './AttestationCardSkeleton'
 
 interface AttestationListProps {
   attestations: CommentsQueryFullData[] | null
@@ -18,7 +18,7 @@ const AttestationList: React.FC<AttestationListProps> = ({
     return (
       <Flex flexDirection='column' py={20} $gap='10px'>
         {[...new Array(3)].map((_, index) => (
-          <ArticleCardSkeleton key={index} />
+          <AttestationCardSkeleton key={index} />
         ))}
       </Flex>
     )
