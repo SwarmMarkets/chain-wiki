@@ -59,14 +59,12 @@ const MakeAttestationButton: React.FC<MakeAttestationButtonProps> = ({
   }
   const signTransaction = useCallback(
     (uri: string) => {
-      console.log(articleId, JSON.stringify({ tokenId, uri }))
-
       return call('makeAttestation', [
         articleId,
         JSON.stringify({ sectionId, uri }),
       ])
     },
-    [articleId, tokenId, call, sectionId]
+    [articleId, call, sectionId]
   )
 
   const startContentUpdate = async () => {

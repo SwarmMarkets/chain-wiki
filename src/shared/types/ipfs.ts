@@ -1,4 +1,5 @@
 import {
+  CommentsQuery,
   NfTsQuery,
   NftQuery,
   NfturiUpdatesQuery,
@@ -66,3 +67,7 @@ export type TokenUriUpdatesQueryFullData =
     ipfsNewUriContent?: IpfsArticleContent
     ipfsPrevUriContent?: IpfsArticleContent
   }
+
+export type CommentsQueryFullData = CommentsQuery['comments'][0] & {
+  ipfsContent?: IpfsAttestationContent
+}
