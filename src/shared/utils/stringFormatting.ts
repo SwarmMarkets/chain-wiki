@@ -6,3 +6,11 @@ export const getTextContentFromHtml = (html: string) => {
   div.innerHTML = html
   return div.textContent || ''
 }
+
+export const generateSymbolFromString = (str: string) => {
+  return str
+    .split(' ')
+    .map(word => word[0])
+    .join('')
+    .toUpperCase()
+}

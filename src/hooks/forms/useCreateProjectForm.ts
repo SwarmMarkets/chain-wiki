@@ -5,7 +5,6 @@ import { useForm } from 'react-hook-form'
 
 export interface CreateProjectFormInputs {
   name: string
-  symbol: string
   uri: string
   admin: string
   editor: string
@@ -16,7 +15,6 @@ const useCreateProjectForm = () => {
   const resolver = useYupValidationResolver(
     yup.object({
       name: yup.string().required(t('formErrors.name.required')),
-      symbol: yup.string().required(t('formErrors.symbol.required')),
       admin: yup
         .string()
         .required(t('formErrors.admin.required'))

@@ -14,6 +14,8 @@ import {
 import useCreateProjectForm, {
   CreateProjectFormInputs,
 } from '@src/hooks/forms/useCreateProjectForm'
+import { generateSymbolFromString } from '@src/shared/utils'
+import { useAddress } from '@thirdweb-dev/react'
 
 interface CreateProjectFormProps {
   onSuccessSubmit(): void
@@ -31,10 +33,13 @@ const CreateProjectForm: React.FC<CreateProjectFormProps> = ({
   } = useCreateProjectForm()
 
   const { call, txLoading } = useSX1155NFTFactory()
+  const account = useAddress()
 
   const onSubmit: SubmitHandler<CreateProjectFormInputs> = async (data, e) => {
     e?.preventDefault()
-    const { name, symbol, admin, uri = '', editor } = data
+
+    const { name, admin, uri = '', editor } = data
+    const symbol = generateSymbolFromString(name)
 
     try {
       await call('deployNFTContract', [name, symbol, uri, admin, editor])
@@ -52,22 +57,13 @@ const CreateProjectForm: React.FC<CreateProjectFormProps> = ({
 
       <Flex as='form' flexDirection='column' onSubmit={handleSubmit(onSubmit)}>
         <Flex>
-          <TextFieldBox mr={3}>
+          <TextFieldBox>
             <TextFieldTitle>{t('form.name')}</TextFieldTitle>
             <StyledTextField
               width='100%'
               inputProps={register('name')}
               placeholder={t('formPlaceholders.name')}
               error={errors.name?.message}
-            />
-          </TextFieldBox>
-          <TextFieldBox>
-            <TextFieldTitle>{t('form.symbol')}</TextFieldTitle>
-            <StyledTextField
-              width='100%'
-              inputProps={register('symbol')}
-              placeholder={t('formPlaceholders.symbol')}
-              error={errors.symbol?.message}
             />
           </TextFieldBox>
         </Flex>
@@ -85,7 +81,7 @@ const CreateProjectForm: React.FC<CreateProjectFormProps> = ({
           <TextFieldTitle>{t('form.adminAddress')}</TextFieldTitle>
           <StyledTextField
             width='100%'
-            inputProps={register('admin')}
+            inputProps={{ ...register('admin'), defaultValue: account }}
             placeholder={t('formPlaceholders.adminAddress')}
             error={errors.admin?.message}
           />
@@ -94,12 +90,15 @@ const CreateProjectForm: React.FC<CreateProjectFormProps> = ({
           <TextFieldTitle>{t('form.editorAddress')}</TextFieldTitle>
           <StyledTextField
             width='100%'
-            inputProps={register('editor', {
-              required: {
-                value: true,
-                message: t('formErrors.editor.required'),
-              },
-            })}
+            inputProps={{
+              ...register('editor', {
+                required: {
+                  value: true,
+                  message: t('formErrors.editor.required'),
+                },
+              }),
+              defaultValue: account,
+            }}
             placeholder={t('formPlaceholders.editorAddress')}
             error={errors.editor?.message}
           />
