@@ -6,7 +6,6 @@ import styled from 'styled-components'
 import Button from '../ui/Button/Button'
 import Container from '../ui/Container'
 import Flex from '../ui/Flex'
-import TextField from '../ui/TextField/TextField'
 import ConnectButton from './ConnectButton'
 import RequirePermissions from './RequirePermissions'
 
@@ -36,10 +35,10 @@ const Header = () => {
         <Link to={RoutePaths.HOME}>
           <Logo src={logo} alt='ChainWiki' />
         </Link>
-        <TextField
+        {/* <TextField
           prependIcon='search'
           placeholder={t('header.searchPlaceholder')}
-        />
+        /> */}
       </Flex>
 
       <Flex $gap={'1rem'} alignItems='center'>
