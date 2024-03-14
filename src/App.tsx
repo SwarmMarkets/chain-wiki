@@ -42,7 +42,7 @@ function App() {
                 <Route path={RoutePaths.HOME} element={<HomePage />} />
                 <Route path={RoutePaths.PROJECT} element={<ProjectPage />} />
                 <Route
-                  path={RoutePaths.PROJECT + RoutePaths.ARTICLE}
+                  path={RoutePaths.PROJECT + RoutePaths.TOKEN}
                   element={<TokenPage />}
                 />
                 <Route

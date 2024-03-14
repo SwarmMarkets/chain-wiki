@@ -33,7 +33,7 @@ const TokenEmptyCard: React.FC<TokenEmptyCardProps> = ({
         </Flex>
         <RequirePermissions canUpdateContent projectAddress={projectId}>
           <Link
-            to={`${generatePath(RoutePaths.PROJECT + RoutePaths.ARTICLE, {
+            to={`${generatePath(RoutePaths.PROJECT + RoutePaths.TOKEN, {
               projectId,
               tokenId: tokenId,
             })}?tab=${TokenTabs.EDIT}`}

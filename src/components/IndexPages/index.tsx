@@ -91,7 +91,7 @@ const IndexPages: React.FC<IndexPagesProps> = ({
           {noIndexPages && <Text>{t('indexPages.noIndexPages')}</Text>}
           {visibleIndexPages?.map(token => (
             <StyledLink
-              to={generatePath(RoutePaths.PROJECT + RoutePaths.ARTICLE, {
+              to={generatePath(RoutePaths.PROJECT + RoutePaths.TOKEN, {
                 projectId: project.id,
                 tokenId: token?.id,
               })}

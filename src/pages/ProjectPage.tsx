@@ -97,7 +97,7 @@ const ProjectPage = () => {
             {permissions.canManageRoles && (
               <Tab value={ProjectTabs.MANAGE} label={t('tabs.manageRoles')} />
             )}
-            <Tab value={ProjectTabs.ARTICLES} label={t('tabs.tokens')} />
+            <Tab value={ProjectTabs.TOKENS} label={t('tabs.tokens')} />
             {permissions.canUpdateContent && (
               <Tab value={ProjectTabs.EDIT} label={t('tabs.edit')} />
             )}
@@ -106,7 +106,7 @@ const ProjectPage = () => {
           <TabPanel value={ProjectTabs.PROJECT}>
             <ProjectView project={nft} onMount={onMountContent} />
           </TabPanel>
-          <TabPanel value={ProjectTabs.ARTICLES}>
+          <TabPanel value={ProjectTabs.TOKENS}>
             <TokenList
               tokens={fullTokens}
               loading={tokensLoading}

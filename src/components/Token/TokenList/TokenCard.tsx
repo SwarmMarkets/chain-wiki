@@ -23,7 +23,7 @@ const TokenCard: React.FC<TokenCardProps> = ({
 
   return (
     <Card
-      to={generatePath(RoutePaths.PROJECT + RoutePaths.ARTICLE, {
+      to={generatePath(RoutePaths.PROJECT + RoutePaths.TOKEN, {
         projectId,
         tokenId: tokenId,
       })}

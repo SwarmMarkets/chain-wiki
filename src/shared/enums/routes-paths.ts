@@ -1,6 +1,6 @@
 enum RoutePaths {
   HOME = '/',
-  ARTICLE = '/token/:tokenId',
+  TOKEN = '/token/:tokenId',
   PROJECT = '/project/:projectId',
   MY_PROJECTS = '/my-projects',
   CREATE_PROJECT = '/create/project',
