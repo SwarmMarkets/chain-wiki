@@ -29,7 +29,9 @@ const ExplorerLink: React.FC<ExplorerLinkProps> = ({
   const chainId = useChainId()
   const theme = useTheme()
 
-  const handleLinkClick = () => {
+  const handleLinkClick = (e: MouseEvent<HTMLSpanElement>) => {
+    e.stopPropagation()
+    e.preventDefault()
     const explorerUrl = getExplorerUrl({
       type,
       chainId,
@@ -40,6 +42,7 @@ const ExplorerLink: React.FC<ExplorerLinkProps> = ({
 
   const handleCopyClick = (e: MouseEvent<HTMLDivElement>) => {
     e.stopPropagation()
+    e.preventDefault()
     hash && navigator.clipboard.writeText(hash)
     setShowCheckmark(true)
     setTimeout(() => {
