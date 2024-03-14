@@ -44,6 +44,8 @@ const ProjectPage = () => {
     { fetchFullData: true }
   )
   const showSkeleton = loadingNft && !refetchingNft
+  const isProjectTab = activeProjectTab === ProjectTabs.PROJECT
+  const allLoaded = nft && fullTokens
 
   const onMountContent = (element: HTMLDivElement) => {
     setContentElem(element)
@@ -68,7 +70,10 @@ const ProjectPage = () => {
   }
 
   return (
-    <Flex justifyContent='center' $gap='20px'>
+    <Flex
+      justifyContent={isProjectTab && allLoaded ? 'space-between' : 'center'}
+      $gap='20px'
+    >
       {activeProjectTab === ProjectTabs.PROJECT && nft && (
         <StyledIndexPages
           articles={fullTokens}
@@ -123,7 +128,7 @@ const ProjectPage = () => {
           </TabPanel>
         </TabContext>
       </Box>
-      {activeProjectTab === ProjectTabs.PROJECT && contentElem && (
+      {isProjectTab && contentElem && (
         <StyledContent contentElem={contentElem} />
       )}
     </Flex>
