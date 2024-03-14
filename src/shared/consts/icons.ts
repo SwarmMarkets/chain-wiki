@@ -22,6 +22,7 @@ const icons = {
   checkmark: React.lazy(() => import('@src/assets/icons/checkmark.svg?react')),
   xmark: React.lazy(() => import('@src/assets/icons/xmark.svg?react')),
   comment: React.lazy(() => import('@src/assets/icons/comment.svg?react')),
+  copy: React.lazy(() => import('@src/assets/icons/copy.svg?react')),
 }
 
 export default icons
