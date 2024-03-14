@@ -27,7 +27,7 @@ const UploadVoteProposal: React.FC<UploadVoteProposalProps> = ({
   nextStep,
   onUploadVoteProposal,
 }) => {
-  const { t } = useTranslation('article', { keyPrefix: 'uploadProposal' })
+  const { t } = useTranslation('token', { keyPrefix: 'uploadProposal' })
   const { getProposal, loading, error, result } = useVoteProposal()
 
   const [proposalHash, setProposalHash] = useState('')

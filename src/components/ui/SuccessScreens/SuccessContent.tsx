@@ -7,7 +7,7 @@ import Text from '../Text'
 import Box from '../Box'
 import Button from '../Button/Button'
 
-export type ContentType = 'project' | 'article'
+export type ContentType = 'project' | 'token'
 
 interface SuccessContentProps extends Partial<SuccessProps> {
   onClick(): void

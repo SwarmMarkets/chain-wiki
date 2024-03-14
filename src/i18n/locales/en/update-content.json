@@ -3,9 +3,9 @@
     "title": "Update Project",
     "description": "You are about to update your project content. This includes several steps to finalize content update."
   },
-  "article": {
+  "token": {
     "title": "Update Token",
-    "description": "You are about to update your article content. This includes several steps to finalize content update."
+    "description": "You are about to update your token content. This includes several steps to finalize content update."
   },
   "attestation": {
     "title": "Send Attestation",

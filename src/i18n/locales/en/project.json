@@ -1,7 +1,7 @@
 {
   "tabs": {
     "project": "Project",
-    "articles": "Tokens",
+    "tokens": "Tokens",
     "edit": "Edit project",
     "manageRoles": "Manage Roles",
     "history": "History"

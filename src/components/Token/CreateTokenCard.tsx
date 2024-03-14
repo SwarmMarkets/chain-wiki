@@ -25,7 +25,7 @@ interface CreateTokenCardProps {
 const CreateTokenCard: React.FC<CreateTokenCardProps> = ({
   projectAddress,
 }) => {
-  const { t } = useTranslation('article')
+  const { t } = useTranslation('token')
   const theme = useTheme()
 
   const address = useAddress()

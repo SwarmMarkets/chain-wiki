@@ -7,25 +7,25 @@ import { generatePath } from 'react-router-dom'
 import TokenEmptyCard from './TokenEmptyCard'
 
 interface TokenCardProps {
-  articleId: string
+  tokenId: string
   projectId: string
   content?: IpfsTokenContent
 }
 
 const TokenCard: React.FC<TokenCardProps> = ({
-  articleId,
+  tokenId,
   projectId,
   content,
 }) => {
   if (content?.error || !content) {
-    return <TokenEmptyCard articleId={articleId} projectId={projectId} />
+    return <TokenEmptyCard tokenId={tokenId} projectId={projectId} />
   }
 
   return (
     <Card
       to={generatePath(RoutePaths.PROJECT + RoutePaths.ARTICLE, {
         projectId,
-        articleId: articleId,
+        tokenId: tokenId,
       })}
       title={content.name}
     >

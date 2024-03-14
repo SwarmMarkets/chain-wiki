@@ -12,7 +12,7 @@ import {
   ActionStateWrap,
 } from '../ui/ActionState'
 
-export type ContentType = 'project' | 'article' | 'attestation'
+export type ContentType = 'project' | 'token' | 'attestation'
 
 interface UpdateProjectContentModalProps extends BasicModalProps {
   contentType: ContentType

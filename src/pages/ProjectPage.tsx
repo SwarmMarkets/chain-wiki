@@ -76,7 +76,7 @@ const ProjectPage = () => {
     >
       {activeProjectTab === ProjectTabs.PROJECT && nft && (
         <StyledIndexPages
-          articles={fullTokens}
+          tokens={fullTokens}
           project={nft}
           indexPages={nft.ipfsContent?.indexPages}
         />
@@ -97,7 +97,7 @@ const ProjectPage = () => {
             {permissions.canManageRoles && (
               <Tab value={ProjectTabs.MANAGE} label={t('tabs.manageRoles')} />
             )}
-            <Tab value={ProjectTabs.ARTICLES} label={t('tabs.articles')} />
+            <Tab value={ProjectTabs.ARTICLES} label={t('tabs.tokens')} />
             {permissions.canUpdateContent && (
               <Tab value={ProjectTabs.EDIT} label={t('tabs.edit')} />
             )}
@@ -108,7 +108,7 @@ const ProjectPage = () => {
           </TabPanel>
           <TabPanel value={ProjectTabs.ARTICLES}>
             <TokenList
-              articles={fullTokens}
+              tokens={fullTokens}
               loading={tokensLoading}
               projectAddress={projectId!}
             />

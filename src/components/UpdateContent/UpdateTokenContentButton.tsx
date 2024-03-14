@@ -12,16 +12,16 @@ import useToken from '@src/hooks/subgraph/useToken'
 import { getUniqueId } from '@src/shared/utils'
 
 interface UpdateTokenContentButtonProps extends ButtonProps, ChildrenProp {
-  articleAddress: string
+  tokenAddress: string
   projectAddress: string
-  articleContentToUpdate: Partial<IpfsTokenContent>
+  tokenContentToUpdate: Partial<IpfsTokenContent>
   onSuccess?(): void
 }
 
 const UpdateTokenContentButton: React.FC<UpdateTokenContentButtonProps> = ({
-  articleAddress,
+  tokenAddress,
   projectAddress,
-  articleContentToUpdate,
+  tokenContentToUpdate,
   onSuccess,
   children,
   ...buttonProps
@@ -43,21 +43,21 @@ const UpdateTokenContentButton: React.FC<UpdateTokenContentButtonProps> = ({
     isSuccess,
     reset: resetStorageState,
   } = useStorageUpload()
-  const { token } = useToken(articleAddress)
-  const articleId = Number(token?.id.split('-')[1])
+  const { token } = useToken(tokenAddress)
+  const tokenId = Number(token?.id.split('-')[1])
 
   const uploadContent = async () => {
     if (!token?.ipfsContent) return
 
     const content = {
       ...token?.ipfsContent,
-      ...articleContentToUpdate,
+      ...tokenContentToUpdate,
     }
 
     // set data-id attributes
-    if (articleContentToUpdate.htmlContent) {
+    if (tokenContentToUpdate.htmlContent) {
       const contentElem = document.createElement('div')
-      contentElem.innerHTML = articleContentToUpdate.htmlContent
+      contentElem.innerHTML = tokenContentToUpdate.htmlContent
       const children = Array.from(contentElem.children)
 
       for (let i = 0; i < children.length; i++) {
@@ -78,9 +78,9 @@ const UpdateTokenContentButton: React.FC<UpdateTokenContentButtonProps> = ({
 
   const signTransaction = useCallback(
     (uri: string) => {
-      return call('setTokenUri', [articleId, uri])
+      return call('setTokenUri', [tokenId, uri])
     },
-    [call, articleId]
+    [call, tokenId]
   )
 
   const startContentUpdate = async () => {
@@ -126,7 +126,7 @@ const UpdateTokenContentButton: React.FC<UpdateTokenContentButtonProps> = ({
   return (
     <>
       <UpdateContentModal
-        contentType='article'
+        contentType='token'
         steps={steps}
         isOpen={isOpen}
         onClose={close}

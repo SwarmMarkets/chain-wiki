@@ -24,8 +24,8 @@ const AttestationDrawer: React.FC<AttestationDrawerProps> = ({
   section,
   onClose,
 }) => {
-  const { projectId = '', articleId = '' } = useParams()
-  const { t } = useTranslation('article')
+  const { projectId = '', tokenId = '' } = useParams()
+  const { t } = useTranslation('token')
   const [editorContent, setEditorContent] = useState('')
 
   const { fullComments, refetchingComments, loadingComments } = useComments(
@@ -62,7 +62,7 @@ const AttestationDrawer: React.FC<AttestationDrawerProps> = ({
           <Divider />
           <AttestationList
             // projectAddress={projectId}
-            // articleAddress={articleId}
+            // tokenAddress={tokenId}
             attestations={fullComments}
             loading={showSkeletons}
           />
@@ -79,7 +79,7 @@ const AttestationDrawer: React.FC<AttestationDrawerProps> = ({
               projectAddress={projectId}
               sectionId={section.id}
               attestationContent={editorContent}
-              tokenId={articleId}
+              tokenId={tokenId}
             >
               {t('attestation.send')}
             </MakeAttestationButton>

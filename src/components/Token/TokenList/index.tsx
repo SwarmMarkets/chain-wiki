@@ -8,19 +8,19 @@ import CreateTokenCard from '../CreateTokenCard'
 import TokenCard from './TokenCard'
 
 interface TokenListProps {
-  articles: TokensQueryFullData[] | null
+  tokens: TokensQueryFullData[] | null
   projectAddress: string
   loading?: boolean
 }
 
 const TokenList: React.FC<TokenListProps> = ({
-  articles,
+  tokens,
   projectAddress,
   loading,
 }) => {
   const { projectId = '' } = useParams()
 
-  const noContent = !loading && (articles?.length === 0 || !articles)
+  const noContent = !loading && (tokens?.length === 0 || !tokens)
 
   return (
     <Flex flexDirection='column' $gap='10px'>
@@ -30,12 +30,12 @@ const TokenList: React.FC<TokenListProps> = ({
       {noContent ? (
         <ContentMissing message='Tokens missing' />
       ) : (
-        articles?.map(article => (
+        tokens?.map(token => (
           <TokenCard
-            key={article.id}
-            articleId={article.id}
+            key={token.id}
+            tokenId={token.id}
             projectId={projectId}
-            content={article.ipfsContent}
+            content={token.ipfsContent}
           />
         ))
       )}

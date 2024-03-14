@@ -19,7 +19,7 @@ const resources = {
     errors: ErrorsEn,
     updateContent: UpdateContentEn,
     project: ProjectEn,
-    article: TokenEn,
+    token: TokenEn,
     contents: ContentsEn,
     buttons: ButtonsEn,
     projects: ProjectsEn,

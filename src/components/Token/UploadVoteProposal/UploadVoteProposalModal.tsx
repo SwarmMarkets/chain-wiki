@@ -13,7 +13,7 @@ const UploadVoteProposalModal: React.FC<BasicModalProps> = ({
   isOpen,
   onClose,
 }) => {
-  const { t } = useTranslation('article')
+  const { t } = useTranslation('token')
 
   const { step, nextStep, backStep, reset } = useSteps(3)
   const [voteProposal, setVoteProposal] = useState<VoteProposal>()

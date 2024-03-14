@@ -10,7 +10,7 @@ import Flex from '../../ui/Flex'
 import Text from '../../ui/Text'
 
 interface HistoryTokenListProps {
-  onSelectTokens: (articles: TokenUriUpdatesQuery['tokenURIUpdates']) => void
+  onSelectTokens: (tokens: TokenUriUpdatesQuery['tokenURIUpdates']) => void
   selectedTokens: TokenUriUpdatesQuery['tokenURIUpdates']
   history: TokenUriUpdatesQuery['tokenURIUpdates']
 }
@@ -36,19 +36,17 @@ const HistoryTokenList: React.FC<HistoryTokenListProps> = ({
   const { t } = useTranslation('history')
 
   const onChangeCheckbox = (
-    article: TokenUriUpdatesQuery['tokenURIUpdates'][0]
+    token: TokenUriUpdatesQuery['tokenURIUpdates'][0]
   ) => {
     if (!selectedTokens) return
-    const articleIsSelected = selectedTokens.find(
-      item => item.id === article.id
-    )
+    const tokenIsSelected = selectedTokens.find(item => item.id === token.id)
 
-    if (articleIsSelected) {
-      const newTokens = selectedTokens.filter(item => item.id !== article.id)
+    if (tokenIsSelected) {
+      const newTokens = selectedTokens.filter(item => item.id !== token.id)
       onSelectTokens(newTokens)
       return
     }
-    onSelectTokens([...selectedTokens, article])
+    onSelectTokens([...selectedTokens, token])
   }
 
   const resetSelectedTokens = () => {

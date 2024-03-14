@@ -31,11 +31,11 @@ import {
 } from 'react-router-dom'
 
 const TokenPage = () => {
-  const { articleId = '', projectId = '' } = useParams()
+  const { tokenId = '', projectId = '' } = useParams()
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
   const location = useLocation()
-  const { t } = useTranslation('article')
+  const { t } = useTranslation('token')
   const { permissions } = useProjectPermissions(projectId)
 
   const initialTab = searchParams.get('tab') || TokenTabs.READ
@@ -43,7 +43,7 @@ const TokenPage = () => {
 
   const [contentElem, setContentElem] = useState<HTMLDivElement | null>(null)
 
-  const { token, loadingToken, refetchingToken } = useToken(articleId)
+  const { token, loadingToken, refetchingToken } = useToken(tokenId)
   const { nft } = useNFT(projectId)
   const { fullTokens } = useTokens(
     {
@@ -103,7 +103,7 @@ const TokenPage = () => {
       >
         {isReadTab && nft && fullTokens && (
           <StyledIndexPages
-            articles={fullTokens}
+            tokens={fullTokens}
             project={nft}
             indexPages={nft.ipfsContent?.indexPages}
           />
@@ -123,14 +123,14 @@ const TokenPage = () => {
             </Tabs>
 
             <TabPanel value={TokenTabs.READ}>
-              <TokenView article={token} onMount={onMount} />
+              <TokenView token={token} onMount={onMount} />
             </TabPanel>
             <TabPanel value={TokenTabs.EDIT}>
               <Editor
                 onSuccessUpdate={handleSuccessUpdate}
                 initialContent={token?.ipfsContent?.htmlContent || ''}
                 projectAddress={projectId}
-                articleAddress={token?.id}
+                tokenAddress={token?.id}
               />
             </TabPanel>
             <TabPanel value={TokenTabs.HISTORY}>

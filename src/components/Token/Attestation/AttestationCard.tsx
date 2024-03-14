@@ -26,7 +26,7 @@ const AttestationCard: React.FC<AttestationCardProps> = ({
   // projectAddress,
 }) => {
   const theme = useTheme()
-  const { t } = useTranslation(['article', 'buttons'])
+  const { t } = useTranslation(['token', 'buttons'])
 
   return (
     <Card>

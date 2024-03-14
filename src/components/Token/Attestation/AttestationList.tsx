@@ -9,14 +9,14 @@ import AttestationCardSkeleton from './AttestationCardSkeleton'
 interface AttestationListProps {
   attestations: CommentsQueryFullData[] | null
   loading: boolean
-  // articleAddress: string
+  // tokenAddress: string
   // projectAddress: string
 }
 
 const AttestationList: React.FC<AttestationListProps> = ({
   attestations,
   loading,
-  // articleAddress,
+  // tokenAddress,
   // projectAddress,
 }) => {
   // const { call } = useSX1155NFT(projectAddress)
@@ -32,7 +32,7 @@ const AttestationList: React.FC<AttestationListProps> = ({
   }
 
   // const handleDeleteAttestation = (attestationId: string) => {
-  //   const tokenId = Number(articleAddress.split('-')[1])
+  //   const tokenId = Number(tokenAddress.split('-')[1])
   //   const commentId = Number(attestationId.split('-')[2])
 
   //   return call('deleteAttestation', [tokenId, commentId])

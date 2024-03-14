@@ -42,7 +42,7 @@ const MakeAttestationButton: React.FC<MakeAttestationButtonProps> = ({
     isSuccess,
     reset: resetStorageState,
   } = useStorageUpload()
-  const articleId = Number(tokenId.split('-')[1])
+  const shortTokenId = Number(tokenId.split('-')[1])
 
   const uploadContent = async () => {
     // if (!token?.ipfsContent) return
@@ -59,11 +59,11 @@ const MakeAttestationButton: React.FC<MakeAttestationButtonProps> = ({
   const signTransaction = useCallback(
     (uri: string) => {
       return call('makeAttestation', [
-        articleId,
+        shortTokenId,
         JSON.stringify({ sectionId, uri }),
       ])
     },
-    [articleId, call, sectionId]
+    [call, shortTokenId, sectionId]
   )
 
   const startContentUpdate = async () => {

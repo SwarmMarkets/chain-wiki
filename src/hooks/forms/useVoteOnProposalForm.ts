@@ -9,7 +9,7 @@ export interface VoteOnProposalFormInputs {
 }
 
 const useVoteOnProposalForm = () => {
-  const { t } = useTranslation('article', {
+  const { t } = useTranslation('token', {
     keyPrefix: 'voteOnProposal.formErrors',
   })
   const resolver = useYupValidationResolver(

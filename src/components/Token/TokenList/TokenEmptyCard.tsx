@@ -11,15 +11,15 @@ import { Link, generatePath } from 'react-router-dom'
 import { useTheme } from 'styled-components'
 
 interface TokenEmptyCardProps {
-  articleId: string
+  tokenId: string
   projectId: string
 }
 
 const TokenEmptyCard: React.FC<TokenEmptyCardProps> = ({
-  articleId,
+  tokenId,
   projectId,
 }) => {
-  const { t } = useTranslation(['errors', 'article'])
+  const { t } = useTranslation(['errors', 'token'])
   const theme = useTheme()
 
   return (
@@ -28,17 +28,17 @@ const TokenEmptyCard: React.FC<TokenEmptyCardProps> = ({
         <Flex $gap='8px' alignItems='center'>
           <Icon name='empty' size={30} color={theme.palette.borderPrimary} />
           <Text.p color={theme.palette.borderPrimary}>
-            {t('article.pendingDetails')}
+            {t('token.pendingDetails')}
           </Text.p>
         </Flex>
         <RequirePermissions canUpdateContent projectAddress={projectId}>
           <Link
             to={`${generatePath(RoutePaths.PROJECT + RoutePaths.ARTICLE, {
               projectId,
-              articleId: articleId,
+              tokenId: tokenId,
             })}?tab=${TokenTabs.EDIT}`}
           >
-            <Button>{t('updateToken', { ns: 'article' })}</Button>
+            <Button>{t('updateToken', { ns: 'token' })}</Button>
           </Link>
         </RequirePermissions>
       </Flex>

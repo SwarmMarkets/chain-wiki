@@ -6,7 +6,7 @@ import useSteps from '@src/hooks/useSteps'
 import SuccessModal from '@src/components/ui/SuccessScreens/SuccessModal'
 
 const VoteOnProposalButton: React.FC<ButtonProps> = props => {
-  const { t } = useTranslation('article')
+  const { t } = useTranslation('token')
 
   const { step, nextStep, reset } = useSteps(2)
   const { isOpen, open, close } = useModalState(false)

@@ -13,7 +13,7 @@ import { findElementWithMatchedDataId } from './utils'
 
 interface EditorProps {
   projectAddress: string
-  articleAddress?: string
+  tokenAddress?: string
   initialContent: string
   onChange?: (content: string, editor: TinyEditorType) => void
   onSuccessUpdate?: () => void
@@ -30,7 +30,7 @@ const EditorWrapper = styled.div<EditorWrapperProps>`
 const Editor: React.FC<EditorProps> = ({
   onChange,
   initialContent,
-  articleAddress,
+  tokenAddress,
   projectAddress,
   onSuccessUpdate,
 }) => {
@@ -122,12 +122,12 @@ const Editor: React.FC<EditorProps> = ({
         />
         <Flex justifyContent='flex-end'>
           <RequirePermissions projectAddress={projectAddress} canUpdateContent>
-            {articleAddress ? (
+            {tokenAddress ? (
               <UpdateTokenContentButton
                 onSuccess={onSuccessUpdate}
-                articleAddress={articleAddress}
+                tokenAddress={tokenAddress}
                 projectAddress={projectAddress}
-                articleContentToUpdate={{ htmlContent: currContent }}
+                tokenContentToUpdate={{ htmlContent: currContent }}
               />
             ) : (
               <UpdateProjectContentButton

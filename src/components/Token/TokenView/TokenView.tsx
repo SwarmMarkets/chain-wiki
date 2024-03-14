@@ -11,7 +11,7 @@ export interface SelectedSection {
   htmlContent: string | null
 }
 
-export const TokenView: React.FC<TokenViewProps> = ({ article, onMount }) => {
+export const TokenView: React.FC<TokenViewProps> = ({ token, onMount }) => {
   const [selectedSection, setSelectedSection] = useState<SelectedSection>({
     id: null,
     htmlContent: null,
@@ -35,7 +35,7 @@ export const TokenView: React.FC<TokenViewProps> = ({ article, onMount }) => {
     })
   }
 
-  if (!article?.ipfsContent?.htmlContent)
+  if (!token?.ipfsContent?.htmlContent)
     return <ContentMissing message='Token content missing' />
 
   const isOpen = !!(selectedSection.htmlContent && selectedSection.id)
@@ -43,7 +43,7 @@ export const TokenView: React.FC<TokenViewProps> = ({ article, onMount }) => {
   return (
     <Flex flexDirection='column'>
       <AttestationHtmlRenderWrapper
-        html={article?.ipfsContent?.htmlContent}
+        html={token?.ipfsContent?.htmlContent}
         onSelectSection={onSelectSection}
         onMount={onMountContent}
         ref={contentRef}

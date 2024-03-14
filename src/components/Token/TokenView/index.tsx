@@ -2,7 +2,7 @@ import { TokenQueryFullData } from '@src/shared/types/ipfs'
 import { TokenView } from './TokenView'
 
 export interface TokenViewProps {
-  article?: TokenQueryFullData | null
+  token?: TokenQueryFullData | null
   onMount: (element: HTMLDivElement) => void
 }
 

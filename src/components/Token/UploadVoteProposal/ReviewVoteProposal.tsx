@@ -27,7 +27,7 @@ const ReviewVoteProposal: React.FC<ReviewVoteProposalProps> = ({
   backStep,
   nextStep,
 }) => {
-  const { t } = useTranslation('article', { keyPrefix: 'reviewProposal' })
+  const { t } = useTranslation('token', { keyPrefix: 'reviewProposal' })
 
   const token = useTokenContext()
   const theme = useTheme()
@@ -107,8 +107,8 @@ const ReviewVoteProposal: React.FC<ReviewVoteProposalProps> = ({
       {token && (
         <UpdateTokenContentButton
           width='100%'
-          articleAddress={token?.id}
-          articleContentToUpdate={{ voteProposal: proposal }}
+          tokenAddress={token?.id}
+          tokenContentToUpdate={{ voteProposal: proposal }}
           projectAddress={nftId}
           onSuccess={nextStep}
         >

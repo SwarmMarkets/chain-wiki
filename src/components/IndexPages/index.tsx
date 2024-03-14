@@ -14,13 +14,13 @@ import { EditableItem, StyledLink } from './styled-components'
 import UpdateProjectContentButton from '../UpdateContent/UpdateProjectContentButton'
 
 interface IndexPagesProps {
-  articles: TokensQueryFullData[] | null
+  tokens: TokensQueryFullData[] | null
   project: NFTQueryFullData
   indexPages?: string[] | null
 }
 
 const IndexPages: React.FC<IndexPagesProps> = ({
-  articles,
+  tokens,
   project,
   ...props
 }) => {
@@ -37,25 +37,25 @@ const IndexPages: React.FC<IndexPagesProps> = ({
 
   const handleEditButton = () => setIsEdit(true)
 
-  const onChangeCheckbox = (articleId: string) => {
-    if (selectedIndexes.includes(articleId)) {
-      setSelectedIndexes(selectedIndexes.filter(id => id !== articleId))
+  const onChangeCheckbox = (tokenId: string) => {
+    if (selectedIndexes.includes(tokenId)) {
+      setSelectedIndexes(selectedIndexes.filter(id => id !== tokenId))
     } else {
-      setSelectedIndexes([...selectedIndexes, articleId])
+      setSelectedIndexes([...selectedIndexes, tokenId])
     }
   }
 
   const notEmptyTokens = useMemo(
-    () => articles?.filter(article => article?.ipfsContent?.name),
-    [articles]
+    () => tokens?.filter(token => token?.ipfsContent?.name),
+    [tokens]
   )
 
   const visibleIndexPages = useMemo(
     () =>
       project.ipfsContent?.indexPages
-        ?.map(id => articles?.find(article => article?.id === id))
-        .filter(article => article?.ipfsContent?.name),
-    [articles, project.ipfsContent?.indexPages]
+        ?.map(id => tokens?.find(token => token?.id === id))
+        .filter(token => token?.ipfsContent?.name),
+    [tokens, project.ipfsContent?.indexPages]
   )
   const noTokens = notEmptyTokens?.length === 0
   if (noTokens) {
@@ -76,28 +76,28 @@ const IndexPages: React.FC<IndexPagesProps> = ({
       <Divider my='10px' />
       {isEdit ? (
         <Flex flexDirection='column' $gap='8px' py='8px'>
-          {notEmptyTokens?.map(article => (
-            <EditableItem key={article?.id}>
+          {notEmptyTokens?.map(token => (
+            <EditableItem key={token?.id}>
               <Checkbox
-                checked={selectedIndexes.includes(article.id)}
-                onChange={() => onChangeCheckbox(article.id)}
+                checked={selectedIndexes.includes(token.id)}
+                onChange={() => onChangeCheckbox(token.id)}
               />
-              <Text ml='5px'>{article?.id}</Text>
+              <Text ml='5px'>{token?.id}</Text>
             </EditableItem>
           ))}
         </Flex>
       ) : (
         <Flex flexDirection='column' $gap='8px' py='8px'>
           {noIndexPages && <Text>{t('indexPages.noIndexPages')}</Text>}
-          {visibleIndexPages?.map(article => (
+          {visibleIndexPages?.map(token => (
             <StyledLink
               to={generatePath(RoutePaths.PROJECT + RoutePaths.ARTICLE, {
                 projectId: project.id,
-                articleId: article?.id,
+                tokenId: token?.id,
               })}
-              key={article?.id}
+              key={token?.id}
             >
-              {article?.id}
+              {token?.id}
             </StyledLink>
           ))}
         </Flex>

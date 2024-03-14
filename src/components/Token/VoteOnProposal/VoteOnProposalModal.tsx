@@ -17,7 +17,7 @@ const VoteOnProposalModal: React.FC<VoteOnProposalModalProps> = ({
   ...props
 }) => {
   const token = useTokenContext()
-  const { t } = useTranslation('article', { keyPrefix: 'voteOnProposal' })
+  const { t } = useTranslation('token', { keyPrefix: 'voteOnProposal' })
   const theme = useTheme()
 
   const voteProposal = token?.ipfsContent?.voteProposal

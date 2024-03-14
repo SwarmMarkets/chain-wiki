@@ -18,7 +18,7 @@ const VoteOnProposalForm: React.FC<VoteOnProposalFormProps> = ({
   onSuccessSubmit,
 }) => {
   const token = useTokenContext()
-  const { t } = useTranslation(['article', 'errors'], {
+  const { t } = useTranslation(['token', 'errors'], {
     keyPrefix: 'voteOnProposal',
   })
   const {

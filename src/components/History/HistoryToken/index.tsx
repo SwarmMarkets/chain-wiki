@@ -18,17 +18,14 @@ import ContentMissing from '../../common/ContentMissing'
 const HistoryToken = () => {
   const { t } = useTranslation('buttons')
   const location = useLocation()
-  const { articleId = '' } = useParams()
+  const { tokenId = '' } = useParams()
 
-  const { tokenUriUpdates, loading, refetching } = useTokenURIUpdates(
-    articleId,
-    {
-      variables: {
-        orderBy: TokenUriUpdate_OrderBy.UpdatedAt,
-        orderDirection: OrderDirection.Desc,
-      },
-    }
-  )
+  const { tokenUriUpdates, loading, refetching } = useTokenURIUpdates(tokenId, {
+    variables: {
+      orderBy: TokenUriUpdate_OrderBy.UpdatedAt,
+      orderDirection: OrderDirection.Desc,
+    },
+  })
 
   const showSkeletons = loading && !refetching
 
@@ -44,10 +41,8 @@ const HistoryToken = () => {
     TokenUriUpdatesQuery['tokenURIUpdates']
   >([])
 
-  const onSelectTokens = (
-    articles: TokenUriUpdatesQuery['tokenURIUpdates']
-  ) => {
-    setSelectedTokens(articles)
+  const onSelectTokens = (tokens: TokenUriUpdatesQuery['tokenURIUpdates']) => {
+    setSelectedTokens(tokens)
   }
 
   const sortedTokensByUpdatedAt = useMemo(

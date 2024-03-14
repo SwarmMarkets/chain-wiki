@@ -40,17 +40,17 @@ const HistoryTokenDifference = () => {
       {fullTokenUriTokens ? (
         <>
           <Flex>
-            {fullTokenUriTokens?.map(article => (
+            {fullTokenUriTokens?.map(token => (
               <Flex
                 flex={1}
                 justifyContent='center'
                 alignItems='center'
                 flexDirection='column'
-                key={article.id}
+                key={token.id}
               >
                 <span>
                   {t('revisionAsOf')}{' '}
-                  {new Date(+article.updatedAt).toLocaleString()}
+                  {new Date(+token.updatedAt).toLocaleString()}
                 </span>
               </Flex>
             ))}
