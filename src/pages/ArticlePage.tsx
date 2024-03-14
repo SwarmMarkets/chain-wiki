@@ -52,6 +52,7 @@ const ArticlePage = () => {
   )
 
   const showSkeleton = loadingToken && !refetchingToken
+  const allLoaded = token && nft && fullTokens
 
   const onChangeTab = (tab: ITab) => {
     setActiveTab(tab.value)
@@ -88,8 +89,11 @@ const ArticlePage = () => {
 
   return (
     <TokenContextProvider value={token}>
-      <Flex justifyContent='center' $gap='20px'>
-        {activeTab === ArticleTabs.READ && nft && fullTokens && (
+      <Flex
+        justifyContent={isReadTab && allLoaded ? 'space-between' : 'center'}
+        $gap='20px'
+      >
+        {isReadTab && nft && fullTokens && (
           <StyledIndexPages
             articles={fullTokens}
             project={nft}
