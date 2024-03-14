@@ -82,7 +82,7 @@ const IndexPages: React.FC<IndexPagesProps> = ({
                 checked={selectedIndexes.includes(article.id)}
                 onChange={() => onChangeCheckbox(article.id)}
               />
-              <Text ml='5px'>{article?.ipfsContent?.name}</Text>
+              <Text ml='5px'>{article?.id}</Text>
             </EditableItem>
           ))}
         </Flex>
@@ -97,7 +97,7 @@ const IndexPages: React.FC<IndexPagesProps> = ({
               })}
               key={article?.id}
             >
-              {article?.ipfsContent?.name}
+              {article?.id}
             </StyledLink>
           ))}
         </Flex>
