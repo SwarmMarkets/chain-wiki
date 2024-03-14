@@ -82,7 +82,7 @@ const ProjectPage = () => {
         />
       )}
       <Box width='900px'>
-        <Flex $gap='15px' alignItems='end'>
+        <Flex $gap='15px' flexDirection='column'>
           <Text.h1 size={theme.fontSizes.large} weight={700}>
             {nft?.name}
           </Text.h1>
