@@ -139,9 +139,7 @@ const TokenPage = () => {
           </TabContext>
         </Box>
 
-        {isReadTab && contentElem && (
-          <StyledContent contentElem={contentElem} />
-        )}
+        {isReadTab && <StyledContent contentElem={contentElem} />}
       </Flex>
     </TokenContextProvider>
   )

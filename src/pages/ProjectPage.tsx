@@ -128,9 +128,7 @@ const ProjectPage = () => {
           </TabPanel>
         </TabContext>
       </Box>
-      {isProjectTab && contentElem && (
-        <StyledContent contentElem={contentElem} />
-      )}
+      {isProjectTab && <StyledContent contentElem={contentElem} />}
     </Flex>
   )
 }

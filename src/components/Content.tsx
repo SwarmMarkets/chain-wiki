@@ -8,12 +8,22 @@ import Text from './ui/Text'
 import Divider from './ui/Divider'
 
 interface ContentProps {
-  contentElem: HTMLDivElement
+  contentElem: HTMLDivElement | null
   className?: string
 }
 
 const Content: React.FC<ContentProps> = ({ contentElem, className }) => {
   const { t } = useTranslation('contents')
+
+  if (!contentElem) {
+    return (
+      <div className={className}>
+        <Text.h3>{t('title')}</Text.h3>
+        <Divider my='10px' />
+        <Text.p>{t('contentNotFound')}</Text.p>
+      </div>
+    )
+  }
 
   const headings = contentElem?.querySelectorAll('h1, h2')
 
