@@ -101,11 +101,11 @@ const TokenPage = () => {
         justifyContent={isReadTab && allLoaded ? 'space-between' : 'center'}
         $gap='20px'
       >
-        {isReadTab && nft && fullTokens && (
+        {isReadTab && (
           <StyledIndexPages
             tokens={fullTokens}
             project={nft}
-            indexPages={nft.ipfsContent?.indexPages}
+            indexPages={nft?.ipfsContent?.indexPages}
           />
         )}
         <Box width='900px'>

@@ -15,7 +15,7 @@ import UpdateProjectContentButton from '../UpdateContent/UpdateProjectContentBut
 
 interface IndexPagesProps {
   tokens: TokensQueryFullData[] | null
-  project: NFTQueryFullData
+  project: NFTQueryFullData | null
   indexPages?: string[] | null
 }
 
@@ -24,11 +24,11 @@ const IndexPages: React.FC<IndexPagesProps> = ({
   project,
   ...props
 }) => {
-  const { permissions } = useProjectPermissions(project.id)
+  const { permissions } = useProjectPermissions(project?.id)
   const { t } = useTranslation(['project', 'buttons'])
   const [isEdit, setIsEdit] = useState(false)
   const [selectedIndexes, setSelectedIndexes] = useState<string[]>(
-    project.ipfsContent?.indexPages || []
+    project?.ipfsContent?.indexPages || []
   )
 
   const handleSaveButton = () => {
@@ -52,10 +52,10 @@ const IndexPages: React.FC<IndexPagesProps> = ({
 
   const visibleIndexPages = useMemo(
     () =>
-      project.ipfsContent?.indexPages
+      project?.ipfsContent?.indexPages
         ?.map(id => tokens?.find(token => token?.id === id))
         .filter(token => token?.ipfsContent?.name),
-    [tokens, project.ipfsContent?.indexPages]
+    [tokens, project?.ipfsContent?.indexPages]
   )
   const noTokens = notEmptyTokens?.length === 0
   if (noTokens) {
@@ -92,7 +92,7 @@ const IndexPages: React.FC<IndexPagesProps> = ({
           {visibleIndexPages?.map(token => (
             <StyledLink
               to={generatePath(RoutePaths.PROJECT + RoutePaths.TOKEN, {
-                projectId: project.id,
+                projectId: project?.id,
                 tokenId: token?.id,
               })}
               key={token?.id}
@@ -105,7 +105,7 @@ const IndexPages: React.FC<IndexPagesProps> = ({
 
       {permissions.canUpdateContent && (
         <Flex mt='10px'>
-          {isEdit ? (
+          {isEdit && project ? (
             <UpdateProjectContentButton
               projectAddress={project.id}
               onSuccess={handleSaveButton}

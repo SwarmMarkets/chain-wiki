@@ -74,11 +74,11 @@ const ProjectPage = () => {
       justifyContent={isProjectTab && allLoaded ? 'space-between' : 'center'}
       $gap='20px'
     >
-      {activeProjectTab === ProjectTabs.PROJECT && nft && (
+      {activeProjectTab === ProjectTabs.PROJECT && (
         <StyledIndexPages
           tokens={fullTokens}
           project={nft}
-          indexPages={nft.ipfsContent?.indexPages}
+          indexPages={nft?.ipfsContent?.indexPages}
         />
       )}
       <Box width='900px'>
