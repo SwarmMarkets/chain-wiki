@@ -62,6 +62,8 @@ const AttestationDrawer: React.FC<AttestationDrawerProps> = ({
           <HtmlRender html={section.htmlContent || ''} />
           <Divider />
           <AttestationList
+            projectAddress={projectId}
+            articleAddress={articleId}
             attestations={fullComments}
             loading={showSkeletons}
           />

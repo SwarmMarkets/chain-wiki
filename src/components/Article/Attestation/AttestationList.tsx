@@ -4,16 +4,23 @@ import dayjs from 'dayjs'
 import React from 'react'
 import AttestationCard from './AttestationCard'
 import AttestationCardSkeleton from './AttestationCardSkeleton'
+import { useSX1155NFT } from '@src/hooks/contracts/useSX1155NFT'
 
 interface AttestationListProps {
   attestations: CommentsQueryFullData[] | null
   loading: boolean
+  articleAddress: string
+  projectAddress: string
 }
 
 const AttestationList: React.FC<AttestationListProps> = ({
   attestations,
   loading,
+  articleAddress,
+  projectAddress,
 }) => {
+  const { call, txLoading } = useSX1155NFT(projectAddress)
+
   if (loading) {
     return (
       <Flex flexDirection='column' py={20} $gap='10px'>
@@ -24,9 +31,11 @@ const AttestationList: React.FC<AttestationListProps> = ({
     )
   }
 
-  const handleDeleteAttestation = (id: string) => {
-    console.log(id)
-    // TODO: implement attestation deleting
+  const handleDeleteAttestation = (attestationId: string) => {
+    const tokenId = Number(articleAddress.split('-')[1])
+    const commentId = Number(attestationId.split('-')[2])
+    console.log(tokenId, commentId)
+    return call('deleteAttestation', [tokenId, commentId])
   }
 
   return (
