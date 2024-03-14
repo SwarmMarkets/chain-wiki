@@ -4,6 +4,16 @@ import shouldForwardProp from '@styled-system/should-forward-prop'
 import icons from '@src/shared/consts/icons'
 import { PositionProps, SpaceProps, position, space } from 'styled-system'
 
+export type Cursor =
+  | 'help'
+  | 'wait'
+  | 'crosshair'
+  | 'not-allowed'
+  | 'zoom-in'
+  | 'grab'
+  | 'pointer'
+  | 'default'
+
 interface IconProps
   extends HTMLAttributes<HTMLDivElement>,
     SpaceProps,
@@ -13,11 +23,13 @@ interface IconProps
   width?: number
   height?: number
   color?: string
+  cursor?: Cursor
 }
 
 interface IconWrapperProps {
   $width: number
   $height: number
+  cursor?: Cursor
 }
 
 const IconWrapper = styled.div.withConfig({
@@ -25,6 +37,7 @@ const IconWrapper = styled.div.withConfig({
 })<IconWrapperProps>`
   width: ${props => props.$width}px;
   height: ${props => props.$height}px;
+  cursor: ${props => props.cursor || 'default'};
   svg {
     path {
       fill: ${props => props.color};
@@ -40,6 +53,7 @@ const Icon: React.FC<IconProps> = ({
   width,
   height,
   color,
+  cursor,
   ...props
 }) => {
   const IconComponent = icons[name]
@@ -50,6 +64,7 @@ const Icon: React.FC<IconProps> = ({
         $width={width || size}
         $height={height || size}
         color={color}
+        cursor={cursor}
         {...props}
       >
         <IconComponent width={width || size} height={height || size} />
