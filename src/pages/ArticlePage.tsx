@@ -6,6 +6,7 @@ import HistoryArticle from '@src/components/History/HistoryArticle'
 import { StyledIndexPages } from '@src/components/Project/styled-components'
 import { TokenContextProvider } from '@src/components/providers/TokenContext'
 import Box from '@src/components/ui/Box'
+import Breadcrumbs from '@src/components/ui/Breadcrumbs'
 import Flex from '@src/components/ui/Flex'
 import Tabs from '@src/components/ui/Tabs'
 import Tab from '@src/components/ui/Tabs/Tab'
@@ -87,8 +88,15 @@ const ArticlePage = () => {
     )
   }
 
+  const breadCrumbs = nft &&
+    token && [
+      { label: nft.name, to: `/project/${projectId}` },
+      { label: token.id },
+    ]
+
   return (
     <TokenContextProvider value={token}>
+      <Breadcrumbs items={breadCrumbs || []} />
       <Flex
         justifyContent={isReadTab && allLoaded ? 'space-between' : 'center'}
         $gap='20px'
