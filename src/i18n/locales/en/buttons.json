@@ -4,5 +4,6 @@
   "compare": "Compare selected revisions",
   "retry": "Retry",
   "edit": "Edit",
-  "save": "Save"
+  "save": "Save",
+  "delete": "Delete"
 }

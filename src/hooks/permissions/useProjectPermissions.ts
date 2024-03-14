@@ -8,6 +8,8 @@ export interface Permissions {
   canUpdateContent: boolean
   canCreateArticle: boolean
   canManageRoles: boolean
+  canCreateAttestation: boolean
+  canDeleteAttestation: boolean
 }
 
 type HasPermissionsFunction = (permission: keyof Permissions) => boolean
@@ -17,6 +19,8 @@ const initialPermissions: Permissions = {
   canUpdateContent: false,
   canCreateArticle: false,
   canManageRoles: false,
+  canCreateAttestation: false,
+  canDeleteAttestation: false,
 }
 
 const useProjectPermissions = (projectAddress?: string) => {
@@ -48,6 +52,8 @@ const useProjectPermissions = (projectAddress?: string) => {
       canManageRoles: isAdmin,
       canUpdateContent: isEditor,
       canCreateArticle: isEditor,
+      canCreateAttestation: connected === 'connected',
+      canDeleteAttestation: isEditor,
     }
   }, [account, connected, nft])
 

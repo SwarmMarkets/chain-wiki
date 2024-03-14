@@ -3,34 +3,33 @@ import ExplorerLink from '@src/components/common/ExplorerLink'
 import Card from '@src/components/ui/Card'
 import Flex from '@src/components/ui/Flex'
 import Text from '@src/components/ui/Text'
-import Icon from '@src/components/ui/Icon'
 import { shortenAddress } from '@thirdweb-dev/react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import styled, { useTheme } from 'styled-components'
+import { useTheme } from 'styled-components'
+// import Button from '@src/components/ui/Button/Button'
+// import RequirePermissions from '@src/components/common/RequirePermissions'
 
 interface AttestationCardProps {
+  // projectAddress: string
   address: string
   message: string
   date: string
-  onDelete: () => void
+  // onDelete?: () => void
 }
-
-const XmarkIcon = styled(Icon)`
-  cursor: pointer;
-`
 
 const AttestationCard: React.FC<AttestationCardProps> = ({
   address,
   message,
   date,
-  onDelete,
+  // onDelete,
+  // projectAddress,
 }) => {
   const theme = useTheme()
-  const { t } = useTranslation('article')
+  const { t } = useTranslation(['article', 'buttons'])
 
   return (
-    <Card position='relative'>
+    <Card>
       <Flex alignItems='center' justifyContent='space-between'>
         <Flex alignItems='center' $gap='5px'>
           <Text weight={theme.fontWeights.bold}>{t('attestation.author')}</Text>
@@ -39,16 +38,13 @@ const AttestationCard: React.FC<AttestationCardProps> = ({
           </ExplorerLink>
         </Flex>
         <Text color={theme.palette.gray}>{date}</Text>
-        <XmarkIcon
-          onClick={onDelete}
-          size={16}
-          name='xmark'
-          position='absolute'
-          top='8px'
-          right='8px'
-        />
       </Flex>
       <HtmlRender html={message} />
+      {/* <RequirePermissions projectAddress={projectAddress} canDeleteAttestation>
+        <Button mt='8px' onClick={onDelete}>
+          {t('delete', { ns: 'buttons' })}
+        </Button>
+      </RequirePermissions> */}
     </Card>
   )
 }

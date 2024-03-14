@@ -6,12 +6,12 @@ import Drawer from '@src/components/ui/Drawer'
 import Flex from '@src/components/ui/Flex'
 import { useTranslation } from 'react-i18next'
 import { useState } from 'react'
-import useProjectPermissions from '@src/hooks/permissions/useProjectPermissions'
 import MakeAttestationButton from '@src/components/UpdateContent/MakeAttestationButton'
 import { useParams } from 'react-router-dom'
 import { SelectedSection } from '../ArticleView/ArticleView'
 import useComments from '@src/hooks/subgraph/useComments'
 import AttestationList from './AttestationList'
+import RequirePermissions from '@src/components/common/RequirePermissions'
 
 interface AttestationDrawerProps {
   isOpen: boolean
@@ -26,7 +26,6 @@ const AttestationDrawer: React.FC<AttestationDrawerProps> = ({
 }) => {
   const { projectId = '', articleId = '' } = useParams()
   const { t } = useTranslation('article')
-  const { permissions } = useProjectPermissions()
   const [editorContent, setEditorContent] = useState('')
 
   const { fullComments, refetchingComments, loadingComments } = useComments(
@@ -62,13 +61,13 @@ const AttestationDrawer: React.FC<AttestationDrawerProps> = ({
           <HtmlRender html={section.htmlContent || ''} />
           <Divider />
           <AttestationList
-            projectAddress={projectId}
-            articleAddress={articleId}
+            // projectAddress={projectId}
+            // articleAddress={articleId}
             attestations={fullComments}
             loading={showSkeletons}
           />
         </Box>
-        {permissions.canCreateProject && (
+        <RequirePermissions projectAddress={projectId} canCreateAttestation>
           <Flex flexDirection='column'>
             <LiteEditor
               height={200}
@@ -85,7 +84,7 @@ const AttestationDrawer: React.FC<AttestationDrawerProps> = ({
               {t('attestation.send')}
             </MakeAttestationButton>
           </Flex>
-        )}
+        </RequirePermissions>
       </Flex>
     </Drawer>
   )
