@@ -1,7 +1,7 @@
 {
   "tabs": {
     "project": "Project",
-    "tokens": "Tokens",
+    "tokens": "Pages",
     "edit": "Edit project",
     "manageRoles": "Manage Roles",
     "history": "History"
@@ -81,6 +81,6 @@
   "indexPages": {
     "title": "Index Pages",
     "noIndexPages": "Index pages does not exist",
-    "noTokens": "Tokens does not exist"
+    "noTokens": "Pages does not exist"
   }
 }

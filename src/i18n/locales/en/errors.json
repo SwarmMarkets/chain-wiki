@@ -7,7 +7,7 @@
     "contentNotFound": "Content is not found"
   },
   "token": {
-    "pendingDetails": "This token is pending details to be added by an admin."
+    "pendingDetails": "This page is pending details to be added by an admin."
   },
   "voteOnProposal": {
     "genericError": "Your vote wasn't counted due to an error. Please try again."
