@@ -66,6 +66,7 @@ const ExplorerLink: React.FC<ExplorerLinkProps> = ({
       <StyledLink onClick={handleLinkClick}>
         <Flex $gap='5px' alignItems='center'>
           <Icon
+            cursor='pointer'
             name='externalLink'
             size={20}
             color={theme.palette.linkPrimary}
