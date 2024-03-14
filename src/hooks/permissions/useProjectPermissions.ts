@@ -6,7 +6,7 @@ import { isSameEthereumAddress, unifyAddressToId } from '@src/shared/utils/web3'
 export interface Permissions {
   canCreateProject: boolean
   canUpdateContent: boolean
-  canCreateArticle: boolean
+  canCreateToken: boolean
   canManageRoles: boolean
   canCreateAttestation: boolean
   canDeleteAttestation: boolean
@@ -17,7 +17,7 @@ type HasPermissionsFunction = (permission: keyof Permissions) => boolean
 const initialPermissions: Permissions = {
   canCreateProject: false,
   canUpdateContent: false,
-  canCreateArticle: false,
+  canCreateToken: false,
   canManageRoles: false,
   canCreateAttestation: false,
   canDeleteAttestation: false,
@@ -51,7 +51,7 @@ const useProjectPermissions = (projectAddress?: string) => {
       canCreateProject: connected === 'connected',
       canManageRoles: isAdmin,
       canUpdateContent: isEditor,
-      canCreateArticle: isEditor,
+      canCreateToken: isEditor,
       canCreateAttestation: connected === 'connected',
       canDeleteAttestation: isEditor,
     }

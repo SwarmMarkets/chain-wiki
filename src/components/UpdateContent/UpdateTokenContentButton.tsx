@@ -1,7 +1,7 @@
 import { useSX1155NFT } from '@src/hooks/contracts/useSX1155NFT'
 import useModalState from '@src/hooks/useModalState'
-import { IpfsArticleContent } from '@src/shared/types/ipfs'
-import { generateIpfsArticleContent } from '@src/shared/utils/ipfs'
+import { IpfsTokenContent } from '@src/shared/types/ipfs'
+import { generateIpfsTokenContent } from '@src/shared/utils/ipfs'
 import { useStorageUpload } from '@thirdweb-dev/react'
 import { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -11,14 +11,14 @@ import { ChildrenProp } from '@src/shared/types/common-props'
 import useToken from '@src/hooks/subgraph/useToken'
 import { getUniqueId } from '@src/shared/utils'
 
-interface UpdateArticleContentButtonProps extends ButtonProps, ChildrenProp {
+interface UpdateTokenContentButtonProps extends ButtonProps, ChildrenProp {
   articleAddress: string
   projectAddress: string
-  articleContentToUpdate: Partial<IpfsArticleContent>
+  articleContentToUpdate: Partial<IpfsTokenContent>
   onSuccess?(): void
 }
 
-const UpdateArticleContentButton: React.FC<UpdateArticleContentButtonProps> = ({
+const UpdateTokenContentButton: React.FC<UpdateTokenContentButtonProps> = ({
   articleAddress,
   projectAddress,
   articleContentToUpdate,
@@ -69,7 +69,7 @@ const UpdateArticleContentButton: React.FC<UpdateArticleContentButtonProps> = ({
       content.htmlContent = contentElem.innerHTML
     }
 
-    const ipfsContent = generateIpfsArticleContent(content)
+    const ipfsContent = generateIpfsTokenContent(content)
     const filesToUpload = [ipfsContent]
     const uris = await upload({ data: filesToUpload })
     const firstUri = uris[0]
@@ -138,4 +138,4 @@ const UpdateArticleContentButton: React.FC<UpdateArticleContentButtonProps> = ({
   )
 }
 
-export default UpdateArticleContentButton
+export default UpdateTokenContentButton

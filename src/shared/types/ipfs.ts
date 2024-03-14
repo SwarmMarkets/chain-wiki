@@ -28,7 +28,7 @@ export interface IpfsVoteProposal {
   timestamp: number
 }
 
-export interface IpfsArticleContent {
+export interface IpfsTokenContent {
   name: string
   address: string
   tokenId: number
@@ -54,17 +54,17 @@ export type NftUriUpdatesQueryFullData =
   }
 
 export type TokenQueryFullData = TokenQuery['token'] & {
-  ipfsContent?: IpfsArticleContent
+  ipfsContent?: IpfsTokenContent
 }
 
 export type TokensQueryFullData = TokensQuery['tokens'][0] & {
-  ipfsContent?: IpfsArticleContent
+  ipfsContent?: IpfsTokenContent
 }
 
 export type TokenUriUpdatesQueryFullData =
   TokenUriUpdatesQuery['tokenURIUpdates'][0] & {
-    ipfsNewUriContent?: IpfsArticleContent
-    ipfsPrevUriContent?: IpfsArticleContent
+    ipfsNewUriContent?: IpfsTokenContent
+    ipfsPrevUriContent?: IpfsTokenContent
   }
 
 export type CommentsQueryFullData = CommentsQuery['comments'][0] & {

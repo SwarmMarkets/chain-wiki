@@ -1,4 +1,4 @@
-export enum ArticleTabs {
+export enum TokenTabs {
   READ = 'read',
   EDIT = 'edit',
   HISTORY = 'history',

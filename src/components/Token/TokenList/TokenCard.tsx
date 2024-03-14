@@ -1,24 +1,24 @@
 import Card from '@src/components/ui/Card'
 import Text from '@src/components/ui/Text'
 import RoutePaths from '@src/shared/enums/routes-paths'
-import { IpfsArticleContent } from '@src/shared/types/ipfs'
+import { IpfsTokenContent } from '@src/shared/types/ipfs'
 import { getTextContentFromHtml, limitString } from '@src/shared/utils'
 import { generatePath } from 'react-router-dom'
-import ArticleEmptyCard from './ArticleEmptyCard'
+import TokenEmptyCard from './TokenEmptyCard'
 
-interface ArticleCardProps {
+interface TokenCardProps {
   articleId: string
   projectId: string
-  content?: IpfsArticleContent
+  content?: IpfsTokenContent
 }
 
-const ArticleCard: React.FC<ArticleCardProps> = ({
+const TokenCard: React.FC<TokenCardProps> = ({
   articleId,
   projectId,
   content,
 }) => {
   if (content?.error || !content) {
-    return <ArticleEmptyCard articleId={articleId} projectId={projectId} />
+    return <TokenEmptyCard articleId={articleId} projectId={projectId} />
   }
 
   return (
@@ -36,4 +36,4 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
   )
 }
 
-export default ArticleCard
+export default TokenCard

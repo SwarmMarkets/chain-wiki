@@ -14,7 +14,7 @@ import {
   VoteProposalVariant,
   VoteProposalWrap,
 } from './styled-components'
-import UpdateArticleContentButton from '@src/components/UpdateContent/UpdateArticleContentButton'
+import UpdateTokenContentButton from '@src/components/UpdateContent/UpdateTokenContentButton'
 
 interface ReviewVoteProposalProps {
   voteProposal: VoteProposal
@@ -105,7 +105,7 @@ const ReviewVoteProposal: React.FC<ReviewVoteProposalProps> = ({
       </VoteProposalWrap>
 
       {token && (
-        <UpdateArticleContentButton
+        <UpdateTokenContentButton
           width='100%'
           articleAddress={token?.id}
           articleContentToUpdate={{ voteProposal: proposal }}
@@ -113,7 +113,7 @@ const ReviewVoteProposal: React.FC<ReviewVoteProposalProps> = ({
           onSuccess={nextStep}
         >
           {t('submit')}
-        </UpdateArticleContentButton>
+        </UpdateTokenContentButton>
       )}
     </Flex>
   )

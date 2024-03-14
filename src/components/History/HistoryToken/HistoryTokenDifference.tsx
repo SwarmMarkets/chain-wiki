@@ -11,22 +11,22 @@ import {
 import HistoryDifferenceSkeleton from '../HistoryDIfferenceSkeleton'
 import { useTranslation } from 'react-i18next'
 
-const HistoryArticleDifference = () => {
+const HistoryTokenDifference = () => {
   const location = useLocation()
   const { t } = useTranslation('history')
   const {
-    oldArticleId,
-    newArticleId,
-  }: { oldArticleId?: string; newArticleId?: string } = useMemo(
+    oldTokenId,
+    newTokenId,
+  }: { oldTokenId?: string; newTokenId?: string } = useMemo(
     () => queryString.parse(location.search),
     [location.search]
   )
   const { fullTokenUriTokens } = useTokenURIUpdates(
-    oldArticleId || '',
+    oldTokenId || '',
     {
       variables: {
         filter: {
-          or: [{ id: newArticleId }, { id: oldArticleId }],
+          or: [{ id: newTokenId }, { id: oldTokenId }],
         },
         orderBy: TokenUriUpdate_OrderBy.UpdatedAt,
         orderDirection: OrderDirection.Asc,
@@ -67,4 +67,4 @@ const HistoryArticleDifference = () => {
   )
 }
 
-export default HistoryArticleDifference
+export default HistoryTokenDifference

@@ -2,19 +2,16 @@ import AttestationHtmlRenderWrapper from '@src/components/HtmlRender/Attestation
 import ContentMissing from '@src/components/common/ContentMissing'
 import Flex from '@src/components/ui/Flex'
 import { useRef, useState } from 'react'
-import { ArticleViewProps } from '.'
+import { TokenViewProps } from '.'
 import AttestationDrawer from '../Attestation/AttestationDrawer'
-import ArticleViewActions from './ArticleViewActions'
+import TokenViewActions from './TokenViewActions'
 
 export interface SelectedSection {
   id: string | null
   htmlContent: string | null
 }
 
-export const ArticleView: React.FC<ArticleViewProps> = ({
-  article,
-  onMount,
-}) => {
+export const TokenView: React.FC<TokenViewProps> = ({ article, onMount }) => {
   const [selectedSection, setSelectedSection] = useState<SelectedSection>({
     id: null,
     htmlContent: null,
@@ -39,7 +36,7 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
   }
 
   if (!article?.ipfsContent?.htmlContent)
-    return <ContentMissing message='Article content missing' />
+    return <ContentMissing message='Token content missing' />
 
   const isOpen = !!(selectedSection.htmlContent && selectedSection.id)
 
@@ -53,7 +50,7 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
       />
 
       <Flex justifyContent='flex-end' mt={3}>
-        <ArticleViewActions />
+        <TokenViewActions />
       </Flex>
 
       <AttestationDrawer

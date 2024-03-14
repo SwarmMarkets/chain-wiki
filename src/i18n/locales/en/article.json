@@ -58,8 +58,8 @@
   },
   "vote": "Vote",
   "connectProposal": "Connect Proposal",
-  "addArticle": "Add Article",
-  "updateArticle": "Update",
+  "addToken": "Add Token",
+  "updateToken": "Update",
   "attestation": {
     "title": "Attestation",
     "send": "Send",

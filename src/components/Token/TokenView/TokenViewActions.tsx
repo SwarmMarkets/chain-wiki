@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next'
 import UploadVoteProposalModal from '../UploadVoteProposal/UploadVoteProposalModal'
 import VoteOnProposalButton from '../VoteOnProposal'
 
-const ArticleViewActions: React.FC = () => {
+const TokenViewActions: React.FC = () => {
   const { t } = useTranslation('article')
   const token = useTokenContext()
   const uploadVoteProposal = useModalState(false)
@@ -45,4 +45,4 @@ const ArticleViewActions: React.FC = () => {
   )
 }
 
-export default ArticleViewActions
+export default TokenViewActions

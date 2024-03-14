@@ -1,8 +1,8 @@
-import ArticleContentSkeleton from '@src/components/Article/ArticleContentSkeleton'
-import ArticleView from '@src/components/Article/ArticleView'
-import { StyledContent } from '@src/components/Article/styled-components'
+import TokenContentSkeleton from '@src/components/Token/TokenContentSkeleton'
+import TokenView from '@src/components/Token/TokenView'
+import { StyledContent } from '@src/components/Token/styled-components'
 import Editor from '@src/components/Editor'
-import HistoryArticle from '@src/components/History/HistoryArticle'
+import HistoryToken from '@src/components/History/HistoryToken'
 import { StyledIndexPages } from '@src/components/Project/styled-components'
 import { TokenContextProvider } from '@src/components/providers/TokenContext'
 import Box from '@src/components/ui/Box'
@@ -17,7 +17,7 @@ import useProjectPermissions from '@src/hooks/permissions/useProjectPermissions'
 import useNFT from '@src/hooks/subgraph/useNFT'
 import useToken from '@src/hooks/subgraph/useToken'
 import useTokens from '@src/hooks/subgraph/useTokens'
-import { ArticleTabs } from '@src/shared/enums/tabs'
+import { TokenTabs } from '@src/shared/enums/tabs'
 import { Tab as ITab } from '@src/shared/types/ui-components'
 import { unifyAddressToId } from '@src/shared/utils'
 import queryString from 'query-string'
@@ -30,7 +30,7 @@ import {
   useSearchParams,
 } from 'react-router-dom'
 
-const ArticlePage = () => {
+const TokenPage = () => {
   const { articleId = '', projectId = '' } = useParams()
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
@@ -38,7 +38,7 @@ const ArticlePage = () => {
   const { t } = useTranslation('article')
   const { permissions } = useProjectPermissions(projectId)
 
-  const initialTab = searchParams.get('tab') || ArticleTabs.READ
+  const initialTab = searchParams.get('tab') || TokenTabs.READ
   const [activeTab, setActiveTab] = useState(initialTab)
 
   const [contentElem, setContentElem] = useState<HTMLDivElement | null>(null)
@@ -57,7 +57,7 @@ const ArticlePage = () => {
 
   const onChangeTab = (tab: ITab) => {
     setActiveTab(tab.value)
-    if (tab.value === ArticleTabs.READ) {
+    if (tab.value === TokenTabs.READ) {
       const params = queryString.exclude(location.search, ['tab'])
       navigate({ search: params })
       return
@@ -67,7 +67,7 @@ const ArticlePage = () => {
   }
 
   const handleSuccessUpdate = () => {
-    setActiveTab(ArticleTabs.READ)
+    setActiveTab(TokenTabs.READ)
     const params = queryString.exclude(location.search, ['tab'])
     navigate({ search: params })
   }
@@ -76,13 +76,13 @@ const ArticlePage = () => {
     setContentElem(element)
   }
 
-  const isReadTab = activeTab === ArticleTabs.READ
+  const isReadTab = activeTab === TokenTabs.READ
 
   if (showSkeleton) {
     return (
       <Flex justifyContent='center' $gap='20px'>
         <Box width='900px'>
-          <ArticleContentSkeleton />
+          <TokenContentSkeleton />
         </Box>
       </Flex>
     )
@@ -115,17 +115,17 @@ const ArticlePage = () => {
 
           <TabContext value={activeTab}>
             <Tabs onChange={onChangeTab}>
-              <Tab value={ArticleTabs.READ} label={t('tabs.read')} />
+              <Tab value={TokenTabs.READ} label={t('tabs.read')} />
               {permissions.canUpdateContent && (
-                <Tab value={ArticleTabs.EDIT} label={t('tabs.edit')} />
+                <Tab value={TokenTabs.EDIT} label={t('tabs.edit')} />
               )}
-              <Tab value={ArticleTabs.HISTORY} label={t('tabs.history')} />
+              <Tab value={TokenTabs.HISTORY} label={t('tabs.history')} />
             </Tabs>
 
-            <TabPanel value={ArticleTabs.READ}>
-              <ArticleView article={token} onMount={onMount} />
+            <TabPanel value={TokenTabs.READ}>
+              <TokenView article={token} onMount={onMount} />
             </TabPanel>
-            <TabPanel value={ArticleTabs.EDIT}>
+            <TabPanel value={TokenTabs.EDIT}>
               <Editor
                 onSuccessUpdate={handleSuccessUpdate}
                 initialContent={token?.ipfsContent?.htmlContent || ''}
@@ -133,8 +133,8 @@ const ArticlePage = () => {
                 articleAddress={token?.id}
               />
             </TabPanel>
-            <TabPanel value={ArticleTabs.HISTORY}>
-              <HistoryArticle />
+            <TabPanel value={TokenTabs.HISTORY}>
+              <HistoryToken />
             </TabPanel>
           </TabContext>
         </Box>
@@ -147,4 +147,4 @@ const ArticlePage = () => {
   )
 }
 
-export default ArticlePage
+export default TokenPage

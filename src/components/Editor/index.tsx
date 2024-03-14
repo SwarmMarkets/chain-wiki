@@ -7,7 +7,7 @@ import { Editor as TinyEditorType } from 'tinymce'
 import RequirePermissions from '../common/RequirePermissions'
 import Flex from '../ui/Flex'
 import EditorSkeleton from './EditorSkeleton'
-import UpdateArticleContentButton from '../UpdateContent/UpdateArticleContentButton'
+import UpdateTokenContentButton from '../UpdateContent/UpdateTokenContentButton'
 import UpdateProjectContentButton from '../UpdateContent/UpdateProjectContentButton'
 import { findElementWithMatchedDataId } from './utils'
 
@@ -123,7 +123,7 @@ const Editor: React.FC<EditorProps> = ({
         <Flex justifyContent='flex-end'>
           <RequirePermissions projectAddress={projectAddress} canUpdateContent>
             {articleAddress ? (
-              <UpdateArticleContentButton
+              <UpdateTokenContentButton
                 onSuccess={onSuccessUpdate}
                 articleAddress={articleAddress}
                 projectAddress={projectAddress}

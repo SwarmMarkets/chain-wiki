@@ -1,10 +1,9 @@
-
 import { TokenQueryFullData } from '@src/shared/types/ipfs'
-import { ArticleView } from './ArticleView'
+import { TokenView } from './TokenView'
 
-export interface ArticleViewProps {
+export interface TokenViewProps {
   article?: TokenQueryFullData | null
   onMount: (element: HTMLDivElement) => void
 }
 
-export default ArticleView
+export default TokenView

@@ -1,4 +1,4 @@
-import ArticleList from '@src/components/Article/ArticleList'
+import TokenList from '@src/components/Token/TokenList'
 import Editor from '@src/components/Editor'
 import HistoryProject from '@src/components/History/HistoryProject'
 import ProjectContentSkeleton from '@src/components/Project/ProjectContentSkeleton'
@@ -107,7 +107,7 @@ const ProjectPage = () => {
             <ProjectView project={nft} onMount={onMountContent} />
           </TabPanel>
           <TabPanel value={ProjectTabs.ARTICLES}>
-            <ArticleList
+            <TokenList
               articles={fullTokens}
               loading={tokensLoading}
               projectAddress={projectId!}

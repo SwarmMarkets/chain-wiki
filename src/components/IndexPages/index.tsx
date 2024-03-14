@@ -45,7 +45,7 @@ const IndexPages: React.FC<IndexPagesProps> = ({
     }
   }
 
-  const notEmptyArticles = useMemo(
+  const notEmptyTokens = useMemo(
     () => articles?.filter(article => article?.ipfsContent?.name),
     [articles]
   )
@@ -57,13 +57,13 @@ const IndexPages: React.FC<IndexPagesProps> = ({
         .filter(article => article?.ipfsContent?.name),
     [articles, project.ipfsContent?.indexPages]
   )
-  const noArticles = notEmptyArticles?.length === 0
-  if (noArticles) {
+  const noTokens = notEmptyTokens?.length === 0
+  if (noTokens) {
     return (
       <Box {...props}>
         <Text.h3>{t('indexPages.title')}</Text.h3>
         <Divider my='10px' />
-        <Text.p>{t('indexPages.noArticles')}</Text.p>
+        <Text.p>{t('indexPages.noTokens')}</Text.p>
       </Box>
     )
   }
@@ -76,7 +76,7 @@ const IndexPages: React.FC<IndexPagesProps> = ({
       <Divider my='10px' />
       {isEdit ? (
         <Flex flexDirection='column' $gap='8px' py='8px'>
-          {notEmptyArticles?.map(article => (
+          {notEmptyTokens?.map(article => (
             <EditableItem key={article?.id}>
               <Checkbox
                 checked={selectedIndexes.includes(article.id)}

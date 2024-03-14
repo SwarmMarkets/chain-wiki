@@ -1,7 +1,7 @@
 export { default as LayoutEn } from './layout.json'
 export { default as ErrorsEn } from './errors.json'
 export { default as ProjectEn } from './project.json'
-export { default as ArticleEn } from './article.json'
+export { default as TokenEn } from './article.json'
 export { default as ContentsEn } from './contents.json'
 export { default as ButtonsEn } from './buttons.json'
 export { default as UpdateContentEn } from './update-content.json'

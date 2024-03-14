@@ -2,7 +2,7 @@ import { forwardRef, useEffect, useRef } from 'react'
 import { HtmlRenderProps } from '.'
 import { HtmlRenderHover } from './styled-components'
 import { createCommentIconElement } from './utils'
-import { SelectedSection } from '../Article/ArticleView/ArticleView'
+import { SelectedSection } from '../Token/TokenView/TokenView'
 
 interface AttestationHtmlRenderProps extends HtmlRenderProps {
   onSelectSection: (section: SelectedSection) => void

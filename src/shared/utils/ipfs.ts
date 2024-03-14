@@ -1,6 +1,6 @@
 import { initialVoteProposal } from './../consts/ipfs/vote-proposal'
 import {
-  IpfsArticleContent,
+  IpfsTokenContent,
   IpfsAttestationContent,
   IpfsProjectContent,
 } from '../types/ipfs'
@@ -29,8 +29,8 @@ export const generateIpfsProjectContent = (args: IpfsProjectContent) => {
   return JSON.stringify(content)
 }
 
-export const generateIpfsArticleContent = (args: IpfsArticleContent) => {
-  const content: IpfsArticleContent = {
+export const generateIpfsTokenContent = (args: IpfsTokenContent) => {
+  const content: IpfsTokenContent = {
     tokenId: args.tokenId,
     name: args.name,
     address: args.address,

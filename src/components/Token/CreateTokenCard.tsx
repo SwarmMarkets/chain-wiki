@@ -18,11 +18,11 @@ const StyledCard = styled(Card)<StyledCardProps>`
   ${({ $disabled }) => $disabled && 'opacity: 0.4; filter: alpha(opacity=40);'}
 `
 
-interface CreateArticleCardProps {
+interface CreateTokenCardProps {
   projectAddress: string
 }
 
-const CreateArticleCard: React.FC<CreateArticleCardProps> = ({
+const CreateTokenCard: React.FC<CreateTokenCardProps> = ({
   projectAddress,
 }) => {
   const { t } = useTranslation('article')
@@ -56,7 +56,7 @@ const CreateArticleCard: React.FC<CreateArticleCardProps> = ({
             <Icon name={icon} size={50} color={theme.palette.borderPrimary} />
           </Box>
           <Text mt={2} color={theme.palette.borderPrimary}>
-            {t('addArticle')}
+            {t('addToken')}
           </Text>
         </Flex>
       </StyledCard>
@@ -64,4 +64,4 @@ const CreateArticleCard: React.FC<CreateArticleCardProps> = ({
   )
 }
 
-export default CreateArticleCard
+export default CreateTokenCard

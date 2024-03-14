@@ -1,8 +1,8 @@
 import { useMemo, useState } from 'react'
 import { Link, useLocation, useParams } from 'react-router-dom'
 import queryString from 'query-string'
-import HistoryArticleDifference from './HistoryArticleDifference'
-import HistoryArticleList from './HistoryArticleList'
+import HistoryTokenDifference from './HistoryTokenDifference'
+import HistoryTokenList from './HistoryTokenList'
 import {
   OrderDirection,
   TokenUriUpdate_OrderBy,
@@ -15,7 +15,7 @@ import useTokenURIUpdates from '@src/hooks/subgraph/useTokenURIUpdates'
 import HistoryCardSkeleton from '../HistoryCardSkeleton'
 import ContentMissing from '../../common/ContentMissing'
 
-const HistoryArticle = () => {
+const HistoryToken = () => {
   const { t } = useTranslation('buttons')
   const location = useLocation()
   const { articleId = '' } = useParams()
@@ -34,29 +34,29 @@ const HistoryArticle = () => {
 
   const mode = useMemo(() => {
     const params = queryString.parse(location.search)
-    if (params.oldArticleId && params.newArticleId) {
+    if (params.oldTokenId && params.newTokenId) {
       return 'difference'
     } else {
       return 'list'
     }
   }, [location.search])
-  const [selectedArticles, setSelectedArticles] = useState<
+  const [selectedTokens, setSelectedTokens] = useState<
     TokenUriUpdatesQuery['tokenURIUpdates']
   >([])
 
-  const onSelectArticles = (
+  const onSelectTokens = (
     articles: TokenUriUpdatesQuery['tokenURIUpdates']
   ) => {
-    setSelectedArticles(articles)
+    setSelectedTokens(articles)
   }
 
-  const sortedArticlesByUpdatedAt = useMemo(
-    () => selectedArticles.sort((a, b) => +a.updatedAt - +b.updatedAt),
-    [selectedArticles]
+  const sortedTokensByUpdatedAt = useMemo(
+    () => selectedTokens.sort((a, b) => +a.updatedAt - +b.updatedAt),
+    [selectedTokens]
   )
 
-if ((!tokenUriUpdates || !tokenUriUpdates.length) && !showSkeletons)
-    return <ContentMissing message='Article history missing' />
+  if ((!tokenUriUpdates || !tokenUriUpdates.length) && !showSkeletons)
+    return <ContentMissing message='Token history missing' />
 
   return (
     <div>
@@ -64,13 +64,13 @@ if ((!tokenUriUpdates || !tokenUriUpdates.length) && !showSkeletons)
         <Box>
           {tokenUriUpdates &&
             tokenUriUpdates?.length > 1 &&
-            (selectedArticles.length === 2 ? (
+            (selectedTokens.length === 2 ? (
               <Link
-                onClick={() => onSelectArticles([])}
+                onClick={() => onSelectTokens([])}
                 to={`?${queryString.stringify({
                   ...queryString.parse(location.search),
-                  oldArticleId: sortedArticlesByUpdatedAt[0]?.id,
-                  newArticleId: sortedArticlesByUpdatedAt[1]?.id,
+                  oldTokenId: sortedTokensByUpdatedAt[0]?.id,
+                  newTokenId: sortedTokensByUpdatedAt[1]?.id,
                 })}`}
               >
                 <Button>{t('compare')}</Button>
@@ -84,19 +84,19 @@ if ((!tokenUriUpdates || !tokenUriUpdates.length) && !showSkeletons)
                 <HistoryCardSkeleton key={index} />
               ))}
             {tokenUriUpdates && (
-              <HistoryArticleList
-                selectedArticles={selectedArticles}
-                onSelectArticles={onSelectArticles}
+              <HistoryTokenList
+                selectedTokens={selectedTokens}
+                onSelectTokens={onSelectTokens}
                 history={tokenUriUpdates}
               />
             )}
           </Box>
         </Box>
       ) : (
-        <HistoryArticleDifference />
+        <HistoryTokenDifference />
       )}
     </div>
   )
 }
 
-export default HistoryArticle
+export default HistoryToken

@@ -4,18 +4,18 @@ import Card from '@src/components/ui/Card'
 import Flex from '@src/components/ui/Flex'
 import Icon from '@src/components/ui/Icon'
 import Text from '@src/components/ui/Text'
-import { ArticleTabs } from '@src/shared/enums'
+import { TokenTabs } from '@src/shared/enums'
 import RoutePaths from '@src/shared/enums/routes-paths'
 import { useTranslation } from 'react-i18next'
 import { Link, generatePath } from 'react-router-dom'
 import { useTheme } from 'styled-components'
 
-interface ArticleEmptyCardProps {
+interface TokenEmptyCardProps {
   articleId: string
   projectId: string
 }
 
-const ArticleEmptyCard: React.FC<ArticleEmptyCardProps> = ({
+const TokenEmptyCard: React.FC<TokenEmptyCardProps> = ({
   articleId,
   projectId,
 }) => {
@@ -36,9 +36,9 @@ const ArticleEmptyCard: React.FC<ArticleEmptyCardProps> = ({
             to={`${generatePath(RoutePaths.PROJECT + RoutePaths.ARTICLE, {
               projectId,
               articleId: articleId,
-            })}?tab=${ArticleTabs.EDIT}`}
+            })}?tab=${TokenTabs.EDIT}`}
           >
-            <Button>{t('updateArticle', { ns: 'article' })}</Button>
+            <Button>{t('updateToken', { ns: 'article' })}</Button>
           </Link>
         </RequirePermissions>
       </Flex>
@@ -46,4 +46,4 @@ const ArticleEmptyCard: React.FC<ArticleEmptyCardProps> = ({
   )
 }
 
-export default ArticleEmptyCard
+export default TokenEmptyCard

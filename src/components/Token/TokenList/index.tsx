@@ -3,17 +3,17 @@ import { useParams } from 'react-router-dom'
 import ContentMissing from '../../common/ContentMissing'
 import RequirePermissions from '../../common/RequirePermissions'
 import Flex from '../../ui/Flex'
-import ArticleCardSkeleton from '../ArticleCardSkeleton'
-import CreateArticleCard from '../CreateArticleCard'
-import ArticleCard from './ArticleCard'
+import TokenCardSkeleton from '../TokenCardSkeleton'
+import CreateTokenCard from '../CreateTokenCard'
+import TokenCard from './TokenCard'
 
-interface ArticleListProps {
+interface TokenListProps {
   articles: TokensQueryFullData[] | null
   projectAddress: string
   loading?: boolean
 }
 
-const ArticleList: React.FC<ArticleListProps> = ({
+const TokenList: React.FC<TokenListProps> = ({
   articles,
   projectAddress,
   loading,
@@ -24,14 +24,14 @@ const ArticleList: React.FC<ArticleListProps> = ({
 
   return (
     <Flex flexDirection='column' $gap='10px'>
-      <RequirePermissions canCreateArticle projectAddress={projectId}>
-        <CreateArticleCard projectAddress={projectAddress} />
+      <RequirePermissions canCreateToken projectAddress={projectId}>
+        <CreateTokenCard projectAddress={projectAddress} />
       </RequirePermissions>
       {noContent ? (
-        <ContentMissing message='Articles missing' />
+        <ContentMissing message='Tokens missing' />
       ) : (
         articles?.map(article => (
-          <ArticleCard
+          <TokenCard
             key={article.id}
             articleId={article.id}
             projectId={projectId}
@@ -41,11 +41,9 @@ const ArticleList: React.FC<ArticleListProps> = ({
       )}
 
       {loading &&
-        [...new Array(5)].map((_, index) => (
-          <ArticleCardSkeleton key={index} />
-        ))}
+        [...new Array(5)].map((_, index) => <TokenCardSkeleton key={index} />)}
     </Flex>
   )
 }
 
-export default ArticleList
+export default TokenList

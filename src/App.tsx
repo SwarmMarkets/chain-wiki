@@ -12,7 +12,7 @@ import { ToastContainer } from 'react-toastify'
 import { ThemeProvider } from 'styled-components'
 import Layout from './components/common/Layout'
 import { environment } from './environment'
-import ArticlePage from './pages/ArticlePage'
+import TokenPage from './pages/TokenPage'
 import HomePage from './pages/HomePage'
 import ProjectPage from './pages/ProjectPage'
 import client from './services/apollo'
@@ -43,7 +43,7 @@ function App() {
                 <Route path={RoutePaths.PROJECT} element={<ProjectPage />} />
                 <Route
                   path={RoutePaths.PROJECT + RoutePaths.ARTICLE}
-                  element={<ArticlePage />}
+                  element={<TokenPage />}
                 />
                 <Route
                   path={RoutePaths.MY_PROJECTS}
