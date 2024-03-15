@@ -4,7 +4,7 @@ import useNFTRoles from '../subgraph/useNFTRoles'
 import { isSameEthereumAddress, unifyAddressToId } from '@src/shared/utils/web3'
 
 export interface Permissions {
-  canCreateProject: boolean
+  canCreateNft: boolean
   canUpdateContent: boolean
   canCreateToken: boolean
   canManageRoles: boolean
@@ -15,7 +15,7 @@ export interface Permissions {
 type HasPermissionsFunction = (permission: keyof Permissions) => boolean
 
 const initialPermissions: Permissions = {
-  canCreateProject: false,
+  canCreateNft: false,
   canUpdateContent: false,
   canCreateToken: false,
   canManageRoles: false,
@@ -23,7 +23,7 @@ const initialPermissions: Permissions = {
   canDeleteAttestation: false,
 }
 
-const useProjectPermissions = (projectAddress?: string) => {
+const useNftPermissions = (projectAddress?: string) => {
   const address = projectAddress ? unifyAddressToId(projectAddress) : ''
   const { nft } = useNFTRoles(address)
 
@@ -31,12 +31,12 @@ const useProjectPermissions = (projectAddress?: string) => {
   const connected = useConnectionStatus()
 
   const permissions: Permissions = useMemo(() => {
-    const canCreateProject = connected === 'connected'
+    const canCreateNft = connected === 'connected'
 
     if (!nft) {
       return {
         ...initialPermissions,
-        canCreateProject,
+        canCreateNft,
       }
     }
 
@@ -48,7 +48,7 @@ const useProjectPermissions = (projectAddress?: string) => {
     )
 
     return {
-      canCreateProject: connected === 'connected',
+      canCreateNft: connected === 'connected',
       canManageRoles: isAdmin,
       canUpdateContent: isEditor,
       canCreateToken: isEditor,
@@ -70,4 +70,4 @@ const useProjectPermissions = (projectAddress?: string) => {
   }
 }
 
-export default useProjectPermissions
+export default useNftPermissions

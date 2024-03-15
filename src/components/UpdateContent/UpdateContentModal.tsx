@@ -14,7 +14,7 @@ import {
 
 export type ContentType = 'project' | 'token' | 'attestation'
 
-interface UpdateProjectContentModalProps extends BasicModalProps {
+interface UpdateNftContentModalProps extends BasicModalProps {
   contentType: ContentType
   steps: Record<Steps, ActionStateItemProps>
 }
@@ -26,7 +26,7 @@ export enum Steps {
   SignTransaction = 2,
 }
 
-const UpdateContentModal: React.FC<UpdateProjectContentModalProps> = ({
+const UpdateContentModal: React.FC<UpdateNftContentModalProps> = ({
   contentType,
   steps,
   onClose,

@@ -1,11 +1,11 @@
 {
-  "title": "Projects",
-  "myProjectsTitle": "My Projects",
+  "title": "Nfts",
+  "myNftsTitle": "My Nfts",
   "filter": {
     "all": "All",
     "admin": "Admin",
     "editor": "Editor"
   },
-  "addProject": "Add Project",
+  "addNft": "Add Nft",
   "roles": "Roles: "
 }

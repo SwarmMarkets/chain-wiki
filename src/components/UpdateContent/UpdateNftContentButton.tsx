@@ -1,7 +1,7 @@
 import { useSX1155NFT } from '@src/hooks/contracts/useSX1155NFT'
 import useModalState from '@src/hooks/useModalState'
-import { IpfsProjectContent } from '@src/shared/types/ipfs'
-import { generateIpfsProjectContent } from '@src/shared/utils/ipfs'
+import { IpfsNftContent } from '@src/shared/types/ipfs'
+import { generateIpfsNftContent } from '@src/shared/utils/ipfs'
 import { useStorageUpload } from '@thirdweb-dev/react'
 import { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -10,13 +10,13 @@ import UpdateContentModal, { Steps } from './UpdateContentModal'
 import { ChildrenProp } from '@src/shared/types/common-props'
 import useNFT from '@src/hooks/subgraph/useNFT'
 
-interface UpdateProjectContentButtonProps extends ButtonProps, ChildrenProp {
+interface UpdateNftContentButtonProps extends ButtonProps, ChildrenProp {
   projectAddress: string
-  projectContentToUpdate: Partial<IpfsProjectContent>
+  projectContentToUpdate: Partial<IpfsNftContent>
   onSuccess?(): void
 }
 
-const UpdateProjectContentButton: React.FC<UpdateProjectContentButtonProps> = ({
+const UpdateNftContentButton: React.FC<UpdateNftContentButtonProps> = ({
   projectAddress,
   projectContentToUpdate,
   onSuccess,
@@ -44,8 +44,8 @@ const UpdateProjectContentButton: React.FC<UpdateProjectContentButtonProps> = ({
 
   const uploadContent = async () => {
     if (!nft?.ipfsContent) return
-    
-    const ipfsContent = generateIpfsProjectContent({
+
+    const ipfsContent = generateIpfsNftContent({
       ...nft?.ipfsContent,
       ...projectContentToUpdate,
     })
@@ -117,4 +117,4 @@ const UpdateProjectContentButton: React.FC<UpdateProjectContentButtonProps> = ({
   )
 }
 
-export default UpdateProjectContentButton
+export default UpdateNftContentButton

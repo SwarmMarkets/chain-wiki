@@ -42,9 +42,9 @@ const Header = () => {
       </Flex>
 
       <Flex $gap={'1rem'} alignItems='center'>
-        <RequirePermissions canCreateProject>
+        <RequirePermissions canCreateNft>
           <Link to={RoutePaths.MY_PROJECTS}>
-            <Button mr={3}>{t('header.myProjects')}</Button>
+            <Button mr={3}>{t('header.myNfts')}</Button>
           </Link>
         </RequirePermissions>
         <ConnectButton />

@@ -1,12 +1,12 @@
 import { BasicModalProps } from '@src/shared/types/common-props'
 import Modal from '../ui/Modal'
-import CreateProjectForm from './CreateProjectForm'
+import CreateNftForm from './CreateNftForm'
 import useSteps from '@src/hooks/useSteps'
 import { useTranslation } from 'react-i18next'
 import SuccessContent from '../ui/SuccessScreens/SuccessContent'
 import Box from '../ui/Box'
 
-const CreateProjectModal = ({ isOpen, onClose }: BasicModalProps) => {
+const CreateNftModal = ({ isOpen, onClose }: BasicModalProps) => {
   const { t } = useTranslation('project')
   const { step, nextStep, reset } = useSteps(2)
 
@@ -24,7 +24,7 @@ const CreateProjectModal = ({ isOpen, onClose }: BasicModalProps) => {
       width='100%'
     >
       {step === 1 && (
-        <CreateProjectForm
+        <CreateNftForm
           onSuccessSubmit={() => {
             console.log('success submit')
             nextStep()
@@ -35,7 +35,7 @@ const CreateProjectModal = ({ isOpen, onClose }: BasicModalProps) => {
       {step === 2 && (
         <Box pt={3} minHeight='inherit'>
           <SuccessContent
-            title={t('successCreateProject.title')}
+            title={t('successCreateNft.title')}
             onClick={handleOnClose}
           />
         </Box>
@@ -44,4 +44,4 @@ const CreateProjectModal = ({ isOpen, onClose }: BasicModalProps) => {
   )
 }
 
-export default CreateProjectModal
+export default CreateNftModal

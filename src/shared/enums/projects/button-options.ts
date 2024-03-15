@@ -1,4 +1,4 @@
-export enum ProjectButtonOptions {
+export enum NftButtonOptions {
   ALL = 'all',
   ADMIN = 'admin',
   EDITOR = 'editor',

@@ -8,7 +8,7 @@ import RequirePermissions from '../common/RequirePermissions'
 import Flex from '../ui/Flex'
 import EditorSkeleton from './EditorSkeleton'
 import UpdateTokenContentButton from '../UpdateContent/UpdateTokenContentButton'
-import UpdateProjectContentButton from '../UpdateContent/UpdateProjectContentButton'
+import UpdateNftContentButton from '../UpdateContent/UpdateNftContentButton'
 import { findElementWithMatchedDataId } from './utils'
 
 interface EditorProps {
@@ -130,7 +130,7 @@ const Editor: React.FC<EditorProps> = ({
                 tokenContentToUpdate={{ htmlContent: currContent }}
               />
             ) : (
-              <UpdateProjectContentButton
+              <UpdateNftContentButton
                 onSuccess={onSuccessUpdate}
                 projectAddress={projectAddress}
                 projectContentToUpdate={{ htmlContent: currContent }}

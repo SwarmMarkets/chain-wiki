@@ -3,15 +3,12 @@ import ContentMissing from '@src/components/common/ContentMissing'
 import { NFTQueryFullData } from '@src/shared/types/ipfs'
 import { useRef } from 'react'
 
-interface ProjectViewProps {
+interface NftViewProps {
   project?: NFTQueryFullData | null
   onMount: (element: HTMLDivElement) => void
 }
 
-export const ProjectView: React.FC<ProjectViewProps> = ({
-  project,
-  onMount,
-}) => {
+export const NftView: React.FC<NftViewProps> = ({ project, onMount }) => {
   const contentRef = useRef<HTMLDivElement>(null)
 
   const onMountContent = () => {
@@ -21,7 +18,7 @@ export const ProjectView: React.FC<ProjectViewProps> = ({
   }
 
   if (!project?.ipfsContent?.htmlContent)
-    return <ContentMissing message='Project content missing' />
+    return <ContentMissing message='Nft content missing' />
 
   return (
     <HtmlRender

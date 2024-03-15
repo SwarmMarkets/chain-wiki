@@ -8,22 +8,17 @@ import HistoryDifferenceSkeleton from '../HistoryDIfferenceSkeleton'
 import { useTranslation } from 'react-i18next'
 import useNFTURIUpdates from '@src/hooks/subgraph/useNFTURIUpdates'
 
-const HistoryProjectDifference = () => {
+const HistoryNftDifference = () => {
   const location = useLocation()
   const { t } = useTranslation('history')
-  const {
-    oldProjectId,
-    newProjectId,
-  }: { oldProjectId?: string; newProjectId?: string } = useMemo(
-    () => queryString.parse(location.search),
-    [location.search]
-  )
+  const { oldNftId, newNftId }: { oldNftId?: string; newNftId?: string } =
+    useMemo(() => queryString.parse(location.search), [location.search])
   const { fullNftUriUpdates } = useNFTURIUpdates(
-    oldProjectId || '',
+    oldNftId || '',
     {
       variables: {
         filter: {
-          or: [{ id: newProjectId }, { id: oldProjectId }],
+          or: [{ id: newNftId }, { id: oldNftId }],
         },
         orderBy: NfturiUpdate_OrderBy.UpdatedAt,
         orderDirection: OrderDirection.Asc,
@@ -64,4 +59,4 @@ const HistoryProjectDifference = () => {
   )
 }
 
-export default HistoryProjectDifference
+export default HistoryNftDifference

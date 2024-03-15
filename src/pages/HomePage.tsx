@@ -1,4 +1,4 @@
-import ProjectList from '@src/components/Project/ProjectList'
+import NftList from '@src/components/Nft/NftList'
 import useNFTs from '@src/hooks/subgraph/useNFTs'
 import Box from '@src/components/ui/Box'
 import { useTranslation } from 'react-i18next'
@@ -16,7 +16,7 @@ const HomePage = () => {
     <>
       <h1>{t('title')}</h1>
       <Box mt={20}>
-        <ProjectList loading={loading} projects={fullNfts} />
+        <NftList loading={loading} projects={fullNfts} />
       </Box>
     </>
   )

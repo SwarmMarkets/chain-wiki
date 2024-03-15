@@ -3,7 +3,7 @@ import TokenView from '@src/components/Token/TokenView'
 import { StyledContent } from '@src/components/Token/styled-components'
 import Editor from '@src/components/Editor'
 import HistoryToken from '@src/components/History/HistoryToken'
-import { StyledIndexPages } from '@src/components/Project/styled-components'
+import { StyledIndexPages } from '@src/components/Nft/styled-components'
 import { TokenContextProvider } from '@src/components/providers/TokenContext'
 import Box from '@src/components/ui/Box'
 import Breadcrumbs from '@src/components/ui/Breadcrumbs'
@@ -13,7 +13,7 @@ import Tab from '@src/components/ui/Tabs/Tab'
 import TabContext from '@src/components/ui/Tabs/TabContext'
 import TabPanel from '@src/components/ui/Tabs/TabPanel'
 import Text from '@src/components/ui/Text'
-import useProjectPermissions from '@src/hooks/permissions/useProjectPermissions'
+import useNftPermissions from '@src/hooks/permissions/useNftPermissions'
 import useNFT from '@src/hooks/subgraph/useNFT'
 import useToken from '@src/hooks/subgraph/useToken'
 import useTokens from '@src/hooks/subgraph/useTokens'
@@ -36,7 +36,7 @@ const TokenPage = () => {
   const navigate = useNavigate()
   const location = useLocation()
   const { t } = useTranslation('token')
-  const { permissions } = useProjectPermissions(projectId)
+  const { permissions } = useNftPermissions(projectId)
 
   const initialTab = searchParams.get('tab') || TokenTabs.READ
   const [activeTab, setActiveTab] = useState(initialTab)

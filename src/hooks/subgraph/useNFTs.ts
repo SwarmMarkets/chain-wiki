@@ -6,8 +6,8 @@ import {
   NfTsQuery as NFTsQueryGQL,
   NfTsQueryVariables,
 } from '@src/queries/gql/graphql'
-import { IpfsProjectContent, NFTQueryFullData } from '@src/shared/types/ipfs'
-import { verifyProjectValid } from '@src/shared/utils'
+import { IpfsNftContent, NFTQueryFullData } from '@src/shared/types/ipfs'
+import { verifyNftValid } from '@src/shared/utils'
 import { useStorage } from '@thirdweb-dev/react'
 
 const PAGE_LIMIT = 10
@@ -25,13 +25,13 @@ const useNFTs = (
   const [fullData, setFullData] = useState<NFTQueryFullData[] | null>(null)
 
   const getBatchIpfsData = async (nfts: NFTsQueryGQL['nfts']) => {
-    const results = new Map<string, IpfsProjectContent>()
+    const results = new Map<string, IpfsNftContent>()
 
     const promises = nfts.map(item =>
       storage
         ?.downloadJSON(item.uri)
         .then(res => {
-          verifyProjectValid(res)
+          verifyNftValid(res)
           results.set(item.id, res)
         })
         .catch(e => e)

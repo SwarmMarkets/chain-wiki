@@ -1,18 +1,18 @@
-import ProjectList from '@src/components/Project/ProjectList'
+import NftList from '@src/components/Nft/NftList'
 import Box from '@src/components/ui/Box'
 import ButtonGroup from '@src/components/ui/Button/ButtonGroup'
 import useNFTs from '@src/hooks/subgraph/useNFTs'
-import { ProjectButtonOptions } from '@src/shared/enums/projects/button-options'
+import { NftButtonOptions } from '@src/shared/enums/projects/button-options'
 import { ButtonOption } from '@src/shared/types/ui-components'
 import { useAddress } from '@thirdweb-dev/react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-const MyProjectsPage = () => {
+const MyNftsPage = () => {
   const { t } = useTranslation('projects')
   const address = useAddress() || ''
   const [selectedOption, setSelectedOption] = useState<string>(
-    ProjectButtonOptions.ALL
+    NftButtonOptions.ALL
   )
   const { fullNfts, loadingNfts, refetchingNfts, refetch } = useNFTs(
     {
@@ -29,15 +29,15 @@ const MyProjectsPage = () => {
     { fetchFullData: true }
   )
   const options: ButtonOption[] = [
-    { value: ProjectButtonOptions.ALL, label: t('filter.all') },
-    { value: ProjectButtonOptions.ADMIN, label: t('filter.admin') },
-    { value: ProjectButtonOptions.EDITOR, label: t('filter.editor') },
+    { value: NftButtonOptions.ALL, label: t('filter.all') },
+    { value: NftButtonOptions.ADMIN, label: t('filter.admin') },
+    { value: NftButtonOptions.EDITOR, label: t('filter.editor') },
   ]
 
   const handleSelect = (value: string) => {
-    const isAllFilter = value === ProjectButtonOptions.ALL
-    const isAdminFilter = value === ProjectButtonOptions.ADMIN
-    const isEditorFiter = value === ProjectButtonOptions.EDITOR
+    const isAllFilter = value === NftButtonOptions.ALL
+    const isAdminFilter = value === NftButtonOptions.ADMIN
+    const isEditorFiter = value === NftButtonOptions.EDITOR
 
     refetch({
       filter: {
@@ -63,7 +63,7 @@ const MyProjectsPage = () => {
 
   return (
     <>
-      <h1>{t('myProjectsTitle')}</h1>
+      <h1>{t('myNftsTitle')}</h1>
       <ButtonGroup
         mt={20}
         options={options}
@@ -71,15 +71,10 @@ const MyProjectsPage = () => {
         onSelect={handleSelect}
       />
       <Box mt={20}>
-        <ProjectList
-          projects={fullNfts}
-          loading={loading}
-          addProjectCard
-          showRole
-        />
+        <NftList projects={fullNfts} loading={loading} addNftCard showRole />
       </Box>
     </>
   )
 }
 
-export default MyProjectsPage
+export default MyNftsPage

@@ -2,12 +2,12 @@ import { initialVoteProposal } from './../consts/ipfs/vote-proposal'
 import {
   IpfsTokenContent,
   IpfsAttestationContent,
-  IpfsProjectContent,
+  IpfsNftContent,
 } from '../types/ipfs'
 import { VoteProposal } from '../types/vote-proposal'
 import { isObject } from './isObject'
 
-const initialProjectContent: IpfsProjectContent = {
+const initialNftContent: IpfsNftContent = {
   name: '',
   address: '',
   htmlContent: '',
@@ -18,8 +18,8 @@ const initialAttestationContent: IpfsAttestationContent = {
   htmlContent: '',
 }
 
-export const generateIpfsProjectContent = (args: IpfsProjectContent) => {
-  const content: IpfsProjectContent = {
+export const generateIpfsNftContent = (args: IpfsNftContent) => {
+  const content: IpfsNftContent = {
     name: args.name,
     address: args.address,
     htmlContent: args.htmlContent,
@@ -104,11 +104,11 @@ export const verifyVoteProposalValid = (proposal: VoteProposal) => {
   }
 }
 
-export const verifyProjectValid = (project: IpfsProjectContent) => {
+export const verifyNftValid = (project: IpfsNftContent) => {
   try {
-    return verifyObjectKeysDeep(initialProjectContent, project)
+    return verifyObjectKeysDeep(initialNftContent, project)
   } catch {
-    throw Error('Project content is invalid.')
+    throw Error('Nft content is invalid.')
   }
 }
 
@@ -119,12 +119,10 @@ export const verifyAttestationValid = (attestation: IpfsAttestationContent) => {
     throw Error('Attestation content is invalid.')
   }
 }
-export const parseIpfsProjectContent = (
-  content: string
-): IpfsProjectContent => {
+export const parseIpfsNftContent = (content: string): IpfsNftContent => {
   try {
     const parsedContent = JSON.parse(content)
-    const validKeys = Object.keys(initialProjectContent)
+    const validKeys = Object.keys(initialNftContent)
     verifyObjectKeysDeep(validKeys, parsedContent)
     return parsedContent
   } catch {

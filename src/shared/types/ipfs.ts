@@ -8,7 +8,7 @@ import {
   TokensQuery,
 } from '@src/queries/gql/graphql'
 
-export interface IpfsProjectContent {
+export interface IpfsNftContent {
   name: string
   address: string
   htmlContent: string
@@ -41,16 +41,16 @@ export interface IpfsAttestationContent {
   htmlContent: string
 }
 
-export type NFTsQueryFullData = NfTsQuery['nfts'][0] & IpfsProjectContent
+export type NFTsQueryFullData = NfTsQuery['nfts'][0] & IpfsNftContent
 
 export type NFTQueryFullData = NftQuery['nft'] & {
-  ipfsContent?: IpfsProjectContent
+  ipfsContent?: IpfsNftContent
 }
 
 export type NftUriUpdatesQueryFullData =
   NfturiUpdatesQuery['nfturiupdates'][0] & {
-    ipfsNewUriContent?: IpfsProjectContent
-    ipfsPrevUriContent?: IpfsProjectContent
+    ipfsNewUriContent?: IpfsNftContent
+    ipfsPrevUriContent?: IpfsNftContent
   }
 
 export type TokenQueryFullData = TokenQuery['token'] & {

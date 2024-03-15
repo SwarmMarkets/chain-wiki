@@ -9,9 +9,9 @@ import Card from '@src/components/ui/Card'
 import Flex from '@src/components/ui/Flex'
 import Text from '@src/components/ui/Text'
 
-interface HistoryProjectListProps {
-  onSelectProjects: (projects: NfturiUpdatesQuery['nfturiupdates']) => void
-  selectedProjects: NfturiUpdatesQuery['nfturiupdates']
+interface HistoryNftListProps {
+  onSelectNfts: (projects: NfturiUpdatesQuery['nfturiupdates']) => void
+  selectedNfts: NfturiUpdatesQuery['nfturiupdates']
   history: NfturiUpdatesQuery['nfturiupdates']
 }
 
@@ -22,9 +22,9 @@ export const StyledLink = styled(Link)`
   }
 `
 
-const HistoryProjectList: React.FC<HistoryProjectListProps> = ({
-  onSelectProjects,
-  selectedProjects,
+const HistoryNftList: React.FC<HistoryNftListProps> = ({
+  onSelectNfts,
+  selectedNfts,
   history,
 }) => {
   const location = useLocation()
@@ -33,29 +33,25 @@ const HistoryProjectList: React.FC<HistoryProjectListProps> = ({
   const onChangeCheckbox = (
     project: NfturiUpdatesQuery['nfturiupdates'][0]
   ) => {
-    if (!selectedProjects) return
-    const projectIsSelected = selectedProjects.find(
-      item => item.id === project.id
-    )
+    if (!selectedNfts) return
+    const projectIsSelected = selectedNfts.find(item => item.id === project.id)
 
     if (projectIsSelected) {
-      const newProjects = selectedProjects.filter(
-        item => item.id !== project.id
-      )
-      onSelectProjects(newProjects)
+      const newNfts = selectedNfts.filter(item => item.id !== project.id)
+      onSelectNfts(newNfts)
       return
     }
-    onSelectProjects([...selectedProjects, project])
+    onSelectNfts([...selectedNfts, project])
   }
 
-  const resetSelectedProjects = () => {
-    onSelectProjects([])
+  const resetSelectedNfts = () => {
+    onSelectNfts([])
   }
 
   return (
     <Flex flexDirection='column' $gap='10px'>
       {history &&
-        selectedProjects &&
+        selectedNfts &&
         history.map((item, index) => (
           <Card key={item.id}>
             <Text>
@@ -64,11 +60,11 @@ const HistoryProjectList: React.FC<HistoryProjectListProps> = ({
                 <Text>{t('curr')}</Text>
               ) : (
                 <StyledLink
-                  onClick={resetSelectedProjects}
+                  onClick={resetSelectedNfts}
                   to={`?${queryString.stringify({
                     ...queryString.parse(location.search),
-                    oldProjectId: history[0]?.id,
-                    newProjectId: item.id,
+                    oldNftId: history[0]?.id,
+                    newNftId: item.id,
                   })}`}
                 >
                   {t('curr')}
@@ -79,11 +75,11 @@ const HistoryProjectList: React.FC<HistoryProjectListProps> = ({
                 <Text>{t('prev')}</Text>
               ) : (
                 <StyledLink
-                  onClick={resetSelectedProjects}
+                  onClick={resetSelectedNfts}
                   to={`?${queryString.stringify({
                     ...queryString.parse(location.search),
-                    oldProjectId: history[index + 1]?.id,
-                    newProjectId: item.id,
+                    oldNftId: history[index + 1]?.id,
+                    newNftId: item.id,
                   })}`}
                 >
                   {t('prev')}
@@ -94,15 +90,11 @@ const HistoryProjectList: React.FC<HistoryProjectListProps> = ({
             <Checkbox
               ml='10px'
               checked={
-                !!selectedProjects.find(
-                  selectedItem => selectedItem.id === item.id
-                )
+                !!selectedNfts.find(selectedItem => selectedItem.id === item.id)
               }
               disabled={
-                selectedProjects.length >= 2 &&
-                !selectedProjects.find(
-                  selectedItem => selectedItem.id === item.id
-                )
+                selectedNfts.length >= 2 &&
+                !selectedNfts.find(selectedItem => selectedItem.id === item.id)
               }
               onChange={() => onChangeCheckbox(item)}
             />
@@ -113,4 +105,4 @@ const HistoryProjectList: React.FC<HistoryProjectListProps> = ({
   )
 }
 
-export default HistoryProjectList
+export default HistoryNftList

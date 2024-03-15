@@ -4,14 +4,14 @@ import Button from '@src/components/ui/Button/Button'
 import Divider from '@src/components/ui/Divider'
 import Flex from '@src/components/ui/Flex'
 import Text from '@src/components/ui/Text'
-import useProjectPermissions from '@src/hooks/permissions/useProjectPermissions'
+import useNftPermissions from '@src/hooks/permissions/useNftPermissions'
 import RoutePaths from '@src/shared/enums/routes-paths'
 import { NFTQueryFullData, TokensQueryFullData } from '@src/shared/types/ipfs'
 import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { generatePath } from 'react-router-dom'
 import { EditableItem, StyledLink } from './styled-components'
-import UpdateProjectContentButton from '../UpdateContent/UpdateProjectContentButton'
+import UpdateNftContentButton from '../UpdateContent/UpdateNftContentButton'
 
 interface IndexPagesProps {
   tokens: TokensQueryFullData[] | null
@@ -24,7 +24,7 @@ const IndexPages: React.FC<IndexPagesProps> = ({
   project,
   ...props
 }) => {
-  const { permissions } = useProjectPermissions(project?.id)
+  const { permissions } = useNftPermissions(project?.id)
   const { t } = useTranslation(['project', 'buttons'])
   const [isEdit, setIsEdit] = useState(false)
   const [selectedIndexes, setSelectedIndexes] = useState<string[]>(
@@ -106,13 +106,13 @@ const IndexPages: React.FC<IndexPagesProps> = ({
       {permissions.canUpdateContent && (
         <Flex mt='10px'>
           {isEdit && project ? (
-            <UpdateProjectContentButton
+            <UpdateNftContentButton
               projectAddress={project.id}
               onSuccess={handleSaveButton}
               projectContentToUpdate={{ indexPages: selectedIndexes }}
             >
               {t('save', { ns: 'buttons' })}
-            </UpdateProjectContentButton>
+            </UpdateNftContentButton>
           ) : (
             <Button onClick={handleEditButton}>
               {t('edit', { ns: 'buttons' })}

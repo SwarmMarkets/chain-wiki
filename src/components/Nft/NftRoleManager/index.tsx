@@ -10,13 +10,11 @@ import { StyledRolesDescription } from '../styled-components'
 import GrantRoleForm from './GrantRoleForm'
 import RevokeRoleButton from './RevokeRoleButton'
 
-interface ProjectRoleManagerProps {
+interface NftRoleManagerProps {
   projectAddress: string
 }
 
-const ProjectRoleManager: React.FC<ProjectRoleManagerProps> = ({
-  projectAddress,
-}) => {
+const NftRoleManager: React.FC<NftRoleManagerProps> = ({ projectAddress }) => {
   const { nft } = useNFTRoles(projectAddress)
   const { t } = useTranslation('project')
 
@@ -81,4 +79,4 @@ const ProjectRoleManager: React.FC<ProjectRoleManagerProps> = ({
   )
 }
 
-export default ProjectRoleManager
+export default NftRoleManager

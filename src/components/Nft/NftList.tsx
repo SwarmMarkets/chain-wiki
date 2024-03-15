@@ -3,15 +3,15 @@ import { NFTQueryFullData } from '@src/shared/types/ipfs'
 import React from 'react'
 import { generatePath } from 'react-router-dom'
 import styled from 'styled-components'
-import AddProjectCard from './AddProjectCard'
-import ProjectCard from './ProjectCard'
-import ProjectSkeletonList from './ProjectSkeletonList'
+import AddNftCard from './AddNftCard'
+import NftCard from './NftCard'
+import NftSkeletonList from './NftSkeletonList'
 import { StyledLink } from './styled-components'
 
-interface ProjectListProps {
+interface NftListProps {
   loading: boolean
   projects?: NFTQueryFullData[] | null
-  addProjectCard?: boolean
+  addNftCard?: boolean
   showRole?: boolean
 }
 
@@ -23,26 +23,26 @@ const Wrapper = styled.div`
   gap: 20px;
 `
 
-const ProjectList: React.FC<ProjectListProps> = ({
+const NftList: React.FC<NftListProps> = ({
   loading,
   projects,
-  addProjectCard,
+  addNftCard,
   showRole,
 }) => {
   if (loading) {
-    return <ProjectSkeletonList />
+    return <NftSkeletonList />
   }
 
   return (
     <>
       <Wrapper>
-        {addProjectCard && <AddProjectCard />}
+        {addNftCard && <AddNftCard />}
         {projects?.map(project => (
           <StyledLink
             to={generatePath(RoutePaths.PROJECT, { projectId: project.id })}
             key={project.id}
           >
-            <ProjectCard project={project} showRole={showRole} />
+            <NftCard project={project} showRole={showRole} />
           </StyledLink>
         ))}
       </Wrapper>
@@ -50,4 +50,4 @@ const ProjectList: React.FC<ProjectListProps> = ({
   )
 }
 
-export default ProjectList
+export default NftList

@@ -1,16 +1,16 @@
 {
   "tabs": {
-    "project": "Project",
+    "project": "Nft",
     "tokens": "Pages",
     "edit": "Edit project",
     "manageRoles": "Roles",
     "history": "History"
   },
-  "createProject": {
-    "title": "Create Project",
+  "createNft": {
+    "title": "Create Nft",
     "form": {
-      "name": "Project name",
-      "symbol": "Project symbol",
+      "name": "Nft name",
+      "symbol": "Nft symbol",
       "adminAddress": "Admin address",
       "uri": "IPFS hash",
       "editorAddress": "Editor address",
@@ -40,8 +40,8 @@
       }
     }
   },
-  "successCreateProject": {
-    "title": "Project Creation Successful",
+  "successCreateNft": {
+    "title": "Nft Creation Successful",
     "description": "Your project is visible on \"My projects\" page."
   },
   "roleManager": {

@@ -1,8 +1,8 @@
 import { useMemo, useState } from 'react'
 import { Link, useLocation, useParams } from 'react-router-dom'
 import queryString from 'query-string'
-import HistoryProjcetDifference from './HistoryProjectDifference'
-import HistoryProjectList from './HistoryProjectList'
+import HistoryProjcetDifference from './HistoryNftDifference'
+import HistoryNftList from './HistoryNftList'
 import {
   NfturiUpdate_OrderBy,
   NfturiUpdatesQuery,
@@ -15,7 +15,7 @@ import useNFTURIUpdates from '@src/hooks/subgraph/useNFTURIUpdates'
 import ContentMissing from '@src/components/common/ContentMissing'
 import HistoryCardSkeleton from '../HistoryCardSkeleton'
 
-const HistoryProject = () => {
+const HistoryNft = () => {
   const { t } = useTranslation('buttons')
   const location = useLocation()
   const { projectId = '' } = useParams()
@@ -27,28 +27,28 @@ const HistoryProject = () => {
   })
   const mode = useMemo(() => {
     const params = queryString.parse(location.search)
-    if (params.oldProjectId && params.newProjectId) {
+    if (params.oldNftId && params.newNftId) {
       return 'difference'
     } else {
       return 'list'
     }
   }, [location.search])
-  const [selectedProjects, setSelectedProjects] = useState<
+  const [selectedNfts, setSelectedNfts] = useState<
     NfturiUpdatesQuery['nfturiupdates']
   >([])
   const showSkeletons = loading && !refetching
 
-  const onSelectProjects = (projects: NfturiUpdatesQuery['nfturiupdates']) => {
-    setSelectedProjects(projects)
+  const onSelectNfts = (projects: NfturiUpdatesQuery['nfturiupdates']) => {
+    setSelectedNfts(projects)
   }
 
-  const sortedProjectsByUpdatedAt = useMemo(
-    () => selectedProjects.sort((a, b) => +a.updatedAt - +b.updatedAt),
-    [selectedProjects]
+  const sortedNftsByUpdatedAt = useMemo(
+    () => selectedNfts.sort((a, b) => +a.updatedAt - +b.updatedAt),
+    [selectedNfts]
   )
 
   if ((!nftUriUpdates || !nftUriUpdates.length) && !showSkeletons)
-    return <ContentMissing message='Project history missing' />
+    return <ContentMissing message='Nft history missing' />
 
   return (
     <div>
@@ -56,13 +56,13 @@ const HistoryProject = () => {
         <Box>
           {nftUriUpdates &&
             nftUriUpdates?.length > 1 &&
-            (selectedProjects.length === 2 ? (
+            (selectedNfts.length === 2 ? (
               <Link
-                onClick={() => onSelectProjects([])}
+                onClick={() => onSelectNfts([])}
                 to={`?${queryString.stringify({
                   ...queryString.parse(location.search),
-                  oldProjectId: sortedProjectsByUpdatedAt[0]?.id,
-                  newProjectId: sortedProjectsByUpdatedAt[1]?.id,
+                  oldNftId: sortedNftsByUpdatedAt[0]?.id,
+                  newNftId: sortedNftsByUpdatedAt[1]?.id,
                 })}`}
               >
                 <Button>{t('compare')}</Button>
@@ -76,9 +76,9 @@ const HistoryProject = () => {
                 <HistoryCardSkeleton key={index} />
               ))}
             {nftUriUpdates && (
-              <HistoryProjectList
-                selectedProjects={selectedProjects}
-                onSelectProjects={onSelectProjects}
+              <HistoryNftList
+                selectedNfts={selectedNfts}
+                onSelectNfts={onSelectNfts}
                 history={nftUriUpdates}
               />
             )}
@@ -91,4 +91,4 @@ const HistoryProject = () => {
   )
 }
 
-export default HistoryProject
+export default HistoryNft

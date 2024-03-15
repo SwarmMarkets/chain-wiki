@@ -1,13 +1,13 @@
 import TokenList from '@src/components/Token/TokenList'
 import Editor from '@src/components/Editor'
-import HistoryProject from '@src/components/History/HistoryProject'
-import ProjectContentSkeleton from '@src/components/Project/ProjectContentSkeleton'
-import ProjectRoleManager from '@src/components/Project/ProjectRoleManager'
-import { ProjectView } from '@src/components/Project/ProjectView'
+import HistoryNft from '@src/components/History/HistoryNft'
+import NftContentSkeleton from '@src/components/Nft/NftContentSkeleton'
+import NftRoleManager from '@src/components/Nft/NftRoleManager'
+import { NftView } from '@src/components/Nft/NftView'
 import {
   StyledIndexPages,
   StyledContent,
-} from '@src/components/Project/styled-components'
+} from '@src/components/Nft/styled-components'
 import ExplorerLink from '@src/components/common/ExplorerLink'
 import Box from '@src/components/ui/Box'
 import Flex from '@src/components/ui/Flex'
@@ -16,10 +16,10 @@ import Tab from '@src/components/ui/Tabs/Tab'
 import TabContext from '@src/components/ui/Tabs/TabContext'
 import TabPanel from '@src/components/ui/Tabs/TabPanel'
 import Text from '@src/components/ui/Text'
-import useProjectPermissions from '@src/hooks/permissions/useProjectPermissions'
+import useNftPermissions from '@src/hooks/permissions/useNftPermissions'
 import useNFT from '@src/hooks/subgraph/useNFT'
 import useTokens from '@src/hooks/subgraph/useTokens'
-import { ProjectTabs } from '@src/shared/enums/tabs'
+import { NftTabs } from '@src/shared/enums/tabs'
 import { Tab as ITab } from '@src/shared/types/ui-components'
 import { unifyAddressToId } from '@src/shared/utils'
 import { useState } from 'react'
@@ -27,15 +27,13 @@ import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
 import { useTheme } from 'styled-components'
 
-const ProjectPage = () => {
+const NftPage = () => {
   const { projectId = '' } = useParams()
   const theme = useTheme()
   const { t } = useTranslation('project')
-  const { permissions } = useProjectPermissions(projectId)
+  const { permissions } = useNftPermissions(projectId)
   const [contentElem, setContentElem] = useState<HTMLDivElement | null>(null)
-  const [activeProjectTab, setActiveProjectTab] = useState<string>(
-    ProjectTabs.PROJECT
-  )
+  const [activeNftTab, setActiveNftTab] = useState<string>(NftTabs.PROJECT)
   const { nft, loadingNft, refetchingNft } = useNFT(projectId)
   const { fullTokens, loading: tokensLoading } = useTokens(
     {
@@ -44,26 +42,26 @@ const ProjectPage = () => {
     { fetchFullData: true }
   )
   const showSkeleton = loadingNft && !refetchingNft
-  const isProjectTab = activeProjectTab === ProjectTabs.PROJECT
+  const isNftTab = activeNftTab === NftTabs.PROJECT
   const allLoaded = nft && fullTokens
 
   const onMountContent = (element: HTMLDivElement) => {
     setContentElem(element)
   }
 
-  const onChangeProjectTab = (tab: ITab) => {
-    setActiveProjectTab(tab.value)
+  const onChangeNftTab = (tab: ITab) => {
+    setActiveNftTab(tab.value)
   }
 
   const handleSuccessUpdate = () => {
-    setActiveProjectTab(ProjectTabs.PROJECT)
+    setActiveNftTab(NftTabs.PROJECT)
   }
 
   if (showSkeleton) {
     return (
       <Flex justifyContent='center' $gap='20px'>
         <Box width='900px'>
-          <ProjectContentSkeleton />
+          <NftContentSkeleton />
         </Box>
       </Flex>
     )
@@ -71,10 +69,10 @@ const ProjectPage = () => {
 
   return (
     <Flex
-      justifyContent={isProjectTab && allLoaded ? 'space-between' : 'center'}
+      justifyContent={isNftTab && allLoaded ? 'space-between' : 'center'}
       $gap='20px'
     >
-      {activeProjectTab === ProjectTabs.PROJECT && (
+      {activeNftTab === NftTabs.PROJECT && (
         <StyledIndexPages
           tokens={fullTokens}
           project={nft}
@@ -91,46 +89,46 @@ const ProjectPage = () => {
           </ExplorerLink>
         </Flex>
 
-        <TabContext value={activeProjectTab}>
-          <Tabs onChange={onChangeProjectTab}>
-            <Tab value={ProjectTabs.PROJECT} label={t('tabs.project')} />
+        <TabContext value={activeNftTab}>
+          <Tabs onChange={onChangeNftTab}>
+            <Tab value={NftTabs.PROJECT} label={t('tabs.project')} />
             {permissions.canManageRoles && (
-              <Tab value={ProjectTabs.MANAGE} label={t('tabs.manageRoles')} />
+              <Tab value={NftTabs.MANAGE} label={t('tabs.manageRoles')} />
             )}
-            <Tab value={ProjectTabs.TOKENS} label={t('tabs.tokens')} />
+            <Tab value={NftTabs.TOKENS} label={t('tabs.tokens')} />
             {permissions.canUpdateContent && (
-              <Tab value={ProjectTabs.EDIT} label={t('tabs.edit')} />
+              <Tab value={NftTabs.EDIT} label={t('tabs.edit')} />
             )}
-            <Tab value={ProjectTabs.HISTORY} label={t('tabs.history')} />
+            <Tab value={NftTabs.HISTORY} label={t('tabs.history')} />
           </Tabs>
-          <TabPanel value={ProjectTabs.PROJECT}>
-            <ProjectView project={nft} onMount={onMountContent} />
+          <TabPanel value={NftTabs.PROJECT}>
+            <NftView project={nft} onMount={onMountContent} />
           </TabPanel>
-          <TabPanel value={ProjectTabs.TOKENS}>
+          <TabPanel value={NftTabs.TOKENS}>
             <TokenList
               tokens={fullTokens}
               loading={tokensLoading}
               projectAddress={projectId!}
             />
           </TabPanel>
-          <TabPanel value={ProjectTabs.EDIT}>
+          <TabPanel value={NftTabs.EDIT}>
             <Editor
               onSuccessUpdate={handleSuccessUpdate}
               projectAddress={projectId!}
               initialContent={nft?.ipfsContent?.htmlContent || ''}
             />
           </TabPanel>
-          <TabPanel value={ProjectTabs.MANAGE}>
-            <ProjectRoleManager projectAddress={projectId!} />
+          <TabPanel value={NftTabs.MANAGE}>
+            <NftRoleManager projectAddress={projectId!} />
           </TabPanel>
-          <TabPanel value={ProjectTabs.HISTORY}>
-            <HistoryProject />
+          <TabPanel value={NftTabs.HISTORY}>
+            <HistoryNft />
           </TabPanel>
         </TabContext>
       </Box>
-      {isProjectTab && <StyledContent contentElem={contentElem} />}
+      {isNftTab && <StyledContent contentElem={contentElem} />}
     </Flex>
   )
 }
 
-export default ProjectPage
+export default NftPage

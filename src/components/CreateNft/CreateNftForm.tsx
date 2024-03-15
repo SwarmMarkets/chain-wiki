@@ -11,31 +11,29 @@ import {
   TextFieldTitle,
 } from './styled-components'
 
-import useCreateProjectForm, {
-  CreateProjectFormInputs,
-} from '@src/hooks/forms/useCreateProjectForm'
+import useCreateNftForm, {
+  CreateNftFormInputs,
+} from '@src/hooks/forms/useCreateNftForm'
 import { generateSymbolFromString } from '@src/shared/utils'
 import { useAddress } from '@thirdweb-dev/react'
 
-interface CreateProjectFormProps {
+interface CreateNftFormProps {
   onSuccessSubmit(): void
 }
 
-const CreateProjectForm: React.FC<CreateProjectFormProps> = ({
-  onSuccessSubmit,
-}) => {
-  const { t } = useTranslation('project', { keyPrefix: 'createProject' })
+const CreateNftForm: React.FC<CreateNftFormProps> = ({ onSuccessSubmit }) => {
+  const { t } = useTranslation('project', { keyPrefix: 'createNft' })
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useCreateProjectForm()
+  } = useCreateNftForm()
 
   const { call, txLoading } = useSX1155NFTFactory()
   const account = useAddress()
 
-  const onSubmit: SubmitHandler<CreateProjectFormInputs> = async (data, e) => {
+  const onSubmit: SubmitHandler<CreateNftFormInputs> = async (data, e) => {
     e?.preventDefault()
     if (!account) return
 
@@ -86,4 +84,4 @@ const CreateProjectForm: React.FC<CreateProjectFormProps> = ({
   )
 }
 
-export default CreateProjectForm
+export default CreateNftForm

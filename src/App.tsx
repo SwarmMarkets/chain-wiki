@@ -14,11 +14,11 @@ import Layout from './components/common/Layout'
 import { environment } from './environment'
 import TokenPage from './pages/TokenPage'
 import HomePage from './pages/HomePage'
-import ProjectPage from './pages/ProjectPage'
+import NftPage from './pages/NftPage'
 import client from './services/apollo'
 import RoutePaths from './shared/enums/routes-paths'
 import theme from './theme'
-import MyProjectsPage from './pages/MyProjectsPage'
+import MyNftsPage from './pages/MyNftsPage'
 import { GlobalStyle } from './globalStyle'
 
 function App() {
@@ -40,15 +40,12 @@ function App() {
             <Layout>
               <Routes>
                 <Route path={RoutePaths.HOME} element={<HomePage />} />
-                <Route path={RoutePaths.PROJECT} element={<ProjectPage />} />
+                <Route path={RoutePaths.PROJECT} element={<NftPage />} />
                 <Route
                   path={RoutePaths.PROJECT + RoutePaths.TOKEN}
                   element={<TokenPage />}
                 />
-                <Route
-                  path={RoutePaths.MY_PROJECTS}
-                  element={<MyProjectsPage />}
-                />
+                <Route path={RoutePaths.MY_PROJECTS} element={<MyNftsPage />} />
               </Routes>
             </Layout>
           </Router>

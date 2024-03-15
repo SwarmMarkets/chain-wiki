@@ -2,12 +2,12 @@ import IndexedDB, { IEntity } from '@src/services/idb'
 import useIndexedDB from './useIndexedDB'
 import {
   IpfsTokenContent,
-  IpfsProjectContent,
+  IpfsNftContent,
   IpfsVoteProposal,
 } from '@src/shared/types/ipfs'
 
 interface IPFSContent extends IEntity {
-  content: IpfsProjectContent | IpfsVoteProposal | IpfsTokenContent
+  content: IpfsNftContent | IpfsVoteProposal | IpfsTokenContent
 }
 
 const ipfsDb = new IndexedDB<IPFSContent>('ipfsDatabase', 'ipfsContent')

@@ -1,6 +1,6 @@
-import useProjectPermissions, {
+import useNftPermissions, {
   Permissions,
-} from '@src/hooks/permissions/useProjectPermissions'
+} from '@src/hooks/permissions/useNftPermissions'
 import { ChildrenProp } from '@src/shared/types/common-props'
 
 interface RequirePermissionsProps extends Partial<Permissions>, ChildrenProp {
@@ -12,7 +12,7 @@ const RequirePermissions = ({
   projectAddress,
   ...requiredPermissions
 }: RequirePermissionsProps) => {
-  const { hasPermission } = useProjectPermissions(projectAddress)
+  const { hasPermission } = useNftPermissions(projectAddress)
 
   const permissionKeys = Object.keys(requiredPermissions) as Array<
     keyof Permissions

@@ -1,9 +1,7 @@
 import ContentLoader, { IContentLoaderProps } from 'react-content-loader'
 import { JSX } from 'react/jsx-runtime'
 
-const ProjectSkeleton = (
-  props: JSX.IntrinsicAttributes & IContentLoaderProps
-) => (
+const NftSkeleton = (props: JSX.IntrinsicAttributes & IContentLoaderProps) => (
   <ContentLoader
     speed={2}
     width='100%'
@@ -17,4 +15,4 @@ const ProjectSkeleton = (
   </ContentLoader>
 )
 
-export default ProjectSkeleton
+export default NftSkeleton

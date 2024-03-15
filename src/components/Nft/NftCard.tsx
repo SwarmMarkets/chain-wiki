@@ -14,19 +14,16 @@ import Icon from '../ui/Icon'
 import Text from '../ui/Text'
 import { StyledCard, Title } from './styled-components'
 
-interface ProjectCardProps {
+interface NftCardProps {
   project: NFTQueryFullData
   showRole?: boolean
 }
 
-const ProjectCard: React.FC<ProjectCardProps> = ({
-  project,
-  showRole = false,
-}) => {
+const NftCard: React.FC<NftCardProps> = ({ project, showRole = false }) => {
   const { t } = useTranslation(['errors', 'projects'])
   const theme = useTheme()
   const account = useAddress()
-  
+
   const roles = useMemo(() => {
     if (!showRole) return
     const isAdmin = project.admins.some(address =>
@@ -56,7 +53,10 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           </Flex>
           {project.ipfsContent?.htmlContent && (
             <Text.p mt={10}>
-              {limitString(getTextContentFromHtml(project.ipfsContent?.htmlContent), 300)}
+              {limitString(
+                getTextContentFromHtml(project.ipfsContent?.htmlContent),
+                300
+              )}
             </Text.p>
           )}
         </div>
@@ -89,4 +89,4 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   )
 }
 
-export default ProjectCard
+export default NftCard
