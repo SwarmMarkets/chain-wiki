@@ -41,7 +41,7 @@
     }
   },
   "successCreateNft": {
-    "title": "Site Creation Successful",
+    "title": "Site created",
     "description": "Your site is visible on \"My sites\" page."
   },
   "roleManager": {
