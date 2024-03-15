@@ -110,7 +110,7 @@ const UpdateNftContentButton: React.FC<UpdateNftContentButtonProps> = ({
         isOpen={isOpen}
         onClose={close}
       />
-      <Button mt={15} onClick={startContentUpdate} {...buttonProps}>
+      <Button onClick={startContentUpdate} {...buttonProps}>
         {caption}
       </Button>
     </>
