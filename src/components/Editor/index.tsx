@@ -124,6 +124,7 @@ const Editor: React.FC<EditorProps> = ({
           <RequirePermissions nftAddress={nftAddress} canUpdateContent>
             {tokenAddress ? (
               <UpdateTokenContentButton
+                mt={15}
                 onSuccess={onSuccessUpdate}
                 tokenAddress={tokenAddress}
                 nftAddress={nftAddress}
