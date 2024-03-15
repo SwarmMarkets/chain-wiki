@@ -1,7 +1,7 @@
 import Button from '@src/components/ui/Button/Button'
 import Flex from '@src/components/ui/Flex'
 import { useTranslation } from 'react-i18next'
-import UpdateProjectContentButton from '../UpdateContent/UpdateProjectContentButton'
+import UpdateNftContentButton from '../UpdateContent/UpdateNftContentButton'
 
 interface IndexPagesActionsProps {
   nftId: string
@@ -28,16 +28,16 @@ const IndexPagesActions: React.FC<IndexPagesActionsProps> = ({
         <Button height='30px' py={0} onClick={onCancel}>
           {t('cancel')}
         </Button>
-        <UpdateProjectContentButton
+        <UpdateNftContentButton
           ml={2}
           height='30px'
           py={0}
-          projectAddress={nftId}
+          nftAddress={nftId}
           onSuccess={onSave}
-          projectContentToUpdate={{ indexPages: newIndexPages }}
+          nftContentToUpdate={{ indexPages: newIndexPages }}
         >
           {t('save')}
-        </UpdateProjectContentButton>
+        </UpdateNftContentButton>
       </Flex>
     )
   }
