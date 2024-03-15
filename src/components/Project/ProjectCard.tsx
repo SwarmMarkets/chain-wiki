@@ -26,7 +26,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   const { t } = useTranslation(['errors', 'projects'])
   const theme = useTheme()
   const account = useAddress()
-
+  
   const roles = useMemo(() => {
     if (!showRole) return
     const isAdmin = project.admins.some(address =>
@@ -54,13 +54,13 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
             <Icon name='document' size={40} />
             <Title>{project.name}</Title>
           </Flex>
-          {project.htmlContent && (
+          {project.ipfsContent?.htmlContent && (
             <Text.p mt={10}>
-              {limitString(getTextContentFromHtml(project.htmlContent), 300)}
+              {limitString(getTextContentFromHtml(project.ipfsContent?.htmlContent), 300)}
             </Text.p>
           )}
         </div>
-        {!project.htmlContent && (
+        {!project.ipfsContent?.htmlContent && (
           <Flex
             height='100%'
             flexDirection='column'

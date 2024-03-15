@@ -56,17 +56,15 @@ const useNFTs = (
       async onCompleted(data) {
         if (!config?.fetchFullData) return
 
-        const nftsIpfsData = await getBatchIpfsData(
-          data.nfts
-        )
+        const nftsIpfsData = await getBatchIpfsData(data.nfts)
 
-        const fullData = data.nfts.map((item) => {
-          const ipfsData = nftsIpfsData.get(item.id)
-          if (!ipfsData) return item
+        const fullData = data.nfts.map(item => {
+          const ipfsContent = nftsIpfsData.get(item.id)
+          if (!ipfsContent) return item
 
           return {
-            ...ipfsData,
             ...item,
+            ipfsContent,
           }
         })
 
