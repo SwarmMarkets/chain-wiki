@@ -44,7 +44,7 @@ const UpdateProjectContentButton: React.FC<UpdateProjectContentButtonProps> = ({
 
   const uploadContent = async () => {
     if (!nft?.ipfsContent) return
-    
+
     const ipfsContent = generateIpfsProjectContent({
       ...nft?.ipfsContent,
       ...projectContentToUpdate,
@@ -110,7 +110,7 @@ const UpdateProjectContentButton: React.FC<UpdateProjectContentButtonProps> = ({
         isOpen={isOpen}
         onClose={close}
       />
-      <Button mt={15} onClick={startContentUpdate} {...buttonProps}>
+      <Button onClick={startContentUpdate} {...buttonProps}>
         {caption}
       </Button>
     </>

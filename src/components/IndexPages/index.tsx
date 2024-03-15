@@ -1,17 +1,16 @@
 import Checkbox from '@src/components/Checkbox'
 import Box from '@src/components/ui/Box'
-import Button from '@src/components/ui/Button/Button'
 import Divider from '@src/components/ui/Divider'
 import Flex from '@src/components/ui/Flex'
 import Text from '@src/components/ui/Text'
-import useProjectPermissions from '@src/hooks/permissions/useProjectPermissions'
 import RoutePaths from '@src/shared/enums/routes-paths'
 import { NFTQueryFullData, TokensQueryFullData } from '@src/shared/types/ipfs'
 import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { generatePath } from 'react-router-dom'
+import RequirePermissions from '../common/RequirePermissions'
+import IndexPagesActions from './IndexPagesActions'
 import { EditableItem, StyledLink } from './styled-components'
-import UpdateProjectContentButton from '../UpdateContent/UpdateProjectContentButton'
 
 interface IndexPagesProps {
   tokens: TokensQueryFullData[] | null
@@ -24,7 +23,6 @@ const IndexPages: React.FC<IndexPagesProps> = ({
   project,
   ...props
 }) => {
-  const { permissions } = useProjectPermissions(project?.id)
   const { t } = useTranslation(['project', 'buttons'])
   const [isEdit, setIsEdit] = useState(false)
   const [selectedIndexes, setSelectedIndexes] = useState<string[]>(
@@ -58,7 +56,8 @@ const IndexPages: React.FC<IndexPagesProps> = ({
     [tokens, project?.ipfsContent?.indexPages]
   )
   const noTokens = notEmptyTokens?.length === 0
-  if (noTokens) {
+
+  if (noTokens || !project?.id) {
     return (
       <Box {...props}>
         <Text.h3>{t('indexPages.title')}</Text.h3>
@@ -103,23 +102,18 @@ const IndexPages: React.FC<IndexPagesProps> = ({
         </Flex>
       )}
 
-      {permissions.canUpdateContent && (
-        <Flex mt='10px'>
-          {isEdit && project ? (
-            <UpdateProjectContentButton
-              projectAddress={project.id}
-              onSuccess={handleSaveButton}
-              projectContentToUpdate={{ indexPages: selectedIndexes }}
-            >
-              {t('save', { ns: 'buttons' })}
-            </UpdateProjectContentButton>
-          ) : (
-            <Button onClick={handleEditButton}>
-              {t('edit', { ns: 'buttons' })}
-            </Button>
-          )}
-        </Flex>
-      )}
+      <RequirePermissions projectAddress={project?.id} canUpdateContent>
+        <Box mt={4}>
+          <IndexPagesActions
+            nftId={project?.id}
+            newIndexPages={selectedIndexes}
+            isEditMode={isEdit}
+            onSave={handleSaveButton}
+            onEdit={handleEditButton}
+            onCancel={handleSaveButton}
+          />
+        </Box>
+      </RequirePermissions>
     </Box>
   )
 }

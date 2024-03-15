@@ -106,6 +106,7 @@ const ReviewVoteProposal: React.FC<ReviewVoteProposalProps> = ({
 
       {token && (
         <UpdateTokenContentButton
+          mt={15}
           width='100%'
           tokenAddress={token?.id}
           tokenContentToUpdate={{ voteProposal: proposal }}

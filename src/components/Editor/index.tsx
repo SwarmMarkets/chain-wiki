@@ -124,6 +124,7 @@ const Editor: React.FC<EditorProps> = ({
           <RequirePermissions projectAddress={projectAddress} canUpdateContent>
             {tokenAddress ? (
               <UpdateTokenContentButton
+                mt={15}
                 onSuccess={onSuccessUpdate}
                 tokenAddress={tokenAddress}
                 projectAddress={projectAddress}
@@ -131,6 +132,7 @@ const Editor: React.FC<EditorProps> = ({
               />
             ) : (
               <UpdateProjectContentButton
+                mt={15}
                 onSuccess={onSuccessUpdate}
                 projectAddress={projectAddress}
                 projectContentToUpdate={{ htmlContent: currContent }}
