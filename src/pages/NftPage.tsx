@@ -33,7 +33,7 @@ const NftPage = () => {
   const { t } = useTranslation('nft')
   const { permissions } = useNftPermissions(nftId)
   const [contentElem, setContentElem] = useState<HTMLDivElement | null>(null)
-  const [activeNftTab, setActiveNftTab] = useState<string>(NftTabs.PROJECT)
+  const [activeNftTab, setActiveNftTab] = useState<string>(NftTabs.NFT)
   const { nft, loadingNft, refetchingNft } = useNFT(nftId)
   const { fullTokens, loading: tokensLoading } = useTokens(
     {
@@ -42,7 +42,7 @@ const NftPage = () => {
     { fetchFullData: true }
   )
   const showSkeleton = loadingNft && !refetchingNft
-  const isNftTab = activeNftTab === NftTabs.PROJECT
+  const isNftTab = activeNftTab === NftTabs.NFT
   const allLoaded = nft && fullTokens
 
   const onMountContent = (element: HTMLDivElement) => {
@@ -54,7 +54,7 @@ const NftPage = () => {
   }
 
   const handleSuccessUpdate = () => {
-    setActiveNftTab(NftTabs.PROJECT)
+    setActiveNftTab(NftTabs.NFT)
   }
 
   if (showSkeleton) {
@@ -72,7 +72,7 @@ const NftPage = () => {
       justifyContent={isNftTab && allLoaded ? 'space-between' : 'center'}
       $gap='20px'
     >
-      {activeNftTab === NftTabs.PROJECT && (
+      {activeNftTab === NftTabs.NFT && (
         <StyledIndexPages
           tokens={fullTokens}
           nft={nft}
@@ -91,7 +91,7 @@ const NftPage = () => {
 
         <TabContext value={activeNftTab}>
           <Tabs onChange={onChangeNftTab}>
-            <Tab value={NftTabs.PROJECT} label={t('tabs.nft')} />
+            <Tab value={NftTabs.NFT} label={t('tabs.nft')} />
             {permissions.canManageRoles && (
               <Tab value={NftTabs.MANAGE} label={t('tabs.manageRoles')} />
             )}
@@ -101,7 +101,7 @@ const NftPage = () => {
             )}
             <Tab value={NftTabs.HISTORY} label={t('tabs.history')} />
           </Tabs>
-          <TabPanel value={NftTabs.PROJECT}>
+          <TabPanel value={NftTabs.NFT}>
             <NftView nft={nft} onMount={onMountContent} />
           </TabPanel>
           <TabPanel value={NftTabs.TOKENS}>

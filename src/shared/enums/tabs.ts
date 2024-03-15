@@ -5,7 +5,7 @@ export enum TokenTabs {
 }
 
 export enum NftTabs {
-  PROJECT = 'nft',
+  NFT = 'nft',
   MANAGE = 'manage',
   TOKENS = 'tokens',
   EDIT = 'edit',

@@ -87,7 +87,7 @@ const IndexPages: React.FC<IndexPagesProps> = ({ tokens, nft, ...props }) => {
           {noIndexPages && <Text>{t('indexPages.noIndexPages')}</Text>}
           {visibleIndexPages?.map(token => (
             <StyledLink
-              to={generatePath(RoutePaths.PROJECT + RoutePaths.TOKEN, {
+              to={generatePath(RoutePaths.NFT + RoutePaths.TOKEN, {
                 nftId: nft?.id,
                 tokenId: token?.id,
               })}

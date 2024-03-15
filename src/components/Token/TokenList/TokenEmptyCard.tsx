@@ -30,7 +30,7 @@ const TokenEmptyCard: React.FC<TokenEmptyCardProps> = ({ tokenId, nftId }) => {
         </Flex>
         <RequirePermissions canUpdateContent nftAddress={nftId}>
           <Link
-            to={`${generatePath(RoutePaths.PROJECT + RoutePaths.TOKEN, {
+            to={`${generatePath(RoutePaths.NFT + RoutePaths.TOKEN, {
               nftId,
               tokenId: tokenId,
             })}?tab=${TokenTabs.EDIT}`}

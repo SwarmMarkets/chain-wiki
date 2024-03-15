@@ -19,7 +19,7 @@ const TokenCard: React.FC<TokenCardProps> = ({ tokenId, nftId, content }) => {
 
   return (
     <Card
-      to={generatePath(RoutePaths.PROJECT + RoutePaths.TOKEN, {
+      to={generatePath(RoutePaths.NFT + RoutePaths.TOKEN, {
         nftId,
         tokenId: tokenId,
       })}

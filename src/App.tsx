@@ -40,12 +40,12 @@ function App() {
             <Layout>
               <Routes>
                 <Route path={RoutePaths.HOME} element={<HomePage />} />
-                <Route path={RoutePaths.PROJECT} element={<NftPage />} />
+                <Route path={RoutePaths.NFT} element={<NftPage />} />
                 <Route
-                  path={RoutePaths.PROJECT + RoutePaths.TOKEN}
+                  path={RoutePaths.NFT + RoutePaths.TOKEN}
                   element={<TokenPage />}
                 />
-                <Route path={RoutePaths.MY_PROJECTS} element={<MyNftsPage />} />
+                <Route path={RoutePaths.MY_NFTS} element={<MyNftsPage />} />
               </Routes>
             </Layout>
           </Router>
