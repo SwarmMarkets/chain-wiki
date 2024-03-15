@@ -15,33 +15,33 @@ import Text from '../ui/Text'
 import { StyledCard, Title } from './styled-components'
 
 interface NftCardProps {
-  project: NFTQueryFullData
+  nft: NFTQueryFullData
   showRole?: boolean
 }
 
-const NftCard: React.FC<NftCardProps> = ({ project, showRole = false }) => {
-  const { t } = useTranslation(['errors', 'projects'])
+const NftCard: React.FC<NftCardProps> = ({ nft, showRole = false }) => {
+  const { t } = useTranslation(['errors', 'nfts'])
   const theme = useTheme()
   const account = useAddress()
 
   const roles = useMemo(() => {
     if (!showRole) return
-    const isAdmin = project.admins.some(address =>
+    const isAdmin = nft.admins.some(address =>
       isSameEthereumAddress(address, account)
     )
-    const isEditor = project.editors.some(address =>
+    const isEditor = nft.editors.some(address =>
       isSameEthereumAddress(address, account)
     )
     const roles = []
     if (isAdmin) {
-      roles.push(t('filter.admin', { ns: 'projects' }))
+      roles.push(t('filter.admin', { ns: 'nfts' }))
     }
     if (isEditor) {
-      roles.push(t('filter.editor', { ns: 'projects' }))
+      roles.push(t('filter.editor', { ns: 'nfts' }))
     }
 
     return roles
-  }, [account, project.admins, project.editors, t, showRole])
+  }, [account, nft.admins, nft.editors, t, showRole])
 
   return (
     <StyledCard>
@@ -49,18 +49,18 @@ const NftCard: React.FC<NftCardProps> = ({ project, showRole = false }) => {
         <div>
           <Flex alignItems='center' $gap='3px'>
             <Icon name='document' size={40} />
-            <Title>{project.name}</Title>
+            <Title>{nft.name}</Title>
           </Flex>
-          {project.ipfsContent?.htmlContent && (
+          {nft.ipfsContent?.htmlContent && (
             <Text.p mt={10}>
               {limitString(
-                getTextContentFromHtml(project.ipfsContent?.htmlContent),
+                getTextContentFromHtml(nft.ipfsContent?.htmlContent),
                 300
               )}
             </Text.p>
           )}
         </div>
-        {!project.ipfsContent?.htmlContent && (
+        {!nft.ipfsContent?.htmlContent && (
           <Flex
             height='100%'
             flexDirection='column'
@@ -70,17 +70,17 @@ const NftCard: React.FC<NftCardProps> = ({ project, showRole = false }) => {
           >
             <Icon name='empty' size={60} color={theme.palette.gray} />
             <Text.p color={theme.palette.gray}>
-              {t('project.contentNotFound')}
+              {t('nft.contentNotFound')}
             </Text.p>
           </Flex>
         )}
         <Flex flexDirection='column' alignItems='end' pt={10} $gap='5px'>
-          <ExplorerLink type='address' hash={project.id}>
-            {shortenAddress(project.id, false)}
+          <ExplorerLink type='address' hash={nft.id}>
+            {shortenAddress(nft.id, false)}
           </ExplorerLink>
           {roles && roles.length > 0 && (
             <Text>
-              {t('roles', { ns: 'projects' })} {roles.join(', ')}
+              {t('roles', { ns: 'nfts' })} {roles.join(', ')}
             </Text>
           )}
         </Flex>

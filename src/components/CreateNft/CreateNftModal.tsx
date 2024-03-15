@@ -7,7 +7,7 @@ import SuccessContent from '../ui/SuccessScreens/SuccessContent'
 import Box from '../ui/Box'
 
 const CreateNftModal = ({ isOpen, onClose }: BasicModalProps) => {
-  const { t } = useTranslation('project')
+  const { t } = useTranslation('nft')
   const { step, nextStep, reset } = useSteps(2)
 
   const handleOnClose = () => {

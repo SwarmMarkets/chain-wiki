@@ -11,12 +11,12 @@ import GrantRoleForm from './GrantRoleForm'
 import RevokeRoleButton from './RevokeRoleButton'
 
 interface NftRoleManagerProps {
-  projectAddress: string
+  nftAddress: string
 }
 
-const NftRoleManager: React.FC<NftRoleManagerProps> = ({ projectAddress }) => {
-  const { nft } = useNFTRoles(projectAddress)
-  const { t } = useTranslation('project')
+const NftRoleManager: React.FC<NftRoleManagerProps> = ({ nftAddress }) => {
+  const { nft } = useNFTRoles(nftAddress)
+  const { t } = useTranslation('nft')
 
   const users = useMemo(() => {
     if (!nft) return
@@ -67,14 +67,14 @@ const NftRoleManager: React.FC<NftRoleManagerProps> = ({ projectAddress }) => {
                 <RevokeRoleButton
                   from={user.address}
                   role={user.roleType}
-                  projectAddress={projectAddress}
+                  nftAddress={nftAddress}
                 />
               </TableCell>
             </TableRow>
           ))}
         </tbody>
       </Table>
-      <GrantRoleForm projectAddress={projectAddress} />
+      <GrantRoleForm nftAddress={nftAddress} />
     </Box>
   )
 }

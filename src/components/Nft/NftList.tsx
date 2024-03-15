@@ -10,7 +10,7 @@ import { StyledLink } from './styled-components'
 
 interface NftListProps {
   loading: boolean
-  projects?: NFTQueryFullData[] | null
+  nfts?: NFTQueryFullData[] | null
   addNftCard?: boolean
   showRole?: boolean
 }
@@ -25,7 +25,7 @@ const Wrapper = styled.div`
 
 const NftList: React.FC<NftListProps> = ({
   loading,
-  projects,
+  nfts,
   addNftCard,
   showRole,
 }) => {
@@ -37,12 +37,12 @@ const NftList: React.FC<NftListProps> = ({
     <>
       <Wrapper>
         {addNftCard && <AddNftCard />}
-        {projects?.map(project => (
+        {nfts?.map(nft => (
           <StyledLink
-            to={generatePath(RoutePaths.PROJECT, { projectId: project.id })}
-            key={project.id}
+            to={generatePath(RoutePaths.PROJECT, { nftId: nft.id })}
+            key={nft.id}
           >
-            <NftCard project={project} showRole={showRole} />
+            <NftCard nft={nft} showRole={showRole} />
           </StyledLink>
         ))}
       </Wrapper>

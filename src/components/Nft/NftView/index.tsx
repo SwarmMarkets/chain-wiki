@@ -4,11 +4,11 @@ import { NFTQueryFullData } from '@src/shared/types/ipfs'
 import { useRef } from 'react'
 
 interface NftViewProps {
-  project?: NFTQueryFullData | null
+  nft?: NFTQueryFullData | null
   onMount: (element: HTMLDivElement) => void
 }
 
-export const NftView: React.FC<NftViewProps> = ({ project, onMount }) => {
+export const NftView: React.FC<NftViewProps> = ({ nft, onMount }) => {
   const contentRef = useRef<HTMLDivElement>(null)
 
   const onMountContent = () => {
@@ -17,14 +17,14 @@ export const NftView: React.FC<NftViewProps> = ({ project, onMount }) => {
     }
   }
 
-  if (!project?.ipfsContent?.htmlContent)
+  if (!nft?.ipfsContent?.htmlContent)
     return <ContentMissing message='Nft content missing' />
 
   return (
     <HtmlRender
       onMount={onMountContent}
       ref={contentRef}
-      html={project.ipfsContent.htmlContent}
+      html={nft.ipfsContent.htmlContent}
     />
   )
 }

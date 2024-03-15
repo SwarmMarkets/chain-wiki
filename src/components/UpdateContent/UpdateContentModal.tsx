@@ -12,7 +12,7 @@ import {
   ActionStateWrap,
 } from '../ui/ActionState'
 
-export type ContentType = 'project' | 'token' | 'attestation'
+export type ContentType = 'nft' | 'token' | 'attestation'
 
 interface UpdateNftContentModalProps extends BasicModalProps {
   contentType: ContentType

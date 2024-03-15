@@ -9,7 +9,7 @@ import Text from '../ui/Text'
 import { StyledCard } from './styled-components'
 
 const AddNftCard: React.FC = () => {
-  const { t } = useTranslation(['errors', 'projects'])
+  const { t } = useTranslation(['errors', 'nfts'])
   const theme = useTheme()
   const { isOpen, open, close } = useModalState(false)
 
@@ -25,7 +25,7 @@ const AddNftCard: React.FC = () => {
         >
           <Icon name='plus' size={70} color={theme.palette.borderPrimary} />
           <Text color={theme.palette.borderPrimary}>
-            {t('addNft', { ns: 'projects' })}
+            {t('addNft', { ns: 'nfts' })}
           </Text>
         </Flex>
       </StyledCard>

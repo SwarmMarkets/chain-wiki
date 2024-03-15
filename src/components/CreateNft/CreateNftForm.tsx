@@ -22,7 +22,7 @@ interface CreateNftFormProps {
 }
 
 const CreateNftForm: React.FC<CreateNftFormProps> = ({ onSuccessSubmit }) => {
-  const { t } = useTranslation('project', { keyPrefix: 'createNft' })
+  const { t } = useTranslation('nft', { keyPrefix: 'createNft' })
 
   const {
     register,

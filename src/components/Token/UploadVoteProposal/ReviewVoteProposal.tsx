@@ -109,7 +109,7 @@ const ReviewVoteProposal: React.FC<ReviewVoteProposalProps> = ({
           width='100%'
           tokenAddress={token?.id}
           tokenContentToUpdate={{ voteProposal: proposal }}
-          projectAddress={nftId}
+          nftAddress={nftId}
           onSuccess={nextStep}
         >
           {t('submit')}

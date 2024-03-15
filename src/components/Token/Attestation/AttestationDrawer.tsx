@@ -24,7 +24,7 @@ const AttestationDrawer: React.FC<AttestationDrawerProps> = ({
   section,
   onClose,
 }) => {
-  const { projectId = '', tokenId = '' } = useParams()
+  const { nftId = '', tokenId = '' } = useParams()
   const { t } = useTranslation('token')
   const [editorContent, setEditorContent] = useState('')
 
@@ -61,13 +61,13 @@ const AttestationDrawer: React.FC<AttestationDrawerProps> = ({
           <HtmlRender html={section.htmlContent || ''} />
           <Divider />
           <AttestationList
-            // projectAddress={projectId}
+            // nftAddress={nftId}
             // tokenAddress={tokenId}
             attestations={fullComments}
             loading={showSkeletons}
           />
         </Box>
-        <RequirePermissions projectAddress={projectId} canCreateAttestation>
+        <RequirePermissions nftAddress={nftId} canCreateAttestation>
           <Flex flexDirection='column'>
             <LiteEditor
               height={200}
@@ -76,7 +76,7 @@ const AttestationDrawer: React.FC<AttestationDrawerProps> = ({
             />
             <MakeAttestationButton
               onSuccess={handleSendAttestation}
-              projectAddress={projectId}
+              nftAddress={nftId}
               sectionId={section.id}
               attestationContent={editorContent}
               tokenId={tokenId}

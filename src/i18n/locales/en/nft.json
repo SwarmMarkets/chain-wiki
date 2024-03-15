@@ -1,8 +1,8 @@
 {
   "tabs": {
-    "project": "Nft",
+    "nft": "Nft",
     "tokens": "Pages",
-    "edit": "Edit project",
+    "edit": "Edit nft",
     "manageRoles": "Roles",
     "history": "History"
   },
@@ -17,8 +17,8 @@
       "submit": "Create"
     },
     "formPlaceholders": {
-      "name": "Enter full name of the project",
-      "symbol": "Enter project symbol (e.g., ABC)",
+      "name": "Enter full name of the nft",
+      "symbol": "Enter nft symbol (e.g., ABC)",
       "adminAddress": "Enter admin's Ethereum address",
       "uri": "Paste IPFS hash or URI",
       "editorAddress": "Enter editor's Ethereum address"
@@ -42,11 +42,11 @@
   },
   "successCreateNft": {
     "title": "Nft Creation Successful",
-    "description": "Your project is visible on \"My projects\" page."
+    "description": "Your nft is visible on \"My nfts\" page."
   },
   "roleManager": {
-    "title": "Manage your project roles",
-    "description": "This page is dedicated to managing user roles within the project. It allows for the assignment and adjustment of roles to ensure proper access control and responsibility distribution across the team.",
+    "title": "Manage your nft roles",
+    "description": "This page is dedicated to managing user roles within the nft. It allows for the assignment and adjustment of roles to ensure proper access control and responsibility distribution across the team.",
     "tableHead": {
       "address": "Address",
       "role": "Role"

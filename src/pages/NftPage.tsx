@@ -28,16 +28,16 @@ import { useParams } from 'react-router-dom'
 import { useTheme } from 'styled-components'
 
 const NftPage = () => {
-  const { projectId = '' } = useParams()
+  const { nftId = '' } = useParams()
   const theme = useTheme()
-  const { t } = useTranslation('project')
-  const { permissions } = useNftPermissions(projectId)
+  const { t } = useTranslation('nft')
+  const { permissions } = useNftPermissions(nftId)
   const [contentElem, setContentElem] = useState<HTMLDivElement | null>(null)
   const [activeNftTab, setActiveNftTab] = useState<string>(NftTabs.PROJECT)
-  const { nft, loadingNft, refetchingNft } = useNFT(projectId)
+  const { nft, loadingNft, refetchingNft } = useNFT(nftId)
   const { fullTokens, loading: tokensLoading } = useTokens(
     {
-      variables: { filter: { nft: unifyAddressToId(projectId) } },
+      variables: { filter: { nft: unifyAddressToId(nftId) } },
     },
     { fetchFullData: true }
   )
@@ -75,7 +75,7 @@ const NftPage = () => {
       {activeNftTab === NftTabs.PROJECT && (
         <StyledIndexPages
           tokens={fullTokens}
-          project={nft}
+          nft={nft}
           indexPages={nft?.ipfsContent?.indexPages}
         />
       )}
@@ -84,14 +84,14 @@ const NftPage = () => {
           <Text.h1 size={theme.fontSizes.large} weight={700}>
             {nft?.name}
           </Text.h1>
-          <ExplorerLink type='address' hash={projectId}>
-            {projectId}
+          <ExplorerLink type='address' hash={nftId}>
+            {nftId}
           </ExplorerLink>
         </Flex>
 
         <TabContext value={activeNftTab}>
           <Tabs onChange={onChangeNftTab}>
-            <Tab value={NftTabs.PROJECT} label={t('tabs.project')} />
+            <Tab value={NftTabs.PROJECT} label={t('tabs.nft')} />
             {permissions.canManageRoles && (
               <Tab value={NftTabs.MANAGE} label={t('tabs.manageRoles')} />
             )}
@@ -102,24 +102,24 @@ const NftPage = () => {
             <Tab value={NftTabs.HISTORY} label={t('tabs.history')} />
           </Tabs>
           <TabPanel value={NftTabs.PROJECT}>
-            <NftView project={nft} onMount={onMountContent} />
+            <NftView nft={nft} onMount={onMountContent} />
           </TabPanel>
           <TabPanel value={NftTabs.TOKENS}>
             <TokenList
               tokens={fullTokens}
               loading={tokensLoading}
-              projectAddress={projectId!}
+              nftAddress={nftId!}
             />
           </TabPanel>
           <TabPanel value={NftTabs.EDIT}>
             <Editor
               onSuccessUpdate={handleSuccessUpdate}
-              projectAddress={projectId!}
+              nftAddress={nftId!}
               initialContent={nft?.ipfsContent?.htmlContent || ''}
             />
           </TabPanel>
           <TabPanel value={NftTabs.MANAGE}>
-            <NftRoleManager projectAddress={projectId!} />
+            <NftRoleManager nftAddress={nftId!} />
           </TabPanel>
           <TabPanel value={NftTabs.HISTORY}>
             <HistoryNft />

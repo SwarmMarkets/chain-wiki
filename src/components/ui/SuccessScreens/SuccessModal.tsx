@@ -3,7 +3,7 @@ import Modal from '../../ui/Modal'
 import SuccessContent from './SuccessContent'
 import Box from '../Box'
 
-export type ContentType = 'project' | 'token'
+export type ContentType = 'nft' | 'token'
 
 interface SuccessModalProps extends BasicModalProps {
   title?: string

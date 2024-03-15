@@ -13,14 +13,14 @@ import { getUniqueId } from '@src/shared/utils'
 
 interface UpdateTokenContentButtonProps extends ButtonProps, ChildrenProp {
   tokenAddress: string
-  projectAddress: string
+  nftAddress: string
   tokenContentToUpdate: Partial<IpfsTokenContent>
   onSuccess?(): void
 }
 
 const UpdateTokenContentButton: React.FC<UpdateTokenContentButtonProps> = ({
   tokenAddress,
-  projectAddress,
+  nftAddress,
   tokenContentToUpdate,
   onSuccess,
   children,
@@ -36,7 +36,7 @@ const UpdateTokenContentButton: React.FC<UpdateTokenContentButtonProps> = ({
     result,
     isTxError,
     reset: resetCallState,
-  } = useSX1155NFT(projectAddress)
+  } = useSX1155NFT(nftAddress)
   const {
     mutateAsync: upload,
     isLoading,

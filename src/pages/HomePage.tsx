@@ -4,7 +4,7 @@ import Box from '@src/components/ui/Box'
 import { useTranslation } from 'react-i18next'
 
 const HomePage = () => {
-  const { t } = useTranslation('projects')
+  const { t } = useTranslation('nfts')
   const { fullNfts, loadingNfts, refetchingNfts } = useNFTs(
     {},
     { fetchFullData: true }
@@ -16,7 +16,7 @@ const HomePage = () => {
     <>
       <h1>{t('title')}</h1>
       <Box mt={20}>
-        <NftList loading={loading} projects={fullNfts} />
+        <NftList loading={loading} nfts={fullNfts} />
       </Box>
     </>
   )

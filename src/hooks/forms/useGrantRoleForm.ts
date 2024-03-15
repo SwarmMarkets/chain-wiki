@@ -10,7 +10,7 @@ export interface GrantRoleFormInputs {
 }
 
 const useGrantRoleForm = () => {
-  const { t } = useTranslation('project', {
+  const { t } = useTranslation('nft', {
     keyPrefix: 'roleManager.formErrors',
   })
   const resolver = useYupValidationResolver(

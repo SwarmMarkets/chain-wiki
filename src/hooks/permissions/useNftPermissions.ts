@@ -23,8 +23,8 @@ const initialPermissions: Permissions = {
   canDeleteAttestation: false,
 }
 
-const useNftPermissions = (projectAddress?: string) => {
-  const address = projectAddress ? unifyAddressToId(projectAddress) : ''
+const useNftPermissions = (nftAddress?: string) => {
+  const address = nftAddress ? unifyAddressToId(nftAddress) : ''
   const { nft } = useNFTRoles(address)
 
   const account = useAddress()

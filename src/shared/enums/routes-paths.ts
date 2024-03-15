@@ -1,9 +1,9 @@
 enum RoutePaths {
   HOME = '/',
   TOKEN = '/token/:tokenId',
-  PROJECT = '/project/:projectId',
-  MY_PROJECTS = '/my-projects',
-  CREATE_PROJECT = '/create/project',
+  PROJECT = '/nft/:nftId',
+  MY_PROJECTS = '/my-nfts',
+  CREATE_PROJECT = '/create/nft',
 }
 
 export default RoutePaths

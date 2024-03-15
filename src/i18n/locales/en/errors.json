@@ -3,7 +3,7 @@
     "required": "This field is required",
     "incorrectWalletAddress": "Incorrect wallet address"
   },
-  "project": {
+  "nft": {
     "contentNotFound": "Content is not found"
   },
   "token": {

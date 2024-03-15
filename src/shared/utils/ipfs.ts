@@ -104,9 +104,9 @@ export const verifyVoteProposalValid = (proposal: VoteProposal) => {
   }
 }
 
-export const verifyNftValid = (project: IpfsNftContent) => {
+export const verifyNftValid = (nft: IpfsNftContent) => {
   try {
-    return verifyObjectKeysDeep(initialNftContent, project)
+    return verifyObjectKeysDeep(initialNftContent, nft)
   } catch {
     throw Error('Nft content is invalid.')
   }

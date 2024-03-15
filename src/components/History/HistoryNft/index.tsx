@@ -18,8 +18,8 @@ import HistoryCardSkeleton from '../HistoryCardSkeleton'
 const HistoryNft = () => {
   const { t } = useTranslation('buttons')
   const location = useLocation()
-  const { projectId = '' } = useParams()
-  const { nftUriUpdates, loading, refetching } = useNFTURIUpdates(projectId, {
+  const { nftId = '' } = useParams()
+  const { nftUriUpdates, loading, refetching } = useNFTURIUpdates(nftId, {
     variables: {
       orderBy: NfturiUpdate_OrderBy.UpdatedAt,
       orderDirection: OrderDirection.Desc,
@@ -38,8 +38,8 @@ const HistoryNft = () => {
   >([])
   const showSkeletons = loading && !refetching
 
-  const onSelectNfts = (projects: NfturiUpdatesQuery['nfturiupdates']) => {
-    setSelectedNfts(projects)
+  const onSelectNfts = (nfts: NfturiUpdatesQuery['nfturiupdates']) => {
+    setSelectedNfts(nfts)
   }
 
   const sortedNftsByUpdatedAt = useMemo(

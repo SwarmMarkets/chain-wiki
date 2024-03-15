@@ -11,7 +11,7 @@ import { useTheme } from 'styled-components'
 // import RequirePermissions from '@src/components/common/RequirePermissions'
 
 interface AttestationCardProps {
-  // projectAddress: string
+  // nftAddress: string
   address: string
   message: string
   date: string
@@ -23,7 +23,7 @@ const AttestationCard: React.FC<AttestationCardProps> = ({
   message,
   date,
   // onDelete,
-  // projectAddress,
+  // nftAddress,
 }) => {
   const theme = useTheme()
   const { t } = useTranslation(['token', 'buttons'])
@@ -40,7 +40,7 @@ const AttestationCard: React.FC<AttestationCardProps> = ({
         <Text color={theme.palette.gray}>{date}</Text>
       </Flex>
       <HtmlRender html={message} />
-      {/* <RequirePermissions projectAddress={projectAddress} canDeleteAttestation>
+      {/* <RequirePermissions nftAddress={nftAddress} canDeleteAttestation>
         <Button mt='8px' onClick={onDelete}>
           {t('delete', { ns: 'buttons' })}
         </Button>

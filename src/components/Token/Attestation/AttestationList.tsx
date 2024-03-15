@@ -10,16 +10,16 @@ interface AttestationListProps {
   attestations: CommentsQueryFullData[] | null
   loading: boolean
   // tokenAddress: string
-  // projectAddress: string
+  // nftAddress: string
 }
 
 const AttestationList: React.FC<AttestationListProps> = ({
   attestations,
   loading,
   // tokenAddress,
-  // projectAddress,
+  // nftAddress,
 }) => {
-  // const { call } = useSX1155NFT(projectAddress)
+  // const { call } = useSX1155NFT(nftAddress)
 
   if (loading) {
     return (
@@ -43,7 +43,7 @@ const AttestationList: React.FC<AttestationListProps> = ({
       {attestations?.map(item => (
         <AttestationCard
           // onDelete={() => handleDeleteAttestation(item.id)}
-          // projectAddress={projectAddress}
+          // nftAddress={nftAddress}
           key={item.id}
           address={item.commentator}
           message={item.ipfsContent?.htmlContent || ''}

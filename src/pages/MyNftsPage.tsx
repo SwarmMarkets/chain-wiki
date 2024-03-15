@@ -2,14 +2,14 @@ import NftList from '@src/components/Nft/NftList'
 import Box from '@src/components/ui/Box'
 import ButtonGroup from '@src/components/ui/Button/ButtonGroup'
 import useNFTs from '@src/hooks/subgraph/useNFTs'
-import { NftButtonOptions } from '@src/shared/enums/projects/button-options'
+import { NftButtonOptions } from '@src/shared/enums/nfts/button-options'
 import { ButtonOption } from '@src/shared/types/ui-components'
 import { useAddress } from '@thirdweb-dev/react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 const MyNftsPage = () => {
-  const { t } = useTranslation('projects')
+  const { t } = useTranslation('nfts')
   const address = useAddress() || ''
   const [selectedOption, setSelectedOption] = useState<string>(
     NftButtonOptions.ALL
@@ -71,7 +71,7 @@ const MyNftsPage = () => {
         onSelect={handleSelect}
       />
       <Box mt={20}>
-        <NftList projects={fullNfts} loading={loading} addNftCard showRole />
+        <NftList nfts={fullNfts} loading={loading} addNftCard showRole />
       </Box>
     </>
   )

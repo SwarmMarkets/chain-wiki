@@ -8,16 +8,16 @@ import { isSameEthereumAddress } from '@src/shared/utils'
 interface RevokeRoleButtonProps {
   from: string
   role: Roles
-  projectAddress: string
+  nftAddress: string
 }
 
 const RevokeRoleButton: React.FC<RevokeRoleButtonProps> = ({
   from,
   role,
-  projectAddress,
+  nftAddress,
 }) => {
-  const { t } = useTranslation('project', { keyPrefix: 'roleManager.actions' })
-  const { revokeRole, txLoading } = useNFTRoleManager(projectAddress)
+  const { t } = useTranslation('nft', { keyPrefix: 'roleManager.actions' })
+  const { revokeRole, txLoading } = useNFTRoleManager(nftAddress)
   const account = useAddress()
 
   if (role === Roles.ADMIN && isSameEthereumAddress(account, from)) return null

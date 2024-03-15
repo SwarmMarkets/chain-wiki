@@ -31,12 +31,12 @@ import {
 } from 'react-router-dom'
 
 const TokenPage = () => {
-  const { tokenId = '', projectId = '' } = useParams()
+  const { tokenId = '', nftId = '' } = useParams()
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
   const location = useLocation()
   const { t } = useTranslation('token')
-  const { permissions } = useNftPermissions(projectId)
+  const { permissions } = useNftPermissions(nftId)
 
   const initialTab = searchParams.get('tab') || TokenTabs.READ
   const [activeTab, setActiveTab] = useState(initialTab)
@@ -44,10 +44,10 @@ const TokenPage = () => {
   const [contentElem, setContentElem] = useState<HTMLDivElement | null>(null)
 
   const { token, loadingToken, refetchingToken } = useToken(tokenId)
-  const { nft } = useNFT(projectId)
+  const { nft } = useNFT(nftId)
   const { fullTokens } = useTokens(
     {
-      variables: { filter: { nft: unifyAddressToId(projectId) } },
+      variables: { filter: { nft: unifyAddressToId(nftId) } },
     },
     { fetchFullData: true }
   )
@@ -89,10 +89,7 @@ const TokenPage = () => {
   }
 
   const breadCrumbs = nft &&
-    token && [
-      { label: nft.name, to: `/project/${projectId}` },
-      { label: token.id },
-    ]
+    token && [{ label: nft.name, to: `/nft/${nftId}` }, { label: token.id }]
 
   return (
     <TokenContextProvider value={token}>
@@ -104,7 +101,7 @@ const TokenPage = () => {
         {isReadTab && (
           <StyledIndexPages
             tokens={fullTokens}
-            project={nft}
+            nft={nft}
             indexPages={nft?.ipfsContent?.indexPages}
           />
         )}
@@ -129,7 +126,7 @@ const TokenPage = () => {
               <Editor
                 onSuccessUpdate={handleSuccessUpdate}
                 initialContent={token?.ipfsContent?.htmlContent || ''}
-                projectAddress={projectId}
+                nftAddress={nftId}
                 tokenAddress={token?.id}
               />
             </TabPanel>

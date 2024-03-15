@@ -9,7 +9,7 @@ import UpdateContentModal, { Steps } from './UpdateContentModal'
 import { generateIpfsAttestationContent } from '@src/shared/utils'
 
 interface MakeAttestationButtonProps extends ButtonProps, ChildrenProp {
-  projectAddress: string
+  nftAddress: string
   sectionId: string | null
   attestationContent: string
   tokenId: string
@@ -17,7 +17,7 @@ interface MakeAttestationButtonProps extends ButtonProps, ChildrenProp {
 }
 
 const MakeAttestationButton: React.FC<MakeAttestationButtonProps> = ({
-  projectAddress,
+  nftAddress,
   sectionId,
   attestationContent,
   tokenId,
@@ -35,7 +35,7 @@ const MakeAttestationButton: React.FC<MakeAttestationButtonProps> = ({
     result,
     isTxError,
     reset: resetCallState,
-  } = useSX1155NFT(projectAddress)
+  } = useSX1155NFT(nftAddress)
   const {
     mutateAsync: upload,
     isLoading,

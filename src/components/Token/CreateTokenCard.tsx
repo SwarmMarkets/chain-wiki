@@ -19,17 +19,15 @@ const StyledCard = styled(Card)<StyledCardProps>`
 `
 
 interface CreateTokenCardProps {
-  projectAddress: string
+  nftAddress: string
 }
 
-const CreateTokenCard: React.FC<CreateTokenCardProps> = ({
-  projectAddress,
-}) => {
+const CreateTokenCard: React.FC<CreateTokenCardProps> = ({ nftAddress }) => {
   const { t } = useTranslation('token')
   const theme = useTheme()
 
   const address = useAddress()
-  const { call, txLoading } = useSX1155NFT(projectAddress)
+  const { call, txLoading } = useSX1155NFT(nftAddress)
 
   const createNFTToken = () => {
     if (!address) return

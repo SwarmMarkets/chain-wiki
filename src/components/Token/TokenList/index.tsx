@@ -9,23 +9,23 @@ import TokenCard from './TokenCard'
 
 interface TokenListProps {
   tokens: TokensQueryFullData[] | null
-  projectAddress: string
+  nftAddress: string
   loading?: boolean
 }
 
 const TokenList: React.FC<TokenListProps> = ({
   tokens,
-  projectAddress,
+  nftAddress,
   loading,
 }) => {
-  const { projectId = '' } = useParams()
+  const { nftId = '' } = useParams()
 
   const noContent = !loading && (tokens?.length === 0 || !tokens)
 
   return (
     <Flex flexDirection='column' $gap='10px'>
-      <RequirePermissions canCreateToken projectAddress={projectId}>
-        <CreateTokenCard projectAddress={projectAddress} />
+      <RequirePermissions canCreateToken nftAddress={nftId}>
+        <CreateTokenCard nftAddress={nftAddress} />
       </RequirePermissions>
       {noContent ? (
         <ContentMissing message='Tokens missing' />
@@ -34,7 +34,7 @@ const TokenList: React.FC<TokenListProps> = ({
           <TokenCard
             key={token.id}
             tokenId={token.id}
-            projectId={projectId}
+            nftId={nftId}
             content={token.ipfsContent}
           />
         ))

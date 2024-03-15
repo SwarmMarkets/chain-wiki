@@ -12,13 +12,10 @@ import { useTheme } from 'styled-components'
 
 interface TokenEmptyCardProps {
   tokenId: string
-  projectId: string
+  nftId: string
 }
 
-const TokenEmptyCard: React.FC<TokenEmptyCardProps> = ({
-  tokenId,
-  projectId,
-}) => {
+const TokenEmptyCard: React.FC<TokenEmptyCardProps> = ({ tokenId, nftId }) => {
   const { t } = useTranslation(['errors', 'token'])
   const theme = useTheme()
 
@@ -31,10 +28,10 @@ const TokenEmptyCard: React.FC<TokenEmptyCardProps> = ({
             {t('token.pendingDetails')}
           </Text.p>
         </Flex>
-        <RequirePermissions canUpdateContent projectAddress={projectId}>
+        <RequirePermissions canUpdateContent nftAddress={nftId}>
           <Link
             to={`${generatePath(RoutePaths.PROJECT + RoutePaths.TOKEN, {
-              projectId,
+              nftId,
               tokenId: tokenId,
             })}?tab=${TokenTabs.EDIT}`}
           >

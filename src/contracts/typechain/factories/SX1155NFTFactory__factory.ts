@@ -2,12 +2,12 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import { Contract, Signer, utils } from "ethers";
-import type { Provider } from "@ethersproject/providers";
+import { Contract, Signer, utils } from 'ethers'
+import type { Provider } from '@ethersnft/providers'
 import type {
   SX1155NFTFactory,
   SX1155NFTFactoryInterface,
-} from "../SX1155NFTFactory";
+} from '../SX1155NFTFactory'
 
 const _abi = [
   {
@@ -15,94 +15,94 @@ const _abi = [
     inputs: [
       {
         indexed: false,
-        internalType: "contract SX1155NFT",
-        name: "deployedAddress",
-        type: "address",
+        internalType: 'contract SX1155NFT',
+        name: 'deployedAddress',
+        type: 'address',
       },
       {
         indexed: false,
-        internalType: "string",
-        name: "name",
-        type: "string",
+        internalType: 'string',
+        name: 'name',
+        type: 'string',
       },
       {
         indexed: false,
-        internalType: "string",
-        name: "symbol",
-        type: "string",
+        internalType: 'string',
+        name: 'symbol',
+        type: 'string',
       },
       {
         indexed: false,
-        internalType: "string",
-        name: "uri",
-        type: "string",
+        internalType: 'string',
+        name: 'uri',
+        type: 'string',
       },
       {
         indexed: false,
-        internalType: "address",
-        name: "admin",
-        type: "address",
+        internalType: 'address',
+        name: 'admin',
+        type: 'address',
       },
       {
         indexed: false,
-        internalType: "address",
-        name: "editor",
-        type: "address",
+        internalType: 'address',
+        name: 'editor',
+        type: 'address',
       },
     ],
-    name: "SX1155NFTDeployed",
-    type: "event",
+    name: 'SX1155NFTDeployed',
+    type: 'event',
   },
   {
     inputs: [
       {
-        internalType: "string",
-        name: "_name",
-        type: "string",
+        internalType: 'string',
+        name: '_name',
+        type: 'string',
       },
       {
-        internalType: "string",
-        name: "_symbol",
-        type: "string",
+        internalType: 'string',
+        name: '_symbol',
+        type: 'string',
       },
       {
-        internalType: "string",
-        name: "_uri",
-        type: "string",
+        internalType: 'string',
+        name: '_uri',
+        type: 'string',
       },
       {
-        internalType: "address",
-        name: "_admin",
-        type: "address",
+        internalType: 'address',
+        name: '_admin',
+        type: 'address',
       },
       {
-        internalType: "address",
-        name: "_editor",
-        type: "address",
+        internalType: 'address',
+        name: '_editor',
+        type: 'address',
       },
     ],
-    name: "deployNFTContract",
+    name: 'deployNFTContract',
     outputs: [
       {
-        internalType: "contract SX1155NFT",
-        name: "newSx1155",
-        type: "address",
+        internalType: 'contract SX1155NFT',
+        name: 'newSx1155',
+        type: 'address',
       },
     ],
-    stateMutability: "nonpayable",
-    type: "function",
+    stateMutability: 'nonpayable',
+    type: 'function',
   },
-] as const;
+] as const
 
 export class SX1155NFTFactory__factory {
-  static readonly abi = _abi;
+  static readonly abi = _abi
   static createInterface(): SX1155NFTFactoryInterface {
-    return new utils.Interface(_abi) as SX1155NFTFactoryInterface;
+    return new utils.Interface(_abi) as SX1155NFTFactoryInterface
   }
   static connect(
     address: string,
     signerOrProvider: Signer | Provider
   ): SX1155NFTFactory {
-    return new Contract(address, _abi, signerOrProvider) as SX1155NFTFactory;
+    return new Contract(address, _abi, signerOrProvider) as SX1155NFTFactory
   }
 }

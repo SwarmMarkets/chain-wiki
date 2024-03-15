@@ -15,20 +15,16 @@ import UpdateNftContentButton from '../UpdateContent/UpdateNftContentButton'
 
 interface IndexPagesProps {
   tokens: TokensQueryFullData[] | null
-  project: NFTQueryFullData | null
+  nft: NFTQueryFullData | null
   indexPages?: string[] | null
 }
 
-const IndexPages: React.FC<IndexPagesProps> = ({
-  tokens,
-  project,
-  ...props
-}) => {
-  const { permissions } = useNftPermissions(project?.id)
-  const { t } = useTranslation(['project', 'buttons'])
+const IndexPages: React.FC<IndexPagesProps> = ({ tokens, nft, ...props }) => {
+  const { permissions } = useNftPermissions(nft?.id)
+  const { t } = useTranslation(['nft', 'buttons'])
   const [isEdit, setIsEdit] = useState(false)
   const [selectedIndexes, setSelectedIndexes] = useState<string[]>(
-    project?.ipfsContent?.indexPages || []
+    nft?.ipfsContent?.indexPages || []
   )
 
   const handleSaveButton = () => {
@@ -52,10 +48,10 @@ const IndexPages: React.FC<IndexPagesProps> = ({
 
   const visibleIndexPages = useMemo(
     () =>
-      project?.ipfsContent?.indexPages
+      nft?.ipfsContent?.indexPages
         ?.map(id => tokens?.find(token => token?.id === id))
         .filter(token => token?.ipfsContent?.name),
-    [tokens, project?.ipfsContent?.indexPages]
+    [tokens, nft?.ipfsContent?.indexPages]
   )
   const noTokens = notEmptyTokens?.length === 0
   if (noTokens) {
@@ -92,7 +88,7 @@ const IndexPages: React.FC<IndexPagesProps> = ({
           {visibleIndexPages?.map(token => (
             <StyledLink
               to={generatePath(RoutePaths.PROJECT + RoutePaths.TOKEN, {
-                projectId: project?.id,
+                nftId: nft?.id,
                 tokenId: token?.id,
               })}
               key={token?.id}
@@ -105,11 +101,11 @@ const IndexPages: React.FC<IndexPagesProps> = ({
 
       {permissions.canUpdateContent && (
         <Flex mt='10px'>
-          {isEdit && project ? (
+          {isEdit && nft ? (
             <UpdateNftContentButton
-              projectAddress={project.id}
+              nftAddress={nft.id}
               onSuccess={handleSaveButton}
-              projectContentToUpdate={{ indexPages: selectedIndexes }}
+              nftContentToUpdate={{ indexPages: selectedIndexes }}
             >
               {t('save', { ns: 'buttons' })}
             </UpdateNftContentButton>

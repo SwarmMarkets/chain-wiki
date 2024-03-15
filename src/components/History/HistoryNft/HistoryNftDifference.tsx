@@ -32,17 +32,17 @@ const HistoryNftDifference = () => {
       {fullNftUriUpdates ? (
         <>
           <Flex>
-            {fullNftUriUpdates?.map(project => (
+            {fullNftUriUpdates?.map(nft => (
               <Flex
                 flex={1}
                 justifyContent='center'
                 alignItems='center'
                 flexDirection='column'
-                key={project.id}
+                key={nft.id}
               >
                 <span>
                   {t('revisionAsOf')}{' '}
-                  {new Date(+project.updatedAt).toLocaleString()}
+                  {new Date(+nft.updatedAt).toLocaleString()}
                 </span>
               </Flex>
             ))}

@@ -9,7 +9,7 @@ export interface CreateNftFormInputs {
 }
 
 const useCreateNftForm = () => {
-  const { t } = useTranslation('project', { keyPrefix: 'createNft' })
+  const { t } = useTranslation('nft', { keyPrefix: 'createNft' })
   const resolver = useYupValidationResolver(
     yup.object({
       name: yup.string().required(t('formErrors.name.required')),

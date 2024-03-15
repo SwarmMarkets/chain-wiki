@@ -10,7 +10,7 @@ import Flex from '@src/components/ui/Flex'
 import Text from '@src/components/ui/Text'
 
 interface HistoryNftListProps {
-  onSelectNfts: (projects: NfturiUpdatesQuery['nfturiupdates']) => void
+  onSelectNfts: (nfts: NfturiUpdatesQuery['nfturiupdates']) => void
   selectedNfts: NfturiUpdatesQuery['nfturiupdates']
   history: NfturiUpdatesQuery['nfturiupdates']
 }
@@ -30,18 +30,16 @@ const HistoryNftList: React.FC<HistoryNftListProps> = ({
   const location = useLocation()
   const { t } = useTranslation('history')
 
-  const onChangeCheckbox = (
-    project: NfturiUpdatesQuery['nfturiupdates'][0]
-  ) => {
+  const onChangeCheckbox = (nft: NfturiUpdatesQuery['nfturiupdates'][0]) => {
     if (!selectedNfts) return
-    const projectIsSelected = selectedNfts.find(item => item.id === project.id)
+    const nftIsSelected = selectedNfts.find(item => item.id === nft.id)
 
-    if (projectIsSelected) {
-      const newNfts = selectedNfts.filter(item => item.id !== project.id)
+    if (nftIsSelected) {
+      const newNfts = selectedNfts.filter(item => item.id !== nft.id)
       onSelectNfts(newNfts)
       return
     }
-    onSelectNfts([...selectedNfts, project])
+    onSelectNfts([...selectedNfts, nft])
   }
 
   const resetSelectedNfts = () => {

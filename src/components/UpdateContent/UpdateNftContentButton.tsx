@@ -11,14 +11,14 @@ import { ChildrenProp } from '@src/shared/types/common-props'
 import useNFT from '@src/hooks/subgraph/useNFT'
 
 interface UpdateNftContentButtonProps extends ButtonProps, ChildrenProp {
-  projectAddress: string
-  projectContentToUpdate: Partial<IpfsNftContent>
+  nftAddress: string
+  nftContentToUpdate: Partial<IpfsNftContent>
   onSuccess?(): void
 }
 
 const UpdateNftContentButton: React.FC<UpdateNftContentButtonProps> = ({
-  projectAddress,
-  projectContentToUpdate,
+  nftAddress,
+  nftContentToUpdate,
   onSuccess,
   children,
   ...buttonProps
@@ -33,21 +33,21 @@ const UpdateNftContentButton: React.FC<UpdateNftContentButtonProps> = ({
     result,
     isTxError,
     reset: resetCallState,
-  } = useSX1155NFT(projectAddress)
+  } = useSX1155NFT(nftAddress)
   const {
     mutateAsync: upload,
     isLoading,
     isSuccess,
     reset: resetStorageState,
   } = useStorageUpload()
-  const { nft } = useNFT(projectAddress)
+  const { nft } = useNFT(nftAddress)
 
   const uploadContent = async () => {
     if (!nft?.ipfsContent) return
 
     const ipfsContent = generateIpfsNftContent({
       ...nft?.ipfsContent,
-      ...projectContentToUpdate,
+      ...nftContentToUpdate,
     })
     const filesToUpload = [ipfsContent]
     const uris = await upload({ data: filesToUpload })
@@ -105,7 +105,7 @@ const UpdateNftContentButton: React.FC<UpdateNftContentButtonProps> = ({
   return (
     <>
       <UpdateContentModal
-        contentType='project'
+        contentType='nft'
         steps={steps}
         isOpen={isOpen}
         onClose={close}

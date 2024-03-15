@@ -13,7 +13,7 @@ const TokenViewActions: React.FC = () => {
   const token = useTokenContext()
   const uploadVoteProposal = useModalState(false)
 
-  const projectId = token?.id.split('-')[0]
+  const nftId = token?.id.split('-')[0]
 
   const voteProposal = token?.ipfsContent?.voteProposal
 
@@ -26,7 +26,7 @@ const TokenViewActions: React.FC = () => {
 
   return (
     <Flex justifyContent='flex-end' width='100%' $gap='20px'>
-      <RequirePermissions canUpdateContent projectAddress={projectId}>
+      <RequirePermissions canUpdateContent nftAddress={nftId}>
         {/* TODO CHECK IF PROPOSAL DISABLED ON CONTRACT SIDE */}
         <Button onClick={uploadVoteProposal.open} disabled={isVotingEnabled}>
           {t('connectProposal')}

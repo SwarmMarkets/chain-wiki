@@ -8,23 +8,19 @@ import TokenEmptyCard from './TokenEmptyCard'
 
 interface TokenCardProps {
   tokenId: string
-  projectId: string
+  nftId: string
   content?: IpfsTokenContent
 }
 
-const TokenCard: React.FC<TokenCardProps> = ({
-  tokenId,
-  projectId,
-  content,
-}) => {
+const TokenCard: React.FC<TokenCardProps> = ({ tokenId, nftId, content }) => {
   if (content?.error || !content) {
-    return <TokenEmptyCard tokenId={tokenId} projectId={projectId} />
+    return <TokenEmptyCard tokenId={tokenId} nftId={nftId} />
   }
 
   return (
     <Card
       to={generatePath(RoutePaths.PROJECT + RoutePaths.TOKEN, {
-        projectId,
+        nftId,
         tokenId: tokenId,
       })}
       title={content.name}

@@ -12,7 +12,7 @@ import UpdateNftContentButton from '../UpdateContent/UpdateNftContentButton'
 import { findElementWithMatchedDataId } from './utils'
 
 interface EditorProps {
-  projectAddress: string
+  nftAddress: string
   tokenAddress?: string
   initialContent: string
   onChange?: (content: string, editor: TinyEditorType) => void
@@ -31,7 +31,7 @@ const Editor: React.FC<EditorProps> = ({
   onChange,
   initialContent,
   tokenAddress,
-  projectAddress,
+  nftAddress,
   onSuccessUpdate,
 }) => {
   const [editorInit, setEditorInit] = useState(false)
@@ -121,19 +121,19 @@ const Editor: React.FC<EditorProps> = ({
           initialValue={initialContent}
         />
         <Flex justifyContent='flex-end'>
-          <RequirePermissions projectAddress={projectAddress} canUpdateContent>
+          <RequirePermissions nftAddress={nftAddress} canUpdateContent>
             {tokenAddress ? (
               <UpdateTokenContentButton
                 onSuccess={onSuccessUpdate}
                 tokenAddress={tokenAddress}
-                projectAddress={projectAddress}
+                nftAddress={nftAddress}
                 tokenContentToUpdate={{ htmlContent: currContent }}
               />
             ) : (
               <UpdateNftContentButton
                 onSuccess={onSuccessUpdate}
-                projectAddress={projectAddress}
-                projectContentToUpdate={{ htmlContent: currContent }}
+                nftAddress={nftAddress}
+                nftContentToUpdate={{ htmlContent: currContent }}
               />
             )}
           </RequirePermissions>

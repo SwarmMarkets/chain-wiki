@@ -13,18 +13,18 @@ import useGrantRoleForm, {
 } from '@src/hooks/forms/useGrantRoleForm'
 
 interface GrantRoleFormProps {
-  projectAddress: string
+  nftAddress: string
 }
 
-const GrantRoleForm: React.FC<GrantRoleFormProps> = ({ projectAddress }) => {
-  const { t } = useTranslation('project')
+const GrantRoleForm: React.FC<GrantRoleFormProps> = ({ nftAddress }) => {
+  const { t } = useTranslation('nft')
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useGrantRoleForm()
 
-  const { grantRole, txLoading } = useNFTRoleManager(projectAddress)
+  const { grantRole, txLoading } = useNFTRoleManager(nftAddress)
 
   const onSubmit: SubmitHandler<GrantRoleFormInputs> = async (data, e) => {
     e?.preventDefault()
