@@ -68,7 +68,6 @@ const NftCard: React.FC<NftCardProps> = ({ nft, showRole = false }) => {
             alignItems='center'
             justifyContent='center'
           >
-            <Icon name='empty' size={60} color={theme.palette.gray} />
             <Text.p color={theme.palette.gray}>
               {t('nft.contentNotFound')}
             </Text.p>
