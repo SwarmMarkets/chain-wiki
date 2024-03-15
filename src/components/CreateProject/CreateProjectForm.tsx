@@ -37,9 +37,12 @@ const CreateProjectForm: React.FC<CreateProjectFormProps> = ({
 
   const onSubmit: SubmitHandler<CreateProjectFormInputs> = async (data, e) => {
     e?.preventDefault()
+    if (!account) return
 
-    const { name, admin, uri = '', editor } = data
+    const { name, uri = '' } = data
     const symbol = generateSymbolFromString(name)
+    const admin = account
+    const editor = account
 
     try {
       await call('deployNFTContract', [name, symbol, uri, admin, editor])
@@ -77,33 +80,6 @@ const CreateProjectForm: React.FC<CreateProjectFormProps> = ({
             error={errors.uri?.message}
           />
         </TextFieldBox> */}
-        <TextFieldBox>
-          <TextFieldTitle>{t('form.adminAddress')}</TextFieldTitle>
-          <StyledTextField
-            width='100%'
-            inputProps={{ ...register('admin'), defaultValue: account }}
-            placeholder={t('formPlaceholders.adminAddress')}
-            error={errors.admin?.message}
-          />
-        </TextFieldBox>
-        <TextFieldBox>
-          <TextFieldTitle>{t('form.editorAddress')}</TextFieldTitle>
-          <StyledTextField
-            width='100%'
-            inputProps={{
-              ...register('editor', {
-                required: {
-                  value: true,
-                  message: t('formErrors.editor.required'),
-                },
-              }),
-              defaultValue: account,
-            }}
-            placeholder={t('formPlaceholders.editorAddress')}
-            error={errors.editor?.message}
-          />
-        </TextFieldBox>
-
         <LoadingButton loading={txLoading}>{t('form.submit')}</LoadingButton>
       </Flex>
     </Box>
