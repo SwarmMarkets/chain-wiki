@@ -6,8 +6,6 @@ import { useForm } from 'react-hook-form'
 export interface CreateProjectFormInputs {
   name: string
   uri: string
-  admin: string
-  editor: string
 }
 
 const useCreateProjectForm = () => {
@@ -15,14 +13,6 @@ const useCreateProjectForm = () => {
   const resolver = useYupValidationResolver(
     yup.object({
       name: yup.string().required(t('formErrors.name.required')),
-      admin: yup
-        .string()
-        .required(t('formErrors.admin.required'))
-        .isEthereumAddress(t('formErrors.admin.invalid')),
-      editor: yup
-        .string()
-        .required(t('formErrors.editor.required'))
-        .isEthereumAddress(t('formErrors.editor.invalid')),
     })
   )
 
