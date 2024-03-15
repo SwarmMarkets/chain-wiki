@@ -11,7 +11,6 @@ import { generatePath } from 'react-router-dom'
 import RequirePermissions from '../common/RequirePermissions'
 import IndexPagesActions from './IndexPagesActions'
 import { EditableItem, StyledLink } from './styled-components'
-import UpdateNftContentButton from '../UpdateContent/UpdateNftContentButton'
 
 interface IndexPagesProps {
   tokens: TokensQueryFullData[] | null
@@ -21,10 +20,9 @@ interface IndexPagesProps {
 
 const IndexPages: React.FC<IndexPagesProps> = ({
   tokens,
-  project,
+  nft,
   ...props
 }) => {
-  const { permissions } = useProjectPermissions(project?.id)
   const { t } = useTranslation(['project', 'buttons'])
   const [isEdit, setIsEdit] = useState(false)
   const [selectedIndexes, setSelectedIndexes] = useState<string[]>(
@@ -59,7 +57,7 @@ const IndexPages: React.FC<IndexPagesProps> = ({
   )
   const noTokens = notEmptyTokens?.length === 0
 
-  if (noTokens || !project?.id) {
+  if (noTokens || !nft?.id) {
     return (
       <Box {...props}>
         <Text.h3>{t('indexPages.title')}</Text.h3>
@@ -104,10 +102,10 @@ const IndexPages: React.FC<IndexPagesProps> = ({
         </Flex>
       )}
 
-      <RequirePermissions projectAddress={project?.id} canUpdateContent>
+      <RequirePermissions nftAddress={nft?.id} canUpdateContent>
         <Box mt={4}>
           <IndexPagesActions
-            nftId={project?.id}
+            nftId={nft?.id}
             newIndexPages={selectedIndexes}
             isEditMode={isEdit}
             onSave={handleSaveButton}
