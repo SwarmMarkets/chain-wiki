@@ -23,7 +23,7 @@ const IndexPages: React.FC<IndexPagesProps> = ({
   nft,
   ...props
 }) => {
-  const { t } = useTranslation(['project', 'buttons'])
+  const { t } = useTranslation(['nft', 'buttons'])
   const [isEdit, setIsEdit] = useState(false)
   const [selectedIndexes, setSelectedIndexes] = useState<string[]>(
     nft?.ipfsContent?.indexPages || []
