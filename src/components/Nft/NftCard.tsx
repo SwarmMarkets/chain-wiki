@@ -44,7 +44,7 @@ const NftCard: React.FC<NftCardProps> = ({ nft, showRole = false }) => {
   }, [account, nft.admins, nft.editors, t, showRole])
 
   return (
-    <StyledCard>
+    <StyledCard minHeight={200}>
       <Flex flexDirection='column' justifyContent='space-between' height='100%'>
         <div>
           <Flex alignItems='center' $gap='3px'>
