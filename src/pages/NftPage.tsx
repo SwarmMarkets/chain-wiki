@@ -84,12 +84,22 @@ const NftPage = () => {
         />
       )}
       <Box width='900px'>
-        <Flex $gap='15px' flexDirection='column'>
+        <Flex $gap='5px' flexDirection='column'>
           <Text.h1 size={theme.fontSizes.large} weight={700}>
             {nft?.name}
           </Text.h1>
-          <ExplorerLink type='address' hash={nftId}>
-            {nftId}
+          <ExplorerLink
+            iconSize={10}
+            iconsPosition='right'
+            type='address'
+            hash={nftId}
+          >
+            <Text
+              fontSize={theme.fontSizes.small}
+              color={theme.palette.linkPrimary}
+            >
+              {nftId}
+            </Text>
           </ExplorerLink>
         </Flex>
 

@@ -11,6 +11,7 @@ interface ExplorerLinkProps extends ChildrenProp {
   type: ExplorerLinkType
   hash?: string
   iconSize?: number
+  iconsPosition?: 'left' | 'right'
 }
 
 export const StyledLink = styled.span`
@@ -26,12 +27,14 @@ const ExplorerLink: React.FC<ExplorerLinkProps> = ({
   hash,
   iconSize,
   children,
+  iconsPosition = 'left',
 }) => {
   const [showCheckmark, setShowCheckmark] = useState(false)
   const chainId = useChainId()
   const theme = useTheme()
 
   const iconSizeWithDefault = iconSize || 20
+  const isIconsLeft = iconsPosition === 'left'
 
   const handleLinkClick = (e: MouseEvent<HTMLSpanElement>) => {
     e.stopPropagation()
@@ -55,36 +58,42 @@ const ExplorerLink: React.FC<ExplorerLinkProps> = ({
   }
 
   return (
-    <Flex alignItems='center' $gap='2px'>
-      <Box width={iconSizeWithDefault}>
-        {!showCheckmark ? (
-          <Icon
-            cursor='pointer'
-            size={iconSizeWithDefault}
-            onClick={handleCopyClick}
-            name='copy'
-            color={theme.palette.linkPrimary}
-          />
-        ) : (
-          <Icon
-            size={iconSizeWithDefault}
-            name='checkmark'
-            color={theme.palette.gray}
-          />
-        )}
-      </Box>
+    <Flex alignItems='center' $gap='5px'>
+      {!isIconsLeft && (
+        <StyledLink onClick={handleLinkClick}>{children}</StyledLink>
+      )}
 
-      <StyledLink onClick={handleLinkClick}>
-        <Flex $gap='5px' alignItems='center'>
-          <Icon
-            cursor='pointer'
-            name='externalLink'
-            size={iconSizeWithDefault}
-            color={theme.palette.linkPrimary}
-          />
-          {children}
-        </Flex>
-      </StyledLink>
+      <Flex $gap='2px'>
+        <Box width={iconSizeWithDefault}>
+          {!showCheckmark ? (
+            <Icon
+              cursor='pointer'
+              size={iconSizeWithDefault}
+              onClick={handleCopyClick}
+              name='copy'
+              color={theme.palette.linkPrimary}
+            />
+          ) : (
+            <Icon
+              size={iconSizeWithDefault}
+              name='checkmark'
+              color={theme.palette.gray}
+            />
+          )}
+        </Box>
+
+        <Icon
+          onClick={handleLinkClick}
+          cursor='pointer'
+          name='externalLink'
+          size={iconSizeWithDefault}
+          color={theme.palette.linkPrimary}
+        />
+      </Flex>
+
+      {isIconsLeft && (
+        <StyledLink onClick={handleLinkClick}>{children}</StyledLink>
+      )}
     </Flex>
   )
 }
