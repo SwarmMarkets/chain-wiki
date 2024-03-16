@@ -82,5 +82,8 @@
     "title": "Index",
     "noIndexPages": "No index pages yet",
     "noTokens": "No pages yet"
+  },
+  "messages": {
+    "editNft": "Edit site"
   }
 }

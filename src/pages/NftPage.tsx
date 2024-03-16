@@ -57,6 +57,10 @@ const NftPage = () => {
     setActiveNftTab(NftTabs.NFT)
   }
 
+  const handleEditSite = () => {
+    setActiveNftTab(NftTabs.EDIT)
+  }
+
   if (showSkeleton) {
     return (
       <Flex justifyContent='center' $gap='20px'>
@@ -102,7 +106,11 @@ const NftPage = () => {
             <Tab value={NftTabs.HISTORY} label={t('tabs.history')} />
           </Tabs>
           <TabPanel value={NftTabs.NFT}>
-            <NftView nft={nft} onMount={onMountContent} />
+            <NftView
+              nft={nft}
+              onMount={onMountContent}
+              onClickEditSite={handleEditSite}
+            />
           </TabPanel>
           <TabPanel value={NftTabs.TOKENS}>
             <TokenList
