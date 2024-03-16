@@ -8,8 +8,13 @@ export const getTextContentFromHtml = (html: string) => {
 }
 
 export const generateSymbolFromString = (str: string) => {
-  return str
-    .split(' ')
+  const words = str.split(' ')
+
+  if (words.length === 1) {
+    return words[0].slice(0, 3).toUpperCase()
+  }
+
+  return words
     .map(word => word[0])
     .join('')
     .toUpperCase()
