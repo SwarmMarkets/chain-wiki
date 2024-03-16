@@ -72,6 +72,10 @@ const TokenPage = () => {
     navigate({ search: params })
   }
 
+  const handleEditSite = () => {
+    setActiveTab(TokenTabs.EDIT)
+  }
+
   const onMount = (element: HTMLDivElement) => {
     setContentElem(element)
   }
@@ -120,7 +124,11 @@ const TokenPage = () => {
             </Tabs>
 
             <TabPanel value={TokenTabs.READ}>
-              <TokenView token={token} onMount={onMount} />
+              <TokenView
+                onClickEditSite={handleEditSite}
+                token={token}
+                onMount={onMount}
+              />
             </TabPanel>
             <TabPanel value={TokenTabs.EDIT}>
               <Editor

@@ -1,17 +1,26 @@
 import AttestationHtmlRenderWrapper from '@src/components/HtmlRender/AttestationHtmlRender'
-import ContentMissing from '@src/components/common/ContentMissing'
 import Flex from '@src/components/ui/Flex'
 import { useRef, useState } from 'react'
 import { TokenViewProps } from '.'
 import AttestationDrawer from '../Attestation/AttestationDrawer'
 import TokenViewActions from './TokenViewActions'
+import { StyledCard } from '@src/components/Nft/styled-components'
+import { useTheme } from 'styled-components'
+import Text from '@src/components/ui/Text'
+import { useTranslation } from 'react-i18next'
 
 export interface SelectedSection {
   id: string | null
   htmlContent: string | null
 }
 
-export const TokenView: React.FC<TokenViewProps> = ({ token, onMount }) => {
+export const TokenView: React.FC<TokenViewProps> = ({
+  token,
+  onMount,
+  onClickEditSite,
+}) => {
+  const { t } = useTranslation('token')
+  const theme = useTheme()
   const [selectedSection, setSelectedSection] = useState<SelectedSection>({
     id: null,
     htmlContent: null,
@@ -36,7 +45,13 @@ export const TokenView: React.FC<TokenViewProps> = ({ token, onMount }) => {
   }
 
   if (!token?.ipfsContent?.htmlContent)
-    return <ContentMissing message='Token content missing' />
+    return (
+      <StyledCard onClick={onClickEditSite}>
+        <Text.p textAlign='center' color={theme.palette.borderPrimary}>
+          {t('messages.editToken')}
+        </Text.p>
+      </StyledCard>
+    )
 
   const isOpen = !!(selectedSection.htmlContent && selectedSection.id)
 
