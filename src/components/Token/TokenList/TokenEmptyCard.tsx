@@ -16,18 +16,15 @@ interface TokenEmptyCardProps {
 }
 
 const TokenEmptyCard: React.FC<TokenEmptyCardProps> = ({ tokenId, nftId }) => {
-  const { t } = useTranslation(['errors', 'token'])
+  const { t } = useTranslation('token')
   const theme = useTheme()
 
   return (
     <Card>
-      <Flex justifyContent='space-between'>
-        <Flex $gap='8px' alignItems='center'>
-          <Icon name='empty' size={30} color={theme.palette.borderPrimary} />
-          <Text.p color={theme.palette.borderPrimary}>
-            {t('token.pendingDetails')}
-          </Text.p>
-        </Flex>
+      <Flex justifyContent='space-between' alignItems='center'>
+        <Text.p color={theme.palette.borderPrimary}>
+          {t('messages.newToken')}
+        </Text.p>
         <RequirePermissions canUpdateContent nftAddress={nftId}>
           <Link
             to={`${generatePath(RoutePaths.NFT + RoutePaths.TOKEN, {
@@ -35,7 +32,7 @@ const TokenEmptyCard: React.FC<TokenEmptyCardProps> = ({ tokenId, nftId }) => {
               tokenId: tokenId,
             })}?tab=${TokenTabs.EDIT}`}
           >
-            <Button>{t('updateToken', { ns: 'token' })}</Button>
+            <Button>{t('updateToken')}</Button>
           </Link>
         </RequirePermissions>
       </Flex>
