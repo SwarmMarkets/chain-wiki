@@ -132,6 +132,7 @@ const Editor: React.FC<EditorProps> = ({
               />
             ) : (
               <UpdateNftContentButton
+                mt={15}
                 onSuccess={onSuccessUpdate}
                 nftAddress={nftAddress}
                 nftContentToUpdate={{ htmlContent: currContent }}
