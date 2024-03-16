@@ -10,6 +10,7 @@ import Box from '../ui/Box'
 interface ExplorerLinkProps extends ChildrenProp {
   type: ExplorerLinkType
   hash?: string
+  iconSize?: number
 }
 
 export const StyledLink = styled.span`
@@ -23,11 +24,14 @@ export const StyledLink = styled.span`
 const ExplorerLink: React.FC<ExplorerLinkProps> = ({
   type,
   hash,
+  iconSize,
   children,
 }) => {
   const [showCheckmark, setShowCheckmark] = useState(false)
   const chainId = useChainId()
   const theme = useTheme()
+
+  const iconSizeWithDefault = iconSize || 20
 
   const handleLinkClick = (e: MouseEvent<HTMLSpanElement>) => {
     e.stopPropagation()
@@ -52,17 +56,21 @@ const ExplorerLink: React.FC<ExplorerLinkProps> = ({
 
   return (
     <Flex alignItems='center' $gap='2px'>
-      <Box width='20px'>
+      <Box width={iconSizeWithDefault}>
         {!showCheckmark ? (
           <Icon
             cursor='pointer'
-            size={20}
+            size={iconSizeWithDefault}
             onClick={handleCopyClick}
             name='copy'
             color={theme.palette.linkPrimary}
           />
         ) : (
-          <Icon size={20} name='checkmark' color={theme.palette.gray} />
+          <Icon
+            size={iconSizeWithDefault}
+            name='checkmark'
+            color={theme.palette.gray}
+          />
         )}
       </Box>
 
@@ -71,7 +79,7 @@ const ExplorerLink: React.FC<ExplorerLinkProps> = ({
           <Icon
             cursor='pointer'
             name='externalLink'
-            size={20}
+            size={iconSizeWithDefault}
             color={theme.palette.linkPrimary}
           />
           {children}

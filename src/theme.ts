@@ -27,6 +27,7 @@ const theme = {
     errorPrimary: '#ff3333',
   },
   fontSizes: {
+    extraSmall: '10px',
     small: '12px',
     medium: '14px',
     mediumPlus: '18px',
