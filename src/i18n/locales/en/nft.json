@@ -52,8 +52,8 @@
       "role": "Role"
     },
     "actions": {
-      "grantRole": "Grant Role",
-      "revokeRole": "Revoke Role"
+      "grantRole": "Grant role",
+      "revokeRole": "Revoke role"
     },
     "form": {
       "grantRole": "Enter the user's Ethereum address to assign a role",
@@ -79,7 +79,7 @@
     "issuer": "Issuer"
   },
   "indexPages": {
-    "title": "Index Pages",
+    "title": "Index pages",
     "noIndexPages": "Index pages does not exist",
     "noTokens": "Pages does not exist"
   }

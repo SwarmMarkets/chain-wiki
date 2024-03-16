@@ -1,14 +1,14 @@
 {
   "nft": {
-    "title": "Update Site",
+    "title": "Update site",
     "description": "You are about to update your site content. This includes several steps to finalize content update."
   },
   "token": {
-    "title": "Update Page",
+    "title": "Update page",
     "description": "You are about to update your page content. This includes several steps to finalize content update."
   },
   "attestation": {
-    "title": "Send Attestation",
+    "title": "Send attestation",
     "description": "You are about to send your attestation. This includes several steps to finalize content update."
   },
   "steps": {
