@@ -27,16 +27,12 @@ interface IconProps
 }
 
 interface IconWrapperProps {
-  $width: number
-  $height: number
   cursor?: Cursor
 }
 
 const IconWrapper = styled.div.withConfig({
   shouldForwardProp,
 })<IconWrapperProps>`
-  width: ${props => props.$width}px;
-  height: ${props => props.$height}px;
   cursor: ${props => props.cursor || 'default'};
   svg {
     path {
@@ -61,8 +57,6 @@ const Icon: React.FC<IconProps> = ({
   return (
     <React.Suspense fallback={<div />}>
       <IconWrapper
-        $width={width || size}
-        $height={height || size}
         color={color}
         cursor={cursor}
         {...props}
