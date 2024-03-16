@@ -45,7 +45,7 @@
     "description": "Your site is visible on \"My sites\" page."
   },
   "roleManager": {
-    "title": "Manage your site roles",
+    "title": "Manage site roles",
     "description": "This page is dedicated to managing user roles within the site. It allows for the assignment and adjustment of roles to ensure proper access control and responsibility distribution across the team.",
     "tableHead": {
       "address": "Address",
