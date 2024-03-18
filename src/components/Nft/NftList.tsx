@@ -31,7 +31,6 @@ const NftList: React.FC<NftListProps> = ({
   showRole,
   skeletonLength,
 }) => {
-  console.log(loading)
   return (
     <>
       <Wrapper>
