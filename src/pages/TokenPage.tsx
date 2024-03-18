@@ -20,20 +20,19 @@ import useTokens from '@src/hooks/subgraph/useTokens'
 import { TokenTabs } from '@src/shared/enums/tabs'
 import { Tab as ITab } from '@src/shared/types/ui-components'
 import { unifyAddressToId } from '@src/shared/utils'
-import queryString from 'query-string'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import useTabs from '@src/hooks/useTabs'
 
 const TokenPage = () => {
   const { tokenId = '', nftId = '' } = useParams()
-  const navigate = useNavigate()
-  const location = useLocation()
   const { t } = useTranslation('token')
   const { permissions } = useNftPermissions(nftId)
 
-  const { activeTab, changeTab } = useTabs<TokenTabs>({ defaultTab: TokenTabs.READ })
+  const { activeTab, changeTab, resetTab } = useTabs<TokenTabs>({
+    defaultTab: TokenTabs.READ,
+  })
 
   const [contentElem, setContentElem] = useState<HTMLDivElement | null>(null)
 
@@ -54,9 +53,7 @@ const TokenPage = () => {
   }
 
   const handleSuccessUpdate = () => {
-    changeTab(TokenTabs.READ)
-    const params = queryString.exclude(location.search, ['tab'])
-    navigate({ search: params })
+    resetTab()
   }
 
   const handleEditSite = () => {
