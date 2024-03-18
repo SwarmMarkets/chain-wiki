@@ -29,10 +29,6 @@ const NftList: React.FC<NftListProps> = ({
   addNftCard,
   showRole,
 }) => {
-  if (loading) {
-    return <NftSkeletonList />
-  }
-
   return (
     <>
       <Wrapper>
@@ -45,6 +41,7 @@ const NftList: React.FC<NftListProps> = ({
             <NftCard nft={nft} showRole={showRole} />
           </StyledLink>
         ))}
+        {loading && <NftSkeletonList skeletonLength={19} />}
       </Wrapper>
     </>
   )
