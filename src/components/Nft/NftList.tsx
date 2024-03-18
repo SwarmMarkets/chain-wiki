@@ -35,14 +35,15 @@ const NftList: React.FC<NftListProps> = ({
     <>
       <Wrapper>
         {addNftCard && <AddNftCard />}
-        {nfts?.map(nft => (
-          <StyledLink
-            to={generatePath(RoutePaths.NFT, { nftId: nft.id })}
-            key={nft.id}
-          >
-            <NftCard nft={nft} showRole={showRole} />
-          </StyledLink>
-        ))}
+        {!loading &&
+          nfts?.map(nft => (
+            <StyledLink
+              to={generatePath(RoutePaths.NFT, { nftId: nft.id })}
+              key={nft.id}
+            >
+              <NftCard nft={nft} showRole={showRole} />
+            </StyledLink>
+          ))}
         {loading && <NftSkeletonList skeletonLength={skeletonLength} />}
       </Wrapper>
     </>
