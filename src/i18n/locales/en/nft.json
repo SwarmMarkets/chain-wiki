@@ -85,6 +85,7 @@
   },
   "messages": {
     "editNft": "Edit site",
-    "contentNotFound": "No site content yet"
+    "contentNotFound": "No site content yet",
+    "noContent": "No content yet"
   }
 }

@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next'
 import Text from '@src/components/ui/Text'
 import { useTheme } from 'styled-components'
 import { StyledCard } from '../styled-components'
+import useNftPermissions from '@src/hooks/permissions/useNftPermissions'
 
 interface NftViewProps {
   nft?: NFTQueryFullData | null
@@ -17,8 +18,9 @@ export const NftView: React.FC<NftViewProps> = ({
   onMount,
   onClickEditSite,
 }) => {
+  const { permissions } = useNftPermissions(nft?.id)
   const contentRef = useRef<HTMLDivElement>(null)
-  const { t } = useTranslation(['nft'])
+  const { t } = useTranslation('nft')
   const theme = useTheme()
 
   const onMountContent = () => {
@@ -27,13 +29,28 @@ export const NftView: React.FC<NftViewProps> = ({
     }
   }
 
-  if (!nft?.ipfsContent?.htmlContent)
+  if (!nft?.ipfsContent?.htmlContent && permissions.canUpdateContent)
     return (
       <StyledCard onClick={onClickEditSite}>
-        <Text.p textAlign='center' color={theme.palette.borderPrimary}>
+        <Text.p
+          textAlign='center'
+          color={theme.palette.borderPrimary}
+          fontWeight={theme.fontWeights.medium}
+        >
           {t('messages.editNft')}
         </Text.p>
       </StyledCard>
+    )
+
+  if (!nft?.ipfsContent?.htmlContent)
+    return (
+      <Text.p
+        textAlign='center'
+        color={theme.palette.borderPrimary}
+        fontWeight={theme.fontWeights.medium}
+      >
+        {t('messages.noContent')}
+      </Text.p>
     )
 
   return (
