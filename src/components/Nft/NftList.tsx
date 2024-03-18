@@ -13,6 +13,7 @@ interface NftListProps {
   nfts?: NFTQueryFullData[] | null
   addNftCard?: boolean
   showRole?: boolean
+  skeletonLength?: number
 }
 
 const Wrapper = styled.div`
@@ -28,6 +29,7 @@ const NftList: React.FC<NftListProps> = ({
   nfts,
   addNftCard,
   showRole,
+  skeletonLength,
 }) => {
   return (
     <>
@@ -41,7 +43,7 @@ const NftList: React.FC<NftListProps> = ({
             <NftCard nft={nft} showRole={showRole} />
           </StyledLink>
         ))}
-        {loading && <NftSkeletonList skeletonLength={19} />}
+        {loading && <NftSkeletonList skeletonLength={skeletonLength} />}
       </Wrapper>
     </>
   )
