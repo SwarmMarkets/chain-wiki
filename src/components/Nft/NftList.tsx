@@ -31,11 +31,14 @@ const NftList: React.FC<NftListProps> = ({
   showRole,
   skeletonLength,
 }) => {
+  console.log(loading)
   return (
     <>
       <Wrapper>
         {addNftCard && <AddNftCard />}
-        {!loading &&
+        {loading ? (
+          <NftSkeletonList skeletonLength={skeletonLength} />
+        ) : (
           nfts?.map(nft => (
             <StyledLink
               to={generatePath(RoutePaths.NFT, { nftId: nft.id })}
@@ -43,8 +46,8 @@ const NftList: React.FC<NftListProps> = ({
             >
               <NftCard nft={nft} showRole={showRole} />
             </StyledLink>
-          ))}
-        {loading && <NftSkeletonList skeletonLength={skeletonLength} />}
+          ))
+        )}
       </Wrapper>
     </>
   )
