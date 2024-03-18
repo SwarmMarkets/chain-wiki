@@ -34,10 +34,11 @@ const useIpfsData = <T extends object>({
           ?.downloadJSON(uri)
           .then(res => {
             validator(res)
-            results.push()
+            results.push(res)
 
             if (mapping) {
-              mappedResults.set(mapping(res), res)
+              const id = mapping(res)
+              mappedResults.set(id, res)
             }
           })
           .catch(e => e)
