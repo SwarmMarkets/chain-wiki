@@ -55,13 +55,10 @@ const NftCard: React.FC<NftCardProps> = ({ nft, showRole = false }) => {
     e.preventDefault()
 
     const params = queryString.stringify({ tab: NftTabs.EDIT })
-    navigate(
-      {
-        pathname: generatePath(RoutePaths.NFT, { nftId: nft.id }),
-        search: `?${params}`,
-      },
-      { replace: true }
-    )
+    navigate({
+      pathname: generatePath(RoutePaths.NFT, { nftId: nft.id }),
+      search: `?${params}`,
+    })
   }
 
   return (
@@ -96,7 +93,9 @@ const NftCard: React.FC<NftCardProps> = ({ nft, showRole = false }) => {
               {t('messages.contentNotFound')}
             </Text.p>
             <RequirePermissions nftAddress={nft.id} canUpdateContent>
-              <Button onClick={handleEditNft}>{t('messages.editNft')}</Button>
+              <Button size='small' onClick={handleEditNft}>
+                {t('messages.editNft')}
+              </Button>
             </RequirePermissions>
           </Flex>
         )}

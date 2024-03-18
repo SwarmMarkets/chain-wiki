@@ -14,23 +14,23 @@ const useTabs = <T>(options?: UseTabsOptions) => {
     (initialTab as T) || null
   )
 
-  const changeTab = (tab: T) => {
+  const changeTab = (tab: T | null) => {
     setActiveTab(tab)
 
     if (tab === options?.defaultTab) {
       const params = queryString.exclude(location.search, ['tab'])
 
-      navigate({ search: params })
+      navigate({ search: params }, { replace: true })
       return
     }
 
     const params = queryString.stringify({ tab })
 
-    navigate({ search: `?${params}` })
+    navigate({ search: `?${params}` }, { replace: true })
   }
 
   const resetTab = () => {
-    setActiveTab((options?.defaultTab as T) || null)
+    changeTab((options?.defaultTab as T) || null)
   }
   return {
     activeTab,
