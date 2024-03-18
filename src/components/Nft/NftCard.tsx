@@ -74,16 +74,16 @@ const NftCard: React.FC<NftCardProps> = ({ nft, showRole = false }) => {
           </Flex>
         )}
         <Flex flexDirection='column' alignItems='end' pt={10} $gap='2px'>
-          <ExplorerLink iconSize={8} type='address' hash={nft.id}>
+          <ExplorerLink iconSize={10} type='address' hash={nft.id}>
             <Text
-              fontSize={theme.fontSizes.extraSmall}
+              fontSize={theme.fontSizes.small}
               color={theme.palette.linkPrimary}
             >
               {shortenAddress(nft.id, false)}
             </Text>
           </ExplorerLink>
           {roles && roles.length > 0 && (
-            <Text fontSize={theme.fontSizes.extraSmall}>
+            <Text fontSize={theme.fontSizes.small}>
               {t('roles', { ns: 'nfts' })} {roles.join(', ')}
             </Text>
           )}
