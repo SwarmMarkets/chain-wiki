@@ -20,13 +20,13 @@ const useTabs = <T>(options?: UseTabsOptions) => {
     if (tab === options?.defaultTab) {
       const params = queryString.exclude(location.search, ['tab'])
 
-      navigate({ search: params })
+      navigate({ search: params }, { replace: true })
       return
     }
 
     const params = queryString.stringify({ tab })
 
-    navigate({ search: `?${params}` })
+    navigate({ search: `?${params}` }, { replace: true })
   }
 
   const resetTab = () => {
