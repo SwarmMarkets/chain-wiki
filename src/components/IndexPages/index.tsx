@@ -11,6 +11,7 @@ import { generatePath } from 'react-router-dom'
 import RequirePermissions from '../common/RequirePermissions'
 import IndexPagesActions from './IndexPagesActions'
 import { EditableItem, StyledLink } from './styled-components'
+import { useTheme } from 'styled-components'
 
 interface IndexPagesProps {
   tokens: TokensQueryFullData[] | null
@@ -18,11 +19,8 @@ interface IndexPagesProps {
   indexPages?: string[] | null
 }
 
-const IndexPages: React.FC<IndexPagesProps> = ({
-  tokens,
-  nft,
-  ...props
-}) => {
+const IndexPages: React.FC<IndexPagesProps> = ({ tokens, nft, ...props }) => {
+  const theme = useTheme()
   const { t } = useTranslation(['nft', 'buttons'])
   const [isEdit, setIsEdit] = useState(false)
   const [selectedIndexes, setSelectedIndexes] = useState<string[]>(
@@ -47,7 +45,6 @@ const IndexPages: React.FC<IndexPagesProps> = ({
     () => tokens?.filter(token => token?.ipfsContent?.name),
     [tokens]
   )
-
   const visibleIndexPages = useMemo(
     () =>
       nft?.ipfsContent?.indexPages
@@ -62,7 +59,13 @@ const IndexPages: React.FC<IndexPagesProps> = ({
       <Box {...props}>
         <Text.h3>{t('indexPages.title')}</Text.h3>
         <Divider my='10px' />
-        <Text.p>{t('indexPages.noTokens')}</Text.p>
+        <Text.p
+          textAlign='center'
+          fontWeight={theme.fontWeights.medium}
+          color={theme.palette.gray}
+        >
+          {t('indexPages.noTokens')}
+        </Text.p>
       </Box>
     )
   }
@@ -87,7 +90,15 @@ const IndexPages: React.FC<IndexPagesProps> = ({
         </Flex>
       ) : (
         <Flex flexDirection='column' $gap='8px' py='8px'>
-          {noIndexPages && <Text>{t('indexPages.noIndexPages')}</Text>}
+          {noIndexPages && (
+            <Text
+              textAlign='center'
+              fontWeight={theme.fontWeights.medium}
+              color={theme.palette.gray}
+            >
+              {t('indexPages.noIndexPages')}
+            </Text>
+          )}
           {visibleIndexPages?.map(token => (
             <StyledLink
               to={generatePath(RoutePaths.NFT + RoutePaths.TOKEN, {
