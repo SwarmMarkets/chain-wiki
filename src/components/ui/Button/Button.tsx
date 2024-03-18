@@ -1,31 +1,41 @@
 import { ChildrenProp } from '@src/shared/types/common-props'
 import shouldForwardProp from '@styled-system/should-forward-prop'
-import styled from 'styled-components'
+import styled, { useTheme } from 'styled-components'
 import {
   LayoutProps,
   SpaceProps,
   TextAlignProps,
   TextStyleProps,
+  FontSizeProps,
   layout,
   space,
   textAlign,
-  textStyle
+  textStyle,
+  fontSize,
 } from 'styled-system'
+
+export type ButtonSize = 'small' | 'medium'
+
+interface StyledButtonProps
+  extends SpaceProps,
+    LayoutProps,
+    TextAlignProps,
+    TextStyleProps,
+    FontSizeProps {}
 
 export interface ButtonProps
   extends ChildrenProp,
     React.ButtonHTMLAttributes<HTMLButtonElement>,
-    SpaceProps,
-    LayoutProps,
-    TextAlignProps,
-    TextStyleProps {}
+    StyledButtonProps {
+  size?: ButtonSize
+}
 
-const StyledButton = styled.button.withConfig({ shouldForwardProp })`
-  padding: 8px 16px;
+const StyledButton = styled.button.withConfig({
+  shouldForwardProp,
+})<StyledButtonProps>`
   border: 1px solid ${({ theme }) => theme.palette.borderPrimary};
   border-radius: 4px;
   background-color: transparent;
-  height: 44px;
   cursor: pointer;
   font-family: ${({ theme }) => theme.fontFamilies.roboto};
   font-weight: ${({ theme }) => theme.fontWeights.bold};
@@ -46,10 +56,35 @@ const StyledButton = styled.button.withConfig({ shouldForwardProp })`
   ${textAlign}
   ${layout}
   ${space}
+  ${fontSize}
 `
 
-const Button: React.FC<ButtonProps> = ({ children, ...props }) => {
-  return <StyledButton {...props}>{children}</StyledButton>
+const Button: React.FC<ButtonProps> = ({
+  children,
+  size = 'medium',
+  ...props
+}) => {
+  const theme = useTheme()
+
+  const getButtonSizeOptions = (size: ButtonSize) => {
+    const small = { fontSize: theme.fontSizes.small, py: '6px', px: '9px' }
+    const medium = { fontSize: theme.fontSizes.medium, py: '12px', px: '16px' }
+
+    switch (size) {
+      case 'small':
+        return small
+      case 'medium':
+        return medium
+      default:
+        return medium
+    }
+  }
+
+  return (
+    <StyledButton {...getButtonSizeOptions(size)} {...props}>
+      {children}
+    </StyledButton>
+  )
 }
 
 export default Button
