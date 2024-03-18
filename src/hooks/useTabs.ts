@@ -14,7 +14,7 @@ const useTabs = <T>(options?: UseTabsOptions) => {
     (initialTab as T) || null
   )
 
-  const changeTab = (tab: T) => {
+  const changeTab = (tab: T | null) => {
     setActiveTab(tab)
 
     if (tab === options?.defaultTab) {
@@ -30,7 +30,7 @@ const useTabs = <T>(options?: UseTabsOptions) => {
   }
 
   const resetTab = () => {
-    setActiveTab((options?.defaultTab as T) || null)
+    changeTab((options?.defaultTab as T) || null)
   }
   return {
     activeTab,
