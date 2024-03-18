@@ -4,7 +4,7 @@ import React from 'react'
 export const Context = React.createContext<string | null>(null)
 
 interface TabContextProps extends ChildrenProp {
-  value: string
+  value: string | null
 }
 
 const TabContext: React.FC<TabContextProps> = ({ value, children }) => {

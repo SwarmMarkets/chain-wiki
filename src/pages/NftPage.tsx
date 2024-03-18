@@ -26,6 +26,7 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
 import { useTheme } from 'styled-components'
+import useTabs from '@src/hooks/useTabs'
 
 const NftPage = () => {
   const { nftId = '' } = useParams()
@@ -33,7 +34,6 @@ const NftPage = () => {
   const { t } = useTranslation('nft')
   const { permissions } = useNftPermissions(nftId)
   const [contentElem, setContentElem] = useState<HTMLDivElement | null>(null)
-  const [activeNftTab, setActiveNftTab] = useState<string>(NftTabs.NFT)
   const { nft, loadingNft, refetchingNft } = useNFT(nftId)
   const { fullTokens, loading: tokensLoading } = useTokens(
     {
@@ -41,24 +41,27 @@ const NftPage = () => {
     },
     { fetchFullData: true }
   )
+  const { activeTab, changeTab, resetTab } = useTabs<NftTabs>({
+    defaultTab: NftTabs.NFT,
+  })
   const showSkeleton = loadingNft && !refetchingNft
-  const isNftTab = activeNftTab === NftTabs.NFT
+  const isNftTab = activeTab === NftTabs.NFT
   const allLoaded = nft && fullTokens
 
   const onMountContent = (element: HTMLDivElement) => {
     setContentElem(element)
   }
 
-  const onChangeNftTab = (tab: ITab) => {
-    setActiveNftTab(tab.value)
+  const onChangeNftTab = (tab: ITab<NftTabs>) => {
+    changeTab(tab.value)
   }
 
   const handleSuccessUpdate = () => {
-    setActiveNftTab(NftTabs.NFT)
+    resetTab()
   }
 
   const handleEditSite = () => {
-    setActiveNftTab(NftTabs.EDIT)
+    changeTab(NftTabs.EDIT)
   }
 
   if (showSkeleton) {
@@ -76,7 +79,7 @@ const NftPage = () => {
       justifyContent={isNftTab && allLoaded ? 'space-between' : 'center'}
       $gap='20px'
     >
-      {activeNftTab === NftTabs.NFT && (
+      {activeTab === NftTabs.NFT && (
         <StyledIndexPages
           tokens={fullTokens}
           nft={nft}
@@ -103,7 +106,7 @@ const NftPage = () => {
           </ExplorerLink>
         </Flex>
 
-        <TabContext value={activeNftTab}>
+        <TabContext value={activeTab}>
           <Tabs onChange={onChangeNftTab}>
             <Tab value={NftTabs.NFT} label={t('tabs.nft')} />
             {permissions.canManageRoles && (

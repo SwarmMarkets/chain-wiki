@@ -1,7 +1,7 @@
 import icons from '../consts/icons'
 
-export interface Tab {
-  value: string
+export interface Tab<T> {
+  value: T
   label: string
 }
 
