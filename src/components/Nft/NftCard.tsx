@@ -55,13 +55,10 @@ const NftCard: React.FC<NftCardProps> = ({ nft, showRole = false }) => {
     e.preventDefault()
 
     const params = queryString.stringify({ tab: NftTabs.EDIT })
-    navigate(
-      {
-        pathname: generatePath(RoutePaths.NFT, { nftId: nft.id }),
-        search: `?${params}`,
-      },
-      { replace: true }
-    )
+    navigate({
+      pathname: generatePath(RoutePaths.NFT, { nftId: nft.id }),
+      search: `?${params}`,
+    })
   }
 
   return (
