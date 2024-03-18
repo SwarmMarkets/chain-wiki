@@ -10,7 +10,7 @@ import { IpfsNftContent, NFTQueryFullData } from '@src/shared/types/ipfs'
 import { unifyAddressToId, verifyNftValid } from '@src/shared/utils'
 import useIpfsData from '../web3/useIpfsData'
 
-const PAGE_LIMIT = 10
+export const PAGE_LIMIT = 10
 const POLL_INTERVAL = 15000
 
 interface UseNftConfig {
