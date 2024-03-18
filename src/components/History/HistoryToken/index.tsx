@@ -55,6 +55,7 @@ const HistoryToken = () => {
   if ((!tokenUriUpdates || !tokenUriUpdates.length) && !showSkeletons)
     return (
       <Text.p
+        mt={3}
         textAlign='center'
         color={theme.palette.gray}
         fontWeight={theme.fontWeights.medium}

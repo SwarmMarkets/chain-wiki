@@ -60,6 +60,7 @@ const IndexPages: React.FC<IndexPagesProps> = ({ tokens, nft, ...props }) => {
         <Text.h3>{t('indexPages.title')}</Text.h3>
         <Divider my='10px' />
         <Text.p
+          mt={4}
           textAlign='center'
           fontWeight={theme.fontWeights.medium}
           color={theme.palette.gray}

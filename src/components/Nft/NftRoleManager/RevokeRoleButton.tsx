@@ -23,7 +23,11 @@ const RevokeRoleButton: React.FC<RevokeRoleButtonProps> = ({
   if (role === Roles.ADMIN && isSameEthereumAddress(account, from)) return null
 
   return (
-    <LoadingButton onClick={() => revokeRole(from, role)} loading={txLoading}>
+    <LoadingButton
+      py={2}
+      onClick={() => revokeRole(from, role)}
+      loading={txLoading}
+    >
       {t('revokeRole')}
     </LoadingButton>
   )
