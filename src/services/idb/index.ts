@@ -1,40 +1,51 @@
-import Dexie, { Table } from 'dexie';
+import Dexie, { Table } from 'dexie'
 
 // Generic interface for entities
+
+export type Id = number | string
 export interface IEntity {
-  id?: number;
+  id: Id
 }
 
 // Extend Dexie with your custom database class
 class IndexedDB<T extends IEntity> extends Dexie {
-  public items: Table<T, number>;
+  public items: Table<T, Id>
 
-  constructor(databaseName: string, storeName: string) {
-    super(databaseName);
+  constructor(databaseName: string, storeName: string, indexedKeys: string) {
+    super(databaseName)
     this.version(1).stores({
-      [storeName]: '++id', // Using auto-increment for the id
-    });
-    this.items = this.table(storeName);
-  }
-  
-  async getAll(): Promise<T[]> {
-    return await this.items.toArray();
+      [storeName]: indexedKeys,
+    })
+    this.items = this.table(storeName)
   }
 
-  async getById(id: number): Promise<T | undefined> {
-    return await this.items.get(id);
+  getAll(): Promise<T[]> {
+    return this.items.toArray()
   }
 
-  async add(item: T): Promise<number> {
-    return await this.items.add(item);
+  getById(id: Id): Promise<T | undefined> {
+    return this.items.get(id)
   }
 
-  async update(id: number, item: T): Promise<number> {
-    return await this.items.update(id, item);
+  bulkGet(ids: Id[]): Promise<(T | undefined)[]> {
+    return this.items.bulkGet(ids)
   }
 
-  async remove(id: number): Promise<void> {
-    await this.items.delete(id);
+  add(item: T): Promise<Id> {
+    return this.items.add(item)
+  }
+
+  bulkAdd(items: T[], keys: Id[]): Promise<Id> {
+    console.log(items, keys)
+    return this.items.bulkAdd(items, keys)
+  }
+
+  update(id: Id, item: T): Promise<Id> {
+    return this.items.update(id, item)
+  }
+
+  async remove(id: Id): Promise<void> {
+    await this.items.delete(id)
   }
 }
 
