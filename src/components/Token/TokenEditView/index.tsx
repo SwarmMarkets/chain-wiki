@@ -38,6 +38,7 @@ const TokenEditView: React.FC<TokenEditViewProps> = ({
           {t('edit.name.label')}
         </Text.p>
         <TextField
+          width={250}
           inputProps={{ onChange: handleNameChange }}
           mb='10px'
           placeholder={t('edit.name.placeholder')}
