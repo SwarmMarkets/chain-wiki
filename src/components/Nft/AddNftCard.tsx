@@ -23,7 +23,7 @@ const AddNftCard: React.FC = () => {
           height='100%'
           $gap='5px'
         >
-          <Icon name='plus' size={70} color={theme.palette.borderPrimary} />
+          <Icon cursor='pointer' name='plus' size={70} color={theme.palette.borderPrimary} />
           <Text color={theme.palette.borderPrimary}>
             {t('addNft', { ns: 'nfts' })}
           </Text>
