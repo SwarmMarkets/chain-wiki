@@ -23,23 +23,17 @@ import { unifyAddressToId } from '@src/shared/utils'
 import queryString from 'query-string'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import {
-  useLocation,
-  useNavigate,
-  useParams,
-  useSearchParams,
-} from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import useTabs from '@src/hooks/useTabs'
 
 const TokenPage = () => {
   const { tokenId = '', nftId = '' } = useParams()
-  const [searchParams] = useSearchParams()
   const navigate = useNavigate()
   const location = useLocation()
   const { t } = useTranslation('token')
   const { permissions } = useNftPermissions(nftId)
 
-  const initialTab = searchParams.get('tab') || TokenTabs.READ
-  const [activeTab, setActiveTab] = useState(initialTab)
+  const { activeTab, changeTab } = useTabs({ defaultTab: TokenTabs.READ })
 
   const [contentElem, setContentElem] = useState<HTMLDivElement | null>(null)
 
@@ -56,24 +50,17 @@ const TokenPage = () => {
   const allLoaded = token && nft && fullTokens
 
   const onChangeTab = (tab: ITab) => {
-    setActiveTab(tab.value)
-    if (tab.value === TokenTabs.READ) {
-      const params = queryString.exclude(location.search, ['tab'])
-      navigate({ search: params })
-      return
-    }
-    const params = queryString.stringify({ tab: tab.value })
-    navigate({ search: `?${params}` }, { replace: true })
+    changeTab(tab.value)
   }
 
   const handleSuccessUpdate = () => {
-    setActiveTab(TokenTabs.READ)
+    changeTab(TokenTabs.READ)
     const params = queryString.exclude(location.search, ['tab'])
     navigate({ search: params })
   }
 
   const handleEditSite = () => {
-    setActiveTab(TokenTabs.EDIT)
+    changeTab(TokenTabs.EDIT)
   }
 
   const onMount = (element: HTMLDivElement) => {
