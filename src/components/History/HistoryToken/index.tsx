@@ -10,13 +10,15 @@ import {
 } from '@src/queries/gql/graphql'
 import Box from '../../ui/Box'
 import Button from '../../ui/Button/Button'
+import Text from '../../ui/Text'
 import { useTranslation } from 'react-i18next'
 import useTokenURIUpdates from '@src/hooks/subgraph/useTokenURIUpdates'
 import HistoryCardSkeleton from '../HistoryCardSkeleton'
-import ContentMissing from '../../common/ContentMissing'
+import { useTheme } from 'styled-components'
 
 const HistoryToken = () => {
-  const { t } = useTranslation('buttons')
+  const theme = useTheme()
+  const { t } = useTranslation(['buttons', 'history'])
   const location = useLocation()
   const { tokenId = '' } = useParams()
 
@@ -51,7 +53,15 @@ const HistoryToken = () => {
   )
 
   if ((!tokenUriUpdates || !tokenUriUpdates.length) && !showSkeletons)
-    return <ContentMissing message='Token history missing' />
+    return (
+      <Text.p
+        textAlign='center'
+        color={theme.palette.gray}
+        fontWeight={theme.fontWeights.medium}
+      >
+        {t('messages.noHistory', { ns: 'history' })}
+      </Text.p>
+    )
 
   return (
     <div>

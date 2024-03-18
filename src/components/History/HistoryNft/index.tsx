@@ -9,14 +9,16 @@ import {
   OrderDirection,
 } from '@src/queries/gql/graphql'
 import Box from '@src/components/ui/Box'
+import Text from '@src/components/ui/Text'
 import Button from '@src/components/ui/Button/Button'
 import { useTranslation } from 'react-i18next'
 import useNFTURIUpdates from '@src/hooks/subgraph/useNFTURIUpdates'
-import ContentMissing from '@src/components/common/ContentMissing'
 import HistoryCardSkeleton from '../HistoryCardSkeleton'
+import { useTheme } from 'styled-components'
 
 const HistoryNft = () => {
-  const { t } = useTranslation('buttons')
+  const theme = useTheme()
+  const { t } = useTranslation(['buttons', 'history'])
   const location = useLocation()
   const { nftId = '' } = useParams()
   const { nftUriUpdates, loading, refetching } = useNFTURIUpdates(nftId, {
@@ -48,7 +50,15 @@ const HistoryNft = () => {
   )
 
   if ((!nftUriUpdates || !nftUriUpdates.length) && !showSkeletons)
-    return <ContentMissing message='Nft history missing' />
+    return (
+      <Text.p
+        textAlign='center'
+        color={theme.palette.gray}
+        fontWeight={theme.fontWeights.medium}
+      >
+        {t('messages.noHistory', { ns: 'history' })}
+      </Text.p>
+    )
 
   return (
     <div>

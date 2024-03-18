@@ -1,5 +1,8 @@
 {
   "prev": "prev",
   "curr": "curr",
-  "revisionAsOf": "Revision as of"
+  "revisionAsOf": "Revision as of",
+  "messages": {
+    "noHistory": "No history yet"
+  }
 }
