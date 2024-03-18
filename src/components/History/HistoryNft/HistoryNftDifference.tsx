@@ -42,7 +42,7 @@ const HistoryNftDifference = () => {
               >
                 <span>
                   {t('revisionAsOf')}{' '}
-                  {new Date(+nft.updatedAt).toLocaleString()}
+                  {new Date(+nft.updatedAt * 1000).toLocaleString()}
                 </span>
               </Flex>
             ))}

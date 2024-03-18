@@ -50,7 +50,7 @@ const HistoryTokenDifference = () => {
               >
                 <span>
                   {t('revisionAsOf')}{' '}
-                  {new Date(+token.updatedAt).toLocaleString()}
+                  {new Date(+token.updatedAt * 1000).toLocaleString()}
                 </span>
               </Flex>
             ))}

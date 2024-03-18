@@ -107,7 +107,7 @@ const HistoryTokenList: React.FC<HistoryTokenListProps> = ({
               }
               onChange={() => onChangeCheckbox(item)}
             />
-            <Text ml='20px'>{new Date(+item.updatedAt).toLocaleString()} </Text>
+            <Text ml='20px'>{new Date(+item.updatedAt * 1000).toLocaleString()} </Text>
           </StyledCard>
         ))}
     </Flex>
