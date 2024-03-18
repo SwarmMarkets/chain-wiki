@@ -43,7 +43,7 @@ const UpdateNftContentButton: React.FC<UpdateNftContentButtonProps> = ({
   const { nft } = useNFT(nftAddress)
 
   const uploadContent = async () => {
-    if (!nft) return
+    if (!nft || (nft.uri && !nft?.ipfsContent)) return
     const ipfsContent = generateIpfsNftContent({
       htmlContent: '',
       ...nft?.ipfsContent,
