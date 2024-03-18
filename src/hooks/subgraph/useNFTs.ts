@@ -7,8 +7,8 @@ import {
   NfTsQueryVariables,
 } from '@src/queries/gql/graphql'
 import { IpfsNftContent, NFTQueryFullData } from '@src/shared/types/ipfs'
-import { verifyNftValid } from '@src/shared/utils'
-import { useStorage } from '@thirdweb-dev/react'
+import { unifyAddressToId, verifyNftValid } from '@src/shared/utils'
+import useIpfsData from '../web3/useIpfsData'
 
 const PAGE_LIMIT = 10
 const POLL_INTERVAL = 15000
@@ -21,25 +21,12 @@ const useNFTs = (
   options?: QueryHookOptions<NFTsQueryGQL, NfTsQueryVariables>,
   config?: UseNftConfig
 ) => {
-  const storage = useStorage()
   const [fullData, setFullData] = useState<NFTQueryFullData[] | null>(null)
-
-  const getBatchIpfsData = async (nfts: NFTsQueryGQL['nfts']) => {
-    const results = new Map<string, IpfsNftContent>()
-
-    const promises = nfts.map(item =>
-      storage
-        ?.downloadJSON(item.uri)
-        .then(res => {
-          verifyNftValid(res)
-          results.set(item.id, res)
-        })
-        .catch(e => e)
-    )
-
-    await Promise.all(promises)
-    return results
-  }
+  const { fetch: fetchIpfsData, loading: ipfsDataLoading } =
+    useIpfsData<IpfsNftContent>({
+      validator: verifyNftValid,
+      mapping: content => unifyAddressToId(content.address),
+    })
 
   const { data, loading, error, fetchMore, networkStatus, refetch } = useQuery(
     NFTsQuery,
@@ -55,11 +42,11 @@ const useNFTs = (
       },
       async onCompleted(data) {
         if (!config?.fetchFullData) return
-
-        const nftsIpfsData = await getBatchIpfsData(data.nfts)
+        const uris = data.nfts.map(nft => nft.uri)
+        const { mappedResults } = await fetchIpfsData(uris)
 
         const fullData = data.nfts.map(item => {
-          const ipfsContent = nftsIpfsData.get(item.id)
+          const ipfsContent = mappedResults.get(item.id)
           if (!ipfsContent) return item
 
           return {
@@ -78,6 +65,7 @@ const useNFTs = (
       nfts: data?.nfts,
       fullNfts: fullData,
       loadingNfts:
+        ipfsDataLoading ||
         loading ||
         ![
           NetworkStatus.ready,
@@ -89,7 +77,16 @@ const useNFTs = (
       refetchingNfts: [NetworkStatus.poll].includes(networkStatus),
       fetchMoreNfts: fetchMore,
     }),
-    [data?.nfts, error, fetchMore, fullData, loading, networkStatus, refetch]
+    [
+      data?.nfts,
+      error,
+      fetchMore,
+      fullData,
+      ipfsDataLoading,
+      loading,
+      networkStatus,
+      refetch,
+    ]
   )
 }
 

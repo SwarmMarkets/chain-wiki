@@ -11,7 +11,6 @@ const initialNftContent: IpfsNftContent = {
   name: '',
   address: '',
   htmlContent: '',
-  indexPages: [],
 }
 
 const initialAttestationContent: IpfsAttestationContent = {

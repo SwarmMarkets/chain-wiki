@@ -48,6 +48,7 @@ const UpdateNftContentButton: React.FC<UpdateNftContentButtonProps> = ({
     const ipfsContent = generateIpfsNftContent({
       ...nft?.ipfsContent,
       ...nftContentToUpdate,
+      address: nft.id,
     })
     const filesToUpload = [ipfsContent]
     const uris = await upload({ data: filesToUpload })
