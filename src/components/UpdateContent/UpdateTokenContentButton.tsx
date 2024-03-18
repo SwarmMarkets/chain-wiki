@@ -47,9 +47,13 @@ const UpdateTokenContentButton: React.FC<UpdateTokenContentButtonProps> = ({
   const tokenId = Number(token?.id.split('-')[1])
 
   const uploadContent = async () => {
-    if (!token?.ipfsContent) return
+    if (!token || (token.uri && !token?.ipfsContent)) return
 
     const content = {
+      name: '',
+      address: '',
+      tokenId: 0,
+      htmlContent: '',
       ...token?.ipfsContent,
       ...tokenContentToUpdate,
     }
