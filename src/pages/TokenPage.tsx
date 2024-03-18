@@ -1,7 +1,6 @@
 import TokenContentSkeleton from '@src/components/Token/TokenContentSkeleton'
 import TokenView from '@src/components/Token/TokenView'
 import { StyledContent } from '@src/components/Token/styled-components'
-import Editor from '@src/components/Editor'
 import HistoryToken from '@src/components/History/HistoryToken'
 import { StyledIndexPages } from '@src/components/Nft/styled-components'
 import { TokenContextProvider } from '@src/components/providers/TokenContext'
@@ -24,6 +23,7 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
 import useTabs from '@src/hooks/useTabs'
+import EditView from '@src/components/Token/TokenEditView'
 
 const TokenPage = () => {
   const { tokenId = '', nftId = '' } = useParams()
@@ -115,11 +115,10 @@ const TokenPage = () => {
               />
             </TabPanel>
             <TabPanel value={TokenTabs.EDIT}>
-              <Editor
-                onSuccessUpdate={handleSuccessUpdate}
-                initialContent={token?.ipfsContent?.htmlContent || ''}
-                nftAddress={nftId}
-                tokenAddress={token?.id}
+              <EditView
+                handleSuccessUpdate={handleSuccessUpdate}
+                nftAddress={nft?.id || ''}
+                token={token}
               />
             </TabPanel>
             <TabPanel value={TokenTabs.HISTORY}>
