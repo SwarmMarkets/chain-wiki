@@ -33,7 +33,7 @@ const TokenPage = () => {
   const { t } = useTranslation('token')
   const { permissions } = useNftPermissions(nftId)
 
-  const { activeTab, changeTab } = useTabs({ defaultTab: TokenTabs.READ })
+  const { activeTab, changeTab } = useTabs<TokenTabs>({ defaultTab: TokenTabs.READ })
 
   const [contentElem, setContentElem] = useState<HTMLDivElement | null>(null)
 
@@ -49,7 +49,7 @@ const TokenPage = () => {
   const showSkeleton = loadingToken && !refetchingToken
   const allLoaded = token && nft && fullTokens
 
-  const onChangeTab = (tab: ITab) => {
+  const onChangeTab = (tab: ITab<TokenTabs>) => {
     changeTab(tab.value)
   }
 
