@@ -12,6 +12,7 @@ import UpdateNftContentButton from '../UpdateContent/UpdateNftContentButton'
 import { findElementWithMatchedDataId } from './utils'
 
 interface EditorProps {
+  name: string
   nftAddress: string
   tokenAddress?: string
   initialContent: string
@@ -33,6 +34,7 @@ const Editor: React.FC<EditorProps> = ({
   tokenAddress,
   nftAddress,
   onSuccessUpdate,
+  name,
 }) => {
   const [editorInit, setEditorInit] = useState(false)
   const [currContent, setCurrContent] = useState(initialContent)
@@ -87,6 +89,11 @@ const Editor: React.FC<EditorProps> = ({
     event.element.removeAttribute('data-id')
   }
 
+  const tokenContentToUpdate: Record<string, string> = {
+    htmlContent: currContent,
+  }
+  name && (tokenContentToUpdate.name = name)
+
   return (
     <>
       <EditorWrapper $editorInit={editorInit}>
@@ -128,7 +135,7 @@ const Editor: React.FC<EditorProps> = ({
                 onSuccess={onSuccessUpdate}
                 tokenAddress={tokenAddress}
                 nftAddress={nftAddress}
-                tokenContentToUpdate={{ htmlContent: currContent }}
+                tokenContentToUpdate={tokenContentToUpdate}
               />
             ) : (
               <UpdateNftContentButton

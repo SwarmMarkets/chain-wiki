@@ -66,7 +66,7 @@ const NftCard: React.FC<NftCardProps> = ({ nft, showRole = false }) => {
       <Flex flexDirection='column' justifyContent='space-between' height='100%'>
         <div>
           <Flex alignItems='center' $gap='3px'>
-            <Icon name='document' size={40} />
+            <Icon cursor='pointer' name='document' size={40} />
             <Title>{nft.name}</Title>
           </Flex>
           {nft.ipfsContent?.htmlContent && (
