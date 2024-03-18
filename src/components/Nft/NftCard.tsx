@@ -5,7 +5,7 @@ import {
   limitString,
 } from '@src/shared/utils'
 import { shortenAddress, useAddress } from '@thirdweb-dev/react'
-import React, { useMemo } from 'react'
+import React, { MouseEvent, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useTheme } from 'styled-components'
 import ExplorerLink from '../common/ExplorerLink'
@@ -13,6 +13,12 @@ import Flex from '../ui/Flex'
 import Icon from '../ui/Icon'
 import Text from '../ui/Text'
 import { StyledCard, Title } from './styled-components'
+import Button from '../ui/Button/Button'
+import RequirePermissions from '../common/RequirePermissions'
+import queryString from 'query-string'
+import { NftTabs } from '@src/shared/enums'
+import { generatePath, useNavigate } from 'react-router-dom'
+import RoutePaths from '@src/shared/enums/routes-paths'
 
 interface NftCardProps {
   nft: NFTQueryFullData
@@ -20,8 +26,9 @@ interface NftCardProps {
 }
 
 const NftCard: React.FC<NftCardProps> = ({ nft, showRole = false }) => {
-  const { t } = useTranslation(['errors', 'nfts'])
+  const { t } = useTranslation(['nft', 'nfts'])
   const theme = useTheme()
+  const navigate = useNavigate()
   const account = useAddress()
 
   const roles = useMemo(() => {
@@ -42,6 +49,20 @@ const NftCard: React.FC<NftCardProps> = ({ nft, showRole = false }) => {
 
     return roles
   }, [account, nft.admins, nft.editors, t, showRole])
+
+  const handleEditNft = (e: MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation()
+    e.preventDefault()
+
+    const params = queryString.stringify({ tab: NftTabs.EDIT })
+    navigate(
+      {
+        pathname: generatePath(RoutePaths.NFT, { nftId: nft.id }),
+        search: `?${params}`,
+      },
+      { replace: true }
+    )
+  }
 
   return (
     <StyledCard minHeight={200}>
@@ -64,13 +85,19 @@ const NftCard: React.FC<NftCardProps> = ({ nft, showRole = false }) => {
           <Flex
             height='100%'
             flexDirection='column'
-            $gap='5px'
+            $gap='10px'
             alignItems='center'
             justifyContent='center'
           >
-            <Text.p color={theme.palette.gray}>
-              {t('nft.contentNotFound')}
+            <Text.p
+              color={theme.palette.gray}
+              fontWeight={theme.fontWeights.medium}
+            >
+              {t('messages.contentNotFound')}
             </Text.p>
+            <RequirePermissions nftAddress={nft.id} canUpdateContent>
+              <Button onClick={handleEditNft}>{t('messages.editNft')}</Button>
+            </RequirePermissions>
           </Flex>
         )}
         <Flex flexDirection='column' alignItems='end' pt={10} $gap='2px'>

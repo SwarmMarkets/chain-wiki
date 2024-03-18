@@ -84,6 +84,7 @@
     "noTokens": "No pages yet"
   },
   "messages": {
-    "editNft": "Edit site"
+    "editNft": "Edit site",
+    "contentNotFound": "No site content yet"
   }
 }

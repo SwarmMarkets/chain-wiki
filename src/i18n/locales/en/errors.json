@@ -3,9 +3,6 @@
     "required": "This field is required",
     "incorrectWalletAddress": "Incorrect wallet address"
   },
-  "nft": {
-    "contentNotFound": "Content is not found"
-  },
   "voteOnProposal": {
     "genericError": "Your vote wasn't counted due to an error. Please try again."
   }
