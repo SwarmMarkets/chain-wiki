@@ -93,7 +93,7 @@ const NftCard: React.FC<NftCardProps> = ({ nft, showRole = false }) => {
               {t('messages.contentNotFound')}
             </Text.p>
             <RequirePermissions nftAddress={nft.id} canUpdateContent>
-              <Button size='small' onClick={handleEditNft}>
+              <Button size='small' onClick={handleEditNft} mt={2}>
                 {t('messages.editNft')}
               </Button>
             </RequirePermissions>

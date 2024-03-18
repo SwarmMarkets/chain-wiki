@@ -52,6 +52,7 @@ const HistoryNft = () => {
   if ((!nftUriUpdates || !nftUriUpdates.length) && !showSkeletons)
     return (
       <Text.p
+        mt={3}
         textAlign='center'
         color={theme.palette.gray}
         fontWeight={theme.fontWeights.medium}
