@@ -1,4 +1,5 @@
 import NftList from '@src/components/Nft/NftList'
+import Pagination from '@src/components/common/Pagination'
 import Box from '@src/components/ui/Box'
 import ButtonGroup from '@src/components/ui/Button/ButtonGroup'
 import useNFTs from '@src/hooks/subgraph/useNFTs'
@@ -8,12 +9,15 @@ import { useAddress } from '@thirdweb-dev/react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
+const PAGE_LIMIT = 9
+
 const MyNftsPage = () => {
   const { t } = useTranslation('nfts')
   const address = useAddress() || ''
   const [selectedOption, setSelectedOption] = useState<string>(
     NftButtonOptions.ALL
   )
+  const [skip, setSkip] = useState(0)
   const { fullNfts, loadingNfts, refetchingNfts, refetch } = useNFTs(
     {
       variables: {
@@ -23,6 +27,8 @@ const MyNftsPage = () => {
             { editors_contains_nocase: [address] },
           ],
         },
+        skip,
+        limit: PAGE_LIMIT,
       },
       skip: !address,
     },
@@ -61,6 +67,18 @@ const MyNftsPage = () => {
 
   const loading = loadingNfts && !refetchingNfts
 
+  const handleNextButton = () => {
+    setSkip(skip + PAGE_LIMIT)
+  }
+
+  const handlePreviousButton = () => {
+    setSkip(skip - PAGE_LIMIT)
+  }
+
+  const hasPrevious = skip > 0
+  const hasNext = !!(fullNfts ? fullNfts.length >= PAGE_LIMIT : false)
+  const showPagination = hasPrevious || hasNext
+
   return (
     <>
       <h1>{t('myNftsTitle')}</h1>
@@ -79,6 +97,14 @@ const MyNftsPage = () => {
           skeletonLength={9}
         />
       </Box>
+      {showPagination && (
+        <Pagination
+          next={handleNextButton}
+          previous={handlePreviousButton}
+          hasNext={hasNext}
+          hasPrevious={hasPrevious}
+        />
+      )}
     </>
   )
 }
