@@ -33,8 +33,18 @@ const AttestationCard: React.FC<AttestationCardProps> = ({
       <Flex alignItems='center' justifyContent='space-between'>
         <Flex alignItems='center' $gap='5px'>
           <Text weight={theme.fontWeights.bold}>{t('attestation.author')}</Text>
-          <ExplorerLink type={'address'} hash={address}>
-            {shortenAddress(address, true)}
+          <ExplorerLink
+            iconsPosition='right'
+            iconSize={10}
+            type={'address'}
+            hash={address}
+          >
+            <Text
+              fontSize={theme.fontSizes.small}
+              color={theme.palette.linkPrimary}
+            >
+              {shortenAddress(address, true)}
+            </Text>
           </ExplorerLink>
         </Flex>
         <Text color={theme.palette.gray}>{date}</Text>
