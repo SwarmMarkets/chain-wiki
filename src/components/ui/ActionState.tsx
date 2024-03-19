@@ -22,11 +22,6 @@ export interface ActionStateItemProps extends ChildrenProp {
   retry?(): void
 }
 
-const RetryButton = styled(Button)`
-  font-size: 0.9rem;
-  height: 35px;
-`
-
 const StyledLi = styled.li`
   display: flex;
   flex-direction: row;
@@ -60,9 +55,9 @@ const ActionStateItem: React.FC<ActionStateItemProps> = ({
       {children}
 
       {error && retry ? (
-        <RetryButton ml={2} onClick={retry}>
+        <Button ml={3} fontSize='0.9rem' px='12px' onClick={retry} size='small'>
           {t('retry')}
-        </RetryButton>
+        </Button>
       ) : null}
     </StyledLi>
   )
