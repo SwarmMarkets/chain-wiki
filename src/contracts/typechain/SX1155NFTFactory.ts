@@ -11,81 +11,85 @@ import type {
   PopulatedTransaction,
   Signer,
   utils,
-} from 'ethers'
-import type { FunctionFragment, Result, EventFragment } from '@ethersnft/abi'
-import type { Listener, Provider } from '@ethersnft/providers'
+} from "ethers";
+import type {
+  FunctionFragment,
+  Result,
+  EventFragment,
+} from "@ethersproject/abi";
+import type { Listener, Provider } from "@ethersproject/providers";
 import type {
   TypedEventFilter,
   TypedEvent,
   TypedListener,
   OnEvent,
-} from './common'
+} from "./common";
 
 export interface SX1155NFTFactoryInterface extends utils.Interface {
   functions: {
-    'deployNFTContract(string,string,string,address,address)': FunctionFragment
-  }
+    "deployNFTContract(string,string,string,address,address)": FunctionFragment;
+  };
 
-  getFunction(nameOrSignatureOrTopic: 'deployNFTContract'): FunctionFragment
+  getFunction(nameOrSignatureOrTopic: "deployNFTContract"): FunctionFragment;
 
   encodeFunctionData(
-    functionFragment: 'deployNFTContract',
+    functionFragment: "deployNFTContract",
     values: [string, string, string, string, string]
-  ): string
+  ): string;
 
   decodeFunctionResult(
-    functionFragment: 'deployNFTContract',
+    functionFragment: "deployNFTContract",
     data: BytesLike
-  ): Result
+  ): Result;
 
   events: {
-    'SX1155NFTDeployed(address,string,string,string,address,address)': EventFragment
-  }
+    "SX1155NFTDeployed(address,string,string,string,address,address)": EventFragment;
+  };
 
-  getEvent(nameOrSignatureOrTopic: 'SX1155NFTDeployed'): EventFragment
+  getEvent(nameOrSignatureOrTopic: "SX1155NFTDeployed"): EventFragment;
 }
 
 export interface SX1155NFTDeployedEventObject {
-  deployedAddress: string
-  name: string
-  symbol: string
-  uri: string
-  admin: string
-  editor: string
+  deployedAddress: string;
+  name: string;
+  symbol: string;
+  uri: string;
+  admin: string;
+  editor: string;
 }
 export type SX1155NFTDeployedEvent = TypedEvent<
   [string, string, string, string, string, string],
   SX1155NFTDeployedEventObject
->
+>;
 
 export type SX1155NFTDeployedEventFilter =
-  TypedEventFilter<SX1155NFTDeployedEvent>
+  TypedEventFilter<SX1155NFTDeployedEvent>;
 
 export interface SX1155NFTFactory extends BaseContract {
-  connect(signerOrProvider: Signer | Provider | string): this
-  attach(addressOrName: string): this
-  deployed(): Promise<this>
+  connect(signerOrProvider: Signer | Provider | string): this;
+  attach(addressOrName: string): this;
+  deployed(): Promise<this>;
 
-  interface: SX1155NFTFactoryInterface
+  interface: SX1155NFTFactoryInterface;
 
   queryFilter<TEvent extends TypedEvent>(
     event: TypedEventFilter<TEvent>,
     fromBlockOrBlockhash?: string | number | undefined,
     toBlock?: string | number | undefined
-  ): Promise<Array<TEvent>>
+  ): Promise<Array<TEvent>>;
 
   listeners<TEvent extends TypedEvent>(
     eventFilter?: TypedEventFilter<TEvent>
-  ): Array<TypedListener<TEvent>>
-  listeners(eventName?: string): Array<Listener>
+  ): Array<TypedListener<TEvent>>;
+  listeners(eventName?: string): Array<Listener>;
   removeAllListeners<TEvent extends TypedEvent>(
     eventFilter: TypedEventFilter<TEvent>
-  ): this
-  removeAllListeners(eventName?: string): this
-  off: OnEvent<this>
-  on: OnEvent<this>
-  once: OnEvent<this>
-  removeListener: OnEvent<this>
+  ): this;
+  removeAllListeners(eventName?: string): this;
+  off: OnEvent<this>;
+  on: OnEvent<this>;
+  once: OnEvent<this>;
+  removeListener: OnEvent<this>;
 
   functions: {
     deployNFTContract(
@@ -95,8 +99,8 @@ export interface SX1155NFTFactory extends BaseContract {
       _admin: string,
       _editor: string,
       overrides?: Overrides & { from?: string }
-    ): Promise<ContractTransaction>
-  }
+    ): Promise<ContractTransaction>;
+  };
 
   deployNFTContract(
     _name: string,
@@ -105,7 +109,7 @@ export interface SX1155NFTFactory extends BaseContract {
     _admin: string,
     _editor: string,
     overrides?: Overrides & { from?: string }
-  ): Promise<ContractTransaction>
+  ): Promise<ContractTransaction>;
 
   callStatic: {
     deployNFTContract(
@@ -115,18 +119,18 @@ export interface SX1155NFTFactory extends BaseContract {
       _admin: string,
       _editor: string,
       overrides?: CallOverrides
-    ): Promise<string>
-  }
+    ): Promise<string>;
+  };
 
   filters: {
-    'SX1155NFTDeployed(address,string,string,string,address,address)'(
+    "SX1155NFTDeployed(address,string,string,string,address,address)"(
       deployedAddress?: null,
       name?: null,
       symbol?: null,
       uri?: null,
       admin?: null,
       editor?: null
-    ): SX1155NFTDeployedEventFilter
+    ): SX1155NFTDeployedEventFilter;
     SX1155NFTDeployed(
       deployedAddress?: null,
       name?: null,
@@ -134,8 +138,8 @@ export interface SX1155NFTFactory extends BaseContract {
       uri?: null,
       admin?: null,
       editor?: null
-    ): SX1155NFTDeployedEventFilter
-  }
+    ): SX1155NFTDeployedEventFilter;
+  };
 
   estimateGas: {
     deployNFTContract(
@@ -145,8 +149,8 @@ export interface SX1155NFTFactory extends BaseContract {
       _admin: string,
       _editor: string,
       overrides?: Overrides & { from?: string }
-    ): Promise<BigNumber>
-  }
+    ): Promise<BigNumber>;
+  };
 
   populateTransaction: {
     deployNFTContract(
@@ -156,6 +160,6 @@ export interface SX1155NFTFactory extends BaseContract {
       _admin: string,
       _editor: string,
       overrides?: Overrides & { from?: string }
-    ): Promise<PopulatedTransaction>
-  }
+    ): Promise<PopulatedTransaction>;
+  };
 }

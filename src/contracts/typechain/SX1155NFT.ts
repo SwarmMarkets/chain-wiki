@@ -12,634 +12,649 @@ import type {
   PopulatedTransaction,
   Signer,
   utils,
-} from 'ethers'
-import type { FunctionFragment, Result, EventFragment } from '@ethersnft/abi'
-import type { Listener, Provider } from '@ethersnft/providers'
+} from "ethers";
+import type {
+  FunctionFragment,
+  Result,
+  EventFragment,
+} from "@ethersproject/abi";
+import type { Listener, Provider } from "@ethersproject/providers";
 import type {
   TypedEventFilter,
   TypedEvent,
   TypedListener,
   OnEvent,
-} from './common'
+} from "./common";
 
 export interface SX1155NFTInterface extends utils.Interface {
   functions: {
-    'DEFAULT_ADMIN_ROLE()': FunctionFragment
-    'EDITOR_ROLE()': FunctionFragment
-    'balanceOf(address,uint256)': FunctionFragment
-    'balanceOfBatch(address[],uint256[])': FunctionFragment
-    'commentatorByCommentsId(uint256,uint256)': FunctionFragment
-    'contractUri()': FunctionFragment
-    'currentTokenId()': FunctionFragment
-    'deleteAttestation(uint256,uint256)': FunctionFragment
-    'forceBurn(address,uint256,uint256,string)': FunctionFragment
-    'forceBurnBatch(address[],uint256[],uint256[],string)': FunctionFragment
-    'forceTransfer(address,address,uint256,uint256)': FunctionFragment
-    'getRoleAdmin(bytes32)': FunctionFragment
-    'grantEditorRole(address)': FunctionFragment
-    'grantRole(bytes32,address)': FunctionFragment
-    'hasRole(bytes32,address)': FunctionFragment
-    'isApprovedForAll(address,address)': FunctionFragment
-    'makeAttestation(uint256,string)': FunctionFragment
-    'maxArraySize()': FunctionFragment
-    'mint(address,uint256,string,bytes)': FunctionFragment
-    'mintBatch(address[],uint256[],string[],bytes[])': FunctionFragment
-    'name()': FunctionFragment
-    'renounceRole(bytes32,address)': FunctionFragment
-    'revokeEditorRole(address)': FunctionFragment
-    'revokeRole(bytes32,address)': FunctionFragment
-    'safeBatchTransferFrom(address,address,uint256[],uint256[],bytes)': FunctionFragment
-    'safeTransferFrom(address,address,uint256,uint256,bytes)': FunctionFragment
-    'setApprovalForAll(address,bool)': FunctionFragment
-    'setContractUri(string)': FunctionFragment
-    'setMaxArraySize(uint256)': FunctionFragment
-    'setTokenUri(uint256,string)': FunctionFragment
-    'supportsInterface(bytes4)': FunctionFragment
-    'symbol()': FunctionFragment
-    'tokenCommentByCommentId(uint256,uint256)': FunctionFragment
-    'tokenData(uint256)': FunctionFragment
-    'tokenUri(uint256)': FunctionFragment
-    'totalTokenIdsSupply(uint256)': FunctionFragment
-    'uri(uint256)': FunctionFragment
-  }
+    "DEFAULT_ADMIN_ROLE()": FunctionFragment;
+    "EDITOR_ROLE()": FunctionFragment;
+    "balanceOf(address,uint256)": FunctionFragment;
+    "balanceOfBatch(address[],uint256[])": FunctionFragment;
+    "commentatorByCommentsId(uint256,uint256)": FunctionFragment;
+    "contractUri()": FunctionFragment;
+    "currentTokenId()": FunctionFragment;
+    "deleteAttestation(uint256,uint256)": FunctionFragment;
+    "forceBurn(address,uint256,uint256,string)": FunctionFragment;
+    "forceBurnBatch(address[],uint256[],uint256[],string)": FunctionFragment;
+    "forceTransfer(address,address,uint256,uint256)": FunctionFragment;
+    "getRoleAdmin(bytes32)": FunctionFragment;
+    "grantEditorRole(address)": FunctionFragment;
+    "grantRole(bytes32,address)": FunctionFragment;
+    "hasRole(bytes32,address)": FunctionFragment;
+    "isApprovedForAll(address,address)": FunctionFragment;
+    "makeAttestation(uint256,string)": FunctionFragment;
+    "maxArraySize()": FunctionFragment;
+    "mint(address,uint256,string,bytes)": FunctionFragment;
+    "mintBatch(address[],uint256[],string[],bytes[])": FunctionFragment;
+    "name()": FunctionFragment;
+    "renounceRole(bytes32,address)": FunctionFragment;
+    "revokeEditorRole(address)": FunctionFragment;
+    "revokeRole(bytes32,address)": FunctionFragment;
+    "safeBatchTransferFrom(address,address,uint256[],uint256[],bytes)": FunctionFragment;
+    "safeTransferFrom(address,address,uint256,uint256,bytes)": FunctionFragment;
+    "setApprovalForAll(address,bool)": FunctionFragment;
+    "setContractUri(string)": FunctionFragment;
+    "setMaxArraySize(uint256)": FunctionFragment;
+    "setTokenUri(uint256,string)": FunctionFragment;
+    "supportsInterface(bytes4)": FunctionFragment;
+    "symbol()": FunctionFragment;
+    "tokenCommentByCommentId(uint256,uint256)": FunctionFragment;
+    "tokenData(uint256)": FunctionFragment;
+    "tokenUri(uint256)": FunctionFragment;
+    "totalTokenIdsSupply(uint256)": FunctionFragment;
+    "uri(uint256)": FunctionFragment;
+  };
 
   getFunction(
     nameOrSignatureOrTopic:
-      | 'DEFAULT_ADMIN_ROLE'
-      | 'EDITOR_ROLE'
-      | 'balanceOf'
-      | 'balanceOfBatch'
-      | 'commentatorByCommentsId'
-      | 'contractUri'
-      | 'currentTokenId'
-      | 'deleteAttestation'
-      | 'forceBurn'
-      | 'forceBurnBatch'
-      | 'forceTransfer'
-      | 'getRoleAdmin'
-      | 'grantEditorRole'
-      | 'grantRole'
-      | 'hasRole'
-      | 'isApprovedForAll'
-      | 'makeAttestation'
-      | 'maxArraySize'
-      | 'mint'
-      | 'mintBatch'
-      | 'name'
-      | 'renounceRole'
-      | 'revokeEditorRole'
-      | 'revokeRole'
-      | 'safeBatchTransferFrom'
-      | 'safeTransferFrom'
-      | 'setApprovalForAll'
-      | 'setContractUri'
-      | 'setMaxArraySize'
-      | 'setTokenUri'
-      | 'supportsInterface'
-      | 'symbol'
-      | 'tokenCommentByCommentId'
-      | 'tokenData'
-      | 'tokenUri'
-      | 'totalTokenIdsSupply'
-      | 'uri'
-  ): FunctionFragment
+      | "DEFAULT_ADMIN_ROLE"
+      | "EDITOR_ROLE"
+      | "balanceOf"
+      | "balanceOfBatch"
+      | "commentatorByCommentsId"
+      | "contractUri"
+      | "currentTokenId"
+      | "deleteAttestation"
+      | "forceBurn"
+      | "forceBurnBatch"
+      | "forceTransfer"
+      | "getRoleAdmin"
+      | "grantEditorRole"
+      | "grantRole"
+      | "hasRole"
+      | "isApprovedForAll"
+      | "makeAttestation"
+      | "maxArraySize"
+      | "mint"
+      | "mintBatch"
+      | "name"
+      | "renounceRole"
+      | "revokeEditorRole"
+      | "revokeRole"
+      | "safeBatchTransferFrom"
+      | "safeTransferFrom"
+      | "setApprovalForAll"
+      | "setContractUri"
+      | "setMaxArraySize"
+      | "setTokenUri"
+      | "supportsInterface"
+      | "symbol"
+      | "tokenCommentByCommentId"
+      | "tokenData"
+      | "tokenUri"
+      | "totalTokenIdsSupply"
+      | "uri"
+  ): FunctionFragment;
 
   encodeFunctionData(
-    functionFragment: 'DEFAULT_ADMIN_ROLE',
+    functionFragment: "DEFAULT_ADMIN_ROLE",
     values?: undefined
-  ): string
+  ): string;
   encodeFunctionData(
-    functionFragment: 'EDITOR_ROLE',
+    functionFragment: "EDITOR_ROLE",
     values?: undefined
-  ): string
+  ): string;
   encodeFunctionData(
-    functionFragment: 'balanceOf',
+    functionFragment: "balanceOf",
     values: [string, BigNumberish]
-  ): string
+  ): string;
   encodeFunctionData(
-    functionFragment: 'balanceOfBatch',
+    functionFragment: "balanceOfBatch",
     values: [string[], BigNumberish[]]
-  ): string
+  ): string;
   encodeFunctionData(
-    functionFragment: 'commentatorByCommentsId',
+    functionFragment: "commentatorByCommentsId",
     values: [BigNumberish, BigNumberish]
-  ): string
+  ): string;
   encodeFunctionData(
-    functionFragment: 'contractUri',
+    functionFragment: "contractUri",
     values?: undefined
-  ): string
+  ): string;
   encodeFunctionData(
-    functionFragment: 'currentTokenId',
+    functionFragment: "currentTokenId",
     values?: undefined
-  ): string
+  ): string;
   encodeFunctionData(
-    functionFragment: 'deleteAttestation',
+    functionFragment: "deleteAttestation",
     values: [BigNumberish, BigNumberish]
-  ): string
+  ): string;
   encodeFunctionData(
-    functionFragment: 'forceBurn',
+    functionFragment: "forceBurn",
     values: [string, BigNumberish, BigNumberish, string]
-  ): string
+  ): string;
   encodeFunctionData(
-    functionFragment: 'forceBurnBatch',
+    functionFragment: "forceBurnBatch",
     values: [string[], BigNumberish[], BigNumberish[], string]
-  ): string
+  ): string;
   encodeFunctionData(
-    functionFragment: 'forceTransfer',
+    functionFragment: "forceTransfer",
     values: [string, string, BigNumberish, BigNumberish]
-  ): string
+  ): string;
   encodeFunctionData(
-    functionFragment: 'getRoleAdmin',
+    functionFragment: "getRoleAdmin",
     values: [BytesLike]
-  ): string
+  ): string;
   encodeFunctionData(
-    functionFragment: 'grantEditorRole',
+    functionFragment: "grantEditorRole",
     values: [string]
-  ): string
+  ): string;
   encodeFunctionData(
-    functionFragment: 'grantRole',
+    functionFragment: "grantRole",
     values: [BytesLike, string]
-  ): string
+  ): string;
   encodeFunctionData(
-    functionFragment: 'hasRole',
+    functionFragment: "hasRole",
     values: [BytesLike, string]
-  ): string
+  ): string;
   encodeFunctionData(
-    functionFragment: 'isApprovedForAll',
+    functionFragment: "isApprovedForAll",
     values: [string, string]
-  ): string
+  ): string;
   encodeFunctionData(
-    functionFragment: 'makeAttestation',
+    functionFragment: "makeAttestation",
     values: [BigNumberish, string]
-  ): string
+  ): string;
   encodeFunctionData(
-    functionFragment: 'maxArraySize',
+    functionFragment: "maxArraySize",
     values?: undefined
-  ): string
+  ): string;
   encodeFunctionData(
-    functionFragment: 'mint',
+    functionFragment: "mint",
     values: [string, BigNumberish, string, BytesLike]
-  ): string
+  ): string;
   encodeFunctionData(
-    functionFragment: 'mintBatch',
+    functionFragment: "mintBatch",
     values: [string[], BigNumberish[], string[], BytesLike[]]
-  ): string
-  encodeFunctionData(functionFragment: 'name', values?: undefined): string
+  ): string;
+  encodeFunctionData(functionFragment: "name", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: 'renounceRole',
+    functionFragment: "renounceRole",
     values: [BytesLike, string]
-  ): string
+  ): string;
   encodeFunctionData(
-    functionFragment: 'revokeEditorRole',
+    functionFragment: "revokeEditorRole",
     values: [string]
-  ): string
+  ): string;
   encodeFunctionData(
-    functionFragment: 'revokeRole',
+    functionFragment: "revokeRole",
     values: [BytesLike, string]
-  ): string
+  ): string;
   encodeFunctionData(
-    functionFragment: 'safeBatchTransferFrom',
+    functionFragment: "safeBatchTransferFrom",
     values: [string, string, BigNumberish[], BigNumberish[], BytesLike]
-  ): string
+  ): string;
   encodeFunctionData(
-    functionFragment: 'safeTransferFrom',
+    functionFragment: "safeTransferFrom",
     values: [string, string, BigNumberish, BigNumberish, BytesLike]
-  ): string
+  ): string;
   encodeFunctionData(
-    functionFragment: 'setApprovalForAll',
+    functionFragment: "setApprovalForAll",
     values: [string, boolean]
-  ): string
+  ): string;
   encodeFunctionData(
-    functionFragment: 'setContractUri',
+    functionFragment: "setContractUri",
     values: [string]
-  ): string
+  ): string;
   encodeFunctionData(
-    functionFragment: 'setMaxArraySize',
+    functionFragment: "setMaxArraySize",
     values: [BigNumberish]
-  ): string
+  ): string;
   encodeFunctionData(
-    functionFragment: 'setTokenUri',
+    functionFragment: "setTokenUri",
     values: [BigNumberish, string]
-  ): string
+  ): string;
   encodeFunctionData(
-    functionFragment: 'supportsInterface',
+    functionFragment: "supportsInterface",
     values: [BytesLike]
-  ): string
-  encodeFunctionData(functionFragment: 'symbol', values?: undefined): string
+  ): string;
+  encodeFunctionData(functionFragment: "symbol", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: 'tokenCommentByCommentId',
+    functionFragment: "tokenCommentByCommentId",
     values: [BigNumberish, BigNumberish]
-  ): string
+  ): string;
   encodeFunctionData(
-    functionFragment: 'tokenData',
+    functionFragment: "tokenData",
     values: [BigNumberish]
-  ): string
+  ): string;
   encodeFunctionData(
-    functionFragment: 'tokenUri',
+    functionFragment: "tokenUri",
     values: [BigNumberish]
-  ): string
+  ): string;
   encodeFunctionData(
-    functionFragment: 'totalTokenIdsSupply',
+    functionFragment: "totalTokenIdsSupply",
     values: [BigNumberish]
-  ): string
-  encodeFunctionData(functionFragment: 'uri', values: [BigNumberish]): string
+  ): string;
+  encodeFunctionData(functionFragment: "uri", values: [BigNumberish]): string;
 
   decodeFunctionResult(
-    functionFragment: 'DEFAULT_ADMIN_ROLE',
+    functionFragment: "DEFAULT_ADMIN_ROLE",
     data: BytesLike
-  ): Result
-  decodeFunctionResult(functionFragment: 'EDITOR_ROLE', data: BytesLike): Result
-  decodeFunctionResult(functionFragment: 'balanceOf', data: BytesLike): Result
+  ): Result;
   decodeFunctionResult(
-    functionFragment: 'balanceOfBatch',
+    functionFragment: "EDITOR_ROLE",
     data: BytesLike
-  ): Result
+  ): Result;
+  decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: 'commentatorByCommentsId',
+    functionFragment: "balanceOfBatch",
     data: BytesLike
-  ): Result
-  decodeFunctionResult(functionFragment: 'contractUri', data: BytesLike): Result
+  ): Result;
   decodeFunctionResult(
-    functionFragment: 'currentTokenId',
+    functionFragment: "commentatorByCommentsId",
     data: BytesLike
-  ): Result
+  ): Result;
   decodeFunctionResult(
-    functionFragment: 'deleteAttestation',
+    functionFragment: "contractUri",
     data: BytesLike
-  ): Result
-  decodeFunctionResult(functionFragment: 'forceBurn', data: BytesLike): Result
+  ): Result;
   decodeFunctionResult(
-    functionFragment: 'forceBurnBatch',
+    functionFragment: "currentTokenId",
     data: BytesLike
-  ): Result
+  ): Result;
   decodeFunctionResult(
-    functionFragment: 'forceTransfer',
+    functionFragment: "deleteAttestation",
     data: BytesLike
-  ): Result
+  ): Result;
+  decodeFunctionResult(functionFragment: "forceBurn", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: 'getRoleAdmin',
+    functionFragment: "forceBurnBatch",
     data: BytesLike
-  ): Result
+  ): Result;
   decodeFunctionResult(
-    functionFragment: 'grantEditorRole',
+    functionFragment: "forceTransfer",
     data: BytesLike
-  ): Result
-  decodeFunctionResult(functionFragment: 'grantRole', data: BytesLike): Result
-  decodeFunctionResult(functionFragment: 'hasRole', data: BytesLike): Result
+  ): Result;
   decodeFunctionResult(
-    functionFragment: 'isApprovedForAll',
+    functionFragment: "getRoleAdmin",
     data: BytesLike
-  ): Result
+  ): Result;
   decodeFunctionResult(
-    functionFragment: 'makeAttestation',
+    functionFragment: "grantEditorRole",
     data: BytesLike
-  ): Result
+  ): Result;
+  decodeFunctionResult(functionFragment: "grantRole", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "hasRole", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: 'maxArraySize',
+    functionFragment: "isApprovedForAll",
     data: BytesLike
-  ): Result
-  decodeFunctionResult(functionFragment: 'mint', data: BytesLike): Result
-  decodeFunctionResult(functionFragment: 'mintBatch', data: BytesLike): Result
-  decodeFunctionResult(functionFragment: 'name', data: BytesLike): Result
+  ): Result;
   decodeFunctionResult(
-    functionFragment: 'renounceRole',
+    functionFragment: "makeAttestation",
     data: BytesLike
-  ): Result
+  ): Result;
   decodeFunctionResult(
-    functionFragment: 'revokeEditorRole',
+    functionFragment: "maxArraySize",
     data: BytesLike
-  ): Result
-  decodeFunctionResult(functionFragment: 'revokeRole', data: BytesLike): Result
+  ): Result;
+  decodeFunctionResult(functionFragment: "mint", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "mintBatch", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: 'safeBatchTransferFrom',
+    functionFragment: "renounceRole",
     data: BytesLike
-  ): Result
+  ): Result;
   decodeFunctionResult(
-    functionFragment: 'safeTransferFrom',
+    functionFragment: "revokeEditorRole",
     data: BytesLike
-  ): Result
+  ): Result;
+  decodeFunctionResult(functionFragment: "revokeRole", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: 'setApprovalForAll',
+    functionFragment: "safeBatchTransferFrom",
     data: BytesLike
-  ): Result
+  ): Result;
   decodeFunctionResult(
-    functionFragment: 'setContractUri',
+    functionFragment: "safeTransferFrom",
     data: BytesLike
-  ): Result
+  ): Result;
   decodeFunctionResult(
-    functionFragment: 'setMaxArraySize',
+    functionFragment: "setApprovalForAll",
     data: BytesLike
-  ): Result
-  decodeFunctionResult(functionFragment: 'setTokenUri', data: BytesLike): Result
+  ): Result;
   decodeFunctionResult(
-    functionFragment: 'supportsInterface',
+    functionFragment: "setContractUri",
     data: BytesLike
-  ): Result
-  decodeFunctionResult(functionFragment: 'symbol', data: BytesLike): Result
+  ): Result;
   decodeFunctionResult(
-    functionFragment: 'tokenCommentByCommentId',
+    functionFragment: "setMaxArraySize",
     data: BytesLike
-  ): Result
-  decodeFunctionResult(functionFragment: 'tokenData', data: BytesLike): Result
-  decodeFunctionResult(functionFragment: 'tokenUri', data: BytesLike): Result
+  ): Result;
   decodeFunctionResult(
-    functionFragment: 'totalTokenIdsSupply',
+    functionFragment: "setTokenUri",
     data: BytesLike
-  ): Result
-  decodeFunctionResult(functionFragment: 'uri', data: BytesLike): Result
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "supportsInterface",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "symbol", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "tokenCommentByCommentId",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "tokenData", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "tokenUri", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "totalTokenIdsSupply",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "uri", data: BytesLike): Result;
 
   events: {
-    'ApprovalForAll(address,address,bool)': EventFragment
-    'CommentRemoved(address,uint256,string,uint256)': EventFragment
-    'Commented(address,uint256,string,uint256)': EventFragment
-    'ContractURISet(address,string)': EventFragment
-    'ForceBurn(address,address,uint256,string)': EventFragment
-    'ForceTransfer(address,address,address,uint256)': EventFragment
-    'KyaUpdated(address,string)': EventFragment
-    'Minted(address,address,uint256,uint256,string,bytes)': EventFragment
-    'NewMaxArraySizeSet(uint256)': EventFragment
-    'RoleAdminChanged(bytes32,bytes32,bytes32)': EventFragment
-    'RoleGranted(bytes32,address,address)': EventFragment
-    'RoleRevoked(bytes32,address,address)': EventFragment
-    'TokenURISet(address,uint256,string)': EventFragment
-    'TransferBatch(address,address,address,uint256[],uint256[])': EventFragment
-    'TransferSingle(address,address,address,uint256,uint256)': EventFragment
-    'URI(string,uint256)': EventFragment
-  }
+    "ApprovalForAll(address,address,bool)": EventFragment;
+    "CommentRemoved(address,uint256,string,uint256)": EventFragment;
+    "Commented(address,uint256,string,uint256)": EventFragment;
+    "ContractURISet(address,string)": EventFragment;
+    "ForceBurn(address,address,uint256,string)": EventFragment;
+    "ForceTransfer(address,address,address,uint256)": EventFragment;
+    "KyaUpdated(address,string)": EventFragment;
+    "Minted(address,address,uint256,uint256,string,bytes)": EventFragment;
+    "NewMaxArraySizeSet(uint256)": EventFragment;
+    "RoleAdminChanged(bytes32,bytes32,bytes32)": EventFragment;
+    "RoleGranted(bytes32,address,address)": EventFragment;
+    "RoleRevoked(bytes32,address,address)": EventFragment;
+    "TokenURISet(address,uint256,string)": EventFragment;
+    "TransferBatch(address,address,address,uint256[],uint256[])": EventFragment;
+    "TransferSingle(address,address,address,uint256,uint256)": EventFragment;
+    "URI(string,uint256)": EventFragment;
+  };
 
-  getEvent(nameOrSignatureOrTopic: 'ApprovalForAll'): EventFragment
-  getEvent(nameOrSignatureOrTopic: 'CommentRemoved'): EventFragment
-  getEvent(nameOrSignatureOrTopic: 'Commented'): EventFragment
-  getEvent(nameOrSignatureOrTopic: 'ContractURISet'): EventFragment
-  getEvent(nameOrSignatureOrTopic: 'ForceBurn'): EventFragment
-  getEvent(nameOrSignatureOrTopic: 'ForceTransfer'): EventFragment
-  getEvent(nameOrSignatureOrTopic: 'KyaUpdated'): EventFragment
-  getEvent(nameOrSignatureOrTopic: 'Minted'): EventFragment
-  getEvent(nameOrSignatureOrTopic: 'NewMaxArraySizeSet'): EventFragment
-  getEvent(nameOrSignatureOrTopic: 'RoleAdminChanged'): EventFragment
-  getEvent(nameOrSignatureOrTopic: 'RoleGranted'): EventFragment
-  getEvent(nameOrSignatureOrTopic: 'RoleRevoked'): EventFragment
-  getEvent(nameOrSignatureOrTopic: 'TokenURISet'): EventFragment
-  getEvent(nameOrSignatureOrTopic: 'TransferBatch'): EventFragment
-  getEvent(nameOrSignatureOrTopic: 'TransferSingle'): EventFragment
-  getEvent(nameOrSignatureOrTopic: 'URI'): EventFragment
+  getEvent(nameOrSignatureOrTopic: "ApprovalForAll"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "CommentRemoved"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Commented"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "ContractURISet"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "ForceBurn"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "ForceTransfer"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "KyaUpdated"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Minted"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "NewMaxArraySizeSet"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "RoleAdminChanged"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "RoleGranted"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "RoleRevoked"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "TokenURISet"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "TransferBatch"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "TransferSingle"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "URI"): EventFragment;
 }
 
 export interface ApprovalForAllEventObject {
-  account: string
-  operator: string
-  approved: boolean
+  account: string;
+  operator: string;
+  approved: boolean;
 }
 export type ApprovalForAllEvent = TypedEvent<
   [string, string, boolean],
   ApprovalForAllEventObject
->
+>;
 
-export type ApprovalForAllEventFilter = TypedEventFilter<ApprovalForAllEvent>
+export type ApprovalForAllEventFilter = TypedEventFilter<ApprovalForAllEvent>;
 
 export interface CommentRemovedEventObject {
-  removedBy: string
-  tokenId: BigNumber
-  comment: string
-  commentId: BigNumber
+  removedBy: string;
+  tokenId: BigNumber;
+  comment: string;
+  commentId: BigNumber;
 }
 export type CommentRemovedEvent = TypedEvent<
   [string, BigNumber, string, BigNumber],
   CommentRemovedEventObject
->
+>;
 
-export type CommentRemovedEventFilter = TypedEventFilter<CommentRemovedEvent>
+export type CommentRemovedEventFilter = TypedEventFilter<CommentRemovedEvent>;
 
 export interface CommentedEventObject {
-  commentator: string
-  tokenId: BigNumber
-  comment: string
-  commentId: BigNumber
+  commentator: string;
+  tokenId: BigNumber;
+  comment: string;
+  commentId: BigNumber;
 }
 export type CommentedEvent = TypedEvent<
   [string, BigNumber, string, BigNumber],
   CommentedEventObject
->
+>;
 
-export type CommentedEventFilter = TypedEventFilter<CommentedEvent>
+export type CommentedEventFilter = TypedEventFilter<CommentedEvent>;
 
 export interface ContractURISetEventObject {
-  from: string
-  uri: string
+  from: string;
+  uri: string;
 }
 export type ContractURISetEvent = TypedEvent<
   [string, string],
   ContractURISetEventObject
->
+>;
 
-export type ContractURISetEventFilter = TypedEventFilter<ContractURISetEvent>
+export type ContractURISetEventFilter = TypedEventFilter<ContractURISetEvent>;
 
 export interface ForceBurnEventObject {
-  issuer: string
-  from: string
-  tokenId: BigNumber
-  reason: string
+  issuer: string;
+  from: string;
+  tokenId: BigNumber;
+  reason: string;
 }
 export type ForceBurnEvent = TypedEvent<
   [string, string, BigNumber, string],
   ForceBurnEventObject
->
+>;
 
-export type ForceBurnEventFilter = TypedEventFilter<ForceBurnEvent>
+export type ForceBurnEventFilter = TypedEventFilter<ForceBurnEvent>;
 
 export interface ForceTransferEventObject {
-  issuer: string
-  from: string
-  to: string
-  tokenId: BigNumber
+  issuer: string;
+  from: string;
+  to: string;
+  tokenId: BigNumber;
 }
 export type ForceTransferEvent = TypedEvent<
   [string, string, string, BigNumber],
   ForceTransferEventObject
->
+>;
 
-export type ForceTransferEventFilter = TypedEventFilter<ForceTransferEvent>
+export type ForceTransferEventFilter = TypedEventFilter<ForceTransferEvent>;
 
 export interface KyaUpdatedEventObject {
-  from: string
-  kya: string
+  from: string;
+  kya: string;
 }
 export type KyaUpdatedEvent = TypedEvent<
   [string, string],
   KyaUpdatedEventObject
->
+>;
 
-export type KyaUpdatedEventFilter = TypedEventFilter<KyaUpdatedEvent>
+export type KyaUpdatedEventFilter = TypedEventFilter<KyaUpdatedEvent>;
 
 export interface MintedEventObject {
-  minter: string
-  receiver: string
-  tokenId: BigNumber
-  amount: BigNumber
-  uri: string
-  data: string
+  minter: string;
+  receiver: string;
+  tokenId: BigNumber;
+  amount: BigNumber;
+  uri: string;
+  data: string;
 }
 export type MintedEvent = TypedEvent<
   [string, string, BigNumber, BigNumber, string, string],
   MintedEventObject
->
+>;
 
-export type MintedEventFilter = TypedEventFilter<MintedEvent>
+export type MintedEventFilter = TypedEventFilter<MintedEvent>;
 
 export interface NewMaxArraySizeSetEventObject {
-  newMaxArraySize: BigNumber
+  newMaxArraySize: BigNumber;
 }
 export type NewMaxArraySizeSetEvent = TypedEvent<
   [BigNumber],
   NewMaxArraySizeSetEventObject
->
+>;
 
 export type NewMaxArraySizeSetEventFilter =
-  TypedEventFilter<NewMaxArraySizeSetEvent>
+  TypedEventFilter<NewMaxArraySizeSetEvent>;
 
 export interface RoleAdminChangedEventObject {
-  role: string
-  previousAdminRole: string
-  newAdminRole: string
+  role: string;
+  previousAdminRole: string;
+  newAdminRole: string;
 }
 export type RoleAdminChangedEvent = TypedEvent<
   [string, string, string],
   RoleAdminChangedEventObject
->
+>;
 
 export type RoleAdminChangedEventFilter =
-  TypedEventFilter<RoleAdminChangedEvent>
+  TypedEventFilter<RoleAdminChangedEvent>;
 
 export interface RoleGrantedEventObject {
-  role: string
-  account: string
-  sender: string
+  role: string;
+  account: string;
+  sender: string;
 }
 export type RoleGrantedEvent = TypedEvent<
   [string, string, string],
   RoleGrantedEventObject
->
+>;
 
-export type RoleGrantedEventFilter = TypedEventFilter<RoleGrantedEvent>
+export type RoleGrantedEventFilter = TypedEventFilter<RoleGrantedEvent>;
 
 export interface RoleRevokedEventObject {
-  role: string
-  account: string
-  sender: string
+  role: string;
+  account: string;
+  sender: string;
 }
 export type RoleRevokedEvent = TypedEvent<
   [string, string, string],
   RoleRevokedEventObject
->
+>;
 
-export type RoleRevokedEventFilter = TypedEventFilter<RoleRevokedEvent>
+export type RoleRevokedEventFilter = TypedEventFilter<RoleRevokedEvent>;
 
 export interface TokenURISetEventObject {
-  from: string
-  id: BigNumber
-  uri: string
+  from: string;
+  id: BigNumber;
+  uri: string;
 }
 export type TokenURISetEvent = TypedEvent<
   [string, BigNumber, string],
   TokenURISetEventObject
->
+>;
 
-export type TokenURISetEventFilter = TypedEventFilter<TokenURISetEvent>
+export type TokenURISetEventFilter = TypedEventFilter<TokenURISetEvent>;
 
 export interface TransferBatchEventObject {
-  operator: string
-  from: string
-  to: string
-  ids: BigNumber[]
-  values: BigNumber[]
+  operator: string;
+  from: string;
+  to: string;
+  ids: BigNumber[];
+  values: BigNumber[];
 }
 export type TransferBatchEvent = TypedEvent<
   [string, string, string, BigNumber[], BigNumber[]],
   TransferBatchEventObject
->
+>;
 
-export type TransferBatchEventFilter = TypedEventFilter<TransferBatchEvent>
+export type TransferBatchEventFilter = TypedEventFilter<TransferBatchEvent>;
 
 export interface TransferSingleEventObject {
-  operator: string
-  from: string
-  to: string
-  id: BigNumber
-  value: BigNumber
+  operator: string;
+  from: string;
+  to: string;
+  id: BigNumber;
+  value: BigNumber;
 }
 export type TransferSingleEvent = TypedEvent<
   [string, string, string, BigNumber, BigNumber],
   TransferSingleEventObject
->
+>;
 
-export type TransferSingleEventFilter = TypedEventFilter<TransferSingleEvent>
+export type TransferSingleEventFilter = TypedEventFilter<TransferSingleEvent>;
 
 export interface URIEventObject {
-  value: string
-  id: BigNumber
+  value: string;
+  id: BigNumber;
 }
-export type URIEvent = TypedEvent<[string, BigNumber], URIEventObject>
+export type URIEvent = TypedEvent<[string, BigNumber], URIEventObject>;
 
-export type URIEventFilter = TypedEventFilter<URIEvent>
+export type URIEventFilter = TypedEventFilter<URIEvent>;
 
 export interface SX1155NFT extends BaseContract {
-  connect(signerOrProvider: Signer | Provider | string): this
-  attach(addressOrName: string): this
-  deployed(): Promise<this>
+  connect(signerOrProvider: Signer | Provider | string): this;
+  attach(addressOrName: string): this;
+  deployed(): Promise<this>;
 
-  interface: SX1155NFTInterface
+  interface: SX1155NFTInterface;
 
   queryFilter<TEvent extends TypedEvent>(
     event: TypedEventFilter<TEvent>,
     fromBlockOrBlockhash?: string | number | undefined,
     toBlock?: string | number | undefined
-  ): Promise<Array<TEvent>>
+  ): Promise<Array<TEvent>>;
 
   listeners<TEvent extends TypedEvent>(
     eventFilter?: TypedEventFilter<TEvent>
-  ): Array<TypedListener<TEvent>>
-  listeners(eventName?: string): Array<Listener>
+  ): Array<TypedListener<TEvent>>;
+  listeners(eventName?: string): Array<Listener>;
   removeAllListeners<TEvent extends TypedEvent>(
     eventFilter: TypedEventFilter<TEvent>
-  ): this
-  removeAllListeners(eventName?: string): this
-  off: OnEvent<this>
-  on: OnEvent<this>
-  once: OnEvent<this>
-  removeListener: OnEvent<this>
+  ): this;
+  removeAllListeners(eventName?: string): this;
+  off: OnEvent<this>;
+  on: OnEvent<this>;
+  once: OnEvent<this>;
+  removeListener: OnEvent<this>;
 
   functions: {
-    DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<[string]>
+    DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<[string]>;
 
-    EDITOR_ROLE(overrides?: CallOverrides): Promise<[string]>
+    EDITOR_ROLE(overrides?: CallOverrides): Promise<[string]>;
 
     balanceOf(
       account: string,
       id: BigNumberish,
       overrides?: CallOverrides
-    ): Promise<[BigNumber]>
+    ): Promise<[BigNumber]>;
 
     balanceOfBatch(
       accounts: string[],
       ids: BigNumberish[],
       overrides?: CallOverrides
-    ): Promise<[BigNumber[]]>
+    ): Promise<[BigNumber[]]>;
 
     commentatorByCommentsId(
       tokenId: BigNumberish,
       commentId: BigNumberish,
       overrides?: CallOverrides
-    ): Promise<[string] & { commentator: string }>
+    ): Promise<[string] & { commentator: string }>;
 
-    contractUri(overrides?: CallOverrides): Promise<[string] & { _uri: string }>
+    contractUri(
+      overrides?: CallOverrides
+    ): Promise<[string] & { _uri: string }>;
 
-    currentTokenId(overrides?: CallOverrides): Promise<[BigNumber]>
+    currentTokenId(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     deleteAttestation(
       tokenId: BigNumberish,
       commentId: BigNumberish,
       overrides?: Overrides & { from?: string }
-    ): Promise<ContractTransaction>
+    ): Promise<ContractTransaction>;
 
     forceBurn(
       from: string,
@@ -647,7 +662,7 @@ export interface SX1155NFT extends BaseContract {
       quantity: BigNumberish,
       reason: string,
       overrides?: Overrides & { from?: string }
-    ): Promise<ContractTransaction>
+    ): Promise<ContractTransaction>;
 
     forceBurnBatch(
       _accounts: string[],
@@ -655,7 +670,7 @@ export interface SX1155NFT extends BaseContract {
       _quantities: BigNumberish[],
       reason: string,
       overrides?: Overrides & { from?: string }
-    ): Promise<ContractTransaction>
+    ): Promise<ContractTransaction>;
 
     forceTransfer(
       from: string,
@@ -663,40 +678,40 @@ export interface SX1155NFT extends BaseContract {
       tokenId: BigNumberish,
       quantity: BigNumberish,
       overrides?: Overrides & { from?: string }
-    ): Promise<ContractTransaction>
+    ): Promise<ContractTransaction>;
 
-    getRoleAdmin(role: BytesLike, overrides?: CallOverrides): Promise<[string]>
+    getRoleAdmin(role: BytesLike, overrides?: CallOverrides): Promise<[string]>;
 
     grantEditorRole(
       to: string,
       overrides?: Overrides & { from?: string }
-    ): Promise<ContractTransaction>
+    ): Promise<ContractTransaction>;
 
     grantRole(
       role: BytesLike,
       account: string,
       overrides?: Overrides & { from?: string }
-    ): Promise<ContractTransaction>
+    ): Promise<ContractTransaction>;
 
     hasRole(
       role: BytesLike,
       account: string,
       overrides?: CallOverrides
-    ): Promise<[boolean]>
+    ): Promise<[boolean]>;
 
     isApprovedForAll(
       account: string,
       operator: string,
       overrides?: CallOverrides
-    ): Promise<[boolean]>
+    ): Promise<[boolean]>;
 
     makeAttestation(
       tokenId: BigNumberish,
       comment: string,
       overrides?: Overrides & { from?: string }
-    ): Promise<ContractTransaction>
+    ): Promise<ContractTransaction>;
 
-    maxArraySize(overrides?: CallOverrides): Promise<[BigNumber]>
+    maxArraySize(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     mint(
       _to: string,
@@ -704,7 +719,7 @@ export interface SX1155NFT extends BaseContract {
       _tokenURI: string,
       _data: BytesLike,
       overrides?: Overrides & { from?: string }
-    ): Promise<ContractTransaction>
+    ): Promise<ContractTransaction>;
 
     mintBatch(
       _accounts: string[],
@@ -712,26 +727,26 @@ export interface SX1155NFT extends BaseContract {
       _tokenURIs: string[],
       _data: BytesLike[],
       overrides?: Overrides & { from?: string }
-    ): Promise<ContractTransaction>
+    ): Promise<ContractTransaction>;
 
-    name(overrides?: CallOverrides): Promise<[string]>
+    name(overrides?: CallOverrides): Promise<[string]>;
 
     renounceRole(
       role: BytesLike,
       account: string,
       overrides?: Overrides & { from?: string }
-    ): Promise<ContractTransaction>
+    ): Promise<ContractTransaction>;
 
     revokeEditorRole(
       from: string,
       overrides?: Overrides & { from?: string }
-    ): Promise<ContractTransaction>
+    ): Promise<ContractTransaction>;
 
     revokeRole(
       role: BytesLike,
       account: string,
       overrides?: Overrides & { from?: string }
-    ): Promise<ContractTransaction>
+    ): Promise<ContractTransaction>;
 
     safeBatchTransferFrom(
       from: string,
@@ -740,7 +755,7 @@ export interface SX1155NFT extends BaseContract {
       amounts: BigNumberish[],
       data: BytesLike,
       overrides?: Overrides & { from?: string }
-    ): Promise<ContractTransaction>
+    ): Promise<ContractTransaction>;
 
     safeTransferFrom(
       from: string,
@@ -749,92 +764,92 @@ export interface SX1155NFT extends BaseContract {
       amount: BigNumberish,
       data: BytesLike,
       overrides?: Overrides & { from?: string }
-    ): Promise<ContractTransaction>
+    ): Promise<ContractTransaction>;
 
     setApprovalForAll(
       operator: string,
       approved: boolean,
       overrides?: Overrides & { from?: string }
-    ): Promise<ContractTransaction>
+    ): Promise<ContractTransaction>;
 
     setContractUri(
       _contractUri: string,
       overrides?: Overrides & { from?: string }
-    ): Promise<ContractTransaction>
+    ): Promise<ContractTransaction>;
 
     setMaxArraySize(
       _maxArraySize: BigNumberish,
       overrides?: Overrides & { from?: string }
-    ): Promise<ContractTransaction>
+    ): Promise<ContractTransaction>;
 
     setTokenUri(
       _id: BigNumberish,
       _uri: string,
       overrides?: Overrides & { from?: string }
-    ): Promise<ContractTransaction>
+    ): Promise<ContractTransaction>;
 
     supportsInterface(
       interfaceId: BytesLike,
       overrides?: CallOverrides
-    ): Promise<[boolean]>
+    ): Promise<[boolean]>;
 
-    symbol(overrides?: CallOverrides): Promise<[string]>
+    symbol(overrides?: CallOverrides): Promise<[string]>;
 
     tokenCommentByCommentId(
       tokenId: BigNumberish,
       commentId: BigNumberish,
       overrides?: CallOverrides
-    ): Promise<[string] & { comment: string }>
+    ): Promise<[string] & { comment: string }>;
 
     tokenData(
       tokenId: BigNumberish,
       overrides?: CallOverrides
-    ): Promise<[string] & { data: string }>
+    ): Promise<[string] & { data: string }>;
 
     tokenUri(
       tokenId: BigNumberish,
       overrides?: CallOverrides
-    ): Promise<[string] & { _uri: string }>
+    ): Promise<[string] & { _uri: string }>;
 
     totalTokenIdsSupply(
       tokenId: BigNumberish,
       overrides?: CallOverrides
-    ): Promise<[BigNumber] & { supply: BigNumber }>
+    ): Promise<[BigNumber] & { supply: BigNumber }>;
 
-    uri(arg0: BigNumberish, overrides?: CallOverrides): Promise<[string]>
-  }
+    uri(arg0: BigNumberish, overrides?: CallOverrides): Promise<[string]>;
+  };
 
-  DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<string>
+  DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<string>;
 
-  EDITOR_ROLE(overrides?: CallOverrides): Promise<string>
+  EDITOR_ROLE(overrides?: CallOverrides): Promise<string>;
 
   balanceOf(
     account: string,
     id: BigNumberish,
     overrides?: CallOverrides
-  ): Promise<BigNumber>
+  ): Promise<BigNumber>;
 
   balanceOfBatch(
     accounts: string[],
     ids: BigNumberish[],
     overrides?: CallOverrides
-  ): Promise<BigNumber[]>
+  ): Promise<BigNumber[]>;
 
   commentatorByCommentsId(
     tokenId: BigNumberish,
     commentId: BigNumberish,
     overrides?: CallOverrides
-  ): Promise<string>
+  ): Promise<string>;
 
-  contractUri(overrides?: CallOverrides): Promise<string>
+  contractUri(overrides?: CallOverrides): Promise<string>;
 
-  currentTokenId(overrides?: CallOverrides): Promise<BigNumber>
+  currentTokenId(overrides?: CallOverrides): Promise<BigNumber>;
 
   deleteAttestation(
     tokenId: BigNumberish,
     commentId: BigNumberish,
     overrides?: Overrides & { from?: string }
-  ): Promise<ContractTransaction>
+  ): Promise<ContractTransaction>;
 
   forceBurn(
     from: string,
@@ -842,7 +857,7 @@ export interface SX1155NFT extends BaseContract {
     quantity: BigNumberish,
     reason: string,
     overrides?: Overrides & { from?: string }
-  ): Promise<ContractTransaction>
+  ): Promise<ContractTransaction>;
 
   forceBurnBatch(
     _accounts: string[],
@@ -850,7 +865,7 @@ export interface SX1155NFT extends BaseContract {
     _quantities: BigNumberish[],
     reason: string,
     overrides?: Overrides & { from?: string }
-  ): Promise<ContractTransaction>
+  ): Promise<ContractTransaction>;
 
   forceTransfer(
     from: string,
@@ -858,40 +873,40 @@ export interface SX1155NFT extends BaseContract {
     tokenId: BigNumberish,
     quantity: BigNumberish,
     overrides?: Overrides & { from?: string }
-  ): Promise<ContractTransaction>
+  ): Promise<ContractTransaction>;
 
-  getRoleAdmin(role: BytesLike, overrides?: CallOverrides): Promise<string>
+  getRoleAdmin(role: BytesLike, overrides?: CallOverrides): Promise<string>;
 
   grantEditorRole(
     to: string,
     overrides?: Overrides & { from?: string }
-  ): Promise<ContractTransaction>
+  ): Promise<ContractTransaction>;
 
   grantRole(
     role: BytesLike,
     account: string,
     overrides?: Overrides & { from?: string }
-  ): Promise<ContractTransaction>
+  ): Promise<ContractTransaction>;
 
   hasRole(
     role: BytesLike,
     account: string,
     overrides?: CallOverrides
-  ): Promise<boolean>
+  ): Promise<boolean>;
 
   isApprovedForAll(
     account: string,
     operator: string,
     overrides?: CallOverrides
-  ): Promise<boolean>
+  ): Promise<boolean>;
 
   makeAttestation(
     tokenId: BigNumberish,
     comment: string,
     overrides?: Overrides & { from?: string }
-  ): Promise<ContractTransaction>
+  ): Promise<ContractTransaction>;
 
-  maxArraySize(overrides?: CallOverrides): Promise<BigNumber>
+  maxArraySize(overrides?: CallOverrides): Promise<BigNumber>;
 
   mint(
     _to: string,
@@ -899,7 +914,7 @@ export interface SX1155NFT extends BaseContract {
     _tokenURI: string,
     _data: BytesLike,
     overrides?: Overrides & { from?: string }
-  ): Promise<ContractTransaction>
+  ): Promise<ContractTransaction>;
 
   mintBatch(
     _accounts: string[],
@@ -907,26 +922,26 @@ export interface SX1155NFT extends BaseContract {
     _tokenURIs: string[],
     _data: BytesLike[],
     overrides?: Overrides & { from?: string }
-  ): Promise<ContractTransaction>
+  ): Promise<ContractTransaction>;
 
-  name(overrides?: CallOverrides): Promise<string>
+  name(overrides?: CallOverrides): Promise<string>;
 
   renounceRole(
     role: BytesLike,
     account: string,
     overrides?: Overrides & { from?: string }
-  ): Promise<ContractTransaction>
+  ): Promise<ContractTransaction>;
 
   revokeEditorRole(
     from: string,
     overrides?: Overrides & { from?: string }
-  ): Promise<ContractTransaction>
+  ): Promise<ContractTransaction>;
 
   revokeRole(
     role: BytesLike,
     account: string,
     overrides?: Overrides & { from?: string }
-  ): Promise<ContractTransaction>
+  ): Promise<ContractTransaction>;
 
   safeBatchTransferFrom(
     from: string,
@@ -935,7 +950,7 @@ export interface SX1155NFT extends BaseContract {
     amounts: BigNumberish[],
     data: BytesLike,
     overrides?: Overrides & { from?: string }
-  ): Promise<ContractTransaction>
+  ): Promise<ContractTransaction>;
 
   safeTransferFrom(
     from: string,
@@ -944,86 +959,86 @@ export interface SX1155NFT extends BaseContract {
     amount: BigNumberish,
     data: BytesLike,
     overrides?: Overrides & { from?: string }
-  ): Promise<ContractTransaction>
+  ): Promise<ContractTransaction>;
 
   setApprovalForAll(
     operator: string,
     approved: boolean,
     overrides?: Overrides & { from?: string }
-  ): Promise<ContractTransaction>
+  ): Promise<ContractTransaction>;
 
   setContractUri(
     _contractUri: string,
     overrides?: Overrides & { from?: string }
-  ): Promise<ContractTransaction>
+  ): Promise<ContractTransaction>;
 
   setMaxArraySize(
     _maxArraySize: BigNumberish,
     overrides?: Overrides & { from?: string }
-  ): Promise<ContractTransaction>
+  ): Promise<ContractTransaction>;
 
   setTokenUri(
     _id: BigNumberish,
     _uri: string,
     overrides?: Overrides & { from?: string }
-  ): Promise<ContractTransaction>
+  ): Promise<ContractTransaction>;
 
   supportsInterface(
     interfaceId: BytesLike,
     overrides?: CallOverrides
-  ): Promise<boolean>
+  ): Promise<boolean>;
 
-  symbol(overrides?: CallOverrides): Promise<string>
+  symbol(overrides?: CallOverrides): Promise<string>;
 
   tokenCommentByCommentId(
     tokenId: BigNumberish,
     commentId: BigNumberish,
     overrides?: CallOverrides
-  ): Promise<string>
+  ): Promise<string>;
 
-  tokenData(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>
+  tokenData(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
-  tokenUri(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>
+  tokenUri(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
   totalTokenIdsSupply(
     tokenId: BigNumberish,
     overrides?: CallOverrides
-  ): Promise<BigNumber>
+  ): Promise<BigNumber>;
 
-  uri(arg0: BigNumberish, overrides?: CallOverrides): Promise<string>
+  uri(arg0: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
   callStatic: {
-    DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<string>
+    DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<string>;
 
-    EDITOR_ROLE(overrides?: CallOverrides): Promise<string>
+    EDITOR_ROLE(overrides?: CallOverrides): Promise<string>;
 
     balanceOf(
       account: string,
       id: BigNumberish,
       overrides?: CallOverrides
-    ): Promise<BigNumber>
+    ): Promise<BigNumber>;
 
     balanceOfBatch(
       accounts: string[],
       ids: BigNumberish[],
       overrides?: CallOverrides
-    ): Promise<BigNumber[]>
+    ): Promise<BigNumber[]>;
 
     commentatorByCommentsId(
       tokenId: BigNumberish,
       commentId: BigNumberish,
       overrides?: CallOverrides
-    ): Promise<string>
+    ): Promise<string>;
 
-    contractUri(overrides?: CallOverrides): Promise<string>
+    contractUri(overrides?: CallOverrides): Promise<string>;
 
-    currentTokenId(overrides?: CallOverrides): Promise<BigNumber>
+    currentTokenId(overrides?: CallOverrides): Promise<BigNumber>;
 
     deleteAttestation(
       tokenId: BigNumberish,
       commentId: BigNumberish,
       overrides?: CallOverrides
-    ): Promise<void>
+    ): Promise<void>;
 
     forceBurn(
       from: string,
@@ -1031,7 +1046,7 @@ export interface SX1155NFT extends BaseContract {
       quantity: BigNumberish,
       reason: string,
       overrides?: CallOverrides
-    ): Promise<void>
+    ): Promise<void>;
 
     forceBurnBatch(
       _accounts: string[],
@@ -1039,7 +1054,7 @@ export interface SX1155NFT extends BaseContract {
       _quantities: BigNumberish[],
       reason: string,
       overrides?: CallOverrides
-    ): Promise<void>
+    ): Promise<void>;
 
     forceTransfer(
       from: string,
@@ -1047,37 +1062,37 @@ export interface SX1155NFT extends BaseContract {
       tokenId: BigNumberish,
       quantity: BigNumberish,
       overrides?: CallOverrides
-    ): Promise<void>
+    ): Promise<void>;
 
-    getRoleAdmin(role: BytesLike, overrides?: CallOverrides): Promise<string>
+    getRoleAdmin(role: BytesLike, overrides?: CallOverrides): Promise<string>;
 
-    grantEditorRole(to: string, overrides?: CallOverrides): Promise<void>
+    grantEditorRole(to: string, overrides?: CallOverrides): Promise<void>;
 
     grantRole(
       role: BytesLike,
       account: string,
       overrides?: CallOverrides
-    ): Promise<void>
+    ): Promise<void>;
 
     hasRole(
       role: BytesLike,
       account: string,
       overrides?: CallOverrides
-    ): Promise<boolean>
+    ): Promise<boolean>;
 
     isApprovedForAll(
       account: string,
       operator: string,
       overrides?: CallOverrides
-    ): Promise<boolean>
+    ): Promise<boolean>;
 
     makeAttestation(
       tokenId: BigNumberish,
       comment: string,
       overrides?: CallOverrides
-    ): Promise<void>
+    ): Promise<void>;
 
-    maxArraySize(overrides?: CallOverrides): Promise<BigNumber>
+    maxArraySize(overrides?: CallOverrides): Promise<BigNumber>;
 
     mint(
       _to: string,
@@ -1085,7 +1100,7 @@ export interface SX1155NFT extends BaseContract {
       _tokenURI: string,
       _data: BytesLike,
       overrides?: CallOverrides
-    ): Promise<void>
+    ): Promise<void>;
 
     mintBatch(
       _accounts: string[],
@@ -1093,23 +1108,23 @@ export interface SX1155NFT extends BaseContract {
       _tokenURIs: string[],
       _data: BytesLike[],
       overrides?: CallOverrides
-    ): Promise<void>
+    ): Promise<void>;
 
-    name(overrides?: CallOverrides): Promise<string>
+    name(overrides?: CallOverrides): Promise<string>;
 
     renounceRole(
       role: BytesLike,
       account: string,
       overrides?: CallOverrides
-    ): Promise<void>
+    ): Promise<void>;
 
-    revokeEditorRole(from: string, overrides?: CallOverrides): Promise<void>
+    revokeEditorRole(from: string, overrides?: CallOverrides): Promise<void>;
 
     revokeRole(
       role: BytesLike,
       account: string,
       overrides?: CallOverrides
-    ): Promise<void>
+    ): Promise<void>;
 
     safeBatchTransferFrom(
       from: string,
@@ -1118,7 +1133,7 @@ export interface SX1155NFT extends BaseContract {
       amounts: BigNumberish[],
       data: BytesLike,
       overrides?: CallOverrides
-    ): Promise<void>
+    ): Promise<void>;
 
     safeTransferFrom(
       from: string,
@@ -1127,136 +1142,142 @@ export interface SX1155NFT extends BaseContract {
       amount: BigNumberish,
       data: BytesLike,
       overrides?: CallOverrides
-    ): Promise<void>
+    ): Promise<void>;
 
     setApprovalForAll(
       operator: string,
       approved: boolean,
       overrides?: CallOverrides
-    ): Promise<void>
+    ): Promise<void>;
 
     setContractUri(
       _contractUri: string,
       overrides?: CallOverrides
-    ): Promise<void>
+    ): Promise<void>;
 
     setMaxArraySize(
       _maxArraySize: BigNumberish,
       overrides?: CallOverrides
-    ): Promise<void>
+    ): Promise<void>;
 
     setTokenUri(
       _id: BigNumberish,
       _uri: string,
       overrides?: CallOverrides
-    ): Promise<void>
+    ): Promise<void>;
 
     supportsInterface(
       interfaceId: BytesLike,
       overrides?: CallOverrides
-    ): Promise<boolean>
+    ): Promise<boolean>;
 
-    symbol(overrides?: CallOverrides): Promise<string>
+    symbol(overrides?: CallOverrides): Promise<string>;
 
     tokenCommentByCommentId(
       tokenId: BigNumberish,
       commentId: BigNumberish,
       overrides?: CallOverrides
-    ): Promise<string>
+    ): Promise<string>;
 
-    tokenData(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>
+    tokenData(
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<string>;
 
-    tokenUri(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>
+    tokenUri(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
     totalTokenIdsSupply(
       tokenId: BigNumberish,
       overrides?: CallOverrides
-    ): Promise<BigNumber>
+    ): Promise<BigNumber>;
 
-    uri(arg0: BigNumberish, overrides?: CallOverrides): Promise<string>
-  }
+    uri(arg0: BigNumberish, overrides?: CallOverrides): Promise<string>;
+  };
 
   filters: {
-    'ApprovalForAll(address,address,bool)'(
+    "ApprovalForAll(address,address,bool)"(
       account?: string | null,
       operator?: string | null,
       approved?: null
-    ): ApprovalForAllEventFilter
+    ): ApprovalForAllEventFilter;
     ApprovalForAll(
       account?: string | null,
       operator?: string | null,
       approved?: null
-    ): ApprovalForAllEventFilter
+    ): ApprovalForAllEventFilter;
 
-    'CommentRemoved(address,uint256,string,uint256)'(
+    "CommentRemoved(address,uint256,string,uint256)"(
       removedBy?: null,
       tokenId?: null,
       comment?: null,
       commentId?: null
-    ): CommentRemovedEventFilter
+    ): CommentRemovedEventFilter;
     CommentRemoved(
       removedBy?: null,
       tokenId?: null,
       comment?: null,
       commentId?: null
-    ): CommentRemovedEventFilter
+    ): CommentRemovedEventFilter;
 
-    'Commented(address,uint256,string,uint256)'(
+    "Commented(address,uint256,string,uint256)"(
       commentator?: null,
       tokenId?: null,
       comment?: null,
       commentId?: null
-    ): CommentedEventFilter
+    ): CommentedEventFilter;
     Commented(
       commentator?: null,
       tokenId?: null,
       comment?: null,
       commentId?: null
-    ): CommentedEventFilter
+    ): CommentedEventFilter;
 
-    'ContractURISet(address,string)'(
+    "ContractURISet(address,string)"(
       from?: null,
       uri?: null
-    ): ContractURISetEventFilter
-    ContractURISet(from?: null, uri?: null): ContractURISetEventFilter
+    ): ContractURISetEventFilter;
+    ContractURISet(from?: null, uri?: null): ContractURISetEventFilter;
 
-    'ForceBurn(address,address,uint256,string)'(
+    "ForceBurn(address,address,uint256,string)"(
       issuer?: string | null,
       from?: string | null,
       tokenId?: BigNumberish | null,
       reason?: null
-    ): ForceBurnEventFilter
+    ): ForceBurnEventFilter;
     ForceBurn(
       issuer?: string | null,
       from?: string | null,
       tokenId?: BigNumberish | null,
       reason?: null
-    ): ForceBurnEventFilter
+    ): ForceBurnEventFilter;
 
-    'ForceTransfer(address,address,address,uint256)'(
+    "ForceTransfer(address,address,address,uint256)"(
       issuer?: string | null,
       from?: string | null,
       to?: string | null,
       tokenId?: null
-    ): ForceTransferEventFilter
+    ): ForceTransferEventFilter;
     ForceTransfer(
       issuer?: string | null,
       from?: string | null,
       to?: string | null,
       tokenId?: null
-    ): ForceTransferEventFilter
+    ): ForceTransferEventFilter;
 
-    'KyaUpdated(address,string)'(from?: null, kya?: null): KyaUpdatedEventFilter
-    KyaUpdated(from?: null, kya?: null): KyaUpdatedEventFilter
+    "KyaUpdated(address,string)"(
+      from?: null,
+      kya?: null
+    ): KyaUpdatedEventFilter;
+    KyaUpdated(from?: null, kya?: null): KyaUpdatedEventFilter;
 
-    'Minted(address,address,uint256,uint256,string,bytes)'(
+    "Minted(address,address,uint256,uint256,string,bytes)"(
       minter?: null,
       receiver?: null,
       tokenId?: null,
       amount?: null,
       uri?: null,
       data?: null
-    ): MintedEventFilter
+    ): MintedEventFilter;
     Minted(
       minter?: null,
       receiver?: null,
@@ -1264,126 +1285,126 @@ export interface SX1155NFT extends BaseContract {
       amount?: null,
       uri?: null,
       data?: null
-    ): MintedEventFilter
+    ): MintedEventFilter;
 
-    'NewMaxArraySizeSet(uint256)'(
+    "NewMaxArraySizeSet(uint256)"(
       newMaxArraySize?: null
-    ): NewMaxArraySizeSetEventFilter
-    NewMaxArraySizeSet(newMaxArraySize?: null): NewMaxArraySizeSetEventFilter
+    ): NewMaxArraySizeSetEventFilter;
+    NewMaxArraySizeSet(newMaxArraySize?: null): NewMaxArraySizeSetEventFilter;
 
-    'RoleAdminChanged(bytes32,bytes32,bytes32)'(
+    "RoleAdminChanged(bytes32,bytes32,bytes32)"(
       role?: BytesLike | null,
       previousAdminRole?: BytesLike | null,
       newAdminRole?: BytesLike | null
-    ): RoleAdminChangedEventFilter
+    ): RoleAdminChangedEventFilter;
     RoleAdminChanged(
       role?: BytesLike | null,
       previousAdminRole?: BytesLike | null,
       newAdminRole?: BytesLike | null
-    ): RoleAdminChangedEventFilter
+    ): RoleAdminChangedEventFilter;
 
-    'RoleGranted(bytes32,address,address)'(
+    "RoleGranted(bytes32,address,address)"(
       role?: BytesLike | null,
       account?: string | null,
       sender?: string | null
-    ): RoleGrantedEventFilter
+    ): RoleGrantedEventFilter;
     RoleGranted(
       role?: BytesLike | null,
       account?: string | null,
       sender?: string | null
-    ): RoleGrantedEventFilter
+    ): RoleGrantedEventFilter;
 
-    'RoleRevoked(bytes32,address,address)'(
+    "RoleRevoked(bytes32,address,address)"(
       role?: BytesLike | null,
       account?: string | null,
       sender?: string | null
-    ): RoleRevokedEventFilter
+    ): RoleRevokedEventFilter;
     RoleRevoked(
       role?: BytesLike | null,
       account?: string | null,
       sender?: string | null
-    ): RoleRevokedEventFilter
+    ): RoleRevokedEventFilter;
 
-    'TokenURISet(address,uint256,string)'(
+    "TokenURISet(address,uint256,string)"(
       from?: null,
       id?: BigNumberish | null,
       uri?: null
-    ): TokenURISetEventFilter
+    ): TokenURISetEventFilter;
     TokenURISet(
       from?: null,
       id?: BigNumberish | null,
       uri?: null
-    ): TokenURISetEventFilter
+    ): TokenURISetEventFilter;
 
-    'TransferBatch(address,address,address,uint256[],uint256[])'(
+    "TransferBatch(address,address,address,uint256[],uint256[])"(
       operator?: string | null,
       from?: string | null,
       to?: string | null,
       ids?: null,
       values?: null
-    ): TransferBatchEventFilter
+    ): TransferBatchEventFilter;
     TransferBatch(
       operator?: string | null,
       from?: string | null,
       to?: string | null,
       ids?: null,
       values?: null
-    ): TransferBatchEventFilter
+    ): TransferBatchEventFilter;
 
-    'TransferSingle(address,address,address,uint256,uint256)'(
+    "TransferSingle(address,address,address,uint256,uint256)"(
       operator?: string | null,
       from?: string | null,
       to?: string | null,
       id?: null,
       value?: null
-    ): TransferSingleEventFilter
+    ): TransferSingleEventFilter;
     TransferSingle(
       operator?: string | null,
       from?: string | null,
       to?: string | null,
       id?: null,
       value?: null
-    ): TransferSingleEventFilter
+    ): TransferSingleEventFilter;
 
-    'URI(string,uint256)'(
+    "URI(string,uint256)"(
       value?: null,
       id?: BigNumberish | null
-    ): URIEventFilter
-    URI(value?: null, id?: BigNumberish | null): URIEventFilter
-  }
+    ): URIEventFilter;
+    URI(value?: null, id?: BigNumberish | null): URIEventFilter;
+  };
 
   estimateGas: {
-    DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<BigNumber>
+    DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<BigNumber>;
 
-    EDITOR_ROLE(overrides?: CallOverrides): Promise<BigNumber>
+    EDITOR_ROLE(overrides?: CallOverrides): Promise<BigNumber>;
 
     balanceOf(
       account: string,
       id: BigNumberish,
       overrides?: CallOverrides
-    ): Promise<BigNumber>
+    ): Promise<BigNumber>;
 
     balanceOfBatch(
       accounts: string[],
       ids: BigNumberish[],
       overrides?: CallOverrides
-    ): Promise<BigNumber>
+    ): Promise<BigNumber>;
 
     commentatorByCommentsId(
       tokenId: BigNumberish,
       commentId: BigNumberish,
       overrides?: CallOverrides
-    ): Promise<BigNumber>
+    ): Promise<BigNumber>;
 
-    contractUri(overrides?: CallOverrides): Promise<BigNumber>
+    contractUri(overrides?: CallOverrides): Promise<BigNumber>;
 
-    currentTokenId(overrides?: CallOverrides): Promise<BigNumber>
+    currentTokenId(overrides?: CallOverrides): Promise<BigNumber>;
 
     deleteAttestation(
       tokenId: BigNumberish,
       commentId: BigNumberish,
       overrides?: Overrides & { from?: string }
-    ): Promise<BigNumber>
+    ): Promise<BigNumber>;
 
     forceBurn(
       from: string,
@@ -1391,7 +1412,7 @@ export interface SX1155NFT extends BaseContract {
       quantity: BigNumberish,
       reason: string,
       overrides?: Overrides & { from?: string }
-    ): Promise<BigNumber>
+    ): Promise<BigNumber>;
 
     forceBurnBatch(
       _accounts: string[],
@@ -1399,7 +1420,7 @@ export interface SX1155NFT extends BaseContract {
       _quantities: BigNumberish[],
       reason: string,
       overrides?: Overrides & { from?: string }
-    ): Promise<BigNumber>
+    ): Promise<BigNumber>;
 
     forceTransfer(
       from: string,
@@ -1407,239 +1428,43 @@ export interface SX1155NFT extends BaseContract {
       tokenId: BigNumberish,
       quantity: BigNumberish,
       overrides?: Overrides & { from?: string }
-    ): Promise<BigNumber>
-
-    getRoleAdmin(role: BytesLike, overrides?: CallOverrides): Promise<BigNumber>
-
-    grantEditorRole(
-      to: string,
-      overrides?: Overrides & { from?: string }
-    ): Promise<BigNumber>
-
-    grantRole(
-      role: BytesLike,
-      account: string,
-      overrides?: Overrides & { from?: string }
-    ): Promise<BigNumber>
-
-    hasRole(
-      role: BytesLike,
-      account: string,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>
-
-    isApprovedForAll(
-      account: string,
-      operator: string,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>
-
-    makeAttestation(
-      tokenId: BigNumberish,
-      comment: string,
-      overrides?: Overrides & { from?: string }
-    ): Promise<BigNumber>
-
-    maxArraySize(overrides?: CallOverrides): Promise<BigNumber>
-
-    mint(
-      _to: string,
-      _quantity: BigNumberish,
-      _tokenURI: string,
-      _data: BytesLike,
-      overrides?: Overrides & { from?: string }
-    ): Promise<BigNumber>
-
-    mintBatch(
-      _accounts: string[],
-      _quantities: BigNumberish[],
-      _tokenURIs: string[],
-      _data: BytesLike[],
-      overrides?: Overrides & { from?: string }
-    ): Promise<BigNumber>
-
-    name(overrides?: CallOverrides): Promise<BigNumber>
-
-    renounceRole(
-      role: BytesLike,
-      account: string,
-      overrides?: Overrides & { from?: string }
-    ): Promise<BigNumber>
-
-    revokeEditorRole(
-      from: string,
-      overrides?: Overrides & { from?: string }
-    ): Promise<BigNumber>
-
-    revokeRole(
-      role: BytesLike,
-      account: string,
-      overrides?: Overrides & { from?: string }
-    ): Promise<BigNumber>
-
-    safeBatchTransferFrom(
-      from: string,
-      to: string,
-      ids: BigNumberish[],
-      amounts: BigNumberish[],
-      data: BytesLike,
-      overrides?: Overrides & { from?: string }
-    ): Promise<BigNumber>
-
-    safeTransferFrom(
-      from: string,
-      to: string,
-      id: BigNumberish,
-      amount: BigNumberish,
-      data: BytesLike,
-      overrides?: Overrides & { from?: string }
-    ): Promise<BigNumber>
-
-    setApprovalForAll(
-      operator: string,
-      approved: boolean,
-      overrides?: Overrides & { from?: string }
-    ): Promise<BigNumber>
-
-    setContractUri(
-      _contractUri: string,
-      overrides?: Overrides & { from?: string }
-    ): Promise<BigNumber>
-
-    setMaxArraySize(
-      _maxArraySize: BigNumberish,
-      overrides?: Overrides & { from?: string }
-    ): Promise<BigNumber>
-
-    setTokenUri(
-      _id: BigNumberish,
-      _uri: string,
-      overrides?: Overrides & { from?: string }
-    ): Promise<BigNumber>
-
-    supportsInterface(
-      interfaceId: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>
-
-    symbol(overrides?: CallOverrides): Promise<BigNumber>
-
-    tokenCommentByCommentId(
-      tokenId: BigNumberish,
-      commentId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>
-
-    tokenData(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>
-
-    tokenUri(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>
-
-    totalTokenIdsSupply(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>
-
-    uri(arg0: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>
-  }
-
-  populateTransaction: {
-    DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<PopulatedTransaction>
-
-    EDITOR_ROLE(overrides?: CallOverrides): Promise<PopulatedTransaction>
-
-    balanceOf(
-      account: string,
-      id: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>
-
-    balanceOfBatch(
-      accounts: string[],
-      ids: BigNumberish[],
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>
-
-    commentatorByCommentsId(
-      tokenId: BigNumberish,
-      commentId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>
-
-    contractUri(overrides?: CallOverrides): Promise<PopulatedTransaction>
-
-    currentTokenId(overrides?: CallOverrides): Promise<PopulatedTransaction>
-
-    deleteAttestation(
-      tokenId: BigNumberish,
-      commentId: BigNumberish,
-      overrides?: Overrides & { from?: string }
-    ): Promise<PopulatedTransaction>
-
-    forceBurn(
-      from: string,
-      tokenId: BigNumberish,
-      quantity: BigNumberish,
-      reason: string,
-      overrides?: Overrides & { from?: string }
-    ): Promise<PopulatedTransaction>
-
-    forceBurnBatch(
-      _accounts: string[],
-      _tokenIds: BigNumberish[],
-      _quantities: BigNumberish[],
-      reason: string,
-      overrides?: Overrides & { from?: string }
-    ): Promise<PopulatedTransaction>
-
-    forceTransfer(
-      from: string,
-      to: string,
-      tokenId: BigNumberish,
-      quantity: BigNumberish,
-      overrides?: Overrides & { from?: string }
-    ): Promise<PopulatedTransaction>
+    ): Promise<BigNumber>;
 
     getRoleAdmin(
       role: BytesLike,
       overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>
+    ): Promise<BigNumber>;
 
     grantEditorRole(
       to: string,
       overrides?: Overrides & { from?: string }
-    ): Promise<PopulatedTransaction>
+    ): Promise<BigNumber>;
 
     grantRole(
       role: BytesLike,
       account: string,
       overrides?: Overrides & { from?: string }
-    ): Promise<PopulatedTransaction>
+    ): Promise<BigNumber>;
 
     hasRole(
       role: BytesLike,
       account: string,
       overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>
+    ): Promise<BigNumber>;
 
     isApprovedForAll(
       account: string,
       operator: string,
       overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>
+    ): Promise<BigNumber>;
 
     makeAttestation(
       tokenId: BigNumberish,
       comment: string,
       overrides?: Overrides & { from?: string }
-    ): Promise<PopulatedTransaction>
+    ): Promise<BigNumber>;
 
-    maxArraySize(overrides?: CallOverrides): Promise<PopulatedTransaction>
+    maxArraySize(overrides?: CallOverrides): Promise<BigNumber>;
 
     mint(
       _to: string,
@@ -1647,7 +1472,7 @@ export interface SX1155NFT extends BaseContract {
       _tokenURI: string,
       _data: BytesLike,
       overrides?: Overrides & { from?: string }
-    ): Promise<PopulatedTransaction>
+    ): Promise<BigNumber>;
 
     mintBatch(
       _accounts: string[],
@@ -1655,26 +1480,26 @@ export interface SX1155NFT extends BaseContract {
       _tokenURIs: string[],
       _data: BytesLike[],
       overrides?: Overrides & { from?: string }
-    ): Promise<PopulatedTransaction>
+    ): Promise<BigNumber>;
 
-    name(overrides?: CallOverrides): Promise<PopulatedTransaction>
+    name(overrides?: CallOverrides): Promise<BigNumber>;
 
     renounceRole(
       role: BytesLike,
       account: string,
       overrides?: Overrides & { from?: string }
-    ): Promise<PopulatedTransaction>
+    ): Promise<BigNumber>;
 
     revokeEditorRole(
       from: string,
       overrides?: Overrides & { from?: string }
-    ): Promise<PopulatedTransaction>
+    ): Promise<BigNumber>;
 
     revokeRole(
       role: BytesLike,
       account: string,
       overrides?: Overrides & { from?: string }
-    ): Promise<PopulatedTransaction>
+    ): Promise<BigNumber>;
 
     safeBatchTransferFrom(
       from: string,
@@ -1683,7 +1508,7 @@ export interface SX1155NFT extends BaseContract {
       amounts: BigNumberish[],
       data: BytesLike,
       overrides?: Overrides & { from?: string }
-    ): Promise<PopulatedTransaction>
+    ): Promise<BigNumber>;
 
     safeTransferFrom(
       from: string,
@@ -1692,61 +1517,262 @@ export interface SX1155NFT extends BaseContract {
       amount: BigNumberish,
       data: BytesLike,
       overrides?: Overrides & { from?: string }
-    ): Promise<PopulatedTransaction>
+    ): Promise<BigNumber>;
 
     setApprovalForAll(
       operator: string,
       approved: boolean,
       overrides?: Overrides & { from?: string }
-    ): Promise<PopulatedTransaction>
+    ): Promise<BigNumber>;
 
     setContractUri(
       _contractUri: string,
       overrides?: Overrides & { from?: string }
-    ): Promise<PopulatedTransaction>
+    ): Promise<BigNumber>;
 
     setMaxArraySize(
       _maxArraySize: BigNumberish,
       overrides?: Overrides & { from?: string }
-    ): Promise<PopulatedTransaction>
+    ): Promise<BigNumber>;
 
     setTokenUri(
       _id: BigNumberish,
       _uri: string,
       overrides?: Overrides & { from?: string }
-    ): Promise<PopulatedTransaction>
+    ): Promise<BigNumber>;
 
     supportsInterface(
       interfaceId: BytesLike,
       overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>
+    ): Promise<BigNumber>;
 
-    symbol(overrides?: CallOverrides): Promise<PopulatedTransaction>
+    symbol(overrides?: CallOverrides): Promise<BigNumber>;
 
     tokenCommentByCommentId(
       tokenId: BigNumberish,
       commentId: BigNumberish,
       overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>
+    ): Promise<BigNumber>;
 
     tokenData(
       tokenId: BigNumberish,
       overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>
+    ): Promise<BigNumber>;
 
     tokenUri(
       tokenId: BigNumberish,
       overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>
+    ): Promise<BigNumber>;
 
     totalTokenIdsSupply(
       tokenId: BigNumberish,
       overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>
+    ): Promise<BigNumber>;
+
+    uri(arg0: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
+  };
+
+  populateTransaction: {
+    DEFAULT_ADMIN_ROLE(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    EDITOR_ROLE(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    balanceOf(
+      account: string,
+      id: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    balanceOfBatch(
+      accounts: string[],
+      ids: BigNumberish[],
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    commentatorByCommentsId(
+      tokenId: BigNumberish,
+      commentId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    contractUri(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    currentTokenId(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    deleteAttestation(
+      tokenId: BigNumberish,
+      commentId: BigNumberish,
+      overrides?: Overrides & { from?: string }
+    ): Promise<PopulatedTransaction>;
+
+    forceBurn(
+      from: string,
+      tokenId: BigNumberish,
+      quantity: BigNumberish,
+      reason: string,
+      overrides?: Overrides & { from?: string }
+    ): Promise<PopulatedTransaction>;
+
+    forceBurnBatch(
+      _accounts: string[],
+      _tokenIds: BigNumberish[],
+      _quantities: BigNumberish[],
+      reason: string,
+      overrides?: Overrides & { from?: string }
+    ): Promise<PopulatedTransaction>;
+
+    forceTransfer(
+      from: string,
+      to: string,
+      tokenId: BigNumberish,
+      quantity: BigNumberish,
+      overrides?: Overrides & { from?: string }
+    ): Promise<PopulatedTransaction>;
+
+    getRoleAdmin(
+      role: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    grantEditorRole(
+      to: string,
+      overrides?: Overrides & { from?: string }
+    ): Promise<PopulatedTransaction>;
+
+    grantRole(
+      role: BytesLike,
+      account: string,
+      overrides?: Overrides & { from?: string }
+    ): Promise<PopulatedTransaction>;
+
+    hasRole(
+      role: BytesLike,
+      account: string,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    isApprovedForAll(
+      account: string,
+      operator: string,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    makeAttestation(
+      tokenId: BigNumberish,
+      comment: string,
+      overrides?: Overrides & { from?: string }
+    ): Promise<PopulatedTransaction>;
+
+    maxArraySize(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    mint(
+      _to: string,
+      _quantity: BigNumberish,
+      _tokenURI: string,
+      _data: BytesLike,
+      overrides?: Overrides & { from?: string }
+    ): Promise<PopulatedTransaction>;
+
+    mintBatch(
+      _accounts: string[],
+      _quantities: BigNumberish[],
+      _tokenURIs: string[],
+      _data: BytesLike[],
+      overrides?: Overrides & { from?: string }
+    ): Promise<PopulatedTransaction>;
+
+    name(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    renounceRole(
+      role: BytesLike,
+      account: string,
+      overrides?: Overrides & { from?: string }
+    ): Promise<PopulatedTransaction>;
+
+    revokeEditorRole(
+      from: string,
+      overrides?: Overrides & { from?: string }
+    ): Promise<PopulatedTransaction>;
+
+    revokeRole(
+      role: BytesLike,
+      account: string,
+      overrides?: Overrides & { from?: string }
+    ): Promise<PopulatedTransaction>;
+
+    safeBatchTransferFrom(
+      from: string,
+      to: string,
+      ids: BigNumberish[],
+      amounts: BigNumberish[],
+      data: BytesLike,
+      overrides?: Overrides & { from?: string }
+    ): Promise<PopulatedTransaction>;
+
+    safeTransferFrom(
+      from: string,
+      to: string,
+      id: BigNumberish,
+      amount: BigNumberish,
+      data: BytesLike,
+      overrides?: Overrides & { from?: string }
+    ): Promise<PopulatedTransaction>;
+
+    setApprovalForAll(
+      operator: string,
+      approved: boolean,
+      overrides?: Overrides & { from?: string }
+    ): Promise<PopulatedTransaction>;
+
+    setContractUri(
+      _contractUri: string,
+      overrides?: Overrides & { from?: string }
+    ): Promise<PopulatedTransaction>;
+
+    setMaxArraySize(
+      _maxArraySize: BigNumberish,
+      overrides?: Overrides & { from?: string }
+    ): Promise<PopulatedTransaction>;
+
+    setTokenUri(
+      _id: BigNumberish,
+      _uri: string,
+      overrides?: Overrides & { from?: string }
+    ): Promise<PopulatedTransaction>;
+
+    supportsInterface(
+      interfaceId: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    symbol(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    tokenCommentByCommentId(
+      tokenId: BigNumberish,
+      commentId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    tokenData(
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    tokenUri(
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    totalTokenIdsSupply(
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
 
     uri(
       arg0: BigNumberish,
       overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>
-  }
+    ): Promise<PopulatedTransaction>;
+  };
 }
