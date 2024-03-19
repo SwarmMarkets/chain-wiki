@@ -21,9 +21,10 @@ import { Tab as ITab } from '@src/shared/types/ui-components'
 import { unifyAddressToId } from '@src/shared/utils'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useParams } from 'react-router-dom'
+import { generatePath, useParams } from 'react-router-dom'
 import useTabs from '@src/hooks/useTabs'
 import EditView from '@src/components/Token/TokenEditView'
+import RoutePaths from '@src/shared/enums/routes-paths'
 
 const TokenPage = () => {
   const { tokenId = '', nftId = '' } = useParams()
@@ -77,7 +78,10 @@ const TokenPage = () => {
   }
 
   const breadCrumbs = nft &&
-    token && [{ label: nft.name, to: `/nft/${nftId}` }, { label: token.id }]
+    token && [
+      { label: nft.name, to: generatePath(RoutePaths.NFT, { nftId }) },
+      { label: token.id },
+    ]
 
   return (
     <TokenContextProvider value={token}>
