@@ -1,6 +1,6 @@
 import icons from '../consts/icons'
 
-export interface Tab<T> {
+export interface Tab<T = string> {
   value: T
   label: string
 }
