@@ -12,7 +12,7 @@ import UpdateNftContentButton from '../UpdateContent/UpdateNftContentButton'
 import { findElementWithMatchedDataId } from './utils'
 
 interface EditorProps {
-  name: string
+  name?: string
   nftAddress: string
   tokenAddress?: string
   initialContent: string
