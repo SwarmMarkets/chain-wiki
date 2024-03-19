@@ -40,6 +40,7 @@ const useIpfsData = <T extends object>({
               const id = mapping(res)
               mappedResults.set(id, res)
             }
+            return res
           })
           .catch(e => e)
       )

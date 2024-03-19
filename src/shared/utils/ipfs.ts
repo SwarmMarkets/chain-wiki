@@ -54,7 +54,7 @@ export const verifyObjectKeys = <T extends object>(
   keys: string[],
   object: T = {} as T
 ) => {
-  const isObjValid = Object.keys(object).every(key => keys.includes(key))
+  const isObjValid = keys.every(key => Object.keys(object).includes(key))
   if (!isObjValid) {
     throw Error('Keys does not satisfy Object keys')
   }
@@ -67,16 +67,13 @@ export const verifyObjectKeysDeep = <T extends { [key: string]: any }>(
   checkObject: T
 ): boolean => {
   const validKeys = Object.keys(validObject).sort()
-  const checkKeys = Object.keys(checkObject).sort()
 
   for (let i = 0; i < validKeys.length; i++) {
     const key = validKeys[i]
     const validValue = validObject[key]
     const checkValue = checkObject[key]
 
-    if (checkKeys[i] !== key) {
-      throw Error('Object is invalid')
-    }
+    verifyObjectKeys(validKeys, checkObject)
 
     const areObjects = isObject(validValue) && isObject(checkValue)
 
@@ -103,9 +100,9 @@ export const verifyVoteProposalValid = (proposal: VoteProposal) => {
   }
 }
 
-export const verifyNftValid = (nft: IpfsNftContent) => {
+export const verifyNftValid = (content: IpfsNftContent) => {
   try {
-    return verifyObjectKeysDeep(initialNftContent, nft)
+    return verifyObjectKeysDeep(initialNftContent, content)
   } catch {
     throw Error('Nft content is invalid.')
   }

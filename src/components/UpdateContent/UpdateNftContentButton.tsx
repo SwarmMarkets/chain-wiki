@@ -9,6 +9,7 @@ import Button, { ButtonProps } from '../ui/Button/Button'
 import UpdateContentModal, { Steps } from './UpdateContentModal'
 import { ChildrenProp } from '@src/shared/types/common-props'
 import useNFT from '@src/hooks/subgraph/useNFT'
+import { unifyAddressToId } from '@src/shared/utils'
 
 interface UpdateNftContentButtonProps extends ButtonProps, ChildrenProp {
   nftAddress: string
@@ -49,7 +50,7 @@ const UpdateNftContentButton: React.FC<UpdateNftContentButtonProps> = ({
       ...nft?.ipfsContent,
       ...nftContentToUpdate,
       name: nft.name,
-      address: nft.id,
+      address: unifyAddressToId(nft.id),
     })
     const filesToUpload = [ipfsContent]
     const uris = await upload({ data: filesToUpload })
