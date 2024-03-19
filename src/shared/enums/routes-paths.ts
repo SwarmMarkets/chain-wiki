@@ -1,9 +1,8 @@
 enum RoutePaths {
   HOME = '/',
-  TOKEN = '/token/:tokenId',
-  NFT = '/nft/:nftId',
-  MY_NFTS = '/my-nfts',
-  CREATE_NFT = '/create/nft',
+  TOKEN = '/page/:tokenId',
+  NFT = '/site/:nftId',
+  MY_NFTS = '/my-sites',
 }
 
 export default RoutePaths
