@@ -32,7 +32,7 @@ const Header = () => {
   return (
     <HeaderContainer as='header'>
       <Flex $gap='60px' alignItems='center'>
-        <Link to={RoutePaths.HOME}>
+        <Link to={RoutePaths.MY_NFTS}>
           <Logo src={logo} alt='ChainWiki' />
         </Link>
         {/* <TextField

@@ -1,5 +1,5 @@
-import { ConnectWallet } from '@thirdweb-dev/react'
+import { ConnectWallet, ConnectWalletProps } from '@thirdweb-dev/react'
 
-export default function ConnectButton() {
-  return <ConnectWallet theme={'light'} modalSize={'wide'} />
+export default function ConnectButton(props: ConnectWalletProps) {
+  return <ConnectWallet {...props} theme={'light'} modalSize={'wide'} />
 }

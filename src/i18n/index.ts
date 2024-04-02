@@ -11,6 +11,7 @@ import {
   NftsEn,
   HistoryEn,
   CommonEn,
+  ConnectWalletEn,
 } from './locales/en'
 
 const resources = {
@@ -25,6 +26,7 @@ const resources = {
     nfts: NftsEn,
     history: HistoryEn,
     common: CommonEn,
+    connectWallet: ConnectWalletEn,
   },
 }
 
