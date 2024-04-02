@@ -1,8 +1,8 @@
-import { ChildrenProp } from '@src/shared/types/common-props'
 import styled from 'styled-components'
 import Container from '../ui/Container'
 import Header from './Header'
 import SwitchNetworkAlert from './SwitchNetworkAlert'
+import { Outlet } from 'react-router-dom'
 
 const PageContainer = styled(Container)`
   width: 100%;
@@ -14,13 +14,15 @@ const PageContainer = styled(Container)`
   padding-bottom: 24px;
 `
 
-const Layout = ({ children }: ChildrenProp) => {
+const Layout = () => {
   return (
     <>
       <SwitchNetworkAlert />
       <Header />
       <PageContainer>
-        <main>{children}</main>
+        <main>
+          <Outlet />
+        </main>
       </PageContainer>
     </>
   )

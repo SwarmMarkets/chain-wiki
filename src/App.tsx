@@ -37,8 +37,8 @@ function App() {
       >
         <ThemeProvider theme={theme}>
           <Router>
-            <Layout>
-              <Routes>
+            <Routes>
+              <Route element={<Layout />}>
                 <Route path={RoutePaths.HOME} element={<HomePage />} />
                 <Route path={RoutePaths.NFT} element={<NftPage />} />
                 <Route
@@ -46,8 +46,8 @@ function App() {
                   element={<TokenPage />}
                 />
                 <Route path={RoutePaths.MY_NFTS} element={<MyNftsPage />} />
-              </Routes>
-            </Layout>
+              </Route>
+            </Routes>
           </Router>
           <GlobalStyle />
           <ToastContainer />
