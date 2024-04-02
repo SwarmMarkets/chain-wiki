@@ -7,9 +7,9 @@ import IndexPages from '../IndexPages'
 
 export const StyledCard = styled(Card)`
   cursor: pointer;
-  transition: box-shadow 0.2s;
+  transition: border-color 0.2s;
   &:hover {
-    box-shadow: 3px 5px 6px rgba(0, 0, 0, 0.2);
+    border-color: ${({ theme }) => theme.palette.borderBlue};
   }
 `
 
