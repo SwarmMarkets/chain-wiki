@@ -2,6 +2,7 @@ import Text from '@src/components/ui/Text'
 import { checkNetworkSupported } from '@src/shared/utils'
 import {
   useChainId,
+  useConnectionStatus,
   useSupportedChains,
   useSwitchChain,
 } from '@thirdweb-dev/react'
@@ -12,6 +13,7 @@ const SwitchNetworkAlert: React.FC = () => {
   const chainId = useChainId()
   const { t } = useTranslation('common', { keyPrefix: 'switchNetwork' })
   const supportedChains = useSupportedChains()
+  const connected = useConnectionStatus()
 
   const switchChain = useSwitchChain()
   const supportedNetwork = supportedChains[0]
@@ -21,8 +23,9 @@ const SwitchNetworkAlert: React.FC = () => {
   }
 
   const isNetworkSupported = checkNetworkSupported(chainId)
+  const isConnected = connected === 'connected'
 
-  if (isNetworkSupported) return null
+  if (isNetworkSupported || !isConnected) return null
 
   return (
     <AlertWrap>
