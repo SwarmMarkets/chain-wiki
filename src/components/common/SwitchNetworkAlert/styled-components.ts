@@ -7,7 +7,6 @@ export const AlertWrap = styled(Flex)`
   justify-content: center;
   align-items: center;
   border: solid 1px;
-  border-radius: 5px;
   padding: 5px;
   background: ${({ theme }) => theme.palette.black};
 `
