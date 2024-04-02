@@ -14,7 +14,6 @@ export const AlertWrap = styled(Flex)`
 
 export const StyledButton = styled(Button)`
   color: ${({ theme }) => theme.palette.white};
-  height: 30px;
   border-color: ${({ theme }) => theme.palette.white};
   line-height: 1;
   &:hover {
