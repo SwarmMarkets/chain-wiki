@@ -1,7 +1,8 @@
 {
   "nft": {
     "title": "Update site",
-    "description": "You are about to update your site content. This includes several steps to finalize content update."
+    "description": "You are about to update your site content. This includes several steps to finalize content update.",
+    "changeLogo": "Change logo"
   },
   "token": {
     "title": "Update page",

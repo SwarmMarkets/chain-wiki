@@ -10,12 +10,14 @@ import EditorSkeleton from './EditorSkeleton'
 import UpdateTokenContentButton from '../UpdateContent/UpdateTokenContentButton'
 import UpdateNftContentButton from '../UpdateContent/UpdateNftContentButton'
 import { findElementWithMatchedDataId } from './utils'
+import { IpfsNftContent, IpfsTokenContent } from '@src/shared/types/ipfs'
 
 interface EditorProps {
   name?: string
   nftAddress: string
   tokenAddress?: string
   initialContent: string
+  logoUrl?: string | null
   onChange?: (content: string, editor: TinyEditorType) => void
   onSuccessUpdate?: () => void
 }
@@ -35,6 +37,7 @@ const Editor: React.FC<EditorProps> = ({
   nftAddress,
   onSuccessUpdate,
   name,
+  logoUrl,
 }) => {
   const [editorInit, setEditorInit] = useState(false)
   const [currContent, setCurrContent] = useState(initialContent)
@@ -89,10 +92,15 @@ const Editor: React.FC<EditorProps> = ({
     event.element.removeAttribute('data-id')
   }
 
-  const tokenContentToUpdate: Record<string, string> = {
+  const tokenContentToUpdate: Partial<IpfsTokenContent> = {
     htmlContent: currContent,
   }
   name && (tokenContentToUpdate.name = name)
+
+  const nftContentToUpdate: Partial<IpfsNftContent> = {
+    htmlContent: currContent,
+  }
+  logoUrl && (nftContentToUpdate.logoUrl = logoUrl)
 
   return (
     <>
@@ -142,7 +150,7 @@ const Editor: React.FC<EditorProps> = ({
                 mt={15}
                 onSuccess={onSuccessUpdate}
                 nftAddress={nftAddress}
-                nftContentToUpdate={{ htmlContent: currContent }}
+                nftContentToUpdate={nftContentToUpdate}
               />
             )}
           </RequirePermissions>

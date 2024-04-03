@@ -1,5 +1,4 @@
 import TokenList from '@src/components/Token/TokenList'
-import Editor from '@src/components/Editor'
 import HistoryNft from '@src/components/History/HistoryNft'
 import NftContentSkeleton from '@src/components/Nft/NftContentSkeleton'
 import NftRoleManager from '@src/components/Nft/NftRoleManager'
@@ -27,6 +26,7 @@ import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
 import { useTheme } from 'styled-components'
 import useTabs from '@src/hooks/useTabs'
+import NftEditView from '@src/components/Nft/NftView/NftEditView'
 
 const NftPage = () => {
   const { nftId = '' } = useParams()
@@ -133,9 +133,9 @@ const NftPage = () => {
             />
           </TabPanel>
           <TabPanel value={NftTabs.EDIT}>
-            <Editor
+            <NftEditView
               onSuccessUpdate={handleSuccessUpdate}
-              nftAddress={nftId!}
+              nftAddress={nftId}
               initialContent={nft?.ipfsContent?.htmlContent || ''}
             />
           </TabPanel>

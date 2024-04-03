@@ -50,7 +50,6 @@ const UploadFileButton: React.FC<UploadFileButtonProps> = ({
       />
       <LoadingButton
         {...props}
-        width={'100%'}
         loading={loading}
         type='button'
         onClick={() => document.getElementById('fileInput')?.click()}

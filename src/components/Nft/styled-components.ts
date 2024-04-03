@@ -4,6 +4,7 @@ import Text from '../ui/Text'
 import { Link } from 'react-router-dom'
 import Content from '../Content'
 import IndexPages from '../IndexPages'
+import Flex from '../ui/Flex'
 
 export const StyledCard = styled(Card)`
   cursor: pointer;
@@ -62,4 +63,14 @@ export const ContentPlaceholder = styled.div`
   min-width: 210px;
   margin-top: 20px;
   word-wrap: break-word;
+`
+
+export const LogoWrapper = styled(Flex)`
+  background-color: ${({ theme }) => theme.palette.bgPrimary};
+  border-radius: 20px;
+`
+
+export const LogoPreview = styled.img`
+  max-width: 200px;
+  max-height: 100px;
 `

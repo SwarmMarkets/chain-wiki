@@ -98,7 +98,7 @@ const CreateNftForm: React.FC<CreateNftFormProps> = ({ onSuccessSubmit }) => {
           />
         </TextFieldBox>
         <TextFieldBox>
-          <UploadFileButton mb={2} onUpload={handleUploadLogo}>
+          <UploadFileButton width='100%' mb={2} onUpload={handleUploadLogo}>
             {t('form.uploadLogo')}
           </UploadFileButton>
           {uploadedLogoUrl && (
