@@ -1,13 +1,14 @@
-import logo from '@src/assets/logo.png'
+// import logo from '@src/assets/logo.png'
 import RoutePaths from '@src/shared/enums/routes-paths'
 import { useTranslation } from 'react-i18next'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import Button from '../ui/Button/Button'
 import Container from '../ui/Container'
 import Flex from '../ui/Flex'
 import ConnectButton from './ConnectButton'
 import RequirePermissions from './RequirePermissions'
+import useNFT from '@src/hooks/subgraph/useNFT'
 
 const HeaderContainer = styled(Container)`
   width: 100%;
@@ -23,18 +24,21 @@ const HeaderContainer = styled(Container)`
 `
 
 const Logo = styled.img`
-  width: 230px;
+  max-width: 230px;
+  max-height: 70px;
 `
 
 const Header = () => {
+  const { nftId = '' } = useParams()
+  const { nft, loadingNft } = useNFT(nftId, { disableRefetch: true })
   const { t } = useTranslation('layout')
+
+  const showLogo = nftId === nft?.id && nft?.ipfsContent?.logoUrl && !loadingNft
 
   return (
     <HeaderContainer as='header'>
       <Flex $gap='60px' alignItems='center'>
-        <Link to={RoutePaths.MY_NFTS}>
-          <Logo src={logo} alt='ChainWiki' />
-        </Link>
+        {showLogo && <Logo src={nft?.ipfsContent?.logoUrl} alt='ChainWiki' />}
         {/* <TextField
           prependIcon='search'
           placeholder={t('header.searchPlaceholder')}

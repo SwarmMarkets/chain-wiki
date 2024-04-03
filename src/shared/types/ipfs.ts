@@ -13,6 +13,7 @@ export interface IpfsNftContent {
   address: string
   htmlContent: string
   indexPages?: string[]
+  logoUrl?: string
   error?: string
 }
 

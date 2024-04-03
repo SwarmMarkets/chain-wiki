@@ -5,5 +5,6 @@
   "retry": "Retry",
   "edit": "Edit",
   "save": "Save",
-  "delete": "Delete"
+  "delete": "Delete",
+  "chooseFile": "Choose file"
 }

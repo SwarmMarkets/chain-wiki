@@ -23,6 +23,7 @@ export const generateIpfsNftContent = (args: IpfsNftContent) => {
     address: args.address,
     htmlContent: args.htmlContent,
     indexPages: args.indexPages,
+    logoUrl: args.logoUrl,
   }
 
   return JSON.stringify(content)

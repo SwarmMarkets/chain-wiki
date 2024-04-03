@@ -14,7 +14,8 @@
       "adminAddress": "Admin address",
       "uri": "IPFS hash",
       "editorAddress": "Editor address",
-      "submit": "Create"
+      "submit": "Create",
+      "uploadLogo": "Upload logo"
     },
     "formPlaceholders": {
       "name": "Enter full name of the site",

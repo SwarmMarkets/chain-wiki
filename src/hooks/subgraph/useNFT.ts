@@ -8,14 +8,18 @@ import { useStorage } from '@thirdweb-dev/react'
 
 const POLL_INTERVAL = 5000
 
-const useNFT = (id: QueryNftArgs['id']) => {
+interface UseNFTOptions {
+  disableRefetch?: boolean
+}
+
+const useNFT = (id: QueryNftArgs['id'], options?: UseNFTOptions) => {
   const storage = useStorage()
   const [nftData, setNftData] = useState<NFTQueryFullData | null>(null)
 
   const { loading, error, networkStatus, refetch } = useQuery(NFTQuery, {
     fetchPolicy: 'cache-first',
     notifyOnNetworkStatusChange: true,
-    pollInterval: POLL_INTERVAL,
+    pollInterval: options?.disableRefetch ? undefined : POLL_INTERVAL,
     variables: {
       id,
     },
