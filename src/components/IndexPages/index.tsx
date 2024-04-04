@@ -1,4 +1,3 @@
-import Checkbox from '@src/components/Checkbox'
 import Box from '@src/components/ui/Box'
 import Divider from '@src/components/ui/Divider'
 import Flex from '@src/components/ui/Flex'
@@ -10,8 +9,9 @@ import { useTranslation } from 'react-i18next'
 import { generatePath } from 'react-router-dom'
 import RequirePermissions from '../common/RequirePermissions'
 import IndexPagesActions from './IndexPagesActions'
-import { EditableItem, StyledLink } from './styled-components'
+import { StyledLink } from './styled-components'
 import { useTheme } from 'styled-components'
+import IndexPagesList from './IndexPagesList'
 
 interface IndexPagesProps {
   tokens: TokensQueryFullData[] | null
@@ -77,18 +77,12 @@ const IndexPages: React.FC<IndexPagesProps> = ({ tokens, nft, ...props }) => {
     <Box {...props}>
       <Text.h3>{t('indexPages.title')}</Text.h3>
       <Divider my='10px' />
-      {isEdit ? (
-        <Flex flexDirection='column' $gap='8px' py='8px'>
-          {notEmptyTokens?.map(token => (
-            <EditableItem key={token?.id}>
-              <Checkbox
-                checked={selectedIndexes.includes(token.id)}
-                onChange={() => onChangeCheckbox(token.id)}
-              />
-              <Text ml='5px'>{token?.id}</Text>
-            </EditableItem>
-          ))}
-        </Flex>
+      {isEdit && notEmptyTokens ? (
+        <IndexPagesList
+          tokens={notEmptyTokens}
+          selectedIndexes={selectedIndexes}
+          onChangeCheckbox={onChangeCheckbox}
+        />
       ) : (
         <Flex flexDirection='column' $gap='8px' py='8px'>
           {noIndexPages && (
