@@ -11,7 +11,7 @@ import RequirePermissions from '../common/RequirePermissions'
 import IndexPagesActions from './IndexPagesActions'
 import { StyledLink } from './styled-components'
 import { useTheme } from 'styled-components'
-import IndexPagesList from './IndexPagesList'
+import IndexPagesEditList from './IndexPagesEditList'
 
 interface IndexPagesProps {
   tokens: TokensQueryFullData[] | null
@@ -78,7 +78,7 @@ const IndexPages: React.FC<IndexPagesProps> = ({ tokens, nft, ...props }) => {
       <Text.h3>{t('indexPages.title')}</Text.h3>
       <Divider my='10px' />
       {isEdit && notEmptyTokens ? (
-        <IndexPagesList
+        <IndexPagesEditList
           tokens={notEmptyTokens}
           selectedIndexes={selectedIndexes}
           onChangeCheckbox={onChangeCheckbox}
@@ -102,7 +102,7 @@ const IndexPages: React.FC<IndexPagesProps> = ({ tokens, nft, ...props }) => {
               })}
               key={token?.id}
             >
-              {token?.id}
+              {token?.ipfsContent?.name}
             </StyledLink>
           ))}
         </Flex>

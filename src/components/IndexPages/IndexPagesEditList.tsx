@@ -7,13 +7,13 @@ import Flex from '../ui/Flex'
 import Text from '../ui/Text'
 import { EditableItem } from './styled-components'
 
-interface IndexPagesListProps {
+interface IndexPagesEditListProps {
   tokens: TokensQueryFullData[]
   selectedIndexes: string[]
   onChangeCheckbox: (tokenId: string) => void
 }
 
-const IndexPagesList: React.FC<IndexPagesListProps> = ({
+const IndexPagesEditList: React.FC<IndexPagesEditListProps> = ({
   tokens,
   selectedIndexes,
   onChangeCheckbox,
@@ -60,7 +60,7 @@ const IndexPagesList: React.FC<IndexPagesListProps> = ({
                           checked={selectedIndexes.includes(token?.id)}
                           onChange={() => onChangeCheckbox(token?.id)}
                         />
-                        <Text ml='5px'>{token?.id}</Text>
+                        <Text ml='5px'>{token?.ipfsContent?.name}</Text>
                       </EditableItem>
                     )}
                   </Draggable>
@@ -73,4 +73,4 @@ const IndexPagesList: React.FC<IndexPagesListProps> = ({
   )
 }
 
-export default IndexPagesList
+export default IndexPagesEditList
