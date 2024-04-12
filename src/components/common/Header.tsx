@@ -1,7 +1,7 @@
 // import logo from '@src/assets/logo.png'
 import RoutePaths from '@src/shared/enums/routes-paths'
 import { useTranslation } from 'react-i18next'
-import { Link, useParams } from 'react-router-dom'
+import { generatePath, Link, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import Button from '../ui/Button/Button'
 import Container from '../ui/Container'
@@ -38,11 +38,13 @@ const Header = () => {
   return (
     <HeaderContainer as='header'>
       <Flex $gap='60px' alignItems='center'>
-        {showLogo && <Logo src={nft?.ipfsContent?.logoUrl} alt='ChainWiki' />}
-        {/* <TextField
+        <Link to={generatePath(RoutePaths.NFT, { nftId })}>
+          {showLogo && <Logo src={nft?.ipfsContent?.logoUrl} alt='ChainWiki' />}
+          {/* <TextField
           prependIcon='search'
           placeholder={t('header.searchPlaceholder')}
         /> */}
+        </Link>
       </Flex>
 
       <Flex $gap={'1rem'} alignItems='center'>
