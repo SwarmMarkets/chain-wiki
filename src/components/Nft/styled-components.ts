@@ -26,7 +26,6 @@ export const StyledLink = styled(Link)`
 
 export const StyledRolesDescription = styled(Text.p)`
   max-width: 700px;
-  font-size: 1.05rem;
   line-height: 1.3;
   color: ${({ theme }) => theme.palette.gray};
 `
