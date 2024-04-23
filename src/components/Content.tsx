@@ -6,6 +6,7 @@ import { buildContentHierarchy } from '@src/shared/utils'
 import { useTranslation } from 'react-i18next'
 import Text from './ui/Text'
 import Divider from './ui/Divider'
+import theme from '@src/theme'
 
 interface ContentProps {
   contentElem: HTMLDivElement | null
@@ -18,9 +19,13 @@ const Content: React.FC<ContentProps> = ({ contentElem, className }) => {
   if (!contentElem) {
     return (
       <div className={className}>
-        <Text.h3>{t('title')}</Text.h3>
-        <Divider my='10px' />
-        <Text.p>{t('contentNotFound')}</Text.p>
+        <Text.p
+          textAlign='center'
+          fontWeight={theme.fontWeights.medium}
+          color={theme.palette.gray}
+        >
+          {t('contentNotFound')}
+        </Text.p>
       </div>
     )
   }
