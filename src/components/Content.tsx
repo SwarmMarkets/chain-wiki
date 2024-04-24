@@ -5,8 +5,7 @@ import { ContentItemParent } from '@src/shared/types/content'
 import { buildContentHierarchy } from '@src/shared/utils'
 import { useTranslation } from 'react-i18next'
 import Text from './ui/Text'
-import Divider from './ui/Divider'
-import theme from '@src/theme'
+import { useTheme } from 'styled-components'
 
 interface ContentProps {
   contentElem: HTMLDivElement | null
@@ -15,6 +14,8 @@ interface ContentProps {
 
 const Content: React.FC<ContentProps> = ({ contentElem, className }) => {
   const { t } = useTranslation('contents')
+
+  const theme = useTheme()
 
   if (!contentElem) {
     return (
@@ -48,8 +49,6 @@ const Content: React.FC<ContentProps> = ({ contentElem, className }) => {
 
   return (
     <div className={className}>
-      <Text.h3>{t('title')}</Text.h3>
-      <Divider my='10px' />
       <ExpandableList title={t('beginning')} onClickTitle={onClickBeginning} />
       {contentData.map(item => (
         <ExpandableList
