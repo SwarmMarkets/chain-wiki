@@ -1,10 +1,6 @@
-import { mumbai, mumbaiChainConfig } from './mumbai'
-import { Chain } from "@thirdweb-dev/chains";
+import { arbitrumSepolia, arbitrumSepoliaChainConfig } from './arbitrum-sepolia'
+import { Chain } from '@thirdweb-dev/chains'
 
-const supportedChains: Chain[] = [mumbaiChainConfig]
+const supportedChains: Chain[] = [arbitrumSepoliaChainConfig]
 
-export {
-  supportedChains,
-  mumbaiChainConfig,
-  mumbai,
-}
+export { supportedChains, arbitrumSepoliaChainConfig, arbitrumSepolia }
