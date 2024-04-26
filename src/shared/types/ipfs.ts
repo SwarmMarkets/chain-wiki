@@ -9,12 +9,8 @@ import {
 } from '@src/queries/gql/graphql'
 
 export interface IpfsNftContent {
-  name: string
   address: string
   htmlContent: string
-  indexPages?: string[]
-  logoUrl?: string
-  error?: string
 }
 
 export interface IpfsVoteProposal {
@@ -30,12 +26,9 @@ export interface IpfsVoteProposal {
 }
 
 export interface IpfsTokenContent {
-  name: string
   address: string
   tokenId: number
   htmlContent: string
-  voteProposal?: IpfsVoteProposal
-  error?: string
 }
 
 export interface IpfsAttestationContent {
