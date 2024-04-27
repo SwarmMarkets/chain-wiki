@@ -95,13 +95,17 @@ const Editor: React.FC<EditorProps> = ({
     event.element.removeAttribute('data-id')
   }
 
+  const differentContent = initialContent !== currContent ? currContent : ''
+
   const tokenContentToUpdate: TokenContentToUpdate = {
-    ipfsContent: { htmlContent: currContent },
+    ipfsContent: { htmlContent: differentContent },
     name,
   }
 
   const nftContentToUpdate: NFTContentToUpdate = {
-    ipfsContent: { htmlContent: currContent },
+    ipfsContent: {
+      htmlContent: differentContent,
+    },
     logoUrl,
   }
 
