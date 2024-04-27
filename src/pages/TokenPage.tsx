@@ -80,7 +80,7 @@ const TokenPage = () => {
   const breadCrumbs = nft &&
     token && [
       { label: nft.name, to: generatePath(RoutePaths.NFT, { nftId }) },
-      { label: token.id },
+      { label: token.name || token.id },
     ]
 
   return (
