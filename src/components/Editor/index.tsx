@@ -8,9 +8,11 @@ import RequirePermissions from '../common/RequirePermissions'
 import Flex from '../ui/Flex'
 import EditorSkeleton from './EditorSkeleton'
 import UpdateTokenContentButton from '../UpdateContent/UpdateTokenContentButton'
-import UpdateNftContentButton from '../UpdateContent/UpdateNftContentButton'
+import UpdateNftContentButton, {
+  NFTContentToUpdate,
+} from '../UpdateContent/UpdateNftContentButton'
 import { findElementWithMatchedDataId } from './utils'
-import { IpfsNftContent, IpfsTokenContent } from '@src/shared/types/ipfs'
+import { IpfsTokenContent } from '@src/shared/types/ipfs'
 
 interface EditorProps {
   name?: string
@@ -97,10 +99,10 @@ const Editor: React.FC<EditorProps> = ({
   }
   name && (tokenContentToUpdate.name = name)
 
-  const nftContentToUpdate: Partial<IpfsNftContent> = {
-    htmlContent: currContent,
+  const nftContentToUpdate: NFTContentToUpdate = {
+    ipfsContent: { htmlContent: currContent },
+    logoUrl,
   }
-  logoUrl && (nftContentToUpdate.logoUrl = logoUrl)
 
   return (
     <>
