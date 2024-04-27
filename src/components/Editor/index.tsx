@@ -7,12 +7,13 @@ import { Editor as TinyEditorType } from 'tinymce'
 import RequirePermissions from '../common/RequirePermissions'
 import Flex from '../ui/Flex'
 import EditorSkeleton from './EditorSkeleton'
-import UpdateTokenContentButton from '../UpdateContent/UpdateTokenContentButton'
+import UpdateTokenContentButton, {
+  TokenContentToUpdate,
+} from '../UpdateContent/UpdateTokenContentButton'
 import UpdateNftContentButton, {
   NFTContentToUpdate,
 } from '../UpdateContent/UpdateNftContentButton'
 import { findElementWithMatchedDataId } from './utils'
-import { IpfsTokenContent } from '@src/shared/types/ipfs'
 
 interface EditorProps {
   name?: string
@@ -94,10 +95,10 @@ const Editor: React.FC<EditorProps> = ({
     event.element.removeAttribute('data-id')
   }
 
-  const tokenContentToUpdate: Partial<IpfsTokenContent> = {
-    htmlContent: currContent,
+  const tokenContentToUpdate: TokenContentToUpdate = {
+    ipfsContent: { htmlContent: currContent },
+    name,
   }
-  name && (tokenContentToUpdate.name = name)
 
   const nftContentToUpdate: NFTContentToUpdate = {
     ipfsContent: { htmlContent: currContent },

@@ -11,10 +11,16 @@ import { ChildrenProp } from '@src/shared/types/common-props'
 import useToken from '@src/hooks/subgraph/useToken'
 import { getUniqueId } from '@src/shared/utils'
 
+export interface TokenContentToUpdate {
+  name?: string | null
+  voteProposalUri?: string | null
+  ipfsContent?: Partial<IpfsTokenContent>
+}
+
 interface UpdateTokenContentButtonProps extends ButtonProps, ChildrenProp {
   tokenAddress: string
   nftAddress: string
-  tokenContentToUpdate: Partial<IpfsTokenContent>
+  tokenContentToUpdate: TokenContentToUpdate
   onSuccess?(): void
 }
 
@@ -50,7 +56,6 @@ const UpdateTokenContentButton: React.FC<UpdateTokenContentButtonProps> = ({
     if (!token || (token.uri && !token?.ipfsContent)) return
 
     const content = {
-      name: '',
       address: '',
       tokenId: 0,
       htmlContent: '',
@@ -59,9 +64,9 @@ const UpdateTokenContentButton: React.FC<UpdateTokenContentButtonProps> = ({
     }
 
     // set data-id attributes
-    if (tokenContentToUpdate.htmlContent) {
+    if (tokenContentToUpdate.ipfsContent?.htmlContent) {
       const contentElem = document.createElement('div')
-      contentElem.innerHTML = tokenContentToUpdate.htmlContent
+      contentElem.innerHTML = tokenContentToUpdate.ipfsContent.htmlContent
       const children = Array.from(contentElem.children)
 
       for (let i = 0; i < children.length; i++) {
@@ -81,19 +86,30 @@ const UpdateTokenContentButton: React.FC<UpdateTokenContentButtonProps> = ({
   }
 
   const signTransaction = useCallback(
-    (uri: string) => {
-      return call('setTokenUri', [tokenId, uri])
+    (uri?: string) => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { ipfsContent, ...exceptIpfsContent } = tokenContentToUpdate
+      const tokenUpdate = {
+        ...exceptIpfsContent,
+        uri,
+      }
+
+      const tokenUpdateJson = JSON.stringify(tokenUpdate)
+
+      return call('setTokenUri', [tokenId, tokenUpdateJson])
     },
-    [call, tokenId]
+    [call, tokenContentToUpdate, tokenId]
   )
 
   const startContentUpdate = async () => {
     open()
-    const uri = await uploadContent()
-    if (!uri) return
+    let uri
+    if (tokenContentToUpdate.ipfsContent?.htmlContent) {
+      uri = await uploadContent()
+      if (!uri) return
 
-    setIpfsUri(uri)
-
+      setIpfsUri(uri)
+    }
     const res = await signTransaction(uri)
 
     if (res) {

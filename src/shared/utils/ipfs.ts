@@ -28,10 +28,8 @@ export const generateIpfsNftContent = (args: IpfsNftContent) => {
 export const generateIpfsTokenContent = (args: IpfsTokenContent) => {
   const content: IpfsTokenContent = {
     tokenId: args.tokenId,
-    name: args.name,
     address: args.address,
     htmlContent: args.htmlContent,
-    voteProposal: args.voteProposal,
   }
 
   return JSON.stringify(content)
