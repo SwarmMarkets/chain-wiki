@@ -8,12 +8,18 @@ import TokenEmptyCard from './TokenEmptyCard'
 
 interface TokenCardProps {
   tokenId: string
+  name: string
   nftId: string
   content?: IpfsTokenContent
 }
 
-const TokenCard: React.FC<TokenCardProps> = ({ tokenId, nftId, content }) => {
-  if (content?.error || !content) {
+const TokenCard: React.FC<TokenCardProps> = ({
+  tokenId,
+  nftId,
+  content,
+  name,
+}) => {
+  if (!content) {
     return <TokenEmptyCard tokenId={tokenId} nftId={nftId} />
   }
 
@@ -23,7 +29,7 @@ const TokenCard: React.FC<TokenCardProps> = ({ tokenId, nftId, content }) => {
         nftId,
         tokenId: tokenId,
       })}
-      title={content.name}
+      title={name}
     >
       <Text.p>
         {limitString(getTextContentFromHtml(content.htmlContent), 700)}

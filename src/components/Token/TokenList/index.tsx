@@ -47,6 +47,7 @@ const TokenList: React.FC<TokenListProps> = ({
           key={token.id}
           tokenId={token.id}
           nftId={nftId}
+          name={token.name}
           content={token.ipfsContent}
         />
       ))}
