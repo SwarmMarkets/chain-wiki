@@ -99,7 +99,7 @@ const TokenPage = () => {
         )}
         <Box width='900px'>
           <Text.h1 size='24px' weight={700}>
-            {token?.ipfsContent?.name}
+            {token?.name}
           </Text.h1>
 
           <TabContext value={activeTab}>
