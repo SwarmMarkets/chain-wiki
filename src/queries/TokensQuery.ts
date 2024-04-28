@@ -18,6 +18,8 @@ export const TokensQuery = graphql(`
       id
       updatedAt
       createdAt
+      name
+      voteProposalUri
       uri
       nft {
         name

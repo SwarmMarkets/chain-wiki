@@ -33,13 +33,13 @@ const Header = () => {
   const { nft, loadingNft } = useNFT(nftId, { disableRefetch: true })
   const { t } = useTranslation('layout')
 
-  const showLogo = nftId === nft?.id && nft?.ipfsContent?.logoUrl && !loadingNft
+  const showLogo = nftId === nft?.id && nft?.logoUrl && !loadingNft
 
   return (
     <HeaderContainer as='header'>
       <Flex $gap='60px' alignItems='center'>
         <Link to={generatePath(RoutePaths.NFT, { nftId })}>
-          {showLogo && <Logo src={nft?.ipfsContent?.logoUrl} alt='ChainWiki' />}
+          {showLogo && <Logo src={nft?.logoUrl} alt={nft?.name} />}
           {/* <TextField
           prependIcon='search'
           placeholder={t('header.searchPlaceholder')}

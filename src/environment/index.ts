@@ -1,7 +1,7 @@
-import { mumbai } from "./networks/mumbai";
+import { arbitrumSepolia } from './networks/arbitrum-sepolia'
 
 export const environment = Object.freeze({
-  subgraphURL: mumbai.subgraphURL,
-  contractsAddresses: mumbai.contracts,
-  thirdWebClientId: import.meta.env.VITE_THIRD_WEB_CLIENT_ID
+  subgraphURL: arbitrumSepolia.subgraphURL,
+  contractsAddresses: arbitrumSepolia.contracts,
+  thirdWebClientId: import.meta.env.VITE_THIRD_WEB_CLIENT_ID,
 })

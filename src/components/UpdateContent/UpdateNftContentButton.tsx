@@ -1,6 +1,5 @@
 import { useSX1155NFT } from '@src/hooks/contracts/useSX1155NFT'
 import useModalState from '@src/hooks/useModalState'
-import { IpfsNftContent } from '@src/shared/types/ipfs'
 import { generateIpfsNftContent } from '@src/shared/utils/ipfs'
 import { useStorageUpload } from '@thirdweb-dev/react'
 import { useCallback, useMemo, useState } from 'react'
@@ -10,10 +9,18 @@ import UpdateContentModal, { Steps } from './UpdateContentModal'
 import { ChildrenProp } from '@src/shared/types/common-props'
 import useNFT from '@src/hooks/subgraph/useNFT'
 import { unifyAddressToId } from '@src/shared/utils'
+import { IpfsNftContent } from '@src/shared/types/ipfs'
+
+export interface NFTContentToUpdate {
+  logoUrl?: string | null
+  name?: string | null
+  indexPagesUri?: string | null
+  ipfsContent?: Partial<IpfsNftContent>
+}
 
 interface UpdateNftContentButtonProps extends ButtonProps, ChildrenProp {
   nftAddress: string
-  nftContentToUpdate: Partial<IpfsNftContent>
+  nftContentToUpdate: NFTContentToUpdate
   onSuccess?(): void
 }
 
@@ -48,8 +55,7 @@ const UpdateNftContentButton: React.FC<UpdateNftContentButtonProps> = ({
     const ipfsContent = generateIpfsNftContent({
       htmlContent: '',
       ...nft?.ipfsContent,
-      ...nftContentToUpdate,
-      name: nft.name,
+      ...nftContentToUpdate.ipfsContent,
       address: unifyAddressToId(nft.id),
     })
     const filesToUpload = [ipfsContent]
@@ -59,19 +65,31 @@ const UpdateNftContentButton: React.FC<UpdateNftContentButtonProps> = ({
   }
 
   const signTransaction = useCallback(
-    (uri: string) => {
-      return call('setContractUri', [uri])
+    (uri?: string) => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { ipfsContent, ...exceptIpfsContent } = nftContentToUpdate
+
+      const nftUpdate = {
+        ...exceptIpfsContent,
+        uri,
+      }
+
+      const nftUpdateJson = JSON.stringify(nftUpdate)
+
+      return call('setContractUri', [nftUpdateJson])
     },
-    [call]
+    [call, nftContentToUpdate]
   )
 
   const startContentUpdate = async () => {
     open()
-    const uri = await uploadContent()
-    if (!uri) return
+    let uri
+    if (nftContentToUpdate.ipfsContent?.htmlContent) {
+      uri = await uploadContent()
+      if (!uri) return
 
-    setIpfsUri(uri)
-
+      setIpfsUri(uri)
+    }
     const res = await signTransaction(uri)
 
     if (res) {

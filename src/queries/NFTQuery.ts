@@ -9,6 +9,8 @@ export const NFTQuery = graphql(`
       updatedAt
       createdAt
       uri
+      indexPagesUri
+      logoUrl
       creator
       admins
       editors

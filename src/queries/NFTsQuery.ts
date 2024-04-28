@@ -2,8 +2,8 @@ import { graphql } from './gql'
 
 export const NFTsQuery = graphql(`
   query NFTs(
-    $limit: Int,
-    $skip: Int = 0,
+    $limit: Int
+    $skip: Int = 0
     $filter: NFT_filter
     $orderBy: NFT_orderBy
     $orderDirection: OrderDirection
@@ -22,6 +22,8 @@ export const NFTsQuery = graphql(`
       updatedAt
       creator
       uri
+      indexPagesUri
+      logoUrl
       admins
       editors
     }

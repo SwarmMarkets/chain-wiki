@@ -7,10 +7,13 @@ import { Editor as TinyEditorType } from 'tinymce'
 import RequirePermissions from '../common/RequirePermissions'
 import Flex from '../ui/Flex'
 import EditorSkeleton from './EditorSkeleton'
-import UpdateTokenContentButton from '../UpdateContent/UpdateTokenContentButton'
-import UpdateNftContentButton from '../UpdateContent/UpdateNftContentButton'
+import UpdateTokenContentButton, {
+  TokenContentToUpdate,
+} from '../UpdateContent/UpdateTokenContentButton'
+import UpdateNftContentButton, {
+  NFTContentToUpdate,
+} from '../UpdateContent/UpdateNftContentButton'
 import { findElementWithMatchedDataId } from './utils'
-import { IpfsNftContent, IpfsTokenContent } from '@src/shared/types/ipfs'
 
 interface EditorProps {
   name?: string
@@ -92,15 +95,19 @@ const Editor: React.FC<EditorProps> = ({
     event.element.removeAttribute('data-id')
   }
 
-  const tokenContentToUpdate: Partial<IpfsTokenContent> = {
-    htmlContent: currContent,
-  }
-  name && (tokenContentToUpdate.name = name)
+  const differentContent = initialContent !== currContent ? currContent : ''
 
-  const nftContentToUpdate: Partial<IpfsNftContent> = {
-    htmlContent: currContent,
+  const tokenContentToUpdate: TokenContentToUpdate = {
+    ipfsContent: { htmlContent: differentContent },
+    name,
   }
-  logoUrl && (nftContentToUpdate.logoUrl = logoUrl)
+
+  const nftContentToUpdate: NFTContentToUpdate = {
+    ipfsContent: {
+      htmlContent: differentContent,
+    },
+    logoUrl,
+  }
 
   return (
     <>

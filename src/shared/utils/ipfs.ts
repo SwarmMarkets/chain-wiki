@@ -8,7 +8,6 @@ import { VoteProposal } from '../types/vote-proposal'
 import { isObject } from './isObject'
 
 const initialNftContent: IpfsNftContent = {
-  name: '',
   address: '',
   htmlContent: '',
 }
@@ -19,11 +18,8 @@ const initialAttestationContent: IpfsAttestationContent = {
 
 export const generateIpfsNftContent = (args: IpfsNftContent) => {
   const content: IpfsNftContent = {
-    name: args.name,
     address: args.address,
     htmlContent: args.htmlContent,
-    indexPages: args.indexPages,
-    logoUrl: args.logoUrl,
   }
 
   return JSON.stringify(content)
@@ -32,10 +28,8 @@ export const generateIpfsNftContent = (args: IpfsNftContent) => {
 export const generateIpfsTokenContent = (args: IpfsTokenContent) => {
   const content: IpfsTokenContent = {
     tokenId: args.tokenId,
-    name: args.name,
     address: args.address,
     htmlContent: args.htmlContent,
-    voteProposal: args.voteProposal,
   }
 
   return JSON.stringify(content)
