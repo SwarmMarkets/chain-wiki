@@ -8,6 +8,7 @@ import Checkbox from '@src/components/Checkbox'
 import Card from '@src/components/ui/Card'
 import Flex from '@src/components/ui/Flex'
 import Text from '@src/components/ui/Text'
+import dayjs from 'dayjs'
 
 interface HistoryNftListProps {
   onSelectNfts: (nfts: NfturiUpdatesQuery['nfturiupdates']) => void
@@ -96,7 +97,9 @@ const HistoryNftList: React.FC<HistoryNftListProps> = ({
               }
               onChange={() => onChangeCheckbox(item)}
             />
-            <Text ml='20px'>{new Date(+item.updatedAt * 1000).toLocaleString()} </Text>
+            <Text ml='20px'>
+              {dayjs(+item.updatedAt * 1000).format('MMMM D, YYYY h:mm A')}
+            </Text>
           </Card>
         ))}
     </Flex>
