@@ -2,7 +2,7 @@ import { useSX1155NFT } from '@src/hooks/contracts/useSX1155NFT'
 import useModalState from '@src/hooks/useModalState'
 import { generateIpfsNftContent } from '@src/shared/utils/ipfs'
 import { useStorageUpload } from '@thirdweb-dev/react'
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useMemo, useState, MouseEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import Button, { ButtonProps } from '../ui/Button/Button'
 import UpdateContentModal, { Steps } from './UpdateContentModal'
@@ -81,7 +81,9 @@ const UpdateNftContentButton: React.FC<UpdateNftContentButtonProps> = ({
     [call, nftContentToUpdate]
   )
 
-  const startContentUpdate = async () => {
+  const startContentUpdate = async (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault()
+    e.stopPropagation()
     open()
     let uri
     if (nftContentToUpdate.ipfsContent?.htmlContent) {

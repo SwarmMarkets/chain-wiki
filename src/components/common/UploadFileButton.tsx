@@ -1,7 +1,7 @@
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
 import LoadingButton from '../ui/Button/LoadingButton'
 import { storage } from '@src/firebase'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ButtonProps } from '../ui/Button/Button'
 import { ChildrenProp } from '@src/shared/types/common-props'
@@ -15,6 +15,7 @@ const UploadFileButton: React.FC<UploadFileButtonProps> = ({
   children,
   ...props
 }) => {
+  const inputRef = useRef<HTMLInputElement>(null)
   const { t } = useTranslation('buttons')
   const [loading, setLoading] = useState(false)
 
@@ -42,7 +43,7 @@ const UploadFileButton: React.FC<UploadFileButtonProps> = ({
   return (
     <>
       <input
-        id='fileInput'
+        ref={inputRef}
         type='file'
         onChange={handleFileChange}
         style={{ display: 'none' }} // Скрытый элемент визуально
@@ -52,7 +53,7 @@ const UploadFileButton: React.FC<UploadFileButtonProps> = ({
         {...props}
         loading={loading}
         type='button'
-        onClick={() => document.getElementById('fileInput')?.click()}
+        onClick={() => inputRef.current?.click()}
       >
         {children || t('chooseFile')}
       </LoadingButton>

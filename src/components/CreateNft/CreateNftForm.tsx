@@ -12,38 +12,27 @@ import {
   TextFieldBox,
   TextFieldTitle,
 } from './styled-components'
-
 import useCreateNftForm, {
   CreateNftFormInputs,
 } from '@src/hooks/forms/useCreateNftForm'
-import {
-  generateIpfsNftContent,
-  generateSymbolFromString,
-} from '@src/shared/utils'
-import { useAddress, useStorageUpload } from '@thirdweb-dev/react'
-import UploadFileButton from '../common/UploadFileButton'
+import { generateSymbolFromString } from '@src/shared/utils'
+import { useAddress } from '@thirdweb-dev/react'
 import { useState } from 'react'
-import { IpfsNftContent } from '@src/shared/types/ipfs'
-
+import UploadFileButton from '../common/UploadFileButton'
 interface CreateNftFormProps {
   onSuccessSubmit(): void
 }
 
 const CreateNftForm: React.FC<CreateNftFormProps> = ({ onSuccessSubmit }) => {
   const { t } = useTranslation('nft', { keyPrefix: 'createNft' })
-
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useCreateNftForm()
-
   const { call, txLoading } = useSX1155NFTFactory()
   const account = useAddress()
-  const { mutateAsync: upload, isLoading: ipfsLoading } = useStorageUpload()
-
   const [uploadedLogoUrl, setUploadedLogoUrl] = useState<string | null>(null)
-
   const onSubmit: SubmitHandler<CreateNftFormInputs> = async (data, e) => {
     e?.preventDefault()
     if (!account) return
@@ -52,23 +41,12 @@ const CreateNftForm: React.FC<CreateNftFormProps> = ({ onSuccessSubmit }) => {
     const symbol = generateSymbolFromString(name)
     const admin = account
     const editor = account
-
-    const ipfsData: IpfsNftContent = {
-      htmlContent: '',
-      name,
-      address: '',
-    }
-    if (uploadedLogoUrl) {
-      ipfsData.logoUrl = uploadedLogoUrl
-    }
-
-    const ipfsContent = generateIpfsNftContent(ipfsData)
-    const filesToUpload = [ipfsContent]
-    const uris = await upload({ data: filesToUpload })
-    const uri = uris[0]
+    const jsonData = JSON.stringify({
+      logoUrl: uploadedLogoUrl,
+    })
 
     try {
-      await call('deployNFTContract', [name, symbol, uri, admin, editor])
+      await call('deployNFTContract', [name, symbol, jsonData, admin, editor])
       onSuccessSubmit()
     } catch {
       // TODO: Add error handler
@@ -77,16 +55,14 @@ const CreateNftForm: React.FC<CreateNftFormProps> = ({ onSuccessSubmit }) => {
 
   const handleUploadLogo = (url: string) => {
     setUploadedLogoUrl(url)
+        
   }
-
-  const isLoading = txLoading || ipfsLoading
 
   return (
     <Box pt={4} pb={2} px={2}>
       <Text.h1 mb={5} textAlign='center'>
         {t('title')}
       </Text.h1>
-
       <Flex as='form' flexDirection='column' onSubmit={handleSubmit(onSubmit)}>
         <TextFieldBox>
           <TextFieldTitle>{t('form.name')}</TextFieldTitle>
@@ -117,7 +93,7 @@ const CreateNftForm: React.FC<CreateNftFormProps> = ({ onSuccessSubmit }) => {
             error={errors.uri?.message}
           />
         </TextFieldBox> */}
-        <LoadingButton type='submit' loading={isLoading}>
+        <LoadingButton type='submit' loading={txLoading}>
           {t('form.submit')}
         </LoadingButton>
       </Flex>
