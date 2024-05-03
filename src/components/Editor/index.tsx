@@ -107,6 +107,7 @@ const Editor: React.FC<EditorProps> = ({
       htmlContent: differentContent,
     },
     logoUrl,
+    name,
   }
 
   return (
