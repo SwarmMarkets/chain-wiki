@@ -8,11 +8,13 @@ import { ChildrenProp } from '@src/shared/types/common-props'
 
 interface UploadFileButtonProps extends ButtonProps, ChildrenProp {
   onUpload: (url: string) => void
+  isLoading?: boolean,
 }
 
 const UploadFileButton: React.FC<UploadFileButtonProps> = ({
   onUpload,
   children,
+  isLoading,
   ...props
 }) => {
   const inputRef = useRef<HTMLInputElement>(null)
@@ -51,7 +53,7 @@ const UploadFileButton: React.FC<UploadFileButtonProps> = ({
       />
       <LoadingButton
         {...props}
-        loading={loading}
+        loading={loading || isLoading}
         type='button'
         onClick={() => inputRef.current?.click()}
       >

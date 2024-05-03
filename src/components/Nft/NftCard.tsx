@@ -11,6 +11,7 @@ import Flex from '../ui/Flex'
 import Icon from '../ui/Icon'
 import Text from '../ui/Text'
 import { StyledCard, Title } from './styled-components'
+import useNFTUpdate from '@src/hooks/useNFTUpdate'
 
 interface NftCardProps {
   nft: NFTQueryFullData
@@ -26,6 +27,7 @@ const NftCard: React.FC<NftCardProps> = ({ nft, showRole = false }) => {
   const { t } = useTranslation(['nft', 'nfts'])
   const theme = useTheme()
   const account = useAddress()
+  const { signTransaction, tx } = useNFTUpdate(nft.id)
   const roles = useMemo(() => {
     if (!showRole) return
     const isAdmin = nft.admins.some(address =>
@@ -45,7 +47,9 @@ const NftCard: React.FC<NftCardProps> = ({ nft, showRole = false }) => {
     return roles
   }, [account, nft.admins, nft.editors, t, showRole])
 
-  const handleUploadLogo = () => {}
+  const handleUploadLogo = async (url: string) => {
+    await signTransaction({ logoUrl: url })
+  }
 
   return (
     <StyledCard minHeight={200}>
@@ -69,6 +73,7 @@ const NftCard: React.FC<NftCardProps> = ({ nft, showRole = false }) => {
             >
               <RequirePermissions nftAddress={nft.id} canUpdateContent>
                 <UploadFileButton
+                  isLoading={tx.txLoading}
                   size='small'
                   mt={2}
                   onUpload={handleUploadLogo}
