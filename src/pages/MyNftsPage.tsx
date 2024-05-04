@@ -3,6 +3,7 @@ import Pagination from '@src/components/common/Pagination'
 import Box from '@src/components/ui/Box'
 import ButtonGroup from '@src/components/ui/Button/ButtonGroup'
 import useNFTs from '@src/hooks/subgraph/useNFTs'
+import { Nft_OrderBy, OrderDirection } from '@src/queries/gql/graphql'
 import { NftButtonOptions } from '@src/shared/enums/nfts/button-options'
 import { ButtonOption } from '@src/shared/types/ui-components'
 import { useAddress } from '@thirdweb-dev/react'
@@ -26,6 +27,8 @@ const MyNftsPage = () => {
           { editors_contains_nocase: [address] },
         ],
       },
+      orderBy: Nft_OrderBy.CreatedAt,
+      orderDirection: OrderDirection.Desc,
       skip,
       limit: PAGE_LIMIT,
     },
