@@ -8,7 +8,7 @@ import { ChildrenProp } from '@src/shared/types/common-props'
 
 interface UploadFileButtonProps extends ButtonProps, ChildrenProp {
   onUpload: (url: string) => void
-  isLoading?: boolean,
+  isLoading?: boolean
 }
 
 const UploadFileButton: React.FC<UploadFileButtonProps> = ({
@@ -48,14 +48,18 @@ const UploadFileButton: React.FC<UploadFileButtonProps> = ({
         ref={inputRef}
         type='file'
         onChange={handleFileChange}
-        style={{ display: 'none' }} // Скрытый элемент визуально
-        accept='.png, .jpg, .jpeg' // Принимаемые типы файлов
+        onClick={e => e.stopPropagation()}
+        style={{ display: 'none' }}
+        accept='.png, .jpg, .jpeg'
       />
       <LoadingButton
         {...props}
         loading={loading || isLoading}
         type='button'
-        onClick={() => inputRef.current?.click()}
+        onClick={e => {
+          e.stopPropagation()
+          inputRef.current?.click()
+        }}
       >
         {children || t('chooseFile')}
       </LoadingButton>
