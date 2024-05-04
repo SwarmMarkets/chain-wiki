@@ -21,9 +21,9 @@
   "actions": {
     "cancel": "Cancel"
   },
-   "edit": {
+  "edit": {
     "name": {
-      "label": "Page name:",
+      "label": "Site name:",
       "placeholder": "Enter name"
     }
   }
