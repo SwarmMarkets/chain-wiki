@@ -10,10 +10,10 @@ import EditorSkeleton from './EditorSkeleton'
 import UpdateTokenContentButton, {
   TokenContentToUpdate,
 } from '../UpdateContent/UpdateTokenContentButton'
-import UpdateNftContentButton, {
-  NFTContentToUpdate,
-} from '../UpdateContent/UpdateNftContentButton'
+import UpdateNftContentButton from '../UpdateContent/UpdateNftContentButton'
 import { findElementWithMatchedDataId } from './utils'
+import { NFTContentToUpdate } from '@src/hooks/useNFTUpdate'
+import { IpfsNftContent } from '@src/shared/types/ipfs'
 
 interface EditorProps {
   name?: string
@@ -103,10 +103,10 @@ const Editor: React.FC<EditorProps> = ({
   }
 
   const nftContentToUpdate: NFTContentToUpdate = {
-    ipfsContent: {
-      htmlContent: differentContent,
-    },
     logoUrl,
+  }
+  const ipfsNftToUpdate: Partial<IpfsNftContent> = {
+    htmlContent: differentContent,
   }
 
   return (
@@ -158,6 +158,7 @@ const Editor: React.FC<EditorProps> = ({
                 onSuccess={onSuccessUpdate}
                 nftAddress={nftAddress}
                 nftContentToUpdate={nftContentToUpdate}
+                ipfsNftToUpdate={ipfsNftToUpdate}
               />
             )}
           </RequirePermissions>

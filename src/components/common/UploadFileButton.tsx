@@ -1,20 +1,23 @@
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
 import LoadingButton from '../ui/Button/LoadingButton'
 import { storage } from '@src/firebase'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ButtonProps } from '../ui/Button/Button'
 import { ChildrenProp } from '@src/shared/types/common-props'
 
 interface UploadFileButtonProps extends ButtonProps, ChildrenProp {
   onUpload: (url: string) => void
+  isLoading?: boolean
 }
 
 const UploadFileButton: React.FC<UploadFileButtonProps> = ({
   onUpload,
   children,
+  isLoading,
   ...props
 }) => {
+  const inputRef = useRef<HTMLInputElement>(null)
   const { t } = useTranslation('buttons')
   const [loading, setLoading] = useState(false)
 
@@ -42,17 +45,22 @@ const UploadFileButton: React.FC<UploadFileButtonProps> = ({
   return (
     <>
       <input
-        id='fileInput'
+        ref={inputRef}
         type='file'
         onChange={handleFileChange}
-        style={{ display: 'none' }} // Скрытый элемент визуально
-        accept='.png, .jpg, .jpeg' // Принимаемые типы файлов
+        onClick={e => e.stopPropagation()}
+        style={{ display: 'none' }}
+        accept='.png, .jpg, .jpeg'
       />
       <LoadingButton
         {...props}
-        loading={loading}
+        loading={loading || isLoading}
         type='button'
-        onClick={() => document.getElementById('fileInput')?.click()}
+        onClick={e => {
+          e.stopPropagation()
+          e.preventDefault()
+          inputRef.current?.click()
+        }}
       >
         {children || t('chooseFile')}
       </LoadingButton>
