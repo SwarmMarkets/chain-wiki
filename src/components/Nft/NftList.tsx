@@ -1,5 +1,4 @@
 import RoutePaths from '@src/shared/enums/routes-paths'
-import { NFTQueryFullData } from '@src/shared/types/ipfs'
 import React from 'react'
 import { generatePath } from 'react-router-dom'
 import styled from 'styled-components'
@@ -7,10 +6,11 @@ import AddNftCard from './AddNftCard'
 import NftCard from './NftCard'
 import NftSkeletonList from './NftSkeletonList'
 import { StyledLink } from './styled-components'
+import { NfTsQuery } from '@src/queries/gql/graphql'
 
 interface NftListProps {
   loading: boolean
-  nfts?: NFTQueryFullData[] | null
+  nfts?: NfTsQuery['nfts'] | null
   addNftCard?: boolean
   showRole?: boolean
   skeletonLength?: number
