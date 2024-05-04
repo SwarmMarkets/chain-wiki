@@ -54,36 +54,25 @@ const NftCard: React.FC<NftCardProps> = ({ nft, showRole = false }) => {
   return (
     <StyledCard minHeight={200}>
       <Flex flexDirection='column' justifyContent='space-between' height='100%'>
-        <div>
-          <Flex alignItems='center' $gap='3px'>
-            <Icon cursor='pointer' name='document' size={40} />
-            <Title>{nft.name}</Title>
-          </Flex>
+        <Flex alignItems='center' $gap='3px'>
+          <Icon cursor='pointer' name='document' size={40} />
+          <Title>{nft.name}</Title>
+        </Flex>
+        <Flex justifyContent='center' alignItems='center'>
           {nft.logoUrl ? (
-            <Flex justifyContent='center' alignItems='center' height='100%'>
-              <Logo src={nft?.logoUrl} alt={nft?.name} />
-            </Flex>
+            <Logo src={nft?.logoUrl} alt={nft?.name} />
           ) : (
-            <Flex
-              height='100%'
-              flexDirection='column'
-              $gap='10px'
-              alignItems='center'
-              justifyContent='center'
-            >
-              <RequirePermissions nftAddress={nft.id} canUpdateContent>
-                <UploadFileButton
-                  isLoading={tx.txLoading}
-                  size='small'
-                  mt={2}
-                  onUpload={handleUploadLogo}
-                >
-                  {t('messages.addLogo')}
-                </UploadFileButton>
-              </RequirePermissions>
-            </Flex>
+            <RequirePermissions nftAddress={nft.id} canUpdateContent>
+              <UploadFileButton
+                isLoading={tx.txLoading}
+                size='small'
+                onUpload={handleUploadLogo}
+              >
+                {t('messages.addLogo')}
+              </UploadFileButton>
+            </RequirePermissions>
           )}
-        </div>
+        </Flex>
         <Flex flexDirection='column' alignItems='end' pt={10} $gap='2px'>
           <ExplorerLink iconSize={10} type='address' hash={nft.id}>
             <Text
