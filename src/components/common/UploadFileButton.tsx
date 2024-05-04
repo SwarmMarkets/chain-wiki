@@ -58,6 +58,7 @@ const UploadFileButton: React.FC<UploadFileButtonProps> = ({
         type='button'
         onClick={e => {
           e.stopPropagation()
+          e.preventDefault()
           inputRef.current?.click()
         }}
       >
