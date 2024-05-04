@@ -104,6 +104,7 @@ const Editor: React.FC<EditorProps> = ({
 
   const nftContentToUpdate: NFTContentToUpdate = {
     logoUrl,
+    name,
   }
   const ipfsNftToUpdate: Partial<IpfsNftContent> = {
     htmlContent: differentContent,
