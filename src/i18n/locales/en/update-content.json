@@ -20,5 +20,11 @@
   "success": "Your content has been updated on IPFS and the new hash has been recorded on the blockchain.",
   "actions": {
     "cancel": "Cancel"
+  },
+  "edit": {
+    "name": {
+      "label": "Site name:",
+      "placeholder": "Enter name"
+    }
   }
 }
