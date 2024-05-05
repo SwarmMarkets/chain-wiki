@@ -51,7 +51,12 @@ const CreateTokenCard: React.FC<CreateTokenCardProps> = ({ nftAddress }) => {
           $gap='5px'
         >
           <Box height={50}>
-            <Icon name={icon} size={50} color={theme.palette.borderPrimary} />
+            <Icon
+              name={icon}
+              size={50}
+              cursor='pointer'
+              color={theme.palette.borderPrimary}
+            />
           </Box>
           <Text mt={2} color={theme.palette.borderPrimary}>
             {t('addToken')}
