@@ -99,12 +99,12 @@ const Editor: React.FC<EditorProps> = ({
 
   const tokenContentToUpdate: TokenContentToUpdate = {
     ipfsContent: { htmlContent: differentContent },
-    name,
+    ...(name && { name }),
   }
 
   const nftContentToUpdate: NFTContentToUpdate = {
     logoUrl,
-    name,
+    ...(name && { name }),
   }
   const ipfsNftToUpdate: Partial<IpfsNftContent> = {
     htmlContent: differentContent,
