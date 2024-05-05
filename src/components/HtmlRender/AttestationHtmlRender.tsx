@@ -35,7 +35,7 @@ const AttestationHtmlRender = forwardRef<
       const elementCopy = element.cloneNode(true) as HTMLElement
       elementCopy.lastChild?.remove()
       onSelectSection({
-        id: elementCopy.getAttribute('data-id'),
+        id: elementCopy.getAttribute('id'),
         htmlContent: elementCopy.outerHTML,
       })
     }

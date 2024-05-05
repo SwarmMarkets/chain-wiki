@@ -11,7 +11,6 @@ import UpdateTokenContentButton, {
   TokenContentToUpdate,
 } from '../UpdateContent/UpdateTokenContentButton'
 import UpdateNftContentButton from '../UpdateContent/UpdateNftContentButton'
-import { findElementWithMatchedDataId } from './utils'
 import { NFTContentToUpdate } from '@src/hooks/useNFTUpdate'
 import { IpfsNftContent } from '@src/shared/types/ipfs'
 
@@ -75,36 +74,16 @@ const Editor: React.FC<EditorProps> = ({
     setEditorInit(true)
   }
 
-  const handleNodeChange = (event: {
-    element: Element
-    parents: Node[]
-    selectionChange?: boolean
-  }) => {
-    const editorBody = editorRef.current?.editor?.getBody()
-    if (!editorBody) return
-
-    const bodyChildren = Array.from(editorBody?.children)
-
-    const matchedElement = findElementWithMatchedDataId(
-      bodyChildren,
-      event.element
-    )
-
-    if (matchedElement === event.element) return
-
-    event.element.removeAttribute('data-id')
-  }
-
   const differentContent = initialContent !== currContent ? currContent : ''
 
   const tokenContentToUpdate: TokenContentToUpdate = {
     ipfsContent: { htmlContent: differentContent },
-    name,
+    ...(name && { name }),
   }
 
   const nftContentToUpdate: NFTContentToUpdate = {
     logoUrl,
-    name,
+    ...(name && { name }),
   }
   const ipfsNftToUpdate: Partial<IpfsNftContent> = {
     htmlContent: differentContent,
@@ -115,7 +94,6 @@ const Editor: React.FC<EditorProps> = ({
       <EditorWrapper $editorInit={editorInit}>
         <TinyEditor
           ref={editorRef}
-          onNodeChange={handleNodeChange}
           apiKey='osr60izccxxfs99zbrmmbiqk16ux1fas0muug1e2hvh16kgg'
           onEditorChange={onEditorChange}
           onInit={onInitEdiror}

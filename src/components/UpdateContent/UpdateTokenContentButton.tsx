@@ -71,8 +71,8 @@ const UpdateTokenContentButton: React.FC<UpdateTokenContentButtonProps> = ({
 
       for (let i = 0; i < children.length; i++) {
         const item = children[i]
-        if (!item.hasAttribute('data-id')) {
-          item.setAttribute('data-id', getUniqueId())
+        if (!item.hasAttribute('id')) {
+          item.setAttribute('id', getUniqueId())
         }
       }
       content.htmlContent = contentElem.innerHTML
