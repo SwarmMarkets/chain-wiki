@@ -1,48 +1,28 @@
 import { useTranslation } from 'react-i18next'
 import Card from '../ui/Card'
-
 import Text from '../ui/Text'
 import styled, { useTheme } from 'styled-components'
 import Icon from '../ui/Icon'
 import Flex from '../ui/Flex'
-import { useSX1155NFT } from '@src/hooks/contracts/useSX1155NFT'
-import { useAddress } from '@thirdweb-dev/react'
 import Box from '../ui/Box'
+import CreateTokenModal from '../CreateToken/CreateTokenModal'
+import useModalState from '@src/hooks/useModalState'
 
-interface StyledCardProps {
-  $disabled: boolean
-}
-
-const StyledCard = styled(Card)<StyledCardProps>`
+const StyledCard = styled(Card)`
   cursor: pointer;
-  ${({ $disabled }) => $disabled && 'opacity: 0.4; filter: alpha(opacity=40);'}
 `
-
 interface CreateTokenCardProps {
   nftAddress: string
 }
-
 const CreateTokenCard: React.FC<CreateTokenCardProps> = ({ nftAddress }) => {
   const { t } = useTranslation('token')
   const theme = useTheme()
 
-  const address = useAddress()
-  const { call, txLoading } = useSX1155NFT(nftAddress)
-
-  const createNFTToken = () => {
-    if (!address) return
-    const to = address
-    const amount = 1
-    const tokenURI = ''
-    const data = '0x'
-    return call('mint', [to, amount, tokenURI, data])
-  }
-
-  const icon = txLoading ? 'loader' : 'plus'
+  const { isOpen, open, close } = useModalState(false)
 
   return (
     <>
-      <StyledCard onClick={createNFTToken} $disabled={txLoading}>
+      <StyledCard onClick={open}>
         <Flex
           flexDirection='column'
           justifyContent='center'
@@ -52,7 +32,7 @@ const CreateTokenCard: React.FC<CreateTokenCardProps> = ({ nftAddress }) => {
         >
           <Box height={50}>
             <Icon
-              name={icon}
+              name={'plus'}
               size={50}
               cursor='pointer'
               color={theme.palette.borderPrimary}
@@ -63,6 +43,7 @@ const CreateTokenCard: React.FC<CreateTokenCardProps> = ({ nftAddress }) => {
           </Text>
         </Flex>
       </StyledCard>
+      <CreateTokenModal isOpen={isOpen} onClose={close} />
     </>
   )
 }

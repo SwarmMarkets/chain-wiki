@@ -19,9 +19,9 @@ const TokenCard: React.FC<TokenCardProps> = ({
   content,
   name,
 }) => {
-  if (!content) {
-    return <TokenEmptyCard tokenId={tokenId} nftId={nftId} />
-  }
+  // if (!content) {
+  //   return <TokenEmptyCard tokenId={tokenId} nftId={nftId} />
+  // }
 
   return (
     <Card
@@ -31,9 +31,11 @@ const TokenCard: React.FC<TokenCardProps> = ({
       })}
       title={name}
     >
-      <Text.p>
-        {limitString(getTextContentFromHtml(content.htmlContent), 700)}
-      </Text.p>
+      {content && (
+        <Text.p>
+          {limitString(getTextContentFromHtml(content.htmlContent), 700)}
+        </Text.p>
+      )}
     </Card>
   )
 }
