@@ -4,7 +4,6 @@ import RoutePaths from '@src/shared/enums/routes-paths'
 import { IpfsTokenContent } from '@src/shared/types/ipfs'
 import { getTextContentFromHtml, limitString } from '@src/shared/utils'
 import { generatePath } from 'react-router-dom'
-import TokenEmptyCard from './TokenEmptyCard'
 
 interface TokenCardProps {
   tokenId: string
@@ -19,10 +18,6 @@ const TokenCard: React.FC<TokenCardProps> = ({
   content,
   name,
 }) => {
-  // if (!content) {
-  //   return <TokenEmptyCard tokenId={tokenId} nftId={nftId} />
-  // }
-
   return (
     <Card
       to={generatePath(RoutePaths.NFT + RoutePaths.TOKEN, {

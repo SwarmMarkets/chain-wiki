@@ -5,13 +5,7 @@ import Box from '../ui/Box'
 import LoadingButton from '../ui/Button/LoadingButton'
 import Flex from '../ui/Flex'
 import Text from '../ui/Text'
-import {
-  LogoPreview,
-  LogoWrapper,
-  StyledTextField,
-  TextFieldBox,
-  TextFieldTitle,
-} from './styled-components'
+import { LogoPreview, LogoWrapper } from './styled-components'
 import useCreateNftForm, {
   CreateNftFormInputs,
 } from '@src/hooks/forms/useCreateNftForm'
@@ -19,6 +13,7 @@ import { generateSymbolFromString } from '@src/shared/utils'
 import { useAddress } from '@thirdweb-dev/react'
 import { useState } from 'react'
 import UploadFileButton from '../common/UploadFileButton'
+import TextField from '../ui/TextField/TextField'
 interface CreateNftFormProps {
   onSuccessSubmit(): void
 }
@@ -55,7 +50,6 @@ const CreateNftForm: React.FC<CreateNftFormProps> = ({ onSuccessSubmit }) => {
 
   const handleUploadLogo = (url: string) => {
     setUploadedLogoUrl(url)
-        
   }
 
   return (
@@ -64,35 +58,23 @@ const CreateNftForm: React.FC<CreateNftFormProps> = ({ onSuccessSubmit }) => {
         {t('title')}
       </Text.h1>
       <Flex as='form' flexDirection='column' onSubmit={handleSubmit(onSubmit)}>
-        <TextFieldBox>
-          <TextFieldTitle>{t('form.name')}</TextFieldTitle>
-          <StyledTextField
-            width='100%'
-            inputProps={register('name')}
-            placeholder={t('formPlaceholders.name')}
-            error={errors.name?.message}
-          />
-        </TextFieldBox>
-        <TextFieldBox>
-          <UploadFileButton width='100%' mb={2} onUpload={handleUploadLogo}>
-            {t('form.uploadLogo')}
-          </UploadFileButton>
-          {uploadedLogoUrl && (
-            <LogoWrapper justifyContent='center' p='20px'>
-              <LogoPreview src={uploadedLogoUrl} />
-            </LogoWrapper>
-          )}
-        </TextFieldBox>
-        {/* TODO: implement URI */}
-        {/* <TextFieldBox>
-          <TextFieldTitle>{t('form.uri')}</TextFieldTitle>
-          <StyledTextField
-            width='100%'
-            inputProps={register('uri', { required: true })}
-            placeholder={t('formPlaceholders.uri')}
-            error={errors.uri?.message}
-          />
-        </TextFieldBox> */}
+        <TextField
+          mb='2em'
+          height='40px'
+          label={t('form.name')}
+          width='100%'
+          inputProps={register('name')}
+          placeholder={t('formPlaceholders.name')}
+          error={errors.name?.message}
+        />
+        <UploadFileButton width='100%' mb={2} onUpload={handleUploadLogo}>
+          {t('form.uploadLogo')}
+        </UploadFileButton>
+        {uploadedLogoUrl && (
+          <LogoWrapper justifyContent='center' p='20px'>
+            <LogoPreview src={uploadedLogoUrl} />
+          </LogoWrapper>
+        )}
         <LoadingButton type='submit' loading={txLoading}>
           {t('form.submit')}
         </LoadingButton>

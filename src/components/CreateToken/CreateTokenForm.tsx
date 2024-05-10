@@ -4,17 +4,13 @@ import Box from '../ui/Box'
 import LoadingButton from '../ui/Button/LoadingButton'
 import Flex from '../ui/Flex'
 import Text from '../ui/Text'
-import {
-  StyledTextField,
-  TextFieldBox,
-  TextFieldTitle,
-} from './styled-components'
 import { useAddress } from '@thirdweb-dev/react'
 import useCreateTokenForm, {
   CreateTokenFormInputs,
 } from '@src/hooks/forms/useCreateTokenForm'
 import { useSX1155NFT } from '@src/hooks/contracts/useSX1155NFT'
 import { useParams } from 'react-router-dom'
+import TextField from '../ui/TextField/TextField'
 interface CreateTokenFormProps {
   onSuccessSubmit(): void
 }
@@ -57,15 +53,15 @@ const CreateTokenForm: React.FC<CreateTokenFormProps> = ({
         {t('title')}
       </Text.h1>
       <Flex as='form' flexDirection='column' onSubmit={handleSubmit(onSubmit)}>
-        <TextFieldBox>
-          <TextFieldTitle>{t('form.name')}</TextFieldTitle>
-          <StyledTextField
-            width='100%'
-            inputProps={register('name')}
-            placeholder={t('formPlaceholders.name')}
-            error={errors.name?.message}
-          />
-        </TextFieldBox>
+        <TextField
+          mb='2em'
+          height='40px'
+          label={t('form.name')}
+          width='100%'
+          inputProps={register('name')}
+          placeholder={t('formPlaceholders.name')}
+          error={errors.name?.message}
+        />
         <LoadingButton type='submit' loading={txLoading}>
           {t('form.submit')}
         </LoadingButton>

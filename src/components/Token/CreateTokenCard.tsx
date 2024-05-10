@@ -11,10 +11,7 @@ import useModalState from '@src/hooks/useModalState'
 const StyledCard = styled(Card)`
   cursor: pointer;
 `
-interface CreateTokenCardProps {
-  nftAddress: string
-}
-const CreateTokenCard: React.FC<CreateTokenCardProps> = ({ nftAddress }) => {
+const CreateTokenCard = () => {
   const { t } = useTranslation('token')
   const theme = useTheme()
 
@@ -32,7 +29,7 @@ const CreateTokenCard: React.FC<CreateTokenCardProps> = ({ nftAddress }) => {
         >
           <Box height={50}>
             <Icon
-              name={'plus'}
+              name='plus'
               size={50}
               cursor='pointer'
               color={theme.palette.borderPrimary}
