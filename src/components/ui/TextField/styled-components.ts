@@ -43,6 +43,7 @@ export const StyledInput = styled.input.withConfig({
   transition: box-shadow 0.3s;
   box-sizing: border-box;
   width: 100%;
+  height: 40px
   ${layout}
 `
 

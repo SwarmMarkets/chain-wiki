@@ -60,7 +60,7 @@ const CreateNftForm: React.FC<CreateNftFormProps> = ({ onSuccessSubmit }) => {
       <Flex as='form' flexDirection='column' onSubmit={handleSubmit(onSubmit)}>
         <TextField
           mb='2em'
-          height='40px'
+          height='70px'
           label={t('form.name')}
           width='100%'
           inputProps={register('name')}

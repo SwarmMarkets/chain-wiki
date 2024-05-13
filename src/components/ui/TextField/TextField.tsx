@@ -11,7 +11,6 @@ import {
 import { IconName } from '@src/shared/types/ui-components'
 import Text from '../Text'
 
-
 interface TextFieldProps extends SpaceProps, LayoutProps {
   prependIcon?: IconName
   placeholder?: string
@@ -41,7 +40,7 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
 
     return (
       <TextFieldWrapper {...props}>
-        <Text fontWeight={theme.fontWeights.medium} mb={'0.5em'}>
+        <Text fontWeight={theme.fontWeights.medium} mb='0.5em'>
           {label}
         </Text>
         <InputWrapper>
