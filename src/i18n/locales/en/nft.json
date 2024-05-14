@@ -7,7 +7,7 @@
     "history": "History"
   },
   "createNft": {
-    "title": "Create Site",
+    "title": "Create site",
     "form": {
       "name": "Site name",
       "symbol": "Site symbol",

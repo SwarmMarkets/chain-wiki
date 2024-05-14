@@ -9,6 +9,7 @@ import {
   TextFieldWrapper,
 } from './styled-components'
 import { IconName } from '@src/shared/types/ui-components'
+import Text from '../Text'
 
 interface TextFieldProps extends SpaceProps, LayoutProps {
   prependIcon?: IconName
@@ -17,11 +18,12 @@ interface TextFieldProps extends SpaceProps, LayoutProps {
   value?: string
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void
   inputProps?: React.ParamHTMLAttributes<HTMLInputElement> & LayoutProps
+  label: string
 }
 
 const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
   (
-    { prependIcon, error, inputProps, placeholder, value, ...props },
+    { prependIcon, error, inputProps, placeholder, value, label, ...props },
     forwardedRef
   ) => {
     const theme = useTheme()
@@ -38,6 +40,9 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
 
     return (
       <TextFieldWrapper {...props}>
+        <Text fontWeight={theme.fontWeights.medium} mb='0.5em'>
+          {label}
+        </Text>
         <InputWrapper>
           {prependIcon && (
             <StyledIcon
