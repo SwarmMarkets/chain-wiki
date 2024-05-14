@@ -11,7 +11,6 @@ import useCreateTokenForm, {
 import { useSX1155NFT } from '@src/hooks/contracts/useSX1155NFT'
 import { useParams } from 'react-router-dom'
 import TextField from '../ui/TextField/TextField'
-import { height } from 'styled-system'
 interface CreateTokenFormProps {
   onSuccessSubmit(): void
 }
