@@ -11,6 +11,7 @@ import useCreateTokenForm, {
 import { useSX1155NFT } from '@src/hooks/contracts/useSX1155NFT'
 import { useParams } from 'react-router-dom'
 import TextField from '../ui/TextField/TextField'
+import { height } from 'styled-system'
 interface CreateTokenFormProps {
   onSuccessSubmit(): void
 }
@@ -55,10 +56,9 @@ const CreateTokenForm: React.FC<CreateTokenFormProps> = ({
       <Flex as='form' flexDirection='column' onSubmit={handleSubmit(onSubmit)}>
         <TextField
           mb='2em'
-          height='70px'
           label={t('form.name')}
           width='100%'
-          inputProps={register('name')}
+          inputProps={{ ...register('name'), height: '40px' }}
           placeholder={t('formPlaceholders.name')}
           error={errors.name?.message}
         />
