@@ -49,6 +49,7 @@ export type NftUriUpdatesQueryFullData =
 
 export type TokenQueryFullData = TokenQuery['token'] & {
   ipfsContent?: IpfsTokenContent
+  voteProposal?: IpfsVoteProposal
 }
 
 export type TokensQueryFullData = TokensQuery['tokens'][0] & {

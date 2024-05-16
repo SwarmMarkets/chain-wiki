@@ -14,8 +14,7 @@ const TokenViewActions: React.FC = () => {
   const uploadVoteProposal = useModalState(false)
 
   const nftId = token?.id.split('-')[0]
-
-  const voteProposal = token?.ipfsContent?.voteProposal
+  const voteProposal = token?.voteProposal
 
   const isVotingStarted =
     !!voteProposal?.start && dayjs().isAfter(dayjs.unix(voteProposal.start))

@@ -1,6 +1,6 @@
 import { useSX1155NFT } from '@src/hooks/contracts/useSX1155NFT'
 import useModalState from '@src/hooks/useModalState'
-import { IpfsTokenContent } from '@src/shared/types/ipfs'
+import { IpfsTokenContent, IpfsVoteProposal } from '@src/shared/types/ipfs'
 import { generateIpfsTokenContent } from '@src/shared/utils/ipfs'
 import { useStorageUpload } from '@thirdweb-dev/react'
 import { useCallback, useMemo, useState } from 'react'
@@ -13,7 +13,7 @@ import { getUniqueId } from '@src/shared/utils'
 
 export interface TokenContentToUpdate {
   name?: string | null
-  voteProposalUri?: string | null
+  voteProposal?: IpfsVoteProposal
   ipfsContent?: Partial<IpfsTokenContent>
 }
 
@@ -33,6 +33,7 @@ const UpdateTokenContentButton: React.FC<UpdateTokenContentButtonProps> = ({
   ...buttonProps
 }) => {
   const [ipfsUri, setIpfsUri] = useState('')
+  const [voteProposalUri, setVoteProposalUri] = useState('')
   const { t } = useTranslation('buttons')
   const { isOpen, open, close } = useModalState(false)
 
@@ -84,14 +85,21 @@ const UpdateTokenContentButton: React.FC<UpdateTokenContentButtonProps> = ({
     const firstUri = uris[0]
     return firstUri
   }
+  const uploadVoteProposal = async () => {
+    const filesToUpload = [JSON.stringify(tokenContentToUpdate.voteProposal)]
+    const uris = await upload({ data: filesToUpload })
+    const firstUri = uris[0]
+    return firstUri
+  }
 
   const signTransaction = useCallback(
-    (uri?: string) => {
+    (uri?: string, voteProposalUri?: string) => {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { ipfsContent, ...exceptIpfsContent } = tokenContentToUpdate
+      const { name } = tokenContentToUpdate
       const tokenUpdate = {
-        ...exceptIpfsContent,
+        name,
         uri,
+        voteProposalUri,
       }
 
       const tokenUpdateJson = JSON.stringify(tokenUpdate)
@@ -110,7 +118,14 @@ const UpdateTokenContentButton: React.FC<UpdateTokenContentButtonProps> = ({
 
       setIpfsUri(uri)
     }
-    const res = await signTransaction(uri)
+    let voteProposalUri
+    if (tokenContentToUpdate.voteProposal) {
+      voteProposalUri = await uploadVoteProposal()
+      if (!voteProposalUri) return
+
+      setVoteProposalUri(voteProposalUri)
+    }
+    const res = await signTransaction(uri, voteProposalUri)
 
     if (res) {
       onSuccess?.()
@@ -128,7 +143,7 @@ const UpdateTokenContentButton: React.FC<UpdateTokenContentButtonProps> = ({
         success: !!result,
         loading: txLoading,
         error: isTxError,
-        retry: () => signTransaction(ipfsUri),
+        retry: () => signTransaction(ipfsUri, voteProposalUri),
       },
     }
   }, [
@@ -139,6 +154,7 @@ const UpdateTokenContentButton: React.FC<UpdateTokenContentButtonProps> = ({
     result,
     signTransaction,
     txLoading,
+    voteProposalUri,
   ])
 
   const caption = children || t('updateContent')
