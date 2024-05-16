@@ -18,7 +18,7 @@ interface TextFieldProps extends SpaceProps, LayoutProps {
   value?: string
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void
   inputProps?: React.ParamHTMLAttributes<HTMLInputElement> & LayoutProps
-  label: string
+  label?: string
 }
 
 const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
@@ -40,9 +40,11 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
 
     return (
       <TextFieldWrapper {...props}>
-        <Text fontWeight={theme.fontWeights.medium} mb='0.5em'>
-          {label}
-        </Text>
+        {label && (
+          <Text fontWeight={theme.fontWeights.medium} mb='0.5em'>
+            {label}
+          </Text>
+        )}
         <InputWrapper>
           {prependIcon && (
             <StyledIcon
