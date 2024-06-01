@@ -1,4 +1,5 @@
 export interface ExpandableListItem {
-  id: number;
-  value: string;
+  id: number
+  value: string
+  highlight?: boolean
 }
