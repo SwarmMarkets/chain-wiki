@@ -82,23 +82,16 @@ The root `components` folder contains **feature-specific** folders like `Nft`, `
 This structure is designed to maintain clarity and ease of navigation, ensuring that components are organized in a logical, scalable manner.
 
 components/
-│
-├── Nft/
-│   ├── NftRoleManager/
-│   │   ├── GrantRoleForm.tsx
-│   │   ├── index.tsx
-│   │   ├── RevokeRoleButton.tsx
-│   │   ├── styled-components.ts
-│   │   └── useNFTRoleManager.ts
-│   │
-├── ├── NftView/
-│        ├── index.tsx
-        ├── NftEditView.tsx
-        ├── AddNftCard.tsx
-        ├── NftCard.tsx
-        ├── NftContentSkeleton.tsx
-        ├── NftList.tsx
-        ├── NftSkeleton.tsx
-        ├── NftSkeletonList.tsx
-        └── styled-components.ts
+📁 Nft/
+   📁 NftRoleManager/
+      📄 index.tsx
+      📄 GrantRoleForm.tsx
+      📄 RevokeRoleButton.tsx
+      📄 styled-components.ts
+      📄 useNFTRoleManager.ts
+   📁 NftView/
+      📄 index.tsx
+      📄 NftEditView.tsx
+      📄 NftCard.tsx
+      📄 styled-components.ts
 
