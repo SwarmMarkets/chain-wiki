@@ -9,22 +9,22 @@ Valid folder structure:
 
 components/
 └── Nft/
-    ├── NftRoleManager/
-    │   ├── GrantRoleForm.tsx
-    │   ├── index.tsx
-    │   ├── RevokeRoleButton.tsx
-    │   ├── styled-components.ts
-    │   └── useNFTRoleManager.ts
-    ├── NftView/
-    │   ├── index.tsx
-    │   ├── NftEditView.tsx
-    │   ├── AddNftCard.tsx
-    │   ├── NftCard.tsx
-    │   ├── NftContentSkeleton.tsx
-    │   ├── NftList.tsx
-    │   ├── NftSkeleton.tsx
-    │   ├── NftSkeletonList.tsx
-    │   └── styled-components.ts
+├── NftRoleManager/
+│   ├── GrantRoleForm.tsx
+│   ├── index.tsx
+│   ├── RevokeRoleButton.tsx
+│   ├── styled-components.ts
+│   └── useNFTRoleManager.ts
+├── NftView/
+│   ├── index.tsx
+│   ├── NftEditView.tsx
+│   ├── AddNftCard.tsx
+│   ├── NftCard.tsx
+│   ├── NftContentSkeleton.tsx
+│   ├── NftList.tsx
+│   ├── NftSkeleton.tsx
+│   ├── NftSkeletonList.tsx
+│   └── styled-components.ts
 
 
 ### 1. `ui` Folder
