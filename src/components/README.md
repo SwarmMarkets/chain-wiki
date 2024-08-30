@@ -9,16 +9,16 @@ Valid folder structure:
 
 components/
 📁 Nft/
-   📁 NftRoleManager/
-      📄GrantRoleForm.tsx
-      📄index.tsx
-      📄styled-components.ts
-      📄useNFTRoleManager.ts
-   📁 NftView/
-      📄NftEditView.tsx
-      📄AddNftCard.tsx
-      📄index.tsx
-      📄styled-components.ts
+📁 NftRoleManager/
+📄GrantRoleForm.tsx
+📄index.tsx
+📄styled-components.ts
+📄useNFTRoleManager.ts
+📁 NftView/
+📄NftEditView.tsx
+📄AddNftCard.tsx
+📄index.tsx
+📄styled-components.ts
 
 ### 1. `ui` Folder
 The `ui` folder contains **pure UI components**. These are basic building blocks used across the application. Examples of components in this folder include:
