@@ -14,6 +14,7 @@ export const NFTQuery = graphql(`
       creator
       admins
       editors
+      headerBackground 
     }
   }
 `)
