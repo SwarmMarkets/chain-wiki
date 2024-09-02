@@ -171,6 +171,7 @@ export type Nft = {
   creator: Scalars['Bytes']['output'];
   /** List of addresses with EDITOR role */
   editors: Array<Scalars['Bytes']['output']>;
+  headerBackground: Scalars['String']['output'];
   id: Scalars['ID']['output'];
   indexPagesUri: Scalars['String']['output'];
   logoUrl: Scalars['String']['output'];
@@ -313,6 +314,7 @@ export enum NfturiUpdate_OrderBy {
   Nft = 'nft',
   NftCreatedAt = 'nft__createdAt',
   NftCreator = 'nft__creator',
+  NftHeaderBackground = 'nft__headerBackground',
   NftId = 'nft__id',
   NftIndexPagesUri = 'nft__indexPagesUri',
   NftLogoUrl = 'nft__logoUrl',
@@ -358,6 +360,26 @@ export type Nft_Filter = {
   editors_not?: InputMaybe<Array<Scalars['Bytes']['input']>>;
   editors_not_contains?: InputMaybe<Array<Scalars['Bytes']['input']>>;
   editors_not_contains_nocase?: InputMaybe<Array<Scalars['Bytes']['input']>>;
+  headerBackground?: InputMaybe<Scalars['String']['input']>;
+  headerBackground_contains?: InputMaybe<Scalars['String']['input']>;
+  headerBackground_contains_nocase?: InputMaybe<Scalars['String']['input']>;
+  headerBackground_ends_with?: InputMaybe<Scalars['String']['input']>;
+  headerBackground_ends_with_nocase?: InputMaybe<Scalars['String']['input']>;
+  headerBackground_gt?: InputMaybe<Scalars['String']['input']>;
+  headerBackground_gte?: InputMaybe<Scalars['String']['input']>;
+  headerBackground_in?: InputMaybe<Array<Scalars['String']['input']>>;
+  headerBackground_lt?: InputMaybe<Scalars['String']['input']>;
+  headerBackground_lte?: InputMaybe<Scalars['String']['input']>;
+  headerBackground_not?: InputMaybe<Scalars['String']['input']>;
+  headerBackground_not_contains?: InputMaybe<Scalars['String']['input']>;
+  headerBackground_not_contains_nocase?: InputMaybe<Scalars['String']['input']>;
+  headerBackground_not_ends_with?: InputMaybe<Scalars['String']['input']>;
+  headerBackground_not_ends_with_nocase?: InputMaybe<Scalars['String']['input']>;
+  headerBackground_not_in?: InputMaybe<Array<Scalars['String']['input']>>;
+  headerBackground_not_starts_with?: InputMaybe<Scalars['String']['input']>;
+  headerBackground_not_starts_with_nocase?: InputMaybe<Scalars['String']['input']>;
+  headerBackground_starts_with?: InputMaybe<Scalars['String']['input']>;
+  headerBackground_starts_with_nocase?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['ID']['input']>;
   id_gt?: InputMaybe<Scalars['ID']['input']>;
   id_gte?: InputMaybe<Scalars['ID']['input']>;
@@ -483,6 +505,7 @@ export enum Nft_OrderBy {
   CreatedAt = 'createdAt',
   Creator = 'creator',
   Editors = 'editors',
+  HeaderBackground = 'headerBackground',
   Id = 'id',
   IndexPagesUri = 'indexPagesUri',
   LogoUrl = 'logoUrl',
@@ -893,6 +916,7 @@ export enum TokenUriUpdate_OrderBy {
   Nft = 'nft',
   NftCreatedAt = 'nft__createdAt',
   NftCreator = 'nft__creator',
+  NftHeaderBackground = 'nft__headerBackground',
   NftId = 'nft__id',
   NftIndexPagesUri = 'nft__indexPagesUri',
   NftLogoUrl = 'nft__logoUrl',
@@ -1030,6 +1054,7 @@ export enum Token_OrderBy {
   Nft = 'nft',
   NftCreatedAt = 'nft__createdAt',
   NftCreator = 'nft__creator',
+  NftHeaderBackground = 'nft__headerBackground',
   NftId = 'nft__id',
   NftIndexPagesUri = 'nft__indexPagesUri',
   NftLogoUrl = 'nft__logoUrl',
