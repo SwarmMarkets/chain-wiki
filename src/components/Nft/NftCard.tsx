@@ -1,4 +1,4 @@
-import { NFTQueryFullData } from '@src/shared/types/ipfs'
+import { NFTsQueryFullData } from '@src/shared/types/ipfs'
 import { isSameEthereumAddress } from '@src/shared/utils'
 import { shortenAddress, useAddress } from '@thirdweb-dev/react'
 import React, { useMemo } from 'react'
@@ -14,7 +14,7 @@ import { StyledCard, Title } from './styled-components'
 import useNFTUpdate from '@src/hooks/useNFTUpdate'
 
 interface NftCardProps {
-  nft: NFTQueryFullData
+  nft: NFTsQueryFullData
   showRole?: boolean
 }
 

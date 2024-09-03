@@ -35,7 +35,9 @@ export interface IpfsAttestationContent {
   htmlContent: string
 }
 
-export type NFTsQueryFullData = NfTsQuery['nfts'][0] & IpfsNftContent
+export type NFTsQueryFullData = NfTsQuery['nfts'][0] & {
+  ipfsContent?: IpfsNftContent
+}
 
 export type NFTQueryFullData = NftQuery['nft'] & {
   ipfsContent?: IpfsNftContent

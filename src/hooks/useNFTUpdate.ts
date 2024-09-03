@@ -30,11 +30,9 @@ const useNFTUpdate = (nftAddress: string) => {
   const { nft } = useNFT(nftAddress)
 
   const uploadContent = async (content: Partial<IpfsNftContent>) => {
-    if (!nft || (nft.uri && !nft?.ipfsContent)) return
+    if (!nft || content.htmlContent === undefined) return
     const ipfsContent = generateIpfsNftContent({
-      htmlContent: '',
-      ...nft?.ipfsContent,
-      ...content,
+      htmlContent: content.htmlContent,
       address: unifyAddressToId(nft.id),
     })
     const filesToUpload = [ipfsContent]
