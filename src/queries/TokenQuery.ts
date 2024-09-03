@@ -5,6 +5,8 @@ export const TokenQuery = graphql(`
     token(id: $id) {
       createdAt
       id
+      name
+      voteProposalUri
       updatedAt
       uri
       nft {

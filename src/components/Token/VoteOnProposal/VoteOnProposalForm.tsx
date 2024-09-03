@@ -30,7 +30,7 @@ const VoteOnProposalForm: React.FC<VoteOnProposalFormProps> = ({
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  const voteProposal = token?.ipfsContent?.voteProposal
+  const voteProposal = token?.voteProposal
 
   const onSubmit: SubmitHandler<VoteOnProposalFormInputs> = async (data, e) => {
     e?.preventDefault()

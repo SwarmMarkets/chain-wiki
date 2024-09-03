@@ -7,6 +7,7 @@ import { NfturiUpdate_OrderBy, OrderDirection } from '@src/queries/gql/graphql'
 import HistoryDifferenceSkeleton from '../HistoryDIfferenceSkeleton'
 import { useTranslation } from 'react-i18next'
 import useNFTURIUpdates from '@src/hooks/subgraph/useNFTURIUpdates'
+import dayjs from 'dayjs'
 
 const HistoryNftDifference = () => {
   const location = useLocation()
@@ -42,7 +43,7 @@ const HistoryNftDifference = () => {
               >
                 <span>
                   {t('revisionAsOf')}{' '}
-                  {new Date(+nft.updatedAt * 1000).toLocaleString()}
+                  {dayjs(+nft.updatedAt * 1000).format('MMMM D, YYYY h:mm A')}
                 </span>
               </Flex>
             ))}

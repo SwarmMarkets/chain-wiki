@@ -12,25 +12,26 @@ const useToken = (id: QueryTokenArgs['id']) => {
   const storage = useStorage()
   const [tokenData, setTokenData] = useState<TokenQueryFullData | null>(null)
 
-  const { loading, error, networkStatus, refetch } = useQuery(
-    TokenQuery,
-    {
-      fetchPolicy: 'cache-first',
-      notifyOnNetworkStatusChange: true,
-      pollInterval: POLL_INTERVAL,
-      variables: {
-        id,
-      },
-      async onCompleted(data) {
-        if (data.token?.uri) {
-          const ipfsContent = await storage?.downloadJSON(data.token.uri)
-          setTokenData({ ...data.token, ipfsContent })
-          return
-        }
-        data?.token && setTokenData(data?.token)
-      },
-    }
-  )
+  const { loading, error, networkStatus, refetch } = useQuery(TokenQuery, {
+    fetchPolicy: 'cache-first',
+    notifyOnNetworkStatusChange: true,
+    pollInterval: POLL_INTERVAL,
+    variables: {
+      id,
+    },
+    async onCompleted(data) {
+      if (data.token?.uri || data.token?.voteProposalUri) {
+        const ipfsContent =
+          data.token.uri && (await storage?.downloadJSON(data.token.uri))
+        const voteProposal =
+          data.token.voteProposalUri &&
+          (await storage?.downloadJSON(data.token.voteProposalUri))
+        setTokenData({ ...data.token, ipfsContent, voteProposal })
+        return
+      }
+      data.token && setTokenData(data.token)
+    },
+  })
 
   return useMemo(
     () => ({

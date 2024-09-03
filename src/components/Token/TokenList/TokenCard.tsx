@@ -4,30 +4,33 @@ import RoutePaths from '@src/shared/enums/routes-paths'
 import { IpfsTokenContent } from '@src/shared/types/ipfs'
 import { getTextContentFromHtml, limitString } from '@src/shared/utils'
 import { generatePath } from 'react-router-dom'
-import TokenEmptyCard from './TokenEmptyCard'
 
 interface TokenCardProps {
   tokenId: string
+  name: string
   nftId: string
   content?: IpfsTokenContent
 }
 
-const TokenCard: React.FC<TokenCardProps> = ({ tokenId, nftId, content }) => {
-  if (content?.error || !content) {
-    return <TokenEmptyCard tokenId={tokenId} nftId={nftId} />
-  }
-
+const TokenCard: React.FC<TokenCardProps> = ({
+  tokenId,
+  nftId,
+  content,
+  name,
+}) => {
   return (
     <Card
       to={generatePath(RoutePaths.NFT + RoutePaths.TOKEN, {
         nftId,
         tokenId: tokenId,
       })}
-      title={content.name}
+      title={name}
     >
-      <Text.p>
-        {limitString(getTextContentFromHtml(content.htmlContent), 700)}
-      </Text.p>
+      {content && (
+        <Text.p>
+          {limitString(getTextContentFromHtml(content.htmlContent), 700)}
+        </Text.p>
+      )}
     </Card>
   )
 }

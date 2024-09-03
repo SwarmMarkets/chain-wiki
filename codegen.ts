@@ -1,23 +1,23 @@
-
-import type { CodegenConfig } from '@graphql-codegen/cli';
+import type { CodegenConfig } from '@graphql-codegen/cli'
+import { environment } from './src/environment'
 
 const config: CodegenConfig = {
   overwrite: true,
-  schema: "https://api.studio.thegraph.com/proxy/46523/chain-wiki/version/latest",
-  documents: ["src/**/*.{ts,tsx}"],
+  schema: environment.subgraphURL,
+  documents: ['src/**/*.{ts,tsx}'],
   ignoreNoDocuments: true,
   generates: {
-    "src/queries/gql/": {
-      preset: "client",
-      plugins: []
+    'src/queries/gql/': {
+      preset: 'client',
+      plugins: [],
     },
   },
   config: {
     scalars: {
-      BigInt: "string",
-      Bytes: "string",
-    }
-  }
-};
+      BigInt: 'string',
+      Bytes: 'string',
+    },
+  },
+}
 
-export default config;
+export default config

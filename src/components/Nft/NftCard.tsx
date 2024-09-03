@@ -1,36 +1,33 @@
-import { NFTQueryFullData } from '@src/shared/types/ipfs'
-import {
-  getTextContentFromHtml,
-  isSameEthereumAddress,
-  limitString,
-} from '@src/shared/utils'
+import { NFTsQueryFullData } from '@src/shared/types/ipfs'
+import { isSameEthereumAddress } from '@src/shared/utils'
 import { shortenAddress, useAddress } from '@thirdweb-dev/react'
-import React, { MouseEvent, useMemo } from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useTheme } from 'styled-components'
+import styled, { useTheme } from 'styled-components'
 import ExplorerLink from '../common/ExplorerLink'
+import RequirePermissions from '../common/RequirePermissions'
+import UploadFileButton from '../common/UploadFileButton'
 import Flex from '../ui/Flex'
 import Icon from '../ui/Icon'
 import Text from '../ui/Text'
 import { StyledCard, Title } from './styled-components'
-import Button from '../ui/Button/Button'
-import RequirePermissions from '../common/RequirePermissions'
-import queryString from 'query-string'
-import { NftTabs } from '@src/shared/enums'
-import { generatePath, useNavigate } from 'react-router-dom'
-import RoutePaths from '@src/shared/enums/routes-paths'
+import useNFTUpdate from '@src/hooks/useNFTUpdate'
 
 interface NftCardProps {
-  nft: NFTQueryFullData
+  nft: NFTsQueryFullData
   showRole?: boolean
 }
+
+const Logo = styled.img`
+  max-width: 230px;
+  max-height: 70px;
+`
 
 const NftCard: React.FC<NftCardProps> = ({ nft, showRole = false }) => {
   const { t } = useTranslation(['nft', 'nfts'])
   const theme = useTheme()
-  const navigate = useNavigate()
   const account = useAddress()
-
+  const { signTransaction, tx } = useNFTUpdate(nft.id)
   const roles = useMemo(() => {
     if (!showRole) return
     const isAdmin = nft.admins.some(address =>
@@ -50,55 +47,32 @@ const NftCard: React.FC<NftCardProps> = ({ nft, showRole = false }) => {
     return roles
   }, [account, nft.admins, nft.editors, t, showRole])
 
-  const handleEditNft = (e: MouseEvent<HTMLButtonElement>) => {
-    e.stopPropagation()
-    e.preventDefault()
-
-    const params = queryString.stringify({ tab: NftTabs.EDIT })
-    navigate({
-      pathname: generatePath(RoutePaths.NFT, { nftId: nft.id }),
-      search: `?${params}`,
-    })
+  const handleUploadLogo = async (url: string) => {
+    await signTransaction({ logoUrl: url })
   }
 
   return (
     <StyledCard minHeight={200}>
       <Flex flexDirection='column' justifyContent='space-between' height='100%'>
-        <div>
-          <Flex alignItems='center' $gap='3px'>
-            <Icon cursor='pointer' name='document' size={40} />
-            <Title>{nft.name}</Title>
-          </Flex>
-          {nft.ipfsContent?.htmlContent && (
-            <Text.p mt={10}>
-              {limitString(
-                getTextContentFromHtml(nft.ipfsContent?.htmlContent),
-                300
-              )}
-            </Text.p>
-          )}
-        </div>
-        {!nft.ipfsContent?.htmlContent && (
-          <Flex
-            height='100%'
-            flexDirection='column'
-            $gap='10px'
-            alignItems='center'
-            justifyContent='center'
-          >
-            <Text.p
-              color={theme.palette.gray}
-              fontWeight={theme.fontWeights.medium}
-            >
-              {t('messages.contentNotFound')}
-            </Text.p>
+        <Flex alignItems='center' $gap='3px'>
+          <Icon cursor='pointer' name='document' size={40} />
+          <Title>{nft.name}</Title>
+        </Flex>
+        <Flex justifyContent='center' alignItems='center'>
+          {nft.logoUrl ? (
+            <Logo src={nft?.logoUrl} alt={nft?.name} />
+          ) : (
             <RequirePermissions nftAddress={nft.id} canUpdateContent>
-              <Button size='small' onClick={handleEditNft} mt={2}>
-                {t('messages.editNft')}
-              </Button>
+              <UploadFileButton
+                isLoading={tx.txLoading}
+                size='small'
+                onUpload={handleUploadLogo}
+              >
+                {t('messages.addLogo')}
+              </UploadFileButton>
             </RequirePermissions>
-          </Flex>
-        )}
+          )}
+        </Flex>
         <Flex flexDirection='column' alignItems='end' pt={10} $gap='2px'>
           <ExplorerLink iconSize={10} type='address' hash={nft.id}>
             <Text

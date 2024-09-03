@@ -26,7 +26,6 @@ export const StyledLink = styled(Link)`
 
 export const StyledRolesDescription = styled(Text.p)`
   max-width: 700px;
-  font-size: 1.05rem;
   line-height: 1.3;
   color: ${({ theme }) => theme.palette.gray};
 `
@@ -34,7 +33,6 @@ export const StyledRolesDescription = styled(Text.p)`
 export const StyledContent = styled(Content)`
   max-width: 210px;
   width: 100%;
-  margin-top: 20px;
   word-wrap: break-word;
   overflow-x: hidden;
   overflow-y: auto;
@@ -48,7 +46,6 @@ export const StyledContent = styled(Content)`
 export const StyledIndexPages = styled(IndexPages)`
   max-width: 210px;
   width: 100%;
-  margin-top: 20px;
   word-wrap: break-word;
   overflow-x: hidden;
   overflow-y: auto;

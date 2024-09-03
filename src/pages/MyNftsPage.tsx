@@ -3,6 +3,7 @@ import Pagination from '@src/components/common/Pagination'
 import Box from '@src/components/ui/Box'
 import ButtonGroup from '@src/components/ui/Button/ButtonGroup'
 import useNFTs from '@src/hooks/subgraph/useNFTs'
+import { Nft_OrderBy, OrderDirection } from '@src/queries/gql/graphql'
 import { NftButtonOptions } from '@src/shared/enums/nfts/button-options'
 import { ButtonOption } from '@src/shared/types/ui-components'
 import { useAddress } from '@thirdweb-dev/react'
@@ -18,22 +19,21 @@ const MyNftsPage = () => {
     NftButtonOptions.ALL
   )
   const [skip, setSkip] = useState(0)
-  const { fullNfts, loadingNfts, refetchingNfts, refetch } = useNFTs(
-    {
-      variables: {
-        filter: {
-          or: [
-            { admins_contains_nocase: [address] },
-            { editors_contains_nocase: [address] },
-          ],
-        },
-        skip,
-        limit: PAGE_LIMIT,
+  const { nfts, loadingNfts, refetchingNfts, refetch } = useNFTs({
+    variables: {
+      filter: {
+        or: [
+          { admins_contains_nocase: [address] },
+          { editors_contains_nocase: [address] },
+        ],
       },
-      skip: !address,
+      orderBy: Nft_OrderBy.CreatedAt,
+      orderDirection: OrderDirection.Desc,
+      skip,
+      limit: PAGE_LIMIT,
     },
-    { fetchFullData: true }
-  )
+    skip: !address,
+  })
   const options: ButtonOption[] = [
     { value: NftButtonOptions.ALL, label: t('filter.all') },
     { value: NftButtonOptions.ADMIN, label: t('filter.admin') },
@@ -76,7 +76,7 @@ const MyNftsPage = () => {
   }
 
   const hasPrevious = skip > 0
-  const hasNext = !!(fullNfts ? fullNfts.length >= PAGE_LIMIT : false)
+  const hasNext = !!(nfts ? nfts.length >= PAGE_LIMIT : false)
   const showPagination = hasPrevious || hasNext
 
   return (
@@ -90,7 +90,7 @@ const MyNftsPage = () => {
       />
       <Box mt={20}>
         <NftList
-          nfts={fullNfts}
+          nfts={nfts}
           loading={loading}
           addNftCard
           showRole

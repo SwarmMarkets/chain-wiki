@@ -20,7 +20,7 @@ const VoteOnProposalModal: React.FC<VoteOnProposalModalProps> = ({
   const { t } = useTranslation('token', { keyPrefix: 'voteOnProposal' })
   const theme = useTheme()
 
-  const voteProposal = token?.ipfsContent?.voteProposal
+  const voteProposal = token?.voteProposal
 
   return (
     <Modal {...props} maxWidth='500px' width='100%' minHeight='300px'>

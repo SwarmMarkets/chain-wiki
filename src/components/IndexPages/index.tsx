@@ -1,5 +1,4 @@
 import Box from '@src/components/ui/Box'
-import Divider from '@src/components/ui/Divider'
 import Flex from '@src/components/ui/Flex'
 import Text from '@src/components/ui/Text'
 import RoutePaths from '@src/shared/enums/routes-paths'
@@ -57,10 +56,7 @@ const IndexPages: React.FC<IndexPagesProps> = ({ tokens, nft, ...props }) => {
   if (noTokens || !nft?.id) {
     return (
       <Box {...props}>
-        <Text.h3>{t('indexPages.title')}</Text.h3>
-        <Divider my='10px' />
         <Text.p
-          mt={4}
           textAlign='center'
           fontWeight={theme.fontWeights.medium}
           color={theme.palette.gray}
@@ -84,7 +80,7 @@ const IndexPages: React.FC<IndexPagesProps> = ({ tokens, nft, ...props }) => {
           onChangeCheckbox={onChangeCheckbox}
         />
       ) : (
-        <Flex flexDirection='column' $gap='8px' py='8px'>
+        <Flex flexDirection='column' $gap='8px' pb='8px'>
           {noIndexPages && (
             <Text
               textAlign='center'

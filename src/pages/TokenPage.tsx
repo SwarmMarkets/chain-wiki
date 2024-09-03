@@ -38,7 +38,7 @@ const TokenPage = () => {
   const [contentElem, setContentElem] = useState<HTMLDivElement | null>(null)
 
   const { token, loadingToken, refetchingToken } = useToken(tokenId)
-  const { nft } = useNFT(nftId)
+  const { nft } = useNFT(nftId, { fetchFullData: true })
   const { fullTokens } = useTokens(
     {
       variables: { filter: { nft: unifyAddressToId(nftId) } },
@@ -80,7 +80,7 @@ const TokenPage = () => {
   const breadCrumbs = nft &&
     token && [
       { label: nft.name, to: generatePath(RoutePaths.NFT, { nftId }) },
-      { label: token.ipfsContent?.name ?? '' },
+      { label: token.name || token.id },
     ]
 
   return (
@@ -99,7 +99,7 @@ const TokenPage = () => {
         )}
         <Box width='900px'>
           <Text.h1 size='24px' weight={700}>
-            {token?.ipfsContent?.name}
+            {token?.name}
           </Text.h1>
 
           <TabContext value={activeTab}>

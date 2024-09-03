@@ -1,25 +1,23 @@
-import { useSX1155NFT } from '@src/hooks/contracts/useSX1155NFT'
 import useModalState from '@src/hooks/useModalState'
-import { IpfsNftContent } from '@src/shared/types/ipfs'
-import { generateIpfsNftContent } from '@src/shared/utils/ipfs'
-import { useStorageUpload } from '@thirdweb-dev/react'
-import { useCallback, useMemo, useState } from 'react'
+import useNFTUpdate, { NFTContentToUpdate } from '@src/hooks/useNFTUpdate'
+import { ChildrenProp } from '@src/shared/types/common-props'
+import { MouseEvent, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import Button, { ButtonProps } from '../ui/Button/Button'
 import UpdateContentModal, { Steps } from './UpdateContentModal'
-import { ChildrenProp } from '@src/shared/types/common-props'
-import useNFT from '@src/hooks/subgraph/useNFT'
-import { unifyAddressToId } from '@src/shared/utils'
+import { IpfsNftContent } from '@src/shared/types/ipfs'
 
 interface UpdateNftContentButtonProps extends ButtonProps, ChildrenProp {
   nftAddress: string
-  nftContentToUpdate: Partial<IpfsNftContent>
+  nftContentToUpdate?: NFTContentToUpdate
+  ipfsNftToUpdate?: Partial<IpfsNftContent>
   onSuccess?(): void
 }
 
 const UpdateNftContentButton: React.FC<UpdateNftContentButtonProps> = ({
   nftAddress,
   nftContentToUpdate,
+  ipfsNftToUpdate,
   onSuccess,
   children,
   ...buttonProps
@@ -28,79 +26,57 @@ const UpdateNftContentButton: React.FC<UpdateNftContentButtonProps> = ({
   const { t } = useTranslation('buttons')
   const { isOpen, open, close } = useModalState(false)
 
-  const {
-    call,
-    txLoading,
-    result,
-    isTxError,
-    reset: resetCallState,
-  } = useSX1155NFT(nftAddress)
-  const {
-    mutateAsync: upload,
-    isLoading,
-    isSuccess,
-    reset: resetStorageState,
-  } = useStorageUpload()
-  const { nft } = useNFT(nftAddress)
+  const { uploadContent, signTransaction, tx, storageUpload } =
+    useNFTUpdate(nftAddress)
 
-  const uploadContent = async () => {
-    if (!nft || (nft.uri && !nft?.ipfsContent)) return
-    const ipfsContent = generateIpfsNftContent({
-      htmlContent: '',
-      ...nft?.ipfsContent,
-      ...nftContentToUpdate,
-      name: nft.name,
-      address: unifyAddressToId(nft.id),
-    })
-    const filesToUpload = [ipfsContent]
-    const uris = await upload({ data: filesToUpload })
-    const firstUri = uris[0]
-    return firstUri
-  }
-
-  const signTransaction = useCallback(
-    (uri: string) => {
-      return call('setContractUri', [uri])
-    },
-    [call]
-  )
-
-  const startContentUpdate = async () => {
+  const startContentUpdate = async (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault()
+    e.stopPropagation()
     open()
-    const uri = await uploadContent()
-    if (!uri) return
+    let uri
+    if (ipfsNftToUpdate?.htmlContent) {
+      uri = await uploadContent(ipfsNftToUpdate)
+      if (!uri) return
 
-    setIpfsUri(uri)
+      setIpfsUri(uri)
+    }
 
-    const res = await signTransaction(uri)
+    const res = await signTransaction({
+      ...nftContentToUpdate,
+      ...(uri && { uri }),
+    })
 
     if (res) {
       onSuccess?.()
       close()
-      resetCallState()
-      resetStorageState()
+      tx.resetCallState()
+      storageUpload.resetStorageState()
     }
   }
 
   const steps = useMemo(() => {
     return {
       [Steps.PrepareContent]: { success: true, loading: false },
-      [Steps.UploadToIPFS]: { success: isSuccess, loading: isLoading },
+      [Steps.UploadToIPFS]: {
+        success: storageUpload.isSuccess,
+        loading: storageUpload.isLoading,
+      },
       [Steps.SignTransaction]: {
-        success: !!result,
-        loading: txLoading,
-        error: isTxError,
-        retry: () => signTransaction(ipfsUri),
+        success: tx.isSuccess,
+        loading: tx.txLoading,
+        error: tx.isTxError,
+        retry: () => signTransaction({ ...nftContentToUpdate, uri: ipfsUri }),
       },
     }
   }, [
     ipfsUri,
-    isLoading,
-    isSuccess,
-    isTxError,
-    result,
+    nftContentToUpdate,
     signTransaction,
-    txLoading,
+    storageUpload.isLoading,
+    storageUpload.isSuccess,
+    tx.isSuccess,
+    tx.isTxError,
+    tx.txLoading,
   ])
 
   const caption = children || t('updateContent')

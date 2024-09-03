@@ -1,5 +1,8 @@
 import { ApolloProvider } from '@apollo/client'
-import { supportedChains } from '@src/environment/networks'
+import {
+  arbitrumSepoliaChainConfig,
+  supportedChains,
+} from '@src/environment/networks'
 import {
   ThirdwebProvider,
   coinbaseWallet,
@@ -27,7 +30,7 @@ function App() {
     <ApolloProvider client={client}>
       <ThirdwebProvider
         supportedChains={supportedChains}
-        activeChain='mumbai'
+        activeChain={arbitrumSepoliaChainConfig.chainId}
         clientId={environment.thirdWebClientId}
         locale={en()}
         supportedWallets={[

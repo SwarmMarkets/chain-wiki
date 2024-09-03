@@ -7,10 +7,12 @@ import { Editor as TinyEditorType } from 'tinymce'
 import RequirePermissions from '../common/RequirePermissions'
 import Flex from '../ui/Flex'
 import EditorSkeleton from './EditorSkeleton'
-import UpdateTokenContentButton from '../UpdateContent/UpdateTokenContentButton'
+import UpdateTokenContentButton, {
+  TokenContentToUpdate,
+} from '../UpdateContent/UpdateTokenContentButton'
 import UpdateNftContentButton from '../UpdateContent/UpdateNftContentButton'
-import { findElementWithMatchedDataId } from './utils'
-import { IpfsNftContent, IpfsTokenContent } from '@src/shared/types/ipfs'
+import { NFTContentToUpdate } from '@src/hooks/useNFTUpdate'
+import { IpfsNftContent } from '@src/shared/types/ipfs'
 
 interface EditorProps {
   name?: string
@@ -72,42 +74,26 @@ const Editor: React.FC<EditorProps> = ({
     setEditorInit(true)
   }
 
-  const handleNodeChange = (event: {
-    element: Element
-    parents: Node[]
-    selectionChange?: boolean
-  }) => {
-    const editorBody = editorRef.current?.editor?.getBody()
-    if (!editorBody) return
+  const differentContent = initialContent !== currContent ? currContent : ''
 
-    const bodyChildren = Array.from(editorBody?.children)
-
-    const matchedElement = findElementWithMatchedDataId(
-      bodyChildren,
-      event.element
-    )
-
-    if (matchedElement === event.element) return
-
-    event.element.removeAttribute('data-id')
+  const tokenContentToUpdate: TokenContentToUpdate = {
+    ipfsContent: { htmlContent: differentContent },
+    ...(name && { name }),
   }
 
-  const tokenContentToUpdate: Partial<IpfsTokenContent> = {
-    htmlContent: currContent,
+  const nftContentToUpdate: NFTContentToUpdate = {
+    logoUrl,
+    ...(name && { name }),
   }
-  name && (tokenContentToUpdate.name = name)
-
-  const nftContentToUpdate: Partial<IpfsNftContent> = {
-    htmlContent: currContent,
+  const ipfsNftToUpdate: Partial<IpfsNftContent> = {
+    htmlContent: differentContent,
   }
-  logoUrl && (nftContentToUpdate.logoUrl = logoUrl)
 
   return (
     <>
       <EditorWrapper $editorInit={editorInit}>
         <TinyEditor
           ref={editorRef}
-          onNodeChange={handleNodeChange}
           apiKey='osr60izccxxfs99zbrmmbiqk16ux1fas0muug1e2hvh16kgg'
           onEditorChange={onEditorChange}
           onInit={onInitEdiror}
@@ -151,6 +137,7 @@ const Editor: React.FC<EditorProps> = ({
                 onSuccess={onSuccessUpdate}
                 nftAddress={nftAddress}
                 nftContentToUpdate={nftContentToUpdate}
+                ipfsNftToUpdate={ipfsNftToUpdate}
               />
             )}
           </RequirePermissions>

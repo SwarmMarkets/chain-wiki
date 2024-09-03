@@ -50,7 +50,7 @@ const StyledButton = styled.button.withConfig({
     props.selected
       ? props.theme.palette.white
       : props.theme.palette.textPrimary};
-
+  transition: background-color 0.3s;
   &:hover {
     background-color: ${props =>
       props.selected
