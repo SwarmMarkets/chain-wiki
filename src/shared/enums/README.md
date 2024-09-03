@@ -8,7 +8,7 @@ This folder contains TypeScript `enum`-like objects that represent a set of rela
 
 - **Enum Members:** Use `UPPERCASE_SNAKE_CASE` for the enum member names. Each member should clearly represent a distinct value within the enum (e.g., `ERC20`, `ERC721`).
 
-- **Values:** Assign string values to enum members that clearly describe the purpose of the member. These should be meaningful and consistent with the context in which they are used.
+- **Values:** They should be meaningful and consistent with the context in which they are used.
 
 ### Example
 
