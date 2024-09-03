@@ -1,5 +1,8 @@
 # /consts
 
+**!IMPORTANT!**
+Use **/enums** for `enum`-like objects that represent a set of related values
+
 This folder contains files that define and export constant values that are used across the project.
 
 ## Naming Conventions
