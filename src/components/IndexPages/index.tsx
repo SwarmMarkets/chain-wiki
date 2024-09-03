@@ -11,6 +11,7 @@ import IndexPagesActions from './IndexPagesActions'
 import { StyledLink } from './styled-components'
 import { useTheme } from 'styled-components'
 import IndexPagesEditList from './IndexPagesEditList'
+import Divider from '../ui/Divider'
 
 interface IndexPagesProps {
   tokens: TokensQueryFullData[] | null
