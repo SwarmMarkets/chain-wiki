@@ -129,13 +129,26 @@ export const verifyIndexPagesValid = (content: IpfsIndexPagesContent) => {
   try {
     return verifyObjectKeysDeep(initialIndexPagesContent, content)
   } catch {
-    throw Error('Attestation content is invalid.')
+    throw Error('Index pages content is invalid.')
   }
 }
 export const parseIpfsNftContent = (content: string): IpfsNftContent => {
   try {
     const parsedContent = JSON.parse(content)
     const validKeys = Object.keys(initialNftContent)
+    verifyObjectKeysDeep(validKeys, parsedContent)
+    return parsedContent
+  } catch {
+    throw Error('Invalid JSON format')
+  }
+}
+
+export const parseIpfsIndexPagesContent = (
+  content: string
+): IpfsIndexPagesContent => {
+  try {
+    const parsedContent = JSON.parse(content)
+    const validKeys = Object.keys(initialIndexPagesContent)
     verifyObjectKeysDeep(validKeys, parsedContent)
     return parsedContent
   } catch {

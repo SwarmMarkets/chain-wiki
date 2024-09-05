@@ -11,7 +11,12 @@ const useDroppableEditList = ({ indexPages, tokens }: InitialState) => {
   const [activeIndexPages, setActiveIndexPages] =
     useState<IpfsIndexPage[]>(indexPages)
   const [disabledIndexPages, setDisabledIndexPages] = useState<IpfsIndexPage[]>(
-    tokens.map(token => ({ tokenId: token.id, title: token.name }))
+    tokens
+      .map(token => ({ tokenId: token.id, title: token.name }))
+      .filter(
+        page =>
+          !indexPages.find(indexPage => indexPage.tokenId === page.tokenId)
+      )
   )
 
   const dragAndDrop = (result: DropResult) => {
