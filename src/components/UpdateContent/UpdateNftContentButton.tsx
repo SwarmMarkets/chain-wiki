@@ -1,16 +1,17 @@
 import useModalState from '@src/hooks/useModalState'
 import useNFTUpdate, { NFTContentToUpdate } from '@src/hooks/useNFTUpdate'
 import { ChildrenProp } from '@src/shared/types/common-props'
+import { IpfsIndexPage, IpfsNftContent } from '@src/shared/types/ipfs'
 import { MouseEvent, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import Button, { ButtonProps } from '../ui/Button/Button'
 import UpdateContentModal, { Steps } from './UpdateContentModal'
-import { IpfsNftContent } from '@src/shared/types/ipfs'
 
 interface UpdateNftContentButtonProps extends ButtonProps, ChildrenProp {
   nftAddress: string
   nftContentToUpdate?: NFTContentToUpdate
   ipfsNftToUpdate?: Partial<IpfsNftContent>
+  ipfsIndexPagesToUpdate?: IpfsIndexPage[]
   onSuccess?(): void
 }
 
@@ -18,6 +19,7 @@ const UpdateNftContentButton: React.FC<UpdateNftContentButtonProps> = ({
   nftAddress,
   nftContentToUpdate,
   ipfsNftToUpdate,
+  ipfsIndexPagesToUpdate,
   onSuccess,
   children,
   ...buttonProps
@@ -26,8 +28,13 @@ const UpdateNftContentButton: React.FC<UpdateNftContentButtonProps> = ({
   const { t } = useTranslation('buttons')
   const { isOpen, open, close } = useModalState(false)
 
-  const { uploadContent, signTransaction, tx, storageUpload } =
-    useNFTUpdate(nftAddress)
+  const {
+    uploadContent,
+    uploadIndexPagesContent,
+    signTransaction,
+    tx,
+    storageUpload,
+  } = useNFTUpdate(nftAddress)
 
   const startContentUpdate = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
@@ -41,9 +48,15 @@ const UpdateNftContentButton: React.FC<UpdateNftContentButtonProps> = ({
       setIpfsUri(uri)
     }
 
+    let indexPagesUri
+    if (ipfsIndexPagesToUpdate) {
+      indexPagesUri = await uploadIndexPagesContent(ipfsIndexPagesToUpdate)
+    }
+
     const res = await signTransaction({
       ...nftContentToUpdate,
       ...(uri && { uri }),
+      ...(indexPagesUri && { indexPagesUri }),
     })
 
     if (res) {

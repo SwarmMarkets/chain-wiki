@@ -5,7 +5,7 @@ import { DragDropContext, DropResult } from 'react-beautiful-dnd'
 import IndexPagesEditList from './IndexPagesEditList'
 import useDroppableEditList from './useDroppableEditList'
 
-interface IndexPagesEditListChanges {
+export interface IndexPagesEditListChanges {
   activeIndexPages: IpfsIndexPage[]
   disabledIndexPages: IpfsIndexPage[]
 }
@@ -14,6 +14,7 @@ interface IndexPagesEditProps {
   indexPages: IpfsIndexPage[]
   onChange: (changes: IndexPagesEditListChanges) => void
 }
+
 
 const IndexPagesEdit: React.FC<IndexPagesEditProps> = ({
   tokens,

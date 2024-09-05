@@ -35,6 +35,11 @@ export interface IpfsAttestationContent {
   htmlContent: string
 }
 
+export interface IpfsIndexPagesContent {
+  address: string
+  indexPages: IpfsIndexPage[]
+}
+
 export type NFTsQueryFullData = NfTsQuery['nfts'][0] & {
   ipfsContent?: IpfsNftContent
 }

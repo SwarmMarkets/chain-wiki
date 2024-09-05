@@ -2,7 +2,11 @@ import Box from '@src/components/ui/Box'
 import Flex from '@src/components/ui/Flex'
 import Text from '@src/components/ui/Text'
 import RoutePaths from '@src/shared/enums/routes-paths'
-import { NFTQueryFullData, TokensQueryFullData } from '@src/shared/types/ipfs'
+import {
+  IpfsIndexPage,
+  NFTQueryFullData,
+  TokensQueryFullData,
+} from '@src/shared/types/ipfs'
 import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { generatePath } from 'react-router-dom'
@@ -10,7 +14,7 @@ import RequirePermissions from '../common/RequirePermissions'
 import IndexPagesActions from './IndexPagesActions'
 import { StyledLink } from './styled-components'
 import { useTheme } from 'styled-components'
-import IndexPagesEdit from './IndexPagesEdit'
+import IndexPagesEdit, { IndexPagesEditListChanges } from './IndexPagesEdit'
 
 interface IndexPagesProps {
   tokens: TokensQueryFullData[] | null
@@ -22,9 +26,7 @@ const IndexPages: React.FC<IndexPagesProps> = ({ tokens, nft, ...props }) => {
   const theme = useTheme()
   const { t } = useTranslation(['nft', 'buttons'])
   const [isEdit, setIsEdit] = useState(false)
-  const [selectedIndexes, setSelectedIndexes] = useState<string[]>(
-    nft?.ipfsContent?.indexPages || []
-  )
+  const [activeIndexPages, setActiveIndexPages] = useState<IpfsIndexPage[]>([])
 
   const handleSaveButton = () => {
     setIsEdit(false)
@@ -32,12 +34,10 @@ const IndexPages: React.FC<IndexPagesProps> = ({ tokens, nft, ...props }) => {
 
   const handleEditButton = () => setIsEdit(true)
 
-  const onChangeCheckbox = (tokenId: string) => {
-    if (selectedIndexes.includes(tokenId)) {
-      setSelectedIndexes(selectedIndexes.filter(id => id !== tokenId))
-    } else {
-      setSelectedIndexes([...selectedIndexes, tokenId])
-    }
+  const handleEditIndexPages = ({
+    activeIndexPages,
+  }: IndexPagesEditListChanges) => {
+    setActiveIndexPages(activeIndexPages)
   }
 
   const notEmptyTokens = useMemo(
@@ -46,13 +46,14 @@ const IndexPages: React.FC<IndexPagesProps> = ({ tokens, nft, ...props }) => {
   )
   const visibleIndexPages = useMemo(
     () =>
-      nft?.ipfsContent?.indexPages
+      nft?.ipfsContent?.index
         ?.map(id => tokens?.find(token => token?.id === id))
         .filter(token => token?.ipfsContent?.name),
-    [tokens, nft?.ipfsContent?.indexPages]
+    [nft?.ipfsContent?.index, tokens]
   )
   const noTokens = notEmptyTokens?.length === 0
-
+  console.log(nft)
+  console.log(activeIndexPages)
   if (noTokens || !nft?.id) {
     return (
       <Box {...props}>
@@ -68,11 +69,15 @@ const IndexPages: React.FC<IndexPagesProps> = ({ tokens, nft, ...props }) => {
   }
 
   const noIndexPages = !visibleIndexPages || visibleIndexPages?.length === 0
-  console.log(notEmptyTokens)
+
   return (
     <Box {...props}>
       {isEdit && notEmptyTokens ? (
-        <IndexPagesEdit tokens={notEmptyTokens} indexPages={[]} />
+        <IndexPagesEdit
+          tokens={notEmptyTokens}
+          indexPages={[]}
+          onChange={handleEditIndexPages}
+        />
       ) : (
         <Flex flexDirection='column' $gap='8px' pb='8px'>
           {noIndexPages && (
@@ -102,7 +107,7 @@ const IndexPages: React.FC<IndexPagesProps> = ({ tokens, nft, ...props }) => {
         <Box mt={4}>
           <IndexPagesActions
             nftId={nft?.id}
-            newIndexPages={selectedIndexes}
+            newIndexPages={activeIndexPages}
             isEditMode={isEdit}
             onSave={handleSaveButton}
             onEdit={handleEditButton}
