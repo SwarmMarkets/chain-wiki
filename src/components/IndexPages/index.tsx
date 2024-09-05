@@ -10,8 +10,7 @@ import RequirePermissions from '../common/RequirePermissions'
 import IndexPagesActions from './IndexPagesActions'
 import { StyledLink } from './styled-components'
 import { useTheme } from 'styled-components'
-import IndexPagesEditList from './IndexPagesEditList'
-import Divider from '../ui/Divider'
+import IndexPagesEdit from './IndexPagesEdit'
 
 interface IndexPagesProps {
   tokens: TokensQueryFullData[] | null
@@ -42,7 +41,7 @@ const IndexPages: React.FC<IndexPagesProps> = ({ tokens, nft, ...props }) => {
   }
 
   const notEmptyTokens = useMemo(
-    () => tokens?.filter(token => token?.ipfsContent?.name),
+    () => tokens?.filter(token => token?.name),
     [tokens]
   )
   const visibleIndexPages = useMemo(
@@ -69,17 +68,11 @@ const IndexPages: React.FC<IndexPagesProps> = ({ tokens, nft, ...props }) => {
   }
 
   const noIndexPages = !visibleIndexPages || visibleIndexPages?.length === 0
-
+  console.log(notEmptyTokens)
   return (
     <Box {...props}>
-      <Text.h3>{t('indexPages.title')}</Text.h3>
-      <Divider my='10px' />
       {isEdit && notEmptyTokens ? (
-        <IndexPagesEditList
-          tokens={notEmptyTokens}
-          selectedIndexes={selectedIndexes}
-          onChangeCheckbox={onChangeCheckbox}
-        />
+        <IndexPagesEdit tokens={notEmptyTokens} indexPages={[]} />
       ) : (
         <Flex flexDirection='column' $gap='8px' pb='8px'>
           {noIndexPages && (

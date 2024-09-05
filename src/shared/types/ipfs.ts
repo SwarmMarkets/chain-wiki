@@ -67,3 +67,9 @@ export type TokenUriUpdatesQueryFullData =
 export type CommentsQueryFullData = CommentsQuery['comments'][0] & {
   ipfsContent?: IpfsAttestationContent
 }
+
+export interface IpfsIndexPage {
+  tokenId: string
+  title: string
+  child?: IpfsIndexPage
+}
