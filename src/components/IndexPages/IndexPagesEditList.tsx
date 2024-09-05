@@ -1,38 +1,66 @@
 import { TokensQueryFullData } from '@src/shared/types/ipfs'
 import React, { useState } from 'react'
 import { DragDropContext, Draggable, DropResult } from 'react-beautiful-dnd'
-import Checkbox from '../Checkbox'
 import SMDroppable from '../common/SMDroppable'
 import Flex from '../ui/Flex'
 import Text from '../ui/Text'
 import { EditableItem } from './styled-components'
+import Divider from '../ui/Divider'
 
 interface IndexPagesEditListProps {
   tokens: TokensQueryFullData[]
-  selectedIndexes: string[]
-  onChangeCheckbox: (tokenId: string) => void
 }
 
-const IndexPagesEditList: React.FC<IndexPagesEditListProps> = ({
-  tokens,
-  selectedIndexes,
-  onChangeCheckbox,
-}) => {
-  const [items, setItems] = useState<TokensQueryFullData[]>(tokens)
+const IndexPagesEditList: React.FC<IndexPagesEditListProps> = ({ tokens }) => {
+  const [activeIndexPages, setActiveIndexPages] = useState<
+    TokensQueryFullData[]
+  >([])
+  const [disabledIndexPages, setDisabledIndexPages] =
+    useState<TokensQueryFullData[]>(tokens)
 
   const handleDragEnd = (result: DropResult) => {
-    if (!result.destination) return
+    const { source, destination } = result
 
-    const newItems = Array.from(items)
-    const [reorderedItem] = newItems.splice(result.source.index, 1)
-    newItems.splice(result.destination.index, 0, reorderedItem)
+    if (!destination) {
+      return
+    }
 
-    setItems(newItems)
+    const isSameList = source.droppableId === destination.droppableId
+
+    if (isSameList) {
+      if (source.droppableId === 'activeIndexPages') {
+        const reorderedPages = Array.from(activeIndexPages)
+        const [moved] = reorderedPages.splice(source.index, 1)
+        reorderedPages.splice(destination.index, 0, moved)
+        setActiveIndexPages(reorderedPages)
+      } else if (source.droppableId === 'disabledIndexPages') {
+        const reorderedPages = Array.from(disabledIndexPages)
+        const [moved] = reorderedPages.splice(source.index, 1)
+        reorderedPages.splice(destination.index, 0, moved)
+        setDisabledIndexPages(reorderedPages)
+      }
+    } else {
+      if (source.droppableId === 'activeIndexPages') {
+        const activeCopy = Array.from(activeIndexPages)
+        const inactiveCopy = Array.from(disabledIndexPages)
+        const [moved] = activeCopy.splice(source.index, 1)
+        inactiveCopy.splice(destination.index, 0, moved)
+        setActiveIndexPages(activeCopy)
+        setDisabledIndexPages(inactiveCopy)
+      } else if (source.droppableId === 'disabledIndexPages') {
+        const inactiveCopy = Array.from(disabledIndexPages)
+        const activeCopy = Array.from(activeIndexPages)
+        const [moved] = inactiveCopy.splice(source.index, 1)
+        activeCopy.splice(destination.index, 0, moved)
+        setDisabledIndexPages(inactiveCopy)
+        setActiveIndexPages(activeCopy)
+      }
+    }
   }
 
   return (
     <DragDropContext onDragEnd={handleDragEnd}>
-      <SMDroppable droppableId='droppable'>
+      <SMDroppable droppableId='activeIndexPages'>
         {provided => (
           <Flex
             {...provided.droppableProps}
@@ -41,7 +69,7 @@ const IndexPagesEditList: React.FC<IndexPagesEditListProps> = ({
             $gap='8px'
             py='8px'
           >
-            {items?.map(
+            {activeIndexPages?.map(
               (token, index) =>
                 token?.id && (
                   <Draggable
@@ -56,11 +84,41 @@ const IndexPagesEditList: React.FC<IndexPagesEditListProps> = ({
                         {...provided.draggableProps}
                         {...provided.dragHandleProps}
                       >
-                        <Checkbox
-                          checked={selectedIndexes.includes(token?.id)}
-                          onChange={() => onChangeCheckbox(token?.id)}
-                        />
-                        <Text ml='5px'>{token?.ipfsContent?.name}</Text>
+                        <Text ml='5px'>{token.name}</Text>
+                      </EditableItem>
+                    )}
+                  </Draggable>
+                )
+            )}
+          </Flex>
+        )}
+      </SMDroppable>
+      <Divider my='10px' />
+      <SMDroppable droppableId='disabledIndexPages'>
+        {provided => (
+          <Flex
+            {...provided.droppableProps}
+            ref={provided.innerRef}
+            flexDirection='column'
+            $gap='8px'
+            py='8px'
+          >
+            {disabledIndexPages?.map(
+              (token, index) =>
+                token?.id && (
+                  <Draggable
+                    key={token?.id}
+                    draggableId={token?.id}
+                    index={index}
+                  >
+                    {provided => (
+                      <EditableItem
+                        key={token?.id}
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                      >
+                        <Text ml='5px'>{token?.name}</Text>
                       </EditableItem>
                     )}
                   </Draggable>
