@@ -1,21 +1,23 @@
 import SMDroppable from '@src/components/common/SMDroppable'
 import Box from '@src/components/ui/Box'
 import Flex from '@src/components/ui/Flex'
-import { Draggable } from 'react-beautiful-dnd'
-import { EditableItem } from '../styled-components'
-import React from 'react'
-import { IpfsIndexPage } from '@src/shared/types/ipfs'
 import Text from '@src/components/ui/Text'
+import { IpfsIndexPage } from '@src/shared/types/ipfs'
+import React from 'react'
+import { Draggable } from 'react-beautiful-dnd'
 import { useTheme } from 'styled-components'
+import { EditableItem } from '../styled-components'
 
 interface IndexPagesEditListProps {
   indexPages: IpfsIndexPage[]
   droppableId: string
+  noPagesElem?: JSX.Element
 }
 
 const IndexPagesEditList: React.FC<IndexPagesEditListProps> = ({
   indexPages,
   droppableId,
+  noPagesElem,
 }) => {
   const theme = useTheme()
   return (
@@ -34,27 +36,29 @@ const IndexPagesEditList: React.FC<IndexPagesEditListProps> = ({
             $gap='8px'
             py='8px'
           >
-            {indexPages?.map(
-              (indexPage, index) =>
-                indexPage?.tokenId && (
-                  <Draggable
-                    key={indexPage?.tokenId}
-                    draggableId={indexPage?.tokenId}
-                    index={index}
-                  >
-                    {provided => (
-                      <EditableItem
+            {indexPages.length > 0
+              ? indexPages?.map(
+                  (indexPage, index) =>
+                    indexPage?.tokenId && (
+                      <Draggable
                         key={indexPage?.tokenId}
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
+                        draggableId={indexPage?.tokenId}
+                        index={index}
                       >
-                        <Text ml='5px'>{indexPage.title}</Text>
-                      </EditableItem>
-                    )}
-                  </Draggable>
+                        {provided => (
+                          <EditableItem
+                            key={indexPage?.tokenId}
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                          >
+                            <Text ml='5px'>{indexPage.title}</Text>
+                          </EditableItem>
+                        )}
+                      </Draggable>
+                    )
                 )
-            )}
+              : noPagesElem && <Text.p>{noPagesElem}</Text.p>}
           </Flex>
         )}
       </SMDroppable>

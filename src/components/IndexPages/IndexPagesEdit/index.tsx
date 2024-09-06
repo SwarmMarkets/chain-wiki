@@ -1,12 +1,12 @@
 import Divider from '@src/components/ui/Divider'
+import Text from '@src/components/ui/Text'
 import { IpfsIndexPage, TokensQueryFullData } from '@src/shared/types/ipfs'
 import React from 'react'
 import { DragDropContext, DropResult } from 'react-beautiful-dnd'
+import { useTranslation } from 'react-i18next'
+import { useTheme } from 'styled-components'
 import IndexPagesEditList from './IndexPagesEditList'
 import useDroppableEditList from './useDroppableEditList'
-import { useTranslation } from 'react-i18next'
-import Text from '@src/components/ui/Text'
-import { useTheme } from 'styled-components'
 
 export interface IndexPagesEditListChanges {
   activeIndexPages: IpfsIndexPage[]
@@ -41,6 +41,16 @@ const IndexPagesEdit: React.FC<IndexPagesEditProps> = ({
       <IndexPagesEditList
         indexPages={activeIndexPages}
         droppableId='activeIndexPages'
+        noPagesElem={
+          <Text.p
+            fontSize={theme.fontSizes.small}
+            color={theme.palette.borderPrimary}
+            textAlign='center'
+            fontWeight={theme.fontWeights.medium}
+          >
+            {t('noPagesInActiveList')}
+          </Text.p>
+        }
       />
       <Divider my='10px' />
       <Text.p fontWeight={theme.fontWeights.bold} mb='5px'>
@@ -49,6 +59,16 @@ const IndexPagesEdit: React.FC<IndexPagesEditProps> = ({
       <IndexPagesEditList
         indexPages={disabledIndexPages}
         droppableId='disabledIndexPages'
+        noPagesElem={
+          <Text.p
+            fontSize={theme.fontSizes.small}
+            color={theme.palette.borderPrimary}
+            textAlign='center'
+            fontWeight={theme.fontWeights.medium}
+          >
+            {t('noPagesInHiddenList')}
+          </Text.p>
+        }
       />
     </DragDropContext>
   )
