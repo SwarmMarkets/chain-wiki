@@ -8,11 +8,9 @@ import {
   NFTQueryFullData,
   TokensQueryFullData,
 } from '@src/shared/types/ipfs'
-import {
-  verifyIndexPagesValid
-} from '@src/shared/utils'
+import { verifyIndexPagesValid } from '@src/shared/utils'
 import { useStorage } from '@thirdweb-dev/react'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { generatePath } from 'react-router-dom'
 import { useTheme } from 'styled-components'
@@ -32,10 +30,12 @@ const IndexPages: React.FC<IndexPagesProps> = ({ tokens, nft, ...props }) => {
   const theme = useTheme()
   const { t } = useTranslation(['nft', 'buttons'])
   const [isEdit, setIsEdit] = useState(false)
+  const initialIndexPages = useRef<IpfsIndexPage[]>([])
   const [activeIndexPages, setActiveIndexPages] = useState<IpfsIndexPage[]>([])
 
   const handleSaveButton = () => {
     setIsEdit(false)
+    setActiveIndexPages(initialIndexPages.current)
   }
 
   const handleEditButton = () => setIsEdit(true)
@@ -55,6 +55,7 @@ const IndexPages: React.FC<IndexPagesProps> = ({ tokens, nft, ...props }) => {
           await storage?.downloadJSON(nft?.indexPagesUri)
 
         if (activePagesContent && verifyIndexPagesValid(activePagesContent)) {
+          initialIndexPages.current = activePagesContent.indexPages
           setActiveIndexPages(activePagesContent.indexPages)
         }
       }
