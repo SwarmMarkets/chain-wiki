@@ -6,6 +6,7 @@ import IndexPagesEditList from './IndexPagesEditList'
 import useDroppableEditList from './useDroppableEditList'
 import { useTranslation } from 'react-i18next'
 import Text from '@src/components/ui/Text'
+import { useTheme } from 'styled-components'
 
 export interface IndexPagesEditListChanges {
   activeIndexPages: IpfsIndexPage[]
@@ -22,6 +23,7 @@ const IndexPagesEdit: React.FC<IndexPagesEditProps> = ({
   indexPages,
   onChange,
 }) => {
+  const theme = useTheme()
   const { t } = useTranslation('nft', { keyPrefix: 'indexPages' })
   const { activeIndexPages, disabledIndexPages, dragAndDrop } =
     useDroppableEditList({ indexPages, tokens })
@@ -36,13 +38,14 @@ const IndexPagesEdit: React.FC<IndexPagesEditProps> = ({
 
   return (
     <DragDropContext onDragEnd={handleDragEnd}>
-      <Text>{t('activeList')}</Text>
       <IndexPagesEditList
         indexPages={activeIndexPages}
         droppableId='activeIndexPages'
       />
       <Divider my='10px' />
-      <Text>{t('disabledList')}</Text>
+      <Text.p fontWeight={theme.fontWeights.bold} mb='5px'>
+        {t('hiddenListTitle')}
+      </Text.p>
       <IndexPagesEditList
         indexPages={disabledIndexPages}
         droppableId='disabledIndexPages'

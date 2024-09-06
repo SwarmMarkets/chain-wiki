@@ -82,8 +82,7 @@
   "indexPages": {
     "noIndexPages": "No index pages yet",
     "noTokens": "No pages yet",
-    "activeList": "Active",
-    "disabledList": "Disabled"
+    "hiddenListTitle": "Hidden pages"
   },
   "messages": {
     "editNft": "Edit site",

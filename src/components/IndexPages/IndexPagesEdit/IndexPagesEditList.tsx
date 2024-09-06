@@ -20,7 +20,6 @@ const IndexPagesEditList: React.FC<IndexPagesEditListProps> = ({
   const theme = useTheme()
   return (
     <Box
-      mt='5px'
       background={theme.palette.bgPrimary}
       p='5px'
       borderRadius='5px'
