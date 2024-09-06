@@ -4,6 +4,8 @@ import React from 'react'
 import { DragDropContext, DropResult } from 'react-beautiful-dnd'
 import IndexPagesEditList from './IndexPagesEditList'
 import useDroppableEditList from './useDroppableEditList'
+import { useTranslation } from 'react-i18next'
+import Text from '@src/components/ui/Text'
 
 export interface IndexPagesEditListChanges {
   activeIndexPages: IpfsIndexPage[]
@@ -15,12 +17,12 @@ interface IndexPagesEditProps {
   onChange: (changes: IndexPagesEditListChanges) => void
 }
 
-
 const IndexPagesEdit: React.FC<IndexPagesEditProps> = ({
   tokens,
   indexPages,
   onChange,
 }) => {
+  const { t } = useTranslation('nft', { keyPrefix: 'indexPages' })
   const { activeIndexPages, disabledIndexPages, dragAndDrop } =
     useDroppableEditList({ indexPages, tokens })
 
@@ -34,11 +36,13 @@ const IndexPagesEdit: React.FC<IndexPagesEditProps> = ({
 
   return (
     <DragDropContext onDragEnd={handleDragEnd}>
+      <Text>{t('activeList')}</Text>
       <IndexPagesEditList
         indexPages={activeIndexPages}
         droppableId='activeIndexPages'
       />
       <Divider my='10px' />
+      <Text>{t('disabledList')}</Text>
       <IndexPagesEditList
         indexPages={disabledIndexPages}
         droppableId='disabledIndexPages'
