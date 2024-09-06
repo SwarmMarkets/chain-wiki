@@ -10,7 +10,7 @@ import ConnectButton from './ConnectButton'
 import RequirePermissions from './RequirePermissions'
 import useNFT from '@src/hooks/subgraph/useNFT'
 
-const HeaderContainer = styled(Container)`
+const HeaderContainer = styled(Container)<{ headerBackground?: string }>`
   width: 100%;
   height: 90px;
   width: -moz-available;
@@ -21,6 +21,7 @@ const HeaderContainer = styled(Container)`
   align-items: center;
   padding-top: 12px;
   padding-bottom: 12px;
+  background-color: ${({ headerBackground }) => headerBackground};
 `
 
 const Logo = styled.img`
@@ -28,15 +29,20 @@ const Logo = styled.img`
   max-height: 70px;
 `
 
-const Header = () => {
+const Header: React.FC = () => {
   const { nftId = '' } = useParams()
   const { nft, loadingNft } = useNFT(nftId, { disableRefetch: true })
   const { t } = useTranslation('layout')
 
-  const showLogo = nftId === nft?.id && nft?.logoUrl && !loadingNft
+  const isNft = nftId === nft?.id && !loadingNft
+  const showLogo = nft?.logoUrl && isNft
+  const showHeaderBackground = nft?.headerBackground && isNft
 
   return (
-    <HeaderContainer as='header'>
+    <HeaderContainer
+      as='header'
+      headerBackground={showHeaderBackground ? nft?.headerBackground : '#fff'}
+    >
       <Flex $gap='60px' alignItems='center'>
         <Link to={generatePath(RoutePaths.NFT, { nftId })}>
           {showLogo && <Logo src={nft?.logoUrl} alt={nft?.name} />}

@@ -10,6 +10,7 @@ export interface NFTContentToUpdate {
   name?: string | null
   uri?: string
   indexPagesUri?: string | null
+  headerBackground?: string
 }
 
 const useNFTUpdate = (nftAddress: string) => {

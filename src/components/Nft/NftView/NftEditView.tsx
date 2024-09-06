@@ -1,12 +1,13 @@
-import Editor from '@src/components/Editor'
-import UploadFileButton from '@src/components/common/UploadFileButton'
-import React, { MouseEvent, useState } from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { LogoPreview, LogoWrapper } from '../styled-components'
+import { useTheme } from 'styled-components'
 import Box from '@src/components/ui/Box'
 import TextField from '@src/components/ui/TextField/TextField'
-import { useTheme } from 'styled-components'
 import Text from '@src/components/ui/Text'
+import UploadFileButton from '@src/components/common/UploadFileButton'
+import Editor from '@src/components/Editor'
+import ColorPicker from './ColorPicker'
+import { LogoWrapper, LogoPreview } from '../styled-components'
 
 interface NftEditViewProps {
   onSuccessUpdate: () => void
@@ -23,8 +24,9 @@ const NftEditView: React.FC<NftEditViewProps> = ({
   const { t } = useTranslation('updateContent')
   const [uploadedLogoUrl, setUploadedLogoUrl] = useState<string | null>(null)
   const [name, setName] = useState('')
+  const [headerColor, setHeaderColor] = useState<string>('#ffffff')
 
-  const handleNameChange = (e: MouseEvent<HTMLInputElement>) => {
+  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.currentTarget.value)
   }
 
@@ -36,14 +38,12 @@ const NftEditView: React.FC<NftEditViewProps> = ({
     <Box>
       <Box>
         <Text.p
-          value={name}
           fontSize={theme.fontSizes.small}
           mb='5px'
           fontWeight={theme.fontWeights.medium}
         >
           {t('edit.name.label')}
         </Text.p>
-
         <TextField
           width={250}
           inputProps={{ onChange: handleNameChange }}
@@ -54,6 +54,16 @@ const NftEditView: React.FC<NftEditViewProps> = ({
       <UploadFileButton mb={2} onUpload={handleUploadLogo}>
         {t('nft.changeLogo')}
       </UploadFileButton>
+      <Box mb='10px'>
+        <Text.p
+          fontSize={theme.fontSizes.small}
+          mb='5px'
+          fontWeight={theme.fontWeights.medium}
+        >
+          {t('edit.colorPicker.label')}
+        </Text.p>
+        <ColorPicker color={headerColor} onColorChange={setHeaderColor} />
+      </Box>
       {uploadedLogoUrl && (
         <LogoWrapper mb={2} justifyContent='center' p='20px'>
           <LogoPreview src={uploadedLogoUrl} />
@@ -65,6 +75,7 @@ const NftEditView: React.FC<NftEditViewProps> = ({
         nftAddress={nftAddress}
         initialContent={initialContent}
         logoUrl={uploadedLogoUrl}
+        headerBackground={headerColor}
       />
     </Box>
   )
