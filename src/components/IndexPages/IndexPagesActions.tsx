@@ -2,10 +2,11 @@ import Button from '@src/components/ui/Button/Button'
 import Flex from '@src/components/ui/Flex'
 import { useTranslation } from 'react-i18next'
 import UpdateNftContentButton from '../UpdateContent/UpdateNftContentButton'
+import { IpfsIndexPage } from '@src/shared/types/ipfs'
 
 interface IndexPagesActionsProps {
   nftId: string
-  newIndexPages: string[]
+  newIndexPages: IpfsIndexPage[]
   isEditMode: boolean
   onSave(): void
   onEdit(): void
@@ -34,7 +35,7 @@ const IndexPagesActions: React.FC<IndexPagesActionsProps> = ({
           py={0}
           nftAddress={nftId}
           onSuccess={onSave}
-          nftContentToUpdate={{ indexPages: newIndexPages }}
+          ipfsIndexPagesToUpdate={newIndexPages}
         >
           {t('save')}
         </UpdateNftContentButton>

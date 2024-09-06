@@ -81,7 +81,9 @@
   },
   "indexPages": {
     "noIndexPages": "No index pages yet",
-    "noTokens": "No pages yet"
+    "noTokens": "No pages yet",
+    "activeList": "Active",
+    "disabledList": "Disabled"
   },
   "messages": {
     "editNft": "Edit site",

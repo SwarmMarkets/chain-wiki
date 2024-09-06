@@ -3,6 +3,7 @@ import {
   IpfsTokenContent,
   IpfsAttestationContent,
   IpfsNftContent,
+  IpfsIndexPagesContent,
 } from '../types/ipfs'
 import { VoteProposal } from '../types/vote-proposal'
 import { isObject } from './isObject'
@@ -14,6 +15,11 @@ const initialNftContent: IpfsNftContent = {
 
 const initialAttestationContent: IpfsAttestationContent = {
   htmlContent: '',
+}
+
+const initialIndexPagesContent: IpfsIndexPagesContent = {
+  address: '',
+  indexPages: [],
 }
 
 export const generateIpfsNftContent = (args: IpfsNftContent) => {
@@ -40,6 +46,15 @@ export const generateIpfsAttestationContent = (
 ) => {
   const content: IpfsAttestationContent = {
     htmlContent: args.htmlContent,
+  }
+
+  return JSON.stringify(content)
+}
+
+export const generateIpfsIndexPagesContent = (args: IpfsIndexPagesContent) => {
+  const content: IpfsIndexPagesContent = {
+    indexPages: args.indexPages,
+    address: args.address,
   }
 
   return JSON.stringify(content)
@@ -110,10 +125,30 @@ export const verifyAttestationValid = (attestation: IpfsAttestationContent) => {
     throw Error('Attestation content is invalid.')
   }
 }
+export const verifyIndexPagesValid = (content: IpfsIndexPagesContent) => {
+  try {
+    return verifyObjectKeysDeep(initialIndexPagesContent, content)
+  } catch {
+    throw Error('Index pages content is invalid.')
+  }
+}
 export const parseIpfsNftContent = (content: string): IpfsNftContent => {
   try {
     const parsedContent = JSON.parse(content)
     const validKeys = Object.keys(initialNftContent)
+    verifyObjectKeysDeep(validKeys, parsedContent)
+    return parsedContent
+  } catch {
+    throw Error('Invalid JSON format')
+  }
+}
+
+export const parseIpfsIndexPagesContent = (
+  content: string
+): IpfsIndexPagesContent => {
+  try {
+    const parsedContent = JSON.parse(content)
+    const validKeys = Object.keys(initialIndexPagesContent)
     verifyObjectKeysDeep(validKeys, parsedContent)
     return parsedContent
   } catch {
