@@ -81,10 +81,7 @@
   },
   "indexPages": {
     "noIndexPages": "No index pages yet",
-    "noTokens": "No pages yet",
-    "hiddenListTitle": "Hidden pages",
-    "noPagesInActiveList": "Move the pages you want to show here",
-    "noPagesInHiddenList": "Move the pages you want to hide here"
+    "noTokens": "No pages yet"
   },
   "messages": {
     "editNft": "Edit site",

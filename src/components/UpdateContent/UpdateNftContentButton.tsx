@@ -1,17 +1,16 @@
 import useModalState from '@src/hooks/useModalState'
 import useNFTUpdate, { NFTContentToUpdate } from '@src/hooks/useNFTUpdate'
 import { ChildrenProp } from '@src/shared/types/common-props'
-import { IpfsIndexPage, IpfsNftContent } from '@src/shared/types/ipfs'
 import { MouseEvent, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import Button, { ButtonProps } from '../ui/Button/Button'
 import UpdateContentModal, { Steps } from './UpdateContentModal'
+import { IpfsNftContent } from '@src/shared/types/ipfs'
 
 interface UpdateNftContentButtonProps extends ButtonProps, ChildrenProp {
   nftAddress: string
   nftContentToUpdate?: NFTContentToUpdate
   ipfsNftToUpdate?: Partial<IpfsNftContent>
-  ipfsIndexPagesToUpdate?: IpfsIndexPage[]
   onSuccess?(): void
   headerBackground?: string
 }
@@ -20,23 +19,16 @@ const UpdateNftContentButton: React.FC<UpdateNftContentButtonProps> = ({
   nftAddress,
   nftContentToUpdate,
   ipfsNftToUpdate,
-  ipfsIndexPagesToUpdate,
   onSuccess,
   children,
   ...buttonProps
 }) => {
   const [ipfsUri, setIpfsUri] = useState('')
-  const [indexPagesUri, setIndexPagesUri] = useState('')
   const { t } = useTranslation('buttons')
   const { isOpen, open, close } = useModalState(false)
 
-  const {
-    uploadContent,
-    uploadIndexPagesContent,
-    signTransaction,
-    tx,
-    storageUpload,
-  } = useNFTUpdate(nftAddress)
+  const { uploadContent, signTransaction, tx, storageUpload } =
+    useNFTUpdate(nftAddress)
 
   const startContentUpdate = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
@@ -45,25 +37,14 @@ const UpdateNftContentButton: React.FC<UpdateNftContentButtonProps> = ({
     let uri
     if (ipfsNftToUpdate?.htmlContent) {
       uri = await uploadContent(ipfsNftToUpdate)
-      
-      if(uri) {
-        setIpfsUri(uri)
-      }
-    }
+      if (!uri) return
 
-    let indexPagesUri
-    if (ipfsIndexPagesToUpdate) {
-      indexPagesUri = await uploadIndexPagesContent(ipfsIndexPagesToUpdate)
-
-      if(indexPagesUri) {
-        setIndexPagesUri(indexPagesUri)
-      }
+      setIpfsUri(uri)
     }
 
     const res = await signTransaction({
       ...nftContentToUpdate,
       ...(uri && { uri }),
-      ...(indexPagesUri && { indexPagesUri }),
     })
 
     if (res) {
@@ -85,16 +66,10 @@ const UpdateNftContentButton: React.FC<UpdateNftContentButtonProps> = ({
         success: tx.isSuccess,
         loading: tx.txLoading,
         error: tx.isTxError,
-        retry: () =>
-          signTransaction({
-            ...nftContentToUpdate,
-            uri: ipfsUri,
-            indexPagesUri,
-          }),
+        retry: () => signTransaction({ ...nftContentToUpdate, uri: ipfsUri }),
       },
     }
   }, [
-    indexPagesUri,
     ipfsUri,
     nftContentToUpdate,
     signTransaction,

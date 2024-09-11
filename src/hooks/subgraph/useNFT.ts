@@ -10,7 +10,6 @@ const POLL_INTERVAL = 5000
 
 interface UseNFTOptions {
   disableRefetch?: boolean
-  fetchFullData?: boolean
 }
 
 const useNFT = (id: QueryNftArgs['id'], options?: UseNFTOptions) => {
@@ -25,7 +24,7 @@ const useNFT = (id: QueryNftArgs['id'], options?: UseNFTOptions) => {
       id,
     },
     async onCompleted(data) {
-      if (data.nft?.uri && options?.fetchFullData) {
+      if (data.nft?.uri) {
         const ipfsContent = await storage?.downloadJSON(data.nft?.uri)
         setNftData({ ...data.nft, ipfsContent })
         return

@@ -38,7 +38,7 @@ const TokenPage = () => {
   const [contentElem, setContentElem] = useState<HTMLDivElement | null>(null)
 
   const { token, loadingToken, refetchingToken } = useToken(tokenId)
-  const { nft } = useNFT(nftId, { fetchFullData: true })
+  const { nft } = useNFT(nftId)
   const { fullTokens } = useTokens(
     {
       variables: { filter: { nft: unifyAddressToId(nftId) } },

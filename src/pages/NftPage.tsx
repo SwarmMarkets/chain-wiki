@@ -34,9 +34,7 @@ const NftPage = () => {
   const { t } = useTranslation('nft')
   const { permissions } = useNftPermissions(nftId)
   const [contentElem, setContentElem] = useState<HTMLDivElement | null>(null)
-  const { nft, loadingNft, refetchingNft } = useNFT(nftId, {
-    fetchFullData: true,
-  })
+  const { nft, loadingNft, refetchingNft } = useNFT(nftId)
   const { fullTokens, loading: tokensLoading } = useTokens(
     {
       variables: { filter: { nft: unifyAddressToId(nftId) } },

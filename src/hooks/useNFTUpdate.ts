@@ -2,18 +2,15 @@ import { useStorageUpload } from '@thirdweb-dev/react'
 import { useCallback } from 'react'
 import { useSX1155NFT } from './contracts/useSX1155NFT'
 import useNFT from './subgraph/useNFT'
-import {
-  generateIpfsIndexPagesContent,
-  generateIpfsNftContent,
-  unifyAddressToId,
-} from '@src/shared/utils'
-import { IpfsIndexPage, IpfsNftContent } from '@src/shared/types/ipfs'
+import { generateIpfsNftContent, unifyAddressToId } from '@src/shared/utils'
+import { IpfsNftContent } from '@src/shared/types/ipfs'
 
 export interface NFTContentToUpdate {
   logoUrl?: string | null
   name?: string | null
   uri?: string
   indexPagesUri?: string | null
+  headerBackground?: string
 }
 
 const useNFTUpdate = (nftAddress: string) => {
@@ -34,24 +31,14 @@ const useNFTUpdate = (nftAddress: string) => {
   const { nft } = useNFT(nftAddress)
 
   const uploadContent = async (content: Partial<IpfsNftContent>) => {
-    if (!nft || content.htmlContent === undefined) return
+    if (!nft || (nft.uri && !nft?.ipfsContent)) return
     const ipfsContent = generateIpfsNftContent({
-      htmlContent: content.htmlContent,
+      htmlContent: '',
+      ...nft?.ipfsContent,
+      ...content,
       address: unifyAddressToId(nft.id),
     })
     const filesToUpload = [ipfsContent]
-    const uris = await upload({ data: filesToUpload })
-    const firstUri = uris[0]
-    return firstUri
-  }
-
-  const uploadIndexPagesContent = async (indexPages: IpfsIndexPage[]) => {
-    if (!nft) return
-    const ipfsIndexPagesContent = generateIpfsIndexPagesContent({
-      indexPages: indexPages,
-      address: unifyAddressToId(nft.id),
-    })
-    const filesToUpload = [ipfsIndexPagesContent]
     const uris = await upload({ data: filesToUpload })
     const firstUri = uris[0]
     return firstUri
@@ -68,7 +55,6 @@ const useNFTUpdate = (nftAddress: string) => {
 
   return {
     uploadContent,
-    uploadIndexPagesContent,
     signTransaction,
     storageUpload: { isLoading, isSuccess, isError, resetStorageState },
     tx: { txLoading, isTxError, isSuccess: !!result, resetCallState },

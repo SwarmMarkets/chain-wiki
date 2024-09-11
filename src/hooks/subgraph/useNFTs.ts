@@ -6,7 +6,7 @@ import {
   NfTsQuery as NFTsQueryGQL,
   NfTsQueryVariables,
 } from '@src/queries/gql/graphql'
-import { IpfsNftContent, NFTsQueryFullData } from '@src/shared/types/ipfs'
+import { IpfsNftContent, NFTQueryFullData } from '@src/shared/types/ipfs'
 import { unifyAddressToId, verifyNftValid } from '@src/shared/utils'
 import useIpfsData from '../web3/useIpfsData'
 
@@ -21,7 +21,7 @@ const useNFTs = (
   options?: QueryHookOptions<NFTsQueryGQL, NfTsQueryVariables>,
   config?: UseNftConfig
 ) => {
-  const [fullData, setFullData] = useState<NFTsQueryFullData[] | null>(null)
+  const [fullData, setFullData] = useState<NFTQueryFullData[] | null>(null)
   const { fetch: fetchIpfsData, loading: ipfsDataLoading } =
     useIpfsData<IpfsNftContent>({
       validator: verifyNftValid,
