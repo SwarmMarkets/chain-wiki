@@ -134,6 +134,7 @@ const NftPage = () => {
           </TabPanel>
           <TabPanel value={NftTabs.EDIT}>
             <NftEditView
+              initialHeaderColor={nft?.headerBackground || ''}
               onSuccessUpdate={handleSuccessUpdate}
               nftAddress={nftId}
               initialContent={nft?.ipfsContent?.htmlContent || ''}

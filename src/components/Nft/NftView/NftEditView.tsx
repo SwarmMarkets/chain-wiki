@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useTheme } from 'styled-components'
 import Box from '@src/components/ui/Box'
@@ -13,18 +13,26 @@ interface NftEditViewProps {
   onSuccessUpdate: () => void
   nftAddress: string
   initialContent: string
+  initialHeaderColor: string 
 }
 
 const NftEditView: React.FC<NftEditViewProps> = ({
   onSuccessUpdate,
   nftAddress,
   initialContent,
+  initialHeaderColor,
 }) => {
   const theme = useTheme()
   const { t } = useTranslation('updateContent')
   const [uploadedLogoUrl, setUploadedLogoUrl] = useState<string | null>(null)
   const [name, setName] = useState('')
-  const [headerColor, setHeaderColor] = useState<string>('#ffffff')
+  const [headerColor, setHeaderColor] = useState<string>(
+    initialHeaderColor || '#ffffff'
+  )
+
+  useEffect(() => {
+    setHeaderColor(initialHeaderColor)
+  }, [initialHeaderColor])
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.currentTarget.value)
@@ -36,7 +44,7 @@ const NftEditView: React.FC<NftEditViewProps> = ({
 
   return (
     <Box>
-      <Box>
+      <Box mb={10}>
         <Text.p
           fontSize={theme.fontSizes.small}
           mb='5px'
@@ -47,7 +55,6 @@ const NftEditView: React.FC<NftEditViewProps> = ({
         <TextField
           width={250}
           inputProps={{ onChange: handleNameChange }}
-          mb='10px'
           placeholder={t('edit.name.placeholder')}
         />
       </Box>
