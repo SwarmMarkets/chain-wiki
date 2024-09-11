@@ -51,7 +51,6 @@ export const StyledIndexPages = styled(IndexPages)`
   overflow-y: auto;
   position: sticky;
   top: 24px;
-  contain: paint;
   box-sizing: border-box;
   max-height: calc(100vh - (24px * 2));
 `
