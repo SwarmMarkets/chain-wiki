@@ -32,7 +32,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
     <ColorInputWrapper alignItems={'center'}>
       <TextField
         width={85}
-        value={color || '#ffffff'}
+        value={color}
         inputProps={{
           onChange: e => handleColorChange(e.currentTarget.value),
         }}
