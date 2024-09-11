@@ -13,7 +13,7 @@ interface NftEditViewProps {
   onSuccessUpdate: () => void
   nftAddress: string
   initialContent: string
-  initialHeaderColor: string 
+  initialHeaderColor: string
 }
 
 const NftEditView: React.FC<NftEditViewProps> = ({
@@ -27,7 +27,7 @@ const NftEditView: React.FC<NftEditViewProps> = ({
   const [uploadedLogoUrl, setUploadedLogoUrl] = useState<string | null>(null)
   const [name, setName] = useState('')
   const [headerColor, setHeaderColor] = useState<string>(
-    initialHeaderColor || '#ffffff'
+    initialHeaderColor || theme.palette.white
   )
 
   useEffect(() => {
