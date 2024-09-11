@@ -13,6 +13,7 @@ interface UpdateNftContentButtonProps extends ButtonProps, ChildrenProp {
   ipfsNftToUpdate?: Partial<IpfsNftContent>
   ipfsIndexPagesToUpdate?: IpfsIndexPage[]
   onSuccess?(): void
+  headerBackground?: string
 }
 
 const UpdateNftContentButton: React.FC<UpdateNftContentButtonProps> = ({

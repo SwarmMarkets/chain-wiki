@@ -22,6 +22,7 @@ interface EditorProps {
   logoUrl?: string | null
   onChange?: (content: string, editor: TinyEditorType) => void
   onSuccessUpdate?: () => void
+  headerBackground?: string
 }
 
 interface EditorWrapperProps {
@@ -38,6 +39,7 @@ const Editor: React.FC<EditorProps> = ({
   tokenAddress,
   nftAddress,
   onSuccessUpdate,
+  headerBackground,
   name,
   logoUrl,
 }) => {
@@ -83,6 +85,7 @@ const Editor: React.FC<EditorProps> = ({
 
   const nftContentToUpdate: NFTContentToUpdate = {
     logoUrl,
+    headerBackground,
     ...(name && { name }),
   }
   const ipfsNftToUpdate: Partial<IpfsNftContent> = {

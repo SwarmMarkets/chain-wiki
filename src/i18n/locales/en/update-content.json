@@ -25,6 +25,10 @@
     "name": {
       "label": "Site name:",
       "placeholder": "Enter name"
+    },
+     "colorPicker": {
+      "label": "Color picker:",
+      "placeholder": "Select color"
     }
   }
 }
