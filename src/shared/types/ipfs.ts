@@ -35,7 +35,14 @@ export interface IpfsAttestationContent {
   htmlContent: string
 }
 
-export type NFTsQueryFullData = NfTsQuery['nfts'][0] & IpfsNftContent
+export interface IpfsIndexPagesContent {
+  address: string
+  indexPages: IpfsIndexPage[]
+}
+
+export type NFTsQueryFullData = NfTsQuery['nfts'][0] & {
+  ipfsContent?: IpfsNftContent
+}
 
 export type NFTQueryFullData = NftQuery['nft'] & {
   ipfsContent?: IpfsNftContent
@@ -64,4 +71,10 @@ export type TokenUriUpdatesQueryFullData =
 
 export type CommentsQueryFullData = CommentsQuery['comments'][0] & {
   ipfsContent?: IpfsAttestationContent
+}
+
+export interface IpfsIndexPage {
+  tokenId: string
+  title: string
+  child?: IpfsIndexPage
 }
