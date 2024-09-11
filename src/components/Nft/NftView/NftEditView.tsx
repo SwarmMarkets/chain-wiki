@@ -30,10 +30,6 @@ const NftEditView: React.FC<NftEditViewProps> = ({
     initialHeaderColor || theme.palette.white
   )
 
-  useEffect(() => {
-    setHeaderColor(initialHeaderColor)
-  }, [initialHeaderColor])
-
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.currentTarget.value)
   }
