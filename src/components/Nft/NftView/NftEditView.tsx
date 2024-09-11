@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react'
-import { useTranslation } from 'react-i18next'
-import { useTheme } from 'styled-components'
-import Box from '@src/components/ui/Box'
-import TextField from '@src/components/ui/TextField/TextField'
-import Text from '@src/components/ui/Text'
 import UploadFileButton from '@src/components/common/UploadFileButton'
 import Editor from '@src/components/Editor'
+import Box from '@src/components/ui/Box'
+import Text from '@src/components/ui/Text'
+import TextField from '@src/components/ui/TextField/TextField'
+import React, { useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { useTheme } from 'styled-components'
+import { LogoPreview, LogoWrapper } from '../styled-components'
 import ColorPicker from './ColorPicker'
-import { LogoWrapper, LogoPreview } from '../styled-components'
 
 interface NftEditViewProps {
   onSuccessUpdate: () => void
@@ -29,7 +29,6 @@ const NftEditView: React.FC<NftEditViewProps> = ({
   const [headerColor, setHeaderColor] = useState<string>(
     initialHeaderColor || theme.palette.white
   )
-
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.currentTarget.value)
   }
@@ -65,7 +64,10 @@ const NftEditView: React.FC<NftEditViewProps> = ({
         >
           {t('edit.colorPicker.label')}
         </Text.p>
-        <ColorPicker color={headerColor} onColorChange={setHeaderColor} />
+        <ColorPicker
+          initialColor={headerColor}
+          onColorChange={setHeaderColor}
+        />
       </Box>
       {uploadedLogoUrl && (
         <LogoWrapper mb={2} justifyContent='center' p='20px'>
