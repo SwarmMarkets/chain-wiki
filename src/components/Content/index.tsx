@@ -1,10 +1,10 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import ExpandableList from './ui/ExpandableList'
+import ExpandableList from '../ui/ExpandableList'
 import { ExpandableListItem } from '@src/shared/types/expandedList'
 import { ContentItemChild, ContentItemParent } from '@src/shared/types/content'
 import { buildContentHierarchy } from '@src/shared/utils'
 import { useTranslation } from 'react-i18next'
-import Text from './ui/Text'
+import Text from '../ui/Text'
 import { useTheme } from 'styled-components'
 
 interface ContentProps {
