@@ -6,7 +6,7 @@ const getCountOfAttestations = async (sectionId: string): Promise<number> => {
   try {
     const { data } = await client.query({
       query: CommentIdsQuery,
-      variables: { sectionId, limit: 50 },
+      variables: { filter: { sectionId }, limit: 50 },
     })
     return data.comments.length
   } catch (error) {
@@ -36,12 +36,11 @@ export const createCommentIconElement = async (sectionId: string) => {
   commentIconElem.style.borderRadius = '5px'
   commentIconElem.style.border = 'solid 1px #ccc'
 
-  const commentCountElem = document.createElement('span')
   const commentCount = await getCountOfAttestations(sectionId)
-  console.log(commentCount)
-  commentCountElem.textContent = (commentCount).toString()
+  const commentCountElem = document.createElement('span')
+  commentCountElem.textContent = commentCount.toString()
   commentCountElem.style.position = 'absolute'
-  commentCountElem.style.top = '-10px'
+  commentCountElem.style.top = '-10px' // Adjust position above the icon
   commentCountElem.style.right = '-10px'
   commentCountElem.style.backgroundColor = '#f00'
   commentCountElem.style.color = '#fff'
@@ -49,8 +48,7 @@ export const createCommentIconElement = async (sectionId: string) => {
   commentCountElem.style.padding = '2px 6px'
   commentCountElem.style.fontSize = '12px'
 
-  const countAttestation = document.createElement('p')
-  countAttestation.textContent = sectionId.toString()
-  commentIconElem.appendChild(countAttestation)
-  return commentIconElem
+  wrapperElem.appendChild(commentIconElem)
+  wrapperElem.appendChild(commentCountElem)
+  return wrapperElem
 }
