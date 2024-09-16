@@ -41,8 +41,8 @@ export const createCommentIconElement = async (sectionId: string) => {
   commentCountElem.textContent = commentCount.toString()
   commentCountElem.style.position = 'absolute'
   commentCountElem.style.top = '-10px' // Adjust position above the icon
-  commentCountElem.style.right = '-10px'
-  commentCountElem.style.backgroundColor = '#f00'
+  commentCountElem.style.left = '-10px'
+  commentCountElem.style.backgroundColor = '#36c'
   commentCountElem.style.color = '#fff'
   commentCountElem.style.borderRadius = '50%'
   commentCountElem.style.padding = '2px 6px'
