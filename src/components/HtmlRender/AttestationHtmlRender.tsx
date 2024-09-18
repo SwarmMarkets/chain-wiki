@@ -40,13 +40,16 @@ const AttestationHtmlRender = forwardRef<
       })
     }
 
-    childrenArray.forEach(child => {
+    childrenArray.forEach(async child => {
       const childElem = child as HTMLElement
       childElem.addEventListener('mouseenter', handleChildEnter)
       childElem.addEventListener('mouseleave', handleChildLeave)
       childElem.style.position = 'relative'
-
-      const commentIconElem = createCommentIconElement()
+      const childElemId = childElem.getAttribute('id')
+      if (!childElemId) {
+        return
+      }
+      const commentIconElem = await createCommentIconElement(childElemId)
 
       commentIconElem?.addEventListener('click', e =>
         handleChildClick(e, childElem)
