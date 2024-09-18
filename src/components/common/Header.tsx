@@ -58,7 +58,9 @@ const Header = () => {
       <Flex $gap='1rem' alignItems='center'>
         <RequirePermissions canCreateNft>
           <Link to={RoutePaths.MY_NFTS}>
-            <Button mr={3}>{t('header.myNfts')}</Button>
+            <Button style={{ backgroundColor: theme.palette.white }} mr={3}>
+              {t('header.myNfts')}
+            </Button>
           </Link>
         </RequirePermissions>
         <ConnectButton />
@@ -68,4 +70,3 @@ const Header = () => {
 }
 
 export default Header
-
