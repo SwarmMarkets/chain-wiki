@@ -59,21 +59,23 @@ const CreateNftForm: React.FC<CreateNftFormProps> = ({ onSuccessSubmit }) => {
       </Text.h1>
       <Flex as='form' flexDirection='column' onSubmit={handleSubmit(onSubmit)}>
         <TextField
-          mb='2em'
+          mb='1em'
           label={t('form.name')}
           width='100%'
           inputProps={{ ...register('name'), height: '40px' }}
           placeholder={t('formPlaceholders.name')}
           error={errors.name?.message}
         />
-        <UploadFileButton width='100%' mb={4} onUpload={handleUploadLogo}>
-          {t('form.uploadLogo')}
-        </UploadFileButton>
-        {uploadedLogoUrl && (
-          <LogoWrapper justifyContent='center' p='20px'>
-            <LogoPreview src={uploadedLogoUrl} />
-          </LogoWrapper>
-        )}
+        <Box mb={4}>
+          <UploadFileButton width='100%' onUpload={handleUploadLogo}>
+            {t('form.uploadLogo')}
+          </UploadFileButton>
+          {uploadedLogoUrl && (
+            <LogoWrapper mt={2} justifyContent='center' p='20px'>
+              <LogoPreview src={uploadedLogoUrl} />
+            </LogoWrapper>
+          )}
+        </Box>
         <LoadingButton type='submit' loading={txLoading}>
           {t('form.submit')}
         </LoadingButton>
