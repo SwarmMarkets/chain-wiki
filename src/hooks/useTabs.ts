@@ -1,5 +1,4 @@
 import queryString from 'query-string'
-import { useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 
 interface UseTabsOptions {
@@ -9,14 +8,9 @@ interface UseTabsOptions {
 const useTabs = <T>(options?: UseTabsOptions) => {
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
-  const initialTab = searchParams.get('tab') || options?.defaultTab
-  const [activeTab, setActiveTab] = useState<T | null>(
-    (initialTab as T) || null
-  )
+  const activeTab = searchParams.get('tab') || options?.defaultTab
 
   const changeTab = (tab: T | null) => {
-    setActiveTab(tab)
-
     if (tab === options?.defaultTab) {
       const params = queryString.exclude(location.search, ['tab'])
 
