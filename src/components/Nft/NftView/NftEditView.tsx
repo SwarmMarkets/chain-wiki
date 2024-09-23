@@ -3,7 +3,7 @@ import Editor from '@src/components/Editor'
 import Box from '@src/components/ui/Box'
 import Text from '@src/components/ui/Text'
 import TextField from '@src/components/ui/TextField/TextField'
-import React, { useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useTheme } from 'styled-components'
 import { LogoPreview, LogoWrapper } from '../styled-components'
@@ -39,8 +39,16 @@ const NftEditView: React.FC<NftEditViewProps> = ({
 
   const handleColorChange = (color: string) => {
     setHeaderColor(color)
-    setNftId(nftAddress)
   }
+
+  const colorPickerValue =
+    headerColor || initialHeaderColor || theme.palette.white
+
+  const reset = useCallback(() => setHeaderColor(''), [setHeaderColor])
+
+  useEffect(() => {
+    return reset
+  }, [initialHeaderColor, reset])
 
   return (
     <Box>
@@ -70,7 +78,7 @@ const NftEditView: React.FC<NftEditViewProps> = ({
           {t('edit.colorPicker.label')}
         </Text.p>
         <ColorPicker
-          initialColor={initialHeaderColor || theme.palette.white}
+          color={colorPickerValue}
           onColorChange={handleColorChange}
         />
       </Box>

@@ -11,6 +11,7 @@ import { IpfsIndexPage, IpfsNftContent } from '@src/shared/types/ipfs'
 
 export interface NFTContentToUpdate {
   logoUrl?: string | null
+  headerBackground?: string | null
   name?: string | null
   uri?: string
   indexPagesUri?: string | null

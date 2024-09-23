@@ -45,23 +45,17 @@ const Header: React.FC = () => {
   const showLogo = nft?.logoUrl && isNft
 
   const headerBackground = useMemo(() => {
-    console.log(headerColor, nft?.headerBackground)
     if (isNft) {
-      if (previewNftId === nft.id) {
+      if (headerColor) {
         return headerColor
-      } else if (nft?.headerBackground) {
+      }
+      if (nft.headerBackground) {
         return nft.headerBackground
       }
+    } else {
+      return theme.palette.white
     }
-    return theme.palette.white
-  }, [
-    headerColor,
-    nft?.headerBackground,
-    nft?.id,
-    isNft,
-    theme.palette.white,
-    previewNftId,
-  ])
+  }, [headerColor, nft?.headerBackground, isNft, theme.palette.white])
 
   return (
     <HeaderContainer as='header' $headerBackground={headerBackground}>
