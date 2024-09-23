@@ -25,7 +25,7 @@ const NftEditView: React.FC<NftEditViewProps> = ({
 }) => {
   const theme = useTheme()
   const { t } = useTranslation('updateContent')
-  const { headerColor, setHeaderColor, setNftId } = useHeaderColorContext()
+  const { headerColor, setHeaderColor } = useHeaderColorContext()
   const [uploadedLogoUrl, setUploadedLogoUrl] = useState<string | null>(null)
   const [name, setName] = useState('')
 

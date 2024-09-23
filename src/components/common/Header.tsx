@@ -39,7 +39,7 @@ const Header: React.FC = () => {
   const { nft, loadingNft } = useNFT(nftId, { disableRefetch: true })
   const { t } = useTranslation('layout')
   const theme = useTheme()
-  const { headerColor, nftId: previewNftId } = useHeaderColorContext()
+  const { headerColor } = useHeaderColorContext()
 
   const isNft = nftId === nft?.id && !loadingNft
   const showLogo = nft?.logoUrl && isNft
