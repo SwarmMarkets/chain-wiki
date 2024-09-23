@@ -24,6 +24,7 @@ import MyNftsPage from './pages/MyNftsPage'
 import { GlobalStyle } from './globalStyle'
 import ConnectWalletPage from './pages/ConnectWalletPage'
 import WalletConnectedProtect from './components/common/WalletConnectedProtect'
+import { HeaderColorProvider } from './components/Nft/NftView/HeaderColorContext'
 
 function App() {
   return (
@@ -40,33 +41,35 @@ function App() {
         ]}
       >
         <ThemeProvider theme={theme}>
-          <Router>
-            <Routes>
-              <Route element={<Layout />}>
-                <Route path={RoutePaths.NFT} element={<NftPage />} />
+          <HeaderColorProvider>
+            <Router>
+              <Routes>
+                <Route element={<Layout />}>
+                  <Route path={RoutePaths.NFT} element={<NftPage />} />
+                  <Route
+                    path={RoutePaths.NFT + RoutePaths.TOKEN}
+                    element={<TokenPage />}
+                  />
+                  <Route
+                    path={RoutePaths.MY_NFTS}
+                    element={
+                      <WalletConnectedProtect>
+                        <MyNftsPage />
+                      </WalletConnectedProtect>
+                    }
+                  />
+                </Route>
                 <Route
-                  path={RoutePaths.NFT + RoutePaths.TOKEN}
-                  element={<TokenPage />}
-                />
-                <Route
-                  path={RoutePaths.MY_NFTS}
-                  element={
-                    <WalletConnectedProtect>
-                      <MyNftsPage />
-                    </WalletConnectedProtect>
-                  }
-                />
-              </Route>
-              <Route
-                path={RoutePaths.CONNECT_WALLET}
-                element={<ConnectWalletPage />}
-              ></Route>
-            </Routes>
-          </Router>
-          <GlobalStyle />
-          <ToastContainer />
-          <div id='drawers' />
-          <div id='modals' />
+                  path={RoutePaths.CONNECT_WALLET}
+                  element={<ConnectWalletPage />}
+                ></Route>
+              </Routes>
+            </Router>
+            <GlobalStyle />
+            <ToastContainer />
+            <div id='drawers' />
+            <div id='modals' />
+          </HeaderColorProvider>
         </ThemeProvider>
       </ThirdwebProvider>
     </ApolloProvider>
@@ -74,3 +77,5 @@ function App() {
 }
 
 export default App
+
+

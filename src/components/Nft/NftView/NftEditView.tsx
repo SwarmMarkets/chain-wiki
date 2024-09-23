@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next'
 import { useTheme } from 'styled-components'
 import { LogoPreview, LogoWrapper } from '../styled-components'
 import ColorPicker from './ColorPicker'
+import { useHeaderColorContext } from './HeaderColorContext'
 
 interface NftEditViewProps {
   onSuccessUpdate: () => void
@@ -24,17 +25,21 @@ const NftEditView: React.FC<NftEditViewProps> = ({
 }) => {
   const theme = useTheme()
   const { t } = useTranslation('updateContent')
+  const { headerColor, setHeaderColor, setNftId } = useHeaderColorContext()
   const [uploadedLogoUrl, setUploadedLogoUrl] = useState<string | null>(null)
   const [name, setName] = useState('')
-  const [headerColor, setHeaderColor] = useState<string>(
-    initialHeaderColor || theme.palette.white
-  )
+
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.currentTarget.value)
   }
 
   const handleUploadLogo = (url: string) => {
     setUploadedLogoUrl(url)
+  }
+
+  const handleColorChange = (color: string) => {
+    setHeaderColor(color)
+    setNftId(nftAddress)
   }
 
   return (
@@ -65,8 +70,8 @@ const NftEditView: React.FC<NftEditViewProps> = ({
           {t('edit.colorPicker.label')}
         </Text.p>
         <ColorPicker
-          initialColor={headerColor}
-          onColorChange={setHeaderColor}
+          initialColor={initialHeaderColor || theme.palette.white}
+          onColorChange={handleColorChange}
         />
       </Box>
       {uploadedLogoUrl && (

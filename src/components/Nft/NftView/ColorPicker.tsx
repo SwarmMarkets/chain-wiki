@@ -14,13 +14,12 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
   onColorChange,
 }) => {
   const [color, setColor] = useState<string>(initialColor)
-  const [showColorPicker, setShowColorPicker] = useState(false)
+  const [showColorPicker, setShowColorPicker] = useState(false) 
   const pickerRef = useRef<HTMLDivElement>(null)
 
   const toggleColorPicker = () => {
     setShowColorPicker(prev => !prev)
   }
-
   useClickOutside(pickerRef, () => setShowColorPicker(false))
 
   const handleColorChange = (newColor: string) => {

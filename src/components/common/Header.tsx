@@ -8,6 +8,8 @@ import ConnectButton from './ConnectButton'
 import RequirePermissions from './RequirePermissions'
 import useNFT from '@src/hooks/subgraph/useNFT'
 import RoutePaths from '@src/shared/enums/routes-paths'
+import { useHeaderColorContext } from '../Nft/NftView/HeaderColorContext'
+import { useMemo } from 'react'
 
 interface HeaderContainerProps {
   $headerBackground?: string
@@ -32,23 +34,37 @@ const Logo = styled.img`
   max-height: 70px;
 `
 
-const Header = () => {
+const Header: React.FC = () => {
   const { nftId = '' } = useParams()
   const { nft, loadingNft } = useNFT(nftId, { disableRefetch: true })
   const { t } = useTranslation('layout')
   const theme = useTheme()
+  const { headerColor, nftId: previewNftId } = useHeaderColorContext()
 
   const isNft = nftId === nft?.id && !loadingNft
   const showLogo = nft?.logoUrl && isNft
-  const showHeaderBackground = nft?.headerBackground && isNft
+
+  const headerBackground = useMemo(() => {
+    console.log(headerColor, nft?.headerBackground)
+    if (isNft) {
+      if (previewNftId === nft.id) {
+        return headerColor
+      } else if (nft?.headerBackground) {
+        return nft.headerBackground
+      }
+    }
+    return theme.palette.white
+  }, [
+    headerColor,
+    nft?.headerBackground,
+    nft?.id,
+    isNft,
+    theme.palette.white,
+    previewNftId,
+  ])
 
   return (
-    <HeaderContainer
-      as='header'
-      $headerBackground={
-        showHeaderBackground ? nft?.headerBackground : theme.palette.white
-      }
-    >
+    <HeaderContainer as='header' $headerBackground={headerBackground}>
       <Flex $gap='60px' alignItems='center'>
         <Link to={generatePath(RoutePaths.NFT, { nftId })}>
           {showLogo && <Logo src={nft?.logoUrl} alt={nft?.name} />}
