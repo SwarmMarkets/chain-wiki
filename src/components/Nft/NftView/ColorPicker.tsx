@@ -5,26 +5,20 @@ import { ColorInputWrapper, ColorBox, PickerWrapper } from './styled-components'
 import useClickOutside from '@src/hooks/useClickOutside'
 
 interface ColorPickerProps {
-  initialColor: string
+  color: string
   onColorChange: (color: string) => void
 }
 
-const ColorPicker: React.FC<ColorPickerProps> = ({
-  initialColor,
-  onColorChange,
-}) => {
-  const [color, setColor] = useState<string>(initialColor)
+const ColorPicker: React.FC<ColorPickerProps> = ({ color, onColorChange }) => {
   const [showColorPicker, setShowColorPicker] = useState(false)
   const pickerRef = useRef<HTMLDivElement>(null)
 
   const toggleColorPicker = () => {
     setShowColorPicker(prev => !prev)
   }
-
   useClickOutside(pickerRef, () => setShowColorPicker(false))
 
   const handleColorChange = (newColor: string) => {
-    setColor(newColor)
     onColorChange(newColor)
   }
 
