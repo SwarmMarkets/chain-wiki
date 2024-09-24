@@ -82,11 +82,13 @@ const NftPage = () => {
       $gap='20px'
     >
       {activeTab === NftTabs.NFT && (
-        <StyledIndexPages
-          tokens={fullTokens}
-          nft={nft}
-          indexPages={nft?.ipfsContent?.indexPages}
-        />
+        <Box>
+          <StyledIndexPages
+            tokens={fullTokens}
+            nft={nft}
+            indexPages={nft?.ipfsContent?.indexPages}
+          />
+        </Box>
       )}
       <Box width='900px'>
         <Flex $gap='5px' flexDirection='column'>
