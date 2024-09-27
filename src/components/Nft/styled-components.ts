@@ -44,10 +44,6 @@ const boxStyles = `
   max-height: calc(100vh - (24px * 2));
 `
 
-export const StyledBox = styled.div`
-  ${boxStyles}
-`
-
 export const StyledContent = styled(Content)`
   ${boxStyles}
 `
