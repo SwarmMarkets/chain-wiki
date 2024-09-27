@@ -9,7 +9,7 @@ export const StyledTitleBlock = styled.div<StyledTitleBlockProps>`
   display: flex;
   gap: 4px;
   align-items: center;
-  padding: 6px 0;
+  padding-bottom: 6px;
   cursor: pointer;
   color: ${({ theme }) => theme.palette.linkPrimary};
 

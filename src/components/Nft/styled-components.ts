@@ -30,7 +30,8 @@ export const StyledRolesDescription = styled(Text.p)`
   color: ${({ theme }) => theme.palette.gray};
 `
 
-export const StyledContent = styled(Content)`
+const boxStyles = `
+  margin-top: 78px;
   max-width: 210px;
   width: 100%;
   word-wrap: break-word;
@@ -43,16 +44,12 @@ export const StyledContent = styled(Content)`
   max-height: calc(100vh - (24px * 2));
 `
 
+export const StyledContent = styled(Content)`
+  ${boxStyles}
+`
+
 export const StyledIndexPages = styled(IndexPages)`
-  max-width: 210px;
-  width: 100%;
-  word-wrap: break-word;
-  overflow-x: hidden;
-  overflow-y: auto;
-  position: sticky;
-  top: 24px;
-  box-sizing: border-box;
-  max-height: calc(100vh - (24px * 2));
+  ${boxStyles}
 `
 
 export const ContentPlaceholder = styled.div`
