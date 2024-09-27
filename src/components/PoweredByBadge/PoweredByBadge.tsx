@@ -3,22 +3,18 @@ import styled from 'styled-components'
 import Logo from '../../assets/logo.png'
 import Text from '../ui/Text'
 import Box from '../ui/Box'
+import Flex from '../ui/Flex'
 
-const PoweredByBox = styled.div`
+const PoweredByBox = styled(Flex)`
   position: fixed;
   bottom: 10px;
   left: 120px;
   padding: 8px 8px 4px 8px;
   background-color: ${({ theme }) => theme.palette.white};
-  color: #212121;
-  border: 0.2px solid #a2a9b1;
+  color: ${({ theme }) => theme.palette.textPrimary};
+  border: 0.2px solid ${({ theme }) => theme.palette.borderPrimary};
   border-radius: 4px;
   z-index: 1000;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: flex-start;
 
   ${({ theme }) => `
     @media (max-width: ${theme.breakpoints.xl}px) {  
@@ -30,17 +26,22 @@ const PoweredByBox = styled.div`
 const PoweredByBadge = () => {
   const { t } = useTranslation('layout')
   return (
-    <PoweredByBox>
+    <PoweredByBox
+      display='flex'
+      flexDirection='column'
+      justifyContent='space-between'
+      alignItems='flex-start'
+    >
       <Text fontWeight={700} fontSize={12} mb={1}>
         {t('Powered by')}
       </Text>
-      <Box ml={2}>
-        <img
-          src={Logo}
-          alt='Chain Wiki'
-          style={{ width: '110px', height: 'auto' }}
-        />
-      </Box>
+      <Box
+        as={'img'}
+        src={Logo}
+        alt='Chain Wiki'
+        style={{ width: '110px', height: 'auto' }}
+        ml={2}
+      />
     </PoweredByBox>
   )
 }
