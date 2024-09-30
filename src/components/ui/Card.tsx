@@ -1,6 +1,4 @@
-import { Link } from 'react-router-dom'
-import styled, { useTheme } from 'styled-components'
-import Text from './Text'
+import styled from 'styled-components'
 import { ChildrenProp } from '@src/shared/types/common-props'
 import shouldForwardProp from '@styled-system/should-forward-prop'
 import {
@@ -21,8 +19,6 @@ interface CardProps
     SpaceProps,
     PositionProps {
   onClick?(): void
-  title?: string
-  to?: string
 }
 
 const CardRoot = styled.div.withConfig({
@@ -38,60 +34,10 @@ const CardRoot = styled.div.withConfig({
   ${position}
 `
 
-const ChildrenWrapper = styled.div.withConfig({
-  shouldForwardProp,
-})<SpaceProps>`
-  height: 100%;
-  ${space}
-`
-
-const StyledLink = styled(Link)`
-  text-decoration: none;
-  color: ${({ theme }) => theme.palette.linkPrimary};
-
-  &:hover {
-    text-decoration: underline !important;
-  }
-`
-
-const Title = styled(Text.h2)`
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-`
-
-const Card: React.FC<CardProps> = ({
-  onClick,
-  title,
-  to,
-  children,
-  ...props
-}) => {
-  const theme = useTheme()
-
+const Card: React.FC<CardProps> = ({ onClick, children, ...props }) => {
   return (
     <CardRoot onClick={onClick} {...props}>
-      {to ? (
-        <StyledLink to={to}>
-          <Title
-            color={theme.palette.linkPrimary}
-            size={theme.fontSizes.mediumPlus}
-            weight={theme.fontWeights.bold}
-          >
-            {title}
-          </Title>
-        </StyledLink>
-      ) : (
-        <Title
-          size={theme.fontSizes.mediumPlus}
-          weight={theme.fontWeights.bold}
-        >
-          {title}
-        </Title>
-      )}
-      {children && (
-        <ChildrenWrapper mt={title ? 10 : 0}>{children}</ChildrenWrapper>
-      )}
+      {children}
     </CardRoot>
   )
 }
