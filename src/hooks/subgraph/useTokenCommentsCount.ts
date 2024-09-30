@@ -1,6 +1,6 @@
-import useCommentsIds from './useCommentsIds'
+import useCommentsIds from './useCommentIds'
 
-function usePageCommentsCount(tokenId: string) {
+function useTokenCommentsCount(tokenId: string) {
   const { commentsIds } = useCommentsIds({
     variables: { limit: 50, filter: { token: tokenId } },
   })
@@ -8,4 +8,4 @@ function usePageCommentsCount(tokenId: string) {
   return commentsIds?.length || 0
 }
 
-export { usePageCommentsCount }
+export { useTokenCommentsCount }

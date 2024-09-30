@@ -1,6 +1,6 @@
 import { NetworkStatus, QueryHookOptions, useQuery } from '@apollo/client'
 import { useMemo } from 'react'
-import { CommentIdsQuery as CommentsQueryGQL } from '@src/queries'
+import { CommentIdsQuery as CommentIdsQueryGQL } from '@src/queries'
 import {
   CommentIdsQuery,
   CommentIdsQueryVariables,
@@ -9,11 +9,11 @@ import {
 const PAGE_LIMIT = 10
 const POLL_INTERVAL = 15000
 
-const useCommentsIds = (
+const useCommentIds = (
   options?: QueryHookOptions<CommentIdsQuery, CommentIdsQueryVariables>
 ) => {
   const { data, loading, error, fetchMore, networkStatus, refetch } = useQuery(
-    CommentsQueryGQL,
+    CommentIdsQueryGQL,
     {
       fetchPolicy: 'cache-first',
       notifyOnNetworkStatusChange: true,
@@ -46,4 +46,4 @@ const useCommentsIds = (
   )
 }
 
-export default useCommentsIds
+export default useCommentIds
