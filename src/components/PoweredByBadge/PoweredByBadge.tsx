@@ -27,7 +27,6 @@ const PoweredByBadge = () => {
   const { t } = useTranslation('layout')
   return (
     <PoweredByBox
-      display='flex'
       flexDirection='column'
       justifyContent='space-between'
       alignItems='flex-start'
@@ -36,7 +35,7 @@ const PoweredByBadge = () => {
         {t('Powered by')}
       </Text>
       <Box
-        as={'img'}
+        as='img'
         src={Logo}
         alt='Chain Wiki'
         style={{ width: '110px', height: 'auto' }}
