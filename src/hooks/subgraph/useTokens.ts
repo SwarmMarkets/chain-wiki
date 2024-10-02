@@ -9,7 +9,7 @@ import { TokensQueryFullData } from '@src/shared/types/ipfs'
 import { useStorage } from '@thirdweb-dev/react'
 import { TokensQuery } from '@src/queries'
 
-const PAGE_LIMIT = 10
+const PAGE_LIMIT = 50
 const POLL_INTERVAL = 15000
 
 interface UseTokensConfig {

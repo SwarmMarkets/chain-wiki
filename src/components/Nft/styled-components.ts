@@ -36,13 +36,32 @@ const boxStyles = `
   width: 100%;
   word-wrap: break-word;
   overflow-x: hidden;
-  overflow-y: auto;
+  overflow-y: scroll; 
   position: sticky;
   top: 24px;
   contain: paint;
   box-sizing: border-box;
-  max-height: calc(100vh - (24px * 2));
-`
+  max-height: calc(72vh - (24px * 2));
+  z-index: 1000;
+  min-height: 500px;
+  background-color: #FFFAFA
+  border-radius: 5px;
+  padding-right: 14px;
+
+  scrollbar-width: thin;
+  scrollbar-color: #DCDCDC rgba(0, 0, 0, 0.05 );
+
+  &::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.02);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #DCDCDC;
+    border-radius: 4px;
+    border: 2px solid rgba(0, 0, 0, 0.02);
+  
+  }
+    `
 
 export const StyledContent = styled(Content)`
   ${boxStyles}
