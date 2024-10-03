@@ -36,7 +36,7 @@ const boxStyles = `
   width: 100%;
   word-wrap: break-word;
   overflow-x: hidden;
-  overflow-y: scroll; 
+  overflow-y: auto; 
   position: sticky;
   top: 24px;
   contain: paint;
@@ -48,18 +48,23 @@ const boxStyles = `
   border-radius: 5px;
   padding-right: 14px;
 
-  scrollbar-width: thin;
-  scrollbar-color: #DCDCDC rgba(0, 0, 0, 0.05 );
+  &::-webkit-scrollbar {
+		width: 5px;
+		height: 3px;
+	}
 
-  &::-webkit-scrollbar-track {
-    background: rgba(0, 0, 0, 0.02);
-  }
+	&::-webkit-scrollbar-track {
+		background: rgba(0, 0, 0, 0.05);
+	}
 
-  &::-webkit-scrollbar-thumb {
-    background-color: #DCDCDC;
-    border-radius: 4px;
-    border: 2px solid rgba(0, 0, 0, 0.02);
-  
+	&::-webkit-scrollbar-thumb {
+		background-color: #DCDCDC;
+		border-radius: 20px;
+	}
+
+	&::-webkit-scrollbar-thumb:hover {
+		background: #C0C0C0;
+	}
   }
     `
 
