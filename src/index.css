@@ -101,24 +101,6 @@ section {
 html {
   line-height: 1;
   overflow: auto;
-
-  &::-webkit-scrollbar {
-    width: 8px;
-    height: 3px;
-  }
-
-  &::-webkit-scrollbar-track {
-    background: rgba(0, 0, 0, 0.05);
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background-color: #dcdcdc;
-    border-radius: 20px;
-  }
-
-  &::-webkit-scrollbar-thumb:hover {
-    background: #c0c0c0;
-  }
 }
 ol,
 ul {
@@ -148,4 +130,27 @@ a {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 3px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #dcdcdc;
+  border-radius: 20px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #c0c0c0;
+}
+
+body ::-webkit-scrollbar {
+  width: 5px;
+  height: 3px;
 }

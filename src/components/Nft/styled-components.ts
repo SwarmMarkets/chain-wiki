@@ -34,39 +34,16 @@ const boxStyles = `
   margin-top: 78px;
   max-width: 210px;
   width: 100%;
-  word-wrap: break-word;
   overflow-x: hidden;
   overflow-y: auto; 
   position: sticky;
   top: 24px;
-  contain: paint;
   box-sizing: border-box;
   max-height: calc(72vh - (24px * 2));
-  z-index: 1000;
   min-height: 500px;
-  background-color: #FFFAFA
   border-radius: 5px;
   padding-right: 14px;
-
-  &::-webkit-scrollbar {
-		width: 5px;
-		height: 3px;
-	}
-
-	&::-webkit-scrollbar-track {
-		background: rgba(0, 0, 0, 0.05);
-	}
-
-	&::-webkit-scrollbar-thumb {
-		background-color: #DCDCDC;
-		border-radius: 20px;
-	}
-
-	&::-webkit-scrollbar-thumb:hover {
-		background: #C0C0C0;
-	}
-  }
-    `
+`
 
 export const StyledContent = styled(Content)`
   ${boxStyles}
