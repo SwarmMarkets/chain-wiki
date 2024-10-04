@@ -85,7 +85,9 @@ const TokenPage = () => {
 
   return (
     <TokenContextProvider value={token}>
-      <Breadcrumbs items={breadCrumbs || []} />
+      <Box as='nav' mb='20px'>
+        <Breadcrumbs items={breadCrumbs || []} />
+      </Box>
       <Flex
         justifyContent={isReadTab && allLoaded ? 'space-between' : 'center'}
         $gap='20px'
