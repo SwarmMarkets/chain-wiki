@@ -11,6 +11,7 @@ import {
 export interface IpfsNftContent {
   address: string
   htmlContent: string
+  indexPages: string[]
 }
 
 export interface IpfsVoteProposal {
