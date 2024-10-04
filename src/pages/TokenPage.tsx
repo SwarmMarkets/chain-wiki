@@ -1,8 +1,10 @@
 import TokenContentSkeleton from '@src/components/Token/TokenContentSkeleton'
 import TokenView from '@src/components/Token/TokenView'
-import { StyledContent } from '@src/components/Token/styled-components'
+import {
+  TokenStyledContent,
+  TokenStyledIndexPages,
+} from '@src/components/Token/styled-components'
 import HistoryToken from '@src/components/History/HistoryToken'
-import { StyledIndexPages } from '@src/components/Nft/styled-components'
 import { TokenContextProvider } from '@src/components/providers/TokenContext'
 import Box from '@src/components/ui/Box'
 import Breadcrumbs from '@src/components/ui/Breadcrumbs'
@@ -93,7 +95,7 @@ const TokenPage = () => {
         $gap='20px'
       >
         {isReadTab && (
-          <StyledIndexPages
+          <TokenStyledIndexPages
             tokens={fullTokens}
             nft={nft}
             indexPages={nft?.ipfsContent?.indexPages}
@@ -133,7 +135,7 @@ const TokenPage = () => {
           </TabContext>
         </Box>
 
-        {isReadTab && <StyledContent contentElem={contentElem} />}
+        {isReadTab && <TokenStyledContent contentElem={contentElem} />}
       </Flex>
     </TokenContextProvider>
   )

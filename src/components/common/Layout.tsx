@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import Container from '../ui/Container'
 import Header from './Header'
 import SwitchNetworkAlert from './SwitchNetworkAlert'
+import PoweredByBadge from '../../components/PoweredByBadge/PoweredByBadge'
 
 const PageContainer = styled(Container)`
   width: 100%;
@@ -24,6 +25,7 @@ const Layout = () => {
           <Outlet />
         </main>
       </PageContainer>
+      <PoweredByBadge />
     </>
   )
 }
