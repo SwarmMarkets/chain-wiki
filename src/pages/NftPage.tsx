@@ -78,6 +78,7 @@ const NftPage = () => {
 
   return (
     <Flex
+      pt={37}
       justifyContent={isNftTab && allLoaded ? 'space-between' : 'center'}
       $gap='20px'
     >

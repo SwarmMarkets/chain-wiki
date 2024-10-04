@@ -99,8 +99,9 @@ section {
   display: block;
 }
 html {
+  overflow-y: scroll;
   line-height: 1;
-  overflow: auto;
+  word-wrap: break-word;
 }
 ol,
 ul {
