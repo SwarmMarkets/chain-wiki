@@ -1,3 +1,8 @@
+import React, { useEffect, useRef, useState } from 'react'
+import { generatePath } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
+import { useStorage } from '@thirdweb-dev/react'
+import { useTheme } from 'styled-components'
 import Box from '@src/components/ui/Box'
 import Flex from '@src/components/ui/Flex'
 import Text from '@src/components/ui/Text'
@@ -9,11 +14,6 @@ import {
   TokensQueryFullData,
 } from '@src/shared/types/ipfs'
 import { verifyIndexPagesValid } from '@src/shared/utils'
-import { useStorage } from '@thirdweb-dev/react'
-import React, { useEffect, useRef, useState } from 'react'
-import { useTranslation } from 'react-i18next'
-import { generatePath } from 'react-router-dom'
-import { useTheme } from 'styled-components'
 import RequirePermissions from '../common/RequirePermissions'
 import IndexPagesActions from './IndexPagesActions'
 import IndexPagesEdit, { IndexPagesEditListChanges } from './IndexPagesEdit'
@@ -36,6 +36,10 @@ const IndexPages: React.FC<IndexPagesProps> = ({ tokens, nft, ...props }) => {
   const handleSaveButton = () => {
     setIsEdit(false)
     setActiveIndexPages(initialIndexPages.current)
+  }
+
+  const handleCancelButton = () => {
+    setIsEdit(false)
   }
 
   const handleEditButton = () => setIsEdit(true)
@@ -80,51 +84,52 @@ const IndexPages: React.FC<IndexPagesProps> = ({ tokens, nft, ...props }) => {
   const noIndexPages = !activeIndexPages || activeIndexPages?.length === 0
 
   return (
-    <Box {...props}>
-      {isEdit && tokens ? (
-        <IndexPagesEdit
-          tokens={tokens}
-          indexPages={activeIndexPages}
-          onChange={handleEditIndexPages}
-        />
-      ) : (
-        <Flex flexDirection='column' $gap='8px' pb='8px'>
-          {noIndexPages && (
-            <Text
-              textAlign='center'
-              fontWeight={theme.fontWeights.medium}
-              color={theme.palette.gray}
-            >
-              {t('indexPages.noIndexPages')}
-            </Text>
-          )}
-          {activeIndexPages?.map(indexPage => (
-            <StyledLink
-              to={generatePath(RoutePaths.NFT + RoutePaths.TOKEN, {
-                nftId: nft?.id,
-                tokenId: indexPage?.tokenId,
-              })}
-              key={indexPage?.tokenId}
-            >
-              {indexPage?.title}
-            </StyledLink>
-          ))}
-        </Flex>
-      )}
+    <Flex {...props} flexDirection='column' $gap='15px'>
+      <Box maxHeight='inherit' overflowY='auto'>
+        {isEdit && tokens ? (
+          <IndexPagesEdit
+            tokens={tokens}
+            indexPages={activeIndexPages}
+            onChange={handleEditIndexPages}
+          />
+        ) : (
+          <Flex flexDirection='column' $gap='8px' pb='8px'>
+            {noIndexPages && (
+              <Text
+                textAlign='center'
+                fontWeight={theme.fontWeights.medium}
+                color={theme.palette.gray}
+              >
+                {t('indexPages.noIndexPages')}
+              </Text>
+            )}
+            {activeIndexPages?.map(indexPage => (
+              <StyledLink
+                to={generatePath(RoutePaths.NFT + RoutePaths.TOKEN, {
+                  nftId: nft?.id,
+                  tokenId: indexPage?.tokenId,
+                })}
+                key={indexPage?.tokenId}
+              >
+                {indexPage?.title}
+              </StyledLink>
+            ))}
+          </Flex>
+        )}
+      </Box>
 
       <RequirePermissions nftAddress={nft?.id} canUpdateContent>
-        <Box mt={4}>
-          <IndexPagesActions
-            nftId={nft?.id}
-            newIndexPages={activeIndexPages}
-            isEditMode={isEdit}
-            onSave={handleSaveButton}
-            onEdit={handleEditButton}
-            onCancel={handleSaveButton}
-          />
-        </Box>
+        <IndexPagesActions
+          nftId={nft?.id}
+          newIndexPages={activeIndexPages}
+          isEditMode={isEdit}
+          onSave={handleSaveButton}
+          onCancel={handleCancelButton}
+          onEdit={handleEditButton}
+        />
       </RequirePermissions>
-    </Box>
+    </Flex>
   )
 }
+
 export default IndexPages

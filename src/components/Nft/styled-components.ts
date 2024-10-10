@@ -31,17 +31,18 @@ export const StyledRolesDescription = styled(Text.p)`
 `
 
 const boxStyles = `
-  margin-top: 78px;
-  max-width: 210px;
-  width: 100%;
-  word-wrap: break-word;
-  overflow-x: hidden;
-  overflow-y: auto;
-  position: sticky;
-  top: 24px;
-  contain: paint;
-  box-sizing: border-box;
-  max-height: calc(100vh - (24px * 2));
+    margin-top: 78px;
+    max-width: 210px;
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: auto; 
+    position: sticky;
+    top: 24px;
+    box-sizing: border-box;
+    max-height: calc(100vh - 336px);
+    min-height: 500px;
+    border-radius: 5px;
+    padding-right: 14px;
 `
 
 export const StyledContent = styled(Content)`
