@@ -2,9 +2,14 @@
   "tabs": {
     "nft": "Site",
     "tokens": "Pages",
-    "edit": "Edit site",
+    "settings": "Settings",
     "manageRoles": "Roles",
     "history": "History"
+  },
+  "settings": {
+  "preferences": "Preferences",
+  "content": "Content",
+  "layout": "Layout"
   },
   "createNft": {
     "title": "Create site",
