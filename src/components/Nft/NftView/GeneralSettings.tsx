@@ -25,14 +25,6 @@ const GeneralSettings: React.FC<GeneralSettingsProps> = ({ nftAddress }) => {
   const [name, setName] = useState<string | null>(null)
   const { nft } = useNFT(nftAddress, { disableRefetch: true })
 
-  const nameValue = name === null ? nft?.name : name
-
-  const nftContentToUpdate: NFTContentToUpdate = {
-    logoUrl: uploadedLogoUrl,
-    headerBackground: headerColor,
-    ...(name && { name }),
-  }
-
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.currentTarget.value)
   }
@@ -48,12 +40,20 @@ const GeneralSettings: React.FC<GeneralSettingsProps> = ({ nftAddress }) => {
   const colorPickerValue =
     headerColor || nft?.headerBackground || theme.palette.white
 
+  const nameValue = name === null ? nft?.name : name
+
+  const nftContentToUpdate: NFTContentToUpdate = {
+    logoUrl: uploadedLogoUrl,
+    headerBackground: colorPickerValue,
+    ...(name && { name }),
+  }
+
   const reset = useCallback(() => setHeaderColor(''), [setHeaderColor])
 
   useEffect(() => {
     return reset
   }, [reset])
-
+  console.log(nftContentToUpdate)
   return (
     <Flex flexDirection='column' $gap='16px'>
       <SettingsLayout
