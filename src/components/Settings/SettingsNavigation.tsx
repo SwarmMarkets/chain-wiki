@@ -46,6 +46,11 @@ const StyledTab = styled.div<{ active: boolean }>`
       : props.theme.palette.textPrimary};
 `
 
+const StyledTitle = styled.h4`
+    white-space: nowrap;
+    margin-bottom: 10px;
+`
+
 const Box = styled.div`
   margin-top: 5px;
 `
@@ -65,7 +70,7 @@ const SettingsNavigation = () => {
       <StyledNav>
         {Object.values(settingsNavLinks).map(group => (
           <div key={group.title}>
-            <h4>{group.title}</h4>
+            <StyledTitle>{group.title}</StyledTitle>
             <StyledNavList>
               {group.links.map(navItem => (
                 <StyledTab
