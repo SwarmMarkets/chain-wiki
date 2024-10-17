@@ -47,8 +47,8 @@ const StyledTab = styled.div<{ active: boolean }>`
 `
 
 const StyledTitle = styled.h4`
-    white-space: nowrap;
-    margin-bottom: 10px;
+  white-space: nowrap;
+  margin-bottom: 10px;
 `
 
 const Box = styled.div`
