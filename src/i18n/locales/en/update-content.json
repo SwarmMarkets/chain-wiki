@@ -4,6 +4,24 @@
     "description": "You are about to update your site content. This includes several steps to finalize content update.",
     "changeLogo": "Change logo"
   },
+  "add": {
+    "addLink": "Add link"
+  },
+  "addLink": {
+    "title": "Add link",
+    "form": {
+      "nameLabel": "Label",
+      "nameLink": "Link",
+      "formPlaceholders": {
+        "nameLabel": "Enter full name label",
+        "nameLink": "Enter full name link"
+      },
+      "buttons": {
+        "buttonCancel": "Cancel",
+        "buttonSave": "Save"
+      }
+    }
+  },
   "token": {
     "title": "Update page",
     "description": "You are about to update your page content. This includes several steps to finalize content update."
@@ -26,7 +44,7 @@
       "label": "Site name:",
       "placeholder": "Enter name"
     },
-     "colorPicker": {
+    "colorPicker": {
       "label": "Color picker:",
       "placeholder": "Select color"
     }

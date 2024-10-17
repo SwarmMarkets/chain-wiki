@@ -7,9 +7,9 @@
     "history": "History"
   },
   "settings": {
-  "preferences": "Preferences",
-  "content": "Content",
-  "layout": "Layout"
+    "preferences": "Preferences",
+    "content": "Content",
+    "layout": "Layout"
   },
   "createNft": {
     "title": "Create site",
@@ -56,6 +56,26 @@
     "tableHead": {
       "address": "Address",
       "role": "Role"
+    },
+    "siteName": {
+      "title": "Title",
+      "description": "Overwrite the title of your content when published"
+    },
+    "customLogo": {
+      "title": "Custom Logo",
+      "description": "Replace the content's title with a custom logo"
+    },
+    "colorPicker": {
+      "title": "Header color",
+      "description": "Changes the color to any other color from the Color Picker"
+    },
+    "contentEditor": {
+      "title": "Text Editor",
+      "description": "You can change: text color, font, indentation, create presets and so on..."
+    },
+    "navigation": {
+      "title": "Navigation",
+      "description": "To create a navigation menu, add a link, sub-links will show in a dropdown for each item."
     },
     "actions": {
       "grantRole": "Grant role",

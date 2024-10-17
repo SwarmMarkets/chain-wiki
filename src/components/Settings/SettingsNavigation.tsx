@@ -1,38 +1,44 @@
 import { SettingView } from '@src/components/Settings/enums'
 import { Link, useSearchParams } from 'react-router-dom'
 import styled from 'styled-components'
+import { FaCog, FaUserShield, FaEdit, FaThLarge } from 'react-icons/fa'
+import Divider from '../ui/Divider'
 
 const settingsNavLinks = {
   generalSettings: {
     title: 'General Settings',
-    links: [{ label: 'General', link: SettingView.GENERAL }],
+    links: [{ label: 'General', link: SettingView.GENERAL, icon: <FaCog /> }],
   },
   accessControl: {
     title: 'Access Control',
-    links: [{ label: 'Roles', link: SettingView.ROLES }],
+    links: [
+      { label: 'Roles', link: SettingView.ROLES, icon: <FaUserShield /> },
+    ],
   },
   layoutPreferences: {
     title: 'Preferences and Layout',
     links: [
-      { label: 'Content Editor', link: SettingView.CONTENT },
-      { label: 'Layout', link: SettingView.LAYOUT },
+      { label: 'Content Editor', link: SettingView.CONTENT, icon: <FaEdit /> },
+      { label: 'Layout', link: SettingView.LAYOUT, icon: <FaThLarge /> },
     ],
   },
 }
 
 const StyledNav = styled.nav`
-  padding: 16px;
-  border-bottom: 1px solid #e0e0e0;
+  padding-right: 25px;
+  font-size: 12px;
 `
 
 const StyledNavList = styled.ul`
   list-style-type: none;
   padding: 0;
   margin: 0;
+  font-size: 14px;
 `
 
 const StyledTab = styled.div<{ active: boolean }>`
-  padding: 10px 15px;
+  margin-top: 10px;
+  margin-bottom: 10px;
   cursor: pointer;
   color: ${props =>
     props.active
@@ -41,7 +47,7 @@ const StyledTab = styled.div<{ active: boolean }>`
 `
 
 const Box = styled.div`
-  margin-top: 16px;
+  margin-top: 5px;
 `
 
 const SettingsNavigation = () => {
@@ -66,9 +72,16 @@ const SettingsNavigation = () => {
                   key={navItem.label}
                   active={activeTab === navItem.link}
                 >
-                  <Link to={`?${getSearchParams(navItem.link)}`}>
-                    {navItem.label}
+                  <Link
+                    to={`?${getSearchParams(navItem.link)}`}
+                    style={{ display: 'flex', alignItems: 'center' }}
+                  >
+                    {navItem.icon}
+                    <span style={{ marginLeft: '8px' }}>{navItem.label}</span>
                   </Link>
+                  {navItem.link !== SettingView.CONTENT && (
+                    <Divider color='#a2a9b1' mt={2} mb={2} />
+                  )}
                 </StyledTab>
               ))}
             </StyledNavList>

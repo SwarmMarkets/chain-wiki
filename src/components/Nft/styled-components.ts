@@ -60,7 +60,7 @@ export const ContentPlaceholder = styled.div`
 
 export const LogoWrapper = styled(Flex)`
   background-color: ${({ theme }) => theme.palette.bgPrimary};
-  border-radius: 20px;
+  border-radius: 4px;
 `
 
 export const LogoPreview = styled.img`

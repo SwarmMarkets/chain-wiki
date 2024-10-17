@@ -1,32 +1,28 @@
-import React from 'react'
 import Editor from '@src/components/Editor'
+import { useTranslation } from 'react-i18next'
+import { SettingsLayout } from './SettingsLayout'
+import useNFT from '@src/hooks/subgraph/useNFT'
 
 interface EditContentProps {
-  name: string
-  onSuccessUpdate: () => void
   nftAddress: string
-  initialContent: string
-  uploadedLogoUrl: string | null
-  headerBackground: string
 }
 
-const EditContent: React.FC<EditContentProps> = ({
-  name,
-  onSuccessUpdate,
-  nftAddress,
-  initialContent,
-  uploadedLogoUrl,
-  headerBackground,
-}) => {
+const EditContent: React.FC<EditContentProps> = ({ nftAddress }) => {
+  const { t } = useTranslation('nft')
+
+  const { nft } = useNFT(nftAddress, {
+    disableRefetch: true,
+    fetchFullData: true,
+  })
+  const initialContent = nft?.ipfsContent?.htmlContent || ''
+
   return (
-    <Editor
-      name={name}
-      onSuccessUpdate={onSuccessUpdate}
-      nftAddress={nftAddress}
-      initialContent={initialContent}
-      logoUrl={uploadedLogoUrl}
-      headerBackground={headerBackground}
-    />
+    <SettingsLayout
+      title={t('roleManager.contentEditor.title')}
+      description={t('roleManager.contentEditor.description')}
+    >
+      <Editor nftAddress={nftAddress} initialContent={initialContent} />
+    </SettingsLayout>
   )
 }
 

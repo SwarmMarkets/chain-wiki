@@ -9,7 +9,7 @@ const Settings = () => {
   const activeLink = searchParams.get('setting') || SettingView.MANAGE
 
   return (
-    <Flex>
+    <Flex $gap='24px'>
       <SettingsNavigation />
       <SettingsBody activeLink={activeLink} />
     </Flex>

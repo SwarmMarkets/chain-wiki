@@ -8,6 +8,7 @@ export enum NftTabs {
   NFT = 'nft',
   MANAGE = 'manage',
   TOKENS = 'tokens',
-  EDIT = 'edit',
+  SETTINGS= 'settings',
   HISTORY = 'history',
 }
+
