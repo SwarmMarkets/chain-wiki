@@ -5,6 +5,7 @@ import { SettingsLayout } from './SettingsLayout'
 import { useTranslation } from 'react-i18next'
 import TextField from '@src/components/ui/TextField/TextField'
 import Button from '@src/components/ui/Button/Button'
+import Flex from '@src/components/ui/Flex'
 
 const Container = styled.div`
   padding: 16px;
@@ -47,7 +48,6 @@ const AddLinkHeader: React.FC = () => {
   const [links, setLinks] = useState<LinkItem[]>([
     { id: '1', title: '', url: '' },
   ])
-
   const [draggingId, setDraggingId] = useState<string | null>(null)
 
   const handleInputChange = (id: string, field: string, value: string) => {
@@ -117,9 +117,12 @@ const AddLinkHeader: React.FC = () => {
         ))}
       </SettingsLayout>
 
-      <Button onClick={handleAddLink} size='medium'>
-        Add link
-      </Button>
+      <Flex justifyContent='space-between' alignItems='center' marginRight='160px'>
+        <Button onClick={handleAddLink} size='medium'>
+          Add link
+        </Button>
+        <Button size='medium'>Publish</Button>
+      </Flex>
     </Container>
   )
 }
