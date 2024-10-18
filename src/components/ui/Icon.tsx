@@ -56,11 +56,7 @@ const Icon: React.FC<IconProps> = ({
 
   return (
     <React.Suspense fallback={<div />}>
-      <IconWrapper
-        color={color}
-        cursor={cursor}
-        {...props}
-      >
+      <IconWrapper color={color} cursor={cursor} {...props}>
         <IconComponent width={width || size} height={height || size} />
       </IconWrapper>
     </React.Suspense>

@@ -21,5 +21,3 @@ export const SettingsLayout: React.FC<SettingsLayoutProps> = ({
     </Flex>
   )
 }
-
-// export default GeneralSettingsPage

@@ -1,25 +1,27 @@
 import { SettingView } from '@src/components/Settings/enums'
 import { Link, useSearchParams } from 'react-router-dom'
 import styled from 'styled-components'
-import { FaCog, FaUserShield, FaEdit, FaThLarge } from 'react-icons/fa'
 import Divider from '../ui/Divider'
+import Icon from '../ui/Icon'
 
 const settingsNavLinks = {
   generalSettings: {
     title: 'General Settings',
-    links: [{ label: 'General', link: SettingView.GENERAL, icon: <FaCog /> }],
+    links: [{ label: 'General', link: SettingView.GENERAL, icon: 'settings' }],
   },
   accessControl: {
     title: 'Access Control',
-    links: [
-      { label: 'Roles', link: SettingView.ROLES, icon: <FaUserShield /> },
-    ],
+    links: [{ label: 'Roles', link: SettingView.ROLES, icon: 'roles' }],
   },
   layoutPreferences: {
     title: 'Preferences and Layout',
     links: [
-      { label: 'Content Editor', link: SettingView.CONTENT, icon: <FaEdit /> },
-      { label: 'Layout', link: SettingView.LAYOUT, icon: <FaThLarge /> },
+      {
+        label: 'Content Editor',
+        link: SettingView.CONTENT,
+        icon: 'contentEditor',
+      },
+      { label: 'Layout', link: SettingView.LAYOUT, icon: 'layout' },
     ],
   },
 }
@@ -81,7 +83,7 @@ const SettingsNavigation = () => {
                     to={`?${getSearchParams(navItem.link)}`}
                     style={{ display: 'flex', alignItems: 'center' }}
                   >
-                    {navItem.icon}
+                    <Icon name={navItem.icon} size={14} />
                     <span style={{ marginLeft: '8px' }}>{navItem.label}</span>
                   </Link>
                   {navItem.link !== SettingView.CONTENT && (

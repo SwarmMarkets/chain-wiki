@@ -3,7 +3,7 @@ import NftRoleManager from '../Nft/NftRoleManager'
 import { useParams } from 'react-router-dom'
 import GeneralSettings from '../Nft/NftView/GeneralSettings'
 import EditContent from '../Nft/NftView/EditContent'
-import AddLinkHeader from '../Nft/NftView/AddLinkHeader'
+import AddLinkHeader from '../Nft/NftView/EditHeaderLinks'
 
 interface Props {
   activeLink: string

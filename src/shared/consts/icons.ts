@@ -23,6 +23,10 @@ const icons = {
   xmark: React.lazy(() => import('@src/assets/icons/xmark.svg?react')),
   comment: React.lazy(() => import('@src/assets/icons/comment.svg?react')),
   copy: React.lazy(() => import('@src/assets/icons/copy.svg?react')),
+  settings: React.lazy(() => import('@src/assets/icons/settings.svg?react')),
+  roles: React.lazy(() => import('@src/assets/icons/roles.svg?react')),
+  contentEditor: React.lazy(() => import('@src/assets/icons/contentEditor.svg?react')),
+  layout: React.lazy(() => import('@src/assets/icons/layout.svg?react')),
 }
 
 export default icons

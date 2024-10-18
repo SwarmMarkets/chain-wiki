@@ -67,7 +67,7 @@
     },
     "colorPicker": {
       "title": "Header color",
-      "description": "Changes the color to any other color from the Color Picker"
+      "description": "Select a new color for the header using the Color Picker"
     },
     "contentEditor": {
       "title": "Text Editor",
@@ -75,7 +75,9 @@
     },
     "navigation": {
       "title": "Navigation",
-      "description": "To create a navigation menu, add a link, sub-links will show in a dropdown for each item."
+      "description": "To create a navigation menu, add a link, sub-links will show in a dropdown for each item.",
+      "buttonAddLink": "Add link",
+      "buttonPublish": "Publish"
     },
     "actions": {
       "grantRole": "Grant role",

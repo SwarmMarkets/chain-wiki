@@ -4,17 +4,8 @@ import { SettingsLayout } from './SettingsLayout'
 import { useTranslation } from 'react-i18next'
 import TextField from '@src/components/ui/TextField/TextField'
 import Button from '@src/components/ui/Button/Button'
-import Flex from '@src/components/ui/Flex'
 import styled from 'styled-components'
-
-const LinkRow = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 8px;
-  position: relative;
-  padding-bottom: 8px;
-`
+import Flex from '@src/components/ui/Flex'
 
 const DragHandle = styled.div`
   cursor: grab;
@@ -24,7 +15,7 @@ const DragHandle = styled.div`
   user-select: none;
 `
 
-const StyledButtonAdd = styled(Button)`
+const StyledButtonRemove = styled(Button)`
   padding: 4px;
   display: flex;
   align-items: center;
@@ -36,7 +27,7 @@ interface LinkItem {
   url: string
 }
 
-const AddLinkHeader: React.FC = () => {
+const EditHeaderLinks: React.FC = () => {
   const { t } = useTranslation('nft')
   const [links, setLinks] = useState<LinkItem[]>([
     { id: '1', title: '', url: '' },
@@ -70,63 +61,69 @@ const AddLinkHeader: React.FC = () => {
 
       const [draggedLink] = reorderedLinks.splice(draggingIndex, 1)
       reorderedLinks.splice(targetIndex, 0, draggedLink)
-      
+
       setLinks(reorderedLinks)
       setDraggingId(null)
     }
   }
 
   return (
-    <Flex
-      borderRadius='8px'
-      width='100%'
-      maxWidth='600px'
-      flexDirection='column'
-    >
-      <SettingsLayout
-        title={t('roleManager.navigation.title')}
-        description={t('roleManager.navigation.description')}
-      >
-        {links.map(link => (
-          <LinkRow
-            key={link.id}
-            draggable
-            onDragStart={() => handleDragStart(link.id)}
-            onDragOver={e => e.preventDefault()}
-            onDrop={() => handleDrop(link.id)}
-          >
-            <DragHandle>⋮⋮</DragHandle>
-            <TextField
-              placeholder='Title'
-              value={link.title}
-              onChange={e =>
-                handleInputChange(link.id, 'title', e.target.value)
-              }
-            />
-            <TextField
-              placeholder='URL'
-              value={link.url}
-              onChange={e => handleInputChange(link.id, 'url', e.target.value)}
-            />
-            <StyledButtonAdd onClick={() => handleRemoveLink(link.id)}>
-              <FiMinus />
-            </StyledButtonAdd>
-          </LinkRow>
-        ))}
-      </SettingsLayout>
+    <Flex width='100%' maxWidth='600px' flexDirection='column'>
+      {/* Обернули в дополнительный Flex с flexGrow={0} */}
+      <Flex flexDirection='column' flexGrow={0}>
+        <SettingsLayout
+          title={t('roleManager.navigation.title')}
+          description={t('roleManager.navigation.description')}
+        >
+          {links.map(link => (
+            <Flex
+              key={link.id}
+              alignItems='center'
+              $gap='8px'
+              marginBottom='8px'
+              paddingBottom='8px'
+              draggable
+              onDragStart={() => handleDragStart(link.id)}
+              onDragOver={e => e.preventDefault()}
+              onDrop={() => handleDrop(link.id)}
+            >
+              <DragHandle>⋮⋮</DragHandle>
+              <TextField
+                placeholder='Title'
+                value={link.title}
+                onChange={e =>
+                  handleInputChange(link.id, 'title', e.target.value)
+                }
+              />
+              <TextField
+                placeholder='URL'
+                value={link.url}
+                onChange={e =>
+                  handleInputChange(link.id, 'url', e.target.value)
+                }
+              />
+              <StyledButtonRemove onClick={() => handleRemoveLink(link.id)}>
+                <FiMinus />
+              </StyledButtonRemove>
+            </Flex>
+          ))}
+        </SettingsLayout>
+      </Flex>
 
       <Flex
         justifyContent='space-between'
         alignItems='center'
         marginRight='160px'
       >
-        <Button onClick={handleAddLink} size='medium'>
-          Add link
+        <Button size='medium' onClick={handleAddLink}>
+          {t('roleManager.navigation.buttonAddLink')}
         </Button>
-        <Button size='medium'>Publish</Button>
+        <Button size='medium'>
+          {t('roleManager.navigation.buttonPublish')}
+        </Button>
       </Flex>
     </Flex>
   )
 }
 
-export default AddLinkHeader
+export default EditHeaderLinks
