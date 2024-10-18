@@ -1,18 +1,11 @@
 import React, { useState } from 'react'
-import styled from 'styled-components'
 import { FiMinus } from 'react-icons/fi'
 import { SettingsLayout } from './SettingsLayout'
 import { useTranslation } from 'react-i18next'
 import TextField from '@src/components/ui/TextField/TextField'
 import Button from '@src/components/ui/Button/Button'
 import Flex from '@src/components/ui/Flex'
-
-const Container = styled.div`
-  padding: 16px;
-  border-radius: 8px;
-  width: 100%;
-  max-width: 600px;
-`
+import styled from 'styled-components'
 
 const LinkRow = styled.div`
   display: flex;
@@ -77,14 +70,19 @@ const AddLinkHeader: React.FC = () => {
 
       const [draggedLink] = reorderedLinks.splice(draggingIndex, 1)
       reorderedLinks.splice(targetIndex, 0, draggedLink)
-
+      
       setLinks(reorderedLinks)
       setDraggingId(null)
     }
   }
 
   return (
-    <Container>
+    <Flex
+      borderRadius='8px'
+      width='100%'
+      maxWidth='600px'
+      flexDirection='column'
+    >
       <SettingsLayout
         title={t('roleManager.navigation.title')}
         description={t('roleManager.navigation.description')}
@@ -117,13 +115,17 @@ const AddLinkHeader: React.FC = () => {
         ))}
       </SettingsLayout>
 
-      <Flex justifyContent='space-between' alignItems='center' marginRight='160px'>
+      <Flex
+        justifyContent='space-between'
+        alignItems='center'
+        marginRight='160px'
+      >
         <Button onClick={handleAddLink} size='medium'>
           Add link
         </Button>
         <Button size='medium'>Publish</Button>
       </Flex>
-    </Container>
+    </Flex>
   )
 }
 
