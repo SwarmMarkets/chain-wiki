@@ -1,6 +1,5 @@
 import { NetworkStatus, useQuery } from '@apollo/client'
 import { useMemo, useState } from 'react'
-
 import { NFTQuery } from '@src/queries'
 import { QueryNftArgs } from '@src/queries/gql/graphql'
 import { NFTQueryFullData } from '@src/shared/types/ipfs'
