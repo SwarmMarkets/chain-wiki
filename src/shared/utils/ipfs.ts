@@ -4,6 +4,7 @@ import {
   IpfsAttestationContent,
   IpfsNftContent,
   IpfsIndexPagesContent,
+  IpfsHeaderLinksContent,
 } from '../types/ipfs'
 import { VoteProposal } from '../types/vote-proposal'
 import { isObject } from './isObject'
@@ -11,6 +12,9 @@ import { isObject } from './isObject'
 const initialNftContent: IpfsNftContent = {
   address: '',
   htmlContent: '',
+  indexPages: [],
+  headerLinks: [],
+
 }
 
 const initialAttestationContent: IpfsAttestationContent = {
@@ -54,6 +58,15 @@ export const generateIpfsAttestationContent = (
 export const generateIpfsIndexPagesContent = (args: IpfsIndexPagesContent) => {
   const content: IpfsIndexPagesContent = {
     indexPages: args.indexPages,
+    address: args.address,
+  }
+
+  return JSON.stringify(content)
+}
+
+export const generateIpfsHeaderLinksContent = (args: IpfsHeaderLinksContent) => {
+  const content = {
+    headerLinks: args.headerLinks,
     address: args.address,
   }
 

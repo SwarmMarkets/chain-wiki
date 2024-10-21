@@ -6,7 +6,7 @@ import Flex from '../ui/Flex'
 
 const Settings = () => {
   const [searchParams] = useSearchParams()
-  const activeLink = searchParams.get('setting') || SettingView.MANAGE
+  const activeLink = searchParams.get('setting') || SettingView.GENERAL
 
   return (
     <Flex $gap='24px'>

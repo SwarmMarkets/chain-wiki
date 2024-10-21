@@ -1,7 +1,11 @@
 import useModalState from '@src/hooks/useModalState'
 import useNFTUpdate, { NFTContentToUpdate } from '@src/hooks/useNFTUpdate'
 import { ChildrenProp } from '@src/shared/types/common-props'
-import { IpfsIndexPage, IpfsNftContent } from '@src/shared/types/ipfs'
+import {
+  IpfsHeaderLink,
+  IpfsIndexPage,
+  IpfsNftContent,
+} from '@src/shared/types/ipfs'
 import { MouseEvent, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import Button, { ButtonProps } from '../ui/Button/Button'
@@ -12,6 +16,7 @@ interface UpdateNftContentButtonProps extends ButtonProps, ChildrenProp {
   nftContentToUpdate?: NFTContentToUpdate
   ipfsNftToUpdate?: Partial<IpfsNftContent>
   ipfsIndexPagesToUpdate?: IpfsIndexPage[]
+  ipfsHeaderLinkToUpdate?: IpfsHeaderLink[]
   onSuccess?(): void
   headerBackground?: string
 }
@@ -21,18 +26,21 @@ const UpdateNftContentButton: React.FC<UpdateNftContentButtonProps> = ({
   nftContentToUpdate,
   ipfsNftToUpdate,
   ipfsIndexPagesToUpdate,
+  ipfsHeaderLinkToUpdate,
   onSuccess,
   children,
   ...buttonProps
 }) => {
   const [ipfsUri, setIpfsUri] = useState('')
   const [indexPagesUri, setIndexPagesUri] = useState('')
+  const [headerLinksUri, setHeaderLinksUri] = useState('')
   const { t } = useTranslation('buttons')
   const { isOpen, open, close } = useModalState(false)
 
   const {
     uploadContent,
     uploadIndexPagesContent,
+    uploadHeaderLinksContent,
     signTransaction,
     tx,
     storageUpload,
@@ -42,11 +50,12 @@ const UpdateNftContentButton: React.FC<UpdateNftContentButtonProps> = ({
     e.preventDefault()
     e.stopPropagation()
     open()
+
     let uri
     if (ipfsNftToUpdate?.htmlContent) {
       uri = await uploadContent(ipfsNftToUpdate)
-      
-      if(uri) {
+
+      if (uri) {
         setIpfsUri(uri)
       }
     }
@@ -55,8 +64,17 @@ const UpdateNftContentButton: React.FC<UpdateNftContentButtonProps> = ({
     if (ipfsIndexPagesToUpdate) {
       indexPagesUri = await uploadIndexPagesContent(ipfsIndexPagesToUpdate)
 
-      if(indexPagesUri) {
+      if (indexPagesUri) {
         setIndexPagesUri(indexPagesUri)
+      }
+    }
+
+    let headerLinksUri
+    if (ipfsHeaderLinkToUpdate) {
+      headerLinksUri = await uploadHeaderLinksContent(ipfsHeaderLinkToUpdate)
+
+      if (headerLinksUri) {
+        setHeaderLinksUri(headerLinksUri)
       }
     }
 
@@ -64,6 +82,7 @@ const UpdateNftContentButton: React.FC<UpdateNftContentButtonProps> = ({
       ...nftContentToUpdate,
       ...(uri && { uri }),
       ...(indexPagesUri && { indexPagesUri }),
+      ...(headerLinksUri && { headerLinksUri }),
     })
 
     if (res) {
@@ -90,12 +109,14 @@ const UpdateNftContentButton: React.FC<UpdateNftContentButtonProps> = ({
             ...nftContentToUpdate,
             uri: ipfsUri,
             indexPagesUri,
+            headerLinksUri,
           }),
       },
     }
   }, [
     indexPagesUri,
     ipfsUri,
+    headerLinksUri,
     nftContentToUpdate,
     signTransaction,
     storageUpload.isLoading,

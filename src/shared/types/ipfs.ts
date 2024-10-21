@@ -12,6 +12,7 @@ export interface IpfsNftContent {
   address: string
   htmlContent: string
   indexPages: string[]
+  headerLinks: string[]
 }
 
 export interface IpfsVoteProposal {
@@ -36,10 +37,28 @@ export interface IpfsAttestationContent {
   htmlContent: string
 }
 
+export interface IpfsIndexPage {
+  tokenId: string
+  title: string
+  child?: IpfsIndexPage
+}
+
 export interface IpfsIndexPagesContent {
   address: string
   indexPages: IpfsIndexPage[]
 }
+
+export interface IpfsHeaderLinksContent {
+  address: string
+  headerLinks: IpfsHeaderLink[]
+}
+
+export interface IpfsHeaderLink {
+   id: string;
+  title: string
+  link: string
+}
+
 
 export type NFTsQueryFullData = NfTsQuery['nfts'][0] & {
   ipfsContent?: IpfsNftContent
@@ -74,8 +93,4 @@ export type CommentsQueryFullData = CommentsQuery['comments'][0] & {
   ipfsContent?: IpfsAttestationContent
 }
 
-export interface IpfsIndexPage {
-  tokenId: string
-  title: string
-  child?: IpfsIndexPage
-}
+

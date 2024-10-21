@@ -6,6 +6,9 @@ import TextField from '@src/components/ui/TextField/TextField'
 import Button from '@src/components/ui/Button/Button'
 import styled from 'styled-components'
 import Flex from '@src/components/ui/Flex'
+import RequirePermissions from '@src/components/common/RequirePermissions'
+import UpdateNftContentButton from '@src/components/UpdateContent/UpdateNftContentButton'
+import { getUniqueId } from '@src/shared/utils'
 
 const DragHandle = styled.div`
   cursor: grab;
@@ -24,13 +27,17 @@ const StyledButtonRemove = styled(Button)`
 interface LinkItem {
   id: string
   title: string
-  url: string
+  link: string
 }
 
-const EditHeaderLinks: React.FC = () => {
+interface EditHeaderLinksProps {
+  nftAddress: string
+}
+
+const EditHeaderLinks: React.FC<EditHeaderLinksProps> = ({ nftAddress }) => {
   const { t } = useTranslation('nft')
   const [links, setLinks] = useState<LinkItem[]>([
-    { id: '1', title: '', url: '' },
+    { id: '1', title: '', link: '' },
   ])
   const [draggingId, setDraggingId] = useState<string | null>(null)
 
@@ -42,7 +49,7 @@ const EditHeaderLinks: React.FC = () => {
   }
 
   const handleAddLink = () => {
-    setLinks([...links, { id: Date.now().toString(), title: '', url: '' }])
+    setLinks([...links, { id: getUniqueId(), title: '', link: '' }])
   }
 
   const handleRemoveLink = (id: string) => {
@@ -69,7 +76,6 @@ const EditHeaderLinks: React.FC = () => {
 
   return (
     <Flex width='100%' maxWidth='600px' flexDirection='column'>
-      {/* Обернули в дополнительный Flex с flexGrow={0} */}
       <Flex flexDirection='column' flexGrow={0}>
         <SettingsLayout
           title={t('roleManager.navigation.title')}
@@ -97,9 +103,9 @@ const EditHeaderLinks: React.FC = () => {
               />
               <TextField
                 placeholder='URL'
-                value={link.url}
+                value={link.link}
                 onChange={e =>
-                  handleInputChange(link.id, 'url', e.target.value)
+                  handleInputChange(link.id, 'link', e.target.value)
                 }
               />
               <StyledButtonRemove onClick={() => handleRemoveLink(link.id)}>
@@ -118,9 +124,14 @@ const EditHeaderLinks: React.FC = () => {
         <Button size='medium' onClick={handleAddLink}>
           {t('roleManager.navigation.buttonAddLink')}
         </Button>
-        <Button size='medium'>
-          {t('roleManager.navigation.buttonPublish')}
-        </Button>
+        <RequirePermissions nftAddress={nftAddress} canUpdateContent>
+          <UpdateNftContentButton
+            mt={3}
+            // onSuccess={onSuccessUpdate}
+            nftAddress={nftAddress}
+            ipfsHeaderLinkToUpdate={links}
+          />
+        </RequirePermissions>
       </Flex>
     </Flex>
   )

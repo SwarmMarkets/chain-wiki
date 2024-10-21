@@ -3,7 +3,7 @@ import NftRoleManager from '../Nft/NftRoleManager'
 import { useParams } from 'react-router-dom'
 import GeneralSettings from '../Nft/NftView/GeneralSettings'
 import EditContent from '../Nft/NftView/EditContent'
-import AddLinkHeader from '../Nft/NftView/EditHeaderLinks'
+import EditHeaderLinks from '../Nft/NftView/EditHeaderLinks'
 
 interface Props {
   activeLink: string
@@ -16,13 +16,12 @@ const SettingsBody = ({ activeLink }: Props) => {
     default:
     case SettingView.GENERAL:
       return <GeneralSettings nftAddress={nftId} />
-    case SettingView.PREFERENCES:
     case SettingView.ROLES:
       return <NftRoleManager nftAddress={nftId} />
     case SettingView.CONTENT:
       return <EditContent nftAddress={nftId} />
     case SettingView.LAYOUT:
-      return <AddLinkHeader />
+      return <EditHeaderLinks nftAddress={nftId} />
   }
 }
 

@@ -3,11 +3,12 @@ import { useCallback } from 'react'
 import { useSX1155NFT } from './contracts/useSX1155NFT'
 import useNFT from './subgraph/useNFT'
 import {
+  generateIpfsHeaderLinksContent,
   generateIpfsIndexPagesContent,
   generateIpfsNftContent,
   unifyAddressToId,
 } from '@src/shared/utils'
-import { IpfsIndexPage, IpfsNftContent } from '@src/shared/types/ipfs'
+import { IpfsHeaderLink, IpfsIndexPage, IpfsNftContent } from '@src/shared/types/ipfs'
 
 export interface NFTContentToUpdate {
   logoUrl?: string | null
@@ -15,6 +16,7 @@ export interface NFTContentToUpdate {
   name?: string | null
   uri?: string
   indexPagesUri?: string | null
+  headerLinksUri?: string | null
 }
 
 const useNFTUpdate = (nftAddress: string) => {
@@ -57,6 +59,17 @@ const useNFTUpdate = (nftAddress: string) => {
     const firstUri = uris[0]
     return firstUri
   }
+   const uploadHeaderLinksContent = async (headerLinks: IpfsHeaderLink[]) => {
+    if (!nft) return
+    const ipfsHeaderLinksContent = generateIpfsHeaderLinksContent({
+      headerLinks: headerLinks,
+      address: unifyAddressToId(nft.id),
+    })
+    const filesToUpload = [ipfsHeaderLinksContent]
+    const uris = await upload({ data: filesToUpload })
+    const firstUri = uris[0]
+    return firstUri
+  }
 
   const signTransaction = useCallback(
     (nftContentToUpdate: NFTContentToUpdate) => {
@@ -70,6 +83,7 @@ const useNFTUpdate = (nftAddress: string) => {
   return {
     uploadContent,
     uploadIndexPagesContent,
+    uploadHeaderLinksContent, 
     signTransaction,
     storageUpload: { isLoading, isSuccess, isError, resetStorageState },
     tx: { txLoading, isTxError, isSuccess: !!result, resetCallState },
