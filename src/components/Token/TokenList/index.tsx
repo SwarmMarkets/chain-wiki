@@ -1,13 +1,12 @@
-import { TokensQueryFullData } from '@src/shared/utils/ipfs/types'
-import { useParams } from 'react-router-dom'
-import RequirePermissions from '../../common/RequirePermissions'
-import Flex from '../../ui/Flex'
 import Text from '@src/components/ui/Text'
-import TokenCardSkeleton from '../TokenCardSkeleton'
-import CreateTokenCard from '../CreateTokenCard'
-import TokenCard from './TokenCard'
+import { TokensQueryFullData } from '@src/shared/utils/ipfs/types'
 import { useTranslation } from 'react-i18next'
 import { useTheme } from 'styled-components'
+import RequirePermissions from '../../common/RequirePermissions'
+import Flex from '../../ui/Flex'
+import CreateTokenCard from '../CreateTokenCard'
+import TokenCardSkeleton from '../TokenCardSkeleton'
+import TokenCard from './TokenCard'
 
 interface TokenListProps {
   tokens: TokensQueryFullData[] | null
@@ -21,14 +20,13 @@ const TokenList: React.FC<TokenListProps> = ({
   loading,
 }) => {
   const { t } = useTranslation('token')
-  const { nftId = '' } = useParams()
   const noTokens = !tokens?.length && !loading
   const theme = useTheme()
 
   return (
     <Flex flexDirection='column' $gap='10px'>
-      <RequirePermissions canCreateToken nftAddress={nftId}>
-        <CreateTokenCard nftAddress={nftAddress} />
+      <RequirePermissions canCreateToken nftAddress={nftAddress}>
+        <CreateTokenCard />
       </RequirePermissions>
 
       {noTokens && (
@@ -46,7 +44,7 @@ const TokenList: React.FC<TokenListProps> = ({
         <TokenCard
           key={token.id}
           tokenId={token.id}
-          nftId={nftId}
+          nftId={nftAddress}
           name={token.name || token.id}
           content={token.ipfsContent}
         />
