@@ -9,7 +9,7 @@ import {
 } from '@src/queries/gql/graphql'
 import { unifyAddressToId } from '@src/shared/utils'
 import { useStorage } from '@thirdweb-dev/react'
-import { NftUriUpdatesQueryFullData } from '@src/shared/types/ipfs'
+import { NftUriUpdatesQueryFullData } from '@src/shared/utils/ipfs/types'
 
 const PAGE_LIMIT = 10
 const POLL_INTERVAL = 15000
@@ -26,9 +26,9 @@ const useNFTURIUpdates = (
   >,
   config?: UseNftURIUpdatesConfig
 ) => {
-  const [fullData, setFullData] = useState<
-    NftUriUpdatesQueryFullData[] | null
-  >(null)
+  const [fullData, setFullData] = useState<NftUriUpdatesQueryFullData[] | null>(
+    null
+  )
   const storage = useStorage()
 
   const { data, loading, error, networkStatus, refetch, fetchMore } = useQuery(
@@ -93,7 +93,15 @@ const useNFTURIUpdates = (
       refetching: [NetworkStatus.poll].includes(networkStatus),
       fetchMore: fetchMore,
     }),
-    [data?.nfturiupdates, error, fetchMore, fullData, loading, networkStatus, refetch]
+    [
+      data?.nfturiupdates,
+      error,
+      fetchMore,
+      fullData,
+      loading,
+      networkStatus,
+      refetch,
+    ]
   )
 }
 

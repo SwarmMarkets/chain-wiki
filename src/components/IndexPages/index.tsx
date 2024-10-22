@@ -7,7 +7,7 @@ import {
   IpfsIndexPagesContent,
   NFTQueryFullData,
   TokensQueryFullData,
-} from '@src/shared/types/ipfs'
+} from '@src/shared/utils/ipfs/types'
 import { verifyIndexPagesValid } from '@src/shared/utils'
 import { useStorage } from '@thirdweb-dev/react'
 import React, { useEffect, useRef, useState } from 'react'

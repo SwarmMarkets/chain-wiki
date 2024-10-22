@@ -6,7 +6,7 @@ import { CommentsQuery, CommentsQueryVariables } from '@src/queries/gql/graphql'
 import {
   CommentsQueryFullData,
   IpfsAttestationContent,
-} from '@src/shared/types/ipfs'
+} from '@src/shared/utils/ipfs/types'
 import { verifyAttestationValid } from '@src/shared/utils'
 import { useStorage } from '@thirdweb-dev/react'
 

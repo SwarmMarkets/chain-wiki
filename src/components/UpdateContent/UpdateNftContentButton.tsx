@@ -5,7 +5,7 @@ import {
   IpfsHeaderLink,
   IpfsIndexPage,
   IpfsNftContent,
-} from '@src/shared/types/ipfs'
+} from '@src/shared/utils/ipfs/types'
 import { MouseEvent, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import Button, { ButtonProps } from '../ui/Button/Button'

@@ -1,9 +1,9 @@
 import { NetworkStatus, useQuery } from '@apollo/client'
-import { useMemo, useState } from 'react'
 import { NFTQuery } from '@src/queries'
 import { QueryNftArgs } from '@src/queries/gql/graphql'
-import { NFTQueryFullData } from '@src/shared/types/ipfs'
+import { NFTQueryFullData } from '@src/shared/utils/ipfs/types'
 import { useStorage } from '@thirdweb-dev/react'
+import { useMemo, useState } from 'react'
 
 const POLL_INTERVAL = 5000
 
@@ -26,7 +26,10 @@ const useNFT = (id: QueryNftArgs['id'], options?: UseNFTOptions) => {
     async onCompleted(data) {
       if (data.nft?.uri && options?.fetchFullData) {
         const ipfsContent = await storage?.downloadJSON(data.nft?.uri)
-        setNftData({ ...data.nft, ipfsContent })
+        const headerLinks = await storage?.downloadJSON(
+          data.nft?.headerLinksUri
+        )
+        setNftData({ ...data.nft, ipfsContent, headerLinks })
         return
       }
       data?.nft && setNftData(data?.nft)

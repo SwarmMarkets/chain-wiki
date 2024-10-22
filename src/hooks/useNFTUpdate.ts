@@ -8,7 +8,11 @@ import {
   generateIpfsNftContent,
   unifyAddressToId,
 } from '@src/shared/utils'
-import { IpfsHeaderLink, IpfsIndexPage, IpfsNftContent } from '@src/shared/types/ipfs'
+import {
+  IpfsHeaderLink,
+  IpfsIndexPage,
+  IpfsNftContent,
+} from '@src/shared/utils/ipfs/types'
 
 export interface NFTContentToUpdate {
   logoUrl?: string | null
@@ -59,7 +63,7 @@ const useNFTUpdate = (nftAddress: string) => {
     const firstUri = uris[0]
     return firstUri
   }
-   const uploadHeaderLinksContent = async (headerLinks: IpfsHeaderLink[]) => {
+  const uploadHeaderLinksContent = async (headerLinks: IpfsHeaderLink[]) => {
     if (!nft) return
     const ipfsHeaderLinksContent = generateIpfsHeaderLinksContent({
       headerLinks: headerLinks,
@@ -83,7 +87,7 @@ const useNFTUpdate = (nftAddress: string) => {
   return {
     uploadContent,
     uploadIndexPagesContent,
-    uploadHeaderLinksContent, 
+    uploadHeaderLinksContent,
     signTransaction,
     storageUpload: { isLoading, isSuccess, isError, resetStorageState },
     tx: { txLoading, isTxError, isSuccess: !!result, resetCallState },

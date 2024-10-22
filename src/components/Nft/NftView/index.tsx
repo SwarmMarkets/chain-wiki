@@ -1,5 +1,5 @@
 import HtmlRender from '@src/components/HtmlRender'
-import { NFTQueryFullData } from '@src/shared/types/ipfs'
+import { NFTQueryFullData } from '@src/shared/utils/ipfs/types'
 import { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import Text from '@src/components/ui/Text'

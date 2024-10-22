@@ -1,4 +1,4 @@
-import { TokenQueryFullData } from '@src/shared/types/ipfs'
+import { TokenQueryFullData } from '@src/shared/utils/ipfs/types'
 import React from 'react'
 
 export const TokenContext = React.createContext<TokenQueryFullData | null>(null)

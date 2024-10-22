@@ -11,7 +11,7 @@ import UpdateTokenContentButton, {
   TokenContentToUpdate,
 } from '../UpdateContent/UpdateTokenContentButton'
 import UpdateNftContentButton from '../UpdateContent/UpdateNftContentButton'
-import { IpfsNftContent } from '@src/shared/types/ipfs'
+import { IpfsNftContent } from '@src/shared/utils/ipfs/types'
 
 interface EditorProps {
   name?: string

@@ -1,6 +1,9 @@
 import { useSX1155NFT } from '@src/hooks/contracts/useSX1155NFT'
 import useModalState from '@src/hooks/useModalState'
-import { IpfsTokenContent, IpfsVoteProposal } from '@src/shared/types/ipfs'
+import {
+  IpfsTokenContent,
+  IpfsVoteProposal,
+} from '@src/shared/utils/ipfs/types'
 import { generateIpfsTokenContent } from '@src/shared/utils/ipfs'
 import { useStorageUpload } from '@thirdweb-dev/react'
 import { useCallback, useMemo, useState } from 'react'

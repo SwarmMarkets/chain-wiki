@@ -1,4 +1,4 @@
-import { TokensQueryFullData } from '@src/shared/types/ipfs'
+import { TokensQueryFullData } from '@src/shared/utils/ipfs/types'
 import { useParams } from 'react-router-dom'
 import RequirePermissions from '../../common/RequirePermissions'
 import Flex from '../../ui/Flex'

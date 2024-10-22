@@ -4,7 +4,7 @@ import {
   IpfsTokenContent,
   IpfsNftContent,
   IpfsVoteProposal,
-} from '@src/shared/types/ipfs'
+} from '@src/shared/utils/ipfs/types'
 
 interface IPFSContent extends IEntity {
   content: IpfsNftContent | IpfsVoteProposal | IpfsTokenContent
