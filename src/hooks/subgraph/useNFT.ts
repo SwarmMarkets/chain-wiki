@@ -1,6 +1,5 @@
 import { NetworkStatus, useQuery } from '@apollo/client'
 import { NFTQuery } from '@src/queries'
-import { QueryNftArgs } from '@src/queries/gql/graphql'
 import { useMemo } from 'react'
 import { useIpfsHeaderLinksContent, useIpfsNftContent } from '../ipfs/nft'
 
@@ -11,7 +10,7 @@ interface UseNFTOptions {
   fetchFullData?: boolean
 }
 
-const useNFT = (id: QueryNftArgs['id'], options?: UseNFTOptions) => {
+const useNFT = (id: string, options?: UseNFTOptions) => {
   const { data, loading, error, networkStatus, refetch } = useQuery(NFTQuery, {
     fetchPolicy: 'cache-first',
     notifyOnNetworkStatusChange: true,
@@ -21,17 +20,20 @@ const useNFT = (id: QueryNftArgs['id'], options?: UseNFTOptions) => {
     },
   })
 
+  const headerLinksUri = options?.fetchFullData ? data?.nft?.headerLinksUri : ''
+  const contentUri = options?.fetchFullData ? data?.nft?.uri : ''
+
   const {
     headerLinks,
     failureReason: errorHeaderLinks,
     isLoading: loadingHeaderLinks,
-  } = useIpfsHeaderLinksContent(data?.nft?.headerLinksUri)
+  } = useIpfsHeaderLinksContent(headerLinksUri)
 
   const {
     ipfsContent,
     failureReason: errorNftContent,
     isLoading: loadingNftContent,
-  } = useIpfsNftContent(data?.nft?.uri)
+  } = useIpfsNftContent(contentUri)
 
   const nftWithMetadata = useMemo(() => {
     return {
