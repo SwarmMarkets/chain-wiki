@@ -5,7 +5,7 @@ import RoutePaths from '@src/shared/enums/routes-paths'
 import {
   IpfsIndexPage,
   IpfsIndexPagesContent,
-  NFTQueryFullData,
+  NFTWithMetadata,
   TokensQueryFullData,
 } from '@src/shared/utils/ipfs/types'
 import { verifyIndexPagesValid } from '@src/shared/utils'
@@ -21,7 +21,7 @@ import { StyledLink } from './styled-components'
 
 interface IndexPagesProps {
   tokens: TokensQueryFullData[] | null
-  nft: NFTQueryFullData | null
+  nft: NFTWithMetadata | null
   indexPages?: string[] | null
 }
 

@@ -2,6 +2,7 @@ import {
   IpfsNftContent,
   IpfsAttestationContent,
   IpfsIndexPagesContent,
+  IpfsHeaderLinksContent,
 } from './types'
 
 export const initialNftContent: IpfsNftContent = {
@@ -16,4 +17,9 @@ export const initialAttestationContent: IpfsAttestationContent = {
 export const initialIndexPagesContent: IpfsIndexPagesContent = {
   address: '',
   indexPages: [],
+}
+
+export const initialHeaderLinks: IpfsHeaderLinksContent = {
+  address: '',
+  headerLinks: [],
 }

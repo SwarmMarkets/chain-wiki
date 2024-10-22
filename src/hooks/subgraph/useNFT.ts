@@ -1,11 +1,10 @@
 import { NetworkStatus, useQuery } from '@apollo/client'
 import { NFTQuery } from '@src/queries'
 import { QueryNftArgs } from '@src/queries/gql/graphql'
-import { NFTQueryFullData } from '@src/shared/utils/ipfs/types'
-import { useStorage } from '@thirdweb-dev/react'
-import { useMemo, useState } from 'react'
+import { useMemo } from 'react'
+import { useIpfsHeaderLinksContent, useIpfsNftContent } from '../ipfs/nft'
 
-const POLL_INTERVAL = 5000
+const POLL_INTERVAL = 15000
 
 interface UseNFTOptions {
   disableRefetch?: boolean
@@ -13,44 +12,62 @@ interface UseNFTOptions {
 }
 
 const useNFT = (id: QueryNftArgs['id'], options?: UseNFTOptions) => {
-  const storage = useStorage()
-  const [nftData, setNftData] = useState<NFTQueryFullData | null>(null)
-
-  const { loading, error, networkStatus, refetch } = useQuery(NFTQuery, {
+  const { data, loading, error, networkStatus, refetch } = useQuery(NFTQuery, {
     fetchPolicy: 'cache-first',
     notifyOnNetworkStatusChange: true,
     pollInterval: options?.disableRefetch ? undefined : POLL_INTERVAL,
     variables: {
       id,
     },
-    async onCompleted(data) {
-      if (data.nft?.uri && options?.fetchFullData) {
-        const ipfsContent = await storage?.downloadJSON(data.nft?.uri)
-        const headerLinks = await storage?.downloadJSON(
-          data.nft?.headerLinksUri
-        )
-        setNftData({ ...data.nft, ipfsContent, headerLinks })
-        return
-      }
-      data?.nft && setNftData(data?.nft)
-    },
   })
+
+  const {
+    headerLinks,
+    failureReason: errorHeaderLinks,
+    isLoading: loadingHeaderLinks,
+  } = useIpfsHeaderLinksContent(data?.nft?.headerLinksUri)
+
+  const {
+    ipfsContent,
+    failureReason: errorNftContent,
+    isLoading: loadingNftContent,
+  } = useIpfsNftContent(data?.nft?.uri)
+
+  const nftWithMetadata = useMemo(() => {
+    return {
+      ...data?.nft,
+      headerLinks,
+      ipfsContent,
+    }
+  }, [data?.nft, headerLinks, ipfsContent])
 
   return useMemo(
     () => ({
-      nft: nftData,
+      nft: nftWithMetadata,
       loadingNft:
         loading ||
+        loadingHeaderLinks ||
+        loadingNftContent ||
         ![
           NetworkStatus.ready,
           NetworkStatus.error,
           NetworkStatus.poll,
         ].includes(networkStatus),
-      error,
+      error: error || errorHeaderLinks || errorNftContent,
       refetch,
       refetchingNft: [NetworkStatus.poll].includes(networkStatus),
     }),
-    [error, loading, networkStatus, nftData, refetch]
+    [
+      error,
+      errorHeaderLinks,
+      errorNftContent,
+      loading,
+      loadingHeaderLinks,
+      loadingNftContent,
+      networkStatus,
+      nftWithMetadata,
+      refetch,
+    ]
   )
 }
 

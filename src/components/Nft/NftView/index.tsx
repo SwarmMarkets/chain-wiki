@@ -1,5 +1,5 @@
 import HtmlRender from '@src/components/HtmlRender'
-import { NFTQueryFullData } from '@src/shared/utils/ipfs/types'
+import { NFTWithMetadata } from '@src/shared/utils/ipfs/types'
 import { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import Text from '@src/components/ui/Text'
@@ -8,7 +8,7 @@ import { StyledCard } from '../styled-components'
 import useNftPermissions from '@src/hooks/permissions/useNftPermissions'
 
 interface NftViewProps {
-  nft?: NFTQueryFullData | null
+  nft?: NFTWithMetadata | null
   onMount: (element: HTMLDivElement) => void
   onClickEditSite: () => void
 }
