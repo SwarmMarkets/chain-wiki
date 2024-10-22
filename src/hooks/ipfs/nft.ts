@@ -12,7 +12,6 @@ export const useIpfsNftContent = (ipfsUri?: string) => {
     queryKey: ['ipfsNftContent', ipfsUri],
     queryFn: async () => {
       const res = await storage?.downloadJSON(ipfsUri!)
-      console.log('useIpfsNftContent', ipfsUri, res)
       return parseIpfsNftContent(res)
     },
     staleTime: 300000, // 5 minutes
