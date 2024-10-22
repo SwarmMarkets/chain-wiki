@@ -41,7 +41,7 @@ const useNFTUpdate = (nftAddress: string) => {
   const { nft } = useNFT(nftAddress)
 
   const uploadContent = async (content: Partial<IpfsNftContent>) => {
-    if (!nft || content.htmlContent === undefined) return
+    if (!nft.id || content.htmlContent === undefined) return
     const ipfsContent = generateIpfsNftContent({
       htmlContent: content.htmlContent,
       address: unifyAddressToId(nft.id),
@@ -53,7 +53,7 @@ const useNFTUpdate = (nftAddress: string) => {
   }
 
   const uploadIndexPagesContent = async (indexPages: IpfsIndexPage[]) => {
-    if (!nft) return
+    if (!nft.id) return
     const ipfsIndexPagesContent = generateIpfsIndexPagesContent({
       indexPages: indexPages,
       address: unifyAddressToId(nft.id),
@@ -64,7 +64,7 @@ const useNFTUpdate = (nftAddress: string) => {
     return firstUri
   }
   const uploadHeaderLinksContent = async (headerLinks: IpfsHeaderLink[]) => {
-    if (!nft) return
+    if (!nft.id) return
     const ipfsHeaderLinksContent = generateIpfsHeaderLinksContent({
       headerLinks: headerLinks,
       address: unifyAddressToId(nft.id),
