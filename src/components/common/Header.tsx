@@ -46,16 +46,10 @@ const Header: React.FC = () => {
 
   const headerBackground = useMemo(() => {
     if (isNft) {
-      if (headerColor) {
-        return headerColor
-      }
-      if (nft.headerBackground) {
-        return nft.headerBackground
-      }
-    } else {
-      return theme.palette.white
+      return headerColor || nft?.headerBackground || theme.palette.white
     }
-  }, [headerColor, nft?.headerBackground, isNft, theme.palette.white])
+    return theme.palette.white
+  }, [isNft, theme.palette.white, headerColor, nft?.headerBackground])
 
   return (
     <HeaderContainer as='header' $headerBackground={headerBackground}>
