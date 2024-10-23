@@ -1,12 +1,12 @@
 // @src/components/Nft/NftPage.tsx
-import TokenList from '@src/components/Token/TokenList'
+import Content from '@src/components/Content'
 import HistoryNft from '@src/components/History/HistoryNft'
+import IndexPages from '@src/components/IndexPages'
 import NftContentSkeleton from '@src/components/Nft/NftContentSkeleton'
 import { NftView } from '@src/components/Nft/NftView'
-import {
-  StyledIndexPages,
-  StyledContent,
-} from '@src/components/Nft/styled-components'
+import { SideContentWrap } from '@src/components/Nft/styled-components'
+import Settings from '@src/components/Settings/Settings'
+import TokenList from '@src/components/Token/TokenList'
 import ExplorerLink from '@src/components/common/ExplorerLink'
 import Box from '@src/components/ui/Box'
 import Flex from '@src/components/ui/Flex'
@@ -18,6 +18,7 @@ import Text from '@src/components/ui/Text'
 import useNftPermissions from '@src/hooks/permissions/useNftPermissions'
 import useNFT from '@src/hooks/subgraph/useNFT'
 import useTokens from '@src/hooks/subgraph/useTokens'
+import useTabs from '@src/hooks/useTabs'
 import { NftTabs } from '@src/shared/enums/tabs'
 import { Tab as ITab } from '@src/shared/types/ui-components'
 import { unifyAddressToId } from '@src/shared/utils'
@@ -25,8 +26,6 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
 import { useTheme } from 'styled-components'
-import useTabs from '@src/hooks/useTabs'
-import Settings from '@src/components/Settings/Settings'
 
 const NftPage = () => {
   const { nftId = '' } = useParams()
@@ -78,7 +77,9 @@ const NftPage = () => {
       $gap='20px'
     >
       {activeTab === NftTabs.NFT && (
-        <StyledIndexPages tokens={fullTokens} nft={nft} />
+        <SideContentWrap>
+          <IndexPages tokens={fullTokens} nft={nft} />
+        </SideContentWrap>
       )}
       <Box width='900px'>
         <Flex $gap='5px' flexDirection='column'>
@@ -131,7 +132,11 @@ const NftPage = () => {
           </TabPanel>
         </TabContext>
       </Box>
-      {isNftTab && <StyledContent contentElem={contentElem} />}
+      {isNftTab && (
+        <SideContentWrap>
+          <Content contentElem={contentElem} />
+        </SideContentWrap>
+      )}
     </Flex>
   )
 }
