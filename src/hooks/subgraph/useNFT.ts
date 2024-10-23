@@ -1,11 +1,12 @@
 import { NetworkStatus, useQuery } from '@apollo/client'
 import { NFTQuery } from '@src/queries'
 import { useMemo } from 'react'
-import { useIpfsHeaderLinksContent, useIpfsNftContent } from '../ipfs/nft'
+import { useIpfsHeaderLinks, useIpfsNftContent } from '../ipfs/nft'
 import {
   initialHeaderLinks,
   initialNftContent,
 } from '@src/shared/utils/ipfs/consts'
+import { NFTWithMetadata } from '@src/shared/utils'
 
 const POLL_INTERVAL = 15000
 
@@ -31,7 +32,7 @@ const useNFT = (id: string, options?: UseNFTOptions) => {
     headerLinks = initialHeaderLinks.headerLinks,
     failureReason: errorHeaderLinks,
     isLoading: loadingHeaderLinks,
-  } = useIpfsHeaderLinksContent(headerLinksUri)
+  } = useIpfsHeaderLinks(headerLinksUri)
 
   const {
     ipfsContent = initialNftContent,
@@ -44,7 +45,7 @@ const useNFT = (id: string, options?: UseNFTOptions) => {
       ...data?.nft,
       headerLinks,
       ipfsContent,
-    }
+    } as unknown as NFTWithMetadata
   }, [data?.nft, headerLinks, ipfsContent])
 
   return useMemo(

@@ -31,13 +31,11 @@ export const parseIpfsHeaderLinksContent = (
 }
 
 export const parseIpfsIndexPagesContent = (
-  content: string
+  content: object
 ): IpfsIndexPagesContent => {
   try {
-    const parsedContent = JSON.parse(content)
-    const validKeys = Object.keys(initialIndexPagesContent)
-    verifyObjectKeysDeep(validKeys, parsedContent)
-    return parsedContent
+    verifyObjectKeysDeep(initialIndexPagesContent, content)
+    return content as IpfsIndexPagesContent
   } catch {
     throw Error('Invalid JSON format')
   }
