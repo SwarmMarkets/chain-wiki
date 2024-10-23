@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
-import { FiMinus } from 'react-icons/fi'
-import { SettingsLayout } from './SettingsLayout'
+
 import { useTranslation } from 'react-i18next'
 import TextField from '@src/components/ui/TextField/TextField'
 import Button from '@src/components/ui/Button/Button'
@@ -9,6 +8,7 @@ import Flex from '@src/components/ui/Flex'
 import RequirePermissions from '@src/components/common/RequirePermissions'
 import UpdateNftContentButton from '@src/components/UpdateContent/UpdateNftContentButton'
 import { getUniqueId } from '@src/shared/utils'
+import Icon from '@src/components/ui/Icon'
 
 const DragHandle = styled.div`
   cursor: grab;
@@ -19,7 +19,7 @@ const DragHandle = styled.div`
 `
 
 const StyledButtonRemove = styled(Button)`
-  padding: 4px;
+  padding: 2px;
   display: flex;
   align-items: center;
 `
@@ -35,7 +35,7 @@ interface EditHeaderLinksProps {
 }
 
 const EditHeaderLinks: React.FC<EditHeaderLinksProps> = ({ nftAddress }) => {
-  const { t } = useTranslation('nft')
+  const { t } = useTranslation('nft', { keyPrefix: 'editHeaderLinks' })
   const [links, setLinks] = useState<LinkItem[]>([
     { id: '1', title: '', link: '' },
   ])
@@ -77,43 +77,36 @@ const EditHeaderLinks: React.FC<EditHeaderLinksProps> = ({ nftAddress }) => {
   return (
     <Flex width='100%' maxWidth='600px' flexDirection='column'>
       <Flex flexDirection='column' flexGrow={0}>
-        <SettingsLayout
-          title={t('roleManager.navigation.title')}
-          description={t('roleManager.navigation.description')}
-        >
-          {links.map(link => (
-            <Flex
-              key={link.id}
-              alignItems='center'
-              $gap='8px'
-              marginBottom='8px'
-              paddingBottom='8px'
-              draggable
-              onDragStart={() => handleDragStart(link.id)}
-              onDragOver={e => e.preventDefault()}
-              onDrop={() => handleDrop(link.id)}
-            >
-              <DragHandle>⋮⋮</DragHandle>
-              <TextField
-                placeholder='Title'
-                value={link.title}
-                onChange={e =>
-                  handleInputChange(link.id, 'title', e.target.value)
-                }
-              />
-              <TextField
-                placeholder='URL'
-                value={link.link}
-                onChange={e =>
-                  handleInputChange(link.id, 'link', e.target.value)
-                }
-              />
-              <StyledButtonRemove onClick={() => handleRemoveLink(link.id)}>
-                <FiMinus />
-              </StyledButtonRemove>
-            </Flex>
-          ))}
-        </SettingsLayout>
+        {links.map(link => (
+          <Flex
+            key={link.id}
+            alignItems='center'
+            $gap='8px'
+            marginBottom='8px'
+            paddingBottom='8px'
+            draggable
+            onDragStart={() => handleDragStart(link.id)}
+            onDragOver={e => e.preventDefault()}
+            onDrop={() => handleDrop(link.id)}
+          >
+            <DragHandle>⋮⋮</DragHandle>
+            <TextField
+              placeholder='Title'
+              value={link.title}
+              onChange={e =>
+                handleInputChange(link.id, 'title', e.target.value)
+              }
+            />
+            <TextField
+              placeholder='URL'
+              value={link.link}
+              onChange={e => handleInputChange(link.id, 'link', e.target.value)}
+            />
+            <StyledButtonRemove onClick={() => handleRemoveLink(link.id)}>
+              <Icon style={{ display: 'flex' }} name='dash' />
+            </StyledButtonRemove>
+          </Flex>
+        ))}
       </Flex>
 
       <Flex
@@ -122,11 +115,10 @@ const EditHeaderLinks: React.FC<EditHeaderLinksProps> = ({ nftAddress }) => {
         marginRight='160px'
       >
         <Button size='medium' onClick={handleAddLink}>
-          {t('roleManager.navigation.buttonAddLink')}
+          {t('buttonAddLink')}
         </Button>
         <RequirePermissions nftAddress={nftAddress} canUpdateContent>
           <UpdateNftContentButton
-            mt={3}
             // onSuccess={onSuccessUpdate}
             nftAddress={nftAddress}
             ipfsHeaderLinkToUpdate={links}

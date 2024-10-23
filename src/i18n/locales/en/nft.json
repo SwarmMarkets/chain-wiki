@@ -9,7 +9,64 @@
   "settings": {
     "preferences": "Preferences",
     "content": "Content",
-    "layout": "Layout"
+    "layout": "Layout",
+    "navigation": {
+      "general": {
+        "title": "General Settings",
+        "links": {
+          "general": {
+            "label": "General",
+            "icon": "settings"
+          }
+        }
+      },
+      "accessControl": {
+        "title": "Access Control",
+        "links": {
+          "roles": {
+            "label": "Roles",
+            "icon": "roles"
+          }
+        }
+      },
+      "layoutPreferences": {
+        "title": "Preferences and Layout",
+        "links": {
+          "contentEditor": {
+            "label": "Content Editor",
+            "icon": "contentEditor"
+          },
+          "layout": {
+            "label": "Layout",
+            "icon": "layout"
+          }
+        }
+      }
+    },
+    "siteName": {
+      "title": "Title",
+      "description": "Overwrite the title of your content when published"
+    },
+    "roleManager": {
+      "title": "Manage site roles",
+      "description": "This page is dedicated to managing user roles within the site. It allows for the assignment and adjustment of roles to ensure proper access control and responsibility distribution across the team."
+    },
+    "customLogo": {
+      "title": "Custom Logo",
+      "description": "Replace the content's title with a custom logo"
+    },
+    "colorPicker": {
+      "title": "Header color",
+      "description": "Select a new color for the header using the Color Picker"
+    },
+    "editPageContent": {
+      "title": "Edit Page Content",
+      "description": "Update the content of your page when published."
+    },
+    "editHeaderLinks": {
+      "title": "Navigation",
+      "description": "Create a navigation menu by adding links"
+    }
   },
   "createNft": {
     "title": "Create site",
@@ -51,33 +108,9 @@
     "description": "Your site is visible on \"My sites\" page."
   },
   "roleManager": {
-    "title": "Manage site roles",
-    "description": "This page is dedicated to managing user roles within the site. It allows for the assignment and adjustment of roles to ensure proper access control and responsibility distribution across the team.",
     "tableHead": {
       "address": "Address",
       "role": "Role"
-    },
-    "siteName": {
-      "title": "Title",
-      "description": "Overwrite the title of your content when published"
-    },
-    "customLogo": {
-      "title": "Custom Logo",
-      "description": "Replace the content's title with a custom logo"
-    },
-    "colorPicker": {
-      "title": "Header color",
-      "description": "Select a new color for the header using the Color Picker"
-    },
-    "contentEditor": {
-      "title": "Text Editor",
-      "description": "You can change: text color, font, indentation, create presets and so on..."
-    },
-    "navigation": {
-      "title": "Navigation",
-      "description": "To create a navigation menu, add a link, sub-links will show in a dropdown for each item.",
-      "buttonAddLink": "Add link",
-      "buttonPublish": "Publish"
     },
     "actions": {
       "grantRole": "Grant role",
@@ -100,6 +133,9 @@
         "required": "Role is required"
       }
     }
+  },
+  "editHeaderLinks": {
+    "buttonAddLink": "Add link"
   },
   "roles": {
     "admin": "Admin",

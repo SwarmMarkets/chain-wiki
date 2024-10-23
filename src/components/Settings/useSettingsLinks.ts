@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import { SettingView } from './enums'
 
-const useSettingsText = () => {
+const useSettingsLinks = () => {
   const { t } = useTranslation('nft', { keyPrefix: 'settings' })
 
   return {
@@ -43,4 +43,4 @@ const useSettingsText = () => {
   }
 }
 
-export default useSettingsText
+export default useSettingsLinks

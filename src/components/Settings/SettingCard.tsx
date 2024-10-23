@@ -1,14 +1,14 @@
 import Text from '@src/components/ui/Text'
-import { StyledRolesDescription } from '../styled-components'
 import Flex from '@src/components/ui/Flex'
 import { ChildrenProp } from '@src/shared/types/common-props'
+import Box from '../ui/Box'
 
-interface SettingsLayoutProps extends ChildrenProp {
+interface SettingCardProps extends ChildrenProp {
   description: string
   title: string
 }
 
-export const SettingsLayout: React.FC<SettingsLayoutProps> = ({
+const SettingCard: React.FC<SettingCardProps> = ({
   description,
   title,
   children,
@@ -16,8 +16,14 @@ export const SettingsLayout: React.FC<SettingsLayoutProps> = ({
   return (
     <Flex flexGrow={1} flexDirection={'column'}>
       <Text.h2 mb={2}>{title}</Text.h2>
-      <StyledRolesDescription mb={3}>{description}</StyledRolesDescription>
+      <Box maxWidth={700}>
+        <Text.p lineHeight='1.3' color='gray' mb={3}>
+          {description}
+        </Text.p>
+      </Box>
+
       {children}
     </Flex>
   )
 }
+export default SettingCard

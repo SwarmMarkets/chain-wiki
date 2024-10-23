@@ -47,8 +47,8 @@ const NftPage = () => {
   })
   const showSkeleton = loadingNft && !refetchingNft
   const isNftTab = activeTab === NftTabs.NFT
-  const allLoaded = nft && fullTokens
 
+  const allLoaded = nft && fullTokens
   const onMountContent = (element: HTMLDivElement) => {
     setContentElem(element)
   }

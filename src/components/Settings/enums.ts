@@ -1,4 +1,4 @@
-export enum SettingView {
+export enum   SettingView {
   GENERAL = 'general',
   ROLES = 'roles',
   CONTENT = 'content',

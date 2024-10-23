@@ -73,7 +73,7 @@ const IndexPages: React.FC<IndexPagesProps> = ({ tokens, nft, ...props }) => {
 
   return (
     <Box {...props}>
-      {isEdit === false && tokens ? (
+      {isEdit && tokens ? (
         <IndexPagesEdit
           tokens={tokens}
           indexPages={activeIndexPages}

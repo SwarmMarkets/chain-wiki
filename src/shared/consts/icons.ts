@@ -27,6 +27,7 @@ const icons = {
   roles: React.lazy(() => import('@src/assets/icons/roles.svg?react')),
   contentEditor: React.lazy(() => import('@src/assets/icons/contentEditor.svg?react')),
   layout: React.lazy(() => import('@src/assets/icons/layout.svg?react')),
+  dash: React.lazy(() => import('@src/assets/icons/dash.svg?react')),
 }
 
 export default icons

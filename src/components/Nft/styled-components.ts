@@ -23,12 +23,6 @@ export const StyledLink = styled(Link)`
   display: contents;
 `
 
-export const StyledRolesDescription = styled(Text.p)`
-  max-width: 700px;
-  line-height: 1.3;
-  color: ${({ theme }) => theme.palette.gray};
-`
-
 const boxStyles = `
   margin-top: 78px;
   max-width: 210px;
