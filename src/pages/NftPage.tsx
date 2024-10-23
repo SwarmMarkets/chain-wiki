@@ -8,6 +8,7 @@ import { SideContentWrap } from '@src/components/Nft/styled-components'
 import Settings from '@src/components/Settings/Settings'
 import TokenList from '@src/components/Token/TokenList'
 import ExplorerLink from '@src/components/common/ExplorerLink'
+import { NftContextProvider } from '@src/components/providers/NftContex'
 import Box from '@src/components/ui/Box'
 import Flex from '@src/components/ui/Flex'
 import Tabs from '@src/components/ui/Tabs'
@@ -72,6 +73,7 @@ const NftPage = () => {
   }
 
   return (
+      <NftContextProvider value={nft}>
     <Flex
       justifyContent={isNftTab && allLoaded ? 'space-between' : 'center'}
       $gap='20px'
@@ -137,7 +139,8 @@ const NftPage = () => {
           <Content contentElem={contentElem} />
         </SideContentWrap>
       )}
-    </Flex>
+      </Flex>
+      </NftContextProvider>
   )
 }
 

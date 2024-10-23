@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-
 import { useTranslation } from 'react-i18next'
 import TextField from '@src/components/ui/TextField/TextField'
 import Button from '@src/components/ui/Button/Button'
@@ -7,8 +6,9 @@ import styled from 'styled-components'
 import Flex from '@src/components/ui/Flex'
 import RequirePermissions from '@src/components/common/RequirePermissions'
 import UpdateNftContentButton from '@src/components/UpdateContent/UpdateNftContentButton'
-import { getUniqueId } from '@src/shared/utils'
+import { getUniqueId, IpfsHeaderLink } from '@src/shared/utils'
 import Icon from '@src/components/ui/Icon'
+import { useNftContext } from '@src/components/providers/NftContex'
 
 const DragHandle = styled.div`
   cursor: grab;
@@ -24,21 +24,20 @@ const StyledButtonRemove = styled(Button)`
   align-items: center;
 `
 
-interface LinkItem {
-  id: string
-  title: string
-  link: string
-}
-
 interface EditHeaderLinksProps {
   nftAddress: string
 }
 
 const EditHeaderLinks: React.FC<EditHeaderLinksProps> = ({ nftAddress }) => {
   const { t } = useTranslation('nft', { keyPrefix: 'editHeaderLinks' })
-  const [links, setLinks] = useState<LinkItem[]>([
-    { id: '1', title: '', link: '' },
-  ])
+  const nft = useNftContext()
+  const initialLinks = nft?.headerLinks?.length
+    ? nft?.headerLinks
+    : [{ id: getUniqueId(), title: '', link: '' }]
+
+  const [links, setLinks] = useState<IpfsHeaderLink[]>(initialLinks)
+  const linksToUpdate = links.filter(link => link.link && link.title)
+
   const [draggingId, setDraggingId] = useState<string | null>(null)
 
   const handleInputChange = (id: string, field: string, value: string) => {
@@ -121,7 +120,7 @@ const EditHeaderLinks: React.FC<EditHeaderLinksProps> = ({ nftAddress }) => {
           <UpdateNftContentButton
             // onSuccess={onSuccessUpdate}
             nftAddress={nftAddress}
-            ipfsHeaderLinkToUpdate={links}
+            ipfsHeaderLinkToUpdate={linksToUpdate}
           />
         </RequirePermissions>
       </Flex>
