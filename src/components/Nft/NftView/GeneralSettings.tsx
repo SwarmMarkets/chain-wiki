@@ -73,7 +73,7 @@ const GeneralSettings: React.FC<GeneralSettingsProps> = ({ nftAddress }) => {
         description={t('customLogo.description')}
       >
         <UploadFileButton mb={2} onUpload={handleUploadLogo}>
-          Change Logo
+          Change logo
         </UploadFileButton>
         {uploadedLogoUrl && (
           <LogoWrapper justifyContent='center' p='20px'>

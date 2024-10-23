@@ -12,7 +12,7 @@
     "layout": "Layout",
     "navigation": {
       "general": {
-        "title": "General Settings",
+        "title": "General settings",
         "links": {
           "general": {
             "label": "General",
@@ -21,7 +21,7 @@
         }
       },
       "accessControl": {
-        "title": "Access Control",
+        "title": "Access control",
         "links": {
           "roles": {
             "label": "Roles",
@@ -30,10 +30,10 @@
         }
       },
       "layoutPreferences": {
-        "title": "Preferences and Layout",
+        "title": "Preferences and layout",
         "links": {
           "contentEditor": {
-            "label": "Content Editor",
+            "label": "Content editor",
             "icon": "contentEditor"
           },
           "layout": {
@@ -52,15 +52,15 @@
       "description": "This page is dedicated to managing user roles within the site. It allows for the assignment and adjustment of roles to ensure proper access control and responsibility distribution across the team."
     },
     "customLogo": {
-      "title": "Custom Logo",
+      "title": "Custom logo",
       "description": "Replace the content's title with a custom logo"
     },
     "colorPicker": {
       "title": "Header color",
-      "description": "Select a new color for the header using the Color Picker"
+      "description": "Select a new color for the header using the color picker"
     },
     "editPageContent": {
-      "title": "Edit Page Content",
+      "title": "Edit page content",
       "description": "Update the content of your page when published."
     },
     "editHeaderLinks": {
