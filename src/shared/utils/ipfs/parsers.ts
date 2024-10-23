@@ -1,5 +1,9 @@
 import { verifyObjectKeysDeep } from '../json'
-import { initialHeaderLinks, initialIndexPagesContent } from './consts'
+import {
+  initialHeaderLinks,
+  initialIndexPagesContent,
+  initialNftContent,
+} from './consts'
 import {
   IpfsHeaderLinksContent,
   IpfsIndexPagesContent,
@@ -8,7 +12,7 @@ import {
 
 export const parseIpfsNftContent = (content: object): IpfsNftContent => {
   try {
-    verifyObjectKeysDeep(content, content)
+    verifyObjectKeysDeep(initialNftContent, content)
     return content as IpfsNftContent
   } catch {
     throw Error('Invalid JSON format')
