@@ -5,6 +5,7 @@ import { isSameEthereumAddress, unifyAddressToId } from '@src/shared/utils/web3'
 
 export interface Permissions {
   canCreateNft: boolean
+  canUpdateSettings: boolean
   canUpdateContent: boolean
   canCreateToken: boolean
   canManageRoles: boolean
@@ -16,6 +17,7 @@ type HasPermissionsFunction = (permission: keyof Permissions) => boolean
 
 const initialPermissions: Permissions = {
   canCreateNft: false,
+  canUpdateSettings: false,
   canUpdateContent: false,
   canCreateToken: false,
   canManageRoles: false,
@@ -50,6 +52,7 @@ const useNftPermissions = (nftAddress?: string) => {
     return {
       canCreateNft: connected === 'connected',
       canManageRoles: isAdmin,
+      canUpdateSettings: isAdmin,
       canUpdateContent: isEditor,
       canCreateToken: isEditor,
       canCreateAttestation: connected === 'connected',

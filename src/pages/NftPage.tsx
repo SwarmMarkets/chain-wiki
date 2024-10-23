@@ -109,7 +109,7 @@ const NftPage = () => {
             <Tab value={NftTabs.NFT} label={t('tabs.nft')} />
             <Tab value={NftTabs.TOKENS} label={t('tabs.tokens')} />
             <Tab value={NftTabs.HISTORY} label={t('tabs.history')} />
-            {permissions.canUpdateContent && (
+            {permissions.canUpdateSettings && (
               <Tab value={NftTabs.SETTINGS} label={t('tabs.settings')} />
             )}
           </Tabs>
