@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled from 'styled-components'
 
 export const StyledNav = styled.nav`
   padding-right: 25px;
@@ -12,12 +12,12 @@ export const StyledNavList = styled.ul`
   font-size: 14px;
 `
 
-export const StyledTab = styled.div<{ active: boolean }>`
+export const StyledTab = styled.div<{ $active: boolean }>`
   margin-top: 10px;
   margin-bottom: 10px;
   cursor: pointer;
   color: ${props =>
-    props.active
+    props.$active
       ? props.theme.palette.borderBlue
       : props.theme.palette.textPrimary};
 `

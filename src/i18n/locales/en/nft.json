@@ -135,7 +135,11 @@
     }
   },
   "editHeaderLinks": {
-    "buttonAddLink": "Add link"
+    "buttonAddLink": "Add link",
+    "placeholders": {
+      "url": "URL",
+      "name": "Title"
+    }
   },
   "roles": {
     "admin": "Admin",

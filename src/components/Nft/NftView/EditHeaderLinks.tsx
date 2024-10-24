@@ -90,14 +90,14 @@ const EditHeaderLinks: React.FC<EditHeaderLinksProps> = ({ nftAddress }) => {
           >
             <DragHandle>⋮⋮</DragHandle>
             <TextField
-              placeholder='Title'
+              placeholder={t('placeholders.name')}
               value={link.title}
               onChange={e =>
                 handleInputChange(link.id, 'title', e.target.value)
               }
             />
             <TextField
-              placeholder='URL'
+              placeholder={t('placeholders.url')}
               value={link.link}
               onChange={e => handleInputChange(link.id, 'link', e.target.value)}
             />

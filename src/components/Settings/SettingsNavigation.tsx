@@ -34,7 +34,7 @@ const SettingsNavigation = () => {
               {group.links.map(navItem => (
                 <StyledTab
                   key={navItem.label}
-                  active={activeTab === navItem.link}
+                  $active={activeTab === navItem.link}
                 >
                   <Link
                     to={`?${getSearchParams(navItem.link)}`}
