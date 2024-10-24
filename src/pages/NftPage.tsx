@@ -7,7 +7,6 @@ import { SideContentWrap } from '@src/components/Nft/styled-components'
 import Settings from '@src/components/Settings/Settings'
 import TokenList from '@src/components/Token/TokenList'
 import ExplorerLink from '@src/components/common/ExplorerLink'
-import { NftContextProvider } from '@src/components/providers/NftContex'
 import Box from '@src/components/ui/Box'
 import Flex from '@src/components/ui/Flex'
 import Tabs from '@src/components/ui/Tabs'
@@ -16,7 +15,7 @@ import TabContext from '@src/components/ui/Tabs/TabContext'
 import TabPanel from '@src/components/ui/Tabs/TabPanel'
 import Text from '@src/components/ui/Text'
 import useNftPermissions from '@src/hooks/permissions/useNftPermissions'
-import useNFTContext from '@src/hooks/subgraph/useNFT'
+import useNFT from '@src/hooks/subgraph/useNFT'
 import useTokens from '@src/hooks/subgraph/useTokens'
 import useTabs from '@src/hooks/useTabs'
 import { NftTabs } from '@src/shared/enums/tabs'
@@ -33,7 +32,7 @@ const NftPage = () => {
   const { t } = useTranslation('nft')
   const { permissions } = useNftPermissions(nftId)
   const [contentElem, setContentElem] = useState<HTMLDivElement | null>(null)
-  const { nft, loadingNft, refetchingNft } = useNFTContext(nftId, {
+  const { nft, loadingNft, refetchingNft } = useNFT(nftId, {
     fetchFullData: true,
   })
   const { fullTokens, loading: tokensLoading } = useTokens(
@@ -72,74 +71,72 @@ const NftPage = () => {
   }
 
   return (
-    <NftContextProvider value={nft}>
-      <Flex
-        justifyContent={isNftTab && allLoaded ? 'space-between' : 'center'}
-        $gap='20px'
-      >
-        {activeTab === NftTabs.NFT && (
-          <SideContentWrap>
-            <IndexPages tokens={fullTokens} nft={nft} />
-          </SideContentWrap>
-        )}
-        <Box width='900px'>
-          <Flex $gap='5px' flexDirection='column'>
-            <Text.h1 size={theme.fontSizes.large} weight={700}>
-              {nft?.name}
-            </Text.h1>
-            <ExplorerLink
-              iconSize={10}
-              iconsPosition='right'
-              type='address'
-              hash={nftId}
+    <Flex
+      justifyContent={isNftTab && allLoaded ? 'space-between' : 'center'}
+      $gap='20px'
+    >
+      {activeTab === NftTabs.NFT && (
+        <SideContentWrap>
+          <IndexPages tokens={fullTokens} nft={nft} />
+        </SideContentWrap>
+      )}
+      <Box width='900px'>
+        <Flex $gap='5px' flexDirection='column'>
+          <Text.h1 size={theme.fontSizes.large} weight={700}>
+            {nft?.name}
+          </Text.h1>
+          <ExplorerLink
+            iconSize={10}
+            iconsPosition='right'
+            type='address'
+            hash={nftId}
+          >
+            <Text
+              fontSize={theme.fontSizes.small}
+              color={theme.palette.linkPrimary}
             >
-              <Text
-                fontSize={theme.fontSizes.small}
-                color={theme.palette.linkPrimary}
-              >
-                {nftId}
-              </Text>
-            </ExplorerLink>
-          </Flex>
+              {nftId}
+            </Text>
+          </ExplorerLink>
+        </Flex>
 
-          <TabContext value={activeTab}>
-            <Tabs onChange={onChangeNftTab}>
-              <Tab value={NftTabs.NFT} label={t('tabs.nft')} />
-              <Tab value={NftTabs.TOKENS} label={t('tabs.tokens')} />
-              <Tab value={NftTabs.HISTORY} label={t('tabs.history')} />
-              {permissions.canUpdateSettings && (
-                <Tab value={NftTabs.SETTINGS} label={t('tabs.settings')} />
-              )}
-            </Tabs>
-            <TabPanel value={NftTabs.NFT}>
-              <NftView
-                nft={nft}
-                onMount={onMountContent}
-                onClickEditSite={handleSettingsSite}
-              />
-            </TabPanel>
-            <TabPanel value={NftTabs.TOKENS}>
-              <TokenList
-                tokens={fullTokens}
-                loading={tokensLoading}
-                nftAddress={nftId!}
-              />
-            </TabPanel>
-            <TabPanel value={NftTabs.SETTINGS}>
-              <Settings />
-            </TabPanel>
-            <TabPanel value={NftTabs.HISTORY}>
-              <HistoryNft />
-            </TabPanel>
-          </TabContext>
-        </Box>
-        {isNftTab && (
-          <SideContentWrap>
-            <Content contentElem={contentElem} />
-          </SideContentWrap>
-        )}
-      </Flex>
-    </NftContextProvider>
+        <TabContext value={activeTab}>
+          <Tabs onChange={onChangeNftTab}>
+            <Tab value={NftTabs.NFT} label={t('tabs.nft')} />
+            <Tab value={NftTabs.TOKENS} label={t('tabs.tokens')} />
+            <Tab value={NftTabs.HISTORY} label={t('tabs.history')} />
+            {permissions.canUpdateSettings && (
+              <Tab value={NftTabs.SETTINGS} label={t('tabs.settings')} />
+            )}
+          </Tabs>
+          <TabPanel value={NftTabs.NFT}>
+            <NftView
+              nft={nft}
+              onMount={onMountContent}
+              onClickEditSite={handleSettingsSite}
+            />
+          </TabPanel>
+          <TabPanel value={NftTabs.TOKENS}>
+            <TokenList
+              tokens={fullTokens}
+              loading={tokensLoading}
+              nftAddress={nftId!}
+            />
+          </TabPanel>
+          <TabPanel value={NftTabs.SETTINGS}>
+            <Settings />
+          </TabPanel>
+          <TabPanel value={NftTabs.HISTORY}>
+            <HistoryNft />
+          </TabPanel>
+        </TabContext>
+      </Box>
+      {isNftTab && (
+        <SideContentWrap>
+          <Content contentElem={contentElem} />
+        </SideContentWrap>
+      )}
+    </Flex>
   )
 }
 

@@ -8,7 +8,7 @@ import RequirePermissions from '@src/components/common/RequirePermissions'
 import UpdateNftContentButton from '@src/components/UpdateContent/UpdateNftContentButton'
 import { getUniqueId, IpfsHeaderLink } from '@src/shared/utils'
 import Icon from '@src/components/ui/Icon'
-import { useNftContext } from '@src/components/providers/NftContex'
+import useNFT from '@src/hooks/subgraph/useNFT'
 
 const DragHandle = styled.div`
   cursor: grab;
@@ -30,7 +30,9 @@ interface EditHeaderLinksProps {
 
 const EditHeaderLinks: React.FC<EditHeaderLinksProps> = ({ nftAddress }) => {
   const { t } = useTranslation('nft', { keyPrefix: 'editHeaderLinks' })
-  const nft = useNftContext()
+  const { nft } = useNFT(nftAddress, {
+    fetchFullData: true,
+  })
   const initialLinks = nft?.headerLinks?.length
     ? nft?.headerLinks
     : [{ id: getUniqueId(), title: '', link: '' }]
@@ -129,3 +131,6 @@ const EditHeaderLinks: React.FC<EditHeaderLinksProps> = ({ nftAddress }) => {
 }
 
 export default EditHeaderLinks
+function useNft() {
+  throw new Error('Function not implemented.')
+}
