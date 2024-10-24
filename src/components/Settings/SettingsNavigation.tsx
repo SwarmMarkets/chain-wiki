@@ -27,7 +27,7 @@ const SettingsNavigation = () => {
   return (
     <Box mt={1}>
       <StyledNav>
-        {Object.values(settingsLinks).map(group => (
+        {Object.values(settingsLinks).map((group, groupIdx) => (
           <div key={group.title}>
             <StyledTitle>{group.title}</StyledTitle>
             <StyledNavList>
@@ -47,7 +47,9 @@ const SettingsNavigation = () => {
                 </StyledTab>
               ))}
             </StyledNavList>
-            <Divider color={theme.palette.borderPrimary} my={2} />
+            {Object.values(settingsLinks).length !== groupIdx + 1 && (
+              <Divider color={theme.palette.borderPrimary} my={2} />
+            )}
           </div>
         ))}
       </StyledNav>
