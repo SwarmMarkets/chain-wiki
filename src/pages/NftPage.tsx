@@ -16,7 +16,7 @@ import TabContext from '@src/components/ui/Tabs/TabContext'
 import TabPanel from '@src/components/ui/Tabs/TabPanel'
 import Text from '@src/components/ui/Text'
 import useNftPermissions from '@src/hooks/permissions/useNftPermissions'
-import useNFT from '@src/hooks/subgraph/useNFT'
+import useNFTContext from '@src/hooks/subgraph/useNFT'
 import useTokens from '@src/hooks/subgraph/useTokens'
 import useTabs from '@src/hooks/useTabs'
 import { NftTabs } from '@src/shared/enums/tabs'
@@ -33,7 +33,7 @@ const NftPage = () => {
   const { t } = useTranslation('nft')
   const { permissions } = useNftPermissions(nftId)
   const [contentElem, setContentElem] = useState<HTMLDivElement | null>(null)
-  const { nft, loadingNft, refetchingNft } = useNFT(nftId, {
+  const { nft, loadingNft, refetchingNft } = useNFTContext(nftId, {
     fetchFullData: true,
   })
   const { fullTokens, loading: tokensLoading } = useTokens(
