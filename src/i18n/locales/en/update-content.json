@@ -4,7 +4,7 @@
     "description": "You are about to update your site content. This includes several steps to finalize content update.",
     "changeLogo": "Change logo"
   },
-  "EditHeaderLinks": {
+  "editHeaderLinks": {
     "addLink": "Add link"
   },
   "token": {
