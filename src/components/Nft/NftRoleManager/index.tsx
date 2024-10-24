@@ -5,8 +5,6 @@ import { useTranslation } from 'react-i18next'
 import ExplorerLink from '../../common/ExplorerLink'
 import Box from '../../ui/Box'
 import { Table, TableCell, TableHeader, TableRow } from '../../ui/Table'
-import Text from '../../ui/Text'
-import { StyledRolesDescription } from '../styled-components'
 import GrantRoleForm from './GrantRoleForm'
 import RevokeRoleButton from './RevokeRoleButton'
 
@@ -38,10 +36,6 @@ const NftRoleManager: React.FC<NftRoleManagerProps> = ({ nftAddress }) => {
 
   return (
     <Box>
-      <Text.h2 mb={3}>{t('roleManager.title')}</Text.h2>
-      <StyledRolesDescription mb={4}>
-        {t('roleManager.description')}
-      </StyledRolesDescription>
       <Table mb={4}>
         <thead>
           <TableRow>

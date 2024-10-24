@@ -3,7 +3,7 @@ import { useMemo, useState } from 'react'
 
 import { TokenQuery } from '@src/queries'
 import { QueryTokenArgs } from '@src/queries/gql/graphql'
-import { TokenQueryFullData } from '@src/shared/types/ipfs'
+import { TokenQueryFullData } from '@src/shared/utils/ipfs/types'
 import { useStorage } from '@thirdweb-dev/react'
 
 const POLL_INTERVAL = 5000

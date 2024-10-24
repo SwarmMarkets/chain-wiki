@@ -9,20 +9,18 @@ import Text from '@src/components/ui/Text'
 import RoutePaths from '@src/shared/enums/routes-paths'
 import {
   IpfsIndexPage,
-  IpfsIndexPagesContent,
-  NFTQueryFullData,
+  NFTWithMetadata,
   TokensQueryFullData,
-} from '@src/shared/types/ipfs'
-import { verifyIndexPagesValid } from '@src/shared/utils'
+} from '@src/shared/utils/ipfs/types'
 import RequirePermissions from '../common/RequirePermissions'
 import IndexPagesActions from './IndexPagesActions'
 import IndexPagesEdit, { IndexPagesEditListChanges } from './IndexPagesEdit'
 import { StyledLink } from './styled-components'
+import { useIpfsIndexPages } from '@src/hooks/ipfs/nft'
 
 interface IndexPagesProps {
   tokens: TokensQueryFullData[] | null
-  nft: NFTQueryFullData | null
-  indexPages?: string[] | null
+  nft: NFTWithMetadata | null
 }
 
 const IndexPages: React.FC<IndexPagesProps> = ({ tokens, nft, ...props }) => {
@@ -52,20 +50,14 @@ const IndexPages: React.FC<IndexPagesProps> = ({ tokens, nft, ...props }) => {
 
   const noTokens = tokens?.length === 0
 
-  useEffect(() => {
-    const fetchActivePages = async () => {
-      if (nft?.indexPagesUri) {
-        const activePagesContent: IpfsIndexPagesContent | undefined =
-          await storage?.downloadJSON(nft?.indexPagesUri)
+  const { indexPages } = useIpfsIndexPages(nft?.indexPagesUri)
 
-        if (activePagesContent && verifyIndexPagesValid(activePagesContent)) {
-          initialIndexPages.current = activePagesContent.indexPages
-          setActiveIndexPages(activePagesContent.indexPages)
-        }
-      }
+  useEffect(() => {
+    if (indexPages) {
+      initialIndexPages.current = indexPages
+      setActiveIndexPages(indexPages)
     }
-    fetchActivePages()
-  }, [nft?.indexPagesUri, storage])
+  }, [indexPages, nft?.indexPagesUri, storage])
 
   if (noTokens || !nft?.id) {
     return (

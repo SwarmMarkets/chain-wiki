@@ -1,5 +1,5 @@
 import Flex from '@src/components/ui/Flex'
-import { CommentsQueryFullData } from '@src/shared/types/ipfs'
+import { CommentsQueryFullData } from '@src/shared/utils/ipfs/types'
 import dayjs from 'dayjs'
 import React from 'react'
 import AttestationCard from './AttestationCard'

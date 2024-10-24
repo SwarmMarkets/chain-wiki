@@ -1,12 +1,11 @@
-import TokenList from '@src/components/Token/TokenList'
+import Content from '@src/components/Content'
 import HistoryNft from '@src/components/History/HistoryNft'
+import IndexPages from '@src/components/IndexPages'
 import NftContentSkeleton from '@src/components/Nft/NftContentSkeleton'
-import NftRoleManager from '@src/components/Nft/NftRoleManager'
 import { NftView } from '@src/components/Nft/NftView'
-import {
-  StyledIndexPages,
-  StyledContent,
-} from '@src/components/Nft/styled-components'
+import { SideContentWrap } from '@src/components/Nft/styled-components'
+import Settings from '@src/components/Settings/Settings'
+import TokenList from '@src/components/Token/TokenList'
 import ExplorerLink from '@src/components/common/ExplorerLink'
 import Box from '@src/components/ui/Box'
 import Flex from '@src/components/ui/Flex'
@@ -18,6 +17,7 @@ import Text from '@src/components/ui/Text'
 import useNftPermissions from '@src/hooks/permissions/useNftPermissions'
 import useNFT from '@src/hooks/subgraph/useNFT'
 import useTokens from '@src/hooks/subgraph/useTokens'
+import useTabs from '@src/hooks/useTabs'
 import { NftTabs } from '@src/shared/enums/tabs'
 import { Tab as ITab } from '@src/shared/types/ui-components'
 import { unifyAddressToId } from '@src/shared/utils'
@@ -25,8 +25,6 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
 import { useTheme } from 'styled-components'
-import useTabs from '@src/hooks/useTabs'
-import NftEditView from '@src/components/Nft/NftView/NftEditView'
 
 const NftPage = () => {
   const { nftId = '' } = useParams()
@@ -43,13 +41,13 @@ const NftPage = () => {
     },
     { fetchFullData: true }
   )
-  const { activeTab, changeTab, resetTab } = useTabs<NftTabs>({
+  const { activeTab, changeTab } = useTabs<NftTabs>({
     defaultTab: NftTabs.NFT,
   })
   const showSkeleton = loadingNft && !refetchingNft
   const isNftTab = activeTab === NftTabs.NFT
-  const allLoaded = nft && fullTokens
 
+  const allLoaded = nft && fullTokens
   const onMountContent = (element: HTMLDivElement) => {
     setContentElem(element)
   }
@@ -58,12 +56,8 @@ const NftPage = () => {
     changeTab(tab.value)
   }
 
-  const handleSuccessUpdate = () => {
-    resetTab()
-  }
-
-  const handleEditSite = () => {
-    changeTab(NftTabs.EDIT)
+  const handleSettingsSite = () => {
+    changeTab(NftTabs.SETTINGS)
   }
 
   if (showSkeleton) {
@@ -78,16 +72,13 @@ const NftPage = () => {
 
   return (
     <Flex
-      pt={37}
       justifyContent={isNftTab && allLoaded ? 'space-between' : 'center'}
       $gap='20px'
     >
       {activeTab === NftTabs.NFT && (
-        <StyledIndexPages
-          tokens={fullTokens}
-          nft={nft}
-          indexPages={nft?.ipfsContent?.indexPages}
-        />
+        <SideContentWrap>
+          <IndexPages tokens={fullTokens} nft={nft} />
+        </SideContentWrap>
       )}
       <Box width='900px'>
         <Flex $gap='5px' flexDirection='column'>
@@ -112,20 +103,17 @@ const NftPage = () => {
         <TabContext value={activeTab}>
           <Tabs onChange={onChangeNftTab}>
             <Tab value={NftTabs.NFT} label={t('tabs.nft')} />
-            {permissions.canManageRoles && (
-              <Tab value={NftTabs.MANAGE} label={t('tabs.manageRoles')} />
-            )}
             <Tab value={NftTabs.TOKENS} label={t('tabs.tokens')} />
-            {permissions.canUpdateContent && (
-              <Tab value={NftTabs.EDIT} label={t('tabs.edit')} />
-            )}
             <Tab value={NftTabs.HISTORY} label={t('tabs.history')} />
+            {permissions.canUpdateSettings && (
+              <Tab value={NftTabs.SETTINGS} label={t('tabs.settings')} />
+            )}
           </Tabs>
           <TabPanel value={NftTabs.NFT}>
             <NftView
               nft={nft}
               onMount={onMountContent}
-              onClickEditSite={handleEditSite}
+              onClickEditSite={handleSettingsSite}
             />
           </TabPanel>
           <TabPanel value={NftTabs.TOKENS}>
@@ -135,23 +123,19 @@ const NftPage = () => {
               nftAddress={nftId!}
             />
           </TabPanel>
-          <TabPanel value={NftTabs.EDIT}>
-            <NftEditView
-              initialHeaderColor={nft?.headerBackground || ''}
-              onSuccessUpdate={handleSuccessUpdate}
-              nftAddress={nftId}
-              initialContent={nft?.ipfsContent?.htmlContent || ''}
-            />
-          </TabPanel>
-          <TabPanel value={NftTabs.MANAGE}>
-            <NftRoleManager nftAddress={nftId!} />
+          <TabPanel value={NftTabs.SETTINGS}>
+            <Settings />
           </TabPanel>
           <TabPanel value={NftTabs.HISTORY}>
             <HistoryNft />
           </TabPanel>
         </TabContext>
       </Box>
-      {isNftTab && <StyledContent contentElem={contentElem} />}
+      {isNftTab && (
+        <SideContentWrap>
+          <Content contentElem={contentElem} />
+        </SideContentWrap>
+      )}
     </Flex>
   )
 }

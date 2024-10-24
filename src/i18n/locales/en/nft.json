@@ -2,9 +2,71 @@
   "tabs": {
     "nft": "Site",
     "tokens": "Pages",
-    "edit": "Edit site",
+    "settings": "Settings",
     "manageRoles": "Roles",
     "history": "History"
+  },
+  "settings": {
+    "preferences": "Preferences",
+    "content": "Content",
+    "layout": "Layout",
+    "navigation": {
+      "general": {
+        "title": "General settings",
+        "links": {
+          "general": {
+            "label": "General",
+            "icon": "settings"
+          }
+        }
+      },
+      "accessControl": {
+        "title": "Access control",
+        "links": {
+          "roles": {
+            "label": "Roles",
+            "icon": "roles"
+          }
+        }
+      },
+      "layoutPreferences": {
+        "title": "Preferences and layout",
+        "links": {
+          "contentEditor": {
+            "label": "Content editor",
+            "icon": "contentEditor"
+          },
+          "layout": {
+            "label": "Layout",
+            "icon": "layout"
+          }
+        }
+      }
+    },
+    "siteName": {
+      "title": "Title",
+      "description": "Overwrite the title of your content when published"
+    },
+    "roleManager": {
+      "title": "Manage site roles",
+      "description": "This page is dedicated to managing user roles within the site. It allows for the assignment and adjustment of roles to ensure proper access control and responsibility distribution across the team."
+    },
+    "customLogo": {
+      "title": "Custom logo",
+      "description": "Replace the content's title with a custom logo"
+    },
+    "colorPicker": {
+      "title": "Header color",
+      "description": "Select a new color for the header using the color picker"
+    },
+    "editPageContent": {
+      "title": "Edit page content",
+      "description": "Update the content of your page when published."
+    },
+    "editHeaderLinks": {
+      "title": "Navigation",
+      "description": "Create a navigation menu by adding links"
+    }
   },
   "createNft": {
     "title": "Create site",
@@ -46,8 +108,6 @@
     "description": "Your site is visible on \"My sites\" page."
   },
   "roleManager": {
-    "title": "Manage site roles",
-    "description": "This page is dedicated to managing user roles within the site. It allows for the assignment and adjustment of roles to ensure proper access control and responsibility distribution across the team.",
     "tableHead": {
       "address": "Address",
       "role": "Role"
@@ -72,6 +132,13 @@
       "role": {
         "required": "Role is required"
       }
+    }
+  },
+  "editHeaderLinks": {
+    "buttonAddLink": "Add link",
+    "placeholders": {
+      "url": "URL",
+      "name": "Title"
     }
   },
   "roles": {

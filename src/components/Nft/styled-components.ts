@@ -1,10 +1,9 @@
-import styled from 'styled-components'
-import Card from '../ui/Card'
-import Text from '../ui/Text'
 import { Link } from 'react-router-dom'
-import Content from '../Content'
-import IndexPages from '../IndexPages'
+import styled from 'styled-components'
+import Box from '../ui/Box'
+import Card from '../ui/Card'
 import Flex from '../ui/Flex'
+import Text from '../ui/Text'
 
 export const StyledCard = styled(Card)`
   cursor: pointer;
@@ -24,32 +23,20 @@ export const StyledLink = styled(Link)`
   display: contents;
 `
 
-export const StyledRolesDescription = styled(Text.p)`
-  max-width: 700px;
-  line-height: 1.3;
-  color: ${({ theme }) => theme.palette.gray};
-`
-
 const boxStyles = `
-    margin-top: 78px;
-    max-width: 210px;
-    width: 100%;
-    overflow-x: hidden;
-    overflow-y: auto; 
-    position: sticky;
-    top: 24px;
-    box-sizing: border-box;
-    max-height: calc(100vh - 336px);
-    min-height: 500px;
-    border-radius: 5px;
-    padding-right: 14px;
+  margin-top: 78px;
+  max-width: 210px;
+  width: 100%;
+  word-wrap: break-word;
+  overflow-x: hidden;
+  overflow-y: auto;
+  position: sticky;
+  top: 24px;
+  box-sizing: border-box;
+  max-height: calc(100vh - (24px * 2));
 `
 
-export const StyledContent = styled(Content)`
-  ${boxStyles}
-`
-
-export const StyledIndexPages = styled(IndexPages)`
+export const SideContentWrap = styled(Box)`
   ${boxStyles}
 `
 
@@ -61,7 +48,7 @@ export const ContentPlaceholder = styled.div`
 
 export const LogoWrapper = styled(Flex)`
   background-color: ${({ theme }) => theme.palette.bgPrimary};
-  border-radius: 20px;
+  border-radius: 4px;
 `
 
 export const LogoPreview = styled.img`

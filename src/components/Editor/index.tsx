@@ -11,8 +11,7 @@ import UpdateTokenContentButton, {
   TokenContentToUpdate,
 } from '../UpdateContent/UpdateTokenContentButton'
 import UpdateNftContentButton from '../UpdateContent/UpdateNftContentButton'
-import { NFTContentToUpdate } from '@src/hooks/useNFTUpdate'
-import { IpfsNftContent } from '@src/shared/types/ipfs'
+import { IpfsNftContent } from '@src/shared/utils/ipfs/types'
 
 interface EditorProps {
   name?: string
@@ -39,9 +38,7 @@ const Editor: React.FC<EditorProps> = ({
   tokenAddress,
   nftAddress,
   onSuccessUpdate,
-  headerBackground,
   name,
-  logoUrl,
 }) => {
   const [editorInit, setEditorInit] = useState(false)
   const [currContent, setCurrContent] = useState(initialContent)
@@ -83,11 +80,6 @@ const Editor: React.FC<EditorProps> = ({
     ...(name && { name }),
   }
 
-  const nftContentToUpdate: NFTContentToUpdate = {
-    logoUrl,
-    headerBackground,
-    ...(name && { name }),
-  }
   const ipfsNftToUpdate: Partial<IpfsNftContent> = {
     htmlContent: differentContent,
   }
@@ -139,7 +131,6 @@ const Editor: React.FC<EditorProps> = ({
                 mt={15}
                 onSuccess={onSuccessUpdate}
                 nftAddress={nftAddress}
-                nftContentToUpdate={nftContentToUpdate}
                 ipfsNftToUpdate={ipfsNftToUpdate}
               />
             )}

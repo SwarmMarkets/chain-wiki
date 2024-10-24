@@ -2,7 +2,7 @@ import SMDroppable from '@src/components/common/SMDroppable'
 import Box from '@src/components/ui/Box'
 import Flex from '@src/components/ui/Flex'
 import Text from '@src/components/ui/Text'
-import { IpfsIndexPage } from '@src/shared/types/ipfs'
+import { IpfsIndexPage } from '@src/shared/utils/ipfs/types'
 import React from 'react'
 import { Draggable } from 'react-beautiful-dnd'
 import { useTheme } from 'styled-components'
@@ -20,6 +20,7 @@ const IndexPagesEditList: React.FC<IndexPagesEditListProps> = ({
   noPagesElem,
 }) => {
   const theme = useTheme()
+
   return (
     <Box
       background={theme.palette.bgPrimary}
@@ -37,28 +38,25 @@ const IndexPagesEditList: React.FC<IndexPagesEditListProps> = ({
             py='8px'
           >
             {indexPages.length > 0
-              ? indexPages?.map(
-                  (indexPage, index) =>
-                    indexPage?.tokenId && (
-                      <Draggable
-                        key={indexPage?.tokenId}
-                        draggableId={indexPage?.tokenId}
-                        index={index}
+              ? indexPages.map((indexPage, index) => (
+                  <Draggable
+                    key={indexPage.tokenId}
+                    draggableId={indexPage.tokenId} // Avoid concatenation of id and title
+                    index={index}
+                  >
+                    {provided => (
+                      <EditableItem
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
                       >
-                        {provided => (
-                          <EditableItem
-                            key={indexPage?.tokenId}
-                            ref={provided.innerRef}
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                          >
-                            <Text ml='5px'>{indexPage.title}</Text>
-                          </EditableItem>
-                        )}
-                      </Draggable>
-                    )
-                )
-              : noPagesElem && <Text.p>{noPagesElem}</Text.p>}
+                        <Text ml='5px'>{indexPage.title}</Text>
+                      </EditableItem>
+                    )}
+                  </Draggable>
+                ))
+              : noPagesElem && <Text>{noPagesElem}</Text>}
+            {provided.placeholder} {/* Ensures spacing for dragging */}
           </Flex>
         )}
       </SMDroppable>

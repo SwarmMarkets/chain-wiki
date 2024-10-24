@@ -23,7 +23,16 @@ interface TextFieldProps extends SpaceProps, LayoutProps {
 
 const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
   (
-    { prependIcon, error, inputProps, placeholder, value, label, ...props },
+    {
+      prependIcon,
+      error,
+      inputProps,
+      placeholder,
+      value,
+      label,
+      onChange,
+      ...props
+    },
     forwardedRef
   ) => {
     const theme = useTheme()
@@ -66,6 +75,7 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
             focused={isFocused}
             prependIconExists={!!prependIcon}
             onFocus={onFocusInput}
+            onChange={onChange}
             error={!!error}
             {...inputProps}
             onBlur={onBlurInput}

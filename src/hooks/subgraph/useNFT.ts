@@ -1,54 +1,80 @@
 import { NetworkStatus, useQuery } from '@apollo/client'
-import { useMemo, useState } from 'react'
-
 import { NFTQuery } from '@src/queries'
-import { QueryNftArgs } from '@src/queries/gql/graphql'
-import { NFTQueryFullData } from '@src/shared/types/ipfs'
-import { useStorage } from '@thirdweb-dev/react'
+import { useMemo } from 'react'
+import { useIpfsHeaderLinks, useIpfsNftContent } from '../ipfs/nft'
+import {
+  initialHeaderLinks,
+  initialNftContent,
+} from '@src/shared/utils/ipfs/consts'
+import { NFTWithMetadata } from '@src/shared/utils'
 
-const POLL_INTERVAL = 5000
+const POLL_INTERVAL = 15000
 
 interface UseNFTOptions {
   disableRefetch?: boolean
   fetchFullData?: boolean
 }
 
-const useNFT = (id: QueryNftArgs['id'], options?: UseNFTOptions) => {
-  const storage = useStorage()
-  const [nftData, setNftData] = useState<NFTQueryFullData | null>(null)
-
-  const { loading, error, networkStatus, refetch } = useQuery(NFTQuery, {
+const useNFT = (id: string, options?: UseNFTOptions) => {
+  const { data, loading, error, networkStatus, refetch } = useQuery(NFTQuery, {
     fetchPolicy: 'cache-first',
     notifyOnNetworkStatusChange: true,
     pollInterval: options?.disableRefetch ? undefined : POLL_INTERVAL,
     variables: {
       id,
     },
-    async onCompleted(data) {
-      if (data.nft?.uri && options?.fetchFullData) {
-        const ipfsContent = await storage?.downloadJSON(data.nft?.uri)
-        setNftData({ ...data.nft, ipfsContent })
-        return
-      }
-      data?.nft && setNftData(data?.nft)
-    },
   })
+
+  const headerLinksUri = options?.fetchFullData ? data?.nft?.headerLinksUri : ''
+  const contentUri = options?.fetchFullData ? data?.nft?.uri : ''
+
+  const {
+    headerLinks = initialHeaderLinks.headerLinks,
+    failureReason: errorHeaderLinks,
+    isLoading: loadingHeaderLinks,
+  } = useIpfsHeaderLinks(headerLinksUri)
+
+  const {
+    ipfsContent = initialNftContent,
+    failureReason: errorNftContent,
+    isLoading: loadingNftContent,
+  } = useIpfsNftContent(contentUri)
+
+  const nftWithMetadata = useMemo(() => {
+    return {
+      ...data?.nft,
+      headerLinks,
+      ipfsContent,
+    } as unknown as NFTWithMetadata
+  }, [data?.nft, headerLinks, ipfsContent])
 
   return useMemo(
     () => ({
-      nft: nftData,
+      nft: nftWithMetadata,
       loadingNft:
         loading ||
+        loadingHeaderLinks ||
+        loadingNftContent ||
         ![
           NetworkStatus.ready,
           NetworkStatus.error,
           NetworkStatus.poll,
         ].includes(networkStatus),
-      error,
+      error: error || errorHeaderLinks || errorNftContent,
       refetch,
       refetchingNft: [NetworkStatus.poll].includes(networkStatus),
     }),
-    [error, loading, networkStatus, nftData, refetch]
+    [
+      error,
+      errorHeaderLinks,
+      errorNftContent,
+      loading,
+      loadingHeaderLinks,
+      loadingNftContent,
+      networkStatus,
+      nftWithMetadata,
+      refetch,
+    ]
   )
 }
 

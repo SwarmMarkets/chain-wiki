@@ -3,11 +3,16 @@ import { useCallback } from 'react'
 import { useSX1155NFT } from './contracts/useSX1155NFT'
 import useNFT from './subgraph/useNFT'
 import {
+  generateIpfsHeaderLinksContent,
   generateIpfsIndexPagesContent,
   generateIpfsNftContent,
   unifyAddressToId,
 } from '@src/shared/utils'
-import { IpfsIndexPage, IpfsNftContent } from '@src/shared/types/ipfs'
+import {
+  IpfsHeaderLink,
+  IpfsIndexPage,
+  IpfsNftContent,
+} from '@src/shared/utils/ipfs/types'
 
 export interface NFTContentToUpdate {
   logoUrl?: string | null
@@ -15,6 +20,7 @@ export interface NFTContentToUpdate {
   name?: string | null
   uri?: string
   indexPagesUri?: string | null
+  headerLinksUri?: string | null
 }
 
 const useNFTUpdate = (nftAddress: string) => {
@@ -35,7 +41,7 @@ const useNFTUpdate = (nftAddress: string) => {
   const { nft } = useNFT(nftAddress)
 
   const uploadContent = async (content: Partial<IpfsNftContent>) => {
-    if (!nft || content.htmlContent === undefined) return
+    if (!nft.id || content.htmlContent === undefined) return
     const ipfsContent = generateIpfsNftContent({
       htmlContent: content.htmlContent,
       address: unifyAddressToId(nft.id),
@@ -47,12 +53,23 @@ const useNFTUpdate = (nftAddress: string) => {
   }
 
   const uploadIndexPagesContent = async (indexPages: IpfsIndexPage[]) => {
-    if (!nft) return
+    if (!nft.id) return
     const ipfsIndexPagesContent = generateIpfsIndexPagesContent({
       indexPages: indexPages,
       address: unifyAddressToId(nft.id),
     })
     const filesToUpload = [ipfsIndexPagesContent]
+    const uris = await upload({ data: filesToUpload })
+    const firstUri = uris[0]
+    return firstUri
+  }
+  const uploadHeaderLinksContent = async (headerLinks: IpfsHeaderLink[]) => {
+    if (!nft.id) return
+    const ipfsHeaderLinksContent = generateIpfsHeaderLinksContent({
+      headerLinks: headerLinks,
+      address: unifyAddressToId(nft.id),
+    })
+    const filesToUpload = [ipfsHeaderLinksContent]
     const uris = await upload({ data: filesToUpload })
     const firstUri = uris[0]
     return firstUri
@@ -70,6 +87,7 @@ const useNFTUpdate = (nftAddress: string) => {
   return {
     uploadContent,
     uploadIndexPagesContent,
+    uploadHeaderLinksContent,
     signTransaction,
     storageUpload: { isLoading, isSuccess, isError, resetStorageState },
     tx: { txLoading, isTxError, isSuccess: !!result, resetCallState },

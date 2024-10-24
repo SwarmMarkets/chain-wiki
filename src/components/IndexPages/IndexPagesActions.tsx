@@ -2,7 +2,7 @@ import Button from '@src/components/ui/Button/Button'
 import Flex from '@src/components/ui/Flex'
 import { useTranslation } from 'react-i18next'
 import UpdateNftContentButton from '../UpdateContent/UpdateNftContentButton'
-import { IpfsIndexPage } from '@src/shared/types/ipfs'
+import { IpfsIndexPage } from '@src/shared/utils/ipfs/types'
 
 interface IndexPagesActionsProps {
   nftId: string

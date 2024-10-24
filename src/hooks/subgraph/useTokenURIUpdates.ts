@@ -9,7 +9,7 @@ import {
 } from '@src/queries/gql/graphql'
 import { unifyAddressToId } from '@src/shared/utils'
 import { useStorage } from '@thirdweb-dev/react'
-import { TokenUriUpdatesQueryFullData } from '@src/shared/types/ipfs'
+import { TokenUriUpdatesQueryFullData } from '@src/shared/utils/ipfs/types'
 
 const PAGE_LIMIT = 10
 const POLL_INTERVAL = 15000

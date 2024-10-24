@@ -4,6 +4,9 @@
     "description": "You are about to update your site content. This includes several steps to finalize content update.",
     "changeLogo": "Change logo"
   },
+  "editHeaderLinks": {
+    "addLink": "Add link"
+  },
   "token": {
     "title": "Update page",
     "description": "You are about to update your page content. This includes several steps to finalize content update."
@@ -26,7 +29,7 @@
       "label": "Site name:",
       "placeholder": "Enter name"
     },
-     "colorPicker": {
+    "colorPicker": {
       "label": "Color picker:",
       "placeholder": "Select color"
     }

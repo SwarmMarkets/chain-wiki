@@ -33,10 +33,28 @@ const Logo = styled.img`
   max-width: 230px;
   max-height: 70px;
 `
+const StyledLink = styled.a`
+  color: ${({ theme }) => theme.palette.black};
+  text-decoration: none;
+  font-weight: 400;
+  font-size: 16px;
+  cursor: pointer;
+
+  &:hover {
+    color: ${({ theme }) => theme.palette.darkGray};
+  }
+
+  &:active {
+    color: ${({ theme }) => theme.palette.darkGray};
+  }
+`
 
 const Header: React.FC = () => {
   const { nftId = '' } = useParams()
-  const { nft, loadingNft } = useNFT(nftId, { disableRefetch: true })
+  const { nft, loadingNft } = useNFT(nftId, {
+    disableRefetch: true,
+    fetchFullData: true,
+  })
   const { t } = useTranslation('layout')
   const theme = useTheme()
   const { headerColor } = useHeaderColorContext()
@@ -46,25 +64,26 @@ const Header: React.FC = () => {
 
   const headerBackground = useMemo(() => {
     if (isNft) {
-      if (headerColor) {
-        return headerColor
-      }
-      if (nft.headerBackground) {
-        return nft.headerBackground
-      }
-    } else {
-      return theme.palette.white
+      return headerColor || nft?.headerBackground || theme.palette.white
     }
-  }, [headerColor, nft?.headerBackground, isNft, theme.palette.white])
+    return theme.palette.white
+  }, [isNft, theme.palette.white, headerColor, nft?.headerBackground])
 
   return (
     <HeaderContainer as='header' $headerBackground={headerBackground}>
-      <Flex $gap='60px' alignItems='center'>
-        <Link to={generatePath(RoutePaths.NFT, { nftId })}>
-          {showLogo && <Logo src={nft?.logoUrl} alt={nft?.name} />}
-        </Link>
+      <Link to={generatePath(RoutePaths.NFT, { nftId })}>
+        {showLogo && <Logo src={nft?.logoUrl} alt={nft?.name} />}
+      </Link>
+      <Flex alignItems='center' justifyContent='center' flex='1' $gap='30px'>
+        {nft?.headerLinks.map(headerLink => (
+          <StyledLink
+            key={headerLink.id}
+            onClick={() => window.open(headerLink.link, '_blank')}
+          >
+            {headerLink.title}
+          </StyledLink>
+        ))}
       </Flex>
-
       <Flex $gap='1rem' alignItems='center'>
         <RequirePermissions canCreateNft>
           <Link to={RoutePaths.MY_NFTS}>

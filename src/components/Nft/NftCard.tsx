@@ -1,4 +1,4 @@
-import { NFTsQueryFullData } from '@src/shared/types/ipfs'
+import { NFTsQueryFullData } from '@src/shared/utils/ipfs/types'
 import { isSameEthereumAddress } from '@src/shared/utils'
 import { shortenAddress, useAddress } from '@thirdweb-dev/react'
 import React, { useMemo } from 'react'
