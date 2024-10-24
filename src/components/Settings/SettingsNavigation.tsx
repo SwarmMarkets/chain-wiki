@@ -14,7 +14,7 @@ import {
 } from './styled-components'
 
 const SettingsNavigation = () => {
-  const [searchParams, setSearchParams] = useSearchParams()
+  const [searchParams] = useSearchParams()
   const activeTab = searchParams.get('setting') || SettingView.GENERAL
   const settingsLinks = useSettingsLinks()
   const theme = useTheme()
@@ -43,12 +43,11 @@ const SettingsNavigation = () => {
                     <Icon name={navItem.icon} size={14} />
                     <Text.span ml={1}>{navItem.label}</Text.span>
                   </Link>
-                  {navItem.link !== SettingView.CONTENT && (
-                    <Divider color={theme.palette.borderPrimary} my={2} />
-                  )}
+                  {navItem.link !== SettingView.CONTENT}
                 </StyledTab>
               ))}
             </StyledNavList>
+            <Divider color={theme.palette.borderPrimary} my={2} />
           </div>
         ))}
       </StyledNav>
