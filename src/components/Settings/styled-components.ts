@@ -18,7 +18,7 @@ export const StyledTab = styled.div<{ $active: boolean }>`
   cursor: pointer;
   color: ${props =>
     props.$active
-      ? props.theme.palette.borderBlue
+      ? props.theme.palette.linkPrimary
       : props.theme.palette.textPrimary};
 `
 

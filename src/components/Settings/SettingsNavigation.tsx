@@ -41,7 +41,9 @@ const SettingsNavigation = () => {
                     style={{ display: 'flex', alignItems: 'center' }}
                   >
                     <Icon name={navItem.icon} size={14} />
-                    <Text.span ml={1}>{navItem.label}</Text.span>
+                    <Text.span color='inherit' ml={1}>
+                      {navItem.label}
+                    </Text.span>
                   </Link>
                   {navItem.link !== SettingView.CONTENT}
                 </StyledTab>
