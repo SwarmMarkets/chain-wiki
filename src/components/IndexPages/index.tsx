@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { generatePath } from 'react-router-dom'
+import { generatePath, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useStorage } from '@thirdweb-dev/react'
 import { useTheme } from 'styled-components'
@@ -15,8 +15,8 @@ import {
 import RequirePermissions from '../common/RequirePermissions'
 import IndexPagesActions from './IndexPagesActions'
 import IndexPagesEdit, { IndexPagesEditListChanges } from './IndexPagesEdit'
-import { StyledLink } from './styled-components'
 import { useIpfsIndexPages } from '@src/hooks/ipfs/nft'
+import { StyledLink } from './styled-components'
 
 interface IndexPagesProps {
   tokens: TokensQueryFullData[] | null
@@ -24,6 +24,7 @@ interface IndexPagesProps {
 }
 
 const IndexPages: React.FC<IndexPagesProps> = ({ tokens, nft, ...props }) => {
+  const location = useLocation()
   const storage = useStorage()
   const theme = useTheme()
   const { t } = useTranslation(['nft', 'buttons'])
@@ -73,7 +74,7 @@ const IndexPages: React.FC<IndexPagesProps> = ({ tokens, nft, ...props }) => {
     )
   }
 
-  const noIndexPages = !activeIndexPages || activeIndexPages?.length === 0
+  const noIndexPages = !activeIndexPages || activeIndexPages.length === 0
 
   return (
     <Flex {...props} flexDirection='column' $gap='15px'>
@@ -85,7 +86,7 @@ const IndexPages: React.FC<IndexPagesProps> = ({ tokens, nft, ...props }) => {
             onChange={handleEditIndexPages}
           />
         ) : (
-          <Flex flexDirection='column' $gap='8px' pb='8px'>
+          <Flex flexDirection='column' pb='8px'>
             {noIndexPages && (
               <Text
                 textAlign='center'
@@ -95,17 +96,23 @@ const IndexPages: React.FC<IndexPagesProps> = ({ tokens, nft, ...props }) => {
                 {t('indexPages.noIndexPages')}
               </Text>
             )}
-            {activeIndexPages?.map(indexPage => (
-              <StyledLink
-                to={generatePath(RoutePaths.NFT + RoutePaths.TOKEN, {
-                  nftId: nft?.id,
-                  tokenId: indexPage?.tokenId,
-                })}
-                key={indexPage?.tokenId}
-              >
-                {indexPage?.title}
-              </StyledLink>
-            ))}
+            {activeIndexPages?.map(indexPage => {
+              const path = generatePath(RoutePaths.NFT + RoutePaths.TOKEN, {
+                nftId: nft?.id,
+                tokenId: indexPage?.tokenId,
+              })
+              const isActive = location.pathname === path
+
+              return (
+                <StyledLink
+                  to={path}
+                  key={indexPage?.tokenId}
+                  isActive={isActive}
+                >
+                  {indexPage?.title}
+                </StyledLink>
+              )
+            })}
           </Flex>
         )}
       </Box>
