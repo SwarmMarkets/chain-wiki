@@ -65,6 +65,7 @@ export const StyledListItem = styled.li<StyledListItemProps>`
   background-color: ${({ theme }) => theme.palette.white};
   border-radius: 4px;
   transition: background-color 0.3s, color 0.3s;
+  text-decoration: ${({ $highlight }) => ($highlight ? 'underline' : 'none')};
 
   &::before {
     content: '';
