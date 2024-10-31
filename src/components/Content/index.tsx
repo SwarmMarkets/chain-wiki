@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import ExpandableList from '../ui/ExpandableList'
-import { ExpandableListItem } from '@src/shared/types/expandedList'
 import { ContentItemChild, ContentItemParent } from '@src/shared/types/content'
 import { buildContentHierarchy } from '@src/shared/utils'
 import { useTranslation } from 'react-i18next'
@@ -12,24 +11,12 @@ interface ContentProps {
   className?: string
 }
 
-interface ObserverOptions {
-  root: Element | null
-  rootMargin: string
-  threshold: number | number[]
-}
-
-const observerOptions: ObserverOptions = {
-  root: null,
-  rootMargin: '0px',
-  threshold: 0.1,
-}
-
 const Content: React.FC<ContentProps> = ({ contentElem, className }) => {
   const { t } = useTranslation('contents')
-
   const theme = useTheme()
 
   const [headingsInView, setHeadingsInView] = useState<number[]>([])
+  const [activeItemId, setActiveItemId] = useState<string | null>(null)
   const firstHeadingInView = Math.min(...headingsInView)
 
   const addHeadingInView = (id: number) =>
@@ -64,7 +51,7 @@ const Content: React.FC<ContentProps> = ({ contentElem, className }) => {
 
         const observer: IntersectionObserver = new IntersectionObserver(
           callback,
-          observerOptions
+          { root: null, rootMargin: '0px', threshold: 0.1 }
         )
 
         if (ci?.elem) {
@@ -91,15 +78,13 @@ const Content: React.FC<ContentProps> = ({ contentElem, className }) => {
   const onClickTitle = (elem: Element) => {
     elem.scrollIntoView({ behavior: 'smooth' })
   }
-
   const onClickItem = (elem?: Element) => {
     elem?.scrollIntoView({ behavior: 'smooth' })
   }
-
   const onClickBeginning = () => {
     document.body.scrollIntoView({ behavior: 'smooth' })
   }
-
+  console.log(contentData)
   if (!contentElem) {
     return (
       <div className={className}>
@@ -120,12 +105,8 @@ const Content: React.FC<ContentProps> = ({ contentElem, className }) => {
       {contentData.map(item => (
         <ExpandableList
           initialExpanded={true}
-          onClickTitle={() => onClickTitle(item.elem)}
-          onClickItem={(listItem: ExpandableListItem) =>
-            onClickItem(
-              item.childs?.find(child => child.id === listItem.id)?.elem
-            )
-          }
+          onClickTitle={() => onClickTitle(item)}
+          onClickItem={() => onClickItem(item)}
           key={item.id}
           title={item.title}
           highlightTitle={firstHeadingInView === item.id}
@@ -134,6 +115,7 @@ const Content: React.FC<ContentProps> = ({ contentElem, className }) => {
             value: child.title,
             highlight: firstHeadingInView === child.id,
           }))}
+          activeItemId={activeItemId}
         />
       ))}
     </div>

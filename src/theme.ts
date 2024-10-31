@@ -8,6 +8,7 @@ const theme = {
     nearBlack: '#A9A9A9',
     black: '#000000',
     nearWhite: '#f8f9fa',
+    blueLight: '#E0EFFD',
 
     // Text Colors
     textPrimary: '#212121',

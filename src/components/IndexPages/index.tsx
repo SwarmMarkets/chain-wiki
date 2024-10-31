@@ -31,6 +31,8 @@ const IndexPages: React.FC<IndexPagesProps> = ({ tokens, nft, ...props }) => {
   const [isEdit, setIsEdit] = useState(false)
   const initialIndexPages = useRef<IpfsIndexPage[]>([])
   const [activeIndexPages, setActiveIndexPages] = useState<IpfsIndexPage[]>([])
+  const [activeLinkId, setActiveLinkId] = useState<string | null>(null)
+
 
   const handleSaveButton = () => {
     setIsEdit(false)
@@ -50,7 +52,6 @@ const IndexPages: React.FC<IndexPagesProps> = ({ tokens, nft, ...props }) => {
   }
 
   const noTokens = tokens?.length === 0
-
   const { indexPages } = useIpfsIndexPages(nft?.indexPagesUri)
 
   useEffect(() => {
@@ -59,6 +60,10 @@ const IndexPages: React.FC<IndexPagesProps> = ({ tokens, nft, ...props }) => {
       setActiveIndexPages(indexPages)
     }
   }, [indexPages, nft?.indexPagesUri, storage])
+
+  const handleLinkClick = (tokenId: string) => {
+    setActiveLinkId(tokenId)
+  }
 
   if (noTokens || !nft?.id) {
     return (
@@ -108,6 +113,8 @@ const IndexPages: React.FC<IndexPagesProps> = ({ tokens, nft, ...props }) => {
                   to={path}
                   key={indexPage?.tokenId}
                   isActive={isActive}
+                  onClick={() => handleLinkClick(indexPage.tokenId)}
+                  isSelected={activeLinkId === indexPage.tokenId}
                 >
                   {indexPage?.title}
                 </StyledLink>
@@ -132,3 +139,90 @@ const IndexPages: React.FC<IndexPagesProps> = ({ tokens, nft, ...props }) => {
 }
 
 export default IndexPages
+
+// import React, { useState } from 'react'
+// import { useTheme } from 'styled-components'
+// import { ExpandableListItem } from '@src/shared/types/expandedList'
+// import Icon from '../Icon'
+// import {
+//   StyledTitleBlock,
+//   StyledList,
+//   StyledListItem,
+//   StyledListContainer,
+// } from './styled-components'
+
+// interface ExpandableListProps {
+//   title: string
+//   items: ExpandableListItem[]
+//   initialExpanded?: boolean
+//   onClickTitle?: () => void
+//   onClickItem?: (item: ExpandableListItem) => void
+//   highlightTitle?: boolean
+//   activeItemId: string | null
+//   setActiveItemId: React.Dispatch<React.SetStateAction<string | null>>
+// }
+
+// const ExpandableList: React.FC<ExpandableListProps> = ({
+//   title,
+//   items,
+//   initialExpanded = false,
+//   onClickTitle,
+//   onClickItem,
+//   highlightTitle,
+//   activeItemId,
+//   setActiveItemId,
+// }) => {
+//   const theme = useTheme()
+//   const [isExpanded, setIsExpanded] = useState(initialExpanded)
+
+//   const handleExpand = () => {
+//     setIsExpanded(!isExpanded)
+//   }
+
+//   const handleClickItem = (item: ExpandableListItem) => {
+//     const itemId = String(item.id)
+//     setActiveItemId(activeItemId === itemId ? null : itemId)
+//     if (onClickItem) onClickItem(item)
+//   }
+
+//   const isTitleActive = activeItemId !== null
+//   return (
+//     <StyledListContainer>
+//       <StyledTitleBlock
+//         $expanded={isExpanded}
+//         $highlight={highlightTitle}
+//         isActive={isTitleActive}
+//       >
+//         {items && (
+//           <Icon
+//             name='chevronRight'
+//             color={theme.palette.textPrimary}
+//             width={12}
+//             height={12}
+//             onClick={handleExpand}
+//           />
+//         )}
+//         <span onClick={onClickTitle}>{title}</span>
+//       </StyledTitleBlock>
+//       {isExpanded && items && (
+//         <StyledList>
+//           {items.map(item => {
+//             const isActive = activeItemId === String(item.id)
+//             return (
+//               <StyledListItem
+//                 key={item.id}
+//                 isActive={isActive}
+//                 $highlight={item.highlight}
+//                 onClick={() => handleClickItem(item)}
+//               >
+//                 {item.value}
+//               </StyledListItem>
+//             )
+//           })}
+//         </StyledList>
+//       )}
+//     </StyledListContainer>
+//   )
+// }
+
+// export default ExpandableList
