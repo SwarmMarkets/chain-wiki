@@ -5,6 +5,7 @@ import { buildContentHierarchy } from '@src/shared/utils'
 import { useTranslation } from 'react-i18next'
 import Text from '../ui/Text'
 import { useTheme } from 'styled-components'
+import { ExpandableListItem } from '@src/shared/types/expandedList'
 
 interface ContentProps {
   contentElem: HTMLDivElement | null
@@ -16,7 +17,7 @@ const Content: React.FC<ContentProps> = ({ contentElem, className }) => {
   const theme = useTheme()
 
   const [headingsInView, setHeadingsInView] = useState<number[]>([])
-  const [activeItemId, setActiveItemId] = useState<string | null>(null)
+  const [activeItemId, setActiveItemId] = useState<number>()
   const firstHeadingInView = Math.min(...headingsInView)
 
   const addHeadingInView = (id: number) =>
@@ -75,16 +76,18 @@ const Content: React.FC<ContentProps> = ({ contentElem, className }) => {
     }
   }, [contentData])
 
-  const onClickTitle = (elem: Element) => {
-    elem.scrollIntoView({ behavior: 'smooth' })
+  const onClickTitle = (item: ContentItemParent) => {
+    item.elem.scrollIntoView({ behavior: 'smooth' })
+    setActiveItemId(item.id)
   }
-  const onClickItem = (elem?: Element) => {
-    elem?.scrollIntoView({ behavior: 'smooth' })
+  const onClickItem = (childItem?: ContentItemChild) => {
+    childItem?.elem.scrollIntoView({ behavior: 'smooth' })
+    setActiveItemId(childItem?.id)
   }
   const onClickBeginning = () => {
     document.body.scrollIntoView({ behavior: 'smooth' })
   }
-  console.log(contentData)
+
   if (!contentElem) {
     return (
       <div className={className}>
@@ -104,9 +107,12 @@ const Content: React.FC<ContentProps> = ({ contentElem, className }) => {
       <ExpandableList title={t('beginning')} onClickTitle={onClickBeginning} />
       {contentData.map(item => (
         <ExpandableList
+          id={item.id}
           initialExpanded={true}
           onClickTitle={() => onClickTitle(item)}
-          onClickItem={() => onClickItem(item)}
+          onClickItem={(listItem: ExpandableListItem) =>
+            onClickItem(item.childs?.find(child => child.id === listItem.id))
+          }
           key={item.id}
           title={item.title}
           highlightTitle={firstHeadingInView === item.id}

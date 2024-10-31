@@ -10,8 +10,9 @@ import {
 } from './styled-components'
 
 interface ExpandableListProps {
+  id?: number
   title: string
-  items: ExpandableListItem[]
+  items?: ExpandableListItem[]
   initialExpanded?: boolean
   onClickTitle?: () => void
   onClickItem?: (item: ExpandableListItem) => void
@@ -20,6 +21,7 @@ interface ExpandableListProps {
 }
 
 const ExpandableList: React.FC<ExpandableListProps> = ({
+  id,
   title,
   items,
   initialExpanded = false,
@@ -39,7 +41,7 @@ const ExpandableList: React.FC<ExpandableListProps> = ({
     if (onClickItem) onClickItem(item)
   }
 
-  const isTitleActive = activeItemId !== null
+  const isTitleActive = activeItemId === id
 
   return (
     <StyledListContainer>
@@ -61,19 +63,16 @@ const ExpandableList: React.FC<ExpandableListProps> = ({
       </StyledTitleBlock>
       {isExpanded && items && (
         <StyledList>
-          {items.map(item => {
-            const isActive = activeItemId === (item.id)
-            return (
-              <StyledListItem
-                key={item.id}
-                isActive={isActive}
-                $highlight={item.highlight}
-                onClick={() => handleClickItem(item)}
-              >
-                {item.value}
-              </StyledListItem>
-            )
-          })}
+          {items.map(item => (
+            <StyledListItem
+              key={item.id}
+              isActive={activeItemId === item.id}
+              $highlight={item.highlight}
+              onClick={() => handleClickItem(item)}
+            >
+              {item.value}
+            </StyledListItem>
+          ))}
         </StyledList>
       )}
     </StyledListContainer>
