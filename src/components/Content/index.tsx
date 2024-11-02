@@ -17,9 +17,8 @@ const Content: React.FC<ContentProps> = ({ contentElem, className }) => {
   const theme = useTheme()
 
   const [headingsInView, setHeadingsInView] = useState<number[]>([])
-  const [activeItemId, setActiveItemId] = useState<number>()
+  const [beginningActive, setBeginningActive] = useState(false)
   const firstHeadingInView = Math.min(...headingsInView)
-
   const addHeadingInView = (id: number) =>
     setHeadingsInView(prev => [...prev, id])
   const removeHeadingInView = (id: number) =>
@@ -34,6 +33,18 @@ const Content: React.FC<ContentProps> = ({ contentElem, className }) => {
     () => (headings ? buildContentHierarchy(headings) : []),
     [headings]
   )
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setBeginningActive(window.scrollY === 0)
+    }
+
+    window.addEventListener('scroll', handleScroll)
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+    }
+  }, [])
 
   useEffect(() => {
     const observers: { observer: IntersectionObserver; elem: Element }[] = []
@@ -78,11 +89,9 @@ const Content: React.FC<ContentProps> = ({ contentElem, className }) => {
 
   const onClickTitle = (item: ContentItemParent) => {
     item.elem.scrollIntoView({ behavior: 'smooth' })
-    setActiveItemId(item.id)
   }
   const onClickItem = (childItem?: ContentItemChild) => {
     childItem?.elem.scrollIntoView({ behavior: 'smooth' })
-    setActiveItemId(childItem?.id)
   }
   const onClickBeginning = () => {
     document.body.scrollIntoView({ behavior: 'smooth' })
@@ -104,7 +113,11 @@ const Content: React.FC<ContentProps> = ({ contentElem, className }) => {
 
   return (
     <div className={className}>
-      <ExpandableList title={t('beginning')} onClickTitle={onClickBeginning} />
+      <ExpandableList
+        title={t('beginning')}
+        onClickTitle={onClickBeginning}
+        isActive={beginningActive}
+      />
       {contentData.map(item => (
         <ExpandableList
           id={item.id}
@@ -115,13 +128,12 @@ const Content: React.FC<ContentProps> = ({ contentElem, className }) => {
           }
           key={item.id}
           title={item.title}
-          highlightTitle={firstHeadingInView === item.id}
+          isActive={!beginningActive && firstHeadingInView === item.id}
           items={item.childs?.map(child => ({
             id: child.id,
             value: child.title,
-            highlight: firstHeadingInView === child.id,
+            isActive: !beginningActive && firstHeadingInView === child.id,
           }))}
-          activeItemId={activeItemId}
         />
       ))}
     </div>

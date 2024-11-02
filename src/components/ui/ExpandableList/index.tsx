@@ -16,19 +16,17 @@ interface ExpandableListProps {
   initialExpanded?: boolean
   onClickTitle?: () => void
   onClickItem?: (item: ExpandableListItem) => void
-  highlightTitle?: boolean
+  isActive?: boolean
   activeItemId?: number
 }
 
 const ExpandableList: React.FC<ExpandableListProps> = ({
-  id,
   title,
   items,
   initialExpanded = false,
   onClickTitle,
   onClickItem,
-  highlightTitle,
-  activeItemId,
+  isActive,
 }) => {
   const theme = useTheme()
   const [isExpanded, setIsExpanded] = useState(initialExpanded)
@@ -41,15 +39,9 @@ const ExpandableList: React.FC<ExpandableListProps> = ({
     if (onClickItem) onClickItem(item)
   }
 
-  const isTitleActive = activeItemId === id
-
   return (
     <StyledListContainer>
-      <StyledTitleBlock
-        $expanded={isExpanded}
-        $highlight={highlightTitle}
-        isActive={isTitleActive}
-      >
+      <StyledTitleBlock $expanded={isExpanded} $isActive={isActive}>
         {items && (
           <Icon
             name='chevronRight'
@@ -66,8 +58,7 @@ const ExpandableList: React.FC<ExpandableListProps> = ({
           {items.map(item => (
             <StyledListItem
               key={item.id}
-              isActive={activeItemId === item.id}
-              $highlight={item.highlight}
+              $isActive={item.isActive}
               onClick={() => handleClickItem(item)}
             >
               {item.value}

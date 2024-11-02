@@ -2,25 +2,36 @@ import styled from 'styled-components'
 
 interface StyledTitleBlockProps {
   $expanded: boolean
-  $highlight?: boolean
-  isActive?: boolean
+  $isActive?: boolean
 }
 
 export const StyledTitleBlock = styled.div<StyledTitleBlockProps>`
   display: flex;
-  gap: 4px;
+  position: relative;
   align-items: center;
+  gap: 4px;
   padding: 5px;
+  padding-left: 16px;
   cursor: pointer;
-  color: ${({ theme, isActive }) =>
-    isActive ? theme.palette.linkPrimary : theme.palette.black};
-  text-decoration: ${({ $highlight }) => ($highlight ? 'underline' : 'none')};
+  color: ${({ theme, $isActive }) =>
+    $isActive ? theme.palette.linkPrimary : theme.palette.black};
+  text-decoration: ${({ $isActive }) => ($isActive ? 'underline' : 'none')};
+  transition: background-color 0.3s, color 0.3s;
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: -10px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background-color: ${({ theme, $isActive }) =>
+      $isActive ? theme.palette.linkPrimary : 'transparent'};
+    transition: background-color 0.3s;
+  }
 
   &:hover {
-    text-decoration: underline;
-    background-color: ${({ theme }) => theme.palette.lightGray};
-  }
-    
+    color: ${({ theme }) => theme.palette.linkPrimary};
   }
 
   svg {
@@ -34,8 +45,7 @@ export const StyledList = styled.ul`
 `
 
 interface StyledListItemProps {
-  $highlight?: boolean
-  isActive: boolean
+  $isActive: boolean
 }
 
 export const StyledListContainer = styled.div`
@@ -54,18 +64,16 @@ export const StyledListContainer = styled.div`
 `
 
 export const StyledListItem = styled.li<StyledListItemProps>`
-  position: relative;
   display: flex;
+  position: relative;
   align-items: center;
   padding: 5px;
   padding-left: 16px;
   cursor: pointer;
-  color: ${({ theme, isActive }) =>
-    isActive ? theme.palette.linkPrimary : theme.palette.black};
-  background-color: ${({ theme }) => theme.palette.white};
-  border-radius: 4px;
+  color: ${({ theme, $isActive }) =>
+    $isActive ? theme.palette.linkPrimary : theme.palette.black};
+  text-decoration: ${({ $isActive }) => ($isActive ? 'underline' : 'none')};
   transition: background-color 0.3s, color 0.3s;
-  text-decoration: ${({ $highlight }) => ($highlight ? 'underline' : 'none')};
 
   &::before {
     content: '';
@@ -74,12 +82,12 @@ export const StyledListItem = styled.li<StyledListItemProps>`
     top: 0;
     bottom: 0;
     width: 2px;
-    background-color: ${({ theme, isActive }) =>
-      isActive ? theme.palette.linkPrimary : 'transparent'};
+    background-color: ${({ theme, $isActive }) =>
+      $isActive ? theme.palette.linkPrimary : 'transparent'};
     transition: background-color 0.3s;
   }
 
   &:hover {
-    background-color: ${({ theme }) => theme.palette.lightGray};
+    color: ${({ theme }) => theme.palette.linkPrimary};
   }
 `
