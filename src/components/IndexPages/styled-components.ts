@@ -5,7 +5,7 @@ import Box from '../ui/Box'
 export const StyledLink = styled(Link)<{
   isActive: boolean
   isSelected: boolean
-  isHovered: boolean
+  isHovered?: boolean
 }>`
   display: flex;
   align-items: center;
