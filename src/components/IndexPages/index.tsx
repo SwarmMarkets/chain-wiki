@@ -31,7 +31,6 @@ const IndexPages: React.FC<IndexPagesProps> = ({ tokens, nft, ...props }) => {
   const [isEdit, setIsEdit] = useState(false)
   const initialIndexPages = useRef<IpfsIndexPage[]>([])
   const [activeIndexPages, setActiveIndexPages] = useState<IpfsIndexPage[]>([])
-  const [activeLinkId, setActiveLinkId] = useState<string | null>(null)
 
   const handleSaveButton = () => {
     setIsEdit(false)
@@ -59,10 +58,6 @@ const IndexPages: React.FC<IndexPagesProps> = ({ tokens, nft, ...props }) => {
       setActiveIndexPages(indexPages)
     }
   }, [indexPages, nft?.indexPagesUri, storage])
-
-  const handleLinkClick = (tokenId: string) => {
-    setActiveLinkId(tokenId)
-  }
 
   if (noTokens || !nft?.id) {
     return (
@@ -111,9 +106,7 @@ const IndexPages: React.FC<IndexPagesProps> = ({ tokens, nft, ...props }) => {
                 <StyledLink
                   to={path}
                   key={indexPage?.tokenId}
-                  isActive={isActive}
-                  onClick={() => handleLinkClick(indexPage.tokenId)}
-                  isSelected={activeLinkId === indexPage.tokenId}
+                  $isActive={isActive}
                 >
                   {indexPage?.title}
                 </StyledLink>
@@ -122,7 +115,6 @@ const IndexPages: React.FC<IndexPagesProps> = ({ tokens, nft, ...props }) => {
           </Flex>
         )}
       </Box>
-
       <RequirePermissions nftAddress={nft?.id} canUpdateContent>
         <IndexPagesActions
           nftId={nft?.id}

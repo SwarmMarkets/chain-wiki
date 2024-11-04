@@ -17,7 +17,7 @@ const Content: React.FC<ContentProps> = ({ contentElem, className }) => {
   const theme = useTheme()
 
   const [headingsInView, setHeadingsInView] = useState<number[]>([])
-  const [beginningActive, setBeginningActive] = useState(false)
+  const [beginningActive, setBeginningActive] = useState(window.scrollY === 0)
   const firstHeadingInView = Math.min(...headingsInView)
   const addHeadingInView = (id: number) =>
     setHeadingsInView(prev => [...prev, id])

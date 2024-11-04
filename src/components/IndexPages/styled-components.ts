@@ -3,17 +3,15 @@ import styled from 'styled-components'
 import Box from '../ui/Box'
 
 export const StyledLink = styled(Link)<{
-  isActive: boolean
-  isSelected: boolean
-  isHovered?: boolean
+  $isActive: boolean
 }>`
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: 100%;
   box-sizing: border-box;
-  color: ${({ theme, isActive }) =>
-    isActive ? theme.palette.linkPrimary : theme.palette.black};
+  color: ${({ theme, $isActive }) =>
+    $isActive ? theme.palette.linkPrimary : theme.palette.black};
   border-radius: 4px;
   text-decoration: none;
   transition: background-color 0.3s, color 0.3s;
@@ -21,9 +19,10 @@ export const StyledLink = styled(Link)<{
   padding: 5px;
 
   &:hover {
-    background-color: ${({ theme, isActive }) => isActive ? theme.palette.blueLight : theme.palette.lightGray};
-    color: ${({ theme, isActive }) =>
-      isActive ? theme.palette.linkPrimary : theme.palette.black};
+    background-color: ${({ theme, $isActive }) =>
+      $isActive ? theme.palette.blueLight : theme.palette.lightGray};
+    color: ${({ theme, $isActive }) =>
+      $isActive ? theme.palette.linkPrimary : theme.palette.black};
   }
 
   &:active {
