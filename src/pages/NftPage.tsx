@@ -1,3 +1,7 @@
+import { useState } from 'react'
+import { useParams } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
+import { useTheme } from 'styled-components'
 import Content from '@src/components/Content'
 import HistoryNft from '@src/components/History/HistoryNft'
 import IndexPages from '@src/components/IndexPages'
@@ -6,9 +10,9 @@ import { NftView } from '@src/components/Nft/NftView'
 import { SideContentWrap } from '@src/components/Nft/styled-components'
 import Settings from '@src/components/Settings/Settings'
 import TokenList from '@src/components/Token/TokenList'
-import ExplorerLink from '@src/components/common/ExplorerLink'
 import Box from '@src/components/ui/Box'
 import Flex from '@src/components/ui/Flex'
+import Icon from '@src/components/ui/Icon'
 import Tabs from '@src/components/ui/Tabs'
 import Tab from '@src/components/ui/Tabs/Tab'
 import TabContext from '@src/components/ui/Tabs/TabContext'
@@ -20,11 +24,8 @@ import useTokens from '@src/hooks/subgraph/useTokens'
 import useTabs from '@src/hooks/useTabs'
 import { NftTabs } from '@src/shared/enums/tabs'
 import { Tab as ITab } from '@src/shared/types/ui-components'
-import { unifyAddressToId } from '@src/shared/utils'
-import { useState } from 'react'
-import { useTranslation } from 'react-i18next'
-import { useParams } from 'react-router-dom'
-import { useTheme } from 'styled-components'
+import { useChainId } from '@thirdweb-dev/react'
+import { getExplorerUrl, unifyAddressToId } from '@src/shared/utils'
 
 const NftPage = () => {
   const { nftId = '' } = useParams()
@@ -41,13 +42,13 @@ const NftPage = () => {
     },
     { fetchFullData: true }
   )
-  const { activeTab, changeTab } = useTabs<NftTabs>({
+  const { activeTab, changeTab } = useTabs<NftTabs | null>({
     defaultTab: NftTabs.NFT,
   })
   const showSkeleton = loadingNft && !refetchingNft
   const isNftTab = activeTab === NftTabs.NFT
-
   const allLoaded = nft && fullTokens
+
   const onMountContent = (element: HTMLDivElement) => {
     setContentElem(element)
   }
@@ -59,6 +60,19 @@ const NftPage = () => {
   const handleSettingsSite = () => {
     changeTab(NftTabs.SETTINGS)
   }
+
+  const chainId = useChainId()
+
+  const handleIconClick = () => {
+    const explorerUrl = getExplorerUrl({
+      type: 'address',
+      chainId,
+      hash: nftId,
+    })
+    window.open(explorerUrl, '_blank')
+  }
+
+  const [isHovered, setIsHovered] = useState(false)
 
   if (showSkeleton) {
     return (
@@ -82,25 +96,26 @@ const NftPage = () => {
       )}
       <Box width='900px'>
         <Flex $gap='5px' flexDirection='column'>
-          <Text.h1 size={theme.fontSizes.large} weight={700}>
-            {nft?.name}
-          </Text.h1>
-          <ExplorerLink
-            iconSize={10}
-            iconsPosition='right'
-            type='address'
-            hash={nftId}
-          >
-            <Text
-              fontSize={theme.fontSizes.small}
-              color={theme.palette.linkPrimary}
-            >
-              {nftId}
-            </Text>
-          </ExplorerLink>
+          <Flex alignItems='center' $gap='5px'>
+            <Text.h1 size={theme.fontSizes.large} weight={700}>
+              {nft?.name}
+            </Text.h1>
+            <Icon
+              cursor='pointer'
+              name='externalLink'
+              size={10}
+              color={
+                isHovered ? theme.palette.linkPrimary : theme.palette.black
+              }
+              onClick={handleIconClick}
+              onMouseEnter={() => setIsHovered(true)}
+              onMouseLeave={() => setIsHovered(false)}
+              style={{ marginLeft: '728px' }}
+            />
+          </Flex>
         </Flex>
 
-        <TabContext value={activeTab}>
+        <TabContext value={activeTab ?? null}>
           <Tabs onChange={onChangeNftTab}>
             <Tab value={NftTabs.NFT} label={t('tabs.nft')} />
             <Tab value={NftTabs.TOKENS} label={t('tabs.tokens')} />
