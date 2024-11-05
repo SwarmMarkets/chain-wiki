@@ -14,8 +14,7 @@ export const StyledTitleBlock = styled.div<StyledTitleBlockProps>`
   padding-left: 16px;
   cursor: pointer;
   color: ${({ theme, $isActive }) =>
-    $isActive ? theme.palette.linkPrimary : theme.palette.black};
-  text-decoration: ${({ $isActive }) => ($isActive ? 'underline' : 'none')};
+    $isActive ? theme.palette.linkPrimaryAccent : theme.palette.black};
   transition: background-color 0.3s, color 0.3s;
 
   &::before {
@@ -26,7 +25,7 @@ export const StyledTitleBlock = styled.div<StyledTitleBlockProps>`
     bottom: 0;
     width: 2px;
     background-color: ${({ theme, $isActive }) =>
-      $isActive ? theme.palette.linkPrimary : 'transparent'};
+      $isActive ? theme.palette.linkPrimaryAccent : 'transparent'};
     transition: background-color 0.3s;
   }
 
@@ -71,8 +70,7 @@ export const StyledListItem = styled.li<StyledListItemProps>`
   padding-left: 16px;
   cursor: pointer;
   color: ${({ theme, $isActive }) =>
-    $isActive ? theme.palette.linkPrimary : theme.palette.black};
-  text-decoration: ${({ $isActive }) => ($isActive ? 'underline' : 'none')};
+    $isActive ? theme.palette.linkPrimaryAccent : theme.palette.black};
   transition: background-color 0.3s, color 0.3s;
 
   &::before {
@@ -83,7 +81,7 @@ export const StyledListItem = styled.li<StyledListItemProps>`
     bottom: 0;
     width: 2px;
     background-color: ${({ theme, $isActive }) =>
-      $isActive ? theme.palette.linkPrimary : 'transparent'};
+      $isActive ? theme.palette.linkPrimaryAccent : 'transparent'};
     transition: background-color 0.3s;
   }
 
