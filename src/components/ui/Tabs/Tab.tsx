@@ -16,11 +16,17 @@ const StyledTab = styled.div<StyledTabProps>`
   padding: 10px 15px;
   cursor: pointer;
   border-bottom: ${props =>
-    props.$active ? `2px solid ${props.theme.palette.borderBlue}` : 'none'};
+    props.$active
+      ? `2px solid ${props.theme.palette.linkPrimaryAccent}`
+      : 'none'};
   color: ${props =>
     props.$active
-      ? props.theme.palette.borderBlue
-      : props.theme.palette.textPrimary};
+      ? props.theme.palette.linkPrimaryAccent
+      : props.theme.palette.black};
+
+  &:hover {
+    color: ${props => props.theme.palette.linkPrimary};
+  }
 `
 
 const Tab: React.FC<TabProps> = ({ value, label, onChange }) => {
