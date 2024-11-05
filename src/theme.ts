@@ -12,7 +12,8 @@ const theme = {
 
     // Text Colors
     textPrimary: '#212121',
-    linkPrimary: '#3366cc',
+    linkPrimary: '#4285F4',
+    linkPrimaryAccent: '#0078EF',
 
     // Background colors
     bgPrimary: '#f8f9fa',
