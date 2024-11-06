@@ -5,7 +5,7 @@ import RoutePaths from '@src/shared/enums/routes-paths'
 import { IpfsTokenContent } from '@src/shared/utils/ipfs/types'
 import { getTextContentFromHtml, limitString } from '@src/shared/utils'
 import { generatePath } from 'react-router-dom'
-import styled, { useTheme } from 'styled-components'
+import styled from 'styled-components'
 import Flex from '@src/components/ui/Flex'
 import { useTokenCommentsCount } from '@src/hooks/subgraph/useTokenCommentsCount'
 import RouterLink from '@src/components/ui/RouterLink'
@@ -17,10 +17,18 @@ const CountWrapper = styled(Flex)`
   z-index: 1;
 `
 
-const Title = styled(Text.h2)`
+const StyledTitle = styled(Text.h2)`
+  color: ${({ theme }) => theme.palette.linkPrimary};
+  font-size: ${({ theme }) => theme.fontSizes.mediumPlus};
+  font-weight: ${({ theme }) => theme.fontWeights.bold};
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: ${({ theme }) => theme.palette.linkPrimaryAccent};
+  }
 `
 
 interface TokenCardProps {
@@ -37,7 +45,6 @@ const TokenCard: React.FC<TokenCardProps> = ({
   name,
 }) => {
   const commentsCount = useTokenCommentsCount(tokenId)
-  const theme = useTheme()
 
   return (
     <Card>
@@ -52,13 +59,7 @@ const TokenCard: React.FC<TokenCardProps> = ({
             tokenId: tokenId,
           })}
         >
-          <Title
-            color={theme.palette.linkPrimary}
-            size={theme.fontSizes.mediumPlus}
-            weight={theme.fontWeights.bold}
-          >
-            {name}
-          </Title>
+          <StyledTitle>{name}</StyledTitle>
         </RouterLink>
         <CountWrapper>
           <Text.p color='color'>Attestations: {commentsCount}</Text.p>
