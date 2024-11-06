@@ -33,7 +33,7 @@ export const StyledInput = styled.input.withConfig({
       ? `inset 0 0 0 2px ${
           props.error
             ? props.theme.palette.errorPrimary
-            : props.theme.palette.borderBlue
+            : props.theme.palette.linkPrimaryAccent
         }`
       : `inset 0 0 0 1px ${
           props.error
