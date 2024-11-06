@@ -18,7 +18,7 @@ interface HistoryTokenListProps {
 export const StyledLink = styled(Link)`
   color: ${({ theme }) => theme.palette.linkPrimary};
   &:hover {
-    text-decoration: underline;
+    color: ${({ theme }) => theme.palette.linkPrimaryAccent};
   }
 `
 
@@ -107,7 +107,9 @@ const HistoryTokenList: React.FC<HistoryTokenListProps> = ({
               }
               onChange={() => onChangeCheckbox(item)}
             />
-            <Text ml='20px'>{new Date(+item.updatedAt * 1000).toLocaleString()} </Text>
+            <Text ml='20px'>
+              {new Date(+item.updatedAt * 1000).toLocaleString()}{' '}
+            </Text>
           </StyledCard>
         ))}
     </Flex>
