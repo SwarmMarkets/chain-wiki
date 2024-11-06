@@ -18,8 +18,13 @@ export const StyledTab = styled.div<{ $active: boolean }>`
   cursor: pointer;
   color: ${props =>
     props.$active
-      ? props.theme.palette.linkPrimary
+      ? props.theme.palette.linkPrimaryAccent
       : props.theme.palette.textPrimary};
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: ${({ theme }) => theme.palette.linkPrimary};
+  }
 `
 
 export const StyledTitle = styled.h4`
