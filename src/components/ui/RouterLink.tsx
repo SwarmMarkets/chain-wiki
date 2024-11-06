@@ -25,7 +25,7 @@ const RouterLink = styled(Link).withConfig({
 })<RouterLinkProps>`
   color: ${({ theme }) => theme.palette.linkPrimary};
   &:hover {
-    text-decoration: underline;
+    color: ${({ theme }) => theme.palette.linkPrimaryAccent}; 
   }
 
   ${flexbox}
