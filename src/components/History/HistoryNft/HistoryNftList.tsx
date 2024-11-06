@@ -19,7 +19,7 @@ interface HistoryNftListProps {
 export const StyledLink = styled(Link)`
   color: ${({ theme }) => theme.palette.linkPrimary};
   &:hover {
-    text-decoration: underline;
+    color: ${({ theme }) => theme.palette.linkPrimaryAccent};
   }
 `
 
