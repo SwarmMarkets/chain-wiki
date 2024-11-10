@@ -29,10 +29,11 @@ interface EditHeaderLinksProps {
 }
 
 const EditHeaderLinks: React.FC<EditHeaderLinksProps> = ({ nftAddress }) => {
-  const { t } = useTranslation('nft', { keyPrefix: 'editHeaderLinks' })
+  const { t } = useTranslation('nft', { keyPrefix: 'settings' })
   const { nft } = useNFT(nftAddress, {
     fetchFullData: true,
   })
+
   const initialLinks = nft?.headerLinks?.length
     ? nft?.headerLinks
     : [{ id: getUniqueId(), title: '', link: '' }]
@@ -41,12 +42,19 @@ const EditHeaderLinks: React.FC<EditHeaderLinksProps> = ({ nftAddress }) => {
   const linksToUpdate = links.filter(link => link.link && link.title)
 
   const [draggingId, setDraggingId] = useState<string | null>(null)
+  const [urlErrorId, setUrlErrorId] = useState<string | null>(null)
 
   const handleInputChange = (id: string, field: string, value: string) => {
     const updatedLinks = links.map(link =>
       link.id === id ? { ...link, [field]: value } : link
     )
     setLinks(updatedLinks)
+
+    if (field === 'link' && !value.startsWith('https://')) {
+      setUrlErrorId(id)
+    } else {
+      setUrlErrorId(null)
+    }
   }
 
   const handleAddLink = () => {
@@ -83,7 +91,7 @@ const EditHeaderLinks: React.FC<EditHeaderLinksProps> = ({ nftAddress }) => {
             key={link.id}
             alignItems='center'
             $gap='8px'
-            marginBottom='8px'
+            marginBottom='12px'
             paddingBottom='8px'
             draggable
             onDragStart={() => handleDragStart(link.id)}
@@ -92,16 +100,22 @@ const EditHeaderLinks: React.FC<EditHeaderLinksProps> = ({ nftAddress }) => {
           >
             <DragHandle>⋮⋮</DragHandle>
             <TextField
-              placeholder={t('placeholders.name')}
+              placeholder={t('editHeaderLinks.placeholders.name')}
               value={link.title}
               onChange={e =>
                 handleInputChange(link.id, 'title', e.target.value)
               }
             />
             <TextField
-              placeholder={t('placeholders.url')}
+              placeholder={t('editHeaderLinks.placeholders.url')}
               value={link.link}
               onChange={e => handleInputChange(link.id, 'link', e.target.value)}
+              error={
+                urlErrorId === link.id
+                  ? t('editHeaderLinks.formErrorsHttps.name.required')
+                  : ''
+              }
+              style={{ borderColor: urlErrorId === link.id ? 'red' : '' }}
             />
             <StyledButtonRemove onClick={() => handleRemoveLink(link.id)}>
               <Icon style={{ display: 'flex' }} name='dash' />
@@ -116,13 +130,13 @@ const EditHeaderLinks: React.FC<EditHeaderLinksProps> = ({ nftAddress }) => {
         marginRight='160px'
       >
         <Button size='medium' onClick={handleAddLink}>
-          {t('buttonAddLink')}
+          {t('editHeaderLinks.buttonAddLink')}
         </Button>
         <RequirePermissions nftAddress={nftAddress} canUpdateContent>
           <UpdateNftContentButton
-            // onSuccess={onSuccessUpdate}
             nftAddress={nftAddress}
             ipfsHeaderLinkToUpdate={linksToUpdate}
+            disabled={urlErrorId !== null}
           />
         </RequirePermissions>
       </Flex>
@@ -131,6 +145,3 @@ const EditHeaderLinks: React.FC<EditHeaderLinksProps> = ({ nftAddress }) => {
 }
 
 export default EditHeaderLinks
-function useNft() {
-  throw new Error('Function not implemented.')
-}

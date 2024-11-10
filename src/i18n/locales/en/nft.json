@@ -65,7 +65,17 @@
     },
     "editHeaderLinks": {
       "title": "Navigation",
-      "description": "Create a navigation menu by adding links"
+      "description": "Create a navigation menu by adding links",
+      "placeholders": {
+        "name": "Title",
+        "url": "URL"
+      },
+      "formErrorsHttps": {
+        "name": {
+          "required": "URL must start with https://"
+        }
+      },
+      "buttonAddLink": "Add link"
     }
   },
   "createNft": {
@@ -132,13 +142,6 @@
       "role": {
         "required": "Role is required"
       }
-    }
-  },
-  "editHeaderLinks": {
-    "buttonAddLink": "Add link",
-    "placeholders": {
-      "url": "URL",
-      "name": "Title"
     }
   },
   "roles": {
