@@ -17,7 +17,6 @@ interface ExpandableListProps {
   onClickTitle?: () => void
   onClickItem?: (item: ExpandableListItem) => void
   isActive?: boolean
-  activeItemId?: number
 }
 
 const ExpandableList: React.FC<ExpandableListProps> = ({
@@ -36,7 +35,7 @@ const ExpandableList: React.FC<ExpandableListProps> = ({
   }
 
   const handleClickItem = (item: ExpandableListItem) => {
-    if (onClickItem) onClickItem(item)
+    onClickItem?.(item)
   }
 
   return (

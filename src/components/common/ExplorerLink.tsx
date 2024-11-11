@@ -11,7 +11,6 @@ interface ExplorerLinkProps extends ChildrenProp {
   type: ExplorerLinkType
   hash?: string
   iconSize?: number
-  clickIcon?: boolean
 }
 
 export const StyledLink = styled.a`
@@ -31,7 +30,6 @@ const ExplorerLink: React.FC<ExplorerLinkProps> = ({
   hash,
   iconSize,
   children,
-  clickIcon = true,
 }) => {
   const [showCheckmark, setShowCheckmark] = useState(false)
   const chainId = useChainId()
@@ -58,25 +56,23 @@ const ExplorerLink: React.FC<ExplorerLinkProps> = ({
 
   return (
     <Flex alignItems='center' $gap='5px'>
-      {clickIcon && (
-        <Box width={iconSizeWithDefault}>
-          {!showCheckmark ? (
-            <Icon
-              cursor='pointer'
-              size={iconSizeWithDefault}
-              onClick={handleCopyClick}
-              name='copy'
-              color={theme.palette.linkPrimary}
-            />
-          ) : (
-            <Icon
-              size={iconSizeWithDefault}
-              name='checkmark'
-              color={theme.palette.gray}
-            />
-          )}
-        </Box>
-      )}
+      <Box width={iconSizeWithDefault}>
+        {!showCheckmark ? (
+          <Icon
+            cursor='pointer'
+            size={iconSizeWithDefault}
+            onClick={handleCopyClick}
+            name='copy'
+            color={theme.palette.linkPrimary}
+          />
+        ) : (
+          <Icon
+            size={iconSizeWithDefault}
+            name='checkmark'
+            color={theme.palette.gray}
+          />
+        )}
+      </Box>
       <Box width={iconSizeWithDefault}>
         <Icon
           onClick={() => window.open(explorerUrl, '_blank')}

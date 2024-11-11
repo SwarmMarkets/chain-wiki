@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { generatePath, useLocation } from 'react-router-dom'
+import { generatePath, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useStorage } from '@thirdweb-dev/react'
 import { useTheme } from 'styled-components'
@@ -24,7 +24,7 @@ interface IndexPagesProps {
 }
 
 const IndexPages: React.FC<IndexPagesProps> = ({ tokens, nft, ...props }) => {
-  const location = useLocation()
+  const { tokenId: currentTokenId } = useParams<{ tokenId: string }>()
   const storage = useStorage()
   const theme = useTheme()
   const { t } = useTranslation(['nft', 'buttons'])
@@ -100,7 +100,7 @@ const IndexPages: React.FC<IndexPagesProps> = ({ tokens, nft, ...props }) => {
                 nftId: nft?.id,
                 tokenId: indexPage?.tokenId,
               })
-              const isActive = location.pathname === path
+              const isActive = currentTokenId === indexPage?.tokenId
 
               return (
                 <StyledLink

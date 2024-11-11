@@ -19,6 +19,7 @@ const Content: React.FC<ContentProps> = ({ contentElem, className }) => {
   const [headingsInView, setHeadingsInView] = useState<number[]>([])
   const [beginningActive, setBeginningActive] = useState(window.scrollY === 0)
   const firstHeadingInView = Math.min(...headingsInView)
+
   const addHeadingInView = (id: number) =>
     setHeadingsInView(prev => [...prev, id])
   const removeHeadingInView = (id: number) =>
@@ -87,12 +88,21 @@ const Content: React.FC<ContentProps> = ({ contentElem, className }) => {
     }
   }, [contentData])
 
+  const findChildItem = (
+    item: ContentItemParent,
+    listItem: ExpandableListItem
+  ) => {
+    return item.childs?.find(child => child.id === listItem.id)
+  }
+
   const onClickTitle = (item: ContentItemParent) => {
     item.elem.scrollIntoView({ behavior: 'smooth' })
   }
+
   const onClickItem = (childItem?: ContentItemChild) => {
     childItem?.elem.scrollIntoView({ behavior: 'smooth' })
   }
+
   const onClickBeginning = () => {
     document.body.scrollIntoView({ behavior: 'smooth' })
   }
@@ -124,7 +134,7 @@ const Content: React.FC<ContentProps> = ({ contentElem, className }) => {
           initialExpanded={true}
           onClickTitle={() => onClickTitle(item)}
           onClickItem={(listItem: ExpandableListItem) =>
-            onClickItem(item.childs?.find(child => child.id === listItem.id))
+            onClickItem(findChildItem(item, listItem))
           }
           key={item.id}
           title={item.title}

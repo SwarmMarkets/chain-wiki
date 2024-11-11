@@ -21,12 +21,6 @@ export const StyledLink = styled(Link)<{
   &:hover {
     background-color: ${({ theme, $isActive }) =>
       $isActive ? theme.palette.blueLight : theme.palette.lightGray};
-    color: ${({ theme, $isActive }) =>
-      $isActive ? theme.palette.linkPrimary : theme.palette.black};
-  }
-
-  &:active {
-    color: ${({ theme }) => theme.palette.linkPrimary};
   }
 `
 

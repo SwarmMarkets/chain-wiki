@@ -12,6 +12,7 @@ import Text from '../ui/Text'
 import { StyledCard, Title } from './styled-components'
 import useNFTUpdate from '@src/hooks/useNFTUpdate'
 import { getExplorerUrl } from '@src/shared/utils'
+import Box from '../ui/Box'
 
 interface NftCardProps {
   nft: NFTsQueryFullData
@@ -21,12 +22,6 @@ interface NftCardProps {
 const Logo = styled.img`
   max-width: 230px;
   max-height: 70px;
-`
-
-const IconContainer = styled.div`
-  position: absolute;
-  top: 40px;
-  right: 25px;
 `
 
 const NftCard: React.FC<NftCardProps> = ({ nft, showRole = false }) => {
@@ -72,9 +67,20 @@ const NftCard: React.FC<NftCardProps> = ({ nft, showRole = false }) => {
   return (
     <StyledCard minHeight={200} position='relative'>
       <Flex flexDirection='column' justifyContent='space-between' height='100%'>
-        <Flex alignItems='center' $gap='3px'>
-          <Icon cursor='pointer' name='document' size={40} />
-          <Title>{nft.name}</Title>
+        <Flex alignItems='center' justifyContent='space-between' $gap='3px'>
+          <Flex alignItems='center' $gap='3px'>
+            <Icon cursor='pointer' name='document' size={40} />
+            <Title>{nft.name}</Title>
+          </Flex>
+          <Icon
+            cursor='pointer'
+            name='externalLink'
+            size={10}
+            color={isHovered ? theme.palette.linkPrimary : theme.palette.black}
+            onClick={handleIconClick}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+          />
         </Flex>
         <Flex justifyContent='center' alignItems='center'>
           {nft.logoUrl ? (
@@ -91,6 +97,7 @@ const NftCard: React.FC<NftCardProps> = ({ nft, showRole = false }) => {
             </RequirePermissions>
           )}
         </Flex>
+
         <Flex flexDirection='column' alignItems='end' pt={10} $gap='2px'>
           {roles && roles.length > 0 && (
             <Text fontSize={theme.fontSizes.small}>
@@ -98,17 +105,6 @@ const NftCard: React.FC<NftCardProps> = ({ nft, showRole = false }) => {
             </Text>
           )}
         </Flex>
-        <IconContainer>
-          <Icon
-            cursor='pointer'
-            name='externalLink'
-            size={10}
-            color={isHovered ? theme.palette.linkPrimary : theme.palette.black}
-            onClick={handleIconClick}
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
-          />
-        </IconContainer>
       </Flex>
     </StyledCard>
   )
