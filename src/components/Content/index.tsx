@@ -1,35 +1,23 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import ExpandableList from '../ui/ExpandableList'
-import { ExpandableListItem } from '@src/shared/types/expandedList'
 import { ContentItemChild, ContentItemParent } from '@src/shared/types/content'
 import { buildContentHierarchy } from '@src/shared/utils'
 import { useTranslation } from 'react-i18next'
 import Text from '../ui/Text'
 import { useTheme } from 'styled-components'
+import { ExpandableListItem } from '@src/shared/types/expandedList'
 
 interface ContentProps {
   contentElem: HTMLDivElement | null
   className?: string
 }
 
-interface ObserverOptions {
-  root: Element | null
-  rootMargin: string
-  threshold: number | number[]
-}
-
-const observerOptions: ObserverOptions = {
-  root: null,
-  rootMargin: '0px',
-  threshold: 0.1,
-}
-
 const Content: React.FC<ContentProps> = ({ contentElem, className }) => {
   const { t } = useTranslation('contents')
-
   const theme = useTheme()
 
   const [headingsInView, setHeadingsInView] = useState<number[]>([])
+  const [beginningActive, setBeginningActive] = useState(window.scrollY === 0)
   const firstHeadingInView = Math.min(...headingsInView)
 
   const addHeadingInView = (id: number) =>
@@ -48,6 +36,18 @@ const Content: React.FC<ContentProps> = ({ contentElem, className }) => {
   )
 
   useEffect(() => {
+    const handleScroll = () => {
+      setBeginningActive(window.scrollY === 0)
+    }
+
+    window.addEventListener('scroll', handleScroll)
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+    }
+  }, [])
+
+  useEffect(() => {
     const observers: { observer: IntersectionObserver; elem: Element }[] = []
 
     contentData.forEach(contentItem => {
@@ -64,7 +64,7 @@ const Content: React.FC<ContentProps> = ({ contentElem, className }) => {
 
         const observer: IntersectionObserver = new IntersectionObserver(
           callback,
-          observerOptions
+          { root: null, rootMargin: '0px', threshold: 0.1 }
         )
 
         if (ci?.elem) {
@@ -88,12 +88,19 @@ const Content: React.FC<ContentProps> = ({ contentElem, className }) => {
     }
   }, [contentData])
 
-  const onClickTitle = (elem: Element) => {
-    elem.scrollIntoView({ behavior: 'smooth' })
+  const findChildItem = (
+    item: ContentItemParent,
+    listItem: ExpandableListItem
+  ) => {
+    return item.childs?.find(child => child.id === listItem.id)
   }
 
-  const onClickItem = (elem?: Element) => {
-    elem?.scrollIntoView({ behavior: 'smooth' })
+  const onClickTitle = (item: ContentItemParent) => {
+    item.elem.scrollIntoView({ behavior: 'smooth' })
+  }
+
+  const onClickItem = (childItem?: ContentItemChild) => {
+    childItem?.elem.scrollIntoView({ behavior: 'smooth' })
   }
 
   const onClickBeginning = () => {
@@ -116,23 +123,26 @@ const Content: React.FC<ContentProps> = ({ contentElem, className }) => {
 
   return (
     <div className={className}>
-      <ExpandableList title={t('beginning')} onClickTitle={onClickBeginning} />
+      <ExpandableList
+        title={t('beginning')}
+        onClickTitle={onClickBeginning}
+        isActive={beginningActive}
+      />
       {contentData.map(item => (
         <ExpandableList
+          id={item.id}
           initialExpanded={true}
-          onClickTitle={() => onClickTitle(item.elem)}
+          onClickTitle={() => onClickTitle(item)}
           onClickItem={(listItem: ExpandableListItem) =>
-            onClickItem(
-              item.childs?.find(child => child.id === listItem.id)?.elem
-            )
+            onClickItem(findChildItem(item, listItem))
           }
           key={item.id}
           title={item.title}
-          highlightTitle={firstHeadingInView === item.id}
+          isActive={!beginningActive && firstHeadingInView === item.id}
           items={item.childs?.map(child => ({
             id: child.id,
             value: child.title,
-            highlight: firstHeadingInView === child.id,
+            isActive: !beginningActive && firstHeadingInView === child.id,
           }))}
         />
       ))}

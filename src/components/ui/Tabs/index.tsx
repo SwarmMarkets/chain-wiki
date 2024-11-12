@@ -3,9 +3,10 @@ import styled from 'styled-components'
 import { Tab as ITab } from '@src/shared/types/ui-components'
 import { ChildrenProp } from '@src/shared/types/common-props'
 import { TabProps } from './Tab'
+import { NftTabs } from '@src/shared/enums/tabs'
 
 interface TabsProps extends ChildrenProp {
-  onChange: (tab: ITab) => void
+  onChange: (tab: ITab<NftTabs>) => void
 }
 
 const TabsWrapper = styled.div`
@@ -15,7 +16,7 @@ const TabsWrapper = styled.div`
 `
 
 const Tabs: React.FC<TabsProps> = ({ onChange, children: childrenProp }) => {
-  const handleTabClick = (tab: ITab) => {
+  const handleTabClick = (tab: ITab<NftTabs>) => {
     onChange && onChange(tab)
   }
 

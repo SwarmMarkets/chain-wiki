@@ -44,9 +44,9 @@ const StyledButton = styled.button.withConfig({
 
   &:hover {
     border-color: ${({ theme, disabled }) =>
-      disabled ? theme.palette.borderPrimary : theme.palette.borderBlue};
+      disabled ? theme.palette.borderPrimary : theme.palette.linkPrimary};
     color: ${({ theme, disabled }) =>
-      disabled ? theme.palette.textPrimary : theme.palette.borderBlue};
+      disabled ? theme.palette.textPrimary : theme.palette.linkPrimary};
     cursor: ${({ disabled }) => (disabled ? 'default' : 'pointer')};
   }
 

@@ -11,14 +11,17 @@ interface ExplorerLinkProps extends ChildrenProp {
   type: ExplorerLinkType
   hash?: string
   iconSize?: number
-  iconsPosition?: 'left' | 'right'
 }
 
-export const StyledLink = styled.span`
+export const StyledLink = styled.a`
   color: ${({ theme }) => theme.palette.linkPrimary};
   cursor: pointer;
+  font-weight: 500;
+  transition: color 0.2s ease, transform 0.2s ease, margin-left 0.2s ease;
+  text-decoration: none;
+
   &:hover {
-    text-decoration: underline;
+    color: ${({ theme }) => theme.palette.linkPrimaryAccent};
   }
 `
 
@@ -27,73 +30,61 @@ const ExplorerLink: React.FC<ExplorerLinkProps> = ({
   hash,
   iconSize,
   children,
-  iconsPosition = 'left',
 }) => {
   const [showCheckmark, setShowCheckmark] = useState(false)
   const chainId = useChainId()
   const theme = useTheme()
 
   const iconSizeWithDefault = iconSize || 20
-  const isIconsLeft = iconsPosition === 'left'
-
-  const handleLinkClick = (e: MouseEvent<HTMLSpanElement>) => {
-    e.stopPropagation()
-    e.preventDefault()
-    const explorerUrl = getExplorerUrl({
-      type,
-      chainId,
-      hash,
-    })
-    window.open(explorerUrl, '_blank')
-  }
+  const explorerUrl = getExplorerUrl({
+    type,
+    chainId,
+    hash,
+  })
 
   const handleCopyClick = (e: MouseEvent<HTMLDivElement>) => {
     e.stopPropagation()
     e.preventDefault()
-    hash && navigator.clipboard.writeText(hash)
-    setShowCheckmark(true)
-    setTimeout(() => {
-      setShowCheckmark(false)
-    }, 1000)
+    if (hash) {
+      navigator.clipboard.writeText(hash)
+      setShowCheckmark(true)
+      setTimeout(() => {
+        setShowCheckmark(false)
+      }, 1000)
+    }
   }
 
   return (
     <Flex alignItems='center' $gap='5px'>
-      {!isIconsLeft && (
-        <StyledLink onClick={handleLinkClick}>{children}</StyledLink>
-      )}
-
-      <Flex $gap='2px'>
-        <Box width={iconSizeWithDefault}>
-          {!showCheckmark ? (
-            <Icon
-              cursor='pointer'
-              size={iconSizeWithDefault}
-              onClick={handleCopyClick}
-              name='copy'
-              color={theme.palette.linkPrimary}
-            />
-          ) : (
-            <Icon
-              size={iconSizeWithDefault}
-              name='checkmark'
-              color={theme.palette.gray}
-            />
-          )}
-        </Box>
-
+      <Box width={iconSizeWithDefault}>
+        {!showCheckmark ? (
+          <Icon
+            cursor='pointer'
+            size={iconSizeWithDefault}
+            onClick={handleCopyClick}
+            name='copy'
+            color={theme.palette.linkPrimary}
+          />
+        ) : (
+          <Icon
+            size={iconSizeWithDefault}
+            name='checkmark'
+            color={theme.palette.gray}
+          />
+        )}
+      </Box>
+      <Box width={iconSizeWithDefault}>
         <Icon
-          onClick={handleLinkClick}
+          onClick={() => window.open(explorerUrl, '_blank')}
           cursor='pointer'
           name='externalLink'
           size={iconSizeWithDefault}
           color={theme.palette.linkPrimary}
         />
-      </Flex>
-
-      {isIconsLeft && (
-        <StyledLink onClick={handleLinkClick}>{children}</StyledLink>
-      )}
+      </Box>
+      <StyledLink href={explorerUrl} target='_blank' rel='noopener noreferrer'>
+        {children}
+      </StyledLink>
     </Flex>
   )
 }
