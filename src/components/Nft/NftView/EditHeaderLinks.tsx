@@ -68,6 +68,8 @@ const EditHeaderLinks: React.FC<EditHeaderLinksProps> = ({ nftAddress }) => {
     }
   }
 
+  const isValid = form.formState.isValid
+
   // const onSubmit: SubmitHandler<FormValues> = (data) => console.log(data)
 
   return (
@@ -137,7 +139,7 @@ const EditHeaderLinks: React.FC<EditHeaderLinksProps> = ({ nftAddress }) => {
             onClick={form.handleSubmit(() => {})}
             nftAddress={nftAddress}
             ipfsHeaderLinkToUpdate={fields}
-            disabled={!!form.formState.errors.headerLink}
+            disabled={!isValid}
           />
         </RequirePermissions>
       </Flex>
