@@ -41,6 +41,7 @@ const EditHeaderLinks: React.FC<EditHeaderLinksProps> = ({ nftAddress }) => {
 
   const {
     form,
+    headerLinks,
     fieldArray: { fields, append, remove, move },
     errors,
   } = useEditHeaderLinks(initialLinks)
@@ -67,8 +68,6 @@ const EditHeaderLinks: React.FC<EditHeaderLinksProps> = ({ nftAddress }) => {
       setDraggingId(null)
     }
   }
-
-  console.log('useEditHeaderLinks', fields)
 
   const isValid = form.formState.isValid
 
@@ -128,7 +127,7 @@ const EditHeaderLinks: React.FC<EditHeaderLinksProps> = ({ nftAddress }) => {
         <RequirePermissions nftAddress={nftAddress}>
           <UpdateNftContentButton
             nftAddress={nftAddress}
-            ipfsHeaderLinkToUpdate={fields}
+            ipfsHeaderLinkToUpdate={headerLinks}
             disabled={!isValid}
           />
         </RequirePermissions>

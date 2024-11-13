@@ -3,6 +3,7 @@ import useYupValidationResolver from '../useYupValidationResolvber'
 import yup from '@src/shared/validations/yup'
 import { useFieldArray, useForm } from 'react-hook-form'
 import { IpfsHeaderLink } from '@src/shared/utils'
+import { TFunction } from 'i18next'
 
 export interface EditHeaderLinksInputs {
   title: string
@@ -13,10 +14,8 @@ export interface EditHeaderLinksFormValues {
   headerLinks: Omit<IpfsHeaderLink, 'id'>[]
 }
 
-const useEditHeaderLinks = (initLinks: IpfsHeaderLink[]) => {
-  const { t } = useTranslation('nft', { keyPrefix: 'settings' })
-
-  const schema = yup.object().shape({
+const createSchema = (t: TFunction) =>
+  yup.object().shape({
     headerLinks: yup.array().of(
       yup.object().shape({
         title: yup
@@ -30,13 +29,19 @@ const useEditHeaderLinks = (initLinks: IpfsHeaderLink[]) => {
     ),
   })
 
+const useEditHeaderLinks = (initLinks: IpfsHeaderLink[]) => {
+  const { t } = useTranslation('nft', { keyPrefix: 'settings' })
+
+  const schema = createSchema(t)
+
   const resolver = useYupValidationResolver(schema)
 
-  const { control, ...form } = useForm<EditHeaderLinksFormValues>({
-    resolver: resolver,
+  const { control, watch, ...form } = useForm<EditHeaderLinksFormValues>({
+    resolver,
     defaultValues: {
       headerLinks: initLinks,
     },
+    mode: 'onChange',
   })
 
   const fieldArray = useFieldArray({
@@ -44,9 +49,13 @@ const useEditHeaderLinks = (initLinks: IpfsHeaderLink[]) => {
     name: 'headerLinks',
   })
 
+  const headerLinks = watch('headerLinks').map((link, index) => ({
+    ...link,
+    id: fieldArray.fields[index].id,
+  }))
   const errors = form.formState.errors
 
-  return { form, errors, fieldArray }
+  return { form, errors, headerLinks, fieldArray }
 }
 
 export default useEditHeaderLinks
