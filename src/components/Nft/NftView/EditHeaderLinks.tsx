@@ -68,22 +68,13 @@ const EditHeaderLinks: React.FC<EditHeaderLinksProps> = ({ nftAddress }) => {
     }
   }
 
-  const isValid = form.formState.isValid
+  console.log('useEditHeaderLinks', fields)
 
-  // const onSubmit: SubmitHandler<FormValues> = (data) => console.log(data)
+  const isValid = form.formState.isValid
 
   return (
     <Flex as='form' width='100%' maxWidth='600px' flexDirection='column'>
-      <Flex
-        as='form'
-        flexDirection='column'
-        flexGrow={0}
-        onSubmit={() =>
-          form.handleSubmit(() => {
-            console.log('SUBMIT')
-          })
-        }
-      >
+      <Flex flexDirection='column' flexGrow={0}>
         {fields.map((link, index) => (
           <Flex
             key={link.id}
@@ -136,7 +127,6 @@ const EditHeaderLinks: React.FC<EditHeaderLinksProps> = ({ nftAddress }) => {
         </Button>
         <RequirePermissions nftAddress={nftAddress}>
           <UpdateNftContentButton
-            onClick={form.handleSubmit(() => {})}
             nftAddress={nftAddress}
             ipfsHeaderLinkToUpdate={fields}
             disabled={!isValid}
