@@ -75,6 +75,11 @@
           "required": "URL must start with https://"
         }
       },
+      "formErrorsTitle": {
+        "name": {
+          "required": "Please enter a title"
+        }
+      },
       "buttonAddLink": "Add link"
     }
   },

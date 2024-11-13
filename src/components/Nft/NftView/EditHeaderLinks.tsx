@@ -10,6 +10,20 @@ import { getUniqueId, IpfsHeaderLink } from '@src/shared/utils'
 import Icon from '@src/components/ui/Icon'
 import useNFT from '@src/hooks/subgraph/useNFT'
 
+// Импорты для работы с react-hook-form и yup
+import { SubmitHandler } from 'react-hook-form'
+import * as yup from 'yup'
+
+// Здесь импортируем yup для схемы валидации (если она используется в useCreateNftForm)
+import { yupResolver } from '@hookform/resolvers/yup'
+import useEditHeaderLinks, { EditHeaderLinksInputs } from '@src/hooks/forms/useEditHeaderLinks'
+import { useSX1155NFTFactory } from '@src/hooks/contracts/useSX1155NFTFactory'
+import { useAddress } from '@thirdweb-dev/react'
+
+interface EditHeaderLinksProps {
+  onSuccessSubmit(): void
+}
+
 const DragHandle = styled.div`
   cursor: grab;
   display: flex;
@@ -30,6 +44,11 @@ interface EditHeaderLinksProps {
 
 const EditHeaderLinks: React.FC<EditHeaderLinksProps> = ({ nftAddress }) => {
   const { t } = useTranslation('nft', { keyPrefix: 'settings' })
+   const {
+     register, 
+     formState: { errors }, 
+   } = useEditHeaderLinks()
+
   const { nft } = useNFT(nftAddress, {
     fetchFullData: true,
   })
@@ -84,13 +103,13 @@ const EditHeaderLinks: React.FC<EditHeaderLinksProps> = ({ nftAddress }) => {
   }
 
   return (
-    <Flex width='100%' maxWidth='600px' flexDirection='column'>
+    <Flex as='form' width='100%' maxWidth='600px' flexDirection='column'>
       <Flex flexDirection='column' flexGrow={0}>
         {links.map(link => (
           <Flex
             key={link.id}
             alignItems='center'
-            $gap='8px'
+            $gap='8 px'
             marginBottom='12px'
             paddingBottom='8px'
             draggable
@@ -100,22 +119,20 @@ const EditHeaderLinks: React.FC<EditHeaderLinksProps> = ({ nftAddress }) => {
           >
             <DragHandle>⋮⋮</DragHandle>
             <TextField
+              inputProps={{ ...register('title'), height: '40px' }} 
               placeholder={t('editHeaderLinks.placeholders.name')}
+              error={errors.title?.message}
               value={link.title}
               onChange={e =>
                 handleInputChange(link.id, 'title', e.target.value)
               }
             />
             <TextField
+              inputProps={{ ...register('url'), height: '40px' }} 
               placeholder={t('editHeaderLinks.placeholders.url')}
               value={link.link}
+              error={errors.url?.message}
               onChange={e => handleInputChange(link.id, 'link', e.target.value)}
-              error={
-                urlErrorId === link.id
-                  ? t('editHeaderLinks.formErrorsHttps.name.required')
-                  : ''
-              }
-              style={{ borderColor: urlErrorId === link.id ? 'red' : '' }}
             />
             <StyledButtonRemove onClick={() => handleRemoveLink(link.id)}>
               <Icon style={{ display: 'flex' }} name='dash' />
@@ -134,6 +151,7 @@ const EditHeaderLinks: React.FC<EditHeaderLinksProps> = ({ nftAddress }) => {
         </Button>
         <RequirePermissions nftAddress={nftAddress} canUpdateContent>
           <UpdateNftContentButton
+            type='submit'
             nftAddress={nftAddress}
             ipfsHeaderLinkToUpdate={linksToUpdate}
             disabled={urlErrorId !== null}
