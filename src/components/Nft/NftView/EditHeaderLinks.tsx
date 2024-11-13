@@ -79,7 +79,7 @@ const EditHeaderLinks: React.FC<EditHeaderLinksProps> = ({ nftAddress }) => {
             key={link.id}
             alignItems='center'
             $gap='8px'
-            marginBottom='12px'
+            marginBottom='8px'
             paddingBottom='8px'
             draggable
             onDragStart={() => handleDragStart(link.id)}
@@ -90,7 +90,7 @@ const EditHeaderLinks: React.FC<EditHeaderLinksProps> = ({ nftAddress }) => {
             <TextField
               inputProps={{
                 ...form.register(`headerLinks.${index}.title`),
-                height: '40px',
+                height: '35px',
               }}
               placeholder={t('editHeaderLinks.placeholders.title')}
               error={errors.headerLinks?.[index]?.title?.message}
@@ -98,7 +98,7 @@ const EditHeaderLinks: React.FC<EditHeaderLinksProps> = ({ nftAddress }) => {
             <TextField
               inputProps={{
                 ...form.register(`headerLinks.${index}.link`),
-                height: '40px',
+                height: '35px',
               }}
               placeholder={t('editHeaderLinks.placeholders.link')}
               error={errors.headerLinks?.[index]?.link?.message}
