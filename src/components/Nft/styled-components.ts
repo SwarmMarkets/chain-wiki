@@ -13,10 +13,11 @@ export const StyledCard = styled(Card)`
   }
 `
 
-export const Title = styled(Text.h2)`
+export const Title = styled(Text.h3)`
   overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
 `
 
 export const StyledLink = styled(Link)`
