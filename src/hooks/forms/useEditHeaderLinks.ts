@@ -9,39 +9,44 @@ export interface EditHeaderLinksInputs {
   url: string
 }
 
+export interface EditHeaderLinksFormValues {
+  headerLinks: Omit<IpfsHeaderLink, 'id'>[]
+}
+
 const useEditHeaderLinks = (initLinks: IpfsHeaderLink[]) => {
   const { t } = useTranslation('nft', { keyPrefix: 'settings' })
 
   const schema = yup.object().shape({
-    headerLink: yup.array().of(
+    headerLinks: yup.array().of(
       yup.object().shape({
         title: yup
           .string()
-          .required(t('editHeaderLinks.formErrorsTitle.name.required')),
+          .required(t('editHeaderLinks.formErrors.title.required')),
         link: yup
           .string()
-          .required(t('editHeaderLinks.formErrorsHttps.name.required')),
+          .url(t('editHeaderLinks.formErrors.link.url'))
+          .required(t('editHeaderLinks.formErrors.link.required')),
       })
     ),
   })
 
   const resolver = useYupValidationResolver(schema)
 
-  const { control, ...form } = useForm<{
-    headerLink: Omit<IpfsHeaderLink, 'id'>[]
-  }>({
+  const { control, ...form } = useForm<EditHeaderLinksFormValues>({
     resolver: resolver,
     defaultValues: {
-      headerLink: initLinks,
+      headerLinks: initLinks,
     },
   })
 
   const fieldArray = useFieldArray({
     control,
-    name: 'headerLink',
+    name: 'headerLinks',
   })
 
-  return { form, fieldArray }
+  const errors = form.formState.errors
+
+  return { form, errors, fieldArray }
 }
 
 export default useEditHeaderLinks

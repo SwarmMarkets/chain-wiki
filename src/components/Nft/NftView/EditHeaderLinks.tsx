@@ -34,12 +34,15 @@ const EditHeaderLinks: React.FC<EditHeaderLinksProps> = ({ nftAddress }) => {
   const { t } = useTranslation('nft', { keyPrefix: 'settings' })
 
   const { nft } = useNFT(nftAddress, { fetchFullData: true })
+
   const initialLinks = nft?.headerLinks?.length
     ? nft?.headerLinks
     : [{ id: getUniqueId(), title: '', link: '' }]
+
   const {
     form,
     fieldArray: { fields, append, remove, move },
+    errors,
   } = useEditHeaderLinks(initialLinks)
 
   const [draggingId, setDraggingId] = useState<string | null>(null)
@@ -65,11 +68,12 @@ const EditHeaderLinks: React.FC<EditHeaderLinksProps> = ({ nftAddress }) => {
     }
   }
 
-  console.log(form.formState.errors)
+  // const onSubmit: SubmitHandler<FormValues> = (data) => console.log(data)
 
   return (
     <Flex as='form' width='100%' maxWidth='600px' flexDirection='column'>
       <Flex
+        as='form'
         flexDirection='column'
         flexGrow={0}
         onSubmit={() =>
@@ -82,7 +86,7 @@ const EditHeaderLinks: React.FC<EditHeaderLinksProps> = ({ nftAddress }) => {
           <Flex
             key={link.id}
             alignItems='center'
-            $gap='8 px'
+            $gap='8px'
             marginBottom='12px'
             paddingBottom='8px'
             draggable
@@ -93,23 +97,19 @@ const EditHeaderLinks: React.FC<EditHeaderLinksProps> = ({ nftAddress }) => {
             <DragHandle>⋮⋮</DragHandle>
             <TextField
               inputProps={{
-                ...form.register(`headerLink.${index}.title`),
+                ...form.register(`headerLinks.${index}.title`),
                 height: '40px',
               }}
               placeholder={t('editHeaderLinks.placeholders.name')}
-              error={form.formState.errors?.[
-                `headerLink[${index}].title` as 'headerLink'
-              ]?.message?.toString()}
+              error={errors.headerLinks?.[index]?.title?.message}
             />
             <TextField
               inputProps={{
-                ...form.register(`headerLink.${index}.link`),
+                ...form.register(`headerLinks.${index}.link`),
                 height: '40px',
               }}
-              placeholder={t('editHeaderLinks.placeholders.link')}
-              error={form.formState.errors?.[
-                `headerLink[${index}].link` as 'headerLink'
-              ]?.message?.toString()}
+              placeholder={t('editHeaderLinks.placeholders.url')}
+              error={errors.headerLinks?.[index]?.link?.message}
             />
             <StyledButtonRemove onClick={() => handleRemoveLink(index)}>
               <Icon style={{ display: 'flex' }} name='dash' />

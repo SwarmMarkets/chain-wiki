@@ -68,17 +68,17 @@
       "description": "Create a navigation menu by adding links",
       "placeholders": {
         "name": "Title",
-        "url": "URL"
+        "url": "e.g., https://site.com"
       },
-      "formErrorsHttps": {
-        "name": {
-          "required": "URL must start with https://"
-        }
-      },
-      "formErrorsTitle": {
-        "name": {
-          "required": "Please enter a title"
-        }
+      "formErrors": {
+        "title": {
+          "required": "Please enter a title for link"
+        },
+        "link": {
+          "url": "Please enter a valid URL for link",
+          "required": "URL is required"
+        },
+        "minLinks": "Please add at least one link"
       },
       "buttonAddLink": "Add link"
     }
