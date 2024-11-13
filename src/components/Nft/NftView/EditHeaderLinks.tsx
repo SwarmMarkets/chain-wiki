@@ -93,7 +93,7 @@ const EditHeaderLinks: React.FC<EditHeaderLinksProps> = ({ nftAddress }) => {
                 ...form.register(`headerLinks.${index}.title`),
                 height: '40px',
               }}
-              placeholder={t('editHeaderLinks.placeholders.name')}
+              placeholder={t('editHeaderLinks.placeholders.title')}
               error={errors.headerLinks?.[index]?.title?.message}
             />
             <TextField
@@ -101,7 +101,7 @@ const EditHeaderLinks: React.FC<EditHeaderLinksProps> = ({ nftAddress }) => {
                 ...form.register(`headerLinks.${index}.link`),
                 height: '40px',
               }}
-              placeholder={t('editHeaderLinks.placeholders.url')}
+              placeholder={t('editHeaderLinks.placeholders.link')}
               error={errors.headerLinks?.[index]?.link?.message}
             />
             <StyledButtonRemove onClick={() => handleRemoveLink(index)}>

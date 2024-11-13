@@ -67,8 +67,8 @@
       "title": "Navigation",
       "description": "Create a navigation menu by adding links",
       "placeholders": {
-        "name": "Title",
-        "url": "e.g., https://site.com"
+        "title": "Title",
+        "link": "e.g., https://site.com"
       },
       "formErrors": {
         "title": {
