@@ -89,13 +89,7 @@ const MyNftsPage = () => {
         onSelect={handleSelect}
       />
       <Box mt={20}>
-        <NftList
-          nfts={nfts}
-          loading={loading}
-          addNftCard
-          showRole
-          skeletonLength={9}
-        />
+        <NftList nfts={nfts} loading={loading} showRole skeletonLength={9} />
       </Box>
       {showPagination && (
         <Pagination

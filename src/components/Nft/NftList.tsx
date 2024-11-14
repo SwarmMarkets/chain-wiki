@@ -2,7 +2,6 @@ import RoutePaths from '@src/shared/enums/routes-paths'
 import React from 'react'
 import { generatePath } from 'react-router-dom'
 import styled from 'styled-components'
-import AddNftCard from './AddNftCard'
 import NftCard from './NftCard'
 import NftSkeletonList from './NftSkeletonList'
 import { StyledLink } from './styled-components'
@@ -11,7 +10,7 @@ import { NfTsQuery } from '@src/queries/gql/graphql'
 interface NftListProps {
   loading: boolean
   nfts?: NfTsQuery['nfts'] | null
-  addNftCard?: boolean
+
   showRole?: boolean
   skeletonLength?: number
 }
@@ -27,14 +26,13 @@ const Wrapper = styled.div`
 const NftList: React.FC<NftListProps> = ({
   loading,
   nfts,
-  addNftCard,
+
   showRole,
   skeletonLength,
 }) => {
   return (
     <>
       <Wrapper>
-        {addNftCard && <AddNftCard />}
         {loading ? (
           <NftSkeletonList skeletonLength={skeletonLength} />
         ) : (
