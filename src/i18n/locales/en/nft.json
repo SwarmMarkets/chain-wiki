@@ -65,7 +65,22 @@
     },
     "editHeaderLinks": {
       "title": "Navigation",
-      "description": "Create a navigation menu by adding links"
+      "description": "Create a navigation menu by adding links",
+      "placeholders": {
+        "title": "Title",
+        "link": "e.g., https://site.com"
+      },
+      "formErrors": {
+        "title": {
+          "required": "Please enter a title for link"
+        },
+        "link": {
+          "url": "Please enter a valid URL for link",
+          "required": "URL is required"
+        },
+        "minLinks": "Please add at least one link"
+      },
+      "buttonAddLink": "Add link"
     }
   },
   "createNft": {
@@ -132,13 +147,6 @@
       "role": {
         "required": "Role is required"
       }
-    }
-  },
-  "editHeaderLinks": {
-    "buttonAddLink": "Add link",
-    "placeholders": {
-      "url": "URL",
-      "name": "Title"
     }
   },
   "roles": {
