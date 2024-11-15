@@ -1,3 +1,4 @@
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { generatePath, Link, useParams } from 'react-router-dom'
 import styled, { useTheme } from 'styled-components'
@@ -9,7 +10,8 @@ import RequirePermissions from './RequirePermissions'
 import useNFT from '@src/hooks/subgraph/useNFT'
 import RoutePaths from '@src/shared/enums/routes-paths'
 import { useHeaderColorContext } from '../Nft/NftView/HeaderColorContext'
-import { useMemo } from 'react'
+import useModalState from '@src/hooks/useModalState'
+import CreateNftModal from '../CreateNft/CreateNftModal'
 
 interface HeaderContainerProps {
   $headerBackground?: string
@@ -33,6 +35,7 @@ const Logo = styled.img`
   max-width: 230px;
   max-height: 70px;
 `
+
 const StyledLink = styled.a`
   color: ${({ theme }) => theme.palette.black};
   text-decoration: none;
@@ -58,6 +61,8 @@ const Header: React.FC = () => {
   const { t } = useTranslation('layout')
   const theme = useTheme()
   const { headerColor } = useHeaderColorContext()
+
+  const { isOpen, open, close } = useModalState(false)
 
   const isNft = nftId === nft?.id && !loadingNft
   const showLogo = nft?.logoUrl && isNft
@@ -91,9 +96,17 @@ const Header: React.FC = () => {
               {t('header.myNfts')}
             </Button>
           </Link>
+          <Button
+            style={{ backgroundColor: theme.palette.white }}
+            mr={3}
+            onClick={open}
+          >
+            {t('addNft', { ns: 'nfts' })}
+          </Button>
         </RequirePermissions>
         <ConnectButton />
       </Flex>
+      <CreateNftModal isOpen={isOpen} onClose={close} />
     </HeaderContainer>
   )
 }

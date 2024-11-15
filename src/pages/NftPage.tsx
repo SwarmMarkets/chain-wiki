@@ -96,7 +96,7 @@ const NftPage = () => {
       )}
       <Box width='900px'>
         <Flex $gap='5px' flexDirection='column'>
-          <Flex alignItems='center' $gap='5px'>
+          <Flex alignItems='center' $gap='5px' style={{ position: 'relative' }}>
             <Text.h1 size={theme.fontSizes.large} weight={700}>
               {nft?.name}
             </Text.h1>
@@ -110,7 +110,7 @@ const NftPage = () => {
               onClick={handleIconClick}
               onMouseEnter={() => setIsHovered(true)}
               onMouseLeave={() => setIsHovered(false)}
-              style={{ marginLeft: '728px' }}
+              style={{ marginLeft: 'auto' }}
             />
           </Flex>
         </Flex>
