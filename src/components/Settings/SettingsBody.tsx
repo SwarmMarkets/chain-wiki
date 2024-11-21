@@ -34,7 +34,7 @@ const SettingsBody = ({ activeLink }: Props) => {
           title={t('editPageContent.title')}
           description={t('editPageContent.description')}
         >
-          <EditContent nftAddress={nftId} />{' '}
+          <EditContent nftAddress={nftId} />
         </SettingCard>
       )
     case SettingView.LAYOUT:

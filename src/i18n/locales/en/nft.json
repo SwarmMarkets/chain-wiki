@@ -81,6 +81,10 @@
         "minLinks": "Please add at least one link"
       },
       "buttonAddLink": "Add link"
+    },
+    "linksColor": {
+      "title": "Title links color",
+      "description": "Sets the color of the title links in the header"
     }
   },
   "createNft": {
