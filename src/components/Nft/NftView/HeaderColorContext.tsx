@@ -1,35 +1,44 @@
-import React, { createContext, useContext, useState } from 'react'
+import React, { createContext, useContext, useState, useEffect } from 'react'
 
-const HeaderColorContext = createContext<{
+interface HeaderColorContextType {
   headerColor: string
   setHeaderColor: (color: string) => void
   linksColor: string
   setLinksColor: (color: string) => void
-}>({
-  headerColor: '',
-  setHeaderColor: () => {},
-  linksColor: '',
-  setLinksColor: () => {},
-})
+}
 
-export const HeaderColorProvider: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
-  const [headerColor, setHeaderColor] = useState<string>('')
-  const [linksColor, setLinksColor] = useState<string>('')
+const HeaderColorContext = createContext<HeaderColorContextType | undefined>(
+  undefined
+)
+
+export const HeaderColorProvider: React.FC = ({ children }) => {
+  const [headerColor, setHeaderColor] = useState<string>(
+    localStorage.getItem('headerColor') || '#FFFFFF'
+  )
+  const [linksColor, setLinksColor] = useState<string>(
+    localStorage.getItem('linksColor') || '#000000'
+  )
+
+  useEffect(() => {
+    localStorage.setItem('headerColor', headerColor)
+    localStorage.setItem('linksColor', linksColor)
+  }, [headerColor, linksColor])
 
   return (
     <HeaderColorContext.Provider
-      value={{
-        headerColor,
-        setHeaderColor,
-        linksColor,
-        setLinksColor,
-      }}
+      value={{ headerColor, setHeaderColor, linksColor, setLinksColor }}
     >
       {children}
     </HeaderColorContext.Provider>
   )
 }
 
-export const useHeaderColorContext = () => useContext(HeaderColorContext)
+export const useHeaderColorContext = () => {
+  const context = useContext(HeaderColorContext)
+  if (!context) {
+    throw new Error(
+      'useHeaderColorContext must be used within a HeaderColorProvider'
+    )
+  }
+  return context
+}

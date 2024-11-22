@@ -19,6 +19,7 @@ interface UpdateNftContentButtonProps extends ButtonProps, ChildrenProp {
   ipfsHeaderLinkToUpdate?: IpfsHeaderLink[]
   onSuccess?(): void
   headerBackground?: string
+  linksColor?: string
 }
 
 const UpdateNftContentButton: React.FC<UpdateNftContentButtonProps> = ({
@@ -27,6 +28,7 @@ const UpdateNftContentButton: React.FC<UpdateNftContentButtonProps> = ({
   ipfsNftToUpdate,
   ipfsIndexPagesToUpdate,
   ipfsHeaderLinkToUpdate,
+  linksColor,
   onSuccess,
   children,
   ...buttonProps
@@ -83,6 +85,7 @@ const UpdateNftContentButton: React.FC<UpdateNftContentButtonProps> = ({
       ...(uri && { uri }),
       ...(indexPagesUri && { indexPagesUri }),
       ...(headerLinksUri && { headerLinksUri }),
+      ...(linksColor && { linksColor }),
     })
 
     if (res) {
@@ -110,6 +113,7 @@ const UpdateNftContentButton: React.FC<UpdateNftContentButtonProps> = ({
             uri: ipfsUri,
             indexPagesUri,
             headerLinksUri,
+            linksColor,
           }),
       },
     }
@@ -124,6 +128,7 @@ const UpdateNftContentButton: React.FC<UpdateNftContentButtonProps> = ({
     tx.isSuccess,
     tx.isTxError,
     tx.txLoading,
+    linksColor,
   ])
 
   const caption = children || t('updateContent')

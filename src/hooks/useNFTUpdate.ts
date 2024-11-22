@@ -21,6 +21,7 @@ export interface NFTContentToUpdate {
   uri?: string
   indexPagesUri?: string | null
   headerLinksUri?: string | null
+  linksColor?: string | null
 }
 
 const useNFTUpdate = (nftAddress: string) => {
@@ -63,6 +64,7 @@ const useNFTUpdate = (nftAddress: string) => {
     const firstUri = uris[0]
     return firstUri
   }
+
   const uploadHeaderLinksContent = async (headerLinks: IpfsHeaderLink[]) => {
     if (!nft.id) return
     const ipfsHeaderLinksContent = generateIpfsHeaderLinksContent({

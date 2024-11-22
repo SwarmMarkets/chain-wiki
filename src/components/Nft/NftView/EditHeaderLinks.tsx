@@ -80,7 +80,7 @@ const EditHeaderLinks: React.FC<EditHeaderLinksProps> = ({ nftAddress }) => {
   }
 
   const handleColorChange = (newColor: string) => {
-    setLinksColor(newColor)
+    setLinksColor(newColor) // This updates both state and localStorage
   }
 
   const closeColorPicker = (e: MouseEvent) => {
@@ -161,6 +161,8 @@ const EditHeaderLinks: React.FC<EditHeaderLinksProps> = ({ nftAddress }) => {
             nftAddress={nftAddress}
             ipfsHeaderLinkToUpdate={headerLinks}
             disabled={!isValid}
+            linksColor={linksColor}
+            onSuccess={() => console.log('Links color updated!')}
           />
         </RequirePermissions>
       </Flex>
