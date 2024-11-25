@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react'
+import React, { createContext, useContext, useState } from 'react'
 
 interface HeaderColorContextType {
   headerColor: string
@@ -12,17 +12,8 @@ const HeaderColorContext = createContext<HeaderColorContextType | undefined>(
 )
 
 export const HeaderColorProvider: React.FC = ({ children }) => {
-  const [headerColor, setHeaderColor] = useState<string>(
-    localStorage.getItem('headerColor') || '#FFFFFF'
-  )
-  const [linksColor, setLinksColor] = useState<string>(
-    localStorage.getItem('linksColor') || '#000000'
-  )
-
-  useEffect(() => {
-    localStorage.setItem('headerColor', headerColor)
-    localStorage.setItem('linksColor', linksColor)
-  }, [headerColor, linksColor])
+  const [headerColor, setHeaderColor] = useState<string>('#FFFFFF')
+  const [linksColor, setLinksColor] = useState<string>('#000000')
 
   return (
     <HeaderColorContext.Provider

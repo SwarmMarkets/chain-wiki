@@ -159,9 +159,11 @@ const EditHeaderLinks: React.FC<EditHeaderLinksProps> = ({ nftAddress }) => {
         <RequirePermissions nftAddress={nftAddress}>
           <UpdateNftContentButton
             nftAddress={nftAddress}
-            ipfsHeaderLinkToUpdate={headerLinks}
+            ipfsHeaderLinkToUpdate={{
+              headerLinks: headerLinks,
+              color: linksColor,
+            }}
             disabled={!isValid}
-            linksColor={linksColor}
             onSuccess={() => console.log('Links color updated!')}
           />
         </RequirePermissions>

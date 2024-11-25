@@ -21,7 +21,6 @@ export interface NFTContentToUpdate {
   uri?: string
   indexPagesUri?: string | null
   headerLinksUri?: string | null
-  linksColor?: string | null
 }
 
 const useNFTUpdate = (nftAddress: string) => {

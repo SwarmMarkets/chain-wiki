@@ -49,6 +49,7 @@ export interface IpfsIndexPagesContent {
 export interface IpfsHeaderLinksContent {
   address: string
   headerLinks: IpfsHeaderLink[]
+  color: string
 }
 
 export interface IpfsHeaderLink {
