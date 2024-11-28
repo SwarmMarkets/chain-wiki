@@ -4,6 +4,8 @@ import shouldForwardProp from '@styled-system/should-forward-prop'
 import icons from '@src/shared/consts/icons'
 import { PositionProps, SpaceProps, position, space } from 'styled-system'
 
+export type IconName = keyof typeof icons
+
 export type Cursor =
   | 'help'
   | 'wait'
@@ -18,7 +20,7 @@ interface IconProps
   extends HTMLAttributes<HTMLDivElement>,
     SpaceProps,
     PositionProps {
-  name: keyof typeof icons
+  name: IconName
   size?: number
   width?: number
   height?: number
