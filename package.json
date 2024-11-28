@@ -9,7 +9,9 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "typechain": "typechain --target=ethers-v5 'src/contracts/abis/*.json' --out-dir src/contracts/typechain",
     "preview": "vite preview",
-    "codegen": "graphql-codegen --watch"
+    "codegen": "graphql-codegen --watch",
+    "prepare": "husky install",
+    "lint:types": "tsc --noEmit"
   },
   "dependencies": {
     "@apollo/client": "^3.9.2",
@@ -65,8 +67,15 @@
     "eslint": "^8.55.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.2.10",
     "typechain": "^8.3.2",
     "typescript": "^5.2.2",
     "vite": "^5.0.8"
+  },
+  "lint-staged": {
+    "*.ts": [
+      "tsc --noEmit"
+    ]
   }
 }
