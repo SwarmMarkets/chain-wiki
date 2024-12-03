@@ -10,8 +10,8 @@
     "typechain": "typechain --target=ethers-v5 'src/contracts/abis/*.json' --out-dir src/contracts/typechain",
     "preview": "vite preview",
     "codegen": "graphql-codegen --watch",
-    "prepare": "husky install",
-    "lint:types": "tsc --noEmit"
+    "prepare": "husky",
+    "ts:check": "tsc --noEmit"
   },
   "dependencies": {
     "@apollo/client": "^3.9.2",
