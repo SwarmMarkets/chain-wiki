@@ -78,7 +78,7 @@ const Header: React.FC = () => {
     <HeaderContainer as='header' $headerBackground={headerBackground}>
       <Link to={generatePath(RoutePaths.NFT, { nftId })}>
         {showLogo && <Logo src={nft?.logoUrl} alt={nft?.name} />}
-      </Link>В
+      </Link>
       <Flex alignItems='center' justifyContent='center' flex='1' $gap='30px'>
         {nft?.headerLinks.map(headerLink => (
           <StyledLink
@@ -89,6 +89,7 @@ const Header: React.FC = () => {
           </StyledLink>
         ))}
       </Flex>
+
       <Flex $gap='1rem' alignItems='center'>
         <RequirePermissions canCreateNft>
           <Link to={RoutePaths.MY_NFTS}>
