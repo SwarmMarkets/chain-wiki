@@ -80,7 +80,7 @@ const Header: React.FC = () => {
         {showLogo && <Logo src={nft?.logoUrl} alt={nft?.name} />}
       </Link>
       <Flex alignItems='center' justifyContent='center' flex='1' $gap='30px'>
-        {nft?.headerLinks.map(headerLink => (
+        {nft?.headerLinks?.map(headerLink => (
           <StyledLink
             key={headerLink.id}
             onClick={() => window.open(headerLink.link, '_blank')}
