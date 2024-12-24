@@ -1,8 +1,8 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 interface StyledTitleBlockProps {
-  $expanded: boolean
-  $isActive?: boolean
+  $expanded: boolean;
+  $isActive?: boolean;
 }
 
 export const StyledTitleBlock = styled.div<StyledTitleBlockProps>`
@@ -10,8 +10,7 @@ export const StyledTitleBlock = styled.div<StyledTitleBlockProps>`
   position: relative;
   align-items: center;
   gap: 4px;
-  padding: 5px;
-  padding-left: 16px;
+  padding: 5px 16px;
   cursor: pointer;
   color: ${({ theme, $isActive }) =>
     $isActive ? theme.palette.linkPrimaryAccent : theme.palette.black};
@@ -37,14 +36,14 @@ export const StyledTitleBlock = styled.div<StyledTitleBlockProps>`
     transform: rotate(${({ $expanded }) => ($expanded ? 90 : 0)}deg);
     transition: transform 0.2s ease-in-out;
   }
-`
+`;
 
 export const StyledList = styled.ul`
   margin-left: 30px;
-`
+`;
 
 interface StyledListItemProps {
-  $isActive: boolean
+  $isActive: boolean;
 }
 
 export const StyledListContainer = styled.div`
@@ -60,14 +59,13 @@ export const StyledListContainer = styled.div`
     width: 2px;
     background-color: ${({ theme }) => theme.palette.lightGray};
   }
-`
+`;
 
 export const StyledListItem = styled.li<StyledListItemProps>`
   display: flex;
   position: relative;
   align-items: center;
-  padding: 5px;
-  padding-left: 16px;
+  padding: 5px 16px;
   cursor: pointer;
   color: ${({ theme, $isActive }) =>
     $isActive ? theme.palette.linkPrimaryAccent : theme.palette.black};
@@ -88,4 +86,5 @@ export const StyledListItem = styled.li<StyledListItemProps>`
   &:hover {
     color: ${({ theme }) => theme.palette.linkPrimary};
   }
-`
+`;
+

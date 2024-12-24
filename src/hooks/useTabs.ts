@@ -8,7 +8,9 @@ interface UseTabsOptions {
 const useTabs = <T>(options?: UseTabsOptions) => {
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
-  const activeTab = searchParams.get('tab') || options?.defaultTab
+  const activeTab = (searchParams.get('tab') ||
+    options?.defaultTab ||
+    null) as T | null
 
   const changeTab = (tab: T | null) => {
     if (tab === options?.defaultTab) {

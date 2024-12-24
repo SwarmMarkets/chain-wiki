@@ -1,9 +1,6 @@
 import TokenContentSkeleton from '@src/components/Token/TokenContentSkeleton'
 import TokenView from '@src/components/Token/TokenView'
-import {
-  TokenStyledContent,
-  TokenStyledIndexPages,
-} from '@src/components/Token/styled-components'
+import { TokenStyledContent, TokenStyledIndexPages } from '@src/components/Token/styled-components'
 import HistoryToken from '@src/components/History/HistoryToken'
 import { TokenContextProvider } from '@src/components/providers/TokenContext'
 import Box from '@src/components/ui/Box'
@@ -79,11 +76,10 @@ const TokenPage = () => {
     )
   }
 
-  const breadCrumbs = nft &&
-    token && [
-      { label: nft.name, to: generatePath(RoutePaths.NFT, { nftId }) },
-      { label: token.name || token.id },
-    ]
+  const breadCrumbs = nft && token && [
+    { label: nft.name, to: generatePath(RoutePaths.NFT, { nftId }) },
+    { label: token.name || token.id },
+  ]
 
   return (
     <TokenContextProvider value={token}>
@@ -98,7 +94,6 @@ const TokenPage = () => {
           <TokenStyledIndexPages
             tokens={fullTokens}
             nft={nft}
-            indexPages={nft?.ipfsContent?.indexPages}
           />
         )}
         <Box width='900px'>

@@ -42,7 +42,7 @@ const NftPage = () => {
     },
     { fetchFullData: true }
   )
-  const { activeTab, changeTab } = useTabs<NftTabs | null>({
+  const { activeTab, changeTab } = useTabs<NftTabs>({
     defaultTab: NftTabs.NFT,
   })
   const showSkeleton = loadingNft && !refetchingNft

@@ -21,7 +21,7 @@ interface ExpandableListProps {
 
 const ExpandableList: React.FC<ExpandableListProps> = ({
   title,
-  items,
+  items = [],
   initialExpanded = false,
   onClickTitle,
   onClickItem,
@@ -41,7 +41,7 @@ const ExpandableList: React.FC<ExpandableListProps> = ({
   return (
     <StyledListContainer>
       <StyledTitleBlock $expanded={isExpanded} $isActive={isActive}>
-        {items && (
+        {items.length > 0 && (
           <Icon
             name='chevronRight'
             color={theme.palette.textPrimary}
@@ -52,12 +52,12 @@ const ExpandableList: React.FC<ExpandableListProps> = ({
         )}
         <span onClick={onClickTitle}>{title}</span>
       </StyledTitleBlock>
-      {isExpanded && items && (
+      {isExpanded && (
         <StyledList>
           {items.map(item => (
             <StyledListItem
               key={item.id}
-              $isActive={item.isActive}
+              $isActive={item.isActive || false}
               onClick={() => handleClickItem(item)}
             >
               {item.value}

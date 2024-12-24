@@ -18,6 +18,7 @@ const SettingsNavigation = () => {
   const activeTab = searchParams.get('setting') || SettingView.GENERAL
   const settingsLinks = useSettingsLinks()
   const theme = useTheme()
+
   const getSearchParams = (newValue: string) => {
     const newSearchParams = new URLSearchParams(searchParams)
     newSearchParams.set('setting', newValue)
