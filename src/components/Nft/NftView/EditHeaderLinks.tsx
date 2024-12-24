@@ -37,8 +37,8 @@ const EditHeaderLinks: React.FC<EditHeaderLinksProps> = ({ nftAddress }) => {
   const { t } = useTranslation('nft', { keyPrefix: 'settings' })
   const { nft } = useNFT(nftAddress, { fetchFullData: true })
 
-  const initialLinks = nft?.headerLinks?.length
-    ? nft?.headerLinks
+  const initialLinks = nft?.headerLinksContent?.headerLinks?.length
+    ? nft?.headerLinksContent?.headerLinks
     : [{ id: getUniqueId(), title: '', link: '' }]
 
   const {

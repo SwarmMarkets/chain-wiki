@@ -1,3 +1,4 @@
+import { ChildrenProp } from '@src/shared/types/common-props'
 import React, { createContext, useContext, useState } from 'react'
 
 interface HeaderColorContextType {
@@ -11,7 +12,7 @@ const HeaderColorContext = createContext<HeaderColorContextType | undefined>(
   undefined
 )
 
-export const HeaderColorProvider: React.FC = ({ children }) => {
+export const HeaderColorProvider: React.FC<ChildrenProp> = ({ children }) => {
   const [headerColor, setHeaderColor] = useState<string>('#FFFFFF')
   const [linksColor, setLinksColor] = useState<string>('#000000')
 

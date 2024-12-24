@@ -84,7 +84,7 @@ const Header: React.FC = () => {
         {showLogo && <Logo src={nft?.logoUrl} alt={nft?.name} />}
       </Link>
       <Flex alignItems='center' justifyContent='center' flex='1' $gap='30px'>
-        {nft?.headerLinks?.map(headerLink => (
+        {nft?.headerLinksContent?.headerLinks.map(headerLink => (
           <StyledLink
             key={headerLink.id}
             linksColor={linksColor}

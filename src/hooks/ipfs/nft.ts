@@ -42,7 +42,7 @@ export const useIpfsHeaderLinks = (ipfsUri?: string) => {
   })
 
   return {
-    headerLinks: data?.headerLinks,
+    headerLinksContent: data,
     isLoading: ipfsUri ? isLoading : false,
     ...rest,
   }

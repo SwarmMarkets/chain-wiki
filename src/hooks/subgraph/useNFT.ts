@@ -29,24 +29,24 @@ const useNFT = (id: string, options?: UseNFTOptions) => {
   const contentUri = options?.fetchFullData ? data?.nft?.uri : ''
 
   const {
-    headerLinks = initialHeaderLinks.headerLinks,
+    headerLinksContent = initialHeaderLinks,
     failureReason: errorHeaderLinks,
     isLoading: loadingHeaderLinks,
   } = useIpfsHeaderLinks(headerLinksUri)
+  console.log(headerLinksContent)
 
   const {
     ipfsContent = initialNftContent,
     failureReason: errorNftContent,
     isLoading: loadingNftContent,
   } = useIpfsNftContent(contentUri)
-
   const nftWithMetadata = useMemo(() => {
     return {
       ...data?.nft,
-      headerLinks,
+      headerLinksContent,
       ipfsContent,
     } as unknown as NFTWithMetadata
-  }, [data?.nft, headerLinks, ipfsContent])
+  }, [data?.nft, headerLinksContent, ipfsContent])
 
   return useMemo(
     () => ({
