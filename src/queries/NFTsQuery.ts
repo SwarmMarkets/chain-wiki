@@ -23,6 +23,7 @@ export const NFTsQuery = graphql(`
       creator
       uri
       indexPagesUri
+      headerLinksUri
       logoUrl
       admins
       editors

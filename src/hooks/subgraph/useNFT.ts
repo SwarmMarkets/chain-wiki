@@ -33,7 +33,6 @@ const useNFT = (id: string, options?: UseNFTOptions) => {
     failureReason: errorHeaderLinks,
     isLoading: loadingHeaderLinks,
   } = useIpfsHeaderLinks(headerLinksUri)
-  console.log(headerLinksContent)
 
   const {
     ipfsContent = initialNftContent,

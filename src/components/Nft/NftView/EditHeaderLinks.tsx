@@ -164,7 +164,6 @@ const EditHeaderLinks: React.FC<EditHeaderLinksProps> = ({ nftAddress }) => {
               color: linksColor,
             }}
             disabled={!isValid}
-            onSuccess={() => console.log('Links color updated!')}
           />
         </RequirePermissions>
       </Flex>
