@@ -45,6 +45,7 @@
     "react-toastify": "^10.0.4",
     "styled-components": "^6.1.8",
     "styled-system": "^5.1.5",
+    "vite-plugin-node-polyfills": "^0.22.0",
     "vite-plugin-svgr": "^4.2.0",
     "yup": "^1.4.0",
     "zustand": "^4.4.7"
