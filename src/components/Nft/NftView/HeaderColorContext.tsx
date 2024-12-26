@@ -1,23 +1,36 @@
+import { ChildrenProp } from '@src/shared/types/common-props'
 import React, { createContext, useContext, useState } from 'react'
 
-const HeaderColorContext = createContext<{
+interface HeaderColorContextType {
   headerColor: string
   setHeaderColor: (color: string) => void
-}>({
-  headerColor: '',
-  setHeaderColor: () => {},
-})
+  linksColor: string
+  setLinksColor: (color: string) => void
+}
 
-export const HeaderColorProvider: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
-  const [headerColor, setHeaderColor] = useState<string>('')
+const HeaderColorContext = createContext<HeaderColorContextType | undefined>(
+  undefined
+)
+
+export const HeaderColorProvider: React.FC<ChildrenProp> = ({ children }) => {
+  const [headerColor, setHeaderColor] = useState<string>('#FFFFFF')
+  const [linksColor, setLinksColor] = useState<string>('#000000')
 
   return (
-    <HeaderColorContext.Provider value={{ headerColor, setHeaderColor }}>
+    <HeaderColorContext.Provider
+      value={{ headerColor, setHeaderColor, linksColor, setLinksColor }}
+    >
       {children}
     </HeaderColorContext.Provider>
   )
 }
 
-export const useHeaderColorContext = () => useContext(HeaderColorContext)
+export const useHeaderColorContext = () => {
+  const context = useContext(HeaderColorContext)
+  if (!context) {
+    throw new Error(
+      'useHeaderColorContext must be used within a HeaderColorProvider'
+    )
+  }
+  return context
+}

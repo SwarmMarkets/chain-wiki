@@ -22,4 +22,5 @@ export const initialIndexPagesContent: IpfsIndexPagesContent = {
 export const initialHeaderLinks: IpfsHeaderLinksContent = {
   address: '',
   headerLinks: [],
+  color: '',
 }

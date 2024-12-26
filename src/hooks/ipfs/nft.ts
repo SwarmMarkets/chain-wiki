@@ -9,7 +9,7 @@ import { useStorage } from '@thirdweb-dev/react'
 export const useIpfsNftContent = (ipfsUri?: string) => {
   const storage = useStorage()
 
-  const { data, ...rest } = useQuery({
+  const { data, isLoading, ...rest } = useQuery({
     queryKey: ['ipfsNftContent', ipfsUri],
     queryFn: async () => {
       const res = await storage?.downloadJSON(ipfsUri!)
@@ -22,6 +22,7 @@ export const useIpfsNftContent = (ipfsUri?: string) => {
 
   return {
     ipfsContent: data,
+    isLoading: ipfsUri ? isLoading : false,
     ...rest,
   }
 }
@@ -29,7 +30,7 @@ export const useIpfsNftContent = (ipfsUri?: string) => {
 export const useIpfsHeaderLinks = (ipfsUri?: string) => {
   const storage = useStorage()
 
-  const { data, ...rest } = useQuery({
+  const { data, isLoading, ...rest } = useQuery({
     queryKey: ['ipfsHeaderLinks', ipfsUri],
     queryFn: async () => {
       const res = await storage?.downloadJSON(ipfsUri!)
@@ -41,7 +42,8 @@ export const useIpfsHeaderLinks = (ipfsUri?: string) => {
   })
 
   return {
-    headerLinks: data?.headerLinks,
+    headerLinksContent: data,
+    isLoading: ipfsUri ? isLoading : false,
     ...rest,
   }
 }
@@ -49,7 +51,7 @@ export const useIpfsHeaderLinks = (ipfsUri?: string) => {
 export const useIpfsIndexPages = (ipfsUri?: string) => {
   const storage = useStorage()
 
-  const { data, ...rest } = useQuery({
+  const { data, isLoading, ...rest } = useQuery({
     queryKey: ['ipfsHeaderLinks', ipfsUri],
     queryFn: async () => {
       const res = await storage?.downloadJSON(ipfsUri!)
@@ -62,6 +64,7 @@ export const useIpfsIndexPages = (ipfsUri?: string) => {
 
   return {
     indexPages: data?.indexPages,
+    isLoading: ipfsUri ? isLoading : false,
     ...rest,
   }
 }

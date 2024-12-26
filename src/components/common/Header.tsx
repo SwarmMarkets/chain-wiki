@@ -36,8 +36,12 @@ const Logo = styled.img`
   max-height: 70px;
 `
 
-const StyledLink = styled.a`
-  color: ${({ theme }) => theme.palette.black};
+interface StyledLinkProps {
+  linksColor: string
+}
+
+const StyledLink = styled.a<StyledLinkProps>`
+  color: ${({ linksColor, theme }) => linksColor || theme.palette.black};
   text-decoration: none;
   font-weight: 400;
   font-size: 16px;
@@ -60,7 +64,7 @@ const Header: React.FC = () => {
   })
   const { t } = useTranslation('layout')
   const theme = useTheme()
-  const { headerColor } = useHeaderColorContext()
+  const { headerColor, linksColor } = useHeaderColorContext()
 
   const { isOpen, open, close } = useModalState(false)
 
@@ -80,9 +84,10 @@ const Header: React.FC = () => {
         {showLogo && <Logo src={nft?.logoUrl} alt={nft?.name} />}
       </Link>
       <Flex alignItems='center' justifyContent='center' flex='1' $gap='30px'>
-        {nft?.headerLinks.map(headerLink => (
+        {nft?.headerLinksContent?.headerLinks.map(headerLink => (
           <StyledLink
             key={headerLink.id}
+            linksColor={linksColor}
             onClick={() => window.open(headerLink.link, '_blank')}
           >
             {headerLink.title}

@@ -2,7 +2,7 @@ import useModalState from '@src/hooks/useModalState'
 import useNFTUpdate, { NFTContentToUpdate } from '@src/hooks/useNFTUpdate'
 import { ChildrenProp } from '@src/shared/types/common-props'
 import {
-  IpfsHeaderLink,
+  IpfsHeaderLinksContent,
   IpfsIndexPage,
   IpfsNftContent,
 } from '@src/shared/utils/ipfs/types'
@@ -16,9 +16,8 @@ interface UpdateNftContentButtonProps extends ButtonProps, ChildrenProp {
   nftContentToUpdate?: NFTContentToUpdate
   ipfsNftToUpdate?: Partial<IpfsNftContent>
   ipfsIndexPagesToUpdate?: IpfsIndexPage[]
-  ipfsHeaderLinkToUpdate?: IpfsHeaderLink[]
+  ipfsHeaderLinkToUpdate?: Partial<IpfsHeaderLinksContent> // [id, link, title] color
   onSuccess?(): void
-  headerBackground?: string
 }
 
 const UpdateNftContentButton: React.FC<UpdateNftContentButtonProps> = ({

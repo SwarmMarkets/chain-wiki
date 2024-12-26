@@ -9,7 +9,7 @@ import {
   unifyAddressToId,
 } from '@src/shared/utils'
 import {
-  IpfsHeaderLink,
+  IpfsHeaderLinksContent,
   IpfsIndexPage,
   IpfsNftContent,
 } from '@src/shared/utils/ipfs/types'
@@ -63,11 +63,18 @@ const useNFTUpdate = (nftAddress: string) => {
     const firstUri = uris[0]
     return firstUri
   }
-  const uploadHeaderLinksContent = async (headerLinks: IpfsHeaderLink[]) => {
+
+  const uploadHeaderLinksContent = async (
+    headerLinksContent: Partial<IpfsHeaderLinksContent>
+  ) => {
     if (!nft.id) return
     const ipfsHeaderLinksContent = generateIpfsHeaderLinksContent({
-      headerLinks: headerLinks,
+      headerLinks:
+        headerLinksContent.headerLinks ||
+        nft.headerLinksContent?.headerLinks ||
+        [],
       address: unifyAddressToId(nft.id),
+      color: headerLinksContent.color || '#000000',
     })
     const filesToUpload = [ipfsHeaderLinksContent]
     const uris = await upload({ data: filesToUpload })

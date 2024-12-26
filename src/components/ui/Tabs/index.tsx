@@ -1,12 +1,12 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { ReactElement } from 'react'
 import styled from 'styled-components'
 import { Tab as ITab } from '@src/shared/types/ui-components'
 import { ChildrenProp } from '@src/shared/types/common-props'
 import { TabProps } from './Tab'
-import { NftTabs } from '@src/shared/enums/tabs'
 
-interface TabsProps extends ChildrenProp {
-  onChange: (tab: ITab<NftTabs>) => void
+interface TabsProps<T extends ITab> extends ChildrenProp {
+  onChange: (tab: T) => void
 }
 
 const TabsWrapper = styled.div`
@@ -15,8 +15,12 @@ const TabsWrapper = styled.div`
   border-bottom: 1px solid ${({ theme }) => theme.palette.borderPrimary};
 `
 
-const Tabs: React.FC<TabsProps> = ({ onChange, children: childrenProp }) => {
-  const handleTabClick = (tab: ITab<NftTabs>) => {
+const Tabs = <T extends ITab>({
+  onChange,
+  children: childrenProp,
+}: TabsProps<T>) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleTabClick = (tab: T) => {
     onChange && onChange(tab)
   }
 

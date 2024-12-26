@@ -11,6 +11,7 @@ interface ExplorerLinkProps extends ChildrenProp {
   type: ExplorerLinkType
   hash?: string
   iconSize?: number
+  iconsPosition?: string
 }
 
 export const StyledLink = styled.a`

@@ -50,6 +50,7 @@ export const generateIpfsHeaderLinksContent = (
   const content = {
     headerLinks: args.headerLinks,
     address: args.address,
+    color: args.color,
   }
 
   return JSON.stringify(content)

@@ -1,7 +1,19 @@
 import { useTranslation } from 'react-i18next'
 import { SettingView } from './enums'
+import { IconName } from '../ui/Icon'
 
-const useSettingsLinks = () => {
+interface SettingsLink {
+  label: string
+  link: string
+  icon: IconName
+}
+
+interface SettingsGroup {
+  title: string
+  links: SettingsLink[]
+}
+
+const useSettingsLinks = (): Record<string, SettingsGroup> => {
   const { t } = useTranslation('nft', { keyPrefix: 'settings' })
 
   return {

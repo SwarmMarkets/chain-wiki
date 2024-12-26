@@ -49,6 +49,7 @@ export interface IpfsIndexPagesContent {
 export interface IpfsHeaderLinksContent {
   address: string
   headerLinks: IpfsHeaderLink[]
+  color: string
 }
 
 export interface IpfsHeaderLink {
@@ -63,7 +64,7 @@ export type NFTsQueryFullData = NfTsQuery['nfts'][0] & {
 
 export type NFTWithMetadata = NftQuery['nft'] & {
   ipfsContent?: IpfsNftContent
-  headerLinks?: IpfsHeaderLink[]
+  headerLinksContent?: IpfsHeaderLinksContent
 }
 
 export type NftUriUpdatesQueryFullData =
