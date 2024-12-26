@@ -26,8 +26,10 @@ import { NftTabs } from '@src/shared/enums/tabs'
 import { Tab as ITab } from '@src/shared/types/ui-components'
 import { useChainId } from '@thirdweb-dev/react'
 import { getExplorerUrl, unifyAddressToId } from '@src/shared/utils'
+import useSmartAccount from '@src/services/safe-protocol-kit/useSmartAccount'
 
 const NftPage = () => {
+  const { smartAccount } = useSmartAccount()
   const { nftId = '' } = useParams()
   const theme = useTheme()
   const { t } = useTranslation('nft')
