@@ -1,5 +1,4 @@
 import { create } from 'zustand'
-import { isSameEthereumAddress } from '../utils'
 
 interface EditingContent {
   id: string
@@ -12,7 +11,8 @@ interface EditingState {
   nftContent: EditingContent | null
 
   updateOrCreateTokenContent: (id: string, content: string) => void
-  updatecurrEditableTokenId: (id: string | null) => void
+  updateCurrEditableTokenId: (id: string | null) => void
+  updateNftContent: (id: string, content: string) => void
 }
 
 export const useEditingStore = create<EditingState>(set => ({
@@ -22,8 +22,8 @@ export const useEditingStore = create<EditingState>(set => ({
 
   updateOrCreateTokenContent: (id: string, content: string) =>
     set(state => {
-      const existingIndex = state.tokenContents.findIndex(token =>
-        isSameEthereumAddress(token.id, id)
+      const existingIndex = state.tokenContents.findIndex(
+        token => token.id === id
       )
 
       if (existingIndex !== -1) {
@@ -36,6 +36,6 @@ export const useEditingStore = create<EditingState>(set => ({
     }),
   updateNftContent: (id: string, content: string) =>
     set({ nftContent: { id, content } }),
-  updatecurrEditableTokenId: (id: string | null) =>
+  updateCurrEditableTokenId: (id: string | null) =>
     set({ currEditableTokenId: id }),
 }))

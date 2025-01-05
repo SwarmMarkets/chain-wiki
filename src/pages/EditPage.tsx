@@ -1,3 +1,4 @@
+import { TransactionBase } from '@safe-global/types-kit'
 import Content from '@src/components/Content'
 import Editor from '@src/components/Editor'
 import { StyledLink } from '@src/components/IndexPages/styled-components'
@@ -8,17 +9,22 @@ import Button from '@src/components/ui/Button/Button'
 import Flex from '@src/components/ui/Flex'
 import Icon from '@src/components/ui/Icon'
 import Text from '@src/components/ui/Text'
+import { useSX1155NFT } from '@src/hooks/contracts/useSX1155NFT'
 import { useIpfsIndexPages } from '@src/hooks/ipfs/nft'
 import useNFT from '@src/hooks/subgraph/useNFT'
 import useTokens from '@src/hooks/subgraph/useTokens'
+import useNFTUpdate from '@src/hooks/useNFTUpdate'
+import useSmartAccount from '@src/services/safe-protocol-kit/useSmartAccount'
 import { useEditingStore } from '@src/shared/store/editing-store'
 import {
+  generateIpfsTokenContent,
   getExplorerUrl,
   isSameEthereumAddress,
+  resolveAllThirdwebTransactions,
   unifyAddressToId,
 } from '@src/shared/utils'
-import { useChainId } from '@thirdweb-dev/react'
-import { useState } from 'react'
+import { Transaction, useChainId, useStorageUpload } from '@thirdweb-dev/react'
+import { useMemo, useRef, useState } from 'react'
 import { DragDropContext } from 'react-beautiful-dnd'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
@@ -28,6 +34,8 @@ const EditPage = () => {
   const { t } = useTranslation('buttons')
   const { nftId = '' } = useParams()
   const theme = useTheme()
+  const { smartAccount } = useSmartAccount()
+  const { mutateAsync: upload } = useStorageUpload()
   const [contentElem, setContentElem] = useState<HTMLDivElement | null>(null)
   const { nft, loadingNft, refetchingNft } = useNFT(nftId, {
     fetchFullData: true,
@@ -38,6 +46,8 @@ const EditPage = () => {
     },
     { fetchFullData: true }
   )
+  const { contract: sx1555NFTContract } = useSX1155NFT(nftId)
+  const { uploadContent } = useNFTUpdate(nftId)
   const showSkeleton = loadingNft && !refetchingNft
   const allLoaded = nft && fullTokens
 
@@ -58,22 +68,78 @@ const EditPage = () => {
 
   const {
     currEditableTokenId,
-    updatecurrEditableTokenId,
+    updateCurrEditableTokenId,
     nftContent,
     tokenContents,
     updateOrCreateTokenContent,
+    updateNftContent,
   } = useEditingStore()
 
-  const initialEditorContent =
-    (currEditableTokenId
-      ? fullTokens?.find(t => t.id === currEditableTokenId)?.ipfsContent
-          ?.htmlContent
-      : nft?.ipfsContent?.htmlContent) || ''
+  const currTokenHtmlContent =
+    tokenContents.find(token => token.id === currEditableTokenId)?.content ||
+    fullTokens?.find(t => t.id === currEditableTokenId)?.ipfsContent
+      ?.htmlContent
+
+  const currNftHtmlContent =
+    nftContent?.content || nft?.ipfsContent?.htmlContent
+
+  const initialEditorContent = useMemo(
+    () =>
+      (currEditableTokenId ? currTokenHtmlContent : currNftHtmlContent) || '',
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [currEditableTokenId]
+  )
 
   const updateContent = (content: string) => {
     if (currEditableTokenId) {
       updateOrCreateTokenContent(currEditableTokenId, content)
+    } else {
+      updateNftContent(nftId, content)
     }
+  }
+
+  const handleMerge = async () => {
+    const txs: Transaction[] = []
+    if (nftContent) {
+      const ipfsUri = await uploadContent({
+        address: nftId,
+        htmlContent: nftContent.content,
+      })
+      if (ipfsUri) {
+        const nftContentUpdateTx = sx1555NFTContract.prepare('setContractUri', [
+          ipfsUri,
+        ])
+        txs.push(nftContentUpdateTx)
+      }
+    }
+    if (tokenContents.length > 0) {
+      for (const tokenContent of tokenContents) {
+        const tokenId = +tokenContent.id.split('-')[1]
+        const ipfsContent = generateIpfsTokenContent({
+          tokenId,
+          htmlContent: tokenContent.content,
+          address: nftId,
+        })
+        const filesToUpload = [ipfsContent]
+        const uris = await upload({ data: filesToUpload })
+        const firstUri = uris[0]
+        if (firstUri) {
+          const tokenContentUpdateTx = sx1555NFTContract.prepare(
+            'setTokenUri',
+            [tokenId, firstUri]
+          )
+          txs.push(tokenContentUpdateTx)
+        }
+      }
+    }
+
+    console.log(txs)
+
+    const receipt = await smartAccount?.send({
+      transactions: await resolveAllThirdwebTransactions(txs),
+    })
+
+    console.log(receipt)
   }
 
   if (showSkeleton) {
@@ -95,7 +161,7 @@ const EditPage = () => {
               <StyledLink
                 to=''
                 $isActive={currEditableTokenId === null}
-                onClick={() => updatecurrEditableTokenId(null)}
+                onClick={() => updateCurrEditableTokenId(null)}
               >
                 {nft.name}
               </StyledLink>
@@ -104,13 +170,10 @@ const EditPage = () => {
               indexPages.map(indexPage => (
                 <StyledLink
                   to={''}
-                  $isActive={isSameEthereumAddress(
-                    currEditableTokenId,
-                    indexPage.tokenId
-                  )}
+                  $isActive={currEditableTokenId === indexPage.tokenId}
                   style={{ cursor: 'pointer' }}
                   key={indexPage.tokenId}
-                  onClick={() => updatecurrEditableTokenId(indexPage.tokenId)}
+                  onClick={() => updateCurrEditableTokenId(indexPage.tokenId)}
                 >
                   {indexPage.title}
                 </StyledLink>
@@ -131,7 +194,9 @@ const EditPage = () => {
               {nft?.name}
             </Text.h1>
             <Flex $gap='10px' alignItems='center'>
-              <Button>{t('merge', { ns: 'buttons' })}</Button>
+              <Button onClick={handleMerge}>
+                {t('merge', { ns: 'buttons' })}
+              </Button>
               <Icon
                 cursor='pointer'
                 name='externalLink'
