@@ -26,6 +26,7 @@ import ConnectWalletPage from './pages/ConnectWalletPage'
 import WalletConnectedProtect from './components/common/WalletConnectedProtect'
 import { HeaderColorProvider } from './components/Nft/NftView/HeaderColorContext'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import EditPage from './pages/EditPage'
 
 const queryClient = new QueryClient()
 
@@ -62,11 +63,12 @@ function App() {
                         </WalletConnectedProtect>
                       }
                     />
+                    <Route path={RoutePaths.EDIT} element={<EditPage />} />
                   </Route>
                   <Route
                     path={RoutePaths.CONNECT_WALLET}
                     element={<ConnectWalletPage />}
-                  ></Route>
+                  />
                 </Routes>
               </Router>
               <GlobalStyle />

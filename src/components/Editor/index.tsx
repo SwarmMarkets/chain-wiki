@@ -16,7 +16,7 @@ import { IpfsNftContent } from '@src/shared/utils/ipfs/types'
 interface EditorProps {
   name?: string
   nftAddress: string
-  tokenAddress?: string
+  tokenAddress?: string | null
   initialContent: string
   logoUrl?: string | null
   onChange?: (content: string, editor: TinyEditorType) => void

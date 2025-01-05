@@ -52,7 +52,7 @@ export const useIpfsIndexPages = (ipfsUri?: string) => {
   const storage = useStorage()
 
   const { data, isLoading, ...rest } = useQuery({
-    queryKey: ['ipfsHeaderLinks', ipfsUri],
+    queryKey: ['ipfsIndexPages', ipfsUri],
     queryFn: async () => {
       const res = await storage?.downloadJSON(ipfsUri!)
       return parseIpfsIndexPagesContent(res)

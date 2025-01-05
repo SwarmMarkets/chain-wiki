@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { generatePath, Link, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useTheme } from 'styled-components'
 import Content from '@src/components/Content'
@@ -26,11 +26,13 @@ import { NftTabs } from '@src/shared/enums/tabs'
 import { Tab as ITab } from '@src/shared/types/ui-components'
 import { useChainId } from '@thirdweb-dev/react'
 import { getExplorerUrl, unifyAddressToId } from '@src/shared/utils'
+import Button from '@src/components/ui/Button/Button'
+import RoutePaths from '@src/shared/enums/routes-paths'
 
 const NftPage = () => {
   const { nftId = '' } = useParams()
   const theme = useTheme()
-  const { t } = useTranslation('nft')
+  const { t } = useTranslation(['nft', 'buttons'])
   const { permissions } = useNftPermissions(nftId)
   const [contentElem, setContentElem] = useState<HTMLDivElement | null>(null)
   const { nft, loadingNft, refetchingNft } = useNFT(nftId, {
@@ -96,22 +98,31 @@ const NftPage = () => {
       )}
       <Box width='900px'>
         <Flex $gap='5px' flexDirection='column'>
-          <Flex alignItems='center' $gap='5px' style={{ position: 'relative' }}>
+          <Flex
+            alignItems='center'
+            justifyContent='space-between'
+            $gap='5px'
+            style={{ position: 'relative' }}
+          >
             <Text.h1 size={theme.fontSizes.large} weight={700}>
               {nft?.name}
             </Text.h1>
-            <Icon
-              cursor='pointer'
-              name='externalLink'
-              size={10}
-              color={
-                isHovered ? theme.palette.linkPrimary : theme.palette.black
-              }
-              onClick={handleIconClick}
-              onMouseEnter={() => setIsHovered(true)}
-              onMouseLeave={() => setIsHovered(false)}
-              style={{ marginLeft: 'auto' }}
-            />
+            <Flex $gap='10px' alignItems='center'>
+              <Icon
+                cursor='pointer'
+                name='externalLink'
+                size={10}
+                color={
+                  isHovered ? theme.palette.linkPrimary : theme.palette.black
+                }
+                onClick={handleIconClick}
+                onMouseEnter={() => setIsHovered(true)}
+                onMouseLeave={() => setIsHovered(false)}
+              />
+              <Link to={generatePath(RoutePaths.EDIT, { nftId })}>
+                <Button>{t('edit', { ns: 'buttons' })}</Button>
+              </Link>
+            </Flex>
           </Flex>
         </Flex>
 

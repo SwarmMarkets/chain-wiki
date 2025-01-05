@@ -10,7 +10,7 @@ import useNftPermissions from '@src/hooks/permissions/useNftPermissions'
 interface NftViewProps {
   nft?: NFTWithMetadata | null
   onMount: (element: HTMLDivElement) => void
-  onClickEditSite: () => void
+  onClickEditSite?: () => void
 }
 
 export const NftView: React.FC<NftViewProps> = ({
