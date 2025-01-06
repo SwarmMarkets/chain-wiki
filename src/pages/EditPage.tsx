@@ -107,7 +107,7 @@ const EditPage = () => {
       })
       if (ipfsUri) {
         const nftContentUpdateTx = sx1555NFTContract.prepare('setContractUri', [
-          ipfsUri,
+          JSON.stringify({ uri: ipfsUri }),
         ])
         txs.push(nftContentUpdateTx)
       }
@@ -126,7 +126,7 @@ const EditPage = () => {
         if (firstUri) {
           const tokenContentUpdateTx = sx1555NFTContract.prepare(
             'setTokenUri',
-            [tokenId, firstUri]
+            [tokenId, JSON.stringify({ uri: firstUri })]
           )
           txs.push(tokenContentUpdateTx)
         }
