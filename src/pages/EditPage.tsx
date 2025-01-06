@@ -68,8 +68,8 @@ const EditPage = () => {
   const { indexPages = [] } = useIpfsIndexPages(nft?.indexPagesUri)
 
   const {
-    currEditableTokenId,
-    updateCurrEditableTokenId,
+    currEditableToken,
+    updateCurrEditableToken,
     nftContent,
     tokenContents,
     updateOrCreateTokenContent,
@@ -77,23 +77,22 @@ const EditPage = () => {
   } = useEditingStore()
 
   const currTokenHtmlContent =
-    tokenContents.find(token => token.id === currEditableTokenId)?.content ||
-    fullTokens?.find(t => t.id === currEditableTokenId)?.ipfsContent
+    tokenContents.find(token => token.id === currEditableToken?.id)?.content ||
+    fullTokens?.find(t => t.id === currEditableToken?.id)?.ipfsContent
       ?.htmlContent
 
   const currNftHtmlContent =
     nftContent?.content || nft?.ipfsContent?.htmlContent
 
   const initialEditorContent = useMemo(
-    () =>
-      (currEditableTokenId ? currTokenHtmlContent : currNftHtmlContent) || '',
+    () => (currEditableToken ? currTokenHtmlContent : currNftHtmlContent) || '',
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [currEditableTokenId]
+    [currEditableToken]
   )
 
   const updateContent = (content: string) => {
-    if (currEditableTokenId) {
-      updateOrCreateTokenContent(currEditableTokenId, content)
+    if (currEditableToken) {
+      updateOrCreateTokenContent(currEditableToken.id, content)
     } else {
       updateNftContent(nftId, content)
     }
@@ -164,8 +163,8 @@ const EditPage = () => {
             {
               <StyledLink
                 to=''
-                $isActive={currEditableTokenId === null}
-                onClick={() => updateCurrEditableTokenId(null)}
+                $isActive={currEditableToken === null}
+                onClick={() => updateCurrEditableToken(null)}
               >
                 {nft.name}
               </StyledLink>
@@ -174,10 +173,14 @@ const EditPage = () => {
               indexPages.map(indexPage => (
                 <StyledLink
                   to={''}
-                  $isActive={currEditableTokenId === indexPage.tokenId}
+                  $isActive={currEditableToken?.id === indexPage.tokenId}
                   style={{ cursor: 'pointer' }}
                   key={indexPage.tokenId}
-                  onClick={() => updateCurrEditableTokenId(indexPage.tokenId)}
+                  onClick={() =>
+                    updateCurrEditableToken(
+                      fullTokens?.find(t => t.id === indexPage.tokenId) || null
+                    )
+                  }
                 >
                   {indexPage.title}
                 </StyledLink>
@@ -195,7 +198,7 @@ const EditPage = () => {
             style={{ position: 'relative' }}
           >
             <Text.h1 size={theme.fontSizes.large} weight={700}>
-              {nft?.name}
+              {currEditableToken?.name || nft?.name}
             </Text.h1>
             <Flex $gap='10px' alignItems='center'>
               <Button onClick={handleMerge}>
@@ -217,7 +220,7 @@ const EditPage = () => {
         </Flex>
         <Editor
           nftAddress={nftId}
-          tokenAddress={currEditableTokenId}
+          tokenAddress={currEditableToken?.id}
           initialContent={initialEditorContent}
           onChange={updateContent}
         />
