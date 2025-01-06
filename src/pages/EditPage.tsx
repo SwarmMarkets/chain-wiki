@@ -37,6 +37,7 @@ const EditPage = () => {
   const { smartAccount } = useSmartAccount()
   const { mutateAsync: upload } = useStorageUpload()
   const [contentElem, setContentElem] = useState<HTMLDivElement | null>(null)
+  const [loading, setLoading] = useState(false)
   const { nft, loadingNft, refetchingNft } = useNFT(nftId, {
     fetchFullData: true,
   })
@@ -99,6 +100,7 @@ const EditPage = () => {
   }
 
   const handleMerge = async () => {
+    setLoading(true)
     const txs: Transaction[] = []
     if (nftContent) {
       const ipfsUri = await uploadContent({
@@ -138,6 +140,8 @@ const EditPage = () => {
     const receipt = await smartAccount?.send({
       transactions: await resolveAllThirdwebTransactions(txs),
     })
+
+    setLoading(false)
 
     console.log(receipt)
   }
@@ -195,7 +199,7 @@ const EditPage = () => {
             </Text.h1>
             <Flex $gap='10px' alignItems='center'>
               <Button onClick={handleMerge}>
-                {t('merge', { ns: 'buttons' })}
+                {loading ? 'Loading...' : t('merge', { ns: 'buttons' })}
               </Button>
               <Icon
                 cursor='pointer'
