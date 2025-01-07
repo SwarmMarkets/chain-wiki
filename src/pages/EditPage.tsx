@@ -29,6 +29,7 @@ import { DragDropContext } from 'react-beautiful-dnd'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
 import { useTheme } from 'styled-components'
+import EditorBox from 'src/components/Editor/EditorBox'
 
 const EditPage = () => {
   const { t } = useTranslation('buttons')
@@ -216,9 +217,7 @@ const EditPage = () => {
             </Flex>
           </Flex>
         </Flex>
-        <Editor
-          nftAddress={nftId}
-          tokenAddress={currEditableToken?.id}
+        <EditorBox
           initialContent={initialEditorContent}
           onChange={updateContent}
         />
