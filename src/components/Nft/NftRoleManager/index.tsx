@@ -81,7 +81,7 @@ const NftRoleManager: React.FC<NftRoleManagerProps> = ({ nftAddress }) => {
         </tbody>
       </Table>
       <GrantRoleForm nftAddress={nftAddress} />
-      <Button onClick={grantRoleForSmartAccount} mt={4}>
+      <Button onClick={grantRoleForSmartAccount} mt={3}>
         Grant role for Smart Account
       </Button>
     </Box>
