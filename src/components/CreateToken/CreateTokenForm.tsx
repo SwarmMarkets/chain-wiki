@@ -7,8 +7,8 @@ import Text from '../ui/Text'
 import { useAddress } from '@thirdweb-dev/react'
 import useCreateTokenForm, {
   CreateTokenFormInputs,
-} from '@src/hooks/forms/useCreateTokenForm'
-import { useSX1155NFT } from '@src/hooks/contracts/useSX1155NFT'
+} from 'src/hooks/forms/useCreateTokenForm'
+import { useSX1155NFT } from 'src/hooks/contracts/useSX1155NFT'
 import { useParams } from 'react-router-dom'
 import TextField from '../ui/TextField/TextField'
 interface CreateTokenFormProps {

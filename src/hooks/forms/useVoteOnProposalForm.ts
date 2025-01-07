@@ -1,4 +1,4 @@
-import yup from '@src/shared/validations/yup'
+import yup from 'src/shared/validations/yup'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import useYupValidationResolver from '../useYupValidationResolvber'

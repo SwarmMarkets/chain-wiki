@@ -1,12 +1,12 @@
-import { useSX1155NFT } from '@src/hooks/contracts/useSX1155NFT'
-import useModalState from '@src/hooks/useModalState'
-import { ChildrenProp } from '@src/shared/types/common-props'
+import { useSX1155NFT } from 'src/hooks/contracts/useSX1155NFT'
+import useModalState from 'src/hooks/useModalState'
+import { ChildrenProp } from 'src/shared/types/common-props'
 import { useStorageUpload } from '@thirdweb-dev/react'
 import { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import Button, { ButtonProps } from '../ui/Button/Button'
 import UpdateContentModal, { Steps } from './UpdateContentModal'
-import { generateIpfsAttestationContent } from '@src/shared/utils'
+import { generateIpfsAttestationContent } from 'src/shared/utils'
 
 interface MakeAttestationButtonProps extends ButtonProps, ChildrenProp {
   nftAddress: string

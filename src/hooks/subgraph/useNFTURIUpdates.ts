@@ -1,15 +1,15 @@
 import { NetworkStatus, QueryHookOptions, useQuery } from '@apollo/client'
 import { useMemo, useState } from 'react'
 
-import { NFTURIUpdatesQuery } from '@src/queries'
+import { NFTURIUpdatesQuery } from 'src/queries'
 import {
   NfturiUpdatesQuery as NFTURIUpdatesQueryGQL,
   NftQueryVariables,
   NfturiUpdatesQueryVariables,
-} from '@src/queries/gql/graphql'
-import { unifyAddressToId } from '@src/shared/utils'
+} from 'src/queries/gql/graphql'
+import { unifyAddressToId } from 'src/shared/utils'
 import { useStorage } from '@thirdweb-dev/react'
-import { NftUriUpdatesQueryFullData } from '@src/shared/utils/ipfs/types'
+import { NftUriUpdatesQueryFullData } from 'src/shared/utils/ipfs/types'
 
 const PAGE_LIMIT = 10
 const POLL_INTERVAL = 15000

@@ -1,4 +1,4 @@
-import { ChildrenProp } from '@src/shared/types/common-props'
+import { ChildrenProp } from 'src/shared/types/common-props'
 import shouldForwardProp from '@styled-system/should-forward-prop'
 import styled, { useTheme } from 'styled-components'
 import {

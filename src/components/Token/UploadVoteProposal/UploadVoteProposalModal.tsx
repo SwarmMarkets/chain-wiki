@@ -1,13 +1,13 @@
-import Modal from '@src/components/ui/Modal'
-import SuccessContent from '@src/components/ui/SuccessScreens/SuccessContent'
-import useSteps from '@src/hooks/useSteps'
-import { BasicModalProps } from '@src/shared/types/common-props'
-import { VoteProposal } from '@src/shared/types/vote-proposal'
+import Modal from 'src/components/ui/Modal'
+import SuccessContent from 'src/components/ui/SuccessScreens/SuccessContent'
+import useSteps from 'src/hooks/useSteps'
+import { BasicModalProps } from 'src/shared/types/common-props'
+import { VoteProposal } from 'src/shared/types/vote-proposal'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import ReviewVoteProposal from './ReviewVoteProposal'
 import UploadVoteProposal from './UploadVoteProposal'
-import Box from '@src/components/ui/Box'
+import Box from 'src/components/ui/Box'
 
 const UploadVoteProposalModal: React.FC<BasicModalProps> = ({
   isOpen,

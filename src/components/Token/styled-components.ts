@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import Content from '@src/components/Content'
+import Content from 'src/components/Content'
 import IndexPages from '../IndexPages'
 
 const boxStyles = `

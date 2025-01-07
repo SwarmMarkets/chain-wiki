@@ -1,5 +1,5 @@
-import useNFTRoles from '@src/hooks/subgraph/useNFTRoles'
-import { Roles } from '@src/shared/enums/roles'
+import useNFTRoles from 'src/hooks/subgraph/useNFTRoles'
+import { Roles } from 'src/shared/enums/roles'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import ExplorerLink from '../../common/ExplorerLink'

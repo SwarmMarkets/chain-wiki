@@ -1,4 +1,4 @@
-import { Theme } from '@src/theme'
+import { Theme } from 'src/theme'
 import styled from 'styled-components'
 import { LayoutProps, SpaceProps, layout, space } from 'styled-system'
 

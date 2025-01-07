@@ -1,7 +1,7 @@
 import useNftPermissions, {
   Permissions,
-} from '@src/hooks/permissions/useNftPermissions'
-import { ChildrenProp } from '@src/shared/types/common-props'
+} from 'src/hooks/permissions/useNftPermissions'
+import { ChildrenProp } from 'src/shared/types/common-props'
 
 interface RequirePermissionsProps extends Partial<Permissions>, ChildrenProp {
   nftAddress?: string

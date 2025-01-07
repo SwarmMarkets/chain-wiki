@@ -1,4 +1,4 @@
-import { TokenQueryFullData } from '@src/shared/utils/ipfs/types'
+import { TokenQueryFullData } from 'src/shared/utils/ipfs/types'
 import { TokenView } from './TokenView'
 
 export interface TokenViewProps {

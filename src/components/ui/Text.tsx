@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-import { ChildrenProp } from '@src/shared/types/common-props'
+import { ChildrenProp } from 'src/shared/types/common-props'
 import shouldForwardProp from '@styled-system/should-forward-prop'
 import {
   FontSizeProps,

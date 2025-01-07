@@ -1,13 +1,13 @@
-import { NfturiUpdatesQuery } from '@src/queries/gql/graphql'
+import { NfturiUpdatesQuery } from 'src/queries/gql/graphql'
 import queryString from 'query-string'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, useLocation } from 'react-router-dom'
 import styled from 'styled-components'
-import Checkbox from '@src/components/Checkbox'
-import Card from '@src/components/ui/Card'
-import Flex from '@src/components/ui/Flex'
-import Text from '@src/components/ui/Text'
+import Checkbox from 'src/components/Checkbox'
+import Card from 'src/components/ui/Card'
+import Flex from 'src/components/ui/Flex'
+import Text from 'src/components/ui/Text'
 import dayjs from 'dayjs'
 
 interface HistoryNftListProps {

@@ -1,8 +1,8 @@
 import { NetworkStatus, useQuery } from '@apollo/client'
 import { useMemo } from 'react'
 
-import { NFTAccessRolesQuery } from '@src/queries'
-import { QueryNftArgs } from '@src/queries/gql/graphql'
+import { NFTAccessRolesQuery } from 'src/queries'
+import { QueryNftArgs } from 'src/queries/gql/graphql'
 
 const POLL_INTERVAL = 7000
 

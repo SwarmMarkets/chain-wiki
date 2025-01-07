@@ -1,5 +1,5 @@
-import Text from '@src/components/ui/Text'
-import { checkNetworkSupported } from '@src/shared/utils'
+import Text from 'src/components/ui/Text'
+import { checkNetworkSupported } from 'src/shared/utils'
 import {
   useChainId,
   useConnectionStatus,

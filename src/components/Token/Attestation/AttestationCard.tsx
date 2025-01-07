@@ -1,14 +1,14 @@
-import HtmlRender from '@src/components/HtmlRender'
-import ExplorerLink from '@src/components/common/ExplorerLink'
-import Card from '@src/components/ui/Card'
-import Flex from '@src/components/ui/Flex'
-import Text from '@src/components/ui/Text'
+import HtmlRender from 'src/components/HtmlRender'
+import ExplorerLink from 'src/components/common/ExplorerLink'
+import Card from 'src/components/ui/Card'
+import Flex from 'src/components/ui/Flex'
+import Text from 'src/components/ui/Text'
 import { shortenAddress } from '@thirdweb-dev/react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useTheme } from 'styled-components'
-// import Button from '@src/components/ui/Button/Button'
-// import RequirePermissions from '@src/components/common/RequirePermissions'
+// import Button from 'src/components/ui/Button/Button'
+// import RequirePermissions from 'src/components/common/RequirePermissions'
 
 interface AttestationCardProps {
   // nftAddress: string

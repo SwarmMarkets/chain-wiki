@@ -1,28 +1,26 @@
 {
-  "name": "chain-wiki",
+  "name": "chain-wiki-craco-2",
+  "version": "0.1.0",
   "private": true,
-  "version": "1.1.6",
-  "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "typechain": "typechain --target=ethers-v5 'src/contracts/abis/*.json' --out-dir src/contracts/typechain",
-    "preview": "vite preview",
-    "codegen": "graphql-codegen --watch",
-    "prepare": "husky install",
-    "lint:types": "tsc --noEmit"
-  },
   "dependencies": {
     "@apollo/client": "^3.9.2",
+    "@craco/craco": "^7.1.0",
     "@safe-global/api-kit": "^2.5.6",
     "@safe-global/protocol-kit": "^5.1.1",
     "@safe-global/sdk-starter-kit": "^1.1.1",
     "@styled-system/should-forward-prop": "^5.1.5",
+    "@svgr/webpack": "^8.1.0",
     "@tanstack/react-query": "4.36.1",
+    "@testing-library/jest-dom": "^5.14.1",
+    "@testing-library/react": "^13.0.0",
+    "@testing-library/user-event": "^13.2.1",
     "@thirdweb-dev/react": "^4.2.2",
     "@thirdweb-dev/sdk": "^4.0.25",
     "@tinymce/tinymce-react": "^4.3.2",
+    "@types/jest": "^27.0.1",
+    "@types/node": "^16.7.13",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
     "dayjs": "^1.11.10",
     "dexie": "^3.2.5",
     "diff": "^5.1.0",
@@ -33,20 +31,22 @@
     "i18next": "^23.7.16",
     "js-beautify": "^1.14.11",
     "query-string": "^8.1.0",
-    "react": "^18.2.0",
+    "react": "^19.0.0",
     "react-beautiful-dnd": "^13.1.1",
     "react-colorful": "^5.6.1",
     "react-content-loader": "^6.2.1",
     "react-diff-viewer": "^3.1.1",
-    "react-dom": "^18.2.0",
+    "react-dom": "^19.0.0",
     "react-hook-form": "^7.49.3",
     "react-i18next": "^14.0.0",
+    "react-inlinesvg": "^4.1.5",
     "react-router-dom": "^6.21.1",
+    "react-scripts": "5.0.1",
     "react-toastify": "^10.0.4",
     "styled-components": "^6.1.8",
     "styled-system": "^5.1.5",
-    "vite-plugin-node-polyfills": "^0.22.0",
-    "vite-plugin-svgr": "^4.2.0",
+    "typescript": "^4.4.2",
+    "web-vitals": "^2.1.0",
     "yup": "^1.4.0",
     "zustand": "^4.4.7"
   },
@@ -61,26 +61,41 @@
     "@types/diff": "^5.0.9",
     "@types/diff-match-patch": "^1.0.36",
     "@types/js-beautify": "^1.14.3",
-    "@types/react": "^18.2.43",
     "@types/react-beautiful-dnd": "^13.1.8",
-    "@types/react-dom": "^18.2.17",
     "@types/styled-system": "5.1.15",
     "@types/styled-system__should-forward-prop": "^5.1.4",
-    "@typescript-eslint/eslint-plugin": "^6.14.0",
-    "@typescript-eslint/parser": "^6.14.0",
-    "@vitejs/plugin-react": "^4.2.1",
-    "eslint": "^8.55.0",
-    "eslint-plugin-react-hooks": "^4.6.0",
-    "eslint-plugin-react-refresh": "^0.4.5",
+    "browserify-zlib": "^0.2.0",
+    "craco-alias": "^3.0.1",
+    "eslint-plugin-react-refresh": "^0.4.16",
+    "https-browserify": "^1.0.0",
     "husky": "^9.1.7",
     "lint-staged": "^15.2.10",
-    "typechain": "^8.3.2",
-    "typescript": "^5.2.2",
-    "vite": "^5.0.8"
+    "stream-browserify": "^3.0.0",
+    "stream-http": "^3.2.0",
+    "typechain": "^8.3.2"
   },
-  "lint-staged": {
-    "*.ts": [
-      "tsc --noEmit"
+  "scripts": {
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
     ]
   }
 }

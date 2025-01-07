@@ -1,18 +1,15 @@
-import { useSX1155NFT } from '@src/hooks/contracts/useSX1155NFT'
-import useModalState from '@src/hooks/useModalState'
-import {
-  IpfsTokenContent,
-  IpfsVoteProposal,
-} from '@src/shared/utils/ipfs/types'
-import { generateIpfsTokenContent } from '@src/shared/utils/ipfs'
+import { useSX1155NFT } from 'src/hooks/contracts/useSX1155NFT'
+import useModalState from 'src/hooks/useModalState'
+import { IpfsTokenContent, IpfsVoteProposal } from 'src/shared/utils/ipfs/types'
+import { generateIpfsTokenContent } from 'src/shared/utils/ipfs'
 import { useStorageUpload } from '@thirdweb-dev/react'
 import { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import Button, { ButtonProps } from '../ui/Button/Button'
 import UpdateContentModal, { Steps } from './UpdateContentModal'
-import { ChildrenProp } from '@src/shared/types/common-props'
-import useToken from '@src/hooks/subgraph/useToken'
-import { getUniqueId } from '@src/shared/utils'
+import { ChildrenProp } from 'src/shared/types/common-props'
+import useToken from 'src/hooks/subgraph/useToken'
+import { getUniqueId } from 'src/shared/utils'
 
 export interface TokenContentToUpdate {
   name?: string | null

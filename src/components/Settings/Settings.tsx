@@ -1,7 +1,7 @@
 import { useSearchParams } from 'react-router-dom'
 import SettingsNavigation from './SettingsNavigation'
 import SettingsBody from './SettingsBody'
-import { SettingView } from '@src/components/Settings/enums'
+import { SettingView } from 'src/components/Settings/enums'
 import Flex from '../ui/Flex'
 
 const Settings = () => {

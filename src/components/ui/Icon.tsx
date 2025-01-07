@@ -1,7 +1,7 @@
 import React, { HTMLAttributes } from 'react'
 import styled from 'styled-components'
 import shouldForwardProp from '@styled-system/should-forward-prop'
-import icons from '@src/shared/consts/icons'
+import icons from 'src/shared/consts/icons'
 import { PositionProps, SpaceProps, position, space } from 'styled-system'
 
 export type IconName = keyof typeof icons

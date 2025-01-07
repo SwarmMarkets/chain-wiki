@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useTheme } from 'styled-components'
-import { ExpandableListItem } from '@src/shared/types/expandedList'
+import { ExpandableListItem } from 'src/shared/types/expandedList'
 import Icon from '../Icon'
 import {
   StyledTitleBlock,

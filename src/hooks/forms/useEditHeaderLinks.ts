@@ -1,8 +1,8 @@
 import { useTranslation } from 'react-i18next'
 import useYupValidationResolver from '../useYupValidationResolvber'
-import yup from '@src/shared/validations/yup'
+import yup from 'src/shared/validations/yup'
 import { useFieldArray, useForm } from 'react-hook-form'
-import { IpfsHeaderLink } from '@src/shared/utils'
+import { IpfsHeaderLink } from 'src/shared/utils'
 import { TFunction } from 'i18next'
 
 export interface EditHeaderLinksInputs {

@@ -1,7 +1,7 @@
 import { useAddress, useConnectionStatus } from '@thirdweb-dev/react'
 import { useCallback, useMemo } from 'react'
 import useNFTRoles from '../subgraph/useNFTRoles'
-import { isSameEthereumAddress, unifyAddressToId } from '@src/shared/utils/web3'
+import { isSameEthereumAddress, unifyAddressToId } from 'src/shared/utils/web3'
 
 export interface Permissions {
   canCreateNft: boolean

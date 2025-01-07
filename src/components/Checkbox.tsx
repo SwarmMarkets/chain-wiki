@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import Icon from './ui/Icon'
-import theme from '@src/theme'
+import theme from 'src/theme'
 import shouldForwardProp from '@styled-system/should-forward-prop'
 import { space, SpaceProps } from 'styled-system'
 

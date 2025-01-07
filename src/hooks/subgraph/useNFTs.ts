@@ -1,13 +1,13 @@
 import { NetworkStatus, QueryHookOptions, useQuery } from '@apollo/client'
 import { useMemo, useState } from 'react'
 
-import { NFTsQuery } from '@src/queries'
+import { NFTsQuery } from 'src/queries'
 import {
   NfTsQuery as NFTsQueryGQL,
   NfTsQueryVariables,
-} from '@src/queries/gql/graphql'
-import { IpfsNftContent, NFTsQueryFullData } from '@src/shared/utils/ipfs/types'
-import { unifyAddressToId, verifyNftValid } from '@src/shared/utils'
+} from 'src/queries/gql/graphql'
+import { IpfsNftContent, NFTsQueryFullData } from 'src/shared/utils/ipfs/types'
+import { unifyAddressToId, verifyNftValid } from 'src/shared/utils'
 import useIpfsData from '../web3/useIpfsData'
 
 export const PAGE_LIMIT = 10

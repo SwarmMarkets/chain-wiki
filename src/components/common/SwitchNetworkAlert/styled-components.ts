@@ -1,5 +1,5 @@
-import Button from '@src/components/ui/Button/Button'
-import Flex from '@src/components/ui/Flex'
+import Button from 'src/components/ui/Button/Button'
+import Flex from 'src/components/ui/Flex'
 import styled from 'styled-components'
 
 export const AlertWrap = styled(Flex)`

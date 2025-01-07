@@ -1,4 +1,4 @@
-import { SettingView } from '@src/components/Settings/enums'
+import { SettingView } from 'src/components/Settings/enums'
 import NftRoleManager from '../Nft/NftRoleManager'
 import { useParams } from 'react-router-dom'
 import GeneralSettings from '../Nft/NftView/GeneralSettings'

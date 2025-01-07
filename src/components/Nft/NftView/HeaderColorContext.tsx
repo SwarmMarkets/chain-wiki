@@ -1,4 +1,4 @@
-import { ChildrenProp } from '@src/shared/types/common-props'
+import { ChildrenProp } from 'src/shared/types/common-props'
 import React, { createContext, useContext, useState } from 'react'
 
 interface HeaderColorContextType {

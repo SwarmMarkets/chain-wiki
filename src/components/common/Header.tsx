@@ -7,10 +7,10 @@ import Container from '../ui/Container'
 import Flex from '../ui/Flex'
 import ConnectButton from './ConnectButton'
 import RequirePermissions from './RequirePermissions'
-import useNFT from '@src/hooks/subgraph/useNFT'
-import RoutePaths from '@src/shared/enums/routes-paths'
+import useNFT from 'src/hooks/subgraph/useNFT'
+import RoutePaths from 'src/shared/enums/routes-paths'
 import { useHeaderColorContext } from '../Nft/NftView/HeaderColorContext'
-import useModalState from '@src/hooks/useModalState'
+import useModalState from 'src/hooks/useModalState'
 import CreateNftModal from '../CreateNft/CreateNftModal'
 
 interface HeaderContainerProps {

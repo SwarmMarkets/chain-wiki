@@ -1,11 +1,11 @@
-import useModalState from '@src/hooks/useModalState'
-import useNFTUpdate, { NFTContentToUpdate } from '@src/hooks/useNFTUpdate'
-import { ChildrenProp } from '@src/shared/types/common-props'
+import useModalState from 'src/hooks/useModalState'
+import useNFTUpdate, { NFTContentToUpdate } from 'src/hooks/useNFTUpdate'
+import { ChildrenProp } from 'src/shared/types/common-props'
 import {
   IpfsHeaderLinksContent,
   IpfsIndexPage,
   IpfsNftContent,
-} from '@src/shared/utils/ipfs/types'
+} from 'src/shared/utils/ipfs/types'
 import { MouseEvent, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import Button, { ButtonProps } from '../ui/Button/Button'

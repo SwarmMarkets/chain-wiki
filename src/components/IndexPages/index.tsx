@@ -3,19 +3,19 @@ import { generatePath, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useStorage } from '@thirdweb-dev/react'
 import { useTheme } from 'styled-components'
-import Box from '@src/components/ui/Box'
-import Flex from '@src/components/ui/Flex'
-import Text from '@src/components/ui/Text'
-import RoutePaths from '@src/shared/enums/routes-paths'
+import Box from 'src/components/ui/Box'
+import Flex from 'src/components/ui/Flex'
+import Text from 'src/components/ui/Text'
+import RoutePaths from 'src/shared/enums/routes-paths'
 import {
   IpfsIndexPage,
   NFTWithMetadata,
   TokensQueryFullData,
-} from '@src/shared/utils/ipfs/types'
+} from 'src/shared/utils/ipfs/types'
 import RequirePermissions from '../common/RequirePermissions'
 import IndexPagesActions from './IndexPagesActions'
 import IndexPagesEdit, { IndexPagesEditListChanges } from './IndexPagesEdit'
-import { useIpfsIndexPages } from '@src/hooks/ipfs/nft'
+import { useIpfsIndexPages } from 'src/hooks/ipfs/nft'
 import { StyledLink } from './styled-components'
 
 interface IndexPagesProps {

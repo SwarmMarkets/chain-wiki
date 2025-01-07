@@ -2,7 +2,7 @@ import {
   parseIpfsHeaderLinksContent,
   parseIpfsIndexPagesContent,
   parseIpfsNftContent,
-} from '@src/shared/utils'
+} from 'src/shared/utils'
 import { useQuery } from '@tanstack/react-query'
 import { useStorage } from '@thirdweb-dev/react'
 

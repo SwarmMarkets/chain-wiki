@@ -1,4 +1,4 @@
-import { supportedChains } from '@src/environment/networks'
+import { supportedChains } from 'src/environment/networks'
 import { ethers } from 'ethers'
 
 export const unifyAddressToId = (address: string) => {

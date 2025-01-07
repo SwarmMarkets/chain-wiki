@@ -1,5 +1,5 @@
-import { ButtonOption } from '@src/shared/types/ui-components'
-import theme from '@src/theme'
+import { ButtonOption } from 'src/shared/types/ui-components'
+import theme from 'src/theme'
 import shouldForwardProp from '@styled-system/should-forward-prop'
 import React from 'react'
 import styled from 'styled-components'

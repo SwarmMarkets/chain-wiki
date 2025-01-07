@@ -7,12 +7,12 @@ import {
   OrderDirection,
   TokenUriUpdate_OrderBy,
   TokenUriUpdatesQuery,
-} from '@src/queries/gql/graphql'
+} from 'src/queries/gql/graphql'
 import Box from '../../ui/Box'
 import Button from '../../ui/Button/Button'
 import Text from '../../ui/Text'
 import { useTranslation } from 'react-i18next'
-import useTokenURIUpdates from '@src/hooks/subgraph/useTokenURIUpdates'
+import useTokenURIUpdates from 'src/hooks/subgraph/useTokenURIUpdates'
 import HistoryCardSkeleton from '../HistoryCardSkeleton'
 import { useTheme } from 'styled-components'
 

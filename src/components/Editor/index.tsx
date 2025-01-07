@@ -1,4 +1,4 @@
-import { storage } from '@src/firebase'
+import { storage } from 'src/firebase'
 import { Editor as TinyEditor } from '@tinymce/tinymce-react'
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
 import React, { useRef, useState } from 'react'
@@ -11,7 +11,7 @@ import UpdateTokenContentButton, {
   TokenContentToUpdate,
 } from '../UpdateContent/UpdateTokenContentButton'
 import UpdateNftContentButton from '../UpdateContent/UpdateNftContentButton'
-import { IpfsNftContent } from '@src/shared/utils/ipfs/types'
+import { IpfsNftContent } from 'src/shared/utils/ipfs/types'
 
 interface EditorProps {
   name?: string

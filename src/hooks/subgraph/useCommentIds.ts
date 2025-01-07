@@ -1,10 +1,10 @@
 import { NetworkStatus, QueryHookOptions, useQuery } from '@apollo/client'
 import { useMemo } from 'react'
-import { CommentIdsQuery as CommentIdsQueryGQL } from '@src/queries'
+import { CommentIdsQuery as CommentIdsQueryGQL } from 'src/queries'
 import {
   CommentIdsQuery,
   CommentIdsQueryVariables,
-} from '@src/queries/gql/graphql'
+} from 'src/queries/gql/graphql'
 
 const PAGE_LIMIT = 10
 const POLL_INTERVAL = 15000

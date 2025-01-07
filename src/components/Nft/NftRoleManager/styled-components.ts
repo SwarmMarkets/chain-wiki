@@ -1,4 +1,4 @@
-import TextField from '@src/components/ui/TextField/TextField'
+import TextField from 'src/components/ui/TextField/TextField'
 import styled from 'styled-components'
 
 export const StyledTextField = styled(TextField)`

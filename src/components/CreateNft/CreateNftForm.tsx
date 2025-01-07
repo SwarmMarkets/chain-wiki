@@ -1,4 +1,4 @@
-import { useSX1155NFTFactory } from '@src/hooks/contracts/useSX1155NFTFactory'
+import { useSX1155NFTFactory } from 'src/hooks/contracts/useSX1155NFTFactory'
 import { SubmitHandler } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import Box from '../ui/Box'
@@ -8,8 +8,8 @@ import Text from '../ui/Text'
 import { LogoPreview, LogoWrapper } from './styled-components'
 import useCreateNftForm, {
   CreateNftFormInputs,
-} from '@src/hooks/forms/useCreateNftForm'
-import { generateSymbolFromString } from '@src/shared/utils'
+} from 'src/hooks/forms/useCreateNftForm'
+import { generateSymbolFromString } from 'src/shared/utils'
 import { useAddress } from '@thirdweb-dev/react'
 import { useState } from 'react'
 import UploadFileButton from '../common/UploadFileButton'

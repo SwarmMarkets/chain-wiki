@@ -1,14 +1,14 @@
-import { useTokenContext } from '@src/components/providers/TokenContext'
-import LoadingButton from '@src/components/ui/Button/LoadingButton'
-import { Select } from '@src/components/ui/Select'
-import api from '@src/services/api'
+import { useTokenContext } from 'src/components/providers/TokenContext'
+import LoadingButton from 'src/components/ui/Button/LoadingButton'
+import { Select } from 'src/components/ui/Select'
+import api from 'src/services/api'
 import { useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { StyledTextField } from './styled-components'
 import useVoteOnProposalForm, {
   VoteOnProposalFormInputs,
-} from '@src/hooks/forms/useVoteOnProposalForm'
+} from 'src/hooks/forms/useVoteOnProposalForm'
 
 interface VoteOnProposalFormProps {
   onSuccessSubmit(): void

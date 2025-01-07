@@ -1,12 +1,12 @@
-import AttestationHtmlRenderWrapper from '@src/components/HtmlRender/AttestationHtmlRender'
-import Flex from '@src/components/ui/Flex'
+import AttestationHtmlRenderWrapper from 'src/components/HtmlRender/AttestationHtmlRender'
+import Flex from 'src/components/ui/Flex'
 import { useRef, useState } from 'react'
 import { TokenViewProps } from '.'
 import AttestationDrawer from '../Attestation/AttestationDrawer'
 import TokenViewActions from './TokenViewActions'
-import { StyledCard } from '@src/components/Nft/styled-components'
+import { StyledCard } from 'src/components/Nft/styled-components'
 import { useTheme } from 'styled-components'
-import Text from '@src/components/ui/Text'
+import Text from 'src/components/ui/Text'
 import { useTranslation } from 'react-i18next'
 
 export interface SelectedSection {

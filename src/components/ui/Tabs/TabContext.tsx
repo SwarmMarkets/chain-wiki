@@ -1,4 +1,4 @@
-import { ChildrenProp } from '@src/shared/types/common-props'
+import { ChildrenProp } from 'src/shared/types/common-props'
 import React from 'react'
 
 export const Context = React.createContext<string | null>(null)

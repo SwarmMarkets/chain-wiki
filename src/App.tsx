@@ -2,7 +2,7 @@ import { ApolloProvider } from '@apollo/client'
 import {
   arbitrumSepoliaChainConfig,
   supportedChains,
-} from '@src/environment/networks'
+} from 'src/environment/networks'
 import {
   ThirdwebProvider,
   coinbaseWallet,

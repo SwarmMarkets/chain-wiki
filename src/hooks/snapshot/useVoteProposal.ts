@@ -1,5 +1,5 @@
-import { VoteProposal } from '@src/shared/types/vote-proposal'
-import { verifyVoteProposalValid } from '@src/shared/utils'
+import { VoteProposal } from 'src/shared/types/vote-proposal'
+import { verifyVoteProposalValid } from 'src/shared/utils'
 import { useStorage } from '@thirdweb-dev/react'
 import { useState } from 'react'
 

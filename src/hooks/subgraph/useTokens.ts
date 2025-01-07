@@ -4,10 +4,10 @@ import { useMemo, useState } from 'react'
 import {
   TokensQuery as TokensQueryGQL,
   TokensQueryVariables,
-} from '@src/queries/gql/graphql'
-import { TokensQueryFullData } from '@src/shared/utils/ipfs/types'
+} from 'src/queries/gql/graphql'
+import { TokensQueryFullData } from 'src/shared/utils/ipfs/types'
 import { useStorage } from '@thirdweb-dev/react'
-import { TokensQuery } from '@src/queries'
+import { TokensQuery } from 'src/queries'
 
 const PAGE_LIMIT = 10
 const POLL_INTERVAL = 15000

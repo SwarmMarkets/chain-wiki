@@ -6,7 +6,7 @@ import {
   TokenQuery,
   TokenUriUpdatesQuery,
   TokensQuery,
-} from '@src/queries/gql/graphql'
+} from 'src/queries/gql/graphql'
 
 export interface IpfsNftContent {
   address: string

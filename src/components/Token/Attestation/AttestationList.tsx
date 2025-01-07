@@ -1,10 +1,10 @@
-import Flex from '@src/components/ui/Flex'
-import { CommentsQueryFullData } from '@src/shared/utils/ipfs/types'
+import Flex from 'src/components/ui/Flex'
+import { CommentsQueryFullData } from 'src/shared/utils/ipfs/types'
 import dayjs from 'dayjs'
 import React from 'react'
 import AttestationCard from './AttestationCard'
 import AttestationCardSkeleton from './AttestationCardSkeleton'
-// import { useSX1155NFT } from '@src/hooks/contracts/useSX1155NFT'
+// import { useSX1155NFT } from 'src/hooks/contracts/useSX1155NFT'
 
 interface AttestationListProps {
   attestations: CommentsQueryFullData[] | null

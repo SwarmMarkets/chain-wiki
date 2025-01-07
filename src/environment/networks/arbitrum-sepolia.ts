@@ -1,4 +1,4 @@
-import { NetworkConfiguration } from '@src/shared/types/network-configuration'
+import { NetworkConfiguration } from 'src/shared/types/network-configuration'
 import { ArbitrumSepolia } from '@thirdweb-dev/chains'
 
 export const arbitrumSepolia: NetworkConfiguration = {

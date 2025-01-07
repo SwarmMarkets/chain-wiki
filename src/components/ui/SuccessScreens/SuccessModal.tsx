@@ -1,4 +1,4 @@
-import { BasicModalProps } from '@src/shared/types/common-props'
+import { BasicModalProps } from 'src/shared/types/common-props'
 import Modal from '../../ui/Modal'
 import SuccessContent from './SuccessContent'
 import Box from '../Box'

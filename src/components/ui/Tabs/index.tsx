@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { ReactElement } from 'react'
 import styled from 'styled-components'
-import { Tab as ITab } from '@src/shared/types/ui-components'
-import { ChildrenProp } from '@src/shared/types/common-props'
+import { Tab as ITab } from 'src/shared/types/ui-components'
+import { ChildrenProp } from 'src/shared/types/common-props'
 import { TabProps } from './Tab'
 
 interface TabsProps<T extends ITab> extends ChildrenProp {
