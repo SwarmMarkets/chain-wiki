@@ -35,7 +35,7 @@ const PoweredByBadge = () => {
       </Text>
       <Box
         as='img'
-        src={'assets/logo.svg'}
+        src={'/assets/logo.png'}
         alt='Chain Wiki'
         style={{ width: '110px', height: 'auto' }}
         ml={2}

@@ -30,7 +30,7 @@ const ConnectWalletPage = () => {
     <Flex height='100vh' justifyContent='center' alignItems='center'>
       <Card p='40px'>
         <Flex flexDirection='column' alignItems='center'>
-          <Logo src={'assets/logo.svg'} alt='ChainWiki' />
+          <Logo src={'assets/logo.png'} alt='ChainWiki' />
           <Text.h1 mt='20px' mb='30px' fontSize={theme.fontSizes.mediumPlus}>
             {t('title')}
           </Text.h1>
