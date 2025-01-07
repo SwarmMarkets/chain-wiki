@@ -5,13 +5,15 @@ import { storage } from 'src/firebase'
 import { Editor as TinyEditorType } from 'tinymce'
 
 interface EditorBoxProps {
-  initialContent: string
+  initialContent?: string
+  content?: string
   onChange: (content: string, editor: TinyEditorType) => void
   onEditorInit?: (editorInit: boolean) => void
 }
 
 const EditorBox: React.FC<EditorBoxProps> = ({
   initialContent,
+  content,
   onChange,
   onEditorInit,
 }) => {
@@ -51,6 +53,7 @@ const EditorBox: React.FC<EditorBoxProps> = ({
       apiKey='osr60izccxxfs99zbrmmbiqk16ux1fas0muug1e2hvh16kgg'
       onEditorChange={onEditorChange}
       onInit={onInitEdiror}
+      value={content}
       init={{
         plugins:
           'anchor autolink charmap codesample emoticons image link lists searchreplace table visualblocks wordcount',

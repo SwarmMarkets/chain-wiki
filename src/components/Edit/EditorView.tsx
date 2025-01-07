@@ -1,5 +1,5 @@
 import { Transaction, useChainId, useStorageUpload } from '@thirdweb-dev/react'
-import React, { useMemo, useState } from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
 import EditorBox from 'src/components/Editor/EditorBox'
@@ -24,9 +24,10 @@ import { useTheme } from 'styled-components'
 interface EditorViewProps {
   nft: NFTWithMetadata
   tokens: TokensQueryFullData[] | null
+  content: string
 }
 
-const EditorView: React.FC<EditorViewProps> = ({ nft, tokens }) => {
+const EditorView: React.FC<EditorViewProps> = ({ nft, tokens, content }) => {
   const { t } = useTranslation('buttons')
   const { nftId = '' } = useParams()
   const theme = useTheme()
@@ -57,19 +58,6 @@ const EditorView: React.FC<EditorViewProps> = ({ nft, tokens }) => {
     updateOrCreateTokenContent,
     updateNftContent,
   } = useEditingStore()
-
-  const currTokenHtmlContent =
-    tokenContents.find(token => token.id === currEditableToken?.id)?.content ||
-    tokens?.find(t => t.id === currEditableToken?.id)?.ipfsContent?.htmlContent
-
-  const currNftHtmlContent =
-    nftContent?.content || nft?.ipfsContent?.htmlContent
-
-  const initialEditorContent = useMemo(
-    () => (currEditableToken ? currTokenHtmlContent : currNftHtmlContent) || '',
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [currEditableToken, currNftHtmlContent]
-  )
 
   const updateContent = (content: string) => {
     if (currEditableToken) {
@@ -157,10 +145,7 @@ const EditorView: React.FC<EditorViewProps> = ({ nft, tokens }) => {
           </Flex>
         </Flex>
       </Flex>
-      <EditorBox
-        initialContent={initialEditorContent}
-        onChange={updateContent}
-      />
+      <EditorBox content={content} onChange={updateContent} />
     </Box>
   )
 }
