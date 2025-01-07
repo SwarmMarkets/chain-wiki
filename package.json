@@ -78,7 +78,8 @@
     "start": "craco start",
     "build": "craco build",
     "test": "craco test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "codegen:icons": "node codegen.icons.js --outputDirectory src/shared/types/"
   },
   "eslintConfig": {
     "extends": [

@@ -1,10 +1,8 @@
 import React, { HTMLAttributes } from 'react'
 import styled from 'styled-components'
-import shouldForwardProp from '@styled-system/should-forward-prop'
-import icons from 'src/shared/consts/icons'
 import { PositionProps, SpaceProps, position, space } from 'styled-system'
-
-export type IconName = keyof typeof icons
+import SVG from 'react-inlinesvg'
+import { IconName } from 'src/shared/types/iconNames'
 
 export type Cursor =
   | 'help'
@@ -28,19 +26,22 @@ interface IconProps
   cursor?: Cursor
 }
 
-interface IconWrapperProps {
+const StyledSVG = styled(SVG)<{
+  color?: string
   cursor?: Cursor
-}
-
-const IconWrapper = styled.div.withConfig({
-  shouldForwardProp,
-})<IconWrapperProps>`
+  width?: number
+  height?: number
+}>`
   cursor: ${props => props.cursor || 'default'};
+  width: ${props => props.width || 'auto'};
+  height: ${props => props.height || 'auto'};
+
   svg {
     path {
-      fill: ${props => props.color};
+      fill: ${props => props.color || 'inherit'};
     }
   }
+
   ${space}
   ${position}
 `
@@ -54,14 +55,17 @@ const Icon: React.FC<IconProps> = ({
   cursor,
   ...props
 }) => {
-  const IconComponent = icons[name]
+  const iconPath = `/assets/icons/${name}.svg`
 
   return (
-    <React.Suspense fallback={<div />}>
-      <IconWrapper color={color} cursor={cursor} {...props}>
-        <IconComponent width={width || size} height={height || size} />
-      </IconWrapper>
-    </React.Suspense>
+    <StyledSVG
+      src={iconPath}
+      color={color}
+      cursor={cursor}
+      width={width || size}
+      height={height || size}
+      {...props}
+    />
   )
 }
 

@@ -1,4 +1,3 @@
-import logo from 'src/assets/logo.png'
 import ConnectButton from 'src/components/common/ConnectButton'
 import Card from 'src/components/ui/Card'
 import Flex from 'src/components/ui/Flex'
@@ -31,7 +30,7 @@ const ConnectWalletPage = () => {
     <Flex height='100vh' justifyContent='center' alignItems='center'>
       <Card p='40px'>
         <Flex flexDirection='column' alignItems='center'>
-          <Logo src={logo} alt='ChainWiki' />
+          <Logo src={'assets/logo.svg'} alt='ChainWiki' />
           <Text.h1 mt='20px' mb='30px' fontSize={theme.fontSizes.mediumPlus}>
             {t('title')}
           </Text.h1>
