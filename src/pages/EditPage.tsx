@@ -158,35 +158,33 @@ const EditPage = () => {
   return (
     <Flex justifyContent={allLoaded ? 'space-between' : 'center'} $gap='20px'>
       <SideContentWrap>
-        <DragDropContext onDragEnd={() => {}}>
-          <Flex flexDirection='column' $gap='8px' py='8px'>
-            {
+        <Flex flexDirection='column' $gap='8px' py='8px'>
+          {
+            <StyledLink
+              to=''
+              $isActive={currEditableToken === null}
+              onClick={() => updateCurrEditableToken(null)}
+            >
+              {nft.name}
+            </StyledLink>
+          }
+          {indexPages.length > 0 &&
+            indexPages.map(indexPage => (
               <StyledLink
-                to=''
-                $isActive={currEditableToken === null}
-                onClick={() => updateCurrEditableToken(null)}
+                to={''}
+                $isActive={currEditableToken?.id === indexPage.tokenId}
+                style={{ cursor: 'pointer' }}
+                key={indexPage.tokenId}
+                onClick={() =>
+                  updateCurrEditableToken(
+                    fullTokens?.find(t => t.id === indexPage.tokenId) || null
+                  )
+                }
               >
-                {nft.name}
+                {indexPage.title}
               </StyledLink>
-            }
-            {indexPages.length > 0 &&
-              indexPages.map(indexPage => (
-                <StyledLink
-                  to={''}
-                  $isActive={currEditableToken?.id === indexPage.tokenId}
-                  style={{ cursor: 'pointer' }}
-                  key={indexPage.tokenId}
-                  onClick={() =>
-                    updateCurrEditableToken(
-                      fullTokens?.find(t => t.id === indexPage.tokenId) || null
-                    )
-                  }
-                >
-                  {indexPage.title}
-                </StyledLink>
-              ))}
-          </Flex>
-        </DragDropContext>
+            ))}
+        </Flex>
       </SideContentWrap>
       <Box width='900px'>
         <Flex $gap='5px' flexDirection='column'>

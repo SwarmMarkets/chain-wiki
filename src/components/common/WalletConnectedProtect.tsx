@@ -4,7 +4,7 @@ import { ChildrenProp } from 'src/shared/types/common-props'
 import { useConnectionStatus } from '@thirdweb-dev/react'
 import { Navigate } from 'react-router-dom'
 
-interface WalletConnectedProtectProps extends ChildrenProp {}
+type WalletConnectedProtectProps = ChildrenProp
 
 const WalletConnectedProtect: React.FC<WalletConnectedProtectProps> = ({
   children,
