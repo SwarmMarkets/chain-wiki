@@ -79,7 +79,12 @@
     "build": "craco build",
     "test": "craco test",
     "eject": "react-scripts eject",
-    "codegen:icons": "node codegen.icons.js --outputDirectory src/shared/types/"
+    "codegen:icons": "node codegen.icons.js --outputDirectory src/shared/types/",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "typechain": "typechain --target=ethers-v5 'src/contracts/abis/*.json' --out-dir src/contracts/typechain",
+    "codegen": "graphql-codegen --watch",
+    "prepare": "husky install",
+    "lint:types": "tsc --noEmit"
   },
   "eslintConfig": {
     "extends": [
