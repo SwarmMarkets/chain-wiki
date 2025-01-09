@@ -3,40 +3,49 @@ import { TokensQueryFullData } from '../utils'
 
 interface EditingContent {
   id: string
+  name: string
   content: string
 }
 
 interface EditingState {
   currEditableToken: TokensQueryFullData | null
-  tokenContents: EditingContent[]
-  nftContent: EditingContent | null
+  editedTokens: EditingContent[]
+  editedNft: EditingContent | null
 
-  updateOrCreateTokenContent: (id: string, content: string) => void
+  updateOrCreateEditedTokenContent: (id: string, content: string) => void
   updateCurrEditableToken: (id: TokensQueryFullData | null) => void
   updateNftContent: (id: string, content: string) => void
 }
 
 export const useEditingStore = create<EditingState>(set => ({
   currEditableToken: null,
-  tokenContents: [],
-  nftContent: null,
+  editedTokens: [],
+  editedNft: null,
 
-  updateOrCreateTokenContent: (id: string, content: string) =>
+  updateOrCreateEditedTokenContent: (id: string, content: string) =>
     set(state => {
-      const existingIndex = state.tokenContents.findIndex(
+      const existingIndex = state.editedTokens.findIndex(
         token => token.id === id
       )
 
       if (existingIndex !== -1) {
-        const updatedTokenContents = [...state.tokenContents]
-        updatedTokenContents[existingIndex] = { id, content }
-        return { tokenContents: updatedTokenContents }
+        const updatedTokens = [...state.editedTokens]
+        updatedTokens[existingIndex] = {
+          ...updatedTokens[existingIndex],
+          id,
+          content,
+        }
+        return { editedTokens: updatedTokens }
       }
 
-      return { tokenContents: [...state.tokenContents, { id, content }] }
+      return {
+        editedTokens: [...state.editedTokens, { id, content, name: '' }],
+      }
     }),
   updateNftContent: (id: string, content: string) =>
-    set({ nftContent: { id, content } }),
+    set(state => ({
+      editedNft: { id, content, name: state.editedNft?.name || '' },
+    })),
   updateCurrEditableToken: (token: TokensQueryFullData | null) =>
     set({ currEditableToken: token }),
 }))

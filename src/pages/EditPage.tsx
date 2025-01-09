@@ -25,15 +25,15 @@ const EditPage = () => {
   const showSkeleton = loadingNft && !refetchingNft
   const allLoaded = nft && fullTokens
 
-  const { currEditableToken, nftContent, tokenContents } = useEditingStore()
+  const { currEditableToken, editedNft, editedTokens } = useEditingStore()
 
   const currTokenHtmlContent =
-    tokenContents.find(token => token.id === currEditableToken?.id)?.content ||
+    editedTokens.find(token => token.id === currEditableToken?.id)?.content ||
     fullTokens?.find(t => t.id === currEditableToken?.id)?.ipfsContent
       ?.htmlContent
 
   const currNftHtmlContent =
-    nftContent?.content || nft?.ipfsContent?.htmlContent
+    editedNft?.content || nft?.ipfsContent?.htmlContent
 
   const editorContent =
     (currEditableToken ? currTokenHtmlContent : currNftHtmlContent) || ''

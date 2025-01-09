@@ -17,17 +17,15 @@ import {
   getExplorerUrl,
   NFTWithMetadata,
   resolveAllThirdwebTransactions,
-  TokensQueryFullData,
 } from 'src/shared/utils'
 import { useTheme } from 'styled-components'
 
 interface EditorViewProps {
   nft: NFTWithMetadata
-  tokens: TokensQueryFullData[] | null
   content: string
 }
 
-const EditorView: React.FC<EditorViewProps> = ({ nft, tokens, content }) => {
+const EditorView: React.FC<EditorViewProps> = ({ nft, content }) => {
   const { t } = useTranslation('buttons')
   const { nftId = '' } = useParams()
   const theme = useTheme()
@@ -53,15 +51,15 @@ const EditorView: React.FC<EditorViewProps> = ({ nft, tokens, content }) => {
 
   const {
     currEditableToken,
-    nftContent,
-    tokenContents,
-    updateOrCreateTokenContent,
+    editedNft,
+    editedTokens,
+    updateOrCreateEditedTokenContent,
     updateNftContent,
   } = useEditingStore()
 
   const updateContent = (content: string) => {
     if (currEditableToken) {
-      updateOrCreateTokenContent(currEditableToken.id, content)
+      updateOrCreateEditedTokenContent(currEditableToken.id, content)
     } else {
       updateNftContent(nftId, content)
     }
@@ -70,10 +68,10 @@ const EditorView: React.FC<EditorViewProps> = ({ nft, tokens, content }) => {
   const handleMerge = async () => {
     setLoading(true)
     const txs: Transaction[] = []
-    if (nftContent) {
+    if (editedNft) {
       const ipfsUri = await uploadContent({
         address: nftId,
-        htmlContent: nftContent.content,
+        htmlContent: editedNft.content,
       })
       if (ipfsUri) {
         const nftContentUpdateTx = sx1555NFTContract.prepare('setContractUri', [
@@ -82,8 +80,8 @@ const EditorView: React.FC<EditorViewProps> = ({ nft, tokens, content }) => {
         txs.push(nftContentUpdateTx)
       }
     }
-    if (tokenContents.length > 0) {
-      for (const tokenContent of tokenContents) {
+    if (editedTokens.length > 0) {
+      for (const tokenContent of editedTokens) {
         const tokenId = +tokenContent.id.split('-')[1]
         const ipfsContent = generateIpfsTokenContent({
           tokenId,
