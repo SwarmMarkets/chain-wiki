@@ -36,12 +36,6 @@ const StyledSVG = styled(SVG)<{
   width: ${props => props.width || 'auto'};
   height: ${props => props.height || 'auto'};
 
-  svg {
-    path {
-      fill: ${props => props.color || 'inherit'};
-    }
-  }
-
   ${space}
   ${position}
 `
@@ -57,13 +51,30 @@ const Icon: React.FC<IconProps> = ({
 }) => {
   const iconPath = `/assets/icons/${name}.svg`
 
+  const processSvgString = (svgString: string) => {
+    let modifiedSvg = svgString
+
+    if (color) {
+      modifiedSvg = modifiedSvg
+        .replace(/fill=".*?"/g, `fill="currentColor"`)
+        .replace(/stroke=".*?"/g, `stroke="currentColor"`)
+    }
+
+    if (!/fill=/.test(modifiedSvg)) {
+      modifiedSvg = modifiedSvg.replace('<svg', '<svg fill="currentColor"')
+    }
+
+    return modifiedSvg
+  }
+
   return (
     <StyledSVG
       src={iconPath}
-      color={color}
+      style={{ color }}
       cursor={cursor}
       width={width || size}
       height={height || size}
+      preProcessor={processSvgString}
       {...props}
     />
   )
