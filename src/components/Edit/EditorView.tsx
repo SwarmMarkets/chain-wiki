@@ -53,15 +53,22 @@ const EditorView: React.FC<EditorViewProps> = ({ nft, content }) => {
     currEditableToken,
     editedNft,
     editedTokens,
-    updateOrCreateEditedTokenContent,
-    updateNftContent,
+    getEditedTokenById,
+    updateOrCreateEditedToken,
+    updateNft,
   } = useEditingStore()
 
   const updateContent = (content: string) => {
     if (currEditableToken) {
-      updateOrCreateEditedTokenContent(currEditableToken.id, content)
+      updateOrCreateEditedToken({
+        id: currEditableToken.id,
+        name:
+          getEditedTokenById(currEditableToken.id)?.name ||
+          currEditableToken.name,
+        content,
+      })
     } else {
-      updateNftContent(nftId, content)
+      updateNft({ id: nftId, name: editedNft?.name || nft.name, content })
     }
   }
 
@@ -75,17 +82,17 @@ const EditorView: React.FC<EditorViewProps> = ({ nft, content }) => {
       })
       if (ipfsUri) {
         const nftContentUpdateTx = sx1555NFTContract.prepare('setContractUri', [
-          JSON.stringify({ uri: ipfsUri }),
+          JSON.stringify({ uri: ipfsUri, name: editedNft.name }),
         ])
         txs.push(nftContentUpdateTx)
       }
     }
     if (editedTokens.length > 0) {
-      for (const tokenContent of editedTokens) {
-        const tokenId = +tokenContent.id.split('-')[1]
+      for (const editedToken of editedTokens) {
+        const tokenId = +editedToken.id.split('-')[1]
         const ipfsContent = generateIpfsTokenContent({
           tokenId,
-          htmlContent: tokenContent.content,
+          htmlContent: editedToken.content,
           address: nftId,
         })
         const filesToUpload = [ipfsContent]
@@ -94,7 +101,7 @@ const EditorView: React.FC<EditorViewProps> = ({ nft, content }) => {
         if (firstUri) {
           const tokenContentUpdateTx = sx1555NFTContract.prepare(
             'setTokenUri',
-            [tokenId, JSON.stringify({ uri: firstUri })]
+            [tokenId, JSON.stringify({ uri: firstUri, name: editedToken.name })]
           )
           txs.push(tokenContentUpdateTx)
         }

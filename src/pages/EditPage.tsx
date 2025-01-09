@@ -32,8 +32,7 @@ const EditPage = () => {
     fullTokens?.find(t => t.id === currEditableToken?.id)?.ipfsContent
       ?.htmlContent
 
-  const currNftHtmlContent =
-    editedNft?.content || nft?.ipfsContent?.htmlContent
+  const currNftHtmlContent = editedNft?.content || nft?.ipfsContent?.htmlContent
 
   const editorContent =
     (currEditableToken ? currTokenHtmlContent : currNftHtmlContent) || ''
@@ -55,7 +54,6 @@ const EditPage = () => {
       <EditIndexPages nft={nft} tokens={fullTokens} />
       <EditorView
         nft={nft}
-        tokens={fullTokens}
         content={
           (currEditableToken ? currTokenHtmlContent : currNftHtmlContent) || ''
         }

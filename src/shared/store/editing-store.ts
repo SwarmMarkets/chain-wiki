@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { TokensQueryFullData } from '../utils'
 
-interface EditingContent {
+interface EditingToken {
   id: string
   name: string
   content: string
@@ -9,43 +9,39 @@ interface EditingContent {
 
 interface EditingState {
   currEditableToken: TokensQueryFullData | null
-  editedTokens: EditingContent[]
-  editedNft: EditingContent | null
+  editedTokens: EditingToken[]
+  editedNft: EditingToken | null
 
-  updateOrCreateEditedTokenContent: (id: string, content: string) => void
+  getEditedTokenById: (id: string) => EditingToken | undefined
+
+  updateOrCreateEditedToken: (token: EditingToken) => void
   updateCurrEditableToken: (id: TokensQueryFullData | null) => void
-  updateNftContent: (id: string, content: string) => void
+  updateNft: (nft: EditingToken) => void
 }
 
-export const useEditingStore = create<EditingState>(set => ({
+export const useEditingStore = create<EditingState>((set, get) => ({
   currEditableToken: null,
   editedTokens: [],
   editedNft: null,
 
-  updateOrCreateEditedTokenContent: (id: string, content: string) =>
+  getEditedTokenById: (id: string) => get().editedTokens.find(t => t.id === id),
+
+  updateOrCreateEditedToken: token =>
     set(state => {
-      const existingIndex = state.editedTokens.findIndex(
-        token => token.id === id
-      )
+      const existingIndex = state.editedTokens.findIndex(t => token.id === t.id)
 
       if (existingIndex !== -1) {
         const updatedTokens = [...state.editedTokens]
-        updatedTokens[existingIndex] = {
-          ...updatedTokens[existingIndex],
-          id,
-          content,
-        }
+        updatedTokens[existingIndex] = token
         return { editedTokens: updatedTokens }
       }
 
       return {
-        editedTokens: [...state.editedTokens, { id, content, name: '' }],
+        editedTokens: [...state.editedTokens, token],
       }
     }),
-  updateNftContent: (id: string, content: string) =>
-    set(state => ({
-      editedNft: { id, content, name: state.editedNft?.name || '' },
-    })),
+  updateNft: nft =>
+    set({ editedNft: { id: nft.id, content: nft.content, name: nft.name } }),
   updateCurrEditableToken: (token: TokensQueryFullData | null) =>
     set({ currEditableToken: token }),
 }))
