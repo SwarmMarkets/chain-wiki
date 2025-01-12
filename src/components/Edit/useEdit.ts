@@ -1,5 +1,5 @@
 import { Transaction, useStorageUpload } from '@thirdweb-dev/react'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useSX1155NFT } from 'src/hooks/contracts/useSX1155NFT'
 import { useIpfsIndexPages } from 'src/hooks/ipfs/nft'
@@ -15,6 +15,7 @@ import {
   resolveAllThirdwebTransactions,
   unifyAddressToId,
 } from 'src/shared/utils'
+import differenceWith from 'lodash/differenceWith'
 
 const useEdit = () => {
   const { nftId = '' } = useParams()
@@ -127,6 +128,16 @@ const useEdit = () => {
     }
   }
 
+  const hiddenIndexPages = useMemo(() => {
+    return differenceWith(
+      fullTokens,
+      editedIndexPages.items,
+      (a, b) => a.id === b.tokenId
+    )
+  }, [editedIndexPages.items, fullTokens])
+
+  console.log('hiddenIndexPages', hiddenIndexPages)
+
   return {
     nft,
     fullTokens: fullTokens,
@@ -136,6 +147,7 @@ const useEdit = () => {
       !refetchingFullTokens &&
       !refetchingNft,
     indexPages,
+    hiddenIndexPages,
     merge,
     mergeLoading,
   }
