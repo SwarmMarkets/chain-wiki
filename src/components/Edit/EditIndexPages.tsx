@@ -1,9 +1,9 @@
 import { SideContentWrap } from 'src/components/Nft/styled-components'
 import Flex from 'src/components/ui/Flex'
-import { useIpfsIndexPages } from 'src/hooks/ipfs/nft'
 import { useEditingStore } from 'src/shared/store/editing-store'
 import { NFTWithMetadata, TokensQueryFullData } from 'src/shared/utils'
 import EditIndexPagesItem from './EditIndexPageItem'
+import useEdit from './useEdit'
 
 interface EditIndexPagesProps {
   nft: NFTWithMetadata
@@ -11,8 +11,6 @@ interface EditIndexPagesProps {
 }
 
 const EditIndexPages: React.FC<EditIndexPagesProps> = ({ nft, tokens }) => {
-  const { indexPages = [] } = useIpfsIndexPages(nft?.indexPagesUri)
-
   const {
     currEditableToken,
     updateCurrEditableToken,
@@ -20,11 +18,10 @@ const EditIndexPages: React.FC<EditIndexPagesProps> = ({ nft, tokens }) => {
     getEditedTokenById,
     editedNft,
     updateNft,
-    editedTokens,
+    updateIndexPage,
   } = useEditingStore()
 
-  console.log('editedNft', editedNft)
-  console.log('editedTokens', editedTokens)
+  const { indexPages } = useEdit()
 
   const handleEditTokenName = (name: string) => {
     if (currEditableToken) {
@@ -38,6 +35,13 @@ const EditIndexPages: React.FC<EditIndexPagesProps> = ({ nft, tokens }) => {
         name,
         content,
       })
+
+      const indexPageToUpdate = indexPages.find(
+        p => p.tokenId === currEditableToken?.id
+      )
+      if (indexPageToUpdate) {
+        updateIndexPage({ ...indexPageToUpdate, title: name })
+      }
     }
   }
 
@@ -63,7 +67,7 @@ const EditIndexPages: React.FC<EditIndexPagesProps> = ({ nft, tokens }) => {
         {indexPages.length > 0 &&
           indexPages.map(indexPage => (
             <EditIndexPagesItem
-              name={tokens?.find(t => t.id === indexPage.tokenId)?.name || ''}
+              name={indexPage?.title || ''}
               active={currEditableToken?.id === indexPage.tokenId}
               key={indexPage.tokenId}
               onClick={() =>
