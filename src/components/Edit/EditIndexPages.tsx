@@ -87,10 +87,10 @@ const EditIndexPages: React.FC<EditIndexPagesProps> = ({ nft, tokens }) => {
           ))}
       </Flex>
 
-      <Divider mb={2} />
+      <Divider mt={1} mb={2} />
       <Text fontWeight={theme.fontWeights.medium}>{t('hiddenPages')}</Text>
 
-      <Flex flexDirection='column'>
+      <Flex mt={1} flexDirection='column'>
         {hiddenIndexPages.length > 0 &&
           hiddenIndexPages.map(indexPage => (
             <EditIndexPagesItem
