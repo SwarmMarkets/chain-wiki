@@ -8,10 +8,7 @@ import Flex from 'src/components/ui/Flex'
 import Icon from 'src/components/ui/Icon'
 import Text from 'src/components/ui/Text'
 import { useEditingStore } from 'src/shared/store/editing-store'
-import {
-  getExplorerUrl,
-  NFTWithMetadata
-} from 'src/shared/utils'
+import { getExplorerUrl, NFTWithMetadata } from 'src/shared/utils'
 import { useTheme } from 'styled-components'
 import LoadingButton from '../ui/Button/LoadingButton'
 import useEdit from './useEdit'
@@ -63,6 +60,12 @@ const EditorView: React.FC<EditorViewProps> = ({ nft, content }) => {
     }
   }
 
+  const title =
+    getEditedTokenById(currEditableToken?.id || '')?.name ||
+    currEditableToken?.name ||
+    editedNft?.name ||
+    nft?.name
+
   return (
     <Box width='900px'>
       <Flex $gap='5px' flexDirection='column'>
@@ -74,7 +77,7 @@ const EditorView: React.FC<EditorViewProps> = ({ nft, content }) => {
           style={{ position: 'relative' }}
         >
           <Text.h1 size={theme.fontSizes.large} weight={700}>
-            {currEditableToken?.name || nft?.name}
+            {title}
           </Text.h1>
           <Flex $gap='10px' alignItems='center'>
             <LoadingButton loading={mergeLoading} onClick={merge}>
