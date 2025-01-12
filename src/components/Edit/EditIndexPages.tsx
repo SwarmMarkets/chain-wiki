@@ -30,25 +30,27 @@ const EditIndexPages: React.FC<EditIndexPagesProps> = ({ nft, tokens }) => {
 
   const { indexPages, hiddenIndexPages } = useEdit()
 
-  const handleEditTokenName = (name: string) => {
-    if (currEditableToken) {
+  const handleEditTokenName = (id: string, name: string) => {
+    const token = tokens?.find(t => t.id === id)
+
+    const editedToken = getEditedTokenById(id)
+
+    if (token) {
       const content =
-        getEditedTokenById(currEditableToken?.id)?.content ||
-        currEditableToken?.ipfsContent?.htmlContent ||
-        ''
+        editedToken?.content || token.ipfsContent?.htmlContent || ''
 
       updateOrCreateEditedToken({
-        id: currEditableToken?.id,
+        id: token.id,
         name,
         content,
       })
+    }
 
-      const indexPageToUpdate = indexPages.find(
-        p => p.tokenId === currEditableToken?.id
-      )
-      if (indexPageToUpdate) {
-        updateIndexPage({ ...indexPageToUpdate, title: name })
-      }
+    const indexPageToUpdate = indexPages.find(
+      p => p.tokenId === currEditableToken?.id
+    )
+    if (indexPageToUpdate) {
+      updateIndexPage({ ...indexPageToUpdate, title: name })
     }
   }
 
@@ -82,7 +84,7 @@ const EditIndexPages: React.FC<EditIndexPagesProps> = ({ nft, tokens }) => {
                   tokens?.find(t => t.id === indexPage.tokenId) || null
                 )
               }
-              onEdit={handleEditTokenName}
+              onEdit={name => handleEditTokenName(indexPage.tokenId, name)}
             />
           ))}
       </Flex>
@@ -102,7 +104,7 @@ const EditIndexPages: React.FC<EditIndexPagesProps> = ({ nft, tokens }) => {
                   tokens?.find(t => t.id === indexPage.id) || null
                 )
               }
-              onEdit={handleEditTokenName}
+              onEdit={name => handleEditTokenName(indexPage.id, name)}
             />
           ))}
       </Flex>
