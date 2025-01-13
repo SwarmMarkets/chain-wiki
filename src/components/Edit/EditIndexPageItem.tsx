@@ -72,12 +72,12 @@ const EditIndexPagesItem: React.FC<EditIndexPagesItemProps> = ({
         <TextField
           inputProps={{ onBlur: handleBlurName }}
           ref={textFieldRef}
-          value={currName}
+          value={name || currName}
           onChange={handleChangeName}
           maxWidth='160px'
         />
       ) : (
-        currName
+        name
       )}
       <ActionIcon
         onClick={handleActionIconClick}

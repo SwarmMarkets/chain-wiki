@@ -23,8 +23,16 @@ const useEdit = () => {
     fetchFullData: true,
   })
 
-  const { editedNft, editedTokens, editedIndexPages, initIndexPages } =
-    useEditingStore()
+  const {
+    editedNft,
+    editedTokens,
+    editedIndexPages,
+    initIndexPages,
+    getEditedTokenById,
+    updateOrCreateEditedToken,
+    updateIndexPage,
+    currEditableToken,
+  } = useEditingStore()
 
   const { indexPages = [] } = useIpfsIndexPages(nft?.indexPagesUri)
 
@@ -52,9 +60,9 @@ const useEdit = () => {
   const { contract: sx1555NFTContract } = useSX1155NFT(nftId)
   const { uploadContent } = useNFTUpdate(nftId)
 
-  console.log('editedNft', editedNft)
-  console.log('editedTokens', editedTokens)
-  console.log('editedIndexPages', editedIndexPages)
+  // console.log('editedNft', editedNft)
+  // console.log('editedTokens', editedTokens)
+  // console.log('editedIndexPages', editedIndexPages)
 
   const merge = async () => {
     setMergeLoading(true)
@@ -136,7 +144,31 @@ const useEdit = () => {
     )
   }, [editedIndexPages.items, fullTokens])
 
-  console.log('hiddenIndexPages', hiddenIndexPages)
+  // console.log('hiddenIndexPages', hiddenIndexPages)
+
+  const updateTokenName = (id: string, name: string) => {
+    const token = fullTokens?.find(t => t.id === id)
+
+    const editedToken = getEditedTokenById(id)
+
+    if (token) {
+      const content =
+        editedToken?.content || token.ipfsContent?.htmlContent || ''
+
+      updateOrCreateEditedToken({
+        id: token.id,
+        name,
+        content,
+      })
+    }
+
+    const indexPageToUpdate = editedIndexPages.items.find(
+      p => p.tokenId === currEditableToken?.id
+    )
+    if (indexPageToUpdate) {
+      updateIndexPage({ ...indexPageToUpdate, title: name })
+    }
+  }
 
   return {
     nft,
@@ -150,6 +182,7 @@ const useEdit = () => {
     hiddenIndexPages,
     merge,
     mergeLoading,
+    updateTokenName,
   }
 }
 

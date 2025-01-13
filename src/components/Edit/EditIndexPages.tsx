@@ -8,6 +8,7 @@ import Text from '../ui/Text'
 import { useTranslation } from 'react-i18next'
 import { useTheme } from 'styled-components'
 import Divider from '../ui/Divider'
+import EditIndexPageList from './EditIndexPageList'
 
 interface EditIndexPagesProps {
   nft: NFTWithMetadata
@@ -18,41 +19,10 @@ const EditIndexPages: React.FC<EditIndexPagesProps> = ({ nft, tokens }) => {
   const { t } = useTranslation('edit', { keyPrefix: 'indexPages' })
   const theme = useTheme()
 
-  const {
-    currEditableToken,
-    updateCurrEditableToken,
-    updateOrCreateEditedToken,
-    getEditedTokenById,
-    editedNft,
-    updateNft,
-    updateIndexPage,
-  } = useEditingStore()
+  const { currEditableToken, updateCurrEditableToken, editedNft, updateNft } =
+    useEditingStore()
 
-  const { indexPages, hiddenIndexPages } = useEdit()
-
-  const handleEditTokenName = (id: string, name: string) => {
-    const token = tokens?.find(t => t.id === id)
-
-    const editedToken = getEditedTokenById(id)
-
-    if (token) {
-      const content =
-        editedToken?.content || token.ipfsContent?.htmlContent || ''
-
-      updateOrCreateEditedToken({
-        id: token.id,
-        name,
-        content,
-      })
-    }
-
-    const indexPageToUpdate = indexPages.find(
-      p => p.tokenId === currEditableToken?.id
-    )
-    if (indexPageToUpdate) {
-      updateIndexPage({ ...indexPageToUpdate, title: name })
-    }
-  }
+  const { hiddenIndexPages, updateTokenName } = useEdit()
 
   const handleEditNftName = (name: string) => {
     updateNft({
@@ -73,20 +43,7 @@ const EditIndexPages: React.FC<EditIndexPagesProps> = ({ nft, tokens }) => {
             onEdit={handleEditNftName}
           />
         }
-        {indexPages.length > 0 &&
-          indexPages.map(indexPage => (
-            <EditIndexPagesItem
-              name={indexPage?.title || ''}
-              active={currEditableToken?.id === indexPage.tokenId}
-              key={indexPage.tokenId}
-              onClick={() =>
-                updateCurrEditableToken(
-                  tokens?.find(t => t.id === indexPage.tokenId) || null
-                )
-              }
-              onEdit={name => handleEditTokenName(indexPage.tokenId, name)}
-            />
-          ))}
+        <EditIndexPageList />
       </Flex>
 
       <Divider mt={1} mb={2} />
@@ -104,7 +61,7 @@ const EditIndexPages: React.FC<EditIndexPagesProps> = ({ nft, tokens }) => {
                   tokens?.find(t => t.id === indexPage.id) || null
                 )
               }
-              onEdit={name => handleEditTokenName(indexPage.id, name)}
+              onEdit={name => updateTokenName(indexPage.id, name)}
             />
           ))}
       </Flex>
