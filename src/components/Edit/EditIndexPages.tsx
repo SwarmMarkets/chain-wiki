@@ -41,9 +41,6 @@ const EditIndexPages: React.FC<EditIndexPagesProps> = ({ nft }) => {
         }
         <EditIndexPagesTree />
       </Flex>
-
-      <Divider mt={1} mb={2} />
-      <Text fontWeight={theme.fontWeights.medium}>{t('hiddenPages')}</Text>
     </SideContentWrap>
   )
 }
