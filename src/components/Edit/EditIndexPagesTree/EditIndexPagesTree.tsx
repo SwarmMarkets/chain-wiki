@@ -7,57 +7,16 @@ import {
   Tree,
   NodeModel,
 } from '@minoru/react-dnd-treeview'
-import React, { useEffect } from 'react'
 import Node from './Node'
 import Placeholder from './Placeholder'
 import useTreeOpenHandler from './useTreeOpenHandler'
 import styles from './styles.module.css'
-import { useEditingStore } from 'src/shared/store/editing-store'
 import useEdit from '../useEdit'
+import { reorderArray } from '../utils'
 
-const reorderArray = (
-  array: NodeModel[],
-  sourceIndex: number,
-  targetIndex: number
-) => {
-  const newArray = [...array]
-  const element = newArray.splice(sourceIndex, 1)[0]
-  newArray.splice(targetIndex, 0, element)
-  return newArray
-}
-
-export default function App() {
+const EditIndexPagesTree = () => {
   const { ref, getPipeHeight, toggle } = useTreeOpenHandler()
-  const { editedIndexPages } = useEditingStore()
-  const { hiddenIndexPages } = useEdit()
-  const [treeData, setTreeData] = React.useState<NodeModel[]>([])
-
-  useEffect(() => {
-    const editedIndexPagesNodes = editedIndexPages.items.map<NodeModel>(ip => ({
-      id: ip.tokenId,
-      droppable: false,
-      text: ip.title,
-      parent: 0,
-    }))
-
-    const hiddenIndexPagesList = {
-      id: 'hiddenIndexPages',
-      droppable: true,
-      text: 'Hidden index pages',
-      parent: 0,
-    }
-    const hiddenIndexPagesNodes = hiddenIndexPages.map<NodeModel>(ip => ({
-      id: ip.id,
-      droppable: false,
-      text: ip.name,
-      parent: 'hiddenIndexPages',
-    }))
-    setTreeData([
-      ...editedIndexPagesNodes,
-      hiddenIndexPagesList,
-      ...hiddenIndexPagesNodes,
-    ])
-  }, [editedIndexPages.items, hiddenIndexPages])
+  const { treeData, updateIndexPagesByTreeNodes } = useEdit()
 
   const handleDrop = (newTree: NodeModel[], e: DropOptions) => {
     const { dragSourceId, dropTargetId, destinationIndex } = e
@@ -74,14 +33,12 @@ export default function App() {
       start &&
       typeof destinationIndex === 'number'
     ) {
-      setTreeData(treeData => {
-        const output = reorderArray(
-          treeData,
-          treeData.indexOf(start),
-          destinationIndex
-        )
-        return output
-      })
+      const output = reorderArray(
+        treeData,
+        treeData.indexOf(start),
+        destinationIndex
+      )
+      updateIndexPagesByTreeNodes(output)
     }
 
     if (
@@ -97,16 +54,15 @@ export default function App() {
         (end && !end?.droppable)
       )
         return
-      setTreeData(treeData => {
-        const output = reorderArray(
-          treeData,
-          treeData.indexOf(start),
-          destinationIndex
-        )
-        const movedElement = output.find(el => el.id === dragSourceId)
-        if (movedElement) movedElement.parent = dropTargetId
-        return output
-      })
+      const output = reorderArray(
+        treeData,
+        treeData.indexOf(start),
+        destinationIndex
+      )
+      const movedElement = output.find(el => el.id === dragSourceId)
+      if (movedElement) movedElement.parent = dropTargetId
+      console.log(output)
+      updateIndexPagesByTreeNodes(output)
     }
   }
 
@@ -152,3 +108,5 @@ export default function App() {
     </DndProvider>
   )
 }
+
+export default EditIndexPagesTree

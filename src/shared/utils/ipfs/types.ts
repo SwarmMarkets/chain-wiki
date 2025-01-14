@@ -38,7 +38,8 @@ export interface IpfsAttestationContent {
 export interface IpfsIndexPage {
   tokenId: string
   title: string
-  child?: IpfsIndexPage
+  parent?: string | number
+  droppable?: boolean
 }
 
 export interface IpfsIndexPagesContent {

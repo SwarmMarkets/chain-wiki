@@ -1,5 +1,7 @@
+import { NodeModel } from '@minoru/react-dnd-treeview'
 import { Transaction, useStorageUpload } from '@thirdweb-dev/react'
-import { useMemo, useState } from 'react'
+import differenceWith from 'lodash/differenceWith'
+import React, { useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useSX1155NFT } from 'src/hooks/contracts/useSX1155NFT'
 import { useIpfsIndexPages } from 'src/hooks/ipfs/nft'
@@ -15,7 +17,11 @@ import {
   resolveAllThirdwebTransactions,
   unifyAddressToId,
 } from 'src/shared/utils'
-import differenceWith from 'lodash/differenceWith'
+import {
+  convertIndexPagesToNodes,
+  convertNodesToIndexPages,
+  convertTokensToIndexPages,
+} from './utils'
 
 const useEdit = () => {
   const { nftId = '' } = useParams()
@@ -31,6 +37,7 @@ const useEdit = () => {
     getEditedTokenById,
     updateOrCreateEditedToken,
     updateIndexPage,
+    updateIndexPages,
     currEditableToken,
   } = useEditingStore()
 
@@ -53,7 +60,8 @@ const useEdit = () => {
     { fetchFullData: true }
   )
 
-  const { smartAccount } = useSmartAccount()
+  const { smartAccount, smartAccountInfo } = useSmartAccount()
+  console.log(smartAccountInfo)
   const { mutateAsync: upload } = useStorageUpload()
   const [mergeLoading, setMergeLoading] = useState(false)
 
@@ -103,26 +111,26 @@ const useEdit = () => {
             txs.push(tokenContentUpdateTx)
           }
         }
-
-        if (editedIndexPages.isEdited) {
-          const indexPagesIpfsContent = generateIpfsIndexPagesContent({
-            indexPages: editedIndexPages.items,
-            address: nftId,
-          })
-          const filesToUpload = [indexPagesIpfsContent]
-          const uris = await upload({ data: filesToUpload })
-          const firstUri = uris[0]
-          if (firstUri) {
-            const tokenContentUpdateTx = sx1555NFTContract.prepare(
-              'setContractUri',
-              [JSON.stringify({ indexPagesUri: firstUri })]
-            )
-            txs.push(tokenContentUpdateTx)
-          }
+      }
+      if (editedIndexPages.isEdited) {
+        const indexPagesIpfsContent = generateIpfsIndexPagesContent({
+          indexPages: editedIndexPages.items,
+          address: nftId,
+        })
+        const filesToUpload = [indexPagesIpfsContent]
+        const uris = await upload({ data: filesToUpload })
+        const firstUri = uris[0]
+        if (firstUri) {
+          const tokenContentUpdateTx = sx1555NFTContract.prepare(
+            'setContractUri',
+            [JSON.stringify({ indexPagesUri: firstUri })]
+          )
+          txs.push(tokenContentUpdateTx)
         }
       }
-
       console.log(txs)
+
+      console.log(smartAccount)
 
       const receipt = await smartAccount?.send({
         transactions: await resolveAllThirdwebTransactions(txs),
@@ -137,10 +145,12 @@ const useEdit = () => {
   }
 
   const hiddenIndexPages = useMemo(() => {
-    return differenceWith(
-      fullTokens,
-      editedIndexPages.items,
-      (a, b) => a.id === b.tokenId
+    return convertTokensToIndexPages(
+      differenceWith(
+        fullTokens,
+        editedIndexPages.items,
+        (a, b) => a.id === b.tokenId
+      )
     )
   }, [editedIndexPages.items, fullTokens])
 
@@ -170,6 +180,41 @@ const useEdit = () => {
     }
   }
 
+  const treeData = React.useMemo<NodeModel[]>(() => {
+    const editedIndexPagesNodes = convertIndexPagesToNodes(
+      editedIndexPages.items
+    )
+
+    console.log(editedIndexPagesNodes, 'editedIndexPagesNodes')
+
+    const hiddenIndexPagesList: NodeModel = {
+      id: 'hiddenIndexPages',
+      droppable: true,
+      text: 'Hidden index pages',
+      parent: 0,
+    }
+    const hiddenIndexPagesNodes = hiddenIndexPages.map<NodeModel>(ip => ({
+      id: ip.tokenId,
+      droppable: false,
+      text: ip.title,
+      parent: 'hiddenIndexPages',
+    }))
+    return [
+      ...editedIndexPagesNodes,
+      hiddenIndexPagesList,
+      ...hiddenIndexPagesNodes,
+    ]
+  }, [editedIndexPages.items, hiddenIndexPages])
+
+  const updateIndexPagesByTreeNodes = (nodes: NodeModel[]) => {
+    const nodeWithoutHidden = nodes.filter(
+      n => n.id !== 'hiddenIndexPages' && n.parent !== 'hiddenIndexPages'
+    )
+    const indexPages = convertNodesToIndexPages(nodeWithoutHidden)
+
+    updateIndexPages(indexPages)
+  }
+
   return {
     nft,
     fullTokens: fullTokens,
@@ -183,6 +228,8 @@ const useEdit = () => {
     merge,
     mergeLoading,
     updateTokenName,
+    treeData,
+    updateIndexPagesByTreeNodes,
   }
 }
 

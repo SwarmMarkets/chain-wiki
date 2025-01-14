@@ -1,7 +1,7 @@
 import { SideContentWrap } from 'src/components/Nft/styled-components'
 import Flex from 'src/components/ui/Flex'
 import { useEditingStore } from 'src/shared/store/editing-store'
-import { NFTWithMetadata, TokensQueryFullData } from 'src/shared/utils'
+import { NFTWithMetadata } from 'src/shared/utils'
 import EditIndexPagesItem from './EditIndexPageItem'
 import Text from '../ui/Text'
 import { useTranslation } from 'react-i18next'
