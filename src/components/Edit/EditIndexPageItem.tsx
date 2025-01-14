@@ -8,8 +8,11 @@ import TextField from '../ui/TextField/TextField'
 interface EditIndexPagesItemProps {
   name: string
   active?: boolean
+  droppable?: boolean
+  isOpen?: boolean
   onClick?: () => void
   onEdit?: (value: string) => void
+  onToggle?: (e: React.MouseEvent) => void
 }
 
 const ActionIcon = styled(Icon)`
@@ -19,6 +22,14 @@ const ActionIcon = styled(Icon)`
 
   opacity: 0;
   transition: 0.2s;
+`
+
+const ChevronRightIcon = styled(Icon)`
+  &:hover {
+    color: ${({ theme }) => theme.palette.linkPrimaryAccent} !important;
+  }
+
+  transition: all 0.2s;
 `
 
 const StyledEditLink = styled(StyledLink)`
@@ -31,8 +42,11 @@ const StyledEditLink = styled(StyledLink)`
 const EditIndexPagesItem: React.FC<EditIndexPagesItemProps> = ({
   name,
   active = false,
+  droppable = false,
+  isOpen = false,
   onClick,
   onEdit,
+  onToggle,
 }) => {
   const theme = useTheme()
   const { toggle, isOn } = useToggle(false)
@@ -65,6 +79,12 @@ const EditIndexPagesItem: React.FC<EditIndexPagesItemProps> = ({
     toggle()
   }
 
+  const handleToggle = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    e.preventDefault()
+    onToggle?.(e)
+  }
+
   return (
     <StyledEditLink to='' $isActive={active} onClick={handleClick}>
       {isOn ? (
@@ -85,6 +105,16 @@ const EditIndexPagesItem: React.FC<EditIndexPagesItemProps> = ({
         name={isOn ? 'checkmark' : 'edit'}
         color={active ? theme.palette.linkPrimary : theme.palette.black}
       />
+      {droppable && (
+        <ChevronRightIcon
+          style={{ transform: isOpen ? 'rotate(90deg)' : '' }}
+          name='chevronRight'
+          color={theme.palette.textPrimary}
+          width={12}
+          height={12}
+          onClick={handleToggle}
+        />
+      )}
     </StyledEditLink>
   )
 }
