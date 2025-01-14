@@ -196,7 +196,7 @@ const useEdit = () => {
       ...editedIndexPagesNodes,
       hiddenIndexPagesList,
       ...hiddenIndexPagesNodes,
-    ]
+    ].map(node => ({ ...node, droppable: true }))
   }, [editedIndexPages.items, hiddenIndexPages])
 
   const updateIndexPagesByTreeNodes = (nodes: NodeModel[]) => {

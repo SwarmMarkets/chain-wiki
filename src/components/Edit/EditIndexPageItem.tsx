@@ -4,11 +4,12 @@ import useToggle from 'src/hooks/useToggle'
 import styled, { useTheme } from 'styled-components'
 import Icon from '../ui/Icon'
 import TextField from '../ui/TextField/TextField'
+import Flex from '../ui/Flex'
 
 interface EditIndexPagesItemProps {
   name: string
   active?: boolean
-  droppable?: boolean
+  hasChild?: boolean
   isOpen?: boolean
   onClick?: () => void
   onEdit?: (value: string) => void
@@ -42,7 +43,7 @@ const StyledEditLink = styled(StyledLink)`
 const EditIndexPagesItem: React.FC<EditIndexPagesItemProps> = ({
   name,
   active = false,
-  droppable = false,
+  hasChild = false,
   isOpen = false,
   onClick,
   onEdit,
@@ -98,23 +99,25 @@ const EditIndexPagesItem: React.FC<EditIndexPagesItemProps> = ({
       ) : (
         name
       )}
-      <ActionIcon
-        onClick={handleActionIconClick}
-        className='edit-icon'
-        cursor='pointer'
-        name={isOn ? 'checkmark' : 'edit'}
-        color={active ? theme.palette.linkPrimary : theme.palette.black}
-      />
-      {droppable && (
-        <ChevronRightIcon
-          style={{ transform: isOpen ? 'rotate(90deg)' : '' }}
-          name='chevronRight'
-          color={theme.palette.textPrimary}
-          width={12}
-          height={12}
-          onClick={handleToggle}
+      <Flex $gap='5px' alignItems='center'>
+        <ActionIcon
+          onClick={handleActionIconClick}
+          className='edit-icon'
+          cursor='pointer'
+          name={isOn ? 'checkmark' : 'edit'}
+          color={active ? theme.palette.linkPrimary : theme.palette.black}
         />
-      )}
+        {hasChild && (
+          <ChevronRightIcon
+            style={{ transform: isOpen ? 'rotate(90deg)' : '' }}
+            name='chevronRight'
+            color={theme.palette.textPrimary}
+            width={12}
+            height={12}
+            onClick={handleToggle}
+          />
+        )}
+      </Flex>
     </StyledEditLink>
   )
 }

@@ -2,7 +2,6 @@ import { NodeModel } from '@minoru/react-dnd-treeview'
 import React from 'react'
 import Flex from 'src/components/ui/Flex'
 import { useEditingStore } from 'src/shared/store/editing-store'
-import { useTheme } from 'styled-components'
 import EditIndexPagesItem from '../EditIndexPageItem'
 import useEdit from '../useEdit'
 
@@ -14,18 +13,19 @@ const Node: React.FC<{
   isOpen: boolean
   isDropTarget: boolean
   treeData: NodeModel[]
+  hasChild: boolean
   onClick: (id: NodeModel['id']) => void
   getPipeHeight: (id: string | number, treeData: NodeModel[]) => number
 }> = ({
   node,
   depth,
   isOpen,
+  hasChild,
   isDropTarget,
   onClick,
   treeData,
   getPipeHeight,
 }) => {
-  const theme = useTheme()
   const indent = depth * TREE_X_OFFSET
   const { fullTokens, updateTokenName } = useEdit()
   const { currEditableToken, updateCurrEditableToken } = useEditingStore()
@@ -50,9 +50,9 @@ const Node: React.FC<{
             )
           }
           onEdit={name => updateTokenName(node.id.toString(), name)}
-          droppable={node.droppable}
           isOpen={isOpen}
           onToggle={handleToggle}
+          hasChild={hasChild}
         ></EditIndexPagesItem>
       </Flex>
     </div>

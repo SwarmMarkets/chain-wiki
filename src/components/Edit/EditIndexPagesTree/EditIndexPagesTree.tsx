@@ -19,50 +19,51 @@ const EditIndexPagesTree = () => {
   const { treeData, updateIndexPagesByTreeNodes } = useEdit()
 
   const handleDrop = (newTree: NodeModel[], e: DropOptions) => {
-    const { dragSourceId, dropTargetId, destinationIndex } = e
-    if (
-      typeof dragSourceId === 'undefined' ||
-      typeof dropTargetId === 'undefined'
-    )
-      return
-    const start = treeData.find(v => v.id === dragSourceId)
-    const end = treeData.find(v => v.id === dropTargetId)
+    updateIndexPagesByTreeNodes(newTree)
+    // const { dragSourceId, dropTargetId, destinationIndex } = e
+    // if (
+    //   typeof dragSourceId === 'undefined' ||
+    //   typeof dropTargetId === 'undefined'
+    // )
+    //   return
+    // const start = treeData.find(v => v.id === dragSourceId)
+    // const end = treeData.find(v => v.id === dropTargetId)
 
-    if (
-      start?.parent === dropTargetId &&
-      start &&
-      typeof destinationIndex === 'number'
-    ) {
-      const output = reorderArray(
-        treeData,
-        treeData.indexOf(start),
-        destinationIndex
-      )
-      updateIndexPagesByTreeNodes(output)
-    }
+    // if (
+    //   start?.parent === dropTargetId &&
+    //   start &&
+    //   typeof destinationIndex === 'number'
+    // ) {
+    //   const output = reorderArray(
+    //     treeData,
+    //     treeData.indexOf(start),
+    //     destinationIndex
+    //   )
+    //   updateIndexPagesByTreeNodes(output)
+    // }
 
-    if (
-      start?.parent !== dropTargetId &&
-      start &&
-      typeof destinationIndex === 'number'
-    ) {
-      if (
-        getDescendants(treeData, dragSourceId).find(
-          el => el.id === dropTargetId
-        ) ||
-        dropTargetId === dragSourceId ||
-        (end && !end?.droppable)
-      )
-        return
-      const output = reorderArray(
-        treeData,
-        treeData.indexOf(start),
-        destinationIndex
-      )
-      const movedElement = output.find(el => el.id === dragSourceId)
-      if (movedElement) movedElement.parent = dropTargetId
-      updateIndexPagesByTreeNodes(output)
-    }
+    // if (
+    //   start?.parent !== dropTargetId &&
+    //   start &&
+    //   typeof destinationIndex === 'number'
+    // ) {
+    //   if (
+    //     getDescendants(treeData, dragSourceId).find(
+    //       el => el.id === dropTargetId
+    //     ) ||
+    //     dropTargetId === dragSourceId ||
+    //     (end && !end?.droppable)
+    //   )
+    //     return
+    //   const output = reorderArray(
+    //     treeData,
+    //     treeData.indexOf(start),
+    //     destinationIndex
+    //   )
+    //   const movedElement = output.find(el => el.id === dragSourceId)
+    //   if (movedElement) movedElement.parent = dropTargetId
+    //   updateIndexPagesByTreeNodes(output)
+    // }
   }
 
   return (
@@ -87,8 +88,9 @@ const EditIndexPagesTree = () => {
           placeholderRender={(node, { depth }) => (
             <Placeholder node={node} depth={depth} />
           )}
-          render={(node, { depth, isOpen, isDropTarget }) => (
+          render={(node, { depth, isOpen, isDropTarget, hasChild }) => (
             <Node
+              hasChild={hasChild}
               getPipeHeight={getPipeHeight}
               node={node}
               depth={depth}
