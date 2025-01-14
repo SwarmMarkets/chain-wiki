@@ -61,7 +61,6 @@ const EditIndexPagesTree = () => {
       )
       const movedElement = output.find(el => el.id === dragSourceId)
       if (movedElement) movedElement.parent = dropTargetId
-      console.log(output)
       updateIndexPagesByTreeNodes(output)
     }
   }

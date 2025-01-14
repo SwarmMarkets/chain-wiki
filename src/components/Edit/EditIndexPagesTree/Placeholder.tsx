@@ -1,12 +1,10 @@
 import React from "react";
 import { NodeModel } from "@minoru/react-dnd-treeview";
-import styles from "./styles.module.css";
 
 const Placeholder: React.FC<{ node: NodeModel; depth: number }> = ({
   node,
   depth
 }) => {
-  console.log(styles.customPlaceholder);
   return (
     <div
       style={{

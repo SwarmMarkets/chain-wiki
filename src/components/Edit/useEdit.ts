@@ -61,7 +61,6 @@ const useEdit = () => {
   )
 
   const { smartAccount, smartAccountInfo } = useSmartAccount()
-  console.log(smartAccountInfo)
   const { mutateAsync: upload } = useStorageUpload()
   const [mergeLoading, setMergeLoading] = useState(false)
 
@@ -130,8 +129,6 @@ const useEdit = () => {
       }
       console.log(txs)
 
-      console.log(smartAccount)
-
       const receipt = await smartAccount?.send({
         transactions: await resolveAllThirdwebTransactions(txs),
       })
@@ -153,8 +150,6 @@ const useEdit = () => {
       )
     )
   }, [editedIndexPages.items, fullTokens])
-
-  // console.log('hiddenIndexPages', hiddenIndexPages)
 
   const updateTokenName = (id: string, name: string) => {
     const token = fullTokens?.find(t => t.id === id)
@@ -184,8 +179,6 @@ const useEdit = () => {
     const editedIndexPagesNodes = convertIndexPagesToNodes(
       editedIndexPages.items
     )
-
-    console.log(editedIndexPagesNodes, 'editedIndexPagesNodes')
 
     const hiddenIndexPagesList: NodeModel = {
       id: 'hiddenIndexPages',

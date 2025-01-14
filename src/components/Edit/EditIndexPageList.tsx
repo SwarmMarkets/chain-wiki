@@ -38,8 +38,6 @@ function Node({
 const EditIndexPageList = () => {
   const { editedIndexPages, updateIndexPage } = useEditingStore()
 
-  console.log(editedIndexPages)
-
   if (editedIndexPages.items.length === 0) return null
 
   return (
