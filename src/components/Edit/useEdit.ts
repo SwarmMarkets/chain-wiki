@@ -153,7 +153,6 @@ const useEdit = () => {
 
   const updateTokenName = (id: string, name: string) => {
     const token = fullTokens?.find(t => t.id === id)
-
     const editedToken = getEditedTokenById(id)
 
     if (token) {
@@ -166,10 +165,8 @@ const useEdit = () => {
         content,
       })
     }
+    const indexPageToUpdate = editedIndexPages.items.find(p => p.tokenId === id)
 
-    const indexPageToUpdate = editedIndexPages.items.find(
-      p => p.tokenId === currEditableToken?.id
-    )
     if (indexPageToUpdate) {
       updateIndexPage({ ...indexPageToUpdate, title: name })
     }
@@ -186,18 +183,22 @@ const useEdit = () => {
       text: 'Hidden index pages',
       parent: 0,
     }
-    const hiddenIndexPagesNodes = hiddenIndexPages.map<NodeModel>(ip => ({
-      id: ip.tokenId,
-      droppable: false,
-      text: ip.title,
-      parent: 'hiddenIndexPages',
-    }))
+    const hiddenIndexPagesNodes = hiddenIndexPages.map<NodeModel>(ip => {
+      const updatedToken = editedTokens.find(t => t.id === ip.tokenId)
+
+      return {
+        id: updatedToken?.id || ip.tokenId,
+        droppable: false,
+        text: updatedToken?.name || ip.title,
+        parent: 'hiddenIndexPages',
+      }
+    })
     return [
       ...editedIndexPagesNodes,
       hiddenIndexPagesList,
       ...hiddenIndexPagesNodes,
     ].map(node => ({ ...node, droppable: true }))
-  }, [editedIndexPages.items, hiddenIndexPages])
+  }, [editedIndexPages.items, editedTokens, hiddenIndexPages])
 
   const updateIndexPagesByTreeNodes = (nodes: NodeModel[]) => {
     const nodeWithoutHidden = nodes.filter(
