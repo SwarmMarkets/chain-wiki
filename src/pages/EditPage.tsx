@@ -41,7 +41,7 @@ const EditPage = () => {
   return (
     <>
       <Flex justifyContent={allLoaded ? 'space-between' : 'center'} $gap='20px'>
-        <EditIndexPages nft={nft} tokens={fullTokens} />
+        <EditIndexPages nft={nft} />
         <EditorView
           nft={nft}
           content={

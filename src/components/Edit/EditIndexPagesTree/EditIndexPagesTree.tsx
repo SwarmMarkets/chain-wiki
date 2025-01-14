@@ -11,10 +11,9 @@ import React, { useEffect } from 'react'
 import Node from './Node'
 import Placeholder from './Placeholder'
 import useTreeOpenHandler from './useTreeOpenHandler'
-import sampleData from './sample-default.json'
 import styles from './styles.module.css'
-import useEdit from '../useEdit'
 import { useEditingStore } from 'src/shared/store/editing-store'
+import useEdit from '../useEdit'
 
 const reorderArray = (
   array: NodeModel[],
@@ -30,18 +29,35 @@ const reorderArray = (
 export default function App() {
   const { ref, getPipeHeight, toggle } = useTreeOpenHandler()
   const { editedIndexPages } = useEditingStore()
+  const { hiddenIndexPages } = useEdit()
   const [treeData, setTreeData] = React.useState<NodeModel[]>([])
 
   useEffect(() => {
-    setTreeData(
-      editedIndexPages.items.map<NodeModel>(ip => ({
-        id: ip.tokenId,
-        droppable: false,
-        text: ip.title,
-        parent: 0,
-      }))
-    )
-  }, [editedIndexPages.items])
+    const editedIndexPagesNodes = editedIndexPages.items.map<NodeModel>(ip => ({
+      id: ip.tokenId,
+      droppable: false,
+      text: ip.title,
+      parent: 0,
+    }))
+
+    const hiddenIndexPagesList = {
+      id: 'hiddenIndexPages',
+      droppable: true,
+      text: 'Hidden index pages',
+      parent: 0,
+    }
+    const hiddenIndexPagesNodes = hiddenIndexPages.map<NodeModel>(ip => ({
+      id: ip.id,
+      droppable: false,
+      text: ip.name,
+      parent: 'hiddenIndexPages',
+    }))
+    setTreeData([
+      ...editedIndexPagesNodes,
+      hiddenIndexPagesList,
+      ...hiddenIndexPagesNodes,
+    ])
+  }, [editedIndexPages.items, hiddenIndexPages])
 
   const handleDrop = (newTree: NodeModel[], e: DropOptions) => {
     const { dragSourceId, dropTargetId, destinationIndex } = e
