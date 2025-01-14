@@ -8,7 +8,7 @@ import Text from '../ui/Text'
 import { useTranslation } from 'react-i18next'
 import { useTheme } from 'styled-components'
 import Divider from '../ui/Divider'
-import EditIndexPageList from './EditIndexPageList'
+import EditIndexPagesTree from './EditIndexPagesTree/EditIndexPagesTree'
 
 interface EditIndexPagesProps {
   nft: NFTWithMetadata
@@ -43,7 +43,7 @@ const EditIndexPages: React.FC<EditIndexPagesProps> = ({ nft, tokens }) => {
             onEdit={handleEditNftName}
           />
         }
-        <EditIndexPageList />
+        <EditIndexPagesTree />
       </Flex>
 
       <Divider mt={1} mb={2} />

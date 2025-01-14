@@ -1,7 +1,6 @@
 import Content from 'src/components/Content'
 import EditIndexPages from 'src/components/Edit/EditIndexPages'
 import EditorView from 'src/components/Edit/EditorView'
-import TreeView from 'src/components/Edit/TreeView'
 import useEdit from 'src/components/Edit/useEdit'
 import { SideContentWrap } from 'src/components/Nft/styled-components'
 import NftContentSkeleton from 'src/components/Token/TokenContentSkeleton'
@@ -41,7 +40,6 @@ const EditPage = () => {
 
   return (
     <>
-      {/* <TreeView /> */}
       <Flex justifyContent={allLoaded ? 'space-between' : 'center'} $gap='20px'>
         <EditIndexPages nft={nft} tokens={fullTokens} />
         <EditorView

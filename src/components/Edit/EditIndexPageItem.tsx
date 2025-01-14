@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { StyledLink } from 'src/components/IndexPages/styled-components'
 import useToggle from 'src/hooks/useToggle'
 import styled, { useTheme } from 'styled-components'
@@ -36,7 +36,6 @@ const EditIndexPagesItem: React.FC<EditIndexPagesItemProps> = ({
 }) => {
   const theme = useTheme()
   const { toggle, isOn } = useToggle(false)
-  const [currName, setCurrName] = useState(name)
   const textFieldRef = useRef<HTMLInputElement | null>(null)
 
   useEffect(() => {
@@ -52,11 +51,11 @@ const EditIndexPagesItem: React.FC<EditIndexPagesItemProps> = ({
   }
 
   const handleChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCurrName(e.target.value)
+    onEdit?.(e.target.value)
   }
 
   const handleBlurName = () => {
-    onEdit?.(currName)
+    onEdit?.(name)
     toggle()
   }
 
@@ -72,7 +71,7 @@ const EditIndexPagesItem: React.FC<EditIndexPagesItemProps> = ({
         <TextField
           inputProps={{ onBlur: handleBlurName }}
           ref={textFieldRef}
-          value={name || currName}
+          value={name}
           onChange={handleChangeName}
           maxWidth='160px'
         />
