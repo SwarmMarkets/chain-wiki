@@ -11,7 +11,6 @@ import useEdit from '../useEdit'
 import Node from './Node'
 import Placeholder from './Placeholder'
 import styles from './styles.module.css'
-import useTreeOpenHandler from './useTreeOpenHandler'
 
 interface EditIndexPagesTreeProps {
   onClick?: (id: string) => void
@@ -26,7 +25,6 @@ const EditIndexPagesTree: React.FC<EditIndexPagesTreeProps> = ({
   activeId,
   onClick,
 }) => {
-  const { ref, getPipeHeight, toggle } = useTreeOpenHandler()
   const { treeData, updateIndexPagesByTreeNodes, updateTokenName } =
     useEdit(readonly)
 
@@ -37,45 +35,45 @@ const EditIndexPagesTree: React.FC<EditIndexPagesTreeProps> = ({
   return (
     <DndProvider backend={MultiBackend} options={getBackendOptions()}>
       <div className={styles.wrapper}>
-        <Tree
-          ref={ref}
-          classes={{
-            root: styles.treeRoot,
-            placeholder: styles.placeholder,
-            dropTarget: styles.dropTarget,
-            listItem: styles.listItem,
-          }}
-          tree={treeData}
-          sort={false}
-          rootId={0}
-          insertDroppableFirst={false}
-          enableAnimateExpand={true}
-          onDrop={handleDrop}
-          canDrop={() => (readonly ? false : true)}
-          dropTargetOffset={5}
-          placeholderRender={(node, { depth }) => (
-            <Placeholder node={node} depth={depth} />
-          )}
-          render={(node, { depth, isOpen, isDropTarget, hasChild }) => {
-            return (
-              <Node
-                to={to?.(node)}
-                active={activeId === node.id}
-                onToggle={id => toggle(id)}
-                onEdit={name => updateTokenName(node.id.toString(), name)}
-                hasChild={hasChild}
-                getPipeHeight={getPipeHeight}
-                node={node}
-                depth={depth}
-                isOpen={isOpen}
-                readonly={readonly}
-                onClick={() => onClick?.(node.id.toString())}
-                isDropTarget={isDropTarget}
-                treeData={treeData}
-              />
-            )
-          }}
-        />
+        {treeData.length > 0 && (
+          <Tree
+            classes={{
+              root: styles.treeRoot,
+              placeholder: styles.placeholder,
+              dropTarget: styles.dropTarget,
+              listItem: styles.listItem,
+            }}
+            tree={treeData}
+            sort={false}
+            rootId={0}
+            insertDroppableFirst={false}
+            enableAnimateExpand={true}
+            onDrop={handleDrop}
+            {...(readonly && { canDrag: () => false, canDrop: () => false })}
+            dropTargetOffset={5}
+            placeholderRender={(_node, { depth }) => (
+              <Placeholder depth={depth} />
+            )}
+            initialOpen
+            render={(node, { depth, isOpen, hasChild, onToggle }) => {
+              return (
+                <Node
+                  onToggle={onToggle}
+                  to={to?.(node)}
+                  active={activeId === node.id}
+                  onEdit={name => updateTokenName(node.id.toString(), name)}
+                  hasChild={hasChild}
+                  node={node}
+                  depth={depth}
+                  isOpen={isOpen}
+                  readonly={readonly}
+                  onClick={() => onClick?.(node.id.toString())}
+                  treeData={treeData}
+                />
+              )
+            }}
+          />
+        )}
       </div>
     </DndProvider>
   )
