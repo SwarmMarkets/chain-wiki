@@ -5,6 +5,7 @@ import styled, { useTheme } from 'styled-components'
 import Icon from '../ui/Icon'
 import TextField from '../ui/TextField/TextField'
 import Flex from '../ui/Flex'
+import Box from '../ui/Box'
 
 interface EditIndexPagesItemProps {
   name: string
@@ -34,7 +35,27 @@ const ChevronRightIcon = styled(Icon)`
   transition: all 0.2s;
 `
 
-const StyledEditLink = styled(StyledLink)`
+export const StyledEditItem = styled(Box)<{
+  $isActive: boolean
+}>`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  box-sizing: border-box;
+  color: ${({ theme, $isActive }) =>
+    $isActive ? theme.palette.linkPrimary : theme.palette.black};
+  border-radius: 4px;
+  text-decoration: none;
+  transition: background-color 0.3s, color 0.3s;
+  overflow: hidden;
+  padding: 5px;
+
+  &:hover {
+    background-color: ${({ theme, $isActive }) =>
+      $isActive ? theme.palette.blueLight : theme.palette.lightGray};
+  }
+
   &:hover .edit-icon {
     opacity: 1;
     visibility: visible;
@@ -89,7 +110,7 @@ const EditIndexPagesItem: React.FC<EditIndexPagesItemProps> = ({
   }
 
   return (
-    <StyledEditLink to='' $isActive={active} onClick={handleClick}>
+    <StyledEditItem $isActive={active} onClick={handleClick}>
       {isOn ? (
         <TextField
           inputProps={{ onBlur: handleBlurName }}
@@ -113,6 +134,7 @@ const EditIndexPagesItem: React.FC<EditIndexPagesItemProps> = ({
         )}
         {hasChild && (
           <ChevronRightIcon
+            cursor='pointer'
             style={{ transform: isOpen ? 'rotate(90deg)' : '' }}
             name='chevronRight'
             color={theme.palette.textPrimary}
@@ -122,7 +144,7 @@ const EditIndexPagesItem: React.FC<EditIndexPagesItemProps> = ({
           />
         )}
       </Flex>
-    </StyledEditLink>
+    </StyledEditItem>
   )
 }
 

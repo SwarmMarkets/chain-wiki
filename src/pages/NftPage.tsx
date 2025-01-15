@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { generatePath, Link, useParams } from 'react-router-dom'
+import { generatePath, Link, useNavigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useTheme } from 'styled-components'
 import Content from 'src/components/Content'
@@ -28,10 +28,10 @@ import { useChainId } from '@thirdweb-dev/react'
 import { getExplorerUrl, unifyAddressToId } from 'src/shared/utils'
 import Button from 'src/components/ui/Button/Button'
 import RoutePaths from 'src/shared/enums/routes-paths'
-import EditIndexPagesTree from 'src/components/Edit/EditIndexPagesTree/EditIndexPagesTree'
 
 const NftPage = () => {
   const { nftId = '' } = useParams()
+  const navigate = useNavigate()
   const theme = useTheme()
   const { t } = useTranslation(['nft', 'buttons'])
   const { permissions } = useNftPermissions(nftId)
@@ -93,9 +93,7 @@ const NftPage = () => {
       $gap='20px'
     >
       {activeTab === NftTabs.NFT && (
-        <SideContentWrap>
-          <EditIndexPagesTree readonly />
-        </SideContentWrap>
+        <IndexPages tokens={fullTokens} nft={nft} />
       )}
       <Box width='900px'>
         <Flex $gap='5px' flexDirection='column'>

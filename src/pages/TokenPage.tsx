@@ -27,6 +27,7 @@ import { generatePath, useParams } from 'react-router-dom'
 import useTabs from 'src/hooks/useTabs'
 import EditView from 'src/components/Token/TokenEditView'
 import RoutePaths from 'src/shared/enums/routes-paths'
+import IndexPages from 'src/components/IndexPages'
 
 const TokenPage = () => {
   const { tokenId = '', nftId = '' } = useParams()
@@ -94,7 +95,7 @@ const TokenPage = () => {
         justifyContent={isReadTab && allLoaded ? 'space-between' : 'center'}
         $gap='20px'
       >
-        {isReadTab && <TokenStyledIndexPages tokens={fullTokens} nft={nft} />}
+        {isReadTab && <IndexPages tokens={fullTokens} nft={nft} />}
         <Box width='900px'>
           <Text.h1 size='24px' weight={700}>
             {token?.name}

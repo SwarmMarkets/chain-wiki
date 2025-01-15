@@ -1,9 +1,7 @@
 import { NodeModel } from '@minoru/react-dnd-treeview'
 import React from 'react'
 import Flex from 'src/components/ui/Flex'
-import { useEditingStore } from 'src/shared/store/editing-store'
 import EditIndexPagesItem from '../EditIndexPageItem'
-import useEdit from '../useEdit'
 
 const TREE_X_OFFSET = 22
 
@@ -13,9 +11,12 @@ const Node: React.FC<{
   isOpen: boolean
   isDropTarget: boolean
   readonly?: boolean
+  active?: boolean
   treeData: NodeModel[]
   hasChild: boolean
-  onClick: (id: NodeModel['id']) => void
+  onToggle: (id: NodeModel['id']) => void
+  onClick: () => void
+  onEdit?: (name: string) => void
   getPipeHeight: (id: string | number, treeData: NodeModel[]) => number
 }> = ({
   node,
@@ -23,17 +24,19 @@ const Node: React.FC<{
   isOpen,
   hasChild,
   isDropTarget,
+  onToggle,
   onClick,
+  onEdit,
+  active = false,
   readonly = false,
   treeData,
   getPipeHeight,
 }) => {
   const indent = depth * TREE_X_OFFSET
-  const { fullTokens, updateTokenName } = useEdit()
-  const { currEditableToken, updateCurrEditableToken } = useEditingStore()
+
   const handleToggle = (e: React.MouseEvent) => {
     e.stopPropagation()
-    onClick(node.id)
+    onToggle?.(node.id)
   }
   return (
     <div
@@ -41,23 +44,18 @@ const Node: React.FC<{
       //   node.droppable && isDropTarget ? styles.dropTarget : ''
       // }`}
       style={{ marginInlineStart: indent }}
-      onClick={readonly ? handleToggle : undefined}
     >
       <Flex justifyContent='space-between'>
         <EditIndexPagesItem
           name={node.text}
-          active={currEditableToken?.id === node.id}
-          onClick={() =>
-            updateCurrEditableToken(
-              fullTokens?.find(t => t.id === node.id) || null
-            )
-          }
+          active={active}
+          onClick={onClick}
           readonly={readonly}
-          onEdit={name => updateTokenName(node.id.toString(), name)}
+          onEdit={onEdit}
           isOpen={isOpen}
           onToggle={handleToggle}
           hasChild={hasChild}
-        ></EditIndexPagesItem>
+        />
       </Flex>
     </div>
   )
