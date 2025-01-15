@@ -78,53 +78,35 @@ const IndexPages: React.FC<IndexPagesProps> = ({ tokens, nft, ...props }) => {
   return (
     <Flex {...props} flexDirection='column' $gap='15px'>
       <Box maxHeight='inherit' overflowY='auto'>
-        {isEdit && tokens ? (
-          <IndexPagesEdit
-            tokens={tokens}
-            indexPages={activeIndexPages}
-            onChange={handleEditIndexPages}
-          />
-        ) : (
-          <Flex flexDirection='column' pb='8px'>
-            {noIndexPages && (
-              <Text
-                textAlign='center'
-                fontWeight={theme.fontWeights.medium}
-                color={theme.palette.gray}
-              >
-                {t('indexPages.noIndexPages')}
-              </Text>
-            )}
-            {activeIndexPages?.map(indexPage => {
-              const path = generatePath(RoutePaths.NFT + RoutePaths.TOKEN, {
-                nftId: nft?.id,
-                tokenId: indexPage?.tokenId,
-              })
-              const isActive = currentTokenId === indexPage?.tokenId
+        <Flex flexDirection='column' pb='8px'>
+          {noIndexPages && (
+            <Text
+              textAlign='center'
+              fontWeight={theme.fontWeights.medium}
+              color={theme.palette.gray}
+            >
+              {t('indexPages.noIndexPages')}
+            </Text>
+          )}
+          {activeIndexPages?.map(indexPage => {
+            const path = generatePath(RoutePaths.NFT + RoutePaths.TOKEN, {
+              nftId: nft?.id,
+              tokenId: indexPage?.tokenId,
+            })
+            const isActive = currentTokenId === indexPage?.tokenId
 
-              return (
-                <StyledLink
-                  to={path}
-                  key={indexPage?.tokenId}
-                  $isActive={isActive}
-                >
-                  {indexPage?.title}
-                </StyledLink>
-              )
-            })}
-          </Flex>
-        )}
+            return (
+              <StyledLink
+                to={path}
+                key={indexPage?.tokenId}
+                $isActive={isActive}
+              >
+                {indexPage?.title}
+              </StyledLink>
+            )
+          })}
+        </Flex>
       </Box>
-      <RequirePermissions nftAddress={nft?.id} canUpdateContent>
-        <IndexPagesActions
-          nftId={nft?.id}
-          newIndexPages={activeIndexPages}
-          isEditMode={isEdit}
-          onSave={handleSaveButton}
-          onCancel={handleCancelButton}
-          onEdit={handleEditButton}
-        />
-      </RequirePermissions>
     </Flex>
   )
 }

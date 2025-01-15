@@ -2,21 +2,26 @@ import {
   DndProvider,
   DropOptions,
   getBackendOptions,
-  getDescendants,
   MultiBackend,
-  Tree,
   NodeModel,
+  Tree,
 } from '@minoru/react-dnd-treeview'
+import React from 'react'
+import useEdit from '../useEdit'
 import Node from './Node'
 import Placeholder from './Placeholder'
-import useTreeOpenHandler from './useTreeOpenHandler'
 import styles from './styles.module.css'
-import useEdit from '../useEdit'
-import { reorderArray } from '../utils'
+import useTreeOpenHandler from './useTreeOpenHandler'
 
-const EditIndexPagesTree = () => {
+interface EditIndexPagesTreeProps {
+  readonly?: boolean
+}
+
+const EditIndexPagesTree: React.FC<EditIndexPagesTreeProps> = ({
+  readonly = false,
+}) => {
   const { ref, getPipeHeight, toggle } = useTreeOpenHandler()
-  const { treeData, updateIndexPagesByTreeNodes } = useEdit()
+  const { treeData, updateIndexPagesByTreeNodes } = useEdit(readonly)
 
   const handleDrop = (newTree: NodeModel[], e: DropOptions) => {
     updateIndexPagesByTreeNodes(newTree)
@@ -83,7 +88,7 @@ const EditIndexPagesTree = () => {
           insertDroppableFirst={false}
           enableAnimateExpand={true}
           onDrop={handleDrop}
-          canDrop={() => true}
+          canDrop={() => (readonly ? false : true)}
           dropTargetOffset={5}
           placeholderRender={(node, { depth }) => (
             <Placeholder node={node} depth={depth} />
@@ -95,6 +100,7 @@ const EditIndexPagesTree = () => {
               node={node}
               depth={depth}
               isOpen={isOpen}
+              readonly={readonly}
               onClick={() => {
                 if (node.droppable) {
                   toggle(node?.id)

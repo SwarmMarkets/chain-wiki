@@ -11,6 +11,7 @@ interface EditIndexPagesItemProps {
   active?: boolean
   hasChild?: boolean
   isOpen?: boolean
+  readonly?: boolean
   onClick?: () => void
   onEdit?: (value: string) => void
   onToggle?: (e: React.MouseEvent) => void
@@ -45,6 +46,7 @@ const EditIndexPagesItem: React.FC<EditIndexPagesItemProps> = ({
   active = false,
   hasChild = false,
   isOpen = false,
+  readonly = false,
   onClick,
   onEdit,
   onToggle,
@@ -100,13 +102,15 @@ const EditIndexPagesItem: React.FC<EditIndexPagesItemProps> = ({
         name
       )}
       <Flex $gap='5px' alignItems='center'>
-        <ActionIcon
-          onClick={handleActionIconClick}
-          className='edit-icon'
-          cursor='pointer'
-          name={isOn ? 'checkmark' : 'edit'}
-          color={active ? theme.palette.linkPrimary : theme.palette.black}
-        />
+        {!readonly && (
+          <ActionIcon
+            onClick={handleActionIconClick}
+            className='edit-icon'
+            cursor='pointer'
+            name={isOn ? 'checkmark' : 'edit'}
+            color={active ? theme.palette.linkPrimary : theme.palette.black}
+          />
+        )}
         {hasChild && (
           <ChevronRightIcon
             style={{ transform: isOpen ? 'rotate(90deg)' : '' }}

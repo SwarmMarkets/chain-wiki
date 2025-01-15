@@ -12,6 +12,7 @@ const Node: React.FC<{
   depth: number
   isOpen: boolean
   isDropTarget: boolean
+  readonly?: boolean
   treeData: NodeModel[]
   hasChild: boolean
   onClick: (id: NodeModel['id']) => void
@@ -23,6 +24,7 @@ const Node: React.FC<{
   hasChild,
   isDropTarget,
   onClick,
+  readonly = false,
   treeData,
   getPipeHeight,
 }) => {
@@ -39,6 +41,7 @@ const Node: React.FC<{
       //   node.droppable && isDropTarget ? styles.dropTarget : ''
       // }`}
       style={{ marginInlineStart: indent }}
+      onClick={readonly ? handleToggle : undefined}
     >
       <Flex justifyContent='space-between'>
         <EditIndexPagesItem
@@ -49,6 +52,7 @@ const Node: React.FC<{
               fullTokens?.find(t => t.id === node.id) || null
             )
           }
+          readonly={readonly}
           onEdit={name => updateTokenName(node.id.toString(), name)}
           isOpen={isOpen}
           onToggle={handleToggle}

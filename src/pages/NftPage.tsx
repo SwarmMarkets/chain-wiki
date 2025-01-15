@@ -28,6 +28,7 @@ import { useChainId } from '@thirdweb-dev/react'
 import { getExplorerUrl, unifyAddressToId } from 'src/shared/utils'
 import Button from 'src/components/ui/Button/Button'
 import RoutePaths from 'src/shared/enums/routes-paths'
+import EditIndexPagesTree from 'src/components/Edit/EditIndexPagesTree/EditIndexPagesTree'
 
 const NftPage = () => {
   const { nftId = '' } = useParams()
@@ -93,7 +94,7 @@ const NftPage = () => {
     >
       {activeTab === NftTabs.NFT && (
         <SideContentWrap>
-          <IndexPages tokens={fullTokens} nft={nft} />
+          <EditIndexPagesTree readonly />
         </SideContentWrap>
       )}
       <Box width='900px'>

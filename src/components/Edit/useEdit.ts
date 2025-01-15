@@ -23,7 +23,7 @@ import {
   convertTokensToIndexPages,
 } from './utils'
 
-const useEdit = () => {
+const useEdit = (readonly?: boolean) => {
   const { nftId = '' } = useParams()
   const { nft, loadingNft, refetchingNft } = useNFT(nftId, {
     fetchFullData: true,
@@ -38,7 +38,6 @@ const useEdit = () => {
     updateOrCreateEditedToken,
     updateIndexPage,
     updateIndexPages,
-    currEditableToken,
   } = useEditingStore()
 
   const { indexPages = [] } = useIpfsIndexPages(nft?.indexPagesUri)
@@ -60,7 +59,7 @@ const useEdit = () => {
     { fetchFullData: true }
   )
 
-  const { smartAccount, smartAccountInfo } = useSmartAccount()
+  const { smartAccount } = useSmartAccount()
   const { mutateAsync: upload } = useStorageUpload()
   const [mergeLoading, setMergeLoading] = useState(false)
 
@@ -177,6 +176,10 @@ const useEdit = () => {
       editedIndexPages.items
     )
 
+    if (readonly) {
+      return editedIndexPagesNodes
+    }
+
     const hiddenIndexPagesList: NodeModel = {
       id: 'hiddenIndexPages',
       droppable: true,
@@ -198,7 +201,7 @@ const useEdit = () => {
       hiddenIndexPagesList,
       ...hiddenIndexPagesNodes,
     ].map(node => ({ ...node, droppable: true }))
-  }, [editedIndexPages.items, editedTokens, hiddenIndexPages])
+  }, [editedIndexPages.items, editedTokens, hiddenIndexPages, readonly])
 
   const updateIndexPagesByTreeNodes = (nodes: NodeModel[]) => {
     const nodeWithoutHidden = nodes.filter(
