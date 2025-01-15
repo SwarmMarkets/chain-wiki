@@ -12,25 +12,23 @@ import Node from './Node'
 import Placeholder from './Placeholder'
 import styles from './styles.module.css'
 import useTreeOpenHandler from './useTreeOpenHandler'
-import { useEditingStore } from 'src/shared/store/editing-store'
-import { Link } from 'react-router-dom'
 
 interface EditIndexPagesTreeProps {
   onClick?: (id: string) => void
   readonly?: boolean
+  activeId?: string
   to?: (node: NodeModel) => string
 }
 
 const EditIndexPagesTree: React.FC<EditIndexPagesTreeProps> = ({
   readonly = false,
   to,
+  activeId,
   onClick,
 }) => {
   const { ref, getPipeHeight, toggle } = useTreeOpenHandler()
   const { treeData, updateIndexPagesByTreeNodes, updateTokenName } =
     useEdit(readonly)
-
-  const { currEditableToken } = useEditingStore()
 
   const handleDrop = (newTree: NodeModel[], e: DropOptions) => {
     updateIndexPagesByTreeNodes(newTree)
@@ -58,11 +56,11 @@ const EditIndexPagesTree: React.FC<EditIndexPagesTreeProps> = ({
           placeholderRender={(node, { depth }) => (
             <Placeholder node={node} depth={depth} />
           )}
-          initialOpen={true}
           render={(node, { depth, isOpen, isDropTarget, hasChild }) => {
-            const NodeComponent = () => (
+            return (
               <Node
-                active={currEditableToken?.id === node.id}
+                to={to?.(node)}
+                active={activeId === node.id}
                 onToggle={id => toggle(id)}
                 onEdit={name => updateTokenName(node.id.toString(), name)}
                 hasChild={hasChild}
@@ -75,14 +73,6 @@ const EditIndexPagesTree: React.FC<EditIndexPagesTreeProps> = ({
                 isDropTarget={isDropTarget}
                 treeData={treeData}
               />
-            )
-
-            return to ? (
-              <Link to={to?.(node)}>
-                <NodeComponent />
-              </Link>
-            ) : (
-              <NodeComponent />
             )
           }}
         />

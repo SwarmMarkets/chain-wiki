@@ -6,6 +6,7 @@ import EditIndexPagesItem from '../EditIndexPageItem'
 const TREE_X_OFFSET = 22
 
 const Node: React.FC<{
+  to?: string
   node: NodeModel
   depth: number
   isOpen: boolean
@@ -19,6 +20,7 @@ const Node: React.FC<{
   onEdit?: (name: string) => void
   getPipeHeight: (id: string | number, treeData: NodeModel[]) => number
 }> = ({
+  to,
   node,
   depth,
   isOpen,
@@ -38,6 +40,7 @@ const Node: React.FC<{
     e.stopPropagation()
     onToggle?.(node.id)
   }
+
   return (
     <div
       // className={`${styles.nodeWrapper} tree-node ${
@@ -47,6 +50,7 @@ const Node: React.FC<{
     >
       <Flex justifyContent='space-between'>
         <EditIndexPagesItem
+          to={to}
           name={node.text}
           active={active}
           onClick={onClick}

@@ -42,7 +42,10 @@ const EditIndexPages: React.FC<EditIndexPagesProps> = ({ nft }) => {
           />
         }
 
-        <EditIndexPagesTree onClick={handleIndexPageClick} />
+        <EditIndexPagesTree
+          activeId={currEditableToken?.id}
+          onClick={handleIndexPageClick}
+        />
       </Flex>
     </SideContentWrap>
   )

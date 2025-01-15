@@ -1,7 +1,7 @@
 import { useStorage } from '@thirdweb-dev/react'
 import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { generatePath } from 'react-router-dom'
+import { generatePath, useParams } from 'react-router-dom'
 import Box from 'src/components/ui/Box'
 import Text from 'src/components/ui/Text'
 import { useIpfsIndexPages } from 'src/hooks/ipfs/nft'
@@ -24,6 +24,7 @@ interface IndexPagesProps {
 const IndexPages: React.FC<IndexPagesProps> = ({ tokens, nft, ...props }) => {
   const theme = useTheme()
   const { t } = useTranslation(['nft', 'buttons'])
+  const { tokenId = '' } = useParams()
 
   const noTokens = tokens?.length === 0
 
@@ -44,6 +45,7 @@ const IndexPages: React.FC<IndexPagesProps> = ({ tokens, nft, ...props }) => {
   return (
     <SideContentWrap>
       <EditIndexPagesTree
+        activeId={tokenId}
         readonly
         to={node =>
           generatePath(RoutePaths.NFT + RoutePaths.TOKEN, {

@@ -8,6 +8,7 @@ import Flex from '../ui/Flex'
 import Box from '../ui/Box'
 
 interface EditIndexPagesItemProps {
+  to?: string
   name: string
   active?: boolean
   hasChild?: boolean
@@ -35,27 +36,9 @@ const ChevronRightIcon = styled(Icon)`
   transition: all 0.2s;
 `
 
-export const StyledEditItem = styled(Box)<{
+export const StyledEditLink = styled(StyledLink)<{
   $isActive: boolean
 }>`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  box-sizing: border-box;
-  color: ${({ theme, $isActive }) =>
-    $isActive ? theme.palette.linkPrimary : theme.palette.black};
-  border-radius: 4px;
-  text-decoration: none;
-  transition: background-color 0.3s, color 0.3s;
-  overflow: hidden;
-  padding: 5px;
-
-  &:hover {
-    background-color: ${({ theme, $isActive }) =>
-      $isActive ? theme.palette.blueLight : theme.palette.lightGray};
-  }
-
   &:hover .edit-icon {
     opacity: 1;
     visibility: visible;
@@ -63,6 +46,7 @@ export const StyledEditItem = styled(Box)<{
 `
 
 const EditIndexPagesItem: React.FC<EditIndexPagesItemProps> = ({
+  to,
   name,
   active = false,
   hasChild = false,
@@ -110,7 +94,7 @@ const EditIndexPagesItem: React.FC<EditIndexPagesItemProps> = ({
   }
 
   return (
-    <StyledEditItem $isActive={active} onClick={handleClick}>
+    <StyledEditLink to={to || ''} $isActive={active} onClick={handleClick}>
       {isOn ? (
         <TextField
           inputProps={{ onBlur: handleBlurName }}
@@ -144,7 +128,7 @@ const EditIndexPagesItem: React.FC<EditIndexPagesItemProps> = ({
           />
         )}
       </Flex>
-    </StyledEditItem>
+    </StyledEditLink>
   )
 }
 
