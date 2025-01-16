@@ -1,5 +1,7 @@
 {
   "indexPages": {
-    "hiddenPages": "Hidden pages"
+    "hiddenPages": "Hidden pages",
+    "addToken": "Add page",
+    "initialTokenName": "Page"
   }
 }

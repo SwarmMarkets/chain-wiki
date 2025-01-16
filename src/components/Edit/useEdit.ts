@@ -22,6 +22,7 @@ import {
   convertNodesToIndexPages,
   convertTokensToIndexPages,
 } from './utils'
+import { ethers } from 'ethers'
 
 const useEdit = (readonly?: boolean) => {
   const { nftId = '' } = useParams()
@@ -32,12 +33,14 @@ const useEdit = (readonly?: boolean) => {
   const {
     editedNft,
     editedTokens,
+    addedTokens,
     editedIndexPages,
     initIndexPages,
     getEditedTokenById,
     updateOrCreateEditedToken,
     updateIndexPage,
     updateIndexPages,
+    addIndexPage,
   } = useEditingStore()
 
   const { indexPages = [] } = useIpfsIndexPages(nft?.indexPagesUri)
@@ -69,7 +72,8 @@ const useEdit = (readonly?: boolean) => {
   // console.log('editedNft', editedNft)
   // console.log('editedTokens', editedTokens)
   // console.log('editedIndexPages', editedIndexPages)
-
+  console.log('editedTokens', editedTokens)
+  console.log('addedTokens', addedTokens)
   const merge = async () => {
     setMergeLoading(true)
     const txs: Transaction[] = []
@@ -196,6 +200,7 @@ const useEdit = (readonly?: boolean) => {
         parent: 'hiddenIndexPages',
       }
     })
+
     return [
       ...editedIndexPagesNodes,
       hiddenIndexPagesList,
@@ -212,6 +217,21 @@ const useEdit = (readonly?: boolean) => {
     updateIndexPages(indexPages)
   }
 
+  const nextTokenId = useMemo(() => {
+    const tokenIds = fullTokens?.map(t => +t.id.split('-')[1])
+    if (!tokenIds) return
+    const nextTokenId = `${nftId}-${ethers.utils.hexlify(
+      Math.max(...tokenIds) + 1
+    )}`
+    return nextTokenId
+  }, [fullTokens, nftId])
+
+  const addEmptyIndexPage = () => {
+    if (nextTokenId) {
+      addIndexPage({ tokenId: nextTokenId, title: 'Page' })
+    }
+  }
+
   return {
     nft,
     fullTokens: fullTokens,
@@ -222,11 +242,13 @@ const useEdit = (readonly?: boolean) => {
       !refetchingNft,
     indexPages,
     hiddenIndexPages,
+    nextTokenId,
     merge,
     mergeLoading,
     updateTokenName,
     treeData,
     updateIndexPagesByTreeNodes,
+    addEmptyIndexPage,
   }
 }
 

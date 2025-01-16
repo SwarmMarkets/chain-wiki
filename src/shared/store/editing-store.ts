@@ -15,23 +15,27 @@ interface EditedIndexPagesState {
 interface EditingState {
   currEditableToken: TokensQueryFullData | null
   editedTokens: EditingToken[]
+  addedTokens: EditingToken[]
   editedNft: EditingToken | null
   editedIndexPages: EditedIndexPagesState
 
   getEditedTokenById: (id: string) => EditingToken | undefined
 
   updateOrCreateEditedToken: (token: EditingToken) => void
+  updateOrCreateAddedToken: (token: EditingToken) => void
   updateCurrEditableToken: (id: TokensQueryFullData | null) => void
   updateNft: (nft: EditingToken) => void
 
   initIndexPages: (indexPages: IpfsIndexPage[]) => void
   updateIndexPages: (indexPages: IpfsIndexPage[]) => void
   updateIndexPage: (indexPage: IpfsIndexPage) => void
+  addIndexPage: (indexPage: IpfsIndexPage) => void
 }
 
 export const useEditingStore = create<EditingState>((set, get) => ({
   currEditableToken: null,
   editedTokens: [],
+  addedTokens: [],
   editedNft: null,
   editedIndexPages: {
     isEdited: false,
@@ -45,13 +49,27 @@ export const useEditingStore = create<EditingState>((set, get) => ({
       const existingIndex = state.editedTokens.findIndex(t => token.id === t.id)
 
       if (existingIndex !== -1) {
-        const updatedTokens = [...state.editedTokens]
-        updatedTokens[existingIndex] = token
-        return { editedTokens: updatedTokens }
+        const editedTokens = [...state.editedTokens]
+        editedTokens[existingIndex] = token
+        return { editedTokens: editedTokens }
       }
 
       return {
         editedTokens: [...state.editedTokens, token],
+      }
+    }),
+  updateOrCreateAddedToken: token =>
+    set(state => {
+      const existingIndex = state.addedTokens.findIndex(t => token.id === t.id)
+
+      if (existingIndex !== -1) {
+        const addedTokens = [...state.editedTokens]
+        addedTokens[existingIndex] = token
+        return { addedTokens }
+      }
+
+      return {
+        addedTokens: [...state.addedTokens, token],
       }
     }),
   updateNft: nft =>
@@ -70,6 +88,12 @@ export const useEditingStore = create<EditingState>((set, get) => ({
       updatedIndexPages[indexPageIndex] = indexPage
       set({ editedIndexPages: { isEdited: true, items: updatedIndexPages } })
     }
+  },
+  addIndexPage: (indexPage: IpfsIndexPage) => {
+    const indexPages = get().editedIndexPages.items
+    set({
+      editedIndexPages: { isEdited: true, items: [...indexPages, indexPage] },
+    })
   },
   initIndexPages: (indexPages: IpfsIndexPage[]) =>
     set({ editedIndexPages: { isEdited: false, items: indexPages } }),

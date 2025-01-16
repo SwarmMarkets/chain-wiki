@@ -5,16 +5,26 @@ import { NFTWithMetadata } from 'src/shared/utils'
 import EditIndexPagesItem from './EditIndexPageItem'
 import EditIndexPagesTree from './EditIndexPagesTree/EditIndexPagesTree'
 import useEdit from './useEdit'
+import Button from '../ui/Button/Button'
+import { useTranslation } from 'react-i18next'
 
 interface EditIndexPagesProps {
   nft: NFTWithMetadata
 }
 
 const EditIndexPages: React.FC<EditIndexPagesProps> = ({ nft }) => {
-  const { currEditableToken, updateCurrEditableToken, editedNft, updateNft } =
-    useEditingStore()
+  const { t } = useTranslation('edit', { keyPrefix: 'indexPages' })
 
-  const { fullTokens } = useEdit()
+  const {
+    currEditableToken,
+    updateCurrEditableToken,
+    editedNft,
+    updateNft,
+    addIndexPage,
+    updateOrCreateAddedToken,
+  } = useEditingStore()
+
+  const { fullTokens, nextTokenId } = useEdit()
 
   const handleEditNftName = (name: string) => {
     updateNft({
@@ -27,6 +37,17 @@ const EditIndexPages: React.FC<EditIndexPagesProps> = ({ nft }) => {
     const token = fullTokens?.find(t => t.id === id)
     if (token) {
       updateCurrEditableToken(token)
+    }
+  }
+
+  const handleAddPage = () => {
+    if (nextTokenId) {
+      addIndexPage({ tokenId: nextTokenId, title: t('initialTokenName') })
+      updateOrCreateAddedToken({
+        id: nextTokenId,
+        name: t('initialTokenName'),
+        content: '',
+      })
     }
   }
 
@@ -46,6 +67,10 @@ const EditIndexPages: React.FC<EditIndexPagesProps> = ({ nft }) => {
           activeId={currEditableToken?.id}
           onClick={handleIndexPageClick}
         />
+
+        <Button mt='10px' onClick={handleAddPage}>
+          {t('addToken')}
+        </Button>
       </Flex>
     </SideContentWrap>
   )
