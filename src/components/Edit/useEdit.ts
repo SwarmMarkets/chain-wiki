@@ -1,5 +1,5 @@
 import { NodeModel } from '@minoru/react-dnd-treeview'
-import { Transaction, useStorageUpload } from '@thirdweb-dev/react'
+import { Transaction, useAddress, useStorageUpload } from '@thirdweb-dev/react'
 import differenceWith from 'lodash/differenceWith'
 import React, { useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
@@ -22,13 +22,13 @@ import {
   convertNodesToIndexPages,
   convertTokensToIndexPages,
 } from './utils'
-import { ethers } from 'ethers'
 
 const useEdit = (readonly?: boolean) => {
   const { nftId = '' } = useParams()
   const { nft, loadingNft, refetchingNft } = useNFT(nftId, {
     fetchFullData: true,
   })
+  const account = useAddress()
 
   const {
     editedNft,
@@ -38,6 +38,7 @@ const useEdit = (readonly?: boolean) => {
     initIndexPages,
     getEditedTokenById,
     updateOrCreateEditedToken,
+    updateOrCreateAddedToken,
     updateIndexPage,
     updateIndexPages,
     addIndexPage,
@@ -72,10 +73,9 @@ const useEdit = (readonly?: boolean) => {
   // console.log('editedNft', editedNft)
   // console.log('editedTokens', editedTokens)
   // console.log('editedIndexPages', editedIndexPages)
-  console.log('editedTokens', editedTokens)
-  console.log('addedTokens', addedTokens)
   const merge = async () => {
     setMergeLoading(true)
+    console.log(editedTokens, 'editedTokens')
     const txs: Transaction[] = []
     try {
       if (editedNft) {
@@ -111,6 +111,28 @@ const useEdit = (readonly?: boolean) => {
               ]
             )
             txs.push(tokenContentUpdateTx)
+          }
+        }
+      }
+      if (addedTokens.length > 0) {
+        for (const addedToken of addedTokens) {
+          const tokenId = +addedToken.id.split('-')[1]
+          const ipfsContent = generateIpfsTokenContent({
+            tokenId,
+            htmlContent: addedToken.content,
+            address: nftId,
+          })
+          const filesToUpload = [ipfsContent]
+          const uris = await upload({ data: filesToUpload })
+          const firstUri = uris[0]
+          if (firstUri && account) {
+            const tokenContentMintTx = sx1555NFTContract.prepare('mint', [
+              account,
+              1,
+              JSON.stringify({ uri: firstUri, name: addedToken.name }),
+              '0x',
+            ])
+            txs.push(tokenContentMintTx)
           }
         }
       }
@@ -155,19 +177,29 @@ const useEdit = (readonly?: boolean) => {
   }, [editedIndexPages.items, fullTokens])
 
   const updateTokenName = (id: string, name: string) => {
-    const token = fullTokens?.find(t => t.id === id)
-    const editedToken = getEditedTokenById(id)
+    const addedToken = addedTokens.find(t => t.id === id)
 
-    if (token) {
-      const content =
-        editedToken?.content || token.ipfsContent?.htmlContent || ''
-
-      updateOrCreateEditedToken({
-        id: token.id,
+    if (addedToken) {
+      updateOrCreateAddedToken({
+        ...addedToken,
         name,
-        content,
       })
+    } else {
+      const token = fullTokens?.find(t => t.id === id)
+      const editedToken = getEditedTokenById(id)
+
+      if (token) {
+        const content =
+          editedToken?.content || token.ipfsContent?.htmlContent || ''
+
+        updateOrCreateEditedToken({
+          id: token.id,
+          name,
+          content,
+        })
+      }
     }
+
     const indexPageToUpdate = editedIndexPages.items.find(p => p.tokenId === id)
 
     if (indexPageToUpdate) {
@@ -218,6 +250,7 @@ const useEdit = (readonly?: boolean) => {
   }
 
   const nextTokenId = useMemo(() => {
+    console.log(addedTokens)
     const tokenIds = [...(fullTokens || []), ...addedTokens]?.map(
       t => +t.id.split('-')[1]
     )

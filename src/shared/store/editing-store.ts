@@ -13,7 +13,7 @@ interface EditedIndexPagesState {
 }
 
 interface EditingState {
-  currEditableToken: TokensQueryFullData | null
+  currEditableToken: EditingToken | null
   editedTokens: EditingToken[]
   addedTokens: EditingToken[]
   editedNft: EditingToken | null
@@ -23,7 +23,7 @@ interface EditingState {
 
   updateOrCreateEditedToken: (token: EditingToken) => void
   updateOrCreateAddedToken: (token: EditingToken) => void
-  updateCurrEditableToken: (id: TokensQueryFullData | null) => void
+  updateCurrEditableToken: (id: EditingToken | null) => void
   updateNft: (nft: EditingToken) => void
 
   initIndexPages: (indexPages: IpfsIndexPage[]) => void
@@ -63,7 +63,7 @@ export const useEditingStore = create<EditingState>((set, get) => ({
       const existingIndex = state.addedTokens.findIndex(t => token.id === t.id)
 
       if (existingIndex !== -1) {
-        const addedTokens = [...state.editedTokens]
+        const addedTokens = [...state.addedTokens]
         addedTokens[existingIndex] = token
         return { addedTokens }
       }
@@ -74,7 +74,7 @@ export const useEditingStore = create<EditingState>((set, get) => ({
     }),
   updateNft: nft =>
     set({ editedNft: { id: nft.id, content: nft.content, name: nft.name } }),
-  updateCurrEditableToken: (token: TokensQueryFullData | null) =>
+  updateCurrEditableToken: (token: EditingToken | null) =>
     set({ currEditableToken: token }),
   updateIndexPages: (indexPages: IpfsIndexPage[]) =>
     set({ editedIndexPages: { isEdited: true, items: indexPages } }),

@@ -41,13 +41,21 @@ const EditorView: React.FC<EditorViewProps> = ({ nft, content }) => {
     editedNft,
     getEditedTokenById,
     updateOrCreateEditedToken,
+    updateOrCreateAddedToken,
     updateNft,
+    addedTokens,
   } = useEditingStore()
 
   const { merge, mergeLoading } = useEdit()
 
   const updateContent = (content: string) => {
     if (currEditableToken) {
+      const addedToken = addedTokens.find(t => t.id === currEditableToken?.id)
+      console.log(addedToken, 'addedToken')
+      if (addedToken) {
+        updateOrCreateAddedToken({ ...addedToken, content })
+        return
+      }
       updateOrCreateEditedToken({
         id: currEditableToken.id,
         name:

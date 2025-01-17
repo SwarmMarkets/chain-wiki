@@ -22,6 +22,7 @@ const EditIndexPages: React.FC<EditIndexPagesProps> = ({ nft }) => {
     updateNft,
     addIndexPage,
     updateOrCreateAddedToken,
+    addedTokens,
   } = useEditingStore()
 
   const { fullTokens, nextTokenId } = useEdit()
@@ -35,8 +36,19 @@ const EditIndexPages: React.FC<EditIndexPagesProps> = ({ nft }) => {
   }
   const handleIndexPageClick = (id: string) => {
     const token = fullTokens?.find(t => t.id === id)
+    const addedToken = addedTokens.find(t => t.id === id)
+    console.log(addedTokens)
+    console.log(addedToken, 'addedToken')
+    if (addedToken) {
+      updateCurrEditableToken(addedToken)
+      return
+    }
     if (token) {
-      updateCurrEditableToken(token)
+      updateCurrEditableToken({
+        id: token.id,
+        name: token.name,
+        content: token.ipfsContent?.htmlContent || '',
+      })
     }
   }
 
