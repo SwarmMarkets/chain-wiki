@@ -218,13 +218,13 @@ const useEdit = (readonly?: boolean) => {
   }
 
   const nextTokenId = useMemo(() => {
-    const tokenIds = fullTokens?.map(t => +t.id.split('-')[1])
+    const tokenIds = [...(fullTokens || []), ...addedTokens]?.map(
+      t => +t.id.split('-')[1]
+    )
     if (!tokenIds) return
-    const nextTokenId = `${nftId}-${ethers.utils.hexlify(
-      Math.max(...tokenIds) + 1
-    )}`
+    const nextTokenId = `${nftId}-0x${(Math.max(...tokenIds) + 1).toString(16)}`
     return nextTokenId
-  }, [fullTokens, nftId])
+  }, [addedTokens, fullTokens, nftId])
 
   const addEmptyIndexPage = () => {
     if (nextTokenId) {
