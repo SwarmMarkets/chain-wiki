@@ -40,17 +40,17 @@ const EditorView: React.FC<EditorViewProps> = ({ nft, content }) => {
     currEditableToken,
     editedNft,
     getEditedTokenById,
+    getAddedTokenById,
     updateOrCreateEditedToken,
     updateOrCreateAddedToken,
     updateNft,
-    addedTokens,
   } = useEditingStore()
 
   const { merge, mergeLoading } = useEdit()
 
   const updateContent = (content: string) => {
     if (currEditableToken) {
-      const addedToken = addedTokens.find(t => t.id === currEditableToken?.id)
+      const addedToken = getAddedTokenById(currEditableToken.id)
       console.log(addedToken, 'addedToken')
       if (addedToken) {
         updateOrCreateAddedToken({ ...addedToken, content })
@@ -68,11 +68,7 @@ const EditorView: React.FC<EditorViewProps> = ({ nft, content }) => {
     }
   }
 
-  const title =
-    getEditedTokenById(currEditableToken?.id || '')?.name ||
-    currEditableToken?.name ||
-    editedNft?.name ||
-    nft?.name
+  const title = currEditableToken?.name || editedNft?.name || nft?.name
 
   return (
     <Box width='900px'>

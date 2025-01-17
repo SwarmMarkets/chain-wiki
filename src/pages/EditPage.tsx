@@ -14,14 +14,14 @@ const EditPage = () => {
   const showSkeleton = loading
   const allLoaded = !loading
 
-  const { currEditableToken, editedNft, editedTokens } = useEditingStore()
+  const { currEditableToken, editedNft, getTokenById } = useEditingStore()
 
   const currTokenHtmlContent =
-    editedTokens.find(token => token.id === currEditableToken?.id)?.content ||
+    getTokenById(currEditableToken?.id || '')?.content ??
     fullTokens?.find(t => t.id === currEditableToken?.id)?.ipfsContent
       ?.htmlContent
 
-  const currNftHtmlContent = editedNft?.content || nft?.ipfsContent?.htmlContent
+  const currNftHtmlContent = editedNft?.content ?? nft?.ipfsContent?.htmlContent
 
   const editorContent =
     (currEditableToken ? currTokenHtmlContent : currNftHtmlContent) || ''

@@ -20,6 +20,8 @@ interface EditingState {
   editedIndexPages: EditedIndexPagesState
 
   getEditedTokenById: (id: string) => EditingToken | undefined
+  getAddedTokenById: (id: string) => EditingToken | undefined
+  getTokenById: (id: string) => EditingToken | undefined
 
   updateOrCreateEditedToken: (token: EditingToken) => void
   updateOrCreateAddedToken: (token: EditingToken) => void
@@ -43,6 +45,9 @@ export const useEditingStore = create<EditingState>((set, get) => ({
   },
 
   getEditedTokenById: (id: string) => get().editedTokens.find(t => t.id === id),
+  getAddedTokenById: (id: string) => get().addedTokens.find(t => t.id === id),
+  getTokenById: (id: string) =>
+    get().getAddedTokenById(id) || get().getEditedTokenById(id),
 
   updateOrCreateEditedToken: token =>
     set(state => {
