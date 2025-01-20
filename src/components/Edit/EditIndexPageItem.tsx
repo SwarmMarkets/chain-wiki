@@ -5,12 +5,12 @@ import styled, { useTheme } from 'styled-components'
 import Icon from '../ui/Icon'
 import TextField from '../ui/TextField/TextField'
 import Flex from '../ui/Flex'
-import Box from '../ui/Box'
 
 interface EditIndexPagesItemProps {
   to?: string
   name: string
   active?: boolean
+  editable?: boolean
   hasChild?: boolean
   isOpen?: boolean
   readonly?: boolean
@@ -49,6 +49,7 @@ const EditIndexPagesItem: React.FC<EditIndexPagesItemProps> = ({
   to,
   name,
   active = false,
+  editable = true,
   hasChild = false,
   isOpen = false,
   readonly = false,
@@ -107,7 +108,7 @@ const EditIndexPagesItem: React.FC<EditIndexPagesItemProps> = ({
         name
       )}
       <Flex $gap='5px' alignItems='center'>
-        {!readonly && (
+        {!readonly && editable && (
           <ActionIcon
             onClick={handleActionIconClick}
             className='edit-icon'

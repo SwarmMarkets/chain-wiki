@@ -21,7 +21,9 @@ import {
   convertIndexPagesToNodes,
   convertNodesToIndexPages,
   convertTokensToIndexPages,
+  isHiddenList,
 } from './utils'
+import { HIDDEN_INDEX_PAGES_ID } from './const'
 
 const useEdit = (readonly?: boolean) => {
   const { nftId = '' } = useParams()
@@ -214,7 +216,7 @@ const useEdit = (readonly?: boolean) => {
     }
 
     const hiddenIndexPagesList: NodeModel = {
-      id: 'hiddenIndexPages',
+      id: HIDDEN_INDEX_PAGES_ID,
       droppable: true,
       text: 'Hidden index pages',
       parent: 0,
@@ -226,7 +228,7 @@ const useEdit = (readonly?: boolean) => {
         id: updatedToken?.id || ip.tokenId,
         droppable: false,
         text: updatedToken?.name || ip.title,
-        parent: 'hiddenIndexPages',
+        parent: HIDDEN_INDEX_PAGES_ID,
       }
     })
 
@@ -238,9 +240,7 @@ const useEdit = (readonly?: boolean) => {
   }, [editedIndexPages.items, editedTokens, hiddenIndexPages, readonly])
 
   const updateIndexPagesByTreeNodes = (nodes: NodeModel[]) => {
-    const nodeWithoutHidden = nodes.filter(
-      n => n.id !== 'hiddenIndexPages' && n.parent !== 'hiddenIndexPages'
-    )
+    const nodeWithoutHidden = nodes.filter(n => !isHiddenList(n.id.toString()))
     const indexPages = convertNodesToIndexPages(nodeWithoutHidden)
 
     updateIndexPages(indexPages)

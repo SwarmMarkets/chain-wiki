@@ -13,6 +13,7 @@ const Node: React.FC<{
   isDropTarget: boolean
   readonly?: boolean
   active?: boolean
+  editable?: boolean
   treeData: NodeModel[]
   hasChild: boolean
   onToggle: (id: NodeModel['id']) => void
@@ -25,14 +26,12 @@ const Node: React.FC<{
   depth,
   isOpen,
   hasChild,
-  isDropTarget,
   onToggle,
   onClick,
   onEdit,
   active = false,
+  editable = true,
   readonly = false,
-  treeData,
-  getPipeHeight,
 }) => {
   const indent = depth * TREE_X_OFFSET
 
@@ -59,6 +58,7 @@ const Node: React.FC<{
           isOpen={isOpen}
           onToggle={handleToggle}
           hasChild={hasChild}
+          editable={editable}
         />
       </Flex>
     </div>

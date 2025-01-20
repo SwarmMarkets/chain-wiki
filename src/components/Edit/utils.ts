@@ -1,5 +1,6 @@
 import { NodeModel } from '@minoru/react-dnd-treeview'
 import { IpfsIndexPage, TokensQueryFullData } from 'src/shared/utils'
+import { HIDDEN_INDEX_PAGES_ID } from './const'
 
 export const convertTokensToIndexPages = (
   tokens: TokensQueryFullData[]
@@ -34,4 +35,8 @@ export const reorderArray = (
   const element = newArray.splice(sourceIndex, 1)[0]
   newArray.splice(targetIndex, 0, element)
   return newArray
+}
+
+export const isHiddenList = (id: string) => {
+  return id === HIDDEN_INDEX_PAGES_ID
 }

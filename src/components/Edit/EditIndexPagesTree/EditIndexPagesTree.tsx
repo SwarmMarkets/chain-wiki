@@ -12,6 +12,7 @@ import Node from './Node'
 import Placeholder from './Placeholder'
 import styles from './styles.module.css'
 import useTreeOpenHandler from './useTreeOpenHandler'
+import { isHiddenList } from '../utils'
 
 interface EditIndexPagesTreeProps {
   onClick?: (id: string) => void
@@ -61,6 +62,7 @@ const EditIndexPagesTree: React.FC<EditIndexPagesTreeProps> = ({
               <Node
                 to={to?.(node)}
                 active={activeId === node.id}
+                editable={!isHiddenList(node.id.toString())}
                 onToggle={id => toggle(id)}
                 onEdit={name => updateTokenName(node.id.toString(), name)}
                 hasChild={hasChild}
