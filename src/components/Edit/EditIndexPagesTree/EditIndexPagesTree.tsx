@@ -70,6 +70,7 @@ const EditIndexPagesTree: React.FC<EditIndexPagesTreeProps> = ({
                   node={node}
                   depth={depth}
                   isOpen={isOpen}
+                  isGroup={node.data?.type === 'group'}
                   readonly={readonly}
                   onClick={() => onClick?.(node.id.toString())}
                   treeData={treeData}
