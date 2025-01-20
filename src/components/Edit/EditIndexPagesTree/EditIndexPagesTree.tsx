@@ -7,11 +7,11 @@ import {
 } from '@minoru/react-dnd-treeview'
 import React from 'react'
 import useEdit from '../useEdit'
+import { isHiddenList } from '../utils'
 import Node from './Node'
 import Placeholder from './Placeholder'
 import styles from './styles.module.css'
-import { isHiddenList } from '../utils'
-import { EditNodeModel, EditNodeModelData } from './types'
+import { EditNodeModel } from './types'
 
 interface EditIndexPagesTreeProps {
   onClick?: (id: string) => void
@@ -51,6 +51,7 @@ const EditIndexPagesTree: React.FC<EditIndexPagesTreeProps> = ({
             insertDroppableFirst={false}
             enableAnimateExpand={true}
             onDrop={handleDrop}
+            canDrop={() => true}
             {...(readonly && { canDrag: () => false, canDrop: () => false })}
             dropTargetOffset={5}
             placeholderRender={(_node, { depth }) => (
@@ -61,6 +62,7 @@ const EditIndexPagesTree: React.FC<EditIndexPagesTreeProps> = ({
               return (
                 <Node
                   onToggle={onToggle}
+                  editable={!isHiddenList(node.id.toString())}
                   to={to?.(node)}
                   active={activeId === node.id}
                   onEdit={name => updateTokenName(node.id.toString(), name)}
