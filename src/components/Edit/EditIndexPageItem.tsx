@@ -40,12 +40,15 @@ const ChevronRightIcon = styled(Icon)`
 export const StyledEditLink = styled(Link)<{
   $isActive: boolean
   $isGroup: boolean
+  $readonly: boolean
 }>`
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: 100%;
   box-sizing: border-box;
+  cursor: ${({ $isGroup, $readonly }) =>
+    !$isGroup || ($isGroup && !$readonly) ? 'pointer' : 'default'};
   font-size: ${({ theme, $isGroup }) =>
     $isGroup ? theme.fontSizes.mediumPlus : theme.fontSizes.medium};
   color: ${({ theme, $isActive, $isGroup }) =>
@@ -61,8 +64,12 @@ export const StyledEditLink = styled(Link)<{
   padding: 5px;
 
   &:hover {
-    background-color: ${({ theme, $isActive }) =>
-      $isActive ? theme.palette.blueLight : theme.palette.lightGray};
+    background-color: ${({ theme, $isActive, $isGroup, $readonly }) =>
+      $isGroup && $readonly
+        ? 'transparent'
+        : $isActive
+        ? theme.palette.blueLight
+        : theme.palette.lightGray};
   }
 
   &:hover .edit-icon {
@@ -124,6 +131,7 @@ const EditIndexPagesItem: React.FC<EditIndexPagesItemProps> = ({
   return (
     <StyledEditLink
       $isGroup={isGroup}
+      $readonly={readonly}
       to={to || ''}
       $isActive={active}
       onClick={handleClick}

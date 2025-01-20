@@ -49,7 +49,7 @@ const Node: React.FC<{
     >
       <Flex justifyContent='space-between'>
         <EditIndexPagesItem
-          to={to}
+          to={isGroup ? '' : to}
           name={node.text}
           active={active}
           onClick={onClick}
