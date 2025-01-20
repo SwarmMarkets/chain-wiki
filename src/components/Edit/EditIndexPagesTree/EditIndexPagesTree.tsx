@@ -61,13 +61,17 @@ const EditIndexPagesTree: React.FC<EditIndexPagesTreeProps> = ({
           canDrop={() => true}
           {...(readonly && { canDrag: () => false, canDrop: () => false })}
           dropTargetOffset={5}
-          placeholderRender={(_node, { depth }) => (
-            <Placeholder depth={depth} />
+          placeholderRender={(node, { depth }) => (
+            <Placeholder
+              depth={depth}
+              parent={treeData.find(t => t.id === node.parent)}
+            />
           )}
           initialOpen
           render={(node, { depth, isOpen, hasChild, onToggle }) => {
             return (
               <Node
+                parent={treeData.find(t => t.id === node.parent)}
                 onToggle={onToggle}
                 editable={!isHiddenList(node.id.toString())}
                 to={to?.(node)}

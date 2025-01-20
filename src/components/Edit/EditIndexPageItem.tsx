@@ -61,7 +61,7 @@ export const StyledEditLink = styled(Link)<{
   text-decoration: none;
   transition: background-color 0.3s, color 0.3s;
   overflow: hidden;
-  padding: 5px;
+  padding: ${({ theme, $isGroup }) => $isGroup ? '12px 5px' : '5px'};
 
   &:hover {
     background-color: ${({ theme, $isActive, $isGroup, $readonly }) =>
