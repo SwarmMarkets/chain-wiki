@@ -46,7 +46,9 @@ const useEdit = (readonly?: boolean) => {
     addIndexPage,
   } = useEditingStore()
 
-  const { indexPages = [] } = useIpfsIndexPages(nft?.indexPagesUri)
+  const { indexPages = [], isLoading: isIndexPagesLoading } = useIpfsIndexPages(
+    nft?.indexPagesUri
+  )
 
   useEffectCompare(() => {
     if (indexPages.length > 0) {
@@ -233,6 +235,10 @@ const useEdit = (readonly?: boolean) => {
       }
     })
 
+    if (editedIndexPagesNodes.length === 0) {
+      return []
+    }
+
     return [
       ...editedIndexPagesNodes,
       hiddenIndexPagesList,
@@ -266,10 +272,9 @@ const useEdit = (readonly?: boolean) => {
     nft,
     fullTokens: fullTokens,
     loading:
-      loadingNft &&
-      fullTokensLoading &&
-      !refetchingFullTokens &&
-      !refetchingNft,
+      (loadingNft && !refetchingNft) ||
+      (fullTokensLoading && !refetchingFullTokens) ||
+      isIndexPagesLoading,
     indexPages,
     hiddenIndexPages,
     nextTokenId,
