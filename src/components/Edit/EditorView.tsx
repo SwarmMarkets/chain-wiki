@@ -51,7 +51,7 @@ const EditorView: React.FC<EditorViewProps> = ({ nft, content }) => {
   const updateContent = (content: string) => {
     if (currEditableToken) {
       const addedToken = getAddedTokenById(currEditableToken.id)
-      console.log(addedToken, 'addedToken')
+
       if (addedToken) {
         updateOrCreateAddedToken({ ...addedToken, content })
         return

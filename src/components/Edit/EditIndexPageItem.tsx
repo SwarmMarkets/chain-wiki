@@ -1,10 +1,10 @@
 import React, { useEffect, useRef } from 'react'
-import { StyledLink } from 'src/components/IndexPages/styled-components'
+import { Link } from 'react-router-dom'
 import useToggle from 'src/hooks/useToggle'
 import styled, { useTheme } from 'styled-components'
+import Flex from '../ui/Flex'
 import Icon from '../ui/Icon'
 import TextField from '../ui/TextField/TextField'
-import Flex from '../ui/Flex'
 
 interface EditIndexPagesItemProps {
   to?: string
@@ -13,6 +13,7 @@ interface EditIndexPagesItemProps {
   editable?: boolean
   hasChild?: boolean
   isOpen?: boolean
+  isGroup?: boolean
   readonly?: boolean
   onClick?: () => void
   onEdit?: (value: string) => void
@@ -36,9 +37,34 @@ const ChevronRightIcon = styled(Icon)`
   transition: all 0.2s;
 `
 
-export const StyledEditLink = styled(StyledLink)<{
+export const StyledEditLink = styled(Link)<{
   $isActive: boolean
+  $isGroup: boolean
 }>`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  box-sizing: border-box;
+  font-size: ${({ theme, $isGroup }) =>
+    $isGroup ? theme.fontSizes.mediumPlus : theme.fontSizes.medium};
+  color: ${({ theme, $isActive, $isGroup }) =>
+    $isActive
+      ? theme.palette.linkPrimary
+      : $isGroup
+      ? theme.palette.darkGray
+      : theme.palette.black};
+  border-radius: 4px;
+  text-decoration: none;
+  transition: background-color 0.3s, color 0.3s;
+  overflow: hidden;
+  padding: 5px;
+
+  &:hover {
+    background-color: ${({ theme, $isActive }) =>
+      $isActive ? theme.palette.blueLight : theme.palette.lightGray};
+  }
+
   &:hover .edit-icon {
     opacity: 1;
     visibility: visible;
@@ -52,6 +78,7 @@ const EditIndexPagesItem: React.FC<EditIndexPagesItemProps> = ({
   editable = true,
   hasChild = false,
   isOpen = false,
+  isGroup = false,
   readonly = false,
   onClick,
   onEdit,
@@ -95,7 +122,12 @@ const EditIndexPagesItem: React.FC<EditIndexPagesItemProps> = ({
   }
 
   return (
-    <StyledEditLink to={to || ''} $isActive={active} onClick={handleClick}>
+    <StyledEditLink
+      $isGroup={isGroup}
+      to={to || ''}
+      $isActive={active}
+      onClick={handleClick}
+    >
       {isOn ? (
         <TextField
           inputProps={{ onBlur: handleBlurName }}

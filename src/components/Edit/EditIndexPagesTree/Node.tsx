@@ -1,30 +1,32 @@
-import { NodeModel } from '@minoru/react-dnd-treeview'
 import React from 'react'
 import Flex from 'src/components/ui/Flex'
 import EditIndexPagesItem from '../EditIndexPageItem'
+import { EditNodeModel } from './types'
 
 const TREE_X_OFFSET = 22
 
 const Node: React.FC<{
   to?: string
-  node: NodeModel
+  node: EditNodeModel
   depth: number
+  isGroup?: boolean
   isOpen: boolean
   isDropTarget: boolean
   readonly?: boolean
   active?: boolean
   editable?: boolean
-  treeData: NodeModel[]
+  treeData: EditNodeModel[]
   hasChild: boolean
-  onToggle: (id: NodeModel['id']) => void
+  onToggle: (id: EditNodeModel['id']) => void
   onClick: () => void
   onEdit?: (name: string) => void
-  getPipeHeight: (id: string | number, treeData: NodeModel[]) => number
+  getPipeHeight: (id: string | number, treeData: EditNodeModel[]) => number
 }> = ({
   to,
   node,
   depth,
   isOpen,
+  isGroup,
   hasChild,
   onToggle,
   onClick,
@@ -56,6 +58,7 @@ const Node: React.FC<{
           readonly={readonly}
           onEdit={onEdit}
           isOpen={isOpen}
+          isGroup={isGroup}
           onToggle={handleToggle}
           hasChild={hasChild}
           editable={editable}

@@ -35,11 +35,14 @@ export interface IpfsAttestationContent {
   htmlContent: string
 }
 
+export type IpfsIndexPageType = 'group'
+
 export interface IpfsIndexPage {
   tokenId: string
   title: string
   parent?: string | number
   droppable?: boolean
+  type?: IpfsIndexPageType
 }
 
 export interface IpfsIndexPagesContent {

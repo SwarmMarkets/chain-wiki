@@ -1,6 +1,6 @@
-import { NodeModel } from '@minoru/react-dnd-treeview'
 import { IpfsIndexPage, TokensQueryFullData } from 'src/shared/utils'
 import { HIDDEN_INDEX_PAGES_ID } from './const'
+import { EditNodeModel } from './EditIndexPagesTree/types'
 
 export const convertTokensToIndexPages = (
   tokens: TokensQueryFullData[]
@@ -10,24 +10,28 @@ export const convertTokensToIndexPages = (
     title: token.name,
   }))
 
-export const convertNodesToIndexPages = (nodes: NodeModel[]) =>
+export const convertNodesToIndexPages = (nodes: EditNodeModel[]) =>
   nodes.map<IpfsIndexPage>(node => ({
     tokenId: node.id.toString(),
     title: node.text,
     parent: node.parent,
     droppable: node.droppable,
+    type: node.data?.type,
   }))
 
 export const convertIndexPagesToNodes = (indexPages: IpfsIndexPage[]) =>
-  indexPages.map<NodeModel>(node => ({
-    id: node.tokenId,
-    text: node.title,
-    droppable: node.droppable,
-    parent: node.parent || 0,
+  indexPages.map<EditNodeModel>(ip => ({
+    id: ip.tokenId,
+    text: ip.title,
+    droppable: ip.droppable,
+    parent: ip.parent || 0,
+    data: {
+      type: ip.type,
+    },
   }))
 
 export const reorderArray = (
-  array: NodeModel[],
+  array: EditNodeModel[],
   sourceIndex: number,
   targetIndex: number
 ) => {

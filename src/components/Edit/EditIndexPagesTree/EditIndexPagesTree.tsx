@@ -3,7 +3,6 @@ import {
   DropOptions,
   getBackendOptions,
   MultiBackend,
-  NodeModel,
   Tree,
 } from '@minoru/react-dnd-treeview'
 import React from 'react'
@@ -13,12 +12,13 @@ import Placeholder from './Placeholder'
 import styles from './styles.module.css'
 import useTreeOpenHandler from './useTreeOpenHandler'
 import { isHiddenList } from '../utils'
+import { EditNodeModel, EditNodeModelData } from './types'
 
 interface EditIndexPagesTreeProps {
   onClick?: (id: string) => void
   readonly?: boolean
   activeId?: string
-  to?: (node: NodeModel) => string
+  to?: (node: EditNodeModel) => string
 }
 
 const EditIndexPagesTree: React.FC<EditIndexPagesTreeProps> = ({
@@ -31,14 +31,15 @@ const EditIndexPagesTree: React.FC<EditIndexPagesTreeProps> = ({
   const { treeData, updateIndexPagesByTreeNodes, updateTokenName } =
     useEdit(readonly)
 
-  const handleDrop = (newTree: NodeModel[], e: DropOptions) => {
+  const handleDrop = (newTree: EditNodeModel[], e: DropOptions) => {
+    if (e.dropTargetId === e.dragSourceId) return
     updateIndexPagesByTreeNodes(newTree)
   }
 
   return (
     <DndProvider backend={MultiBackend} options={getBackendOptions()}>
       <div className={styles.wrapper}>
-        <Tree
+        <Tree<EditNodeModelData>
           ref={ref}
           classes={{
             root: styles.treeRoot,
@@ -70,6 +71,7 @@ const EditIndexPagesTree: React.FC<EditIndexPagesTreeProps> = ({
                 node={node}
                 depth={depth}
                 isOpen={isOpen}
+                isGroup={node.data?.type === 'group'}
                 readonly={readonly}
                 onClick={() => onClick?.(node.id.toString())}
                 isDropTarget={isDropTarget}

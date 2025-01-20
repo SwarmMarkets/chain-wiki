@@ -1,7 +1,7 @@
 import { SideContentWrap } from 'src/components/Nft/styled-components'
 import Flex from 'src/components/ui/Flex'
 import { useEditingStore } from 'src/shared/store/editing-store'
-import { NFTWithMetadata } from 'src/shared/utils'
+import { getUniqueId, NFTWithMetadata } from 'src/shared/utils'
 import EditIndexPagesItem from './EditIndexPageItem'
 import EditIndexPagesTree from './EditIndexPagesTree/EditIndexPagesTree'
 import useEdit from './useEdit'
@@ -37,8 +37,7 @@ const EditIndexPages: React.FC<EditIndexPagesProps> = ({ nft }) => {
   const handleIndexPageClick = (id: string) => {
     const token = fullTokens?.find(t => t.id === id)
     const addedToken = addedTokens.find(t => t.id === id)
-    console.log(addedTokens)
-    console.log(addedToken, 'addedToken')
+
     if (addedToken) {
       updateCurrEditableToken(addedToken)
       return
@@ -62,7 +61,15 @@ const EditIndexPages: React.FC<EditIndexPagesProps> = ({ nft }) => {
       })
     }
   }
-
+  const handleAddGroup = () => {
+    if (nextTokenId) {
+      addIndexPage({
+        tokenId: getUniqueId(),
+        title: t('initialGroupName'),
+        type: 'group',
+      })
+    }
+  }
   return (
     <SideContentWrap>
       <Flex flexDirection='column'>
@@ -82,6 +89,9 @@ const EditIndexPages: React.FC<EditIndexPagesProps> = ({ nft }) => {
 
         <Button mt='10px' onClick={handleAddPage}>
           {t('addToken')}
+        </Button>
+        <Button mt='10px' onClick={handleAddGroup}>
+          {t('addGroup')}
         </Button>
       </Flex>
     </SideContentWrap>

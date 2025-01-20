@@ -2,6 +2,8 @@
   "indexPages": {
     "hiddenPages": "Hidden pages",
     "addToken": "Add page",
-    "initialTokenName": "Page"
+    "addGroup": "Add group",
+    "initialTokenName": "Page",
+    "initialGroupName": "Group"
   }
 }

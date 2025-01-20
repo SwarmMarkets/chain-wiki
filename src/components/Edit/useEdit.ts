@@ -1,4 +1,3 @@
-import { NodeModel } from '@minoru/react-dnd-treeview'
 import { Transaction, useAddress, useStorageUpload } from '@thirdweb-dev/react'
 import differenceWith from 'lodash/differenceWith'
 import React, { useMemo, useState } from 'react'
@@ -24,6 +23,7 @@ import {
   isHiddenList,
 } from './utils'
 import { HIDDEN_INDEX_PAGES_ID } from './const'
+import { EditNodeModel } from './EditIndexPagesTree/types'
 
 const useEdit = (readonly?: boolean) => {
   const { nftId = '' } = useParams()
@@ -74,7 +74,6 @@ const useEdit = (readonly?: boolean) => {
 
   const merge = async () => {
     setMergeLoading(true)
-    console.log(editedTokens, 'editedTokens')
     const txs: Transaction[] = []
     try {
       if (editedNft) {
@@ -151,7 +150,6 @@ const useEdit = (readonly?: boolean) => {
           txs.push(tokenContentUpdateTx)
         }
       }
-      console.log(txs)
 
       const receipt = await smartAccount?.send({
         transactions: await resolveAllThirdwebTransactions(txs),
@@ -206,7 +204,7 @@ const useEdit = (readonly?: boolean) => {
     }
   }
 
-  const treeData = React.useMemo<NodeModel[]>(() => {
+  const treeData = React.useMemo<EditNodeModel[]>(() => {
     const editedIndexPagesNodes = convertIndexPagesToNodes(
       editedIndexPages.items
     )
@@ -215,13 +213,13 @@ const useEdit = (readonly?: boolean) => {
       return editedIndexPagesNodes
     }
 
-    const hiddenIndexPagesList: NodeModel = {
+    const hiddenIndexPagesList: EditNodeModel = {
       id: HIDDEN_INDEX_PAGES_ID,
       droppable: true,
       text: 'Hidden index pages',
       parent: 0,
     }
-    const hiddenIndexPagesNodes = hiddenIndexPages.map<NodeModel>(ip => {
+    const hiddenIndexPagesNodes = hiddenIndexPages.map<EditNodeModel>(ip => {
       const updatedToken = editedTokens.find(t => t.id === ip.tokenId)
 
       return {
@@ -229,6 +227,9 @@ const useEdit = (readonly?: boolean) => {
         droppable: false,
         text: updatedToken?.name || ip.title,
         parent: HIDDEN_INDEX_PAGES_ID,
+        data: {
+          type: ip.type,
+        },
       }
     })
 
@@ -238,8 +239,8 @@ const useEdit = (readonly?: boolean) => {
       ...hiddenIndexPagesNodes,
     ].map(node => ({ ...node, droppable: true }))
   }, [editedIndexPages.items, editedTokens, hiddenIndexPages, readonly])
-
-  const updateIndexPagesByTreeNodes = (nodes: NodeModel[]) => {
+  console.log(treeData)
+  const updateIndexPagesByTreeNodes = (nodes: EditNodeModel[]) => {
     const nodeWithoutHidden = nodes.filter(n => !isHiddenList(n.id.toString()))
     const indexPages = convertNodesToIndexPages(nodeWithoutHidden)
 
@@ -247,7 +248,6 @@ const useEdit = (readonly?: boolean) => {
   }
 
   const nextTokenId = useMemo(() => {
-    console.log(addedTokens)
     const tokenIds = [...(fullTokens || []), ...addedTokens]?.map(
       t => +t.id.split('-')[1]
     )
