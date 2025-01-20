@@ -1,24 +1,20 @@
-import React from "react";
-import { EditNodeModel } from "./types";
+import React from 'react'
 
-const Placeholder: React.FC<{ node: EditNodeModel; depth: number }> = ({
-  node,
-  depth
-}) => {
+const Placeholder: React.FC<{ depth: number }> = ({ depth }) => {
   return (
     <div
       style={{
-        position: "absolute",
+        position: 'absolute',
         top: 0,
         right: 0,
         height: 4,
         left: depth * 24,
-        transform: "translateY(-50%)",
-        backgroundColor: "#81a9e0",
-        zIndex: 100
+        transform: 'translateY(-50%)',
+        backgroundColor: '#81a9e0',
+        zIndex: 100,
       }}
     />
-  );
-};
+  )
+}
 
-export default Placeholder;
+export default Placeholder

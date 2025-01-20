@@ -11,7 +11,6 @@ const Node: React.FC<{
   depth: number
   isGroup?: boolean
   isOpen: boolean
-  isDropTarget: boolean
   readonly?: boolean
   active?: boolean
   editable?: boolean
@@ -20,7 +19,6 @@ const Node: React.FC<{
   onToggle: (id: EditNodeModel['id']) => void
   onClick: () => void
   onEdit?: (name: string) => void
-  getPipeHeight: (id: string | number, treeData: EditNodeModel[]) => number
 }> = ({
   to,
   node,
