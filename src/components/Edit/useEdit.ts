@@ -245,7 +245,7 @@ const useEdit = (readonly?: boolean) => {
       ...hiddenIndexPagesNodes,
     ].map(node => ({ ...node, droppable: true }))
   }, [editedIndexPages.items, editedTokens, hiddenIndexPages, readonly])
-  console.log(treeData)
+
   const updateIndexPagesByTreeNodes = (nodes: EditNodeModel[]) => {
     const nodeWithoutHidden = nodes.filter(n => !isHiddenList(n.id.toString()))
     const indexPages = convertNodesToIndexPages(nodeWithoutHidden)

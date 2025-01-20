@@ -157,7 +157,7 @@ const EditIndexPagesItem: React.FC<EditIndexPagesItemProps> = ({
             color={active ? theme.palette.linkPrimary : theme.palette.black}
           />
         )}
-        {hasChild && !isGroup && (
+        {hasChild && (!isGroup || !readonly) && (
           <ChevronRightIcon
             cursor='pointer'
             style={{ transform: isOpen ? 'rotate(90deg)' : '' }}

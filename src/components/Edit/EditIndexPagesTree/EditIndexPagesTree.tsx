@@ -11,7 +11,7 @@ import { isHiddenList } from '../utils'
 import Node from './Node'
 import Placeholder from './Placeholder'
 import styles from './styles.module.css'
-import { EditNodeModel } from './types'
+import { EditNodeModel, EditNodeModelData } from './types'
 
 interface EditIndexPagesTreeProps {
   onClick?: (id: string) => void
@@ -29,8 +29,12 @@ const EditIndexPagesTree: React.FC<EditIndexPagesTreeProps> = ({
   const { treeData, updateIndexPagesByTreeNodes, updateTokenName } =
     useEdit(readonly)
 
-  const handleDrop = (newTree: EditNodeModel[], e: DropOptions) => {
+  const handleDrop = (
+    newTree: EditNodeModel[],
+    e: DropOptions<EditNodeModelData>
+  ) => {
     if (e.dropTargetId === e.dragSourceId) return
+    if (e.dragSource?.data?.type === 'group' && e.dropTargetId !== 0) return
     updateIndexPagesByTreeNodes(newTree)
   }
 
