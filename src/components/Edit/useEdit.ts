@@ -58,7 +58,7 @@ const useEdit = (readonly?: boolean) => {
     refetching: refetchingFullTokens,
   } = useTokens(
     {
-      variables: { filter: { nft: unifyAddressToId(nftId) } },
+      variables: { filter: { nft: unifyAddressToId(nftId) }, limit: 100 },
     },
     { fetchFullData: true }
   )
@@ -70,9 +70,6 @@ const useEdit = (readonly?: boolean) => {
   const { contract: sx1555NFTContract } = useSX1155NFT(nftId)
   const { uploadContent } = useNFTUpdate(nftId)
 
-  // console.log('editedNft', editedNft)
-  // console.log('editedTokens', editedTokens)
-  // console.log('editedIndexPages', editedIndexPages)
   const merge = async () => {
     setMergeLoading(true)
     console.log(editedTokens, 'editedTokens')
