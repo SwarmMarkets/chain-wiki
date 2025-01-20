@@ -1,9 +1,7 @@
-import { NodeModel, useDragOver } from '@minoru/react-dnd-treeview'
+import { NodeModel } from '@minoru/react-dnd-treeview'
 import React from 'react'
 import Flex from 'src/components/ui/Flex'
 import EditIndexPagesItem from '../EditIndexPageItem'
-
-import styles from './styles.module.css'
 
 const TREE_X_OFFSET = 22
 
@@ -12,6 +10,7 @@ const Node: React.FC<{
   node: NodeModel
   depth: number
   isOpen: boolean
+  isDropTarget: boolean
   readonly?: boolean
   active?: boolean
   treeData: NodeModel[]
@@ -19,17 +18,21 @@ const Node: React.FC<{
   onToggle: (id: NodeModel['id']) => void
   onClick: () => void
   onEdit?: (name: string) => void
+  getPipeHeight: (id: string | number, treeData: NodeModel[]) => number
 }> = ({
   to,
   node,
   depth,
   isOpen,
   hasChild,
+  isDropTarget,
   onToggle,
   onClick,
   onEdit,
   active = false,
   readonly = false,
+  treeData,
+  getPipeHeight,
 }) => {
   const indent = depth * TREE_X_OFFSET
 
