@@ -7,5 +7,6 @@
     "editor": "Editor"
   },
   "addNft": "Add site",
-  "roles": "Roles: "
+  "roles": "Roles: ",
+  "noNfts": "Add a site to get started"
 }

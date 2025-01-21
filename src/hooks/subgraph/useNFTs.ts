@@ -63,7 +63,7 @@ const useNFTs = (
   return useMemo(
     () => ({
       nfts: data?.nfts,
-      fullNfts: fullData,
+      fullNfts: [],
       loadingNfts:
         ipfsDataLoading ||
         loading ||
