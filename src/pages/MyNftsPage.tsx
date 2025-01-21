@@ -94,7 +94,7 @@ const MyNftsPage = () => {
   const hasNext = !!(nfts ? nfts.length >= PAGE_LIMIT : false)
   const showPagination = hasPrevious || hasNext
 
-  if (nfts?.length && !loading) {
+  if (!nfts?.length && !loading) {
     return (
       <Flex
         mt='200px'
