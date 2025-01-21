@@ -49,7 +49,7 @@ const TokenPage = () => {
     { fetchFullData: true }
   )
 
-  const showSkeleton = true || loadingToken && !refetchingToken
+  const showSkeleton = loadingToken && !refetchingToken
   const allLoaded = token && nft && fullTokens
 
   const onChangeTab = (tab: ITab<TokenTabs>) => {
@@ -85,7 +85,7 @@ const TokenPage = () => {
         justifyContent={isReadTab && allLoaded ? 'space-between' : 'center'}
         $gap='20px'
       >
-        {isReadTab && <IndexPages tokens={[]} nft={nft} />}
+        {isReadTab && <IndexPages tokens={fullTokens} nft={nft} />}
         {showSkeleton ? (
           <Flex width='900px' justifyContent='center' $gap='20px'>
             <Box width='900px'>
