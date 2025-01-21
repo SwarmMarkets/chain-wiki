@@ -49,7 +49,7 @@ const TokenPage = () => {
     { fetchFullData: true }
   )
 
-  const showSkeleton = loadingToken && !refetchingToken
+  const showSkeleton = true || loadingToken && !refetchingToken
   const allLoaded = token && nft && fullTokens
 
   const onChangeTab = (tab: ITab<TokenTabs>) => {
@@ -70,16 +70,6 @@ const TokenPage = () => {
 
   const isReadTab = activeTab === TokenTabs.READ
 
-  if (showSkeleton) {
-    return (
-      <Flex justifyContent='center' $gap='20px'>
-        <Box width='900px'>
-          <TokenContentSkeleton />
-        </Box>
-      </Flex>
-    )
-  }
-
   const breadCrumbs = nft &&
     token && [
       { label: nft.name, to: generatePath(RoutePaths.NFT, { nftId }) },
@@ -95,40 +85,48 @@ const TokenPage = () => {
         justifyContent={isReadTab && allLoaded ? 'space-between' : 'center'}
         $gap='20px'
       >
-        {isReadTab && <IndexPages tokens={fullTokens} nft={nft} />}
-        <Box width='900px'>
-          <Text.h1 size='24px' weight={700}>
-            {token?.name}
-          </Text.h1>
+        {isReadTab && <IndexPages tokens={[]} nft={nft} />}
+        {showSkeleton ? (
+          <Flex width='900px' justifyContent='center' $gap='20px'>
+            <Box width='900px'>
+              <TokenContentSkeleton />
+            </Box>
+          </Flex>
+        ) : (
+          <Box width='900px'>
+            <Text.h1 size='24px' weight={700}>
+              {token?.name}
+            </Text.h1>
 
-          <TabContext value={activeTab}>
-            <Tabs onChange={onChangeTab}>
-              <Tab value={TokenTabs.READ} label={t('tabs.read')} />
-              {permissions.canUpdateContent && (
-                <Tab value={TokenTabs.EDIT} label={t('tabs.edit')} />
-              )}
-              <Tab value={TokenTabs.HISTORY} label={t('tabs.history')} />
-            </Tabs>
+            <TabContext value={activeTab}>
+              <Tabs onChange={onChangeTab}>
+                <Tab value={TokenTabs.READ} label={t('tabs.read')} />
+                {permissions.canUpdateContent && (
+                  <Tab value={TokenTabs.EDIT} label={t('tabs.edit')} />
+                )}
+                <Tab value={TokenTabs.HISTORY} label={t('tabs.history')} />
+              </Tabs>
 
-            <TabPanel value={TokenTabs.READ}>
-              <TokenView
-                onClickEditSite={handleEditSite}
-                token={token}
-                onMount={onMount}
-              />
-            </TabPanel>
-            <TabPanel value={TokenTabs.EDIT}>
-              <EditView
-                handleSuccessUpdate={handleSuccessUpdate}
-                nftAddress={nft?.id || ''}
-                token={token}
-              />
-            </TabPanel>
-            <TabPanel value={TokenTabs.HISTORY}>
-              <HistoryToken />
-            </TabPanel>
-          </TabContext>
-        </Box>
+              <TabPanel value={TokenTabs.READ}>
+                <TokenView
+                  onClickEditSite={handleEditSite}
+                  token={token}
+                  onMount={onMount}
+                />
+              </TabPanel>
+              <TabPanel value={TokenTabs.EDIT}>
+                <EditView
+                  handleSuccessUpdate={handleSuccessUpdate}
+                  nftAddress={nft?.id || ''}
+                  token={token}
+                />
+              </TabPanel>
+              <TabPanel value={TokenTabs.HISTORY}>
+                <HistoryToken />
+              </TabPanel>
+            </TabContext>
+          </Box>
+        )}
 
         {isReadTab && <TokenStyledContent contentElem={contentElem} />}
       </Flex>

@@ -1,19 +1,15 @@
-import { useStorage } from '@thirdweb-dev/react'
-import React, { useEffect, useRef, useState } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { generatePath, useParams } from 'react-router-dom'
 import Box from 'src/components/ui/Box'
 import Text from 'src/components/ui/Text'
-import { useIpfsIndexPages } from 'src/hooks/ipfs/nft'
 import RoutePaths from 'src/shared/enums/routes-paths'
 import {
-  IpfsIndexPage,
   NFTWithMetadata,
   TokensQueryFullData,
 } from 'src/shared/utils/ipfs/types'
 import { useTheme } from 'styled-components'
 import EditIndexPagesTree from '../Edit/EditIndexPagesTree/EditIndexPagesTree'
-import Flex from '../ui/Flex'
 import { SideContentWrap } from '../Nft/styled-components'
 
 interface IndexPagesProps {
@@ -30,7 +26,7 @@ const IndexPages: React.FC<IndexPagesProps> = ({ tokens, nft, ...props }) => {
 
   if (noTokens || !nft?.id) {
     return (
-      <Box {...props}>
+      <SideContentWrap {...props}>
         <Text.p
           textAlign='center'
           fontWeight={theme.fontWeights.medium}
@@ -38,7 +34,7 @@ const IndexPages: React.FC<IndexPagesProps> = ({ tokens, nft, ...props }) => {
         >
           {t('indexPages.noTokens')}
         </Text.p>
-      </Box>
+      </SideContentWrap>
     )
   }
 

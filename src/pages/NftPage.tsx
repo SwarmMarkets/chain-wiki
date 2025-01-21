@@ -77,16 +77,6 @@ const NftPage = () => {
 
   const [isHovered, setIsHovered] = useState(false)
 
-  if (showSkeleton) {
-    return (
-      <Flex justifyContent='center' $gap='20px'>
-        <Box width='900px'>
-          <NftContentSkeleton />
-        </Box>
-      </Flex>
-    )
-  }
-
   return (
     <Flex
       justifyContent={isNftTab && allLoaded ? 'space-between' : 'center'}
@@ -95,67 +85,75 @@ const NftPage = () => {
       {activeTab === NftTabs.NFT && (
         <IndexPages tokens={fullTokens} nft={nft} />
       )}
-      <Box width='900px'>
-        <Flex $gap='5px' flexDirection='column'>
-          <Flex
-            alignItems='center'
-            justifyContent='space-between'
-            $gap='5px'
-            style={{ position: 'relative' }}
-          >
-            <Text.h1 size={theme.fontSizes.large} weight={700}>
-              {nft?.name}
-            </Text.h1>
-            <Flex $gap='10px' alignItems='center'>
-              <Icon
-                cursor='pointer'
-                name='externalLink'
-                size={10}
-                color={
-                  isHovered ? theme.palette.linkPrimary : theme.palette.black
-                }
-                onClick={handleIconClick}
-                onMouseEnter={() => setIsHovered(true)}
-                onMouseLeave={() => setIsHovered(false)}
-              />
-              <Link to={generatePath(RoutePaths.EDIT, { nftId })}>
-                <Button>{t('edit', { ns: 'buttons' })}</Button>
-              </Link>
+      {showSkeleton ? (
+        <Flex justifyContent='center' $gap='20px'>
+          <Box width='900px'>
+            <NftContentSkeleton />
+          </Box>
+        </Flex>
+      ) : (
+        <Box width='900px'>
+          <Flex $gap='5px' flexDirection='column'>
+            <Flex
+              alignItems='center'
+              justifyContent='space-between'
+              $gap='5px'
+              style={{ position: 'relative' }}
+            >
+              <Text.h1 size={theme.fontSizes.large} weight={700}>
+                {nft?.name}
+              </Text.h1>
+              <Flex $gap='10px' alignItems='center'>
+                <Icon
+                  cursor='pointer'
+                  name='externalLink'
+                  size={10}
+                  color={
+                    isHovered ? theme.palette.linkPrimary : theme.palette.black
+                  }
+                  onClick={handleIconClick}
+                  onMouseEnter={() => setIsHovered(true)}
+                  onMouseLeave={() => setIsHovered(false)}
+                />
+                <Link to={generatePath(RoutePaths.EDIT, { nftId })}>
+                  <Button>{t('edit', { ns: 'buttons' })}</Button>
+                </Link>
+              </Flex>
             </Flex>
           </Flex>
-        </Flex>
 
-        <TabContext value={activeTab ?? null}>
-          <Tabs onChange={onChangeNftTab}>
-            <Tab value={NftTabs.NFT} label={t('tabs.nft')} />
-            <Tab value={NftTabs.TOKENS} label={t('tabs.tokens')} />
-            <Tab value={NftTabs.HISTORY} label={t('tabs.history')} />
-            {permissions.canUpdateSettings && (
-              <Tab value={NftTabs.SETTINGS} label={t('tabs.settings')} />
-            )}
-          </Tabs>
-          <TabPanel value={NftTabs.NFT}>
-            <NftView
-              nft={nft}
-              onMount={onMountContent}
-              onClickEditSite={handleSettingsSite}
-            />
-          </TabPanel>
-          <TabPanel value={NftTabs.TOKENS}>
-            <TokenList
-              tokens={fullTokens}
-              loading={tokensLoading}
-              nftAddress={nftId!}
-            />
-          </TabPanel>
-          <TabPanel value={NftTabs.SETTINGS}>
-            <Settings />
-          </TabPanel>
-          <TabPanel value={NftTabs.HISTORY}>
-            <HistoryNft />
-          </TabPanel>
-        </TabContext>
-      </Box>
+          <TabContext value={activeTab ?? null}>
+            <Tabs onChange={onChangeNftTab}>
+              <Tab value={NftTabs.NFT} label={t('tabs.nft')} />
+              <Tab value={NftTabs.TOKENS} label={t('tabs.tokens')} />
+              <Tab value={NftTabs.HISTORY} label={t('tabs.history')} />
+              {permissions.canUpdateSettings && (
+                <Tab value={NftTabs.SETTINGS} label={t('tabs.settings')} />
+              )}
+            </Tabs>
+            <TabPanel value={NftTabs.NFT}>
+              <NftView
+                nft={nft}
+                onMount={onMountContent}
+                onClickEditSite={handleSettingsSite}
+              />
+            </TabPanel>
+            <TabPanel value={NftTabs.TOKENS}>
+              <TokenList
+                tokens={fullTokens}
+                loading={tokensLoading}
+                nftAddress={nftId!}
+              />
+            </TabPanel>
+            <TabPanel value={NftTabs.SETTINGS}>
+              <Settings />
+            </TabPanel>
+            <TabPanel value={NftTabs.HISTORY}>
+              <HistoryNft />
+            </TabPanel>
+          </TabContext>
+        </Box>
+      )}
       {isNftTab && (
         <SideContentWrap>
           <Content contentElem={contentElem} />
