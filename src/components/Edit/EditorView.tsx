@@ -12,6 +12,11 @@ import { getExplorerUrl, NFTWithMetadata } from 'src/shared/utils'
 import { useTheme } from 'styled-components'
 import LoadingButton from '../ui/Button/LoadingButton'
 import useEdit from './useEdit'
+import Button from '../ui/Button/Button'
+import useNFTRoleManager from '../Nft/NftRoleManager/useNFTRoleManager'
+import useSmartAccount from 'src/services/safe-protocol-kit/useSmartAccount'
+import { Roles } from 'src/shared/enums'
+import useNftPermissions from 'src/hooks/permissions/useNftPermissions'
 
 interface EditorViewProps {
   nft: NFTWithMetadata
@@ -22,6 +27,10 @@ const EditorView: React.FC<EditorViewProps> = ({ nft, content }) => {
   const { t } = useTranslation('buttons')
   const { nftId = '' } = useParams()
   const theme = useTheme()
+  const { grantRole, txLoading } = useNFTRoleManager(nftId)
+  const { smartAccountInfo } = useSmartAccount()
+  const { smartAccountPermissions, loading: isNftPermissionsLoading } =
+    useNftPermissions(nftId)
 
   const chainId = useChainId()
 
@@ -70,6 +79,12 @@ const EditorView: React.FC<EditorViewProps> = ({ nft, content }) => {
 
   const title = currEditableToken?.name || editedNft?.name || nft?.name
 
+  const grantRoleForSmartAccount = async () => {
+    if (smartAccountInfo?.address) {
+      grantRole(smartAccountInfo?.address, Roles.EDITOR)
+    }
+  }
+
   return (
     <Box width='900px'>
       <Flex $gap='5px' flexDirection='column'>
@@ -83,22 +98,36 @@ const EditorView: React.FC<EditorViewProps> = ({ nft, content }) => {
           <Text.h1 size={theme.fontSizes.large} weight={700}>
             {title}
           </Text.h1>
-          <Flex $gap='10px' alignItems='center'>
-            <LoadingButton loading={mergeLoading} onClick={merge}>
-              {t('merge')}
-            </LoadingButton>
-            <Icon
-              cursor='pointer'
-              name='externalLink'
-              size={10}
-              color={
-                isHovered ? theme.palette.linkPrimary : theme.palette.black
-              }
-              onClick={handleIconClick}
-              onMouseEnter={() => setIsHovered(true)}
-              onMouseLeave={() => setIsHovered(false)}
-            />
-          </Flex>
+          {!isNftPermissionsLoading && (
+            <Flex $gap='10px' alignItems='center'>
+              {!smartAccountPermissions.canUpdateContent && (
+                <LoadingButton
+                  loading={txLoading}
+                  onClick={grantRoleForSmartAccount}
+                >
+                  Enable batch editing
+                </LoadingButton>
+              )}
+              <LoadingButton
+                loading={mergeLoading}
+                onClick={merge}
+                disabled={!smartAccountPermissions.canUpdateContent}
+              >
+                {t('merge')}
+              </LoadingButton>
+              <Icon
+                cursor='pointer'
+                name='externalLink'
+                size={10}
+                color={
+                  isHovered ? theme.palette.linkPrimary : theme.palette.black
+                }
+                onClick={handleIconClick}
+                onMouseEnter={() => setIsHovered(true)}
+                onMouseLeave={() => setIsHovered(false)}
+              />
+            </Flex>
+          )}
         </Flex>
       </Flex>
       <EditorBox content={content} onChange={updateContent} />
