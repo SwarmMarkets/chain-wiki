@@ -5,7 +5,6 @@ const Placeholder: React.FC<{ depth: number; parent?: EditNodeModel }> = ({
   depth,
   parent,
 }) => {
-  console.log(parent)
   return (
     <div
       style={{
