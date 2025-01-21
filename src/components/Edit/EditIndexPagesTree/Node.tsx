@@ -2,7 +2,6 @@ import React from 'react'
 import Flex from 'src/components/ui/Flex'
 import EditIndexPagesItem from '../EditIndexPageItem'
 import { EditNodeModel } from './types'
-import { useEditingStore } from 'src/shared/store/editing-store'
 
 const TREE_X_OFFSET = 22
 
