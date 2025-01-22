@@ -103,9 +103,7 @@ const MyNftsPage = () => {
         alignItems='center'
         onClick={open}
       >
-        <NoNftsText fontSize={theme.fontSizes.large}>
-          {t('noNfts')}
-        </NoNftsText>
+        <NoNftsText fontSize={theme.fontSizes.large}>{t('noNfts')}</NoNftsText>
         <CreateNftModal isOpen={isOpen} onClose={close} />
       </Flex>
     )

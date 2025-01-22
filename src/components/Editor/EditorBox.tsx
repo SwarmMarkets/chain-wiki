@@ -49,6 +49,7 @@ const EditorBox: React.FC<EditorBoxProps> = ({
 
   return (
     <TinyEditor
+      tinymceScriptSrc='https://cdnjs.cloudflare.com/ajax/libs/tinymce/7.6.0/tinymce.min.js'
       ref={editorRef}
       apiKey='osr60izccxxfs99zbrmmbiqk16ux1fas0muug1e2hvh16kgg'
       onEditorChange={onEditorChange}
