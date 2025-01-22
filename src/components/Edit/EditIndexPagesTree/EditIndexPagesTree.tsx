@@ -34,7 +34,12 @@ const EditIndexPagesTree: React.FC<EditIndexPagesTreeProps> = ({
     e: DropOptions<EditNodeModelData>
   ) => {
     if (e.dropTargetId === e.dragSourceId) return
-    if (e.dragSource?.data?.type === 'group' && e.dropTargetId !== 0) return
+    if (
+      e.dragSource?.data?.type === 'group' &&
+      e.dropTargetId !== 0 &&
+      !isHiddenList(e.dropTargetId.toString())
+    )
+      return
     updateIndexPagesByTreeNodes(newTree)
   }
 
