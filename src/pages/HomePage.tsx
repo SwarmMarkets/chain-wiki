@@ -1,9 +1,9 @@
-import NftList from '@src/components/Nft/NftList'
-import useNFTs, { PAGE_LIMIT } from '@src/hooks/subgraph/useNFTs'
-import Box from '@src/components/ui/Box'
+import NftList from 'src/components/Nft/NftList'
+import useNFTs, { PAGE_LIMIT } from 'src/hooks/subgraph/useNFTs'
+import Box from 'src/components/ui/Box'
 import { useTranslation } from 'react-i18next'
 import { useState } from 'react'
-import Pagination from '@src/components/common/Pagination'
+import Pagination from 'src/components/common/Pagination'
 
 const HomePage = () => {
   const { t } = useTranslation('nfts')

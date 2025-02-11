@@ -1,8 +1,8 @@
-import Box from '@src/components/ui/Box'
-import Flex from '@src/components/ui/Flex'
+import Box from 'src/components/ui/Box'
+import Flex from 'src/components/ui/Flex'
 import styled from 'styled-components'
 
-export const ColorInputWrapper = styled(Flex)`  
+export const ColorInputWrapper = styled(Flex)`
   position: relative;
 `
 

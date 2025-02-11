@@ -1,9 +1,6 @@
-import Divider from '@src/components/ui/Divider'
-import Text from '@src/components/ui/Text'
-import {
-  IpfsIndexPage,
-  TokensQueryFullData,
-} from '@src/shared/utils/ipfs/types'
+import Divider from 'src/components/ui/Divider'
+import Text from 'src/components/ui/Text'
+import { IpfsIndexPage, TokensQueryFullData } from 'src/shared/utils/ipfs/types'
 import React from 'react'
 import { DragDropContext, DropResult } from 'react-beautiful-dnd'
 import { useTranslation } from 'react-i18next'

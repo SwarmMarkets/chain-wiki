@@ -1,5 +1,5 @@
-import { NFTsQueryFullData } from '@src/shared/utils/ipfs/types'
-import { isSameEthereumAddress } from '@src/shared/utils'
+import { NFTsQueryFullData } from 'src/shared/utils/ipfs/types'
+import { isSameEthereumAddress } from 'src/shared/utils'
 import { useAddress, useChainId } from '@thirdweb-dev/react'
 import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -10,8 +10,8 @@ import Flex from '../ui/Flex'
 import Icon from '../ui/Icon'
 import Text from '../ui/Text'
 import { StyledCard, Title } from './styled-components'
-import useNFTUpdate from '@src/hooks/useNFTUpdate'
-import { getExplorerUrl } from '@src/shared/utils'
+import useNFTUpdate from 'src/hooks/useNFTUpdate'
+import { getExplorerUrl } from 'src/shared/utils'
 
 interface NftCardProps {
   nft: NFTsQueryFullData

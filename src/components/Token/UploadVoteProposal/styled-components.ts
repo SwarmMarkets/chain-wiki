@@ -1,6 +1,6 @@
-import Box from '@src/components/ui/Box'
-import Button from '@src/components/ui/Button/Button'
-import TextField from '@src/components/ui/TextField/TextField'
+import Box from 'src/components/ui/Box'
+import Button from 'src/components/ui/Button/Button'
+import TextField from 'src/components/ui/TextField/TextField'
 import styled from 'styled-components'
 
 export const StyledTextField = styled(TextField)`

@@ -1,4 +1,4 @@
-import { TokenUriUpdatesQuery } from '@src/queries/gql/graphql'
+import { TokenUriUpdatesQuery } from 'src/queries/gql/graphql'
 import queryString from 'query-string'
 import React from 'react'
 import { useTranslation } from 'react-i18next'

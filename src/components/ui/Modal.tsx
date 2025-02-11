@@ -1,5 +1,5 @@
-import useScrollBlock from '@src/hooks/useScrollBlock'
-import { BasicModalProps } from '@src/shared/types/common-props'
+import useScrollBlock from 'src/hooks/useScrollBlock'
+import { BasicModalProps } from 'src/shared/types/common-props'
 import shouldForwardProp from '@styled-system/should-forward-prop'
 import React, { useLayoutEffect } from 'react'
 import styled from 'styled-components'

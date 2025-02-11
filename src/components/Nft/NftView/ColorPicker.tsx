@@ -1,8 +1,8 @@
-import TextField from '@src/components/ui/TextField/TextField'
+import TextField from 'src/components/ui/TextField/TextField'
 import React, { useRef, useState } from 'react'
 import { HexColorPicker } from 'react-colorful'
 import { ColorInputWrapper, ColorBox, PickerWrapper } from './styled-components'
-import useClickOutside from '@src/hooks/useClickOutside'
+import useClickOutside from 'src/hooks/useClickOutside'
 
 interface ColorPickerProps {
   color: string

@@ -1,4 +1,4 @@
-import { BasicModalProps } from '@src/shared/types/common-props'
+import { BasicModalProps } from 'src/shared/types/common-props'
 import { useTranslation } from 'react-i18next'
 import Box from '../ui/Box'
 import Button from '../ui/Button/Button'

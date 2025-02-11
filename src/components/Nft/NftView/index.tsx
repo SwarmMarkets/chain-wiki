@@ -1,16 +1,16 @@
-import HtmlRender from '@src/components/HtmlRender'
-import { NFTWithMetadata } from '@src/shared/utils/ipfs/types'
+import HtmlRender from 'src/components/HtmlRender'
+import { NFTWithMetadata } from 'src/shared/utils/ipfs/types'
 import { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import Text from '@src/components/ui/Text'
+import Text from 'src/components/ui/Text'
 import { useTheme } from 'styled-components'
 import { StyledCard } from '../styled-components'
-import useNftPermissions from '@src/hooks/permissions/useNftPermissions'
+import useNftPermissions from 'src/hooks/permissions/useNftPermissions'
 
 interface NftViewProps {
   nft?: NFTWithMetadata | null
   onMount: (element: HTMLDivElement) => void
-  onClickEditSite: () => void
+  onClickEditSite?: () => void
 }
 
 export const NftView: React.FC<NftViewProps> = ({

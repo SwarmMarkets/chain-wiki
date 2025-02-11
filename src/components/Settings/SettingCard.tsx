@@ -1,6 +1,6 @@
-import Text from '@src/components/ui/Text'
-import Flex from '@src/components/ui/Flex'
-import { ChildrenProp } from '@src/shared/types/common-props'
+import Text from 'src/components/ui/Text'
+import Flex from 'src/components/ui/Flex'
+import { ChildrenProp } from 'src/shared/types/common-props'
 import Box from '../ui/Box'
 
 interface SettingCardProps extends ChildrenProp {

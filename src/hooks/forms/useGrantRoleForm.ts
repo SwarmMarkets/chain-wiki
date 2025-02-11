@@ -1,8 +1,8 @@
 import { useTranslation } from 'react-i18next'
 import useYupValidationResolver from '../useYupValidationResolvber'
-import yup from '@src/shared/validations/yup'
+import yup from 'src/shared/validations/yup'
 import { useForm } from 'react-hook-form'
-import { Roles } from '@src/shared/enums'
+import { Roles } from 'src/shared/enums'
 
 export interface GrantRoleFormInputs {
   to: string

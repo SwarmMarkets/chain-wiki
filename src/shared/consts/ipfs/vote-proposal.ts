@@ -1,4 +1,4 @@
-import { VoteProposal } from "@src/shared/types/vote-proposal";
+import { VoteProposal } from 'src/shared/types/vote-proposal'
 
 export const initialVoteProposal: VoteProposal = {
   address: '',

@@ -6,7 +6,7 @@ export function fromUnixTimestamp(unixTimestamp: string | number): Date {
 
 export function convertUnixToLocaleString(
   unixTimestamp: string | number,
-  locale: string = 'default',
+  locale = 'default',
   options: Intl.DateTimeFormatOptions = {}
 ): string {
   const date = fromUnixTimestamp(unixTimestamp)

@@ -1,4 +1,4 @@
-import { useTabContext } from '@src/hooks/context/useTabContext'
+import { useTabContext } from 'src/hooks/context/useTabContext'
 import React from 'react'
 import styled from 'styled-components'
 

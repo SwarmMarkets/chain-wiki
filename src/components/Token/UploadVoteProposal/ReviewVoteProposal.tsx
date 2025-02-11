@@ -1,11 +1,11 @@
-import ExplorerLink from '@src/components/common/ExplorerLink'
-import { useTokenContext } from '@src/components/providers/TokenContext'
-import Flex from '@src/components/ui/Flex'
-import Icon from '@src/components/ui/Icon'
-import Text from '@src/components/ui/Text'
-import { IpfsVoteProposal } from '@src/shared/utils/ipfs/types'
-import { VoteProposal } from '@src/shared/types/vote-proposal'
-import { convertUnixToLocaleString } from '@src/shared/utils'
+import ExplorerLink from 'src/components/common/ExplorerLink'
+import { useTokenContext } from 'src/components/providers/TokenContext'
+import Flex from 'src/components/ui/Flex'
+import Icon from 'src/components/ui/Icon'
+import Text from 'src/components/ui/Text'
+import { IpfsVoteProposal } from 'src/shared/utils/ipfs/types'
+import { VoteProposal } from 'src/shared/types/vote-proposal'
+import { convertUnixToLocaleString } from 'src/shared/utils'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useTheme } from 'styled-components'
@@ -14,7 +14,7 @@ import {
   VoteProposalVariant,
   VoteProposalWrap,
 } from './styled-components'
-import UpdateTokenContentButton from '@src/components/UpdateContent/UpdateTokenContentButton'
+import UpdateTokenContentButton from 'src/components/UpdateContent/UpdateTokenContentButton'
 
 interface ReviewVoteProposalProps {
   voteProposal: VoteProposal

@@ -1,20 +1,35 @@
-import NftList from '@src/components/Nft/NftList'
-import Pagination from '@src/components/common/Pagination'
-import Box from '@src/components/ui/Box'
-import ButtonGroup from '@src/components/ui/Button/ButtonGroup'
-import useNFTs from '@src/hooks/subgraph/useNFTs'
-import { Nft_OrderBy, OrderDirection } from '@src/queries/gql/graphql'
-import { NftButtonOptions } from '@src/shared/enums/nfts/button-options'
-import { ButtonOption } from '@src/shared/types/ui-components'
+import NftList from 'src/components/Nft/NftList'
+import Pagination from 'src/components/common/Pagination'
+import Box from 'src/components/ui/Box'
+import ButtonGroup from 'src/components/ui/Button/ButtonGroup'
+import useNFTs from 'src/hooks/subgraph/useNFTs'
+import { Nft_OrderBy, OrderDirection } from 'src/queries/gql/graphql'
+import { NftButtonOptions } from 'src/shared/enums/nfts/button-options'
+import { ButtonOption } from 'src/shared/types/ui-components'
 import { useAddress } from '@thirdweb-dev/react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import Text from 'src/components/ui/Text'
+import Flex from 'src/components/ui/Flex'
+import styled, { useTheme } from 'styled-components'
+import CreateNftModal from 'src/components/CreateNft/CreateNftModal'
+import useModalState from 'src/hooks/useModalState'
+
+const NoNftsText = styled(Text)`
+  cursor: pointer;
+  transition: color 0.2s;
+  &:hover {
+    color: ${({ theme }) => theme.palette.linkPrimaryAccent};
+  }
+`
 
 const PAGE_LIMIT = 9
 
 const MyNftsPage = () => {
   const { t } = useTranslation('nfts')
+  const theme = useTheme()
   const address = useAddress() || ''
+  const { isOpen, open, close } = useModalState(false)
   const [selectedOption, setSelectedOption] = useState<string>(
     NftButtonOptions.ALL
   )
@@ -78,6 +93,21 @@ const MyNftsPage = () => {
   const hasPrevious = skip > 0
   const hasNext = !!(nfts ? nfts.length >= PAGE_LIMIT : false)
   const showPagination = hasPrevious || hasNext
+
+  if (!nfts?.length && !loading) {
+    return (
+      <Flex
+        mt='200px'
+        width='100%'
+        justifyContent='center'
+        alignItems='center'
+        onClick={open}
+      >
+        <NoNftsText fontSize={theme.fontSizes.large}>{t('noNfts')}</NoNftsText>
+        <CreateNftModal isOpen={isOpen} onClose={close} />
+      </Flex>
+    )
+  }
 
   return (
     <>

@@ -1,14 +1,11 @@
-import {
-  ActionStateItem,
-  ActionStateWrap,
-} from '@src/components/ui/ActionState'
-import Box from '@src/components/ui/Box'
-import Button from '@src/components/ui/Button/Button'
-import LoadingButton from '@src/components/ui/Button/LoadingButton'
-import Flex from '@src/components/ui/Flex'
-import Text from '@src/components/ui/Text'
-import useVoteProposal from '@src/hooks/snapshot/useVoteProposal'
-import { VoteProposal } from '@src/shared/types/vote-proposal'
+import { ActionStateItem, ActionStateWrap } from 'src/components/ui/ActionState'
+import Box from 'src/components/ui/Box'
+import Button from 'src/components/ui/Button/Button'
+import LoadingButton from 'src/components/ui/Button/LoadingButton'
+import Flex from 'src/components/ui/Flex'
+import Text from 'src/components/ui/Text'
+import useVoteProposal from 'src/hooks/snapshot/useVoteProposal'
+import { VoteProposal } from 'src/shared/types/vote-proposal'
 import { ChangeEvent, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useTheme } from 'styled-components'

@@ -1,6 +1,5 @@
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
-import Logo from '../../assets/logo.png'
 import Text from '../ui/Text'
 import Box from '../ui/Box'
 import Flex from '../ui/Flex'
@@ -36,7 +35,7 @@ const PoweredByBadge = () => {
       </Text>
       <Box
         as='img'
-        src={Logo}
+        src={'/assets/logo.png'}
         alt='Chain Wiki'
         style={{ width: '110px', height: 'auto' }}
         ml={2}

@@ -1,14 +1,14 @@
 import React from 'react'
-import Card from '@src/components/ui/Card'
-import Text from '@src/components/ui/Text'
-import RoutePaths from '@src/shared/enums/routes-paths'
-import { IpfsTokenContent } from '@src/shared/utils/ipfs/types'
-import { getTextContentFromHtml, limitString } from '@src/shared/utils'
+import Card from 'src/components/ui/Card'
+import Text from 'src/components/ui/Text'
+import RoutePaths from 'src/shared/enums/routes-paths'
+import { IpfsTokenContent } from 'src/shared/utils/ipfs/types'
+import { getTextContentFromHtml, limitString } from 'src/shared/utils'
 import { generatePath } from 'react-router-dom'
 import styled from 'styled-components'
-import Flex from '@src/components/ui/Flex'
-import { useTokenCommentsCount } from '@src/hooks/subgraph/useTokenCommentsCount'
-import RouterLink from '@src/components/ui/RouterLink'
+import Flex from 'src/components/ui/Flex'
+import { useTokenCommentsCount } from 'src/hooks/subgraph/useTokenCommentsCount'
+import RouterLink from 'src/components/ui/RouterLink'
 
 const CountWrapper = styled(Flex)`
   background-color: ${({ theme }) => theme.palette.white};

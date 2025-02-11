@@ -2,7 +2,7 @@ import {
   parseIpfsHeaderLinksContent,
   parseIpfsIndexPagesContent,
   parseIpfsNftContent,
-} from '@src/shared/utils'
+} from 'src/shared/utils'
 import { useQuery } from '@tanstack/react-query'
 import { useStorage } from '@thirdweb-dev/react'
 
@@ -52,7 +52,7 @@ export const useIpfsIndexPages = (ipfsUri?: string) => {
   const storage = useStorage()
 
   const { data, isLoading, ...rest } = useQuery({
-    queryKey: ['ipfsHeaderLinks', ipfsUri],
+    queryKey: ['ipfsIndexPages', ipfsUri],
     queryFn: async () => {
       const res = await storage?.downloadJSON(ipfsUri!)
       return parseIpfsIndexPagesContent(res)

@@ -1,12 +1,12 @@
 import { NetworkStatus, useQuery } from '@apollo/client'
-import { NFTQuery } from '@src/queries'
+import { NFTQuery } from 'src/queries'
 import { useMemo } from 'react'
 import { useIpfsHeaderLinks, useIpfsNftContent } from '../ipfs/nft'
 import {
   initialHeaderLinks,
   initialNftContent,
-} from '@src/shared/utils/ipfs/consts'
-import { NFTWithMetadata } from '@src/shared/utils'
+} from 'src/shared/utils/ipfs/consts'
+import { NFTWithMetadata } from 'src/shared/utils'
 
 const POLL_INTERVAL = 15000
 

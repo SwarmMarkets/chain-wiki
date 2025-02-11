@@ -1,15 +1,15 @@
 import { NetworkStatus, QueryHookOptions, useQuery } from '@apollo/client'
 import { useMemo, useState } from 'react'
 
-import { TokenURIUpdatesQuery } from '@src/queries'
+import { TokenURIUpdatesQuery } from 'src/queries'
 import {
   TokenQueryVariables,
   TokenUriUpdatesQuery as TokenURIUpdatesQueryGQL,
   TokenUriUpdatesQueryVariables,
-} from '@src/queries/gql/graphql'
-import { unifyAddressToId } from '@src/shared/utils'
+} from 'src/queries/gql/graphql'
+import { unifyAddressToId } from 'src/shared/utils'
 import { useStorage } from '@thirdweb-dev/react'
-import { TokenUriUpdatesQueryFullData } from '@src/shared/utils/ipfs/types'
+import { TokenUriUpdatesQueryFullData } from 'src/shared/utils/ipfs/types'
 
 const PAGE_LIMIT = 10
 const POLL_INTERVAL = 15000

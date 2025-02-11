@@ -6,7 +6,7 @@ import Icon from '../ui/Icon'
 import Flex from '../ui/Flex'
 import Box from '../ui/Box'
 import CreateTokenModal from '../CreateToken/CreateTokenModal'
-import useModalState from '@src/hooks/useModalState'
+import useModalState from 'src/hooks/useModalState'
 
 const StyledCard = styled(Card)`
   cursor: pointer;

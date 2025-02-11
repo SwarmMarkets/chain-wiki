@@ -1,4 +1,4 @@
-import { supportedChains } from "@src/environment/networks"
+import { supportedChains } from 'src/environment/networks'
 
 export type ExplorerLinkType = 'tx' | 'address' | 'token'
 
@@ -8,11 +8,7 @@ export interface ExplorerUrlOptions {
   chainId?: number
 }
 
-export const getExplorerUrl = ({
-  type,
-  hash,
-  chainId,
-}: ExplorerUrlOptions) => {
+export const getExplorerUrl = ({ type, hash, chainId }: ExplorerUrlOptions) => {
   if (!hash) return ''
 
   const chain = supportedChains.find(chain => chain.chainId === chainId)

@@ -12,6 +12,7 @@ import {
   HistoryEn,
   CommonEn,
   ConnectWalletEn,
+  EditEn,
 } from './locales/en'
 
 const resources = {
@@ -27,6 +28,7 @@ const resources = {
     history: HistoryEn,
     common: CommonEn,
     connectWallet: ConnectWalletEn,
+    edit: EditEn,
   },
 }
 

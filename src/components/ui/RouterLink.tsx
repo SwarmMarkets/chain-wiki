@@ -1,4 +1,4 @@
-import { ChildrenProp } from '@src/shared/types/common-props'
+import { ChildrenProp } from 'src/shared/types/common-props'
 import shouldForwardProp from '@styled-system/should-forward-prop'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
@@ -25,7 +25,7 @@ const RouterLink = styled(Link).withConfig({
 })<RouterLinkProps>`
   color: ${({ theme }) => theme.palette.linkPrimary};
   &:hover {
-    color: ${({ theme }) => theme.palette.linkPrimaryAccent}; 
+    color: ${({ theme }) => theme.palette.linkPrimaryAccent};
   }
 
   ${flexbox}

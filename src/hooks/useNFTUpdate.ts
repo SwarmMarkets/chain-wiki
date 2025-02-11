@@ -7,12 +7,12 @@ import {
   generateIpfsIndexPagesContent,
   generateIpfsNftContent,
   unifyAddressToId,
-} from '@src/shared/utils'
+} from 'src/shared/utils'
 import {
   IpfsHeaderLinksContent,
   IpfsIndexPage,
   IpfsNftContent,
-} from '@src/shared/utils/ipfs/types'
+} from 'src/shared/utils/ipfs/types'
 
 export interface NFTContentToUpdate {
   logoUrl?: string | null

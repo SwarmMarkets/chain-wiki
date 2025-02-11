@@ -1,5 +1,5 @@
-import Text from '@src/components/ui/Text'
-import { TokensQueryFullData } from '@src/shared/utils/ipfs/types'
+import Text from 'src/components/ui/Text'
+import { TokensQueryFullData } from 'src/shared/utils/ipfs/types'
 import { useTranslation } from 'react-i18next'
 import { useTheme } from 'styled-components'
 import RequirePermissions from '../../common/RequirePermissions'

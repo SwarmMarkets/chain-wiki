@@ -1,10 +1,10 @@
-import IndexedDB, { IEntity } from '@src/services/idb'
+import IndexedDB, { IEntity } from 'src/services/idb'
 import useIndexedDB from './useIndexedDB'
 import {
   IpfsTokenContent,
   IpfsNftContent,
   IpfsVoteProposal,
-} from '@src/shared/utils/ipfs/types'
+} from 'src/shared/utils/ipfs/types'
 
 interface IPFSContent extends IEntity {
   id: string
@@ -19,4 +19,3 @@ const useIpfsDB = () => {
 }
 
 export default useIpfsDB
-

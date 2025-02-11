@@ -1,6 +1,5 @@
-import CommentIcon from '@src/assets/icons/comment.svg'
-import { CommentIdsQuery } from '@src/queries'
-import client from '@src/services/apollo'
+import { CommentIdsQuery } from 'src/queries'
+import client from 'src/services/apollo'
 
 const getCountOfAttestations = async (sectionId: string): Promise<number> => {
   try {
@@ -24,7 +23,7 @@ export const createCommentIconElement = async (sectionId: string) => {
 
   const commentIconElem = document.createElement('img')
   commentIconElem.setAttribute('type', 'image/svg+xml')
-  commentIconElem.setAttribute('src', CommentIcon)
+  commentIconElem.setAttribute('src', 'assets/comment.svg')
   commentIconElem.style.width = '22px'
   commentIconElem.style.height = '22px'
   commentIconElem.style.cursor = 'pointer'

@@ -6,7 +6,7 @@ import {
   TokenQuery,
   TokenUriUpdatesQuery,
   TokensQuery,
-} from '@src/queries/gql/graphql'
+} from 'src/queries/gql/graphql'
 
 export interface IpfsNftContent {
   address: string
@@ -35,10 +35,14 @@ export interface IpfsAttestationContent {
   htmlContent: string
 }
 
+export type IpfsIndexPageType = 'group'
+
 export interface IpfsIndexPage {
   tokenId: string
   title: string
-  child?: IpfsIndexPage
+  parent?: string | number
+  droppable?: boolean
+  type?: IpfsIndexPageType
 }
 
 export interface IpfsIndexPagesContent {

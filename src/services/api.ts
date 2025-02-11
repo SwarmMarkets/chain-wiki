@@ -1,7 +1,7 @@
 import {
   CitiesdaoVoteResponse,
   CitiesdaoVoteStatus,
-} from '@src/shared/types/api'
+} from 'src/shared/types/api'
 
 export interface IRequestInit extends RequestInit {
   shouldReturnDataProperty?: boolean

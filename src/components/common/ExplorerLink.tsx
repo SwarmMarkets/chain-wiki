@@ -1,5 +1,5 @@
-import { ChildrenProp } from '@src/shared/types/common-props'
-import { ExplorerLinkType, getExplorerUrl } from '@src/shared/utils'
+import { ChildrenProp } from 'src/shared/types/common-props'
+import { ExplorerLinkType, getExplorerUrl } from 'src/shared/utils'
 import { useChainId } from '@thirdweb-dev/react'
 import styled, { useTheme } from 'styled-components'
 import Flex from '../ui/Flex'

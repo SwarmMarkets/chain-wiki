@@ -7,12 +7,12 @@ import {
   NfturiUpdate_OrderBy,
   NfturiUpdatesQuery,
   OrderDirection,
-} from '@src/queries/gql/graphql'
-import Box from '@src/components/ui/Box'
-import Text from '@src/components/ui/Text'
-import Button from '@src/components/ui/Button/Button'
+} from 'src/queries/gql/graphql'
+import Box from 'src/components/ui/Box'
+import Text from 'src/components/ui/Text'
+import Button from 'src/components/ui/Button/Button'
 import { useTranslation } from 'react-i18next'
-import useNFTURIUpdates from '@src/hooks/subgraph/useNFTURIUpdates'
+import useNFTURIUpdates from 'src/hooks/subgraph/useNFTURIUpdates'
 import HistoryCardSkeleton from '../HistoryCardSkeleton'
 import { useTheme } from 'styled-components'
 

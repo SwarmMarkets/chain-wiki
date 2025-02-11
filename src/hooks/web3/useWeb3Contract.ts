@@ -47,7 +47,7 @@ export const useWeb3Contract = <C extends BaseContract>(
   }
 
   return {
-    contract: contract as unknown as C,
+    contract: contract as unknown as SmartContract<C>,
     contractState: rest,
     call,
     result,

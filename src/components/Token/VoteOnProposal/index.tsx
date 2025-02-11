@@ -1,9 +1,9 @@
-import Button, { ButtonProps } from '@src/components/ui/Button/Button'
-import useModalState from '@src/hooks/useModalState'
+import Button, { ButtonProps } from 'src/components/ui/Button/Button'
+import useModalState from 'src/hooks/useModalState'
 import { useTranslation } from 'react-i18next'
 import VoteOnProposalModal from './VoteOnProposalModal'
-import useSteps from '@src/hooks/useSteps'
-import SuccessModal from '@src/components/ui/SuccessScreens/SuccessModal'
+import useSteps from 'src/hooks/useSteps'
+import SuccessModal from 'src/components/ui/SuccessScreens/SuccessModal'
 
 const VoteOnProposalButton: React.FC<ButtonProps> = props => {
   const { t } = useTranslation('token')

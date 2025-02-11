@@ -1,13 +1,13 @@
 import { NetworkStatus, QueryHookOptions, useQuery } from '@apollo/client'
 import { useMemo, useState } from 'react'
 
-import { CommentsQuery as CommentsQueryGQL } from '@src/queries'
-import { CommentsQuery, CommentsQueryVariables } from '@src/queries/gql/graphql'
+import { CommentsQuery as CommentsQueryGQL } from 'src/queries'
+import { CommentsQuery, CommentsQueryVariables } from 'src/queries/gql/graphql'
 import {
   CommentsQueryFullData,
   IpfsAttestationContent,
-} from '@src/shared/utils/ipfs/types'
-import { verifyAttestationValid } from '@src/shared/utils'
+} from 'src/shared/utils/ipfs/types'
+import { verifyAttestationValid } from 'src/shared/utils'
 import { useStorage } from '@thirdweb-dev/react'
 
 const PAGE_LIMIT = 10

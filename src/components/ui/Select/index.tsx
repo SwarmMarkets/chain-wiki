@@ -1,11 +1,7 @@
-import { ChildrenProp } from '@src/shared/types/common-props'
+import { ChildrenProp } from 'src/shared/types/common-props'
 import React, { HtmlHTMLAttributes } from 'react'
 import { LayoutProps, SpaceProps } from 'styled-system'
-import {
-  ErrorText,
-  SelectWrapper,
-  StyledSelect
-} from './styled-components'
+import { ErrorText, SelectWrapper, StyledSelect } from './styled-components'
 
 interface SelectProps extends SpaceProps, LayoutProps, ChildrenProp {
   error?: string

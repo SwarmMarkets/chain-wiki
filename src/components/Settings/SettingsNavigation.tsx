@@ -1,4 +1,4 @@
-import { SettingView } from '@src/components/Settings/enums'
+import { SettingView } from 'src/components/Settings/enums'
 import { Link, useSearchParams } from 'react-router-dom'
 import Divider from '../ui/Divider'
 import Icon from '../ui/Icon'

@@ -1,5 +1,5 @@
-import Editor from '@src/components/Editor'
-import useNFT from '@src/hooks/subgraph/useNFT'
+import Editor from 'src/components/Editor'
+import useNFT from 'src/hooks/subgraph/useNFT'
 
 interface EditContentProps {
   nftAddress: string

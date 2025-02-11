@@ -1,7 +1,4 @@
-import {
-  IpfsIndexPage,
-  TokensQueryFullData,
-} from '@src/shared/utils/ipfs/types'
+import { IpfsIndexPage, TokensQueryFullData } from 'src/shared/utils/ipfs/types'
 import { useState } from 'react'
 import { DropResult } from 'react-beautiful-dnd'
 

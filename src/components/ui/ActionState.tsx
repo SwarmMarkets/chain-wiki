@@ -1,4 +1,4 @@
-import { ChildrenProp } from '@src/shared/types/common-props'
+import { ChildrenProp } from 'src/shared/types/common-props'
 import Icon from './Icon'
 import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
