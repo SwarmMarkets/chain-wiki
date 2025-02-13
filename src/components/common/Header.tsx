@@ -79,7 +79,11 @@ const Header: React.FC = () => {
   }, [isNft, theme.palette.white, headerColor, nft?.headerBackground])
 
   return (
-    <HeaderContainer as='header' $headerBackground={headerBackground}>
+    <HeaderContainer
+      className='bg-white flex justify-between items-center'
+      as='header'
+      $headerBackground={headerBackground}
+    >
       <Link to={generatePath(RoutePaths.NFT, { nftId })}>
         {showLogo && <Logo src={nft?.logoUrl} alt={nft?.name} />}
       </Link>

@@ -15,7 +15,7 @@ module.exports = {
     colors: {
       transparent: 'transparent', // TODO: Check if it's possible to avoid hadrdcoding basic TW properties
       primary: {
-        DEFAULT: '#0179EF',
+      DEFAULT: '#0179EF',
         accent: '#0167CB',
         muted: '#F5FAFF',
         contrast: '#FFF',

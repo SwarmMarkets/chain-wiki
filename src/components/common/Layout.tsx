@@ -1,32 +1,24 @@
 import { Outlet } from 'react-router-dom'
-import styled from 'styled-components'
-import Container from '../ui/Container'
-import Header from './Header'
 import SwitchNetworkAlert from './SwitchNetworkAlert'
-import PoweredByBadge from '../../components/PoweredByBadge/PoweredByBadge'
-
-const PageContainer = styled(Container)`
-  width: 100%;
-  width: -moz-available;
-  width: -webkit-fill-available;
-  width: fill-available;
-  flex: 1;
-  padding-top: 24px;
-  padding-bottom: 24px;
-`
+import Header from './Header'
 
 const Layout = () => {
   return (
-    <>
-      <SwitchNetworkAlert />
-      <Header />
-      <PageContainer>
-        <main>
+    <div className='flex h-screen'>
+      <aside className='w-64 bg-gray-100 text-white p-4 flex flex-col'>
+        <div className='text-xl font-bold mb-4'>Sidebar</div>
+      </aside>
+
+      <div className='flex flex-col flex-1'>
+        <SwitchNetworkAlert />
+
+        <Header />
+
+        <main className='flex-1 p-4 overflow-auto bg-gray-50'>
           <Outlet />
         </main>
-      </PageContainer>
-      <PoweredByBadge />
-    </>
+      </div>
+    </div>
   )
 }
 
