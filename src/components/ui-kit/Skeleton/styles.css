@@ -1,0 +1,31 @@
+.ui-skeleton {
+  @apply relative overflow-hidden rounded;
+  background-color: #e5e7eb;
+}
+
+.ui-skeleton::after {
+  @apply absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-paper to-transparent;
+  content: '';
+  animation: shimmer 1.5s infinite;
+}
+
+.ui-skeleton-rect {
+  @apply rounded-md;
+}
+
+.ui-skeleton-circle {
+  @apply rounded-full;
+}
+
+.ui-skeleton-text {
+  @apply w-full h-4 rounded-md;
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}

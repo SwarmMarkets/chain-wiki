@@ -1,0 +1,36 @@
+.ui-checkbox {
+  @apply inline-flex items-center cursor-pointer;
+
+  /* Base checkbox appearance */
+  .ui-checkbox-icon {
+    @apply w-5 h-5 flex items-center justify-center rounded-md border-2 transition-colors;
+  }
+
+  input {
+    @apply sr-only; /* Hide the radio button but keep it accessible for screenreaders */
+  }
+
+  /* Checked state */
+  input:checked + .ui-checkbox-icon {
+    @apply border-primary bg-primary;
+  }
+
+  /* Unchecked state */
+  input:not(:checked) + .ui-checkbox-icon {
+    @apply border-main-muted bg-paper;
+  }
+
+  /* Hover state */
+  input:not(:disabled):hover + .ui-checkbox-icon {
+    @apply border-main-hover;
+  }
+
+  input:not(:disabled):checked:hover + .ui-checkbox-icon {
+    @apply border-primary-accent bg-primary-accent;
+  }
+
+  /* Disabled state */
+  input:disabled + .ui-checkbox-icon {
+    @apply cursor-not-allowed opacity-50;
+  }
+}

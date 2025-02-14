@@ -1,6 +1,6 @@
 import React from 'react'
 import Flex from '../ui/Flex'
-import Icon from '../ui/Icon'
+import Icon from '../ui-kit/Icon/Icon'
 import Text from '../ui/Text'
 import { useTheme } from 'styled-components'
 

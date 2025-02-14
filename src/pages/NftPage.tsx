@@ -2,17 +2,13 @@ import { useState } from 'react'
 import { generatePath, Link, useNavigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useTheme } from 'styled-components'
-import Content from 'src/components/Content'
 import HistoryNft from 'src/components/History/HistoryNft'
-import IndexPages from 'src/components/IndexPages'
 import NftContentSkeleton from 'src/components/Nft/NftContentSkeleton'
 import { NftView } from 'src/components/Nft/NftView'
-import { SideContentWrap } from 'src/components/Nft/styled-components'
 import Settings from 'src/components/Settings/Settings'
 import TokenList from 'src/components/Token/TokenList'
 import Box from 'src/components/ui/Box'
 import Flex from 'src/components/ui/Flex'
-import Icon from 'src/components/ui/Icon'
 import Tabs from 'src/components/ui/Tabs'
 import Tab from 'src/components/ui/Tabs/Tab'
 import TabContext from 'src/components/ui/Tabs/TabContext'
@@ -28,6 +24,7 @@ import { useChainId } from '@thirdweb-dev/react'
 import { getExplorerUrl, unifyAddressToId } from 'src/shared/utils'
 import Button from 'src/components/ui/Button/Button'
 import RoutePaths from 'src/shared/enums/routes-paths'
+import Icon from 'src/components/ui-kit/Icon/Icon'
 
 const NftPage = () => {
   const { nftId = '' } = useParams()
@@ -82,17 +79,17 @@ const NftPage = () => {
       justifyContent={isNftTab && allLoaded ? 'space-between' : 'center'}
       $gap='20px'
     >
-      {activeTab === NftTabs.NFT && (
+      {/* {activeTab === NftTabs.NFT && (
         <IndexPages tokens={fullTokens} nft={nft} />
-      )}
+      )} */}
       {showSkeleton ? (
         <Flex justifyContent='center' $gap='20px'>
-          <Box width='900px'>
+          <Box width='100%'>
             <NftContentSkeleton />
           </Box>
         </Flex>
       ) : (
-        <Box width='900px'>
+        <Box width='100%'>
           <Flex $gap='5px' flexDirection='column'>
             <Flex
               alignItems='center'
@@ -154,11 +151,11 @@ const NftPage = () => {
           </TabContext>
         </Box>
       )}
-      {isNftTab && (
+      {/* {isNftTab && (
         <SideContentWrap>
           <Content contentElem={contentElem} />
         </SideContentWrap>
-      )}
+      )} */}
     </Flex>
   )
 }

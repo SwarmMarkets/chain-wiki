@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next'
 
 import { SuccessProps } from './types'
 import Flex from '../Flex'
-import Icon from '../Icon'
+import Icon from '../../ui-kit/Icon/Icon'
 import Text from '../Text'
 import Box from '../Box'
 import Button from '../Button/Button'

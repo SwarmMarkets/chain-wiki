@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { SettingView } from './enums'
-import { IconName } from '../ui/Icon'
+import { IconName } from 'src/shared/types/iconNames'
 
 interface SettingsLink {
   label: string

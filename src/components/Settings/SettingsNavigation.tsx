@@ -1,7 +1,7 @@
 import { SettingView } from 'src/components/Settings/enums'
 import { Link, useSearchParams } from 'react-router-dom'
 import Divider from '../ui/Divider'
-import Icon from '../ui/Icon'
+import Icon from '../ui-kit/Icon/Icon'
 import useSettingsLinks from './useSettingsLinks'
 import Box from '../ui/Box'
 import Text from '../ui/Text'

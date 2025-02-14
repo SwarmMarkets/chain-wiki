@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import Text from '../Text'
 import { LayoutProps, layout, space } from 'styled-system'
-import Icon from '../Icon'
+import Icon from '../../ui-kit/Icon/Icon'
 import shouldForwardProp from '@styled-system/should-forward-prop'
 
 export const StyledIcon = styled(Icon)`

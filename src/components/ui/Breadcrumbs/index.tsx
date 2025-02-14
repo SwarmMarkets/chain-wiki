@@ -1,7 +1,7 @@
 import React from 'react'
 import RouterLink from '../RouterLink'
 import Flex from '../Flex'
-import Icon from '../Icon'
+import Icon from '../../ui-kit/Icon/Icon'
 
 interface BreadcrumbItem {
   label: string

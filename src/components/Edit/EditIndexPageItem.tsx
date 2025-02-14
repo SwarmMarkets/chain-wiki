@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import useToggle from 'src/hooks/useToggle'
 import styled, { useTheme } from 'styled-components'
 import Flex from '../ui/Flex'
-import Icon from '../ui/Icon'
+import Icon from '../ui-kit/Icon/Icon'
 import TextField from '../ui/TextField/TextField'
 
 interface EditIndexPagesItemProps {
@@ -61,7 +61,7 @@ export const StyledEditLink = styled(Link)<{
   text-decoration: none;
   transition: background-color 0.3s, color 0.3s;
   overflow: hidden;
-  padding: ${({ theme, $isGroup }) => $isGroup ? '12px 5px' : '5px'};
+  padding: ${({ theme, $isGroup }) => ($isGroup ? '12px 5px' : '5px')};
 
   &:hover {
     background-color: ${({ theme, $isActive, $isGroup, $readonly }) =>

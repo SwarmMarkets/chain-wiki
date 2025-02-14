@@ -1,0 +1,34 @@
+.ui-switch {
+  @apply inline-flex items-center cursor-pointer;
+
+  input {
+    @apply sr-only; /* Hide the checkbox input but keep it accessible */
+  }
+
+  /* Slider appearance */
+  .ui-switch-slider {
+    @apply w-8 h-5 bg-paper border border-primary rounded-full relative transition-all;
+  }
+
+  /* Circle appearance */
+  .ui-switch-slider::before {
+    content: '';
+    @apply absolute w-3.5 h-3.5 bg-primary rounded-full transition-transform;
+    top: 2px;
+    left: 2px;
+  }
+
+  /* Checked state */
+  input:checked + .ui-switch-slider {
+    @apply bg-primary;
+  }
+
+  input:checked + .ui-switch-slider::before {
+    @apply transform translate-x-3 bg-paper;
+  }
+
+  /* Disabled state */
+  input:disabled + .ui-switch-slider {
+    @apply cursor-not-allowed opacity-50;
+  }
+}

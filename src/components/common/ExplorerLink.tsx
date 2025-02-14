@@ -3,7 +3,7 @@ import { ExplorerLinkType, getExplorerUrl } from 'src/shared/utils'
 import { useChainId } from '@thirdweb-dev/react'
 import styled, { useTheme } from 'styled-components'
 import Flex from '../ui/Flex'
-import Icon from '../ui/Icon'
+import Icon from '../ui-kit/Icon/Icon'
 import { MouseEvent, useState } from 'react'
 import Box from '../ui/Box'
 
