@@ -2,11 +2,11 @@ import clsx from 'clsx'
 import { AnimatePresence } from 'framer-motion'
 import React, { MouseEvent, ReactNode, useEffect } from 'react'
 import { createPortal } from 'react-dom'
-import useBreakpoint from '../hooks/ui/useBreakpoint'
 import Fade from './Animations/Fade'
 import Slide from './Animations/Slide'
 import IconButton from './IconButton'
 import Icon from './Icon/Icon'
+import useBreakpoint from 'src/hooks/ui/useBreakpoint'
 
 export interface ModalProps {
   open?: boolean
