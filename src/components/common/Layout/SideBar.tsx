@@ -7,13 +7,15 @@ import useNFTs from 'src/hooks/subgraph/useNFTs'
 import { Nft_OrderBy, OrderDirection } from 'src/queries/gql/graphql'
 import RoutePaths from 'src/shared/enums/routes-paths'
 import { isSameEthereumAddress } from 'src/shared/utils'
+import ConnectButton from '../ConnectButton'
+import PoweredByBadge from 'src/components/PoweredByBadge/PoweredByBadge'
 
 const SideBar = () => {
   const { t } = useTranslation('layout', { keyPrefix: 'sidebar' })
   const address = useAddress() || ''
   const { nftId = '' } = useParams()
 
-  const { nfts, loadingNfts, refetchingNfts, refetch } = useNFTs({
+  const { nfts } = useNFTs({
     variables: {
       filter: {
         or: [
@@ -30,10 +32,12 @@ const SideBar = () => {
   })
 
   return (
-    <div className='w-64 bg-gray-100'>
-      <div className='h-1/4'></div>
-      <nav className='ext-black p-4 flex flex-col'>
-        <NavLink to={RoutePaths.MY_NFTS} className='mb-2'>
+    <aside className='w-64 bg-gray-100 flex flex-col h-full border-r-gray-200 border-r'>
+      <header className='p-4'>
+        <ConnectButton style={{ width: '100%' }} />
+      </header>
+      <nav className='flex-1 overflow-y-auto p-4 flex flex-col gap-1'>
+        <NavLink to={RoutePaths.MY_NFTS}>
           {({ isActive }) => (
             <ExpandableListItem
               item={{
@@ -57,7 +61,10 @@ const SideBar = () => {
           noMarginLeft
         />
       </nav>
-    </div>
+      <footer className='p-4'>
+        <PoweredByBadge />
+      </footer>
+    </aside>
   )
 }
 

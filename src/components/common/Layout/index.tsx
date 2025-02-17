@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router-dom'
 
-import Header from './Header'
+// import Header from './Header'
 import SwitchNetworkAlert from '../SwitchNetworkAlert'
 import SideBar from './SideBar'
 
@@ -12,7 +12,7 @@ const Layout = () => {
       <div className='flex flex-col flex-1'>
         <SwitchNetworkAlert />
 
-        <Header />
+        {/* <Header /> */}
 
         <main className='flex-1 p-4 overflow-auto bg-gray-50'>
           <Outlet />

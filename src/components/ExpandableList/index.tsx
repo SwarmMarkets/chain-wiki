@@ -26,7 +26,7 @@ const ExpandableList: React.FC<ExpandableListProps> = ({
     <div className='flex flex-col'>
       <div
         className={clsx(
-          'group flex items-center p-3 gap-3 text-lg mb-2 rounded cursor-pointer transition-colors hover:bg-gray-200'
+          'group flex items-center p-3 gap-3 text-lg mb-1 rounded cursor-pointer transition-colors hover:bg-gray-200'
         )}
         onClick={() => setIsOpen(!isOpen)}
       >
@@ -46,7 +46,7 @@ const ExpandableList: React.FC<ExpandableListProps> = ({
           <Collapse>
             <div
               className={clsx(
-                'flex flex-col space-y-2',
+                'flex flex-col space-y-1',
                 !noMarginLeft && 'ml-6'
               )}
             >

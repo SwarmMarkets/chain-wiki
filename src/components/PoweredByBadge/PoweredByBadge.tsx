@@ -5,9 +5,9 @@ import Box from '../ui/Box'
 import Flex from '../ui/Flex'
 
 const PoweredByBox = styled(Flex)`
-  position: fixed;
-  bottom: 10px;
-  left: 120px;
+  /* position: fixed; */
+  /* bottom: 10px; */
+  /* left: 120px; */
   padding: 8px 8px 4px 8px;
   background-color: ${({ theme }) => theme.palette.white};
   color: ${({ theme }) => theme.palette.textPrimary};
@@ -15,11 +15,11 @@ const PoweredByBox = styled(Flex)`
   border-radius: 4px;
   z-index: 1000;
 
-  ${({ theme }) => `
+  /* ${({ theme }) => `
     @media (max-width: ${theme.breakpoints.xl}px) {  
       left: 50px;
     }
-  `}
+  `} */
 `
 
 const PoweredByBadge = () => {

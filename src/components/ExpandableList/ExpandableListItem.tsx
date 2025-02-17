@@ -32,6 +32,7 @@ const ExpandableListItem: React.FC<ExpandableListItemProps> = ({
       {item.icon && (
         <Icon
           name={item.icon}
+          size={16}
           className='text-main transition-colors group-hover:text-main-accent'
         />
       )}
