@@ -75,7 +75,7 @@ const EditorBox: React.FC<EditorBoxProps> = ({
         // images_reuse_filename: true,
         images_upload_handler: handleImageUpload,
         content_style:
-          'body { font-family: "Roboto", sans-serif; font-size: 14px; }',
+          'body { font-family: "Inter", sans-serif; font-size: 14px; }',
       }}
       initialValue={initialContent}
     />

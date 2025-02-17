@@ -1,13 +1,13 @@
 import { Outlet } from 'react-router-dom'
-import SwitchNetworkAlert from './SwitchNetworkAlert'
+
 import Header from './Header'
+import SwitchNetworkAlert from '../SwitchNetworkAlert'
+import SideBar from './SideBar'
 
 const Layout = () => {
   return (
     <div className='flex h-screen'>
-      <aside className='w-64 bg-gray-100 text-white p-4 flex flex-col'>
-        <div className='text-xl font-bold mb-4'>Sidebar</div>
-      </aside>
+      <SideBar />
 
       <div className='flex flex-col flex-1'>
         <SwitchNetworkAlert />

@@ -13,7 +13,6 @@ import {
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import { ThemeProvider } from 'styled-components'
-import Layout from './components/common/Layout'
 import { environment } from './environment'
 import TokenPage from './pages/TokenPage'
 import NftPage from './pages/NftPage'
@@ -27,6 +26,7 @@ import WalletConnectedProtect from './components/common/WalletConnectedProtect'
 import { HeaderColorProvider } from './components/Nft/NftView/HeaderColorContext'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import EditPage from './pages/EditPage'
+import Layout from './components/common/Layout'
 
 const queryClient = new QueryClient()
 

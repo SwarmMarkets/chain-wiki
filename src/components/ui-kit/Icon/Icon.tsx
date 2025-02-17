@@ -32,7 +32,7 @@ const StyledSVG = styled(SVG)<{
   width?: number
   height?: number
 }>`
-  cursor: ${props => props.cursor || 'default'};
+  cursor: ${props => props.cursor || 'inherit'};
   width: ${props => props.width || 'auto'};
   height: ${props => props.height || 'auto'};
 
@@ -47,6 +47,7 @@ const Icon: React.FC<IconProps> = ({
   height,
   color,
   cursor,
+  className,
   ...props
 }) => {
   const iconPath = `/assets/icons/${name}.svg`
@@ -54,7 +55,7 @@ const Icon: React.FC<IconProps> = ({
   const processSvgString = (svgString: string) => {
     let modifiedSvg = svgString
 
-    if (color) {
+    if (color || className) {
       modifiedSvg = modifiedSvg
         .replace(/fill=".*?"/g, `fill="currentColor"`)
         .replace(/stroke=".*?"/g, `stroke="currentColor"`)
@@ -69,6 +70,7 @@ const Icon: React.FC<IconProps> = ({
 
   return (
     <StyledSVG
+      className={className}
       src={iconPath}
       style={{ color }}
       cursor={cursor}

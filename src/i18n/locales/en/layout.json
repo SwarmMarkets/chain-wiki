@@ -3,5 +3,9 @@
     "myNfts": "My sites",
     "searchPlaceholder": "Search ChainWiki"
   },
+  "sidebar": {
+    "home": "Home",
+    "sites": "Sites"
+  },
   "poweredBy": "powered by"
 }

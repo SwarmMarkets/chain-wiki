@@ -43,7 +43,7 @@ const LiteEditor: React.FC<LiteEditorProps> = ({
           init={{
             height: height,
             content_style:
-              'body { font-family: "Roboto", sans-serif; font-size: 14px; }',
+              'body { font-family: "Inter", sans-serif; font-size: 14px; }',
             menubar: false,
             resize: false,
           }}
