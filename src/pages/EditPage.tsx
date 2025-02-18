@@ -29,7 +29,7 @@ const EditPage = () => {
   if (showSkeleton) {
     return (
       <Flex justifyContent='center' $gap='20px'>
-        <Box width='900px'>
+        <Box className='w-full'>
           <NftContentSkeleton />
         </Box>
       </Flex>
@@ -40,8 +40,12 @@ const EditPage = () => {
 
   return (
     <>
-      <Flex justifyContent={allLoaded ? 'space-between' : 'center'} $gap='20px'>
-        <EditIndexPages nft={nft} />
+      <Flex
+        className='w-full'
+        justifyContent={allLoaded ? 'space-between' : 'center'}
+        $gap='20px'
+      >
+        {/* <EditIndexPages nft={nft} /> */}
         <EditorView
           nft={nft}
           content={
@@ -49,9 +53,9 @@ const EditPage = () => {
             ''
           }
         />
-        <SideContentWrap>
+        {/* <SideContentWrap>
           <Content contentElem={contentElem} />
-        </SideContentWrap>
+        </SideContentWrap> */}
       </Flex>
     </>
   )

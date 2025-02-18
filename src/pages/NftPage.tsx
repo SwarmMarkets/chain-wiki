@@ -1,7 +1,7 @@
+import { useChainId } from '@thirdweb-dev/react'
 import { useState } from 'react'
-import { generatePath, Link, useNavigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { useTheme } from 'styled-components'
+import { useNavigate, useParams } from 'react-router-dom'
 import HistoryNft from 'src/components/History/HistoryNft'
 import NftContentSkeleton from 'src/components/Nft/NftContentSkeleton'
 import { NftView } from 'src/components/Nft/NftView'
@@ -13,23 +13,16 @@ import Tabs from 'src/components/ui/Tabs'
 import Tab from 'src/components/ui/Tabs/Tab'
 import TabContext from 'src/components/ui/Tabs/TabContext'
 import TabPanel from 'src/components/ui/Tabs/TabPanel'
-import Text from 'src/components/ui/Text'
 import useNftPermissions from 'src/hooks/permissions/useNftPermissions'
 import useNFT from 'src/hooks/subgraph/useNFT'
 import useTokens from 'src/hooks/subgraph/useTokens'
 import useTabs from 'src/hooks/useTabs'
 import { NftTabs } from 'src/shared/enums/tabs'
 import { Tab as ITab } from 'src/shared/types/ui-components'
-import { useChainId } from '@thirdweb-dev/react'
-import { getExplorerUrl, unifyAddressToId } from 'src/shared/utils'
-import Button from 'src/components/ui/Button/Button'
-import RoutePaths from 'src/shared/enums/routes-paths'
-import Icon from 'src/components/ui-kit/Icon/Icon'
+import { unifyAddressToId } from 'src/shared/utils'
 
 const NftPage = () => {
   const { nftId = '' } = useParams()
-  const navigate = useNavigate()
-  const theme = useTheme()
   const { t } = useTranslation(['nft', 'buttons'])
   const { permissions } = useNftPermissions(nftId)
   const [contentElem, setContentElem] = useState<HTMLDivElement | null>(null)
@@ -63,17 +56,6 @@ const NftPage = () => {
 
   const chainId = useChainId()
 
-  const handleIconClick = () => {
-    const explorerUrl = getExplorerUrl({
-      type: 'address',
-      chainId,
-      hash: nftId,
-    })
-    window.open(explorerUrl, '_blank')
-  }
-
-  const [isHovered, setIsHovered] = useState(false)
-
   return (
     <Flex
       justifyContent={isNftTab && allLoaded ? 'space-between' : 'center'}
@@ -90,35 +72,6 @@ const NftPage = () => {
         </Flex>
       ) : (
         <Box width='100%'>
-          <Flex $gap='5px' flexDirection='column'>
-            <Flex
-              alignItems='center'
-              justifyContent='space-between'
-              $gap='5px'
-              style={{ position: 'relative' }}
-            >
-              <Text.h1 size={theme.fontSizes.large} weight={700}>
-                {nft?.name}
-              </Text.h1>
-              <Flex $gap='10px' alignItems='center'>
-                <Icon
-                  cursor='pointer'
-                  name='externalLink'
-                  size={10}
-                  color={
-                    isHovered ? theme.palette.linkPrimary : theme.palette.black
-                  }
-                  onClick={handleIconClick}
-                  onMouseEnter={() => setIsHovered(true)}
-                  onMouseLeave={() => setIsHovered(false)}
-                />
-                <Link to={generatePath(RoutePaths.EDIT, { nftId })}>
-                  <Button>{t('edit', { ns: 'buttons' })}</Button>
-                </Link>
-              </Flex>
-            </Flex>
-          </Flex>
-
           <TabContext value={activeTab ?? null}>
             <Tabs onChange={onChangeNftTab}>
               <Tab value={NftTabs.NFT} label={t('tabs.nft')} />

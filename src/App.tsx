@@ -27,6 +27,7 @@ import { HeaderColorProvider } from './components/Nft/NftView/HeaderColorContext
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import EditPage from './pages/EditPage'
 import Layout from './components/common/Layout'
+import NftLayout from './components/common/Layout/NftLayout'
 
 const queryClient = new QueryClient()
 
@@ -50,11 +51,15 @@ function App() {
               <Router>
                 <Routes>
                   <Route element={<Layout />}>
-                    <Route path={RoutePaths.NFT} element={<NftPage />} />
-                    <Route
-                      path={RoutePaths.NFT + RoutePaths.TOKEN}
-                      element={<TokenPage />}
-                    />
+                    <Route element={<NftLayout />}>
+                      <Route path={RoutePaths.NFT} element={<NftPage />} />
+                      <Route
+                        path={RoutePaths.NFT + RoutePaths.TOKEN}
+                        element={<TokenPage />}
+                      />
+                      <Route path={RoutePaths.EDIT} element={<EditPage />} />
+                    </Route>
+
                     <Route
                       path={RoutePaths.MY_NFTS}
                       element={
@@ -63,7 +68,6 @@ function App() {
                         </WalletConnectedProtect>
                       }
                     />
-                    <Route path={RoutePaths.EDIT} element={<EditPage />} />
                   </Route>
                   <Route
                     path={RoutePaths.CONNECT_WALLET}

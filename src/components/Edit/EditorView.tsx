@@ -86,50 +86,7 @@ const EditorView: React.FC<EditorViewProps> = ({ nft, content }) => {
   }
 
   return (
-    <Box width='900px'>
-      <Flex $gap='5px' flexDirection='column'>
-        <Flex
-          alignItems='center'
-          justifyContent='space-between'
-          $gap='5px'
-          mb='10px'
-          style={{ position: 'relative' }}
-        >
-          <Text.h1 size={theme.fontSizes.large} weight={700}>
-            {title}
-          </Text.h1>
-          {!isNftPermissionsLoading && (
-            <Flex $gap='10px' alignItems='center'>
-              {!smartAccountPermissions.canUpdateContent && (
-                <LoadingButton
-                  loading={txLoading}
-                  onClick={grantRoleForSmartAccount}
-                >
-                  Enable batch editing
-                </LoadingButton>
-              )}
-              <LoadingButton
-                loading={mergeLoading}
-                onClick={merge}
-                disabled={!smartAccountPermissions.canUpdateContent}
-              >
-                {t('merge')}
-              </LoadingButton>
-              <Icon
-                cursor='pointer'
-                name='externalLink'
-                size={10}
-                color={
-                  isHovered ? theme.palette.linkPrimary : theme.palette.black
-                }
-                onClick={handleIconClick}
-                onMouseEnter={() => setIsHovered(true)}
-                onMouseLeave={() => setIsHovered(false)}
-              />
-            </Flex>
-          )}
-        </Flex>
-      </Flex>
+    <Box width='w-full'>
       <EditorBox content={content} onChange={updateContent} />
     </Box>
   )

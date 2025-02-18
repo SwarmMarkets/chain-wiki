@@ -85,15 +85,15 @@ const TokenPage = () => {
         justifyContent={isReadTab && allLoaded ? 'space-between' : 'center'}
         $gap='20px'
       >
-        {isReadTab && <IndexPages tokens={fullTokens} nft={nft} />}
+        {/* {isReadTab && <IndexPages tokens={fullTokens} nft={nft} />} */}
         {showSkeleton ? (
-          <Flex width='900px' justifyContent='center' $gap='20px'>
-            <Box width='900px'>
+          <Flex className='w-full' justifyContent='center' $gap='20px'>
+            <Box className='w-full'>
               <TokenContentSkeleton />
             </Box>
           </Flex>
         ) : (
-          <Box width='900px'>
+          <Box className='w-full'>
             <Text.h1 size='24px' weight={700}>
               {token?.name}
             </Text.h1>
@@ -128,7 +128,7 @@ const TokenPage = () => {
           </Box>
         )}
 
-        {isReadTab && <TokenStyledContent contentElem={contentElem} />}
+        {/* {isReadTab && <TokenStyledContent contentElem={contentElem} />} */}
       </Flex>
     </TokenContextProvider>
   )

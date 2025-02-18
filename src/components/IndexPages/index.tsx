@@ -11,6 +11,7 @@ import {
 import { useTheme } from 'styled-components'
 import EditIndexPagesTree from '../Edit/EditIndexPagesTree/EditIndexPagesTree'
 import { SideContentWrap } from '../Nft/styled-components'
+import EditIndexPages from '../Edit/EditIndexPages'
 
 interface IndexPagesProps {
   tokens: TokensQueryFullData[] | null
@@ -22,35 +23,37 @@ const IndexPages: React.FC<IndexPagesProps> = ({ tokens, nft, ...props }) => {
   const { t } = useTranslation(['nft', 'buttons'])
   const { tokenId = '' } = useParams()
 
+  const isEditMode = window.location.pathname.includes('edit')
+
   const noTokens = tokens?.length === 0
 
   if (noTokens || !nft?.id) {
     return (
-      <SideContentWrap {...props}>
-        <Text.p
-          textAlign='center'
-          fontWeight={theme.fontWeights.medium}
-          color={theme.palette.gray}
-        >
-          {t('indexPages.noTokens')}
-        </Text.p>
-      </SideContentWrap>
+      <Text.p
+        textAlign='center'
+        fontWeight={theme.fontWeights.medium}
+        color={theme.palette.gray}
+      >
+        {t('indexPages.noTokens')}
+      </Text.p>
     )
   }
 
+  if (isEditMode) {
+    return <EditIndexPages nft={nft} />
+  }
+
   return (
-    <SideContentWrap>
-      <EditIndexPagesTree
-        activeId={tokenId}
-        readonly
-        to={node =>
-          generatePath(RoutePaths.NFT + RoutePaths.TOKEN, {
-            tokenId: node.id,
-            nftId: nft.id,
-          })
-        }
-      />
-    </SideContentWrap>
+    <EditIndexPagesTree
+      activeId={tokenId}
+      readonly
+      to={node =>
+        generatePath(RoutePaths.NFT + RoutePaths.TOKEN, {
+          tokenId: node.id,
+          nftId: nft.id,
+        })
+      }
+    />
   )
 }
 
