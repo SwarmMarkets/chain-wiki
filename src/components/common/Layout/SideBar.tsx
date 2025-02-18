@@ -33,8 +33,16 @@ const SideBar = () => {
 
   return (
     <aside className='w-64 bg-gray-100 flex flex-col h-full border-r-gray-200 border-r'>
-      <header className='p-4'>
-        <ConnectButton style={{ width: '100%' }} />
+      <header className='px-4 py-2'>
+        <ConnectButton
+          style={{
+            width: '100%',
+            border: 0,
+            background: 'transparent',
+            padding: 0,
+            height: '40px',
+          }}
+        />
       </header>
       <nav className='flex-1 overflow-y-auto p-4 flex flex-col gap-1'>
         <NavLink to={RoutePaths.MY_NFTS}>
