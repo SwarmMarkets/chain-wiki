@@ -110,7 +110,7 @@ const MyNftsPage = () => {
   }
 
   return (
-    <>
+    <div className='p-4'>
       <h1>{t('myNftsTitle')}</h1>
       <ButtonGroup
         mt={20}
@@ -129,7 +129,7 @@ const MyNftsPage = () => {
           hasPrevious={hasPrevious}
         />
       )}
-    </>
+    </div>
   )
 }
 

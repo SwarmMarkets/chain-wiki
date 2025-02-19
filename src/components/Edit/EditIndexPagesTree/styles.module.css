@@ -25,10 +25,6 @@
   z-index: -1;
 }
 
-.wrapper {
-  font-family: sans-serif;
-}
-
 .treeRoot {
   list-style-type: none;
   padding-inline-start: 0px;
@@ -40,6 +36,9 @@
   padding-inline-start: 0px;
   position: relative;
   padding-bottom: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
 .treeRoot > li:after {

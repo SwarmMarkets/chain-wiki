@@ -1,16 +1,13 @@
 import React, { useState } from 'react'
-import { useTheme } from 'styled-components'
-import { ExpandableListItem } from 'src/shared/types/expandedList'
-import Icon from '../../ui-kit/Icon/Icon'
-import {
-  StyledTitleBlock,
-  StyledList,
-  StyledListItem,
-  StyledListContainer,
-} from './styled-components'
+import Icon from 'src/components/ui-kit/Icon/Icon'
+
+interface ExpandableListItem {
+  id: number
+  value: string
+  isActive?: boolean
+}
 
 interface ExpandableListProps {
-  id?: number
   title: string
   items?: ExpandableListItem[]
   initialExpanded?: boolean
@@ -27,7 +24,6 @@ const ExpandableList: React.FC<ExpandableListProps> = ({
   onClickItem,
   isActive,
 }) => {
-  const theme = useTheme()
   const [isExpanded, setIsExpanded] = useState(initialExpanded)
 
   const handleExpand = () => {
@@ -39,33 +35,46 @@ const ExpandableList: React.FC<ExpandableListProps> = ({
   }
 
   return (
-    <StyledListContainer>
-      <StyledTitleBlock $expanded={isExpanded} $isActive={isActive}>
+    <div className='relative pl-4'>
+      <div
+        className={`flex items-center gap-2 px-4 py-2 cursor-pointer transition-colors ${
+          isActive ? 'text-blue-600' : 'text-main'
+        } hover:text-blue-500`}
+        onClick={onClickTitle || handleExpand}
+      >
         {items.length > 0 && (
           <Icon
+            className={`w-3 h-3 transition-transform ${
+              isExpanded ? 'rotate-90' : ''
+            }`}
             name='chevronRight'
-            color={theme.palette.textPrimary}
-            width={12}
-            height={12}
             onClick={handleExpand}
-          />
+          >
+            <path
+              strokeLinecap='round'
+              strokeLinejoin='round'
+              d='M9 5l7 7-7 7'
+            ></path>
+          </Icon>
         )}
-        <span onClick={onClickTitle}>{title}</span>
-      </StyledTitleBlock>
+        <span>{title}</span>
+      </div>
       {isExpanded && (
-        <StyledList>
+        <ul className='ml-6 border-l-2 border-gray-300 pl-4'>
           {items.map(item => (
-            <StyledListItem
+            <li
               key={item.id}
-              $isActive={item.isActive || false}
+              className={`relative px-4 py-2 cursor-pointer transition-colors ${
+                item.isActive ? 'text-blue-600' : 'text-black'
+              } hover:text-blue-500`}
               onClick={() => handleClickItem(item)}
             >
               {item.value}
-            </StyledListItem>
+            </li>
           ))}
-        </StyledList>
+        </ul>
       )}
-    </StyledListContainer>
+    </div>
   )
 }
 

@@ -12,6 +12,7 @@ import Node from './Node'
 import Placeholder from './Placeholder'
 import styles from './styles.module.css'
 import { EditNodeModel, EditNodeModelData } from './types'
+import clsx from 'clsx'
 
 interface EditIndexPagesTreeProps {
   onClick?: (id: string) => void
@@ -52,7 +53,7 @@ const EditIndexPagesTree: React.FC<EditIndexPagesTreeProps> = ({
       <div className={styles.wrapper}>
         <Tree
           classes={{
-            root: styles.treeRoot,
+            root: clsx(styles.treeRoot),
             placeholder: styles.placeholder,
             dropTarget: styles.dropTarget,
             listItem: styles.listItem,

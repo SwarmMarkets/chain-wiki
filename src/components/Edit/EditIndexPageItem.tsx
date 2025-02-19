@@ -1,10 +1,10 @@
 import React, { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import useToggle from 'src/hooks/useToggle'
-import styled, { useTheme } from 'styled-components'
-import Flex from '../ui/Flex'
 import Icon from '../ui-kit/Icon/Icon'
 import TextField from '../ui/TextField/TextField'
+import clsx from 'clsx'
+import IconButton from '../ui-kit/IconButton'
 
 interface EditIndexPagesItemProps {
   to?: string
@@ -20,64 +20,6 @@ interface EditIndexPagesItemProps {
   onToggle?: (e: React.MouseEvent) => void
 }
 
-const ActionIcon = styled(Icon)`
-  &:hover {
-    color: ${({ theme }) => theme.palette.linkPrimaryAccent} !important;
-  }
-
-  opacity: 0;
-  transition: 0.2s;
-`
-
-const ChevronRightIcon = styled(Icon)`
-  &:hover {
-    color: ${({ theme }) => theme.palette.linkPrimaryAccent} !important;
-  }
-
-  transition: all 0.2s;
-`
-
-export const StyledEditLink = styled(Link)<{
-  $isActive: boolean
-  $isGroup: boolean
-  $readonly: boolean
-}>`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  box-sizing: border-box;
-  cursor: ${({ $isGroup, $readonly }) =>
-    !$isGroup || ($isGroup && !$readonly) ? 'pointer' : 'default'};
-  font-size: ${({ theme, $isGroup }) =>
-    $isGroup ? theme.fontSizes.mediumPlus : theme.fontSizes.medium};
-  color: ${({ theme, $isActive, $isGroup }) =>
-    $isActive
-      ? theme.palette.linkPrimary
-      : $isGroup
-      ? theme.palette.darkGray
-      : theme.palette.black};
-  border-radius: 4px;
-  text-decoration: none;
-  transition: background-color 0.3s, color 0.3s;
-  overflow: hidden;
-  padding: ${({ theme, $isGroup }) => ($isGroup ? '12px 5px' : '5px')};
-
-  &:hover {
-    background-color: ${({ theme, $isActive, $isGroup, $readonly }) =>
-      $isGroup && $readonly
-        ? 'transparent'
-        : $isActive
-        ? theme.palette.blueLight
-        : theme.palette.lightGray};
-  }
-
-  &:hover .edit-icon {
-    opacity: 1;
-    visibility: visible;
-  }
-`
-
 const EditIndexPagesItem: React.FC<EditIndexPagesItemProps> = ({
   to,
   name,
@@ -91,9 +33,8 @@ const EditIndexPagesItem: React.FC<EditIndexPagesItemProps> = ({
   onEdit,
   onToggle,
 }) => {
-  const theme = useTheme()
   const { toggle, isOn } = useToggle(false)
-  const textFieldRef = useRef<HTMLInputElement | null>(null)
+  const textFieldRef = useRef(null)
 
   useEffect(() => {
     if (isOn) {
@@ -129,11 +70,16 @@ const EditIndexPagesItem: React.FC<EditIndexPagesItemProps> = ({
   }
 
   return (
-    <StyledEditLink
-      $isGroup={isGroup}
-      $readonly={readonly}
+    <Link
       to={to || ''}
-      $isActive={active}
+      className={clsx(
+        'flex items-center justify-between w-full box-border rounded transition-colors overflow-hidden px-2 py-1.5',
+        active && 'bg-gray-100 text-main-accent',
+        hasChild && 'mb-1',
+        isGroup
+          ? 'typo-title2 pointer-events-none'
+          : 'hover:bg-gray-100 cursor-pointer'
+      )}
       onClick={handleClick}
     >
       {isOn ? (
@@ -147,29 +93,28 @@ const EditIndexPagesItem: React.FC<EditIndexPagesItemProps> = ({
       ) : (
         name
       )}
-      <Flex $gap='5px' alignItems='center'>
+      <div className='flex items-center gap-2'>
         {!readonly && editable && (
-          <ActionIcon
+          <Icon
             onClick={handleActionIconClick}
-            className='edit-icon'
-            cursor='pointer'
             name={isOn ? 'checkmark' : 'edit'}
-            color={active ? theme.palette.linkPrimary : theme.palette.black}
           />
         )}
         {hasChild && (!isGroup || !readonly) && (
-          <ChevronRightIcon
-            cursor='pointer'
-            style={{ transform: isOpen ? 'rotate(90deg)' : '' }}
-            name='chevronRight'
-            color={theme.palette.textPrimary}
-            width={12}
-            height={12}
-            onClick={handleToggle}
-          />
+          <IconButton hoverBackground='gray-200'>
+            <Icon
+              onClick={handleToggle}
+              name='chevronRight'
+              size={12}
+              className={clsx(
+                'transition-transform',
+                isOpen ? 'rotate-90' : 'rotate-0'
+              )}
+            />
+          </IconButton>
         )}
-      </Flex>
-    </StyledEditLink>
+      </div>
+    </Link>
   )
 }
 
