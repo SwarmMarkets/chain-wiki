@@ -6,6 +6,7 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  @apply bg-paper text-main;
 }
 
 ::-webkit-scrollbar {
@@ -29,7 +30,6 @@
 body ::-webkit-scrollbar {
   width: 5px;
   height: 3px;
-  @apply bg-paper;
 }
 
 @layer components {
