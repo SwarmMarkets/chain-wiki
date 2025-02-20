@@ -57,59 +57,29 @@ const NftPage = () => {
   const chainId = useChainId()
 
   return (
-    <Flex
-      justifyContent={isNftTab && allLoaded ? 'space-between' : 'center'}
-      $gap='20px'
-    >
+    <div>
       {/* {activeTab === NftTabs.NFT && (
         <IndexPages tokens={fullTokens} nft={nft} />
       )} */}
       {showSkeleton ? (
-        <Flex justifyContent='center' $gap='20px'>
-          <Box width='100%'>
-            <NftContentSkeleton />
-          </Box>
-        </Flex>
+        <NftContentSkeleton />
       ) : (
-        <Box width='100%'>
-          <TabContext value={activeTab ?? null}>
-            <Tabs onChange={onChangeNftTab}>
-              <Tab value={NftTabs.NFT} label={t('tabs.nft')} />
-              <Tab value={NftTabs.TOKENS} label={t('tabs.tokens')} />
-              <Tab value={NftTabs.HISTORY} label={t('tabs.history')} />
-              {permissions.canUpdateSettings && (
-                <Tab value={NftTabs.SETTINGS} label={t('tabs.settings')} />
-              )}
-            </Tabs>
-            <TabPanel value={NftTabs.NFT}>
-              <NftView
-                nft={nft}
-                onMount={onMountContent}
-                onClickEditSite={handleSettingsSite}
-              />
-            </TabPanel>
-            <TabPanel value={NftTabs.TOKENS}>
-              <TokenList
-                tokens={fullTokens}
-                loading={tokensLoading}
-                nftAddress={nftId!}
-              />
-            </TabPanel>
-            <TabPanel value={NftTabs.SETTINGS}>
-              <Settings />
-            </TabPanel>
-            <TabPanel value={NftTabs.HISTORY}>
-              <HistoryNft />
-            </TabPanel>
-          </TabContext>
-        </Box>
+        <div className='w-full flex flex-col gap-4'>
+          <h1 className='typo-heading1 text-main-accent'>{nft?.name}</h1>
+
+          <NftView
+            nft={nft}
+            onMount={onMountContent}
+            onClickEditSite={handleSettingsSite}
+          />
+        </div>
       )}
       {/* {isNftTab && (
         <SideContentWrap>
           <Content contentElem={contentElem} />
         </SideContentWrap>
       )} */}
-    </Flex>
+    </div>
   )
 }
 
