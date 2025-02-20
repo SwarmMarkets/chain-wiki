@@ -85,11 +85,7 @@ const EditorView: React.FC<EditorViewProps> = ({ nft, content }) => {
     }
   }
 
-  return (
-    <Box width='w-full'>
-      <EditorBox content={content} onChange={updateContent} />
-    </Box>
-  )
+  return <EditorBox content={content} onChange={updateContent} />
 }
 
 export default EditorView

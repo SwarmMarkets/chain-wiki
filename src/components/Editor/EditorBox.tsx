@@ -4,6 +4,8 @@ import React, { useRef } from 'react'
 import { storage } from 'src/firebase'
 import { Editor as TinyEditorType } from 'tinymce'
 
+import './editor.css'
+
 interface EditorBoxProps {
   initialContent?: string
   content?: string
