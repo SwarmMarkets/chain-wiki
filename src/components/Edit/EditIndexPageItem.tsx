@@ -34,7 +34,7 @@ const EditIndexPagesItem: React.FC<EditIndexPagesItemProps> = ({
   onToggle,
 }) => {
   const { toggle, isOn } = useToggle(false)
-  const textFieldRef = useRef(null)
+  const textFieldRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     if (isOn) {
