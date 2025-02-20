@@ -1,6 +1,6 @@
 import clsx from 'clsx'
 import { AnimatePresence } from 'framer-motion'
-import { useState } from 'react'
+import { ReactNode, useState } from 'react'
 import Icon from 'src/components/ui-kit/Icon/Icon'
 import Collapse from '../ui-kit/Animations/Collapse'
 import ExpandableListItem, {
@@ -8,7 +8,7 @@ import ExpandableListItem, {
 } from './ExpandableListItem'
 
 interface ExpandableListProps {
-  title: string
+  title: ReactNode
   items?: IExpandableListItem[]
   noMarginLeft?: boolean
   onClickItem?: (item: IExpandableListItem) => void
@@ -38,7 +38,7 @@ const ExpandableList: React.FC<ExpandableListProps> = ({
             isOpen ? 'rotate-90' : 'rotate-0'
           )}
         />
-        <div className='typo-body2'>{title}</div>
+        <div className='typo-body2 w-full'>{title}</div>
       </div>
 
       <AnimatePresence>

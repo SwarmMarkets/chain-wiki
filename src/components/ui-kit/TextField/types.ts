@@ -18,7 +18,7 @@ export interface TextFieldProps<T extends TextFieldTypes = TextFieldTypes>
   errorMessage?: string
   hideError?: boolean
   type?: T
-  value: TextFieldValue<T>
+  value?: TextFieldValue<T>
   onChange?: (value: TextFieldValue<T>) => void
   inputProps?: InputHTMLAttributes<HTMLInputElement>
   className?: string

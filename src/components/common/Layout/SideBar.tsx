@@ -9,6 +9,10 @@ import RoutePaths from 'src/shared/enums/routes-paths'
 import { isSameEthereumAddress } from 'src/shared/utils'
 import ConnectButton from '../ConnectButton'
 import PoweredByBadge from 'src/components/PoweredByBadge/PoweredByBadge'
+import CreateNftModal from 'src/components/CreateNft/CreateNftModal'
+import useModalState from 'src/hooks/useModalState'
+import Icon from 'src/components/ui-kit/Icon/Icon'
+import IconButton from 'src/components/ui-kit/IconButton'
 
 const SideBar = () => {
   const { t } = useTranslation('layout', { keyPrefix: 'sidebar' })
@@ -30,6 +34,13 @@ const SideBar = () => {
     },
     skip: !address,
   })
+
+  const { isOpen, open, close } = useModalState()
+
+  const handleOpenCreateNftModal = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    open()
+  }
 
   return (
     <aside className='w-64 bg-gray-100 flex flex-col h-full border-r-gray-200 border-r'>
@@ -58,7 +69,17 @@ const SideBar = () => {
           )}
         </NavLink>
         <ExpandableList
-          title={t('sites')}
+          title={
+            <div className='flex justify-between items-center w-full'>
+              <p>{t('sites')}</p>
+              <IconButton
+                onClick={handleOpenCreateNftModal}
+                hoverBackground='gray-100'
+              >
+                <Icon name='plus' size={16} />
+              </IconButton>
+            </div>
+          }
           items={nfts?.map(nft => ({
             id: nft.id,
             label: nft.name,
@@ -72,6 +93,7 @@ const SideBar = () => {
       <footer className='p-4'>
         <PoweredByBadge />
       </footer>
+      <CreateNftModal isOpen={isOpen} onClose={close} />
     </aside>
   )
 }

@@ -87,7 +87,7 @@ const Modal: React.FC<ModalProps> = ({
         </div>
       )}
     </AnimatePresence>,
-    document.body.querySelector('#root') || document.body
+    document.body.querySelector('#modals') || document.body
   )
 }
 

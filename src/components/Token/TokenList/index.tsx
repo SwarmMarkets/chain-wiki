@@ -1,9 +1,6 @@
-import Text from 'src/components/ui/Text'
 import { TokensQueryFullData } from 'src/shared/utils/ipfs/types'
 import { useTranslation } from 'react-i18next'
-import { useTheme } from 'styled-components'
 import RequirePermissions from '../../common/RequirePermissions'
-import Flex from '../../ui/Flex'
 import CreateTokenCard from '../CreateTokenCard'
 import TokenCardSkeleton from '../TokenCardSkeleton'
 import TokenCard from './TokenCard'
@@ -21,24 +18,14 @@ const TokenList: React.FC<TokenListProps> = ({
 }) => {
   const { t } = useTranslation('token')
   const noTokens = !tokens?.length && !loading
-  const theme = useTheme()
 
   return (
-    <Flex flexDirection='column' $gap='10px'>
+    <div className='flex flex-col gap-2.5'>
       <RequirePermissions canCreateToken nftAddress={nftAddress}>
         <CreateTokenCard />
       </RequirePermissions>
 
-      {noTokens && (
-        <Text.p
-          mt='22px'
-          textAlign='center'
-          color={theme.palette.gray}
-          fontWeight={theme.fontWeights.medium}
-        >
-          {t('messages.noTokens')}
-        </Text.p>
-      )}
+      {noTokens && <p className='text-center'>{t('messages.noTokens')}</p>}
 
       {tokens?.map(token => (
         <TokenCard
@@ -52,7 +39,7 @@ const TokenList: React.FC<TokenListProps> = ({
 
       {loading &&
         [...new Array(5)].map((_, index) => <TokenCardSkeleton key={index} />)}
-    </Flex>
+    </div>
   )
 }
 
