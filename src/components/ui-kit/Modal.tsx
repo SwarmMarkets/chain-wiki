@@ -39,8 +39,8 @@ const Modal: React.FC<ModalProps> = ({
 
   const modalClasses = clsx(
     'relative transform overflow-hidden bg-paper shadow-xl',
-    'sm:my-8 sm:w-full sm:max-w-lg sm:rounded-md', // Desktop classes
-    'rounded-t-md px-4 py-2 w-full max-w-full' // Mobile classes
+    'sm:my-8 sm:w-full sm:max-w-lg sm:rounded-md p-4', // Desktop classes
+    'rounded-t-md w-full max-w-full' // Mobile classes
   )
 
   const handleClose = (e: MouseEvent<HTMLDivElement>) => {
