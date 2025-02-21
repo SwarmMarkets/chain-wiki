@@ -50,7 +50,7 @@ const EditIndexPagesTree: React.FC<EditIndexPagesTreeProps> = ({
 
   return (
     <DndProvider backend={MultiBackend} options={getBackendOptions()}>
-      <div className={styles.wrapper}>
+      <div className={styles.wrapper + 'text-prima'}>
         <Tree
           classes={{
             root: clsx(styles.treeRoot),

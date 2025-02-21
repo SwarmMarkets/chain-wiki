@@ -20,7 +20,9 @@ export interface TextFieldProps<T extends TextFieldTypes = TextFieldTypes>
   type?: T
   value?: TextFieldValue<T>
   onChange?: (value: TextFieldValue<T>) => void
-  inputProps?: InputHTMLAttributes<HTMLInputElement>
+  inputProps?: InputHTMLAttributes<HTMLInputElement> & {
+    ref?: React.RefObject<HTMLInputElement>
+  }
   className?: string
   disabled?: boolean
 }

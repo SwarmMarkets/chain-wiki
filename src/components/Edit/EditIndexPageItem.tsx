@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import useToggle from 'src/hooks/useToggle'
 import Icon from '../ui-kit/Icon/Icon'
-import TextField from '../ui/TextField/TextField'
+import TextField from '../ui-kit/TextField/TextField'
 import clsx from 'clsx'
 import IconButton from '../ui-kit/IconButton'
 
@@ -48,8 +48,8 @@ const EditIndexPagesItem: React.FC<EditIndexPagesItemProps> = ({
     }
   }
 
-  const handleChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onEdit?.(e.target.value)
+  const handleChangeName = (name: string) => {
+    onEdit?.(name)
   }
 
   const handleBlurName = () => {
@@ -69,43 +69,46 @@ const EditIndexPagesItem: React.FC<EditIndexPagesItemProps> = ({
     onToggle?.(e)
   }
 
+  const Wrapper = to ? Link : 'div'
+
   return (
-    <Link
+    <Wrapper
       to={to || ''}
       className={clsx(
-        'flex items-center justify-between w-full box-border rounded transition-colors overflow-hidden px-2 py-1.5',
+        'flex items-center justify-between w-full box-border rounded transition-colors overflow-hidden px-2 py-1.5 gap-2',
         active && 'bg-gray-100 text-main-accent',
         hasChild && 'mb-1',
-        isGroup
-          ? 'typo-title2 pointer-events-none'
-          : 'hover:bg-gray-100 cursor-pointer'
+        isGroup ? 'typo-title3' : 'hover:bg-gray-100 cursor-pointer'
       )}
       onClick={handleClick}
     >
       {isOn ? (
         <TextField
-          inputProps={{ onBlur: handleBlurName }}
-          ref={textFieldRef}
+          className='max-w-40'
+          inputProps={{ onBlur: handleBlurName, ref: textFieldRef }}
           value={name}
           onChange={handleChangeName}
-          maxWidth='160px'
+          hideError
         />
       ) : (
         name
       )}
       <div className='flex items-center gap-2'>
         {!readonly && editable && (
-          <Icon
-            onClick={handleActionIconClick}
-            name={isOn ? 'checkmark' : 'edit'}
-          />
+          <IconButton hoverBackground='gray-200'>
+            <Icon
+              size={16}
+              onClick={handleActionIconClick}
+              name={isOn ? 'checkmark' : 'edit'}
+            />
+          </IconButton>
         )}
         {hasChild && (!isGroup || !readonly) && (
           <IconButton hoverBackground='gray-200'>
             <Icon
               onClick={handleToggle}
-              name='chevronRight'
-              size={12}
+              name='arrow-right-secondary'
+              size={8}
               className={clsx(
                 'transition-transform',
                 isOpen ? 'rotate-90' : 'rotate-0'
@@ -114,7 +117,7 @@ const EditIndexPagesItem: React.FC<EditIndexPagesItemProps> = ({
           </IconButton>
         )}
       </div>
-    </Link>
+    </Wrapper>
   )
 }
 

@@ -1,11 +1,11 @@
+import { useTranslation } from 'react-i18next'
 import Flex from 'src/components/ui/Flex'
 import { useEditingStore } from 'src/shared/store/editing-store'
 import { getUniqueId, NFTWithMetadata } from 'src/shared/utils'
+import Button from '../ui-kit/Button/Button'
 import EditIndexPagesItem from './EditIndexPageItem'
 import EditIndexPagesTree from './EditIndexPagesTree/EditIndexPagesTree'
 import useEdit from './useEdit'
-import { useTranslation } from 'react-i18next'
-import Button from '../ui-kit/Button/Button'
 
 interface EditIndexPagesProps {
   nft: NFTWithMetadata
