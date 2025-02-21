@@ -1,12 +1,11 @@
-import { SideContentWrap } from 'src/components/Nft/styled-components'
 import Flex from 'src/components/ui/Flex'
 import { useEditingStore } from 'src/shared/store/editing-store'
 import { getUniqueId, NFTWithMetadata } from 'src/shared/utils'
 import EditIndexPagesItem from './EditIndexPageItem'
 import EditIndexPagesTree from './EditIndexPagesTree/EditIndexPagesTree'
 import useEdit from './useEdit'
-import Button from '../ui/Button/Button'
 import { useTranslation } from 'react-i18next'
+import Button from '../ui-kit/Button/Button'
 
 interface EditIndexPagesProps {
   nft: NFTWithMetadata
@@ -86,10 +85,10 @@ const EditIndexPages: React.FC<EditIndexPagesProps> = ({ nft }) => {
         onClick={handleIndexPageClick}
       />
 
-      <Button mt='10px' onClick={handleAddPage}>
+      <Button className='mt-2' onClick={handleAddPage}>
         {t('addToken')}
       </Button>
-      <Button mt='10px' onClick={handleAddGroup}>
+      <Button className='mt-2' onClick={handleAddGroup}>
         {t('addGroup')}
       </Button>
     </Flex>
