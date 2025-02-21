@@ -36,8 +36,8 @@ const Button: React.FC<ButtonProps> = ({
 
   const sizeClasses = {
     sm: 'py-1.5 px-2.5',
-    md: 'py-3 px-14',
-    lg: 'py-4 px-14',
+    md: 'py-3 px-8',
+    lg: 'py-4 px-8',
   }
 
   const buttonClasses = clsx(

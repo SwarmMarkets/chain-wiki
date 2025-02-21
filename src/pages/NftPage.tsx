@@ -70,7 +70,6 @@ const NftPage = () => {
           <NftView
             nft={nft}
             onMount={onMountContent}
-            onClickEditSite={handleSettingsSite}
           />
         </div>
       )}

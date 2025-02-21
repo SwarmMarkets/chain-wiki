@@ -45,13 +45,7 @@ export const TokenView: React.FC<TokenViewProps> = ({
   }
 
   if (!token?.ipfsContent?.htmlContent)
-    return (
-      <StyledCard onClick={onClickEditSite}>
-        <Text.p textAlign='center' color={theme.palette.borderPrimary}>
-          {t('messages.editToken')}
-        </Text.p>
-      </StyledCard>
-    )
+    return <p className='text-center'>{t('messages.noContent')}</p>
 
   const isOpen = !!(selectedSection.htmlContent && selectedSection.id)
 
