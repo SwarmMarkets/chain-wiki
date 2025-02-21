@@ -1,4 +1,4 @@
-import Modal from 'src/components/ui/Modal'
+import Modal from 'src/components/ui-kit/Modal'
 import SuccessContent from 'src/components/ui/SuccessScreens/SuccessContent'
 import useSteps from 'src/hooks/useSteps'
 import { BasicModalProps } from 'src/shared/types/common-props'
@@ -22,19 +22,14 @@ const UploadVoteProposalModal: React.FC<BasicModalProps> = ({
     setVoteProposal(value)
   }
 
+
   const handleOnClose = () => {
     reset()
     onClose()
   }
 
   return (
-    <Modal
-      isOpen={isOpen}
-      onClose={handleOnClose}
-      maxWidth='500px'
-      width='100%'
-      minHeight='300px'
-    >
+    <Modal open={isOpen} onClose={handleOnClose}>
       {step === 1 && (
         <UploadVoteProposal
           nextStep={nextStep}

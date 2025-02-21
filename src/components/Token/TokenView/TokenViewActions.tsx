@@ -1,6 +1,6 @@
 import RequirePermissions from 'src/components/common/RequirePermissions'
 import { useTokenContext } from 'src/components/providers/TokenContext'
-import Button from 'src/components/ui/Button/Button'
+import Button from 'src/components/ui-kit/Button/Button'
 import Flex from 'src/components/ui/Flex'
 import useModalState from 'src/hooks/useModalState'
 import dayjs from 'dayjs'
