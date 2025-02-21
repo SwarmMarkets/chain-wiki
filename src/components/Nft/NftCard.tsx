@@ -72,8 +72,8 @@ const NftCard: React.FC<NftCardProps> = ({ nft, showRole = false }) => {
           ) : (
             <RequirePermissions nftAddress={nft.id} canUpdateContent>
               <UploadFileButton
+                size='sm'
                 isLoading={tx.txLoading}
-                size='small'
                 onUpload={handleUploadLogo}
               >
                 {t('messages.addLogo')}
