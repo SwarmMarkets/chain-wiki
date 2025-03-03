@@ -73,6 +73,7 @@ const EditIndexPages: React.FC<EditIndexPagesProps> = ({ nft }) => {
     <Flex flexDirection='column'>
       {
         <EditIndexPagesItem
+          className='mb-1'
           name={editedNft?.name || nft.name}
           active={currEditableToken === null}
           onClick={() => updateCurrEditableToken(null)}

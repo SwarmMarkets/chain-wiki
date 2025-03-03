@@ -1,23 +1,21 @@
-import { generatePath, Link, Outlet, useParams } from 'react-router-dom'
-import IndexPages from 'src/components/IndexPages'
-import useNFT from 'src/hooks/subgraph/useNFT'
-import useTokens from 'src/hooks/subgraph/useTokens'
-import { getExplorerUrl, unifyAddressToId } from 'src/shared/utils'
-import SwitchNetworkAlert from '../SwitchNetworkAlert'
-import Icon from 'src/components/ui-kit/Icon/Icon'
-import { t } from 'i18next'
-import RoutePaths from 'src/shared/enums/routes-paths'
 import { useChainId } from '@thirdweb-dev/react'
-import IconButton from 'src/components/ui-kit/IconButton'
-import Button from 'src/components/ui-kit/Button/Button'
-import useNftPermissions from 'src/hooks/permissions/useNftPermissions'
-import useNFTRoleManager from 'src/components/Nft/NftRoleManager/useNFTRoleManager'
+import { t } from 'i18next'
+import { generatePath, Link, Outlet, useParams } from 'react-router-dom'
 import useEdit from 'src/components/Edit/useEdit'
+import IndexPages from 'src/components/IndexPages'
+import useNFTRoleManager from 'src/components/Nft/NftRoleManager/useNFTRoleManager'
+import Button from 'src/components/ui-kit/Button/Button'
+import Icon from 'src/components/ui-kit/Icon/Icon'
+import IconButton from 'src/components/ui-kit/IconButton'
+import useNftPermissions from 'src/hooks/permissions/useNftPermissions'
+import useNFT from 'src/hooks/subgraph/useNFT'
 import useSmartAccount from 'src/services/safe-protocol-kit/useSmartAccount'
 import { Roles } from 'src/shared/enums'
+import RoutePaths from 'src/shared/enums/routes-paths'
+import { getExplorerUrl } from 'src/shared/utils'
 
 const NftLayout = () => {
-  const { nftId = '', tokenId = '' } = useParams()
+  const { nftId = '' } = useParams()
 
   const { nft } = useNFT(nftId, { fetchFullData: true })
 
@@ -34,16 +32,6 @@ const NftLayout = () => {
 
   const isEditMode = window.location.pathname.includes('edit')
 
-  const {
-    fullTokens,
-    loading: fullTokensLoading,
-    refetching: refetchingFullTokens,
-  } = useTokens(
-    {
-      variables: { filter: { nft: unifyAddressToId(nftId) }, limit: 100 },
-    },
-    { fetchFullData: true }
-  )
   const handleIconClick = () => {
     const explorerUrl = getExplorerUrl({
       type: 'address',
@@ -98,7 +86,7 @@ const NftLayout = () => {
       <div className='flex flex-1 min-h-0'>
         <aside className='w-64 bg-paper flex flex-col border-r-gray-200 border-r overflow-y-auto h-full'>
           <nav className='flex-1 overflow-y-auto p-4 flex flex-col gap-1'>
-            <IndexPages tokens={fullTokens} nft={nft} />
+            <IndexPages nft={nft} />
           </nav>
           <footer></footer>
         </aside>

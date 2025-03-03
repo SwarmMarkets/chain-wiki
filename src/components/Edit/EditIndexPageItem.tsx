@@ -18,6 +18,7 @@ interface EditIndexPagesItemProps {
   onClick?: () => void
   onEdit?: (value: string) => void
   onToggle?: (e: React.MouseEvent) => void
+  className?: string
 }
 
 const EditIndexPagesItem: React.FC<EditIndexPagesItemProps> = ({
@@ -32,6 +33,7 @@ const EditIndexPagesItem: React.FC<EditIndexPagesItemProps> = ({
   onClick,
   onEdit,
   onToggle,
+  className,
 }) => {
   const { toggle, isOn } = useToggle(false)
   const textFieldRef = useRef<HTMLInputElement>(null)
@@ -78,7 +80,8 @@ const EditIndexPagesItem: React.FC<EditIndexPagesItemProps> = ({
         'flex items-center justify-between w-full box-border rounded transition-colors overflow-hidden px-2 py-1.5 gap-2',
         active && 'bg-gray-100 text-main-accent',
         hasChild && 'mb-1',
-        isGroup ? 'typo-title3' : 'hover:bg-gray-100 cursor-pointer'
+        isGroup ? 'typo-title3' : 'hover:bg-gray-100 cursor-pointer',
+        className
       )}
       onClick={handleClick}
     >
