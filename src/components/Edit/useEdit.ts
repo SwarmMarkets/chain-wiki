@@ -235,7 +235,7 @@ const useEdit = (readonly?: boolean) => {
       }
     })
 
-    if (editedIndexPagesNodes.length === 0) {
+    if (editedIndexPagesNodes.length === 0 && hiddenIndexPagesNodes.length === 0) {
       return []
     }
 
