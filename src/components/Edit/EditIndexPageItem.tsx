@@ -98,18 +98,16 @@ const EditIndexPagesItem: React.FC<EditIndexPagesItemProps> = ({
       )}
       <div className='flex items-center gap-2'>
         {!readonly && editable && (
-          <IconButton hoverBackground='gray-200'>
-            <Icon
-              size={16}
-              onClick={handleActionIconClick}
-              name={isOn ? 'checkmark' : 'edit'}
-            />
+          <IconButton
+            hoverBackground='gray-200'
+            onClick={handleActionIconClick}
+          >
+            <Icon size={16} name={isOn ? 'checkmark' : 'edit'} />
           </IconButton>
         )}
         {hasChild && (!isGroup || !readonly) && (
-          <IconButton hoverBackground='gray-200'>
+          <IconButton hoverBackground='gray-200' onClick={handleToggle}>
             <Icon
-              onClick={handleToggle}
               name='arrow-right-secondary'
               size={8}
               className={clsx(
