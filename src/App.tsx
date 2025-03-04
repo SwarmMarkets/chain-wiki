@@ -28,6 +28,8 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import EditPage from './pages/EditPage'
 import Layout from './components/common/Layout'
 import NftLayout from './components/common/Layout/NftLayout'
+import ReadLayout from './components/common/Layout/ReadLayout'
+import NftReadPage from './pages/NftReadPage'
 
 const queryClient = new QueryClient()
 
@@ -67,6 +69,16 @@ function App() {
                           <MyNftsPage />
                         </WalletConnectedProtect>
                       }
+                    />
+                  </Route>
+                  <Route element={<ReadLayout />}>
+                    <Route
+                      path={RoutePaths.NFT_READ}
+                      element={<NftReadPage />}
+                    />
+                    <Route
+                      path={RoutePaths.TOKEN_READ}
+                      element={<NftReadPage />}
                     />
                   </Route>
                   <Route

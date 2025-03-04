@@ -41,6 +41,8 @@ export const useIpfsHeaderLinks = (ipfsUri?: string) => {
     enabled: Boolean(ipfsUri),
   })
 
+  console.log(data, 'data')
+
   return {
     headerLinksContent: data,
     isLoading: ipfsUri ? isLoading : false,

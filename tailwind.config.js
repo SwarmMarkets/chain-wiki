@@ -8,6 +8,7 @@ module.exports = {
       md: '768px',
       lg: '1024px',
       xl: '1280px',
+      '2xl': '1440px',
     },
     container: {
       center: true,
@@ -15,7 +16,7 @@ module.exports = {
     colors: {
       transparent: 'transparent', // TODO: Check if it's possible to avoid hadrdcoding basic TW properties
       primary: {
-      DEFAULT: '#0179EF',
+        DEFAULT: '#0179EF',
         accent: '#0167CB',
         muted: '#F5FAFF',
         contrast: '#FFF',
@@ -82,29 +83,29 @@ module.exports = {
         950: '#030712',
       },
     },
-    textColor: (theme) => ({
-      ...(theme('colors')),
+    textColor: theme => ({
+      ...theme('colors'),
       main: {
         DEFAULT: '#5C6670',
         accent: '#2E3338',
         muted: '#ABB2BA',
       },
     }),
-    fill: (theme) => ({
+    fill: theme => ({
       // NOTE: It's copied from text color. IDK If it's OK
-      ...(theme('colors')),
+      ...theme('colors'),
       main: {
         DEFAULT: '#5C6670',
         accent: '#2E3338',
         muted: '#ABB2BA',
       },
     }),
-    backgroundColor: (theme) => ({
-      ...(theme('colors')),
+    backgroundColor: theme => ({
+      ...theme('colors'),
       main: '#F4F5F6',
     }),
-    borderColor: (theme) => ({
-      ...(theme('colors')),
+    borderColor: theme => ({
+      ...theme('colors'),
       main: {
         DEFAULT: '#E3E5E8',
         hover: '#96CAFE',
@@ -147,4 +148,3 @@ module.exports = {
     },
   ],
 }
-
