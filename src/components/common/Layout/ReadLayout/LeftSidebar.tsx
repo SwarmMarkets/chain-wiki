@@ -85,7 +85,7 @@ const TreeNode: React.FC<TreeNodeProps> = ({
           >
             <Icon
               name='chevronRight'
-              size={12}
+              size={10}
               className={clsx(
                 'transition-transform',
                 isExpanded ? 'rotate-90' : 'rotate-0'
