@@ -81,7 +81,7 @@ const LeftSidebarTreeNode: React.FC<LeftSidebarTreeNodeProps> = ({
         <AnimatePresence>
           {isExpanded && (
             <Collapse>
-              <ul className={clsx(!isGroup && 'ml-5 mt-1')}>
+              <ul className={clsx(!isGroup && 'ml-5 my-1')}>
                 {node.children.map(child => (
                   <LeftSidebarTreeNode
                     key={child.tokenId}
