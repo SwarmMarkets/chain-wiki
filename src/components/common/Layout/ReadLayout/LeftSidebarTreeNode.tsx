@@ -1,6 +1,8 @@
 import clsx from 'clsx'
 import { AnimatePresence } from 'framer-motion'
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
+import DynamicComponent from 'src/components/DynamicComponent'
 import Collapse from 'src/components/ui-kit/Animations/Collapse'
 import Icon from 'src/components/ui-kit/Icon/Icon'
 import IconButton from 'src/components/ui-kit/IconButton'
@@ -8,6 +10,7 @@ import { IpfsIndexPage } from 'src/shared/utils'
 
 export interface ILeftSidebarTreeNode extends IpfsIndexPage {
   children: ILeftSidebarTreeNode[]
+  to?: string
 }
 
 interface LeftSidebarTreeNodeProps {
@@ -38,7 +41,9 @@ const LeftSidebarTreeNode: React.FC<LeftSidebarTreeNodeProps> = ({
 
   return (
     <li>
-      <div
+      <DynamicComponent
+        as={node?.to ? Link : 'div'}
+        to={node?.to}
         onClick={() => !isGroup && onSelect(node.tokenId)}
         className={clsx(
           'group flex justify-between items-center transition-colors px-3 py-1.5',
@@ -48,6 +53,7 @@ const LeftSidebarTreeNode: React.FC<LeftSidebarTreeNodeProps> = ({
             'border-primary': isSelected,
             'hover:bg-primary-muted': isSelected && !isGroup,
             'hover:bg-gray-100': !isSelected && !isGroup,
+            'cursor-pointer': !isGroup,
           },
           isChild && !isParentGroup ? 'rounded-r-md' : 'rounded-md'
         )}
@@ -76,7 +82,7 @@ const LeftSidebarTreeNode: React.FC<LeftSidebarTreeNodeProps> = ({
             />
           </IconButton>
         )}
-      </div>
+      </DynamicComponent>
       {hasChildren && (
         <AnimatePresence>
           {isExpanded && (

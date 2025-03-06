@@ -2,6 +2,8 @@ import { useIpfsIndexPages } from 'src/hooks/ipfs/nft'
 import { IpfsIndexPage, NFTWithMetadata } from 'src/shared/utils'
 import { ILeftSidebarTreeNode } from './LeftSidebarTreeNode'
 import LeftSidebarTree from './LeftSidebarTree'
+import { generatePath } from 'react-router-dom'
+import RoutePaths from 'src/shared/enums/routes-paths'
 
 interface LeftSidebarProps {
   nft: NFTWithMetadata
@@ -13,7 +15,17 @@ const buildTree = (
 ): ILeftSidebarTreeNode[] => {
   return items
     .filter(item => item.parent === parentId)
-    .map(item => ({ ...item, children: buildTree(items, item.tokenId) }))
+    .map(item => {
+      const [nftId] = item.tokenId.split('-')
+      return {
+        ...item,
+        children: buildTree(items, item.tokenId),
+        to: generatePath(RoutePaths.TOKEN_READ, {
+          tokenId: item.tokenId,
+          nftId,
+        }),
+      }
+    })
 }
 
 const LeftSidebar: React.FC<LeftSidebarProps> = ({ nft }) => {
