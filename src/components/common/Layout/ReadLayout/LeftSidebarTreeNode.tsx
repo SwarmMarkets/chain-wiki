@@ -55,8 +55,7 @@ const LeftSidebarTreeNode: React.FC<LeftSidebarTreeNodeProps> = ({
         <div
           className={clsx(
             'text-main',
-            isGroup &&
-              'typo-body1 font-bold uppercase mt-6 mb-1 text-main-accent',
+            isGroup && 'typo-body1 font-bold uppercase mt-6 text-main-accent',
             isSelected && 'text-primary'
           )}
         >
@@ -82,7 +81,7 @@ const LeftSidebarTreeNode: React.FC<LeftSidebarTreeNodeProps> = ({
         <AnimatePresence>
           {isExpanded && (
             <Collapse>
-              <ul className='ml-3 mt-1 pl-2'>
+              <ul className={clsx(!isGroup && 'ml-5 mt-1')}>
                 {node.children.map(child => (
                   <LeftSidebarTreeNode
                     key={child.tokenId}
