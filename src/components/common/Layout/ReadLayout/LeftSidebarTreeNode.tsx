@@ -21,19 +21,19 @@ interface LeftSidebarTreeNodeProps {
 const LeftSidebarTreeNode: React.FC<LeftSidebarTreeNodeProps> = ({
   node,
   selectedId,
-  isParentGroup,
-  isChild,
+  isParentGroup = false,
+  isChild = false,
   onSelect,
 }) => {
+  const [isExpanded, setIsExpanded] = useState(true)
+
   const isGroup = node.type === 'group'
   const isSelected = selectedId === node.tokenId
   const hasChildren = node.children.length > 0
 
-  const [isExpanded, setIsExpanded] = useState(true)
-
   const handleExpand = (e: React.MouseEvent) => {
     e.stopPropagation()
-    setIsExpanded(!isExpanded)
+    setIsExpanded(prev => !prev)
   }
 
   return (
@@ -41,25 +41,23 @@ const LeftSidebarTreeNode: React.FC<LeftSidebarTreeNodeProps> = ({
       <div
         onClick={() => !isGroup && onSelect(node.tokenId)}
         className={clsx(
-          'group flex justify-between items-center transition-colors',
+          'group flex justify-between items-center transition-colors px-3 py-1.5',
           {
             'border-l border-gray-300':
               !isGroup && !isParentGroup && node.parent !== 0,
             'border-primary': isSelected,
+            'hover:bg-primary-muted': isSelected && !isGroup,
+            'hover:bg-gray-100': !isSelected && !isGroup,
           },
-          isChild && !isParentGroup ? 'rounded-r-md' : 'rounded-md',
-
-          !isGroup &&
-            `px-3 py-1.5 cursor-pointer ${
-              isSelected ? 'hover:bg-primary-muted ' : 'hover:bg-gray-100 '
-            }`
+          isChild && !isParentGroup ? 'rounded-r-md' : 'rounded-md'
         )}
       >
         <div
           className={clsx(
-            isGroup
-              ? 'typo-body1 font-bold uppercase mt-6 mb-1 text-main-accent'
-              : clsx('text-main', isSelected && 'text-primary')
+            'text-main',
+            isGroup &&
+              'typo-body1 font-bold uppercase mt-6 mb-1 text-main-accent',
+            isSelected && 'text-primary'
           )}
         >
           {node.title}
@@ -72,10 +70,10 @@ const LeftSidebarTreeNode: React.FC<LeftSidebarTreeNodeProps> = ({
             <Icon
               name='chevronRight'
               size={10}
-              className={clsx(
-                'transition-transform',
-                isExpanded ? 'rotate-90' : 'rotate-0'
-              )}
+              className={clsx('transition-transform', {
+                'rotate-90': isExpanded,
+                'rotate-0': !isExpanded,
+              })}
             />
           </IconButton>
         )}
@@ -84,11 +82,7 @@ const LeftSidebarTreeNode: React.FC<LeftSidebarTreeNodeProps> = ({
         <AnimatePresence>
           {isExpanded && (
             <Collapse>
-              <ul
-                className={clsx({
-                  'ml-3 mt-1 pl-2': !isGroup,
-                })}
-              >
+              <ul className='ml-3 mt-1 pl-2'>
                 {node.children.map(child => (
                   <LeftSidebarTreeNode
                     key={child.tokenId}
@@ -96,7 +90,7 @@ const LeftSidebarTreeNode: React.FC<LeftSidebarTreeNodeProps> = ({
                     selectedId={selectedId}
                     onSelect={onSelect}
                     isParentGroup={isGroup}
-                    isChild={true}
+                    isChild
                   />
                 ))}
               </ul>
