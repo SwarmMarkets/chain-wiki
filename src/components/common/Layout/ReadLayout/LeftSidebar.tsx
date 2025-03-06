@@ -55,25 +55,29 @@ const TreeNode: React.FC<TreeNodeProps> = ({
       <div
         onClick={() => !isGroup && onSelect(node.tokenId)}
         className={clsx(
-          'flex justify-between items-center transition-colors',
+          'group flex justify-between items-center transition-colors',
           {
             'border-l border-gray-300':
               !isGroup && !isParentGroup && node.parent !== 0,
             'border-primary': isSelected,
           },
           isChild && !isParentGroup ? 'rounded-r-md' : 'rounded-md',
-          isGroup &&
-            'typo-body1 font-bold uppercase mt-6 mb-1 text-main-accent',
+
           !isGroup &&
             `px-3 py-1.5 cursor-pointer ${
-              isSelected
-                ? 'hover:bg-primary-muted text-primary'
-                : 'hover:bg-gray-100 text-main-accent'
-            }`,
-          isSelected && 'text-primary'
+              isSelected ? 'hover:bg-primary-muted ' : 'hover:bg-gray-100 '
+            }`
         )}
       >
-        <div>{node.title}</div>
+        <div
+          className={clsx(
+            isGroup
+              ? 'typo-body1 font-bold uppercase mt-6 mb-1 text-main-accent'
+              : clsx('text-main', isSelected && 'text-primary')
+          )}
+        >
+          {node.title}
+        </div>
         {hasChildren && !isGroup && (
           <IconButton
             onClick={handleExpand}
