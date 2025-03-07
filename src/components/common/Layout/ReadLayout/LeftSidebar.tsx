@@ -33,7 +33,7 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({ nft }) => {
   const treeData = indexPages ? buildTree(indexPages, 0) : []
 
   return (
-    <aside className='p-4 col-span-3'>
+    <aside className='col-span-3'>
       {treeData.length > 0 ? (
         <LeftSidebarTree data={treeData} />
       ) : (
