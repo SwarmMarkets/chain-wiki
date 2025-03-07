@@ -17,13 +17,18 @@ const buildTree = (
     .filter(item => item.parent === parentId)
     .map(item => {
       const [nftId] = item.tokenId.split('-')
+      const to =
+        item.type === 'group'
+          ? undefined
+          : generatePath(RoutePaths.TOKEN_READ, {
+              tokenId: item.tokenId,
+              nftId,
+            })
+
       return {
         ...item,
         children: buildTree(items, item.tokenId),
-        to: generatePath(RoutePaths.TOKEN_READ, {
-          tokenId: item.tokenId,
-          nftId,
-        }),
+        to,
       }
     })
 }
