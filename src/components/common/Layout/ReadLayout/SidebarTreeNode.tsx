@@ -19,6 +19,7 @@ interface SidebarTreeNodeProps {
   isParentGroup?: boolean
   isChild?: boolean
   onSelect: (id: string) => void
+  className?: string
 }
 
 const SidebarTreeNode: React.FC<SidebarTreeNodeProps> = ({
@@ -27,6 +28,7 @@ const SidebarTreeNode: React.FC<SidebarTreeNodeProps> = ({
   isParentGroup = false,
   isChild = false,
   onSelect,
+  className,
 }) => {
   const [isExpanded, setIsExpanded] = useState(true)
 
@@ -41,7 +43,7 @@ const SidebarTreeNode: React.FC<SidebarTreeNodeProps> = ({
   }
 
   return (
-    <li>
+    <li className='list-none'>
       <DynamicComponent
         as={node?.to ? Link : 'div'}
         to={node?.to}
@@ -49,14 +51,14 @@ const SidebarTreeNode: React.FC<SidebarTreeNodeProps> = ({
         className={clsx(
           'group flex justify-between items-center transition-colors px-3 py-1.5',
           {
-            'border-l border-gray-300':
-              !isGroup && !isParentGroup && node.parent !== 0,
+            'border-l border-gray-300': !isGroup && !isParentGroup && isChild,
             'border-primary': isSelected,
             'hover:bg-primary-muted': isSelected && !isGroup,
             'hover:bg-gray-100': !isSelected && !isGroup,
             'cursor-pointer': !isGroup,
           },
-          isChild && !isParentGroup ? 'rounded-r-md' : 'rounded-md'
+          isChild && !isParentGroup ? 'rounded-r-md' : 'rounded-md',
+          className
         )}
       >
         <div

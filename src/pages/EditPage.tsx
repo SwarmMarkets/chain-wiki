@@ -1,4 +1,4 @@
-import Content from 'src/components/Content'
+import Content from 'src/components/common/Layout/ReadLayout/Content'
 import EditIndexPages from 'src/components/Edit/EditIndexPages'
 import EditorView from 'src/components/Edit/EditorView'
 import useEdit from 'src/components/Edit/useEdit'

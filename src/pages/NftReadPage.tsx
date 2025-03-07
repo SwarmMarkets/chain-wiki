@@ -26,7 +26,7 @@ const NftReadPage = () => {
       <div className='typo-heading2 text-main-accent mb-3 font-bold'>
         {title}
       </div>
-      <HtmlRender html={html} />
+      <HtmlRender id='read-page-content' html={html} />
     </div>
   )
 }

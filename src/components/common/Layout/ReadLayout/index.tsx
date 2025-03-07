@@ -2,6 +2,7 @@ import { Outlet, useParams } from 'react-router-dom'
 import useNFT from 'src/hooks/subgraph/useNFT'
 import ReadHeader from './ReadHeader'
 import LeftSidebar from './LeftSidebar'
+import RightSidebar from './RightSidebar'
 
 const ReadLayout = () => {
   const { nftId = '' } = useParams()
@@ -16,7 +17,7 @@ const ReadLayout = () => {
         <main className='col-span-7'>
           <Outlet />
         </main>
-        <aside className='bg-error col-span-2'>Aside</aside>
+        <RightSidebar />
       </div>
     </div>
   )

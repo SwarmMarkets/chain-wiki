@@ -1,7 +1,7 @@
 import { forwardRef, useEffect } from 'react'
 import { HtmlWrapper } from './styled-components'
 
-export interface HtmlRenderProps {
+export interface HtmlRenderProps extends React.HTMLAttributes<HTMLDivElement> {
   html: string
   onMount?: () => void
 }

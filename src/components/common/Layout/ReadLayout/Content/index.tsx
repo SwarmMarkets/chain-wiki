@@ -1,15 +1,31 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import ExpandableList from '../ui/ExpandableList'
-import { ContentItemChild, ContentItemParent } from 'src/shared/types/content'
-import { buildContentHierarchy } from 'src/shared/utils'
 import { useTranslation } from 'react-i18next'
-import Text from '../ui/Text'
-import { useTheme } from 'styled-components'
+import { ContentItemChild, ContentItemParent } from 'src/shared/types/content'
 import { ExpandableListItem } from 'src/shared/types/expandedList'
+import { IpfsIndexPage, buildContentHierarchy } from 'src/shared/utils'
+import { useTheme } from 'styled-components'
+import ExpandableList from '../../../../ui/ExpandableList'
+import Text from '../../../../ui/Text'
+import SidebarTree from '../SidebarTree'
+import SidebarTreeNode, { ISidebarTreeNode } from '../SidebarTreeNode'
 
 interface ContentProps {
   contentElem: HTMLDivElement | null
   className?: string
+}
+
+const buildTree = (
+  items: IpfsIndexPage[],
+  parentId?: number | string
+): ISidebarTreeNode[] => {
+  return items
+    .filter(item => item.parent === parentId)
+    .map(item => {
+      return {
+        ...item,
+        children: buildTree(items, item.tokenId),
+      }
+    })
 }
 
 const Content: React.FC<ContentProps> = ({ contentElem, className }) => {
@@ -121,14 +137,30 @@ const Content: React.FC<ContentProps> = ({ contentElem, className }) => {
     )
   }
 
+  const buildTreeData = (
+    data: (Partial<ContentItemParent> & ContentItemChild)[]
+  ): ISidebarTreeNode[] => {
+    console.log(data, 'data build')
+
+    return data.map(item => ({
+      tokenId: item.id.toString(),
+      title: item.title,
+      children: item.childs ? buildTreeData(item?.childs) : [],
+    }))
+  }
+
+  console.log(buildTreeData(contentData))
+
   return (
     <div className={className}>
-      <ExpandableList
-        title={t('beginning')}
-        onClickTitle={onClickBeginning}
-        isActive={beginningActive}
+      <SidebarTreeNode
+        className='mb-1'
+        onSelect={onClickBeginning}
+        selectedId={beginningActive ? 'beginning' : null}
+        node={{ tokenId: 'beginning', title: t('beginning'), children: [] }}
       />
-      {contentData.map(item => (
+      <SidebarTree data={buildTreeData(contentData)} />
+      {/* {contentData.map(item => (
         <ExpandableList
           id={item.id}
           initialExpanded={true}
@@ -145,7 +177,7 @@ const Content: React.FC<ContentProps> = ({ contentElem, className }) => {
             isActive: !beginningActive && firstHeadingInView === child.id,
           }))}
         />
-      ))}
+      ))} */}
     </div>
   )
 }
