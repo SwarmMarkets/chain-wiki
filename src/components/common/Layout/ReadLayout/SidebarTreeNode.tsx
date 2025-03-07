@@ -36,6 +36,7 @@ const SidebarTreeNode: React.FC<SidebarTreeNodeProps> = ({
 
   const handleExpand = (e: React.MouseEvent) => {
     e.stopPropagation()
+    e.preventDefault()
     setIsExpanded(prev => !prev)
   }
 
