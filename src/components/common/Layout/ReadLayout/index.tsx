@@ -6,17 +6,21 @@ import RightSidebar from './RightSidebar'
 
 const ReadLayout = () => {
   const { nftId = '' } = useParams()
-
   const { nft } = useNFT(nftId, { fetchFullData: true })
 
   return (
-    <div>
+    <div className='flex flex-col min-h-screen'>
+      {/* Фиксированный хедер */}
       <ReadHeader nft={nft} />
-      <div className='grid grid-cols-12 gap-4 px-4 sm:px-6 md:px-8 max-w-screen-2xl mx-auto'>
+
+      <div className='flex flex-1 max-w-screen-2xl mx-auto pt-24 px-4 sm:px-6 md:px-8'>
         <LeftSidebar nft={nft} />
-        <main className='col-span-7'>
+
+        {/* Основной контент (скролл всей страницы) */}
+        <main className='flex-1 px-12'>
           <Outlet />
         </main>
+
         <RightSidebar />
       </div>
     </div>

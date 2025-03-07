@@ -16,7 +16,10 @@ const ReadHeader: React.FC<ReadHeaderProps> = ({ nft }) => {
     : {}
 
   return (
-    <header className='bg-primary mb-6 py-3' style={headerStyle}>
+    <header
+      className='bg-primary mb-6 py-3 fixed top-0 left-0 w-full z-10'
+      style={headerStyle}
+    >
       <div className='max-w-screen-2xl mx-auto px-4 sm:px-6 md:px-8 flex items-center max-h-10 justify-between'>
         <img src={nft.logoUrl} alt='Logo' className='max-w-80 max-h-12' />
 

@@ -6,7 +6,7 @@ const RightSidebar = () => {
   ) as HTMLDivElement
 
   return (
-    <aside className='col-span-2'>
+    <aside className='w-1/6 h-screen overflow-y-auto sticky top-24'>
       <Content contentElem={contentElem} />
     </aside>
   )

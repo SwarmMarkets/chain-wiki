@@ -38,7 +38,7 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({ nft }) => {
   const treeData = indexPages ? buildTree(indexPages, 0) : []
 
   return (
-    <aside className='col-span-3'>
+    <aside className='w-1/5 h-screen overflow-y-auto sticky top-24'>
       {treeData.length > 0 ? (
         <SidebarTree data={treeData} />
       ) : (
