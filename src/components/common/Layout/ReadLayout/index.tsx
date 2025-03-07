@@ -10,13 +10,11 @@ const ReadLayout = () => {
 
   return (
     <div className='flex flex-col min-h-screen'>
-      {/* Фиксированный хедер */}
       <ReadHeader nft={nft} />
 
-      <div className='flex flex-1 max-w-screen-2xl mx-auto pt-24 px-4 sm:px-6 md:px-8'>
+      <div className='flex flex-1 max-w-screen-2xl mx-auto pt-24 px-4 sm:px-6 md:px-8 w-full'>
         <LeftSidebar nft={nft} />
 
-        {/* Основной контент (скролл всей страницы) */}
         <main className='flex-1 px-12'>
           <Outlet />
         </main>
