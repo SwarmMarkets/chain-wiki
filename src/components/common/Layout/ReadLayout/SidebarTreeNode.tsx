@@ -8,20 +8,20 @@ import Icon from 'src/components/ui-kit/Icon/Icon'
 import IconButton from 'src/components/ui-kit/IconButton'
 import { IpfsIndexPage } from 'src/shared/utils'
 
-export interface ILeftSidebarTreeNode extends IpfsIndexPage {
-  children: ILeftSidebarTreeNode[]
+export interface ISidebarTreeNode extends IpfsIndexPage {
+  children: ISidebarTreeNode[]
   to?: string
 }
 
-interface LeftSidebarTreeNodeProps {
-  node: ILeftSidebarTreeNode
+interface SidebarTreeNodeProps {
+  node: ISidebarTreeNode
   selectedId: string | null
   isParentGroup?: boolean
   isChild?: boolean
   onSelect: (id: string) => void
 }
 
-const LeftSidebarTreeNode: React.FC<LeftSidebarTreeNodeProps> = ({
+const SidebarTreeNode: React.FC<SidebarTreeNodeProps> = ({
   node,
   selectedId,
   isParentGroup = false,
@@ -89,7 +89,7 @@ const LeftSidebarTreeNode: React.FC<LeftSidebarTreeNodeProps> = ({
             <Collapse>
               <ul className={clsx(!isGroup && 'ml-5 my-1')}>
                 {node.children.map(child => (
-                  <LeftSidebarTreeNode
+                  <SidebarTreeNode
                     key={child.tokenId}
                     node={child}
                     selectedId={selectedId}
@@ -107,4 +107,4 @@ const LeftSidebarTreeNode: React.FC<LeftSidebarTreeNodeProps> = ({
   )
 }
 
-export default LeftSidebarTreeNode
+export default SidebarTreeNode

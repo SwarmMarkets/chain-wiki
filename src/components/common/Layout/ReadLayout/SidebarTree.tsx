@@ -1,19 +1,17 @@
 import React, { useState } from 'react'
-import LeftSidebarTreeNode, {
-  ILeftSidebarTreeNode,
-} from './LeftSidebarTreeNode'
+import SidebarTreeNode, { ISidebarTreeNode } from './SidebarTreeNode'
 
-interface LeftSidebarTreeProps {
-  data: ILeftSidebarTreeNode[]
+interface SidebarTreeProps {
+  data: ISidebarTreeNode[]
 }
 
-const LeftSidebarTree: React.FC<LeftSidebarTreeProps> = ({ data }) => {
+const SidebarTree: React.FC<SidebarTreeProps> = ({ data }) => {
   const [selectedId, setSelectedId] = useState<string | null>(null)
 
   return (
     <ul>
       {data.map(node => (
-        <LeftSidebarTreeNode
+        <SidebarTreeNode
           key={node.tokenId}
           node={node}
           selectedId={selectedId}
@@ -24,4 +22,4 @@ const LeftSidebarTree: React.FC<LeftSidebarTreeProps> = ({ data }) => {
   )
 }
 
-export default LeftSidebarTree
+export default SidebarTree
