@@ -136,6 +136,20 @@ const Content: React.FC<ContentProps> = ({ contentElem, className }) => {
     }))
   }
 
+  const findItemRecursive = (
+    items: ContentItemParent[],
+    id: string
+  ): ContentItemChild | ContentItemParent | undefined => {
+    for (const item of items) {
+      if (item.id.toString() === id) return item
+      if (item.childs) {
+        const found = findItemRecursive(item.childs, id)
+        if (found) return found
+      }
+    }
+    return undefined
+  }
+
   return (
     <div className={className}>
       <SidebarTreeNode
@@ -148,7 +162,7 @@ const Content: React.FC<ContentProps> = ({ contentElem, className }) => {
         data={buildTreeData(contentData)}
         onSelect={id => {
           console.log(id, contentData, 'check')
-          onClickItem(contentData.find(item => item.id.toString() === id))
+          onClickItem(findItemRecursive(contentData, id))
         }}
       />
       {/* {contentData.map(item => (
