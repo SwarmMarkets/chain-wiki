@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
+import { useContentRef } from 'src/components/common/Layout/ReadLayout'
 import HtmlRender from 'src/components/HtmlRender'
 import useNFT from 'src/hooks/subgraph/useNFT'
 import useToken from 'src/hooks/subgraph/useToken'
@@ -10,6 +11,8 @@ const NftReadPage = () => {
 
   const { nft } = useNFT(nftId, { fetchFullData: true })
   const { token } = useToken(tokenId)
+
+  const contentRef = useContentRef()
 
   const html =
     (tokenId
@@ -26,7 +29,7 @@ const NftReadPage = () => {
       <div className='typo-heading2 text-main-accent mb-3 font-bold'>
         {title}
       </div>
-      <HtmlRender id='read-page-content' html={html} />
+      <HtmlRender id='read-page-content' html={html} ref={contentRef} />
     </div>
   )
 }

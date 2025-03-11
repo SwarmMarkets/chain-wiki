@@ -1,10 +1,10 @@
 import Content from 'src/components/common/Layout/ReadLayout/Content'
 
-const RightSidebar = () => {
-  const contentElem = document.getElementById(
-    'read-page-content'
-  ) as HTMLDivElement
-
+const RightSidebar = ({
+  contentElem,
+}: {
+  contentElem: HTMLDivElement | null
+}) => {
   return (
     <aside className='w-1/6 h-screen overflow-y-auto sticky top-24'>
       <Content contentElem={contentElem} />

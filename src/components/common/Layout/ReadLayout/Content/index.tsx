@@ -29,6 +29,7 @@ const buildTree = (
 }
 
 const Content: React.FC<ContentProps> = ({ contentElem, className }) => {
+  console.log(contentElem, 'contentElem')
   const { t } = useTranslation('contents')
   const theme = useTheme()
 
@@ -41,15 +42,9 @@ const Content: React.FC<ContentProps> = ({ contentElem, className }) => {
   const removeHeadingInView = (id: number) =>
     setHeadingsInView(prev => prev.filter(item => item !== id))
 
-  const headings = useMemo(
-    () => contentElem?.querySelectorAll('h1, h2'),
-    [contentElem]
-  )
+  const headings = contentElem?.querySelectorAll('h1, h2')
 
-  const contentData: ContentItemParent[] = useMemo(
-    () => (headings ? buildContentHierarchy(headings) : []),
-    [headings]
-  )
+  const contentData = headings ? buildContentHierarchy(headings) : []
 
   useEffect(() => {
     const handleScroll = () => {
@@ -112,10 +107,12 @@ const Content: React.FC<ContentProps> = ({ contentElem, className }) => {
   }
 
   const onClickTitle = (item: ContentItemParent) => {
+    console.log(item, 'item')
     item.elem.scrollIntoView({ behavior: 'smooth' })
   }
 
   const onClickItem = (childItem?: ContentItemChild) => {
+    console.log(childItem, 'childItem')
     childItem?.elem.scrollIntoView({ behavior: 'smooth' })
   }
 
@@ -124,17 +121,7 @@ const Content: React.FC<ContentProps> = ({ contentElem, className }) => {
   }
 
   if (!contentElem) {
-    return (
-      <div className={className}>
-        <Text.p
-          textAlign='center'
-          fontWeight={theme.fontWeights.medium}
-          color={theme.palette.gray}
-        >
-          {t('contentNotFound')}
-        </Text.p>
-      </div>
-    )
+    return <div className={className}>{t('contentNotFound')}</div>
   }
 
   const buildTreeData = (
@@ -149,8 +136,6 @@ const Content: React.FC<ContentProps> = ({ contentElem, className }) => {
     }))
   }
 
-  console.log(buildTreeData(contentData))
-
   return (
     <div className={className}>
       <SidebarTreeNode
@@ -159,7 +144,13 @@ const Content: React.FC<ContentProps> = ({ contentElem, className }) => {
         selectedId={beginningActive ? 'beginning' : null}
         node={{ tokenId: 'beginning', title: t('beginning'), children: [] }}
       />
-      <SidebarTree data={buildTreeData(contentData)} />
+      <SidebarTree
+        data={buildTreeData(contentData)}
+        onSelect={id => {
+          console.log(id, contentData, 'check')
+          onClickItem(contentData.find(item => item.id.toString() === id))
+        }}
+      />
       {/* {contentData.map(item => (
         <ExpandableList
           id={item.id}

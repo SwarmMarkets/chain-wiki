@@ -3,9 +3,10 @@ import SidebarTreeNode, { ISidebarTreeNode } from './SidebarTreeNode'
 
 interface SidebarTreeProps {
   data: ISidebarTreeNode[]
+  onSelect?: (id: string) => void
 }
 
-const SidebarTree: React.FC<SidebarTreeProps> = ({ data }) => {
+const SidebarTree: React.FC<SidebarTreeProps> = ({ data, onSelect }) => {
   const [selectedId, setSelectedId] = useState<string | null>(null)
 
   return (
@@ -15,7 +16,10 @@ const SidebarTree: React.FC<SidebarTreeProps> = ({ data }) => {
           key={node.tokenId}
           node={node}
           selectedId={selectedId}
-          onSelect={setSelectedId}
+          onSelect={id => {
+            setSelectedId(id)
+            onSelect?.(id)
+          }}
         />
       ))}
     </ul>
