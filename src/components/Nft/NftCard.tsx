@@ -1,39 +1,28 @@
-import { NFTsQueryFullData } from 'src/shared/utils/ipfs/types'
-import { isSameEthereumAddress } from 'src/shared/utils'
 import { useAddress, useChainId } from '@thirdweb-dev/react'
-import React, { useMemo, useState } from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import styled, { useTheme } from 'styled-components'
+import useNFTUpdate from 'src/hooks/useNFTUpdate'
+import { getExplorerUrl, isSameEthereumAddress } from 'src/shared/utils'
+import { NFTsQueryFullData } from 'src/shared/utils/ipfs/types'
 import RequirePermissions from '../common/RequirePermissions'
 import UploadFileButton from '../common/UploadFileButton'
-import Flex from '../ui/Flex'
 import Icon from '../ui-kit/Icon/Icon'
-import Text from '../ui/Text'
-import { StyledCard, Title } from './styled-components'
-import useNFTUpdate from 'src/hooks/useNFTUpdate'
-import { getExplorerUrl } from 'src/shared/utils'
+import IconButton from '../ui-kit/IconButton'
+import dayjs from 'src/shared/utils/dayjsConfig'
 
 interface NftCardProps {
   nft: NFTsQueryFullData
   showRole?: boolean
 }
 
-const Logo = styled.img`
-  max-width: 230px;
-  max-height: 70px;
-`
-
 const NftCard: React.FC<NftCardProps> = ({ nft, showRole = false }) => {
   const { t } = useTranslation(['nft', 'nfts'])
-  const theme = useTheme()
   const account = useAddress()
   const { signTransaction, tx } = useNFTUpdate(nft.id)
-  const [isHovered, setIsHovered] = useState(false)
-
   const chainId = useChainId()
 
   const roles = useMemo(() => {
-    if (!showRole) return
+    if (!showRole) return []
     const isAdmin = nft.admins.some(address =>
       isSameEthereumAddress(address, account)
     )
@@ -41,12 +30,8 @@ const NftCard: React.FC<NftCardProps> = ({ nft, showRole = false }) => {
       isSameEthereumAddress(address, account)
     )
     const roles = []
-    if (isAdmin) {
-      roles.push(t('filter.admin', { ns: 'nfts' }))
-    }
-    if (isEditor) {
-      roles.push(t('filter.editor', { ns: 'nfts' }))
-    }
+    if (isAdmin) roles.push(t('filter.admin', { ns: 'nfts' }))
+    if (isEditor) roles.push(t('filter.editor', { ns: 'nfts' }))
     return roles
   }, [account, nft.admins, nft.editors, t, showRole])
 
@@ -54,7 +39,9 @@ const NftCard: React.FC<NftCardProps> = ({ nft, showRole = false }) => {
     await signTransaction({ logoUrl: url })
   }
 
-  const handleIconClick = () => {
+  const handleIconClick = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    e.preventDefault()
     const explorerUrl = getExplorerUrl({
       type: 'address',
       chainId,
@@ -64,46 +51,46 @@ const NftCard: React.FC<NftCardProps> = ({ nft, showRole = false }) => {
   }
 
   return (
-    <StyledCard minHeight={200} position='relative'>
-      <Flex flexDirection='column' justifyContent='space-between' height='100%'>
-        <Flex justifyContent='center' alignItems='center'>
-          {nft.logoUrl ? (
-            <Logo src={nft?.logoUrl} alt={nft?.name} />
-          ) : (
-            <RequirePermissions nftAddress={nft.id} canUpdateContent>
-              <UploadFileButton
-                size='sm'
-                isLoading={tx.txLoading}
-                onUpload={handleUploadLogo}
-              >
-                {t('messages.addLogo')}
-              </UploadFileButton>
-            </RequirePermissions>
-          )}
-        </Flex>
-
-        <Flex alignItems='center' justifyContent='space-between' $gap='3px'>
-          <Title>{nft.name}</Title>
-          <Icon
-            cursor='pointer'
-            name='externalLink'
-            size={10}
-            color={isHovered ? theme.palette.linkPrimary : theme.palette.black}
-            onClick={handleIconClick}
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
+    <div className='bg-paper rounded-lg p-4 flex flex-col justify-between border border-main transition-shadow duration-300 hover:shadow-lg hover:shadow-main/50'>
+      <div className='flex justify-center items-center'>
+        {nft.logoUrl ? (
+          <img
+            src={nft.logoUrl}
+            alt={nft.name}
+            className='max-w-[230px] max-h-[70px]'
           />
-        </Flex>
+        ) : (
+          <RequirePermissions nftAddress={nft.id} canUpdateContent>
+            <UploadFileButton
+              size='sm'
+              isLoading={tx.txLoading}
+              onUpload={handleUploadLogo}
+            >
+              {t('messages.addLogo')}
+            </UploadFileButton>
+          </RequirePermissions>
+        )}
+      </div>
+      <div>
+        <div className='flex justify-between items-center'>
+          <h3 className='text-lg font-semibold truncate'>{nft.name}</h3>
+          <IconButton onClick={handleIconClick}>
+            <Icon name='externalLink' size={14} />
+          </IconButton>
+        </div>
 
-        <Flex flexDirection='column' alignItems='end' pt={10} $gap='2px'>
-          {roles && roles.length > 0 && (
-            <Text fontSize={theme.fontSizes.small}>
-              {t('roles', { ns: 'nfts' })} {roles.join(', ')}
-            </Text>
-          )}
-        </Flex>
-      </Flex>
-    </StyledCard>
+        {roles.length > 0 && (
+          <div className='typo-body1 text-main mt-2'>
+            {t('roles', { ns: 'nfts' })}: {roles.join(', ')}
+          </div>
+        )}
+        <div className='typo-body1 text-main-muted mt-1'>
+          {t('card.lastEdited', {
+            date: dayjs(+nft.updatedAt * 1000).fromNow(),
+          })}
+        </div>
+      </div>
+    </div>
   )
 }
 

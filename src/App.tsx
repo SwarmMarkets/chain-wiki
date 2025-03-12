@@ -30,6 +30,7 @@ import Layout from './components/common/Layout'
 import NftLayout from './components/common/Layout/NftLayout'
 import ReadLayout from './components/common/Layout/ReadLayout'
 import NftReadPage from './pages/NftReadPage'
+import HomePage from './pages/HomePage'
 
 const queryClient = new QueryClient()
 
@@ -66,7 +67,7 @@ function App() {
                       path={RoutePaths.MY_NFTS}
                       element={
                         <WalletConnectedProtect>
-                          <MyNftsPage />
+                          <HomePage />
                         </WalletConnectedProtect>
                       }
                     />

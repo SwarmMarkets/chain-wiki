@@ -29,7 +29,6 @@ const buildTree = (
 }
 
 const Content: React.FC<ContentProps> = ({ contentElem, className }) => {
-  console.log(contentElem, 'contentElem')
   const { t } = useTranslation('contents')
   const theme = useTheme()
 
@@ -107,12 +106,10 @@ const Content: React.FC<ContentProps> = ({ contentElem, className }) => {
   }
 
   const onClickTitle = (item: ContentItemParent) => {
-    console.log(item, 'item')
     item.elem.scrollIntoView({ behavior: 'smooth' })
   }
 
   const onClickItem = (childItem?: ContentItemChild) => {
-    console.log(childItem, 'childItem')
     childItem?.elem.scrollIntoView({ behavior: 'smooth' })
   }
 
@@ -127,8 +124,6 @@ const Content: React.FC<ContentProps> = ({ contentElem, className }) => {
   const buildTreeData = (
     data: (Partial<ContentItemParent> & ContentItemChild)[]
   ): ISidebarTreeNode[] => {
-    console.log(data, 'data build')
-
     return data.map(item => ({
       tokenId: item.id.toString(),
       title: item.title,
@@ -161,7 +156,6 @@ const Content: React.FC<ContentProps> = ({ contentElem, className }) => {
       <SidebarTree
         data={buildTreeData(contentData)}
         onSelect={id => {
-          console.log(id, contentData, 'check')
           onClickItem(findItemRecursive(contentData, id))
         }}
       />

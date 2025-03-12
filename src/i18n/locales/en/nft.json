@@ -169,5 +169,8 @@
     "editNft": "Edit site",
     "addLogo": "Add logo",
     "noContent": "No content yet"
+  },
+  "card": {
+    "lastEdited": "Last edited {{date}}"
   }
 }
