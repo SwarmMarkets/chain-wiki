@@ -80,7 +80,9 @@ const EditIndexPagesItem: React.FC<EditIndexPagesItemProps> = ({
         'flex items-center justify-between w-full box-border rounded transition-colors overflow-hidden px-2 py-1.5 gap-2',
         active && 'bg-gray-100 text-main-accent',
         hasChild && 'mb-1',
-        isGroup ? 'typo-title3' : 'hover:bg-gray-100 cursor-pointer',
+        isGroup
+          ? 'uppercase font-bold text-main-accrent'
+          : 'hover:bg-gray-100 cursor-pointer',
         className
       )}
       onClick={handleClick}
