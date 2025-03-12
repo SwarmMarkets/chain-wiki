@@ -48,7 +48,7 @@ const HomePage = () => {
         loading={loading}
         nfts={nfts}
         skeletonLength={10}
-        className='mt-10'
+        className='mt-7'
         showRole
       />
     </div>

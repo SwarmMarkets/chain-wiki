@@ -51,14 +51,10 @@ const NftCard: React.FC<NftCardProps> = ({ nft, showRole = false }) => {
   }
 
   return (
-    <div className='bg-paper rounded-lg p-4 flex flex-col justify-between border border-main transition-shadow duration-300 hover:shadow-lg hover:shadow-main/50'>
-      <div className='flex justify-center items-center'>
+    <div className='bg-paper rounded-lg p-4 flex flex-col gap-2 justify-between border border-main transition-shadow duration-300 hover:shadow-lg hover:shadow-main/50'>
+      <div className='flex justify-center items-center h-16'>
         {nft.logoUrl ? (
-          <img
-            src={nft.logoUrl}
-            alt={nft.name}
-            className='max-w-[230px] max-h-[70px]'
-          />
+          <img src={nft.logoUrl} alt={nft.name} className='max-w-44 max-h-16' />
         ) : (
           <RequirePermissions nftAddress={nft.id} canUpdateContent>
             <UploadFileButton
@@ -80,11 +76,11 @@ const NftCard: React.FC<NftCardProps> = ({ nft, showRole = false }) => {
         </div>
 
         {roles.length > 0 && (
-          <div className='typo-body1 text-main mt-2'>
+          <div className='typo-body1 text-main mt-1'>
             {t('roles', { ns: 'nfts' })}: {roles.join(', ')}
           </div>
         )}
-        <div className='typo-body1 text-main-muted mt-1'>
+        <div className='typo-body1 text-main-muted'>
           {t('card.lastEdited', {
             date: dayjs(+nft.updatedAt * 1000).fromNow(),
           })}
