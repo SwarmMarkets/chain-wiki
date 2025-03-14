@@ -39,12 +39,14 @@ const useNFT = (id: string, options?: UseNFTOptions) => {
     failureReason: errorNftContent,
     isLoading: loadingNftContent,
   } = useIpfsNftContent(contentUri)
-  const nftWithMetadata = useMemo(() => {
+  const nftWithMetadata = useMemo<NFTWithMetadata | null>(() => {
+    if (!data?.nft) return null
+
     return {
       ...data?.nft,
       headerLinksContent,
       ipfsContent,
-    } as unknown as NFTWithMetadata
+    }
   }, [data?.nft, headerLinksContent, ipfsContent])
 
   return useMemo(

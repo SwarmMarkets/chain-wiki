@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-namespace */
 // import { Theme } from 'src/theme'
 
 export namespace UiKit {

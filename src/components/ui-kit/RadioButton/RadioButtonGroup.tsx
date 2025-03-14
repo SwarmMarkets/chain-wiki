@@ -4,34 +4,34 @@ import clsx from 'clsx'
 
 import './styles.css'
 
-interface RadioButtonGroupProps
+interface RadioButtonGroupProps<T>
   extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange'> {
-  onChange: (value: RadioButtonProps['value']) => void
-  value: RadioButtonProps['value']
+  onChange: (value: T) => void
+  value: T
   children: ReactNode
 }
 
-const RadioButtonGroup: React.FC<RadioButtonGroupProps> = ({
+const RadioButtonGroup = <T,>({
   onChange,
   value,
   children: childrenProp,
   className,
   ...props
-}) => {
+}: RadioButtonGroupProps<T>) => {
   if (React.Children.toArray(childrenProp).length < 2) {
     throw new Error('RadioButtonGroup requires at least two children')
   }
 
   const handleRadioButtonClick = (props: RadioButtonProps) => {
-    onChange(props.value)
+    onChange(props.value as T)
   }
 
   const children = React.Children.map(childrenProp, child => {
-    if (!React.isValidElement(child)) {
+    if (!React.isValidElement<RadioButtonProps>(child)) {
       return null
     }
 
-    return React.cloneElement<RadioButtonProps>(child as ReactElement, {
+    return React.cloneElement(child as ReactElement<RadioButtonProps>, {
       onChange() {
         handleRadioButtonClick(child.props)
       },
@@ -40,7 +40,7 @@ const RadioButtonGroup: React.FC<RadioButtonGroupProps> = ({
   })
 
   return (
-    <div className={clsx('flex flex-col gap-3', className)} {...props}>
+    <div className={clsx('flex gap-3', className)} {...props}>
       {children}
     </div>
   )

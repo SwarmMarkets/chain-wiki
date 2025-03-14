@@ -19,7 +19,6 @@ import NftPage from './pages/NftPage'
 import client from './services/apollo'
 import RoutePaths from './shared/enums/routes-paths'
 import theme from './theme'
-import MyNftsPage from './pages/MyNftsPage'
 import { GlobalStyle } from './globalStyle'
 import ConnectWalletPage from './pages/ConnectWalletPage'
 import WalletConnectedProtect from './components/common/WalletConnectedProtect'
@@ -31,6 +30,7 @@ import NftLayout from './components/common/Layout/NftLayout'
 import ReadLayout from './components/common/Layout/ReadLayout'
 import NftReadPage from './pages/NftReadPage'
 import HomePage from './pages/HomePage'
+import NftSettingsPage from './pages/NftSettingsPage'
 
 const queryClient = new QueryClient()
 
@@ -61,6 +61,10 @@ function App() {
                         element={<TokenPage />}
                       />
                       <Route path={RoutePaths.EDIT} element={<EditPage />} />
+                      <Route
+                        path={RoutePaths.SETTINGS}
+                        element={<NftSettingsPage />}
+                      />
                     </Route>
 
                     <Route

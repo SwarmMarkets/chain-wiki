@@ -7,5 +7,6 @@
   "save": "Save",
   "delete": "Delete",
   "chooseFile": "Choose file",
-  "merge": "Merge"
+  "merge": "Merge",
+  "settings": "Settings"
 }

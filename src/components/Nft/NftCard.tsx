@@ -61,6 +61,7 @@ const NftCard: React.FC<NftCardProps> = ({ nft, showRole = false }) => {
               size='sm'
               isLoading={tx.txLoading}
               onUpload={handleUploadLogo}
+              variant='outlined'
             >
               {t('messages.addLogo')}
             </UploadFileButton>
