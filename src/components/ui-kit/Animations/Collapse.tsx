@@ -4,20 +4,43 @@ import React, { forwardRef } from 'react'
 interface CollapseProps {
   children: React.ReactNode
   className?: string
+  direction?: 'up' | 'down' | 'left' | 'right'
 }
 
 const Collapse = forwardRef<HTMLDivElement, CollapseProps>(
-  ({ children, className }, ref) => {
+  ({ children, className, direction = 'down' }, ref) => {
+    const isVertical = direction === 'up' || direction === 'down'
+    const isReversed = direction === 'up' || direction === 'left'
+
     return (
       <motion.div
         ref={ref}
         className={className}
         key='content'
-        initial={{ height: 0, opacity: 0 }}
-        animate={{ height: 'auto', opacity: 1 }}
-        exit={{ height: 0, opacity: 0 }}
+        initial={
+          isVertical
+            ? {
+                height: 0,
+                opacity: 0,
+                transformOrigin: isReversed ? 'top' : 'bottom',
+              }
+            : {
+                width: 0,
+                opacity: 0,
+                transformOrigin: isReversed ? 'left' : 'right',
+              }
+        }
+        animate={
+          isVertical
+            ? { height: 'auto', opacity: 1 }
+            : { width: 'auto', opacity: 1 }
+        }
+        exit={isVertical ? { height: 0, opacity: 0 } : { width: 0, opacity: 0 }}
         transition={{ duration: 0.2, ease: 'easeInOut' }}
-        style={{ overflow: 'hidden' }}
+        style={{
+          overflow: 'hidden',
+          display: isVertical ? 'block' : 'inline-block',
+        }}
       >
         {children}
       </motion.div>
