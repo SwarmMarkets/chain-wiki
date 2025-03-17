@@ -15,20 +15,18 @@ const SettingsNavigation = () => {
   }
 
   return (
-    <div className='mt-4 pr-6 text-sm'>
-      <nav>
-        <SelectableList
-          items={settingsLinks?.map(({ link, label, icon }) => ({
-            id: link,
-            label,
-            icon,
-            active: activeTab === link,
-            to: `?${getSearchParams(link)}`,
-          }))}
-          noMarginLeft
-        />
-      </nav>
-    </div>
+    <nav className='text-sm min-w-52'>
+      <SelectableList
+        items={settingsLinks?.map(({ link, label, icon }) => ({
+          id: link,
+          label,
+          icon,
+          active: activeTab === link,
+          to: `?${getSearchParams(link)}`,
+        }))}
+        noMarginLeft
+      />
+    </nav>
   )
 }
 

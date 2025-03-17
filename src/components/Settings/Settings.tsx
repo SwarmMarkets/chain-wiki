@@ -11,8 +11,11 @@ const Settings = () => {
 
   return (
     <ConditionalRender value={setting}>
-      <ConditionalItem case={RoutePathSetting.GENERAL}>
-        <div className='flex gap-6'>
+      <ConditionalItem
+        case={RoutePathSetting.GENERAL}
+        className='flex justify-center'
+      >
+        <div className='flex gap-12 w-full max-w-screen-lg mt-8'>
           <SettingsNavigation />
           <SettingsBody activeLink={actilveLink} />
         </div>
