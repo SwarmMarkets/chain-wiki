@@ -7,12 +7,14 @@ interface SelectableListProps {
   items: IExpandableListItem[]
   onClickItem?: (item: IExpandableListItem) => void
   noMarginLeft?: boolean
+  lighter?: boolean
 }
 
 const SelectableList: React.FC<SelectableListProps> = ({
   items,
   onClickItem,
   noMarginLeft,
+  lighter,
 }) => {
   return (
     <div className={clsx('flex flex-col space-y-1', !noMarginLeft && 'ml-6')}>
@@ -22,6 +24,7 @@ const SelectableList: React.FC<SelectableListProps> = ({
             key={index}
             item={item}
             onClickItem={onClickItem}
+            lighter={lighter}
           />
         ))
       ) : (

@@ -25,6 +25,7 @@ const SettingsNavigation = () => {
           to: `?${getSearchParams(link)}`,
         }))}
         noMarginLeft
+        lighter
       />
     </nav>
   )

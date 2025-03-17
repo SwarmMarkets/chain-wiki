@@ -15,17 +15,20 @@ export interface ExpandableListItem {
 export interface ExpandableListItemProps {
   item: ExpandableListItem
   onClickItem?: (item: ExpandableListItem) => void
+  lighter?: boolean
 }
 
 const ExpandableListItem: React.FC<ExpandableListItemProps> = ({
   item,
   onClickItem,
+  lighter = false,
 }) => {
   const expandableItem = (
     <div
       className={clsx(
-        'group flex items-center px-2 py-1.5 gap-3 text-base rounded cursor-pointer transition-colors hover:bg-gray-200',
-        item.active && 'bg-gray-200'
+        'group flex items-center px-2 py-1.5 gap-3 text-base rounded cursor-pointer transition-colors',
+        item.active && (lighter ? 'bg-gray-100' : 'bg-gray-200'),
+        lighter ? 'hover:bg-gray-100' : 'hover:bg-gray-200'
       )}
       onClick={() => onClickItem?.(item)}
     >
