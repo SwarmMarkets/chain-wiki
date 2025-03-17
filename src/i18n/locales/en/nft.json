@@ -46,7 +46,7 @@
     "siteName": {
       "title": "Site title",
       "subtitle": "Rename site",
-      "description": "Change the name of your site, if you don't have a custom logo this is the name that your site visitors will see."
+      "description": "Change the title of your website after it has been published."
     },
     "roleManager": {
       "title": "Manage site roles",
