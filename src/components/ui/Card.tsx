@@ -1,44 +1,24 @@
-import styled from 'styled-components'
-import { ChildrenProp } from 'src/shared/types/common-props'
-import shouldForwardProp from '@styled-system/should-forward-prop'
-import {
-  FlexboxProps,
-  LayoutProps,
-  PositionProps,
-  SpaceProps,
-  flexbox,
-  layout,
-  position,
-  space,
-} from 'styled-system'
+import clsx from 'clsx'
+import React from 'react'
 
-interface CardProps
-  extends ChildrenProp,
-    FlexboxProps,
-    LayoutProps,
-    SpaceProps,
-    PositionProps {
-  onClick?(): void
+interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
+  onClick?: () => void
 }
 
-const CardRoot = styled.div.withConfig({
-  shouldForwardProp,
-})`
-  padding: 24px;
-  border: 1px solid ${({ theme }) => theme.palette.borderPrimary};
-  border-radius: 10px;
-  background: ${({ theme }) => theme.palette.white};
-  ${flexbox}
-  ${layout}
-  ${space}
-  ${position}
-`
-
-const Card: React.FC<CardProps> = ({ onClick, children, ...props }) => {
+const Card: React.FC<CardProps> = ({
+  onClick,
+  children,
+  className,
+  ...props
+}) => {
   return (
-    <CardRoot onClick={onClick} {...props}>
+    <div
+      onClick={onClick}
+      className={clsx('bg-paper rounded-lg p-4 border border-main', className)}
+      {...props}
+    >
       {children}
-    </CardRoot>
+    </div>
   )
 }
 

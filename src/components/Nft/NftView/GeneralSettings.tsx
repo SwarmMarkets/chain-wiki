@@ -1,17 +1,12 @@
-import React, { useEffect, useState, useCallback } from 'react'
-import UploadFileButton from 'src/components/common/UploadFileButton'
-import TextField from 'src/components/ui/TextField/TextField'
-import { useTheme } from 'styled-components'
-import { LogoPreview, LogoWrapper } from '../styled-components'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useHeaderColorContext } from './HeaderColorContext'
-import useNFT from 'src/hooks/subgraph/useNFT'
-import UpdateNftContentButton from 'src/components/UpdateContent/UpdateNftContentButton'
+import Card from 'src/components/ui/Card'
 import Flex from 'src/components/ui/Flex'
-import RequirePermissions from 'src/components/common/RequirePermissions'
+import useNFT from 'src/hooks/subgraph/useNFT'
 import { NFTContentToUpdate } from 'src/hooks/useNFTUpdate'
-import ColorPicker from './ColorPicker'
-import SettingCard from '../../Settings/SettingCard'
+import { useTheme } from 'styled-components'
+import { useHeaderColorContext } from './HeaderColorContext'
+import TextField from 'src/components/ui-kit/TextField/TextField'
 
 interface GeneralSettingsProps {
   nftAddress: string
@@ -25,8 +20,8 @@ const GeneralSettings: React.FC<GeneralSettingsProps> = ({ nftAddress }) => {
   const [uploadedLogoUrl, setUploadedLogoUrl] = useState<string | null>(null)
   const [name, setName] = useState<string | null>(null)
 
-  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setName(e.currentTarget.value)
+  const handleNameChange = (name: string) => {
+    setName(name)
   }
 
   const handleUploadLogo = (url: string) => {
@@ -56,17 +51,22 @@ const GeneralSettings: React.FC<GeneralSettingsProps> = ({ nftAddress }) => {
 
   return (
     <Flex flexDirection='column' $gap='16px'>
-      <SettingCard
-        title={t('siteName.title')}
-        description={t('siteName.description')}
-      >
-        <TextField
-          width={250}
-          value={nameValue}
-          inputProps={{ onChange: handleNameChange }}
-          placeholder='Enter site name'
-        />
-      </SettingCard>
+      <div className='flex flex-col gap-3'>
+        <h3 className='text-main-accent typo-title3 font-semibold'>
+          {t('siteName.title')}
+        </h3>
+        <Card className='flex flex-col gap-2'>
+          <h4 className='text-main-accent typo-title2 font-semibold'>
+            {t('siteName.subtitle')}
+          </h4>
+          <div>{t('siteName.description')}</div>
+          <TextField
+            value={nameValue}
+            onChange={handleNameChange}
+            inputProps={{ placeholder: 'Enter site name' }}
+          />
+        </Card>
+      </div>
 
       {/* <SettingCard
         title={t('customLogo.title')}

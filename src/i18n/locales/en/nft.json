@@ -44,8 +44,9 @@
       }
     },
     "siteName": {
-      "title": "Title",
-      "description": "Overwrite the title of your content when published"
+      "title": "Site title",
+      "subtitle": "Rename site",
+      "description": "Change the name of your site, if you don't have a custom logo this is the name that your site visitors will see."
     },
     "roleManager": {
       "title": "Manage site roles",
