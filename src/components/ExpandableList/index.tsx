@@ -3,9 +3,8 @@ import { AnimatePresence } from 'framer-motion'
 import { ReactNode, useState } from 'react'
 import Icon from 'src/components/ui-kit/Icon/Icon'
 import Collapse from '../ui-kit/Animations/Collapse'
-import ExpandableListItem, {
-  ExpandableListItem as IExpandableListItem,
-} from './ExpandableListItem'
+import { ExpandableListItem as IExpandableListItem } from './ExpandableListItem'
+import SelectableList from './SelectableList'
 
 interface ExpandableListProps {
   title: ReactNode
@@ -44,24 +43,11 @@ const ExpandableList: React.FC<ExpandableListProps> = ({
       <AnimatePresence>
         {isOpen && (
           <Collapse>
-            <div
-              className={clsx(
-                'flex flex-col space-y-1',
-                !noMarginLeft && 'ml-6'
-              )}
-            >
-              {items.length > 0 ? (
-                items.map((item, index) => (
-                  <ExpandableListItem
-                    key={index}
-                    item={item}
-                    onClickItem={onClickItem}
-                  />
-                ))
-              ) : (
-                <div className='text-sm text-gray-500 p-3'>No elements</div>
-              )}
-            </div>
+            <SelectableList
+              items={items}
+              onClickItem={onClickItem}
+              noMarginLeft={noMarginLeft}
+            />
           </Collapse>
         )}
       </AnimatePresence>

@@ -1,18 +1,23 @@
-import { useSearchParams } from 'react-router-dom'
+import { useParams, useSearchParams } from 'react-router-dom'
 import SettingsNavigation from './SettingsNavigation'
 import SettingsBody from './SettingsBody'
-import { SettingView } from 'src/components/Settings/enums'
-import Flex from '../ui/Flex'
+import { RoutePathSetting } from 'src/shared/enums'
+import { ConditionalItem, ConditionalRender } from '../common/ConditionalRender'
 
 const Settings = () => {
+  const { setting = '' } = useParams()
   const [searchParams] = useSearchParams()
-  const activeLink = searchParams.get('setting') || SettingView.GENERAL
+  const actilveLink = searchParams.get('setting') || RoutePathSetting.GENERAL
 
   return (
-    <Flex $gap='24px'>
-      <SettingsNavigation />
-      <SettingsBody activeLink={activeLink} />
-    </Flex>
+    <ConditionalRender value={setting}>
+      <ConditionalItem case={RoutePathSetting.GENERAL}>
+        <div className='flex gap-6'>
+          <SettingsNavigation />
+          <SettingsBody activeLink={actilveLink} />
+        </div>
+      </ConditionalItem>
+    </ConditionalRender>
   )
 }
 

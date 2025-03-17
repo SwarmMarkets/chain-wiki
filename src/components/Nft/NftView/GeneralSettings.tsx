@@ -68,7 +68,7 @@ const GeneralSettings: React.FC<GeneralSettingsProps> = ({ nftAddress }) => {
         />
       </SettingCard>
 
-      <SettingCard
+      {/* <SettingCard
         title={t('customLogo.title')}
         description={t('customLogo.description')}
       >
@@ -101,7 +101,7 @@ const GeneralSettings: React.FC<GeneralSettingsProps> = ({ nftAddress }) => {
             nftContentToUpdate={nftContentToUpdate}
           />
         </RequirePermissions>
-      </Flex>
+      </Flex> */}
     </Flex>
   )
 }
