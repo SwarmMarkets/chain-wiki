@@ -49,7 +49,8 @@
       "description": "Change the title of your website after it has been published."
     },
     "roleManager": {
-      "title": "Manage site roles",
+      "title": "Site roles",
+      "subtitle": "Manage site roles",
       "description": "This page is dedicated to managing user roles within the site. It allows for the assignment and adjustment of roles to ensure proper access control and responsibility distribution across the team."
     },
     "customLogo": {

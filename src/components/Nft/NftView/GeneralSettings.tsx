@@ -51,22 +51,11 @@ const GeneralSettings: React.FC<GeneralSettingsProps> = ({ nftAddress }) => {
 
   return (
     <Flex flexDirection='column' $gap='16px'>
-      <div className='flex flex-col gap-3'>
-        <h3 className='text-main-accent typo-title3 font-semibold'>
-          {t('siteName.title')}
-        </h3>
-        <Card className='flex flex-col gap-2'>
-          <h4 className='text-main-accent typo-title2 font-semibold'>
-            {t('siteName.subtitle')}
-          </h4>
-          <div>{t('siteName.description')}</div>
-          <TextField
-            value={nameValue}
-            onChange={handleNameChange}
-            inputProps={{ placeholder: 'Enter site name' }}
-          />
-        </Card>
-      </div>
+      <TextField
+        value={nameValue}
+        onChange={handleNameChange}
+        inputProps={{ placeholder: 'Enter site name' }}
+      />
 
       {/* <SettingCard
         title={t('customLogo.title')}

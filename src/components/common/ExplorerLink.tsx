@@ -1,30 +1,14 @@
 import { ChildrenProp } from 'src/shared/types/common-props'
 import { ExplorerLinkType, getExplorerUrl } from 'src/shared/utils'
 import { useChainId } from '@thirdweb-dev/react'
-import styled, { useTheme } from 'styled-components'
-import Flex from '../ui/Flex'
+import { useState, MouseEvent } from 'react'
 import Icon from '../ui-kit/Icon/Icon'
-import { MouseEvent, useState } from 'react'
-import Box from '../ui/Box'
 
 interface ExplorerLinkProps extends ChildrenProp {
   type: ExplorerLinkType
   hash?: string
   iconSize?: number
-  iconsPosition?: string
 }
-
-export const StyledLink = styled.a`
-  color: ${({ theme }) => theme.palette.linkPrimary};
-  cursor: pointer;
-  font-weight: 500;
-  transition: color 0.2s ease, transform 0.2s ease, margin-left 0.2s ease;
-  text-decoration: none;
-
-  &:hover {
-    color: ${({ theme }) => theme.palette.linkPrimaryAccent};
-  }
-`
 
 const ExplorerLink: React.FC<ExplorerLinkProps> = ({
   type,
@@ -34,14 +18,9 @@ const ExplorerLink: React.FC<ExplorerLinkProps> = ({
 }) => {
   const [showCheckmark, setShowCheckmark] = useState(false)
   const chainId = useChainId()
-  const theme = useTheme()
 
-  const iconSizeWithDefault = iconSize || 20
-  const explorerUrl = getExplorerUrl({
-    type,
-    chainId,
-    hash,
-  })
+  const iconSizeWithDefault = iconSize || 16
+  const explorerUrl = getExplorerUrl({ type, chainId, hash })
 
   const handleCopyClick = (e: MouseEvent<HTMLDivElement>) => {
     e.stopPropagation()
@@ -49,44 +28,48 @@ const ExplorerLink: React.FC<ExplorerLinkProps> = ({
     if (hash) {
       navigator.clipboard.writeText(hash)
       setShowCheckmark(true)
-      setTimeout(() => {
-        setShowCheckmark(false)
-      }, 1000)
+      setTimeout(() => setShowCheckmark(false), 1000)
     }
   }
 
   return (
-    <Flex alignItems='center' $gap='5px'>
-      <Box width={iconSizeWithDefault}>
+    <div className='flex items-center gap-2 group hover:text-primary-accent transition-colors duration-200'>
+      <div style={{ width: iconSizeWithDefault }}>
         {!showCheckmark ? (
           <Icon
             cursor='pointer'
+            className='text-primary hover:text-primary-accent'
             size={iconSizeWithDefault}
             onClick={handleCopyClick}
             name='copy'
-            color={theme.palette.linkPrimary}
           />
         ) : (
           <Icon
+            cursor='pointer'
+            className='group-hover:text-primary-accent'
             size={iconSizeWithDefault}
             name='checkmark'
-            color={theme.palette.gray}
           />
         )}
-      </Box>
-      <Box width={iconSizeWithDefault}>
+      </div>
+      <div style={{ width: iconSizeWithDefault }}>
         <Icon
-          onClick={() => window.open(explorerUrl, '_blank')}
+          className='text-primary group-hover:text-primary-accent'
           cursor='pointer'
-          name='externalLink'
           size={iconSizeWithDefault}
-          color={theme.palette.linkPrimary}
+          onClick={() => window.open(explorerUrl, '_blank')}
+          name='externalLink'
         />
-      </Box>
-      <StyledLink href={explorerUrl} target='_blank' rel='noopener noreferrer'>
+      </div>
+      <a
+        href={explorerUrl}
+        target='_blank'
+        rel='noopener noreferrer'
+        className='text-primary font-medium transition-colors duration-200 group-hover:text-primary-accent cursor-pointer'
+      >
         {children}
-      </StyledLink>
-    </Flex>
+      </a>
+    </div>
   )
 }
 

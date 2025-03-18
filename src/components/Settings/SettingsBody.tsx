@@ -50,11 +50,18 @@ const SettingsBody = ({ activeLink }: Props) => {
   return (
     <ConditionalRender value={activeLink}>
       <ConditionalItem case={SettingView.GENERAL}>
-        <GeneralSettings nftAddress={nftId} />
+        <SettingCard
+          description={t('siteName.description')}
+          subtitle={t('siteName.subtitle')}
+          title={t('siteName.title')}
+        >
+          <GeneralSettings nftAddress={nftId} />
+        </SettingCard>
       </ConditionalItem>
       <ConditionalItem case={SettingView.ROLES}>
         <SettingCard
           title={t('roleManager.title')}
+          subtitle={t('roleManager.subtitle')}
           description={t('roleManager.description')}
         >
           <NftRoleManager nftAddress={nftId} />
