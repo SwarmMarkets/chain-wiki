@@ -28,6 +28,7 @@ const TextField = <T extends TextFieldTypes>({
       ? transform(formattedValue)
       : formattedValue
     onChange?.(transformedValue)
+    inputProps?.onChange?.(e)
   }
 
   const handleBlur = () => {

@@ -55,7 +55,6 @@ const GrantRoleForm: React.FC<GrantRoleFormProps> = ({ nftAddress }) => {
             onChange={setSelectedRole}
             className='capitalize'
           >
-            {/* <OptionSubheader>{t('switchNetwork.title')}</OptionSubheader> */}
             {Object.values(Roles).map(role => (
               <Option key={role} value={role} className='capitalize'>
                 <div className='flex items-center gap-2'>{role}</div>
