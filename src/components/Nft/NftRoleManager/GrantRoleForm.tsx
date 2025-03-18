@@ -7,7 +7,6 @@ import useGrantRoleForm, {
 } from 'src/hooks/forms/useGrantRoleForm'
 import Select from 'src/components/ui-kit/Select/Select'
 import Option from 'src/components/ui-kit/Select/Option'
-import { useState } from 'react'
 import Button from 'src/components/ui-kit/Button/Button'
 import TextField from 'src/components/ui-kit/TextField/TextField'
 
@@ -17,11 +16,12 @@ interface GrantRoleFormProps {
 
 const GrantRoleForm: React.FC<GrantRoleFormProps> = ({ nftAddress }) => {
   const { t } = useTranslation('nft')
-  const [selectedRole, setSelectedRole] = useState<Roles>(Roles.ADMIN)
   const {
     register,
+    watch,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid },
+    setValue,
   } = useGrantRoleForm()
 
   const { grantRole, txLoading } = useNFTRoleManager(nftAddress)
@@ -36,12 +36,11 @@ const GrantRoleForm: React.FC<GrantRoleFormProps> = ({ nftAddress }) => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <h3 className='mb-1'>{t('roleManager.form.grantRole')}</h3>
       <div className='flex gap-2 w-full items-start'>
         <TextField
           className='w-6/12'
           inputProps={{
-            placeholder: t('roleManager.formPlaceholders.role'),
+            placeholder: t('roleManager.form.grantRole'),
             onChange,
             ...restRegisterTo,
           }}
@@ -51,8 +50,8 @@ const GrantRoleForm: React.FC<GrantRoleFormProps> = ({ nftAddress }) => {
         <div className='w-3/12'>
           <Select<Roles>
             variant='filled'
-            value={selectedRole}
-            onChange={setSelectedRole}
+            value={watch('role')}
+            onChange={value => setValue('role', value)}
             className='capitalize'
           >
             {Object.values(Roles).map(role => (
@@ -63,7 +62,12 @@ const GrantRoleForm: React.FC<GrantRoleFormProps> = ({ nftAddress }) => {
           </Select>
         </div>
 
-        <Button type='submit' loading={txLoading} className='w-3/12'>
+        <Button
+          type='submit'
+          loading={txLoading}
+          className='w-3/12'
+          disabled={!isValid}
+        >
           {t('roleManager.actions.grantRole')}
         </Button>
       </div>
