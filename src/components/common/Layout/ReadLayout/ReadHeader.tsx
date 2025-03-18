@@ -1,18 +1,19 @@
 import { NFTWithMetadata } from 'src/shared/utils'
 
 interface ReadHeaderProps {
-  nft: NFTWithMetadata
+  nft: NFTWithMetadata | null
 }
 
 const ReadHeader: React.FC<ReadHeaderProps> = ({ nft }) => {
-  const linkStyle = nft.headerLinksContent?.color
+  console.log(nft)
+  const linkStyle = nft?.headerLinksContent?.color
     ? {
-        color: nft.headerLinksContent?.color,
+        color: nft?.headerLinksContent?.color,
       }
     : {}
 
-  const headerStyle = nft.headerBackground
-    ? { backgroundColor: nft.headerBackground }
+  const headerStyle = nft?.headerBackground
+    ? { backgroundColor: nft?.headerBackground }
     : {}
 
   return (
@@ -21,10 +22,10 @@ const ReadHeader: React.FC<ReadHeaderProps> = ({ nft }) => {
       style={headerStyle}
     >
       <div className='max-w-screen-2xl mx-auto px-4 sm:px-6 md:px-8 flex items-center max-h-10 justify-between'>
-        <img src={nft.logoUrl} alt='Logo' className='max-w-80 max-h-12' />
+        <img src={nft?.logoUrl} alt='Logo' className='max-w-80 max-h-12' />
 
         <div className='flex gap-6'>
-          {nft.headerLinksContent?.headerLinks.map(link => (
+          {nft?.headerLinksContent?.headerLinks.map(link => (
             <a
               key={link.id}
               href={link.link}

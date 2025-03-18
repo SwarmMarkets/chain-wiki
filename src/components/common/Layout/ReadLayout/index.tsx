@@ -16,9 +16,13 @@ export const useContentRef = () => {
 
 const ReadLayout = () => {
   const { nftId = '' } = useParams()
-  const { nft } = useNFT(nftId, { fetchFullData: true })
+  const { nft, loadingNft, refetchingNft } = useNFT(nftId, {
+    fetchFullData: true,
+  })
 
   const contentElemRef = useRef<HTMLDivElement>(null)
+
+  if (loadingNft && !refetchingNft) return null
 
   return (
     <ContentRefContext.Provider value={contentElemRef}>

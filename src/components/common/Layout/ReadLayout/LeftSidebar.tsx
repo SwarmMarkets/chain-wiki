@@ -6,7 +6,7 @@ import SidebarTree from './SidebarTree'
 import { ISidebarTreeNode } from './SidebarTreeNode'
 
 interface LeftSidebarProps {
-  nft: NFTWithMetadata
+  nft: NFTWithMetadata | null
 }
 
 const buildTree = (
@@ -34,7 +34,7 @@ const buildTree = (
 }
 
 const LeftSidebar: React.FC<LeftSidebarProps> = ({ nft }) => {
-  const { indexPages } = useIpfsIndexPages(nft.indexPagesUri)
+  const { indexPages } = useIpfsIndexPages(nft?.indexPagesUri)
   const treeData = indexPages ? buildTree(indexPages, 0) : []
 
   return (
