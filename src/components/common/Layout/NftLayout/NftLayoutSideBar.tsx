@@ -37,7 +37,7 @@ const NftLayoutSideBar: React.FC<NftLayoutSideBarProps> = ({ nft }) => {
         <Collapse direction='left'>
           <aside className='w-64 bg-paper flex flex-col border-r-gray-200 border-r overflow-y-auto h-full'>
             <h2 className='typo-heading1 font-medium text-main-accent p-4'>
-              Site customization
+              {t('customization.title')}
             </h2>
             <div className='px-4'>
               <TabContext value={activeTab}>
