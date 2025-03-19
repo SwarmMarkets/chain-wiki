@@ -1,26 +1,17 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { ReactElement } from 'react'
-import styled from 'styled-components'
 import { Tab as ITab } from 'src/shared/types/ui-components'
 import { ChildrenProp } from 'src/shared/types/common-props'
 import { TabProps } from './Tab'
 
-interface TabsProps<T extends ITab> extends ChildrenProp {
-  onChange: (tab: T) => void
+interface TabsProps<T extends string> extends ChildrenProp {
+  onChange: (tab: ITab<T>) => void
 }
 
-const TabsWrapper = styled.div`
-  display: flex;
-  justify-content: end;
-  border-bottom: 1px solid ${({ theme }) => theme.palette.borderPrimary};
-`
-
-const Tabs = <T extends ITab>({
+const Tabs = <T extends string>({
   onChange,
   children: childrenProp,
 }: TabsProps<T>) => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleTabClick = (tab: T) => {
+  const handleTabClick = (tab: ITab<T>) => {
     onChange && onChange(tab)
   }
 
@@ -36,7 +27,7 @@ const Tabs = <T extends ITab>({
     })
   })
 
-  return <TabsWrapper>{children}</TabsWrapper>
+  return <div className='flex border-b border-main'>{children}</div>
 }
 
 export default Tabs
