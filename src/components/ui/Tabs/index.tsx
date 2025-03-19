@@ -27,7 +27,7 @@ const Tabs = <T extends string>({
     })
   })
 
-  return <div className='flex border-b border-main'>{children}</div>
+  return <div className='flex gap-2 border-b border-main'>{children}</div>
 }
 
 export default Tabs
