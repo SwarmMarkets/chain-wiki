@@ -21,12 +21,12 @@ const NftLayoutSideBarGeneralTab: React.FC<NftLayoutSideBarGeneralTabProps> = ({
   }
   return (
     <Card>
-      <h4 className='typo-title2 text-main-accent font-medium'>
+      <h4 className='typo-title2 text-main-accent font-semibold'>
         {t('customization.basic', { ns: 'layout' })}
       </h4>
       <div className='border-b border-main my-4'></div>
       <div className='mb-2'>
-        <div className='typo-title2 text-main-accent font-medium mb-1'>
+        <div className='typo-title2 text-main-accent font-semibold mb-1'>
           {t('settings.customLogo.title')}
         </div>
         <div>{t('settings.customLogo.description')}</div>

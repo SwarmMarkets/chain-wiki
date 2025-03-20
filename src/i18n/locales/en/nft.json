@@ -66,7 +66,8 @@
       "description": "Update the content of your page when published."
     },
     "editHeaderLinks": {
-      "title": "Navigation",
+      "title": "Header",
+      "subtitle": "Navigation",
       "description": "Create a navigation menu by adding links",
       "placeholders": {
         "title": "Title",

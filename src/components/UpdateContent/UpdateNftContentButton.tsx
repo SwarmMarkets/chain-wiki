@@ -8,8 +8,8 @@ import {
 } from 'src/shared/utils/ipfs/types'
 import { MouseEvent, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import Button, { ButtonProps } from '../ui/Button/Button'
 import UpdateContentModal, { Steps } from './UpdateContentModal'
+import Button, { ButtonProps } from '../ui-kit/Button/Button'
 
 interface UpdateNftContentButtonProps extends ButtonProps, ChildrenProp {
   nftAddress: string
