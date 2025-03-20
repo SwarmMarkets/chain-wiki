@@ -15,7 +15,7 @@ import NftLayoutSideBarGeneralTab from './NftLayoutSideBarGeneralTab'
 import NftLayouSideBarLayout from './NftLayouSideBarLayout'
 
 interface NftLayoutSideBarProps {
-  nft: NFTWithMetadata | null
+  nft: NFTWithMetadata
 }
 
 enum CustomizationTab {

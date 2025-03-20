@@ -4,9 +4,11 @@ import { generatePath } from 'react-router-dom'
 import RoutePaths from 'src/shared/enums/routes-paths'
 import SidebarTree from './SidebarTree'
 import { ISidebarTreeNode } from './SidebarTreeNode'
+import clsx from 'clsx'
 
 interface LeftSidebarProps {
   nft: NFTWithMetadata | null
+  preview?: boolean
 }
 
 const buildTree = (
@@ -33,12 +35,17 @@ const buildTree = (
     })
 }
 
-const LeftSidebar: React.FC<LeftSidebarProps> = ({ nft }) => {
+const LeftSidebar: React.FC<LeftSidebarProps> = ({ nft, preview }) => {
   const { indexPages } = useIpfsIndexPages(nft?.indexPagesUri)
   const treeData = indexPages ? buildTree(indexPages, 0) : []
 
   return (
-    <aside className='w-1/5 h-screen overflow-y-auto sticky top-24'>
+    <aside
+      className={clsx(
+        'w-1/5 overflow-y-auto sticky top-24)',
+        !preview && 'h-screen'
+      )}
+    >
       {treeData.length > 0 ? (
         <SidebarTree data={treeData} />
       ) : (

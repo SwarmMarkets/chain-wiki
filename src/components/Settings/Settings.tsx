@@ -3,6 +3,8 @@ import SettingsNavigation from './SettingsNavigation'
 import SettingsBody from './SettingsBody'
 import { RoutePathSetting } from 'src/shared/enums'
 import { ConditionalItem, ConditionalRender } from '../common/ConditionalRender'
+import NftReadPage from 'src/pages/NftReadPage'
+import ReadLayout from '../common/Layout/ReadLayout'
 
 const Settings = () => {
   const { setting = '' } = useParams()
@@ -19,6 +21,14 @@ const Settings = () => {
           <SettingsNavigation />
           <SettingsBody activeLink={actilveLink} />
         </div>
+      </ConditionalItem>
+      <ConditionalItem
+        case={RoutePathSetting.CUSTOMIZATION}
+        className='flex justify-center items-center rounded-md border border-main overflow-y-auto'
+      >
+        <ReadLayout preview>
+          <NftReadPage />
+        </ReadLayout>
       </ConditionalItem>
     </ConditionalRender>
   )

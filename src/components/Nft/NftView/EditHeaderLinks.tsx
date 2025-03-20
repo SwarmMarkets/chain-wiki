@@ -1,25 +1,24 @@
-import React, { useState, useRef, useEffect, MouseEvent } from 'react'
-import { useTranslation } from 'react-i18next'
+import React, { useState } from 'react'
 import { HexColorPicker } from 'react-colorful'
-import useEditHeaderLinks from 'src/hooks/forms/useEditHeaderLinks'
-import { getUniqueId } from 'src/shared/utils'
-import RequirePermissions from 'src/components/common/RequirePermissions'
+import { useTranslation } from 'react-i18next'
 import UpdateNftContentButton from 'src/components/UpdateContent/UpdateNftContentButton'
-import Icon from 'src/components/ui-kit/Icon/Icon'
-import { useHeaderColorContext } from './HeaderColorContext'
-import useNFT from 'src/hooks/subgraph/useNFT'
-import TextField from 'src/components/ui-kit/TextField/TextField'
+import ColorField from 'src/components/common/ColorFIeld'
+import RequirePermissions from 'src/components/common/RequirePermissions'
 import Button from 'src/components/ui-kit/Button/Button'
+import Icon from 'src/components/ui-kit/Icon/Icon'
 import IconButton from 'src/components/ui-kit/IconButton'
+import TextField from 'src/components/ui-kit/TextField/TextField'
 import useClickAway from 'src/components/ui-kit/hooks/useClickAway'
+import useEditHeaderLinks from 'src/hooks/forms/useEditHeaderLinks'
+import useEffectCompare from 'src/hooks/useEffectCompare'
+import { getUniqueId, NFTWithMetadata } from 'src/shared/utils'
 
 interface EditHeaderLinksProps {
-  nftAddress: string
+  nft: NFTWithMetadata
 }
 
-const EditHeaderLinks: React.FC<EditHeaderLinksProps> = ({ nftAddress }) => {
+const EditHeaderLinks: React.FC<EditHeaderLinksProps> = ({ nft }) => {
   const { t } = useTranslation('nft', { keyPrefix: 'settings' })
-  const { nft } = useNFT(nftAddress, { fetchFullData: true })
 
   const initialLinks = nft?.headerLinksContent?.headerLinks?.length
     ? nft?.headerLinksContent?.headerLinks
@@ -32,10 +31,13 @@ const EditHeaderLinks: React.FC<EditHeaderLinksProps> = ({ nftAddress }) => {
     errors,
   } = useEditHeaderLinks(initialLinks)
 
-  const { linksColor, setLinksColor } = useHeaderColorContext()
-  const [draggingId, setDraggingId] = useState(null)
+  const [linksColor, setLinksColor] = useState('#ffffff')
+  useEffectCompare(() => {
+    if (nft.headerLinksContent?.color)
+      setLinksColor(nft.headerLinksContent.color)
+  }, [nft.headerLinksContent?.color])
 
-  const colorPicker = useClickAway()
+  const [draggingId, setDraggingId] = useState(null)
 
   return (
     <form className='w-full max-w-lg flex flex-col'>
@@ -112,32 +114,15 @@ const EditHeaderLinks: React.FC<EditHeaderLinksProps> = ({ nftAddress }) => {
           {t('linksColor.title')}
         </h3>
         <p>{t('linksColor.description')}</p>
-        <div className='flex items-center mt-2'>
-          <TextField
-            value={linksColor}
-            onChange={e => setLinksColor(e)}
-            className='w-24'
-          />
-          <div
-            className='w-6 h-6 ml-2 border rounded cursor-pointer relative'
-            style={{ backgroundColor: linksColor }}
-            onClick={() => colorPicker.toggle()}
-          >
-            {colorPicker.active && (
-              <div
-                ref={colorPicker.ref}
-                className='absolute bottom-8 left-0 z-10 rounded'
-                onClick={e => e.stopPropagation()}
-              >
-                <HexColorPicker color={linksColor} onChange={setLinksColor} />
-              </div>
-            )}
-          </div>
-        </div>
-        <RequirePermissions nftAddress={nftAddress}>
+        <ColorField
+          color={linksColor}
+          onChange={setLinksColor}
+          className='mt-2'
+        />
+        <RequirePermissions nftAddress={nft.id}>
           <UpdateNftContentButton
             className='mt-2 w-full'
-            nftAddress={nftAddress}
+            nftAddress={nft.id}
             ipfsHeaderLinkToUpdate={{ headerLinks, color: linksColor }}
             disabled={!form.formState.isValid}
           />

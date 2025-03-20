@@ -1,10 +1,12 @@
+import clsx from 'clsx'
 import { NFTWithMetadata } from 'src/shared/utils'
 
 interface ReadHeaderProps {
   nft: NFTWithMetadata | null
+  preview?: boolean
 }
 
-const ReadHeader: React.FC<ReadHeaderProps> = ({ nft }) => {
+const ReadHeader: React.FC<ReadHeaderProps> = ({ nft, preview }) => {
   console.log(nft)
   const linkStyle = nft?.headerLinksContent?.color
     ? {
@@ -18,7 +20,10 @@ const ReadHeader: React.FC<ReadHeaderProps> = ({ nft }) => {
 
   return (
     <header
-      className='bg-primary mb-6 py-3 fixed top-0 left-0 w-full z-10'
+      className={clsx(
+        'bg-primary py-3 w-full',
+        !preview && 'fixed top-0 left-0 z-10 mb-6'
+      )}
       style={headerStyle}
     >
       <div className='max-w-screen-2xl mx-auto px-4 sm:px-6 md:px-8 flex items-center max-h-10 justify-between'>

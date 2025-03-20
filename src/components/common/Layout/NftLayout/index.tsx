@@ -6,9 +6,11 @@ import NftLayoutSideBar from './NftLayoutSideBar'
 const NftLayout = () => {
   const { nftId = '' } = useParams()
 
-  const { nft } = useNFT(nftId, { fetchFullData: true })
+  const { nft, loadingNft, refetchingNft } = useNFT(nftId, {
+    fetchFullData: true,
+  })
 
-  if (!nft) {
+  if (!nft || (loadingNft && !refetchingNft)) {
     return null
   }
 

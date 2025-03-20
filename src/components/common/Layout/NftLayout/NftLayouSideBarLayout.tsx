@@ -1,17 +1,19 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import EditHeaderLinks from 'src/components/Nft/NftView/EditHeaderLinks'
 import Card from 'src/components/ui/Card'
 import { NFTWithMetadata } from 'src/shared/utils'
+import ColorField from '../../ColorFIeld'
 
 interface NftLayoutSideBarGeneralTabProps {
-  nft: NFTWithMetadata | null
+  nft: NFTWithMetadata
 }
 
 const NftLayouSideBarLayout: React.FC<NftLayoutSideBarGeneralTabProps> = ({
   nft,
 }) => {
   const { t } = useTranslation(['nft', 'layout'])
+  const [headerColor, setHeaderColor] = useState(nft?.headerBackground)
 
   return (
     <div>
@@ -20,6 +22,17 @@ const NftLayouSideBarLayout: React.FC<NftLayoutSideBarGeneralTabProps> = ({
           {t('settings.editHeaderLinks.title')}
         </h4>
         <div className='border-b border-main my-4'></div>
+        <div>
+          <div className='typo-title2 text-main-accent font-semibold mb-1'>
+            {t('settings.headerColor.title')}
+          </div>
+          <div>{t('settings.headerColor.description')}</div>
+        </div>
+        <ColorField
+          color={headerColor}
+          onChange={setHeaderColor}
+          className='mt-2'
+        />
         <div className='mb-2'>
           <div className='typo-title2 text-main-accent font-semibold mb-1'>
             {t('settings.editHeaderLinks.subtitle')}
@@ -28,7 +41,7 @@ const NftLayouSideBarLayout: React.FC<NftLayoutSideBarGeneralTabProps> = ({
         </div>
         {nft?.id && (
           <Card>
-            <EditHeaderLinks nftAddress={nft.id} />
+            <EditHeaderLinks nft={nft} />
           </Card>
         )}
       </Card>

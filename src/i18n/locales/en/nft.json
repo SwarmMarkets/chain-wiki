@@ -57,7 +57,7 @@
       "title": "Custom logo",
       "description": "Replace the content's title with a custom logo"
     },
-    "colorPicker": {
+    "headerColor": {
       "title": "Header color",
       "description": "Select a new color for the header using the color picker"
     },
