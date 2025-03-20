@@ -11,6 +11,8 @@ import TabPanel from 'src/components/ui/Tabs/TabPanel'
 import useTabs from 'src/hooks/useTabs'
 import { RoutePathSetting } from 'src/shared/enums'
 import { NFTWithMetadata } from 'src/shared/utils'
+import NftLayoutSideBarGeneralTab from './NftLayoutSideBarGeneralTab'
+import NftLayouSideBarLayout from './NftLayouSideBarLayout'
 
 interface NftLayoutSideBarProps {
   nft: NFTWithMetadata | null
@@ -22,7 +24,7 @@ enum CustomizationTab {
 }
 
 const NftLayoutSideBar: React.FC<NftLayoutSideBarProps> = ({ nft }) => {
-  const { t } = useTranslation('layout')
+  const { t } = useTranslation(['nft', 'layout'])
 
   const { setting } = useParams()
 
@@ -35,27 +37,27 @@ const NftLayoutSideBar: React.FC<NftLayoutSideBarProps> = ({ nft }) => {
     return (
       <AnimatePresence>
         <Collapse direction='left'>
-          <aside className='w-64 bg-paper flex flex-col border-r-gray-200 border-r overflow-y-auto h-full'>
+          <aside className='w-64 bg-paper flex flex-col border-r-gray-200 border-r overflow-y-auto h-full min-w-96'>
             <h2 className='typo-heading1 font-medium text-main-accent p-4'>
-              {t('customization.title')}
+              {t('customization.title', { ns: 'layout' })}
             </h2>
             <div className='px-4'>
               <TabContext value={activeTab}>
                 <Tabs<CustomizationTab> onChange={tab => changeTab(tab.value)}>
                   <Tab
                     value={CustomizationTab.GENERAL}
-                    label={t('customization.tabs.general')}
+                    label={t('customization.tabs.general', { ns: 'layout' })}
                   />
                   <Tab
                     value={CustomizationTab.LAYOUT}
-                    label={t('customization.tabs.layout')}
+                    label={t('customization.tabs.layout', { ns: 'layout' })}
                   />
                 </Tabs>
                 <TabPanel value={CustomizationTab.GENERAL}>
-                  <div className='px-4'>General</div>
+                  <NftLayoutSideBarGeneralTab nft={nft} />
                 </TabPanel>
                 <TabPanel value={CustomizationTab.LAYOUT}>
-                  <div className='px-4'>Layout</div>
+                  <NftLayouSideBarLayout nft={nft} />
                 </TabPanel>
               </TabContext>
             </div>

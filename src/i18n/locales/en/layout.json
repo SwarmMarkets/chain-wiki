@@ -8,6 +8,7 @@
     "sites": "Sites"
   },
   "customization": {
+    "basic": "Basic",
     "title": "Site customization",
     "tabs": {
       "general": "General",

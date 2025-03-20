@@ -15,7 +15,10 @@ interface CreateNftFormProps {
   onErrorSubmit(e: Error): void
 }
 
-const CreateNftForm: React.FC<CreateNftFormProps> = ({ onSuccessSubmit, onErrorSubmit }) => {
+const CreateNftForm: React.FC<CreateNftFormProps> = ({
+  onSuccessSubmit,
+  onErrorSubmit,
+}) => {
   const { t } = useTranslation('nft', { keyPrefix: 'createNft' })
   const {
     register,
