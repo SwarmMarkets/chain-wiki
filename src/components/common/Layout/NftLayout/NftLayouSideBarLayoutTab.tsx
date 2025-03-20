@@ -4,16 +4,17 @@ import EditHeaderLinks from 'src/components/Nft/NftView/EditHeaderLinks'
 import Card from 'src/components/ui/Card'
 import { NFTWithMetadata } from 'src/shared/utils'
 import ColorField from '../../ColorFIeld'
+import { useCustomizationStore } from 'src/shared/store/customization-store'
 
 interface NftLayoutSideBarGeneralTabProps {
   nft: NFTWithMetadata
 }
 
-const NftLayouSideBarLayout: React.FC<NftLayoutSideBarGeneralTabProps> = ({
+const NftLayouSideBarLayoutTab: React.FC<NftLayoutSideBarGeneralTabProps> = ({
   nft,
 }) => {
   const { t } = useTranslation(['nft', 'layout'])
-  const [headerColor, setHeaderColor] = useState(nft?.headerBackground)
+  const { headerBackground, setHeaderBackground } = useCustomizationStore()
 
   return (
     <div>
@@ -29,8 +30,8 @@ const NftLayouSideBarLayout: React.FC<NftLayoutSideBarGeneralTabProps> = ({
           <div>{t('settings.headerColor.description')}</div>
         </div>
         <ColorField
-          color={headerColor}
-          onChange={setHeaderColor}
+          color={headerBackground}
+          onChange={setHeaderBackground}
           className='mt-2'
         />
         <div className='mb-2'>
@@ -49,4 +50,4 @@ const NftLayouSideBarLayout: React.FC<NftLayoutSideBarGeneralTabProps> = ({
   )
 }
 
-export default NftLayouSideBarLayout
+export default NftLayouSideBarLayoutTab

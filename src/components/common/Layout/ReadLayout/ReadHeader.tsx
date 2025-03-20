@@ -7,7 +7,6 @@ interface ReadHeaderProps {
 }
 
 const ReadHeader: React.FC<ReadHeaderProps> = ({ nft, preview }) => {
-  console.log(nft)
   const linkStyle = nft?.headerLinksContent?.color
     ? {
         color: nft?.headerLinksContent?.color,

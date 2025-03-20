@@ -1,23 +1,23 @@
+import React from 'react'
+import { useTranslation } from 'react-i18next'
 import Card from 'src/components/ui/Card'
+import { useCustomizationStore } from 'src/shared/store/customization-store'
 import { NFTWithMetadata } from 'src/shared/utils'
 import UploadFileButton from '../../UploadFileButton'
-import React, { useState } from 'react'
-import { useTranslation } from 'react-i18next'
 
 interface NftLayoutSideBarGeneralTabProps {
   nft: NFTWithMetadata | null
 }
 
-const NftLayoutSideBarGeneralTab: React.FC<NftLayoutSideBarGeneralTabProps> = ({
-  nft,
-}) => {
+const NftLayoutSideBarGeneralTab: React.FC<
+  NftLayoutSideBarGeneralTabProps
+> = () => {
   const { t } = useTranslation(['nft', 'layout'])
 
-  const [uploadedLogoUrl, setUploadedLogoUrl] = useState<string | null>(null)
+  const { logoUrl, setLogoUrl } = useCustomizationStore()
 
-  const logo = uploadedLogoUrl || nft?.logoUrl
   const handleUploadLogo = (url: string) => {
-    setUploadedLogoUrl(url)
+    setLogoUrl(url)
   }
   return (
     <Card>
@@ -31,7 +31,9 @@ const NftLayoutSideBarGeneralTab: React.FC<NftLayoutSideBarGeneralTabProps> = ({
         </div>
         <div>{t('settings.customLogo.description')}</div>
         <div className='p-5 mt-2 bg-gray-100 rounded-md h-36 flex items-center justify-center'>
-          {logo && <img className='max-w-52 max-h-28 rounded-md' src={logo} />}
+          {logoUrl && (
+            <img className='max-w-52 max-h-28 rounded-md' src={logoUrl} />
+          )}
         </div>
         <UploadFileButton className='w-full mt-2' onUpload={handleUploadLogo}>
           {t('createNft.form.uploadLogo')}

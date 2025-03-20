@@ -4,15 +4,17 @@ import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
 import IndexPages from 'src/components/IndexPages'
 import Collapse from 'src/components/ui-kit/Animations/Collapse'
+import useOnFirstMount from 'src/components/ui-kit/hooks/useOnFirstMount'
 import Tabs from 'src/components/ui/Tabs'
 import Tab from 'src/components/ui/Tabs/Tab'
 import TabContext from 'src/components/ui/Tabs/TabContext'
 import TabPanel from 'src/components/ui/Tabs/TabPanel'
 import useTabs from 'src/hooks/useTabs'
 import { RoutePathSetting } from 'src/shared/enums'
+import { useCustomizationStore } from 'src/shared/store/customization-store'
 import { NFTWithMetadata } from 'src/shared/utils'
+import NftLayouSideBarLayoutTab from './NftLayouSideBarLayoutTab'
 import NftLayoutSideBarGeneralTab from './NftLayoutSideBarGeneralTab'
-import NftLayouSideBarLayout from './NftLayouSideBarLayout'
 
 interface NftLayoutSideBarProps {
   nft: NFTWithMetadata
@@ -30,6 +32,21 @@ const NftLayoutSideBar: React.FC<NftLayoutSideBarProps> = ({ nft }) => {
 
   const { activeTab, changeTab } = useTabs<CustomizationTab>({
     defaultTab: CustomizationTab.GENERAL,
+  })
+
+  const { init } = useCustomizationStore()
+
+  useOnFirstMount(() => {
+    init({
+      ...(nft.headerBackground && {
+        linksColor: nft.headerBackground,
+      }),
+      ...(nft.headerLinksContent?.color && {
+        linksColor: nft.headerLinksContent?.color,
+      }),
+      headerLinks: nft.headerLinksContent?.headerLinks,
+      logoUrl: nft.logoUrl,
+    })
   })
 
   if (setting === RoutePathSetting.GENERAL) return null
@@ -57,7 +74,7 @@ const NftLayoutSideBar: React.FC<NftLayoutSideBarProps> = ({ nft }) => {
                   <NftLayoutSideBarGeneralTab nft={nft} />
                 </TabPanel>
                 <TabPanel value={CustomizationTab.LAYOUT}>
-                  <NftLayouSideBarLayout nft={nft} />
+                  <NftLayouSideBarLayoutTab nft={nft} />
                 </TabPanel>
               </TabContext>
             </div>

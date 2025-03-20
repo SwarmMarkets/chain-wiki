@@ -1,9 +1,11 @@
 import { useTranslation } from 'react-i18next'
-import useYupValidationResolver from '../useYupValidationResolvber'
 import yup from 'src/shared/validations/yup'
 import { useFieldArray, useForm } from 'react-hook-form'
 import { IpfsHeaderLink } from 'src/shared/utils'
 import { TFunction } from 'i18next'
+import useYupValidationResolver from '../useYupValidationResolvber'
+import { useCustomizationStore } from 'src/shared/store/customization-store'
+import { useEffect } from 'react'
 
 export interface EditHeaderLinksInputs {
   title: string
@@ -11,7 +13,7 @@ export interface EditHeaderLinksInputs {
 }
 
 export interface EditHeaderLinksFormValues {
-  headerLinks: Omit<IpfsHeaderLink, 'id'>[]
+  headerLinks: IpfsHeaderLink[]
 }
 
 const createSchema = (t: TFunction) =>
@@ -29,33 +31,30 @@ const createSchema = (t: TFunction) =>
     ),
   })
 
-const useEditHeaderLinks = (initLinks: IpfsHeaderLink[]) => {
+const useEditHeaderLinks = () => {
   const { t } = useTranslation('nft', { keyPrefix: 'settings' })
+  const { headerLinks, setHeaderLinks } = useCustomizationStore()
 
   const schema = createSchema(t)
-
   const resolver = useYupValidationResolver(schema)
 
   const { control, watch, ...form } = useForm<EditHeaderLinksFormValues>({
     resolver,
-    defaultValues: {
-      headerLinks: initLinks,
-    },
+    defaultValues: { headerLinks },
     mode: 'onChange',
   })
 
-  const fieldArray = useFieldArray({
-    control,
-    name: 'headerLinks',
-  })
+  const fieldArray = useFieldArray({ control, name: 'headerLinks' })
 
-  const headerLinks = watch('headerLinks').map((link, index) => ({
-    ...link,
-    id: fieldArray.fields[index].id,
-  }))
+  // Слежение за изменениями и обновление состояния в zustand
+  const watchedLinks = watch('headerLinks')
+  useEffect(() => {
+    setHeaderLinks(watchedLinks)
+  }, [setHeaderLinks, watchedLinks])
+
   const errors = form.formState.errors
 
-  return { form, errors, headerLinks, fieldArray }
+  return { form, errors, headerLinks: watchedLinks, fieldArray }
 }
 
 export default useEditHeaderLinks

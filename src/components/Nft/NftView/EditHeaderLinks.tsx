@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { HexColorPicker } from 'react-colorful'
 import { useTranslation } from 'react-i18next'
 import UpdateNftContentButton from 'src/components/UpdateContent/UpdateNftContentButton'
 import ColorField from 'src/components/common/ColorFIeld'
@@ -8,9 +7,8 @@ import Button from 'src/components/ui-kit/Button/Button'
 import Icon from 'src/components/ui-kit/Icon/Icon'
 import IconButton from 'src/components/ui-kit/IconButton'
 import TextField from 'src/components/ui-kit/TextField/TextField'
-import useClickAway from 'src/components/ui-kit/hooks/useClickAway'
 import useEditHeaderLinks from 'src/hooks/forms/useEditHeaderLinks'
-import useEffectCompare from 'src/hooks/useEffectCompare'
+import { useCustomizationStore } from 'src/shared/store/customization-store'
 import { getUniqueId, NFTWithMetadata } from 'src/shared/utils'
 
 interface EditHeaderLinksProps {
@@ -20,24 +18,20 @@ interface EditHeaderLinksProps {
 const EditHeaderLinks: React.FC<EditHeaderLinksProps> = ({ nft }) => {
   const { t } = useTranslation('nft', { keyPrefix: 'settings' })
 
-  const initialLinks = nft?.headerLinksContent?.headerLinks?.length
-    ? nft?.headerLinksContent?.headerLinks
-    : [{ id: getUniqueId(), title: '', link: '' }]
+  // const initialLinks = headerLinksStore
+  //   ? headerLinksStore
+  //   : [{ id: getUniqueId(), title: '', link: '' }]
 
   const {
     form,
     headerLinks,
     fieldArray: { fields, append, remove, move },
     errors,
-  } = useEditHeaderLinks(initialLinks)
+  } = useEditHeaderLinks()
 
-  const [linksColor, setLinksColor] = useState('#ffffff')
-  useEffectCompare(() => {
-    if (nft.headerLinksContent?.color)
-      setLinksColor(nft.headerLinksContent.color)
-  }, [nft.headerLinksContent?.color])
+  const { linksColor, setLinksColor } = useCustomizationStore()
 
-  const [draggingId, setDraggingId] = useState(null)
+  const [draggingId, setDraggingId] = useState<string | null>(null)
 
   return (
     <form className='w-full max-w-lg flex flex-col'>
