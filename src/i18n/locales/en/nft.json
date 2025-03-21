@@ -86,7 +86,7 @@
       "buttonAddLink": "Add link"
     },
     "linksColor": {
-      "title": "Title links color",
+      "title": "Links color",
       "description": "Sets the color of the title links in the header"
     }
   },

@@ -3,9 +3,9 @@ import yup from 'src/shared/validations/yup'
 import { useFieldArray, useForm } from 'react-hook-form'
 import { IpfsHeaderLink } from 'src/shared/utils'
 import { TFunction } from 'i18next'
-import useYupValidationResolver from '../useYupValidationResolvber'
 import { useCustomizationStore } from 'src/shared/store/customization-store'
-import { useEffect } from 'react'
+import { useEffect, useCallback } from 'react'
+import useYupValidationResolver from '../useYupValidationResolvber'
 
 export interface EditHeaderLinksInputs {
   title: string
@@ -23,7 +23,7 @@ const createSchema = (t: TFunction) =>
         title: yup
           .string()
           .required(t('editHeaderLinks.formErrors.title.required')),
-        link: yup
+        url: yup
           .string()
           .url(t('editHeaderLinks.formErrors.link.url'))
           .required(t('editHeaderLinks.formErrors.link.required')),
@@ -46,15 +46,26 @@ const useEditHeaderLinks = () => {
 
   const fieldArray = useFieldArray({ control, name: 'headerLinks' })
 
-  // Слежение за изменениями и обновление состояния в zustand
-  const watchedLinks = watch('headerLinks')
+  // Обновление Zustand сразу при каждом изменении формы
+  const handleUpdate = useCallback(
+    (newLinks: IpfsHeaderLink[]) => {
+      setHeaderLinks(newLinks)
+    },
+    [setHeaderLinks]
+  )
+
   useEffect(() => {
-    setHeaderLinks(watchedLinks)
-  }, [setHeaderLinks, watchedLinks])
+    const subscription = watch(value => {
+      return (
+        value.headerLinks && handleUpdate(value.headerLinks as IpfsHeaderLink[])
+      )
+    })
+    return () => subscription.unsubscribe()
+  }, [watch, handleUpdate])
 
   const errors = form.formState.errors
 
-  return { form, errors, headerLinks: watchedLinks, fieldArray }
+  return { form, errors, headerLinks, fieldArray }
 }
 
 export default useEditHeaderLinks
