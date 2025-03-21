@@ -9,14 +9,16 @@ interface ReadHeaderProps {
 
 const ReadHeader: React.FC<ReadHeaderProps> = ({ nft, preview }) => {
   const customization = useCustomizationStore()
-
-  const headerLinks =
-    customization.headerLinks || nft?.headerLinksContent?.headerLinks
-  const headerBackground =
-    customization.headerBackground || nft?.headerBackground
-  const headerLinksColor =
-    customization.linksColor || nft?.headerLinksContent?.color
-  const logoUrl = customization.logoUrl || nft?.logoUrl
+  const headerLinks = preview
+    ? customization.headerLinks
+    : nft?.headerLinksContent?.headerLinks
+  const headerBackground = preview
+    ? customization.headerBackground
+    : nft?.headerBackground
+  const headerLinksColor = preview
+    ? customization.linksColor
+    : nft?.headerLinksContent?.color
+  const logoUrl = preview ? customization.logoUrl : nft?.logoUrl
 
   const linkStyle = headerLinksColor
     ? {
@@ -40,7 +42,7 @@ const ReadHeader: React.FC<ReadHeaderProps> = ({ nft, preview }) => {
         <img src={logoUrl} alt='Logo' className='max-w-80 max-h-12' />
 
         <div className='flex gap-6'>
-          {headerLinks.map(link => (
+          {headerLinks?.map(link => (
             <a
               key={link.id}
               href={link.link}

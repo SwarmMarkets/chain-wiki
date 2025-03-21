@@ -39,7 +39,7 @@ const NftLayoutSideBar: React.FC<NftLayoutSideBarProps> = ({ nft }) => {
   useOnFirstMount(() => {
     init({
       ...(nft.headerBackground && {
-        linksColor: nft.headerBackground,
+        headerBackground: nft.headerBackground,
       }),
       ...(nft.headerLinksContent?.color && {
         linksColor: nft.headerLinksContent?.color,

@@ -1,15 +1,13 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import UpdateNftContentButton from 'src/components/UpdateContent/UpdateNftContentButton'
 import ColorField from 'src/components/common/ColorFIeld'
-import RequirePermissions from 'src/components/common/RequirePermissions'
 import Button from 'src/components/ui-kit/Button/Button'
 import Icon from 'src/components/ui-kit/Icon/Icon'
 import IconButton from 'src/components/ui-kit/IconButton'
 import TextField from 'src/components/ui-kit/TextField/TextField'
 import useEditHeaderLinks from 'src/hooks/forms/useEditHeaderLinks'
 import { useCustomizationStore } from 'src/shared/store/customization-store'
-import { getUniqueId, NFTWithMetadata } from 'src/shared/utils'
+import { NFTWithMetadata } from 'src/shared/utils'
 
 interface EditHeaderLinksProps {
   nft: NFTWithMetadata
@@ -113,14 +111,7 @@ const EditHeaderLinks: React.FC<EditHeaderLinksProps> = ({ nft }) => {
           onChange={setLinksColor}
           className='mt-2'
         />
-        <RequirePermissions nftAddress={nft.id}>
-          <UpdateNftContentButton
-            className='mt-2 w-full'
-            nftAddress={nft.id}
-            ipfsHeaderLinkToUpdate={{ headerLinks, color: linksColor }}
-            disabled={!form.formState.isValid}
-          />
-        </RequirePermissions>
+
       </div>
     </form>
   )
