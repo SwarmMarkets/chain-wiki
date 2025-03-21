@@ -30,24 +30,25 @@ const Settings = () => {
           <SettingsBody activeLink={actilveLink} />
         </div>
       </ConditionalItem>
-      <ConditionalItem
-        case={RoutePathSetting.CUSTOMIZATION}
-        className='rounded-md border border-main overflow-y-auto'
-      >
-        <ReadLayout preview>
-          <NftReadPage />
-        </ReadLayout>
-        <RequirePermissions nftAddress={nftId}>
-          <UpdateNftContentButton
-            className='mt-6 w-full'
-            nftAddress={nftId}
-            ipfsHeaderLinkToUpdate={{ headerLinks, color: linksColor }}
-            nftContentToUpdate={{ headerBackground, logoUrl }}
-            disabled={!isEdited}
-          >
-            {t('save')}
-          </UpdateNftContentButton>
-        </RequirePermissions>
+      <ConditionalItem case={RoutePathSetting.CUSTOMIZATION}>
+        <div className='rounded-md border border-main overflow-y-auto'>
+          <ReadLayout preview>
+            <NftReadPage />
+          </ReadLayout>
+        </div>
+        <div className='flex justify-end'>
+          <RequirePermissions nftAddress={nftId}>
+            <UpdateNftContentButton
+              className='mt-4'
+              nftAddress={nftId}
+              ipfsHeaderLinkToUpdate={{ headerLinks, color: linksColor }}
+              nftContentToUpdate={{ headerBackground, logoUrl }}
+              disabled={!isEdited}
+            >
+              {t('save')}
+            </UpdateNftContentButton>
+          </RequirePermissions>
+        </div>
       </ConditionalItem>
     </ConditionalRender>
   )
