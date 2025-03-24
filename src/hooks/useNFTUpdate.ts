@@ -1,7 +1,6 @@
 import { useStorageUpload } from '@thirdweb-dev/react'
 import { useCallback } from 'react'
 import { useSX1155NFT } from './contracts/useSX1155NFT'
-import useNFT from './subgraph/useNFT'
 import {
   generateIpfsHeaderLinksContent,
   generateIpfsIndexPagesContent,
@@ -38,13 +37,13 @@ const useNFTUpdate = (nftAddress: string) => {
     isError,
     reset: resetStorageState,
   } = useStorageUpload()
-  const { nft } = useNFT(nftAddress)
+  // const { nft } = useNFT(nftAddress)
 
   const uploadContent = async (content: Partial<IpfsNftContent>) => {
-    if (!nft.id || content.htmlContent === undefined) return
+    if (content.htmlContent === undefined) return
     const ipfsContent = generateIpfsNftContent({
       htmlContent: content.htmlContent,
-      address: unifyAddressToId(nft.id),
+      address: unifyAddressToId(nftAddress),
     })
     const filesToUpload = [ipfsContent]
     const uris = await upload({ data: filesToUpload })
@@ -53,10 +52,10 @@ const useNFTUpdate = (nftAddress: string) => {
   }
 
   const uploadIndexPagesContent = async (indexPages: IpfsIndexPage[]) => {
-    if (!nft.id) return
+    // if (!nft.id) return
     const ipfsIndexPagesContent = generateIpfsIndexPagesContent({
       indexPages: indexPages,
-      address: unifyAddressToId(nft.id),
+      address: unifyAddressToId(nftAddress),
     })
     const filesToUpload = [ipfsIndexPagesContent]
     const uris = await upload({ data: filesToUpload })
@@ -67,13 +66,13 @@ const useNFTUpdate = (nftAddress: string) => {
   const uploadHeaderLinksContent = async (
     headerLinksContent: Partial<IpfsHeaderLinksContent>
   ) => {
-    if (!nft.id) return
+    // if (!nft.id) return
     const ipfsHeaderLinksContent = generateIpfsHeaderLinksContent({
       headerLinks:
         headerLinksContent.headerLinks ||
-        nft.headerLinksContent?.headerLinks ||
+        // nft.headerLinksContent?.headerLinks ||
         [],
-      address: unifyAddressToId(nft.id),
+      address: nftAddress,
       color: headerLinksContent.color || '#000000',
     })
     const filesToUpload = [ipfsHeaderLinksContent]
