@@ -55,15 +55,37 @@ function App() {
                 <Routes>
                   <Route element={<Layout />}>
                     <Route element={<NftLayout />}>
-                      <Route path={RoutePaths.NFT} element={<NftPage />} />
+                      <Route
+                        path={RoutePaths.NFT}
+                        element={
+                          <WalletConnectedProtect>
+                            <NftPage />
+                          </WalletConnectedProtect>
+                        }
+                      />
                       <Route
                         path={RoutePaths.NFT + RoutePaths.TOKEN}
-                        element={<TokenPage />}
+                        element={
+                          <WalletConnectedProtect>
+                            <TokenPage />
+                          </WalletConnectedProtect>
+                        }
                       />
-                      <Route path={RoutePaths.EDIT} element={<EditPage />} />
+                      <Route
+                        path={RoutePaths.EDIT}
+                        element={
+                          <WalletConnectedProtect>
+                            <EditPage />
+                          </WalletConnectedProtect>
+                        }
+                      />
                       <Route
                         path={RoutePaths.SETTINGS}
-                        element={<NftSettingsPage />}
+                        element={
+                          <WalletConnectedProtect>
+                            <NftSettingsPage />
+                          </WalletConnectedProtect>
+                        }
                       />
                     </Route>
 
