@@ -3,7 +3,7 @@ import { TokenView } from './TokenView'
 
 export interface TokenViewProps {
   token?: TokenQueryFullData | null
-  onMount: (element: HTMLDivElement) => void
+  onMount?: (element: HTMLDivElement) => void
   onClickEditSite: () => void
 }
 

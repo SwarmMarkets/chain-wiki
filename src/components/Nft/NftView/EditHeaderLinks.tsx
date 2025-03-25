@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import ColorField from 'src/components/common/ColorFIeld'
 import Button from 'src/components/ui-kit/Button/Button'
@@ -7,22 +7,12 @@ import IconButton from 'src/components/ui-kit/IconButton'
 import TextField from 'src/components/ui-kit/TextField/TextField'
 import useEditHeaderLinks from 'src/hooks/forms/useEditHeaderLinks'
 import { useCustomizationStore } from 'src/shared/store/customization-store'
-import { NFTWithMetadata } from 'src/shared/utils'
 
-interface EditHeaderLinksProps {
-  nft: NFTWithMetadata
-}
-
-const EditHeaderLinks: React.FC<EditHeaderLinksProps> = ({ nft }) => {
+const EditHeaderLinks = () => {
   const { t } = useTranslation('nft', { keyPrefix: 'settings' })
-
-  // const initialLinks = headerLinksStore
-  //   ? headerLinksStore
-  //   : [{ id: getUniqueId(), title: '', link: '' }]
 
   const {
     form,
-    headerLinks,
     fieldArray: { fields, append, remove, move },
     errors,
   } = useEditHeaderLinks()
@@ -111,7 +101,6 @@ const EditHeaderLinks: React.FC<EditHeaderLinksProps> = ({ nft }) => {
           onChange={setLinksColor}
           className='mt-2'
         />
-
       </div>
     </form>
   )

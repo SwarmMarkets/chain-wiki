@@ -9,7 +9,7 @@ interface InfiniteListContextProps {
 const InfiniteListContext = createContext<InfiniteListContextProps>({
   hasMore: false,
   loading: false,
-  loadMore: () => {},
+  loadMore: () => undefined,
 })
 
 export const useInfiniteListContext = () => {

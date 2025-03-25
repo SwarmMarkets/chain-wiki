@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { IpfsIndexPage, TokensQueryFullData } from '../utils'
+import { IpfsIndexPage } from '../utils'
 
 interface EditingToken {
   id: string

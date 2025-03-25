@@ -21,7 +21,7 @@ export const TokenView: React.FC<TokenViewProps> = ({ token, onMount }) => {
 
   const onMountContent = () => {
     if (contentRef.current) {
-      onMount(contentRef.current)
+      onMount?.(contentRef.current)
     }
   }
 

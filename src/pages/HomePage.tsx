@@ -6,37 +6,22 @@ import { Nft_OrderBy, OrderDirection } from 'src/queries/gql/graphql'
 
 const HomePage = () => {
   const { t } = useTranslation('nfts')
-  // const [skip, setSkip] = useState(0)
   const address = useAddress()
-  const { nfts, loadingNfts, refetchingNfts } = useNFTs(
-    {
-      variables: {
-        orderBy: Nft_OrderBy.UpdatedAt,
-        orderDirection: OrderDirection.Desc,
-        filter: {
-          or: [
-            { admins_contains_nocase: [address!] },
-            { editors_contains_nocase: [address!] },
-          ],
-        },
+  const { nfts, loadingNfts, refetchingNfts } = useNFTs({
+    variables: {
+      orderBy: Nft_OrderBy.UpdatedAt,
+      orderDirection: OrderDirection.Desc,
+      filter: {
+        or: [
+          { admins_contains_nocase: [address!] },
+          { editors_contains_nocase: [address!] },
+        ],
       },
-      skip: !address,
-    }
-    // { fetchFullData: true }
-  )
+    },
+    skip: !address,
+  })
 
   const loading = loadingNfts && !refetchingNfts
-
-  // const handleNextButton = () => {
-  //   setSkip(skip + PAGE_LIMIT)
-  // }
-
-  // const handlePreviousButton = () => {
-  //   setSkip(skip - PAGE_LIMIT)
-  // }
-
-  // const hasPrevious = skip > 0
-  // const hasNext = !!(fullNfts ? fullNfts.length >= PAGE_LIMIT : false)
 
   return (
     <div className='p-20 h-full'>
