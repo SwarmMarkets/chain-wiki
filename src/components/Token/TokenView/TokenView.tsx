@@ -4,7 +4,6 @@ import { useRef, useState } from 'react'
 import { TokenViewProps } from '.'
 import AttestationDrawer from '../Attestation/AttestationDrawer'
 import TokenViewActions from './TokenViewActions'
-import { useTheme } from 'styled-components'
 import { useTranslation } from 'react-i18next'
 
 export interface SelectedSection {
@@ -12,13 +11,8 @@ export interface SelectedSection {
   htmlContent: string | null
 }
 
-export const TokenView: React.FC<TokenViewProps> = ({
-  token,
-  onMount,
-  onClickEditSite,
-}) => {
+export const TokenView: React.FC<TokenViewProps> = ({ token, onMount }) => {
   const { t } = useTranslation('token')
-  const theme = useTheme()
   const [selectedSection, setSelectedSection] = useState<SelectedSection>({
     id: null,
     htmlContent: null,

@@ -1,7 +1,5 @@
 import React from 'react'
-import { useTranslation } from 'react-i18next'
 import { generatePath, useParams } from 'react-router-dom'
-import { useIpfsIndexPages } from 'src/hooks/ipfs/nft'
 import RoutePaths from 'src/shared/enums/routes-paths'
 import { NFTWithMetadata } from 'src/shared/utils/ipfs/types'
 import EditIndexPages from '../Edit/EditIndexPages'

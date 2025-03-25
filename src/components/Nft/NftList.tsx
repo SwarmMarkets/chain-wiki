@@ -1,9 +1,8 @@
 import RoutePaths from 'src/shared/enums/routes-paths'
 import React from 'react'
-import { generatePath } from 'react-router-dom'
+import { generatePath, Link } from 'react-router-dom'
 import NftCard from './NftCard'
 import NftSkeletonList from './NftSkeletonList'
-import { StyledLink } from './styled-components'
 import { NfTsQuery } from 'src/queries/gql/graphql'
 import { useTranslation } from 'react-i18next'
 import clsx from 'clsx'
@@ -52,12 +51,12 @@ const NftList: React.FC<NftListProps> = ({
         <NftSkeletonList skeletonLength={skeletonLength} />
       ) : (
         nfts?.map(nft => (
-          <StyledLink
+          <Link
             to={generatePath(RoutePaths.NFT, { nftId: nft.id })}
             key={nft.id}
           >
             <NftCard nft={nft} showRole={showRole} />
-          </StyledLink>
+          </Link>
         ))
       )}
     </div>

@@ -5,6 +5,7 @@ import Icon from '../ui-kit/Icon/Icon'
 import TextField from '../ui-kit/TextField/TextField'
 import clsx from 'clsx'
 import IconButton from '../ui-kit/IconButton'
+import DynamicComponent from '../DynamicComponent'
 
 interface EditIndexPagesItemProps {
   to?: string
@@ -71,10 +72,9 @@ const EditIndexPagesItem: React.FC<EditIndexPagesItemProps> = ({
     onToggle?.(e)
   }
 
-  const Wrapper = to ? Link : 'div'
-
   return (
-    <Wrapper
+    <DynamicComponent
+      as={to ? Link : 'div'}
       to={to || ''}
       className={clsx(
         'flex items-center justify-between w-full box-border rounded transition-colors overflow-hidden px-2 py-1.5 gap-2',
@@ -120,7 +120,7 @@ const EditIndexPagesItem: React.FC<EditIndexPagesItemProps> = ({
           </IconButton>
         )}
       </div>
-    </Wrapper>
+    </DynamicComponent>
   )
 }
 
