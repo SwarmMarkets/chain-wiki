@@ -24,6 +24,7 @@ import {
 } from './utils'
 import { HIDDEN_INDEX_PAGES_ID } from './const'
 import { EditNodeModel } from './EditIndexPagesTree/types'
+import useTokenUpdate from 'src/hooks/useTokenUpdate'
 
 const useEdit = (readonly?: boolean) => {
   const { nftId = '' } = useParams()
@@ -73,6 +74,7 @@ const useEdit = (readonly?: boolean) => {
 
   const { contract: sx1555NFTContract } = useSX1155NFT(nftId)
   const { uploadContent } = useNFTUpdate(nftId)
+  const { uploadContent: uploadTokenContent } = useTokenUpdate(nftId)
 
   const merge = async () => {
     setMergeLoading(true)
@@ -94,14 +96,11 @@ const useEdit = (readonly?: boolean) => {
       if (editedTokens.length > 0) {
         for (const editedToken of editedTokens) {
           const tokenId = +editedToken.id.split('-')[1]
-          const ipfsContent = generateIpfsTokenContent({
-            tokenId,
+          const firstUri = await uploadTokenContent(tokenId, {
             htmlContent: editedToken.content,
             address: nftId,
+            tokenId,
           })
-          const filesToUpload = [ipfsContent]
-          const uris = await upload({ data: filesToUpload })
-          const firstUri = uris[0]
           if (firstUri) {
             const tokenContentUpdateTx = sx1555NFTContract.prepare(
               'setTokenUri',
@@ -117,14 +116,11 @@ const useEdit = (readonly?: boolean) => {
       if (addedTokens.length > 0) {
         for (const addedToken of addedTokens) {
           const tokenId = +addedToken.id.split('-')[1]
-          const ipfsContent = generateIpfsTokenContent({
-            tokenId,
+          const firstUri = await uploadTokenContent(tokenId, {
             htmlContent: addedToken.content,
             address: nftId,
+            tokenId,
           })
-          const filesToUpload = [ipfsContent]
-          const uris = await upload({ data: filesToUpload })
-          const firstUri = uris[0]
           if (firstUri && account) {
             const tokenContentMintTx = sx1555NFTContract.prepare('mint', [
               account,
@@ -235,7 +231,10 @@ const useEdit = (readonly?: boolean) => {
       }
     })
 
-    if (editedIndexPagesNodes.length === 0 && hiddenIndexPagesNodes.length === 0) {
+    if (
+      editedIndexPagesNodes.length === 0 &&
+      hiddenIndexPagesNodes.length === 0
+    ) {
       return []
     }
 
@@ -258,7 +257,9 @@ const useEdit = (readonly?: boolean) => {
       t => +t.id.split('-')[1]
     )
     if (!tokenIds) return
-    const tokenId = (tokenIds.length ? Math.max(...tokenIds) + 1 : 1).toString(16)
+    const tokenId = (tokenIds.length ? Math.max(...tokenIds) + 1 : 1).toString(
+      16
+    )
 
     const nextTokenId = `${nftId}-0x${tokenId}`
     return nextTokenId
