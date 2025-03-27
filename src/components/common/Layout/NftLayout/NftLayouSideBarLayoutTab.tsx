@@ -42,7 +42,7 @@ const NftLayouSideBarLayoutTab: React.FC<NftLayoutSideBarGeneralTabProps> = ({
         </div>
         {nft?.id && (
           <Card>
-            <EditHeaderLinks nft={nft} />
+            <EditHeaderLinks />
           </Card>
         )}
       </Card>
