@@ -17,9 +17,9 @@ const NftReadPage = () => {
   const html =
     (tokenId
       ? token?.ipfsContent?.htmlContent
-      : nft.ipfsContent?.htmlContent) || ''
+      : nft?.ipfsContent?.htmlContent) || ''
 
-  const title = tokenId ? token?.name : nft.name
+  const title = tokenId ? token?.name : nft?.name
 
   if (!html) {
     return <p className='text-center'>{t('messages.noContent')}</p>
