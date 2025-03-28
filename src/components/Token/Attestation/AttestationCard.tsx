@@ -30,15 +30,10 @@ const AttestationCard: React.FC<AttestationCardProps> = ({
 
   return (
     <Card>
-      <Flex alignItems='center' justifyContent='space-between'>
-        <Flex alignItems='center' $gap='5px'>
-          <Text weight={theme.fontWeights.bold}>{t('attestation.author')}</Text>
-          <ExplorerLink
-            iconsPosition='right'
-            iconSize={10}
-            type={'address'}
-            hash={address}
-          >
+      <div className='flex items-center justify-between'>
+        <div className='flex items-center gap-2'>
+          <div>{t('attestation.author')}</div>
+          <ExplorerLink iconSize={10} type={'address'} hash={address}>
             <Text
               fontSize={theme.fontSizes.small}
               color={theme.palette.linkPrimary}
@@ -46,9 +41,9 @@ const AttestationCard: React.FC<AttestationCardProps> = ({
               {shortenAddress(address, true)}
             </Text>
           </ExplorerLink>
-        </Flex>
-        <Text color={theme.palette.gray}>{date}</Text>
-      </Flex>
+        </div>
+        <div>{date}</div>
+      </div>
       <HtmlRender html={message} />
       {/* <RequirePermissions nftAddress={nftAddress} canDeleteAttestation>
         <Button mt='8px' onClick={onDelete}>

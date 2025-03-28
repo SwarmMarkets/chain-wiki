@@ -51,24 +51,17 @@ const AttestationDrawer: React.FC<AttestationDrawerProps> = ({
       isOpen={isOpen}
       onClose={onClose}
     >
-      <Flex
-        height={'100%'}
-        width='100%'
-        justifyContent='space-between'
-        flexDirection='column'
-      >
-        <Box>
+      <div className='flex h-full w-full flex-col justify-between'>
+        <div>
           <HtmlRender html={section.htmlContent || ''} />
           <Divider />
           <AttestationList
-            // nftAddress={nftId}
-            // tokenAddress={tokenId}
             attestations={fullComments}
             loading={showSkeletons}
           />
-        </Box>
+        </div>
         <RequirePermissions nftAddress={nftId} canCreateAttestation>
-          <Flex flexDirection='column'>
+          <div className='flex flex-col'>
             <LiteEditor
               height={200}
               onChange={handleChangeEditor}
@@ -83,9 +76,9 @@ const AttestationDrawer: React.FC<AttestationDrawerProps> = ({
             >
               {t('attestation.send')}
             </MakeAttestationButton>
-          </Flex>
+          </div>
         </RequirePermissions>
-      </Flex>
+      </div>
     </Drawer>
   )
 }

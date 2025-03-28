@@ -1,6 +1,5 @@
 import { forwardRef, useEffect, useRef } from 'react'
-import { HtmlRenderProps } from '.'
-import { HtmlRenderHover } from './styled-components'
+import { HtmlRenderHover, HtmlRenderProps } from '.'
 import { createCommentIconElement } from './utils'
 import { SelectedSection } from '../Token/TokenView/TokenView'
 

@@ -1,6 +1,5 @@
 import shouldForwardProp from '@styled-system/should-forward-prop'
 import styled from 'styled-components'
-import HtmlRender from '.'
 
 interface HtmlWrapperProps {
   commentable?: boolean
@@ -75,15 +74,5 @@ export const HtmlWrapper = styled.div.withConfig({
 
   em {
     font-style: italic;
-  }
-`
-
-export const HtmlRenderHover = styled(HtmlRender)`
-  & > * {
-    &:hover {
-      border-radius: 4px;
-      background: ${({ theme }) => theme.palette.nearWhite};
-      box-shadow: 0 0 0 8px ${({ theme }) => theme.palette.nearWhite};
-    }
   }
 `

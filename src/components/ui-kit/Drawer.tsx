@@ -8,6 +8,7 @@ import { ModalProps } from './Modal'
 import Fade from './Animations/Fade'
 import Icon from './Icon/Icon'
 import IconButton from './IconButton'
+import ReactPortal from '../ReactPortal'
 
 export interface DrawerProps extends ModalProps {
   position?: 'left' | 'right'
@@ -39,40 +40,42 @@ const Drawer: React.FC<DrawerProps> = ({
     right: 'justify-end',
   }
 
-  return createPortal(
-    <AnimatePresence>
-      {open && (
-        <div className='relative z-50' role='dialog' aria-modal='true'>
-          <Fade scale={1} className='overlay' aria-hidden='true' />
+  return (
+    <ReactPortal wrapperId='drawers'>
+      <AnimatePresence>
+        {open && (
+          <div className='relative z-50' role='dialog' aria-modal='true'>
+            <Fade scale={1} className='overlay' aria-hidden='true' />
 
-          <div className='fixed inset-0 z-10 w-screen overflow-y-auto'>
-            <div
-              className={clsx(
-                'flex min-h-full',
-                'items-stretch',
-                positionMap[position]
-              )}
-            >
-              <Slide
-                ref={drawerRef}
-                className={clsx(drawerClasses, className)}
-                position={position}
+            <div className='fixed inset-0 z-10 w-screen overflow-y-auto'>
+              <div
+                className={clsx(
+                  'flex min-h-full',
+                  'items-stretch',
+                  positionMap[position]
+                )}
               >
-                <IconButton
-                  className='absolute right-1 top-1'
-                  onClick={onClose}
+                <Slide
+                  ref={drawerRef}
+                  className={clsx(drawerClasses, className)}
+                  position={position}
                 >
-                  <Icon name='close' />
-                </IconButton>
+                  <IconButton
+                    className='absolute right-1 top-1'
+                    onClick={onClose}
+                  >
+                    <Icon name='close' />
+                  </IconButton>
 
-                {children}
-              </Slide>
+                  {children}
+                </Slide>
+              </div>
             </div>
           </div>
-        </div>
-      )}
-    </AnimatePresence>,
-    document.body.querySelector('#root') || document.body
+        )}
+      </AnimatePresence>
+      ,
+    </ReactPortal>
   )
 }
 

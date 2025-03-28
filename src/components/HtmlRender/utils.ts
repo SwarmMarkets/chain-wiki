@@ -35,7 +35,7 @@ export const createCommentIconElement = async (sectionId: string) => {
   commentIconElem.style.borderRadius = '5px'
   commentIconElem.style.border = 'solid 1px #ccc'
 
-  const commentCount = await getCountOfAttestations(sectionId)
+  const commentCount = 1 ||  await getCountOfAttestations(sectionId)
   const commentCountElem = document.createElement('span')
   commentCountElem.textContent = commentCount.toString()
   commentCountElem.style.position = 'absolute'

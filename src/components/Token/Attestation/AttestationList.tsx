@@ -23,11 +23,11 @@ const AttestationList: React.FC<AttestationListProps> = ({
 
   if (loading) {
     return (
-      <Flex flexDirection='column' py={20} $gap='10px'>
+      <div className='flex flex-col py-5 gap-2'>
         {[...new Array(3)].map((_, index) => (
           <AttestationCardSkeleton key={index} />
         ))}
-      </Flex>
+      </div>
     )
   }
 
@@ -39,7 +39,7 @@ const AttestationList: React.FC<AttestationListProps> = ({
   // }
 
   return (
-    <Flex flexDirection='column' py={20} $gap='10px'>
+    <div className='flex flex-col py-5 gap-2'>
       {attestations?.map(item => (
         <AttestationCard
           // onDelete={() => handleDeleteAttestation(item.id)}
@@ -50,7 +50,7 @@ const AttestationList: React.FC<AttestationListProps> = ({
           date={dayjs(+item.createdAt * 1000).format('MMMM D, YYYY h:mm A')}
         />
       ))}
-    </Flex>
+    </div>
   )
 }
 
