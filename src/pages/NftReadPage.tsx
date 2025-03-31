@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
 import { useContentRef } from 'src/components/common/Layout/ReadLayout'
@@ -27,10 +27,10 @@ const NftReadPage = () => {
 
   const title = tokenId ? token?.name : nft?.name
 
-  const handleSelectSection = (section: SelectedSection) => {
+  const handleSelectSection = useCallback((section: SelectedSection) => {
     console.log(section)
     setSelectedSection(section)
-  }
+  }, [])
 
   const handleCloseDrawer = () => {
     setSelectedSection({

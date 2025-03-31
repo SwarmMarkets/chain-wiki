@@ -1,17 +1,15 @@
+import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { useParams } from 'react-router-dom'
+import RequirePermissions from 'src/components/common/RequirePermissions'
 import LiteEditor from 'src/components/Editor/LiteEditor'
 import HtmlRender from 'src/components/HtmlRender'
-import Box from 'src/components/ui/Box'
 import Divider from 'src/components/ui/Divider'
-import Drawer from 'src/components/ui/Drawer'
-import Flex from 'src/components/ui/Flex'
-import { useTranslation } from 'react-i18next'
-import { useState } from 'react'
 import MakeAttestationButton from 'src/components/UpdateContent/MakeAttestationButton'
-import { useParams } from 'react-router-dom'
-import { SelectedSection } from '../TokenView/TokenView'
 import useComments from 'src/hooks/subgraph/useComments'
+import { SelectedSection } from '../TokenView/TokenView'
 import AttestationList from './AttestationList'
-import RequirePermissions from 'src/components/common/RequirePermissions'
+import Drawer from 'src/components/ui-kit/Drawer'
 
 interface AttestationDrawerProps {
   isOpen: boolean
@@ -45,12 +43,7 @@ const AttestationDrawer: React.FC<AttestationDrawerProps> = ({
   }
 
   return (
-    <Drawer
-      title={t('attestation.title')}
-      maxWidth='600px'
-      isOpen={isOpen}
-      onClose={onClose}
-    >
+    <Drawer open={isOpen} onClose={onClose} position='right'>
       <div className='flex h-full w-full flex-col justify-between'>
         <div>
           <HtmlRender html={section.htmlContent || ''} />
