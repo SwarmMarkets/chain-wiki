@@ -14,7 +14,8 @@ const NftLayouSideBarLayoutTab: React.FC<NftLayoutSideBarGeneralTabProps> = ({
   nft,
 }) => {
   const { t } = useTranslation(['nft', 'layout'])
-  const { headerBackground, setHeaderBackground } = useCustomizationStore()
+  const { headerBackground, setHeaderBackground, init } =
+    useCustomizationStore()
 
   return (
     <div>

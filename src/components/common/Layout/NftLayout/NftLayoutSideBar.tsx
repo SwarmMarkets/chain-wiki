@@ -4,20 +4,20 @@ import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
 import IndexPages from 'src/components/IndexPages'
 import Collapse from 'src/components/ui-kit/Animations/Collapse'
-import useOnFirstMount from 'src/components/ui-kit/hooks/useOnFirstMount'
 import Tabs from 'src/components/ui/Tabs'
 import Tab from 'src/components/ui/Tabs/Tab'
 import TabContext from 'src/components/ui/Tabs/TabContext'
 import TabPanel from 'src/components/ui/Tabs/TabPanel'
 import useTabs from 'src/hooks/useTabs'
 import { RoutePathSetting } from 'src/shared/enums'
-import { useCustomizationStore } from 'src/shared/store/customization-store'
 import { NFTWithMetadata } from 'src/shared/utils'
 import NftLayouSideBarLayoutTab from './NftLayouSideBarLayoutTab'
 import NftLayoutSideBarGeneralTab from './NftLayoutSideBarGeneralTab'
+import Skeleton from 'src/components/ui-kit/Skeleton/Skeleton'
 
 interface NftLayoutSideBarProps {
-  nft: NFTWithMetadata
+  nft: NFTWithMetadata | null
+  loading: boolean
 }
 
 enum CustomizationTab {
@@ -25,28 +25,16 @@ enum CustomizationTab {
   LAYOUT = 'layout',
 }
 
-const NftLayoutSideBar: React.FC<NftLayoutSideBarProps> = ({ nft }) => {
+const NftLayoutSideBar: React.FC<NftLayoutSideBarProps> = ({
+  nft,
+  loading,
+}) => {
   const { t } = useTranslation(['nft', 'layout'])
 
   const { setting } = useParams()
 
   const { activeTab, changeTab } = useTabs<CustomizationTab>({
     defaultTab: CustomizationTab.GENERAL,
-  })
-
-  const { init } = useCustomizationStore()
-
-  useOnFirstMount(() => {
-    init({
-      ...(nft.headerBackground && {
-        headerBackground: nft.headerBackground,
-      }),
-      ...(nft.headerLinksContent?.color && {
-        linksColor: nft.headerLinksContent?.color,
-      }),
-      headerLinks: nft.headerLinksContent?.headerLinks,
-      logoUrl: nft.logoUrl,
-    })
   })
 
   if (setting === RoutePathSetting.GENERAL) return null
@@ -70,12 +58,16 @@ const NftLayoutSideBar: React.FC<NftLayoutSideBarProps> = ({ nft }) => {
                     label={t('customization.tabs.layout', { ns: 'layout' })}
                   />
                 </Tabs>
-                <TabPanel value={CustomizationTab.GENERAL}>
-                  <NftLayoutSideBarGeneralTab nft={nft} />
-                </TabPanel>
-                <TabPanel value={CustomizationTab.LAYOUT}>
-                  <NftLayouSideBarLayoutTab nft={nft} />
-                </TabPanel>
+                {nft && (
+                  <>
+                    <TabPanel value={CustomizationTab.GENERAL}>
+                      <NftLayoutSideBarGeneralTab nft={nft} />
+                    </TabPanel>
+                    <TabPanel value={CustomizationTab.LAYOUT}>
+                      <NftLayouSideBarLayoutTab nft={nft} />
+                    </TabPanel>
+                  </>
+                )}
               </TabContext>
             </div>
           </aside>
@@ -87,10 +79,16 @@ const NftLayoutSideBar: React.FC<NftLayoutSideBarProps> = ({ nft }) => {
     <AnimatePresence>
       <Collapse direction='left'>
         <aside className='w-64 bg-paper flex flex-col border-r-gray-200 border-r overflow-y-auto h-full'>
-          <nav className='flex-1 overflow-y-auto p-4 flex flex-col gap-1'>
-            <IndexPages nft={nft} />
-          </nav>
-          <footer></footer>
+          {loading ? (
+            <Skeleton /> // ***
+          ) : (
+            <>
+              <nav className='flex-1 overflow-y-auto p-4 flex flex-col gap-1'>
+                <IndexPages nft={nft} />
+              </nav>
+              <footer></footer>
+            </>
+          )}
         </aside>
       </Collapse>
     </AnimatePresence>

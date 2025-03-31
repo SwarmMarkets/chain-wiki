@@ -8,6 +8,7 @@ import Button from 'src/components/ui-kit/Button/Button'
 import Icon from 'src/components/ui-kit/Icon/Icon'
 import IconButton from 'src/components/ui-kit/IconButton'
 import RadioButtonGroup from 'src/components/ui-kit/RadioButton/RadioButtonGroup'
+import Skeleton from 'src/components/ui-kit/Skeleton/Skeleton'
 import useNftPermissions from 'src/hooks/permissions/useNftPermissions'
 import useSmartAccount from 'src/services/safe-protocol-kit/useSmartAccount'
 import { Roles } from 'src/shared/enums'
@@ -15,10 +16,12 @@ import RoutePaths, { RoutePathSetting } from 'src/shared/enums/routes-paths'
 import { getExplorerUrl, NFTWithMetadata } from 'src/shared/utils'
 
 interface NftLayoutHeaderProps {
-  nft: NFTWithMetadata
+  nft: NFTWithMetadata | null
+  loading: boolean
 }
 
-const NftLayoutHeader: React.FC<NftLayoutHeaderProps> = ({ nft }) => {
+const NftLayoutHeader: React.FC<NftLayoutHeaderProps> = ({ nft, loading }) => {
+  const { nftId = '' } = useParams()
   const { t } = useTranslation()
   const { setting = null } = useParams<{ setting: RoutePathSetting }>()
   const navigate = useNavigate()
@@ -27,9 +30,9 @@ const NftLayoutHeader: React.FC<NftLayoutHeaderProps> = ({ nft }) => {
 
   const chainId = useChainId()
 
-  const { smartAccountPermissions } = useNftPermissions(nft.id)
+  const { smartAccountPermissions } = useNftPermissions(nftId)
 
-  const { grantRole, txLoading } = useNFTRoleManager(nft.id)
+  const { grantRole, txLoading } = useNFTRoleManager(nftId)
 
   const { merge, mergeLoading } = useEdit()
 
@@ -39,7 +42,7 @@ const NftLayoutHeader: React.FC<NftLayoutHeaderProps> = ({ nft }) => {
     const explorerUrl = getExplorerUrl({
       type: 'address',
       chainId,
-      hash: nft.id,
+      hash: nftId,
     })
     window.open(explorerUrl, '_blank')
   }
@@ -50,10 +53,12 @@ const NftLayoutHeader: React.FC<NftLayoutHeaderProps> = ({ nft }) => {
     }
   }
 
+  if (!nft || loading) return <Skeleton /> // ***
+
   return (
     <header className='bg-paper px-4 py-2 border-b border-gray-200 flex justify-between items-center'>
       <div className='flex items-center gap-2'>
-        <Link to={generatePath(RoutePaths.NFT, { nftId: nft.id })}>
+        <Link to={generatePath(RoutePaths.NFT, { nftId })}>
           <h1 className='typo-title1 text-main-accent hover:bg-gray-100 px-2 py-1 rounded-md transition-colors'>
             {nft?.name}
           </h1>
@@ -67,14 +72,14 @@ const NftLayoutHeader: React.FC<NftLayoutHeaderProps> = ({ nft }) => {
             navigate(
               generatePath(RoutePaths.SETTINGS, {
                 setting: value as RoutePathSetting,
-                nftId: nft.id,
+                nftId,
               })
             )
           }
         >
           <Link
             to={generatePath(RoutePaths.SETTINGS, {
-              nftId: nft.id,
+              nftId,
               setting: RoutePathSetting.CUSTOMIZATION,
             })}
           >
@@ -88,7 +93,7 @@ const NftLayoutHeader: React.FC<NftLayoutHeaderProps> = ({ nft }) => {
           </Link>
           <Link
             to={generatePath(RoutePaths.SETTINGS, {
-              nftId: nft.id,
+              nftId,
               setting: RoutePathSetting.GENERAL,
             })}
           >
@@ -104,7 +109,7 @@ const NftLayoutHeader: React.FC<NftLayoutHeaderProps> = ({ nft }) => {
       </div>
 
       <div className='flex gap-2 items-center'>
-        <Link to={generatePath(RoutePaths.EDIT, { nftId: nft.id })}>
+        <Link to={generatePath(RoutePaths.EDIT, { nftId })}>
           {isEditMode ? (
             !smartAccountPermissions.canUpdateContent ? (
               <Button

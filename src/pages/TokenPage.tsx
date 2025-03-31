@@ -26,6 +26,7 @@ const TokenPage = () => {
       {showSkeleton ? (
         <div className='flex justify-center gap-5 w-full'>
           <div className='w-full'>
+            {/* *** */}
             <TokenContentSkeleton />
           </div>
         </div>

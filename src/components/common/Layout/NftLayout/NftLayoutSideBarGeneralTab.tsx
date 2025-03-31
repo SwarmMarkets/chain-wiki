@@ -4,17 +4,31 @@ import Card from 'src/components/ui/Card'
 import { useCustomizationStore } from 'src/shared/store/customization-store'
 import { NFTWithMetadata } from 'src/shared/utils'
 import UploadFileButton from '../../UploadFileButton'
+import useOnFirstMount from 'src/components/ui-kit/hooks/useOnFirstMount'
 
 interface NftLayoutSideBarGeneralTabProps {
-  nft: NFTWithMetadata | null
+  nft: NFTWithMetadata
 }
 
-const NftLayoutSideBarGeneralTab: React.FC<
-  NftLayoutSideBarGeneralTabProps
-> = () => {
+const NftLayoutSideBarGeneralTab: React.FC<NftLayoutSideBarGeneralTabProps> = ({
+  nft,
+}) => {
   const { t } = useTranslation(['nft', 'layout'])
 
-  const { logoUrl, setLogoUrl } = useCustomizationStore()
+  const { logoUrl, setLogoUrl, init } = useCustomizationStore()
+
+  useOnFirstMount(() => {
+    init({
+      ...(nft.headerBackground && {
+        headerBackground: nft.headerBackground,
+      }),
+      ...(nft.headerLinksContent?.color && {
+        linksColor: nft.headerLinksContent?.color,
+      }),
+      headerLinks: nft.headerLinksContent?.headerLinks,
+      logoUrl: nft.logoUrl,
+    })
+  })
 
   const handleUploadLogo = (url: string) => {
     setLogoUrl(url)

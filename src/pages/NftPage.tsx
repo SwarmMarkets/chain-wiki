@@ -14,6 +14,7 @@ const NftPage = () => {
   return (
     <div>
       {showSkeleton ? (
+        // ***
         <NftContentSkeleton />
       ) : (
         <div className='w-full flex flex-col gap-4'>
