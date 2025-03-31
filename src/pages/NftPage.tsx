@@ -18,7 +18,6 @@ const NftPage = () => {
       ) : (
         <div className='w-full flex flex-col gap-4'>
           <h1 className='typo-heading1 text-main-accent'>{nft?.name}</h1>
-
           <NftView nft={nft} />
         </div>
       )}
