@@ -1,6 +1,6 @@
 import Skeleton from '../../../ui-kit/Skeleton/Skeleton'
 
-const IndexPagesSkeleton = () => {
+const NftSideBarSkeleton = () => {
   return (
     <div className='p-4 flex flex-col gap-2'>
       <Skeleton
@@ -13,4 +13,4 @@ const IndexPagesSkeleton = () => {
   )
 }
 
-export default IndexPagesSkeleton
+export default NftSideBarSkeleton

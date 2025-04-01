@@ -13,7 +13,7 @@ import { RoutePathSetting } from 'src/shared/enums'
 import { NFTWithMetadata } from 'src/shared/utils'
 import NftLayouSideBarLayoutTab from './NftLayouSideBarLayoutTab'
 import NftLayoutSideBarGeneralTab from './NftLayoutSideBarGeneralTab'
-import IndexPagesSkeleton from './IndexPagesSkeleton'
+import NftSideBarSkeleton from './NftSideBarSkeleton'
 
 interface NftLayoutSideBarProps {
   nft: NFTWithMetadata | null
@@ -42,7 +42,7 @@ const NftLayoutSideBar: React.FC<NftLayoutSideBarProps> = ({
       <Collapse direction='left'>
         <aside className='w-64 bg-paper flex flex-col border-r-gray-200 border-r overflow-y-auto h-full'>
           {loading ? (
-            <IndexPagesSkeleton />
+            <NftSideBarSkeleton />
           ) : setting === RoutePathSetting.CUSTOMIZATION ? (
             <>
               <h2 className='typo-heading1 font-medium text-main-accent p-4'>
