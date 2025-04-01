@@ -1,3 +1,4 @@
+import React from 'react'
 import { useChainId } from '@thirdweb-dev/react'
 import { useTranslation } from 'react-i18next'
 import { generatePath, Link, useNavigate, useParams } from 'react-router-dom'
@@ -8,12 +9,12 @@ import Button from 'src/components/ui-kit/Button/Button'
 import Icon from 'src/components/ui-kit/Icon/Icon'
 import IconButton from 'src/components/ui-kit/IconButton'
 import RadioButtonGroup from 'src/components/ui-kit/RadioButton/RadioButtonGroup'
-import Skeleton from 'src/components/ui-kit/Skeleton/Skeleton'
 import useNftPermissions from 'src/hooks/permissions/useNftPermissions'
 import useSmartAccount from 'src/services/safe-protocol-kit/useSmartAccount'
 import { Roles } from 'src/shared/enums'
 import RoutePaths, { RoutePathSetting } from 'src/shared/enums/routes-paths'
 import { getExplorerUrl, NFTWithMetadata } from 'src/shared/utils'
+import NftHeaderSkeleton from './NftHeaderSkeleton'
 
 interface NftLayoutHeaderProps {
   nft: NFTWithMetadata | null
@@ -27,13 +28,9 @@ const NftLayoutHeader: React.FC<NftLayoutHeaderProps> = ({ nft, loading }) => {
   const navigate = useNavigate()
 
   const { smartAccountInfo } = useSmartAccount()
-
   const chainId = useChainId()
-
   const { smartAccountPermissions } = useNftPermissions(nftId)
-
   const { grantRole, txLoading } = useNFTRoleManager(nftId)
-
   const { merge, mergeLoading } = useEdit()
 
   const isEditMode = window.location.pathname.includes('edit')
@@ -53,7 +50,9 @@ const NftLayoutHeader: React.FC<NftLayoutHeaderProps> = ({ nft, loading }) => {
     }
   }
 
-  if (!nft || loading) return <Skeleton /> // ***
+  if (loading) {
+    return <NftHeaderSkeleton />
+  }
 
   return (
     <header className='bg-paper px-4 py-2 border-b border-gray-200 flex justify-between items-center'>
