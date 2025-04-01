@@ -13,7 +13,7 @@ import { RoutePathSetting } from 'src/shared/enums'
 import { NFTWithMetadata } from 'src/shared/utils'
 import NftLayouSideBarLayoutTab from './NftLayouSideBarLayoutTab'
 import NftLayoutSideBarGeneralTab from './NftLayoutSideBarGeneralTab'
-import Skeleton from 'src/components/ui-kit/Skeleton/Skeleton'
+import IndexPagesSkeleton from './IndexPagesSkeleton'
 
 interface NftLayoutSideBarProps {
   nft: NFTWithMetadata | null
@@ -30,57 +30,51 @@ const NftLayoutSideBar: React.FC<NftLayoutSideBarProps> = ({
   loading,
 }) => {
   const { t } = useTranslation(['nft', 'layout'])
-
   const { setting } = useParams()
-
   const { activeTab, changeTab } = useTabs<CustomizationTab>({
     defaultTab: CustomizationTab.GENERAL,
   })
 
   if (setting === RoutePathSetting.GENERAL) return null
-  if (setting === RoutePathSetting.CUSTOMIZATION)
-    return (
-      <AnimatePresence>
-        <Collapse direction='left'>
-          <aside className='w-64 bg-paper flex flex-col border-r-gray-200 border-r overflow-y-auto h-full min-w-96'>
-            <h2 className='typo-heading1 font-medium text-main-accent p-4'>
-              {t('customization.title', { ns: 'layout' })}
-            </h2>
-            <div className='px-4'>
-              <TabContext value={activeTab}>
-                <Tabs<CustomizationTab> onChange={tab => changeTab(tab.value)}>
-                  <Tab
-                    value={CustomizationTab.GENERAL}
-                    label={t('customization.tabs.general', { ns: 'layout' })}
-                  />
-                  <Tab
-                    value={CustomizationTab.LAYOUT}
-                    label={t('customization.tabs.layout', { ns: 'layout' })}
-                  />
-                </Tabs>
-                {nft && (
-                  <>
-                    <TabPanel value={CustomizationTab.GENERAL}>
-                      <NftLayoutSideBarGeneralTab nft={nft} />
-                    </TabPanel>
-                    <TabPanel value={CustomizationTab.LAYOUT}>
-                      <NftLayouSideBarLayoutTab nft={nft} />
-                    </TabPanel>
-                  </>
-                )}
-              </TabContext>
-            </div>
-          </aside>
-        </Collapse>
-      </AnimatePresence>
-    )
 
   return (
     <AnimatePresence>
       <Collapse direction='left'>
         <aside className='w-64 bg-paper flex flex-col border-r-gray-200 border-r overflow-y-auto h-full'>
           {loading ? (
-            <Skeleton /> // ***
+            <IndexPagesSkeleton />
+          ) : setting === RoutePathSetting.CUSTOMIZATION ? (
+            <>
+              <h2 className='typo-heading1 font-medium text-main-accent p-4'>
+                {t('customization.title', { ns: 'layout' })}
+              </h2>
+              <div className='px-4'>
+                <TabContext value={activeTab}>
+                  <Tabs<CustomizationTab>
+                    onChange={tab => changeTab(tab.value)}
+                  >
+                    <Tab
+                      value={CustomizationTab.GENERAL}
+                      label={t('customization.tabs.general', { ns: 'layout' })}
+                    />
+                    <Tab
+                      value={CustomizationTab.LAYOUT}
+                      label={t('customization.tabs.layout', { ns: 'layout' })}
+                    />
+                  </Tabs>
+                  {nft && (
+                    <>
+                      <TabPanel value={CustomizationTab.GENERAL}>
+                        <NftLayoutSideBarGeneralTab nft={nft} />
+                      </TabPanel>
+                      <TabPanel value={CustomizationTab.LAYOUT}>
+                        <NftLayouSideBarLayoutTab nft={nft} />
+                      </TabPanel>
+                    </>
+                  )}
+                </TabContext>
+              </div>
+            </>
           ) : (
             <>
               <nav className='flex-1 overflow-y-auto p-4 flex flex-col gap-1'>
