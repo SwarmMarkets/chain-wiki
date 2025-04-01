@@ -9,12 +9,13 @@ type WalletConnectedProtectProps = ChildrenProp
 const WalletConnectedProtect: React.FC<WalletConnectedProtectProps> = ({
   children,
 }) => {
-  const connected = useConnectionStatus()
-  const isConnected = connected === 'connected'
+  const status = useConnectionStatus()
 
-  if (!isConnected) return <Navigate to={RoutePaths.CONNECT_WALLET} />
+  if (status === 'connecting' || status === 'unknown') return null
 
-  return children
+  if (status === 'connected') return children
+
+  return <Navigate to={RoutePaths.CONNECT_WALLET} />
 }
 
 export default WalletConnectedProtect
