@@ -5,8 +5,12 @@ import { TokenContextProvider } from 'src/components/providers/TokenContext'
 import useToken from 'src/hooks/subgraph/useToken'
 import useTabs from 'src/hooks/useTabs'
 import { TokenTabs } from 'src/shared/enums/tabs'
+import DotMenu from 'src/components/ui-kit/DotMenu/DotMenu'
+import { useTranslation } from 'react-i18next'
 
 const TokenPage = () => {
+  const { t } = useTranslation('token')
+
   const { tokenId = '' } = useParams()
 
   const { changeTab } = useTabs<TokenTabs>({
@@ -26,13 +30,19 @@ const TokenPage = () => {
       {showSkeleton ? (
         <div className='flex justify-center gap-5 w-full'>
           <div className='w-full'>
-            {/* *** */}
             <TokenContentSkeleton />
           </div>
         </div>
       ) : (
         <div className='w-full flex flex-col gap-4'>
-          <h1 className='typo-heading1 text-main-accent'>{token?.name}</h1>
+          <div className='flex justify-between items-center'>
+            <h1 className='typo-heading1 text-main-accent'>{token?.name}</h1>
+            <DotMenu>
+              <li className='px-4 py-2 hover:bg-gray-100 cursor-pointer rounded'>
+                {t('menu.history')}
+              </li>
+            </DotMenu>
+          </div>
 
           <TokenView onClickEditSite={handleEditSite} token={token} />
         </div>

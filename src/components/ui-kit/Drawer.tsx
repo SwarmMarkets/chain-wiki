@@ -1,7 +1,6 @@
 import clsx from 'clsx'
 import { AnimatePresence } from 'framer-motion'
 import React, { useEffect } from 'react'
-import { createPortal } from 'react-dom'
 import Slide from './Animations/Slide'
 import useClickAway from './hooks/useClickAway'
 import { ModalProps } from './Modal'
