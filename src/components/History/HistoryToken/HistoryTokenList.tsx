@@ -1,31 +1,17 @@
-import { TokenUriUpdatesQuery } from 'src/queries/gql/graphql'
 import queryString from 'query-string'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, useLocation } from 'react-router-dom'
-import styled from 'styled-components'
-import Checkbox from '../../Checkbox'
+import Checkbox from 'src/components/ui-kit/Checkbox/Checkbox'
+import { TokenUriUpdatesQuery } from 'src/queries/gql/graphql'
 import Card from '../../ui/Card'
-import Flex from '../../ui/Flex'
-import Text from '../../ui/Text'
+import dayjs from 'dayjs'
 
 interface HistoryTokenListProps {
   onSelectTokens: (tokens: TokenUriUpdatesQuery['tokenURIUpdates']) => void
   selectedTokens: TokenUriUpdatesQuery['tokenURIUpdates']
   history: TokenUriUpdatesQuery['tokenURIUpdates']
 }
-
-export const StyledLink = styled(Link)`
-  color: ${({ theme }) => theme.palette.linkPrimary};
-  &:hover {
-    color: ${({ theme }) => theme.palette.linkPrimaryAccent};
-  }
-`
-
-const StyledCard = styled(Card)`
-  padding: 18px;
-  user-select: none;
-`
 
 const HistoryTokenList: React.FC<HistoryTokenListProps> = ({
   onSelectTokens,
@@ -54,17 +40,18 @@ const HistoryTokenList: React.FC<HistoryTokenListProps> = ({
   }
 
   return (
-    <Flex flexDirection='column' $gap='10px'>
+    <div className='flex flex-col gap-3'>
       {history &&
         selectedTokens &&
         history.map((item, index) => (
-          <StyledCard key={item.id}>
-            <Text>
+          <Card className='select-none flex items-center' key={item.id}>
+            <span>
               (
               {index === 0 ? (
-                <Text>{t('curr')}</Text>
+                <span>{t('curr')}</span>
               ) : (
-                <StyledLink
+                <Link
+                  className='text-primary hover:text-primary-accent transition-colors'
                   onClick={resetSelectedTokens}
                   to={`?${queryString.stringify({
                     ...queryString.parse(location.search),
@@ -73,13 +60,14 @@ const HistoryTokenList: React.FC<HistoryTokenListProps> = ({
                   })}`}
                 >
                   {t('curr')}
-                </StyledLink>
+                </Link>
               )}{' '}
               |{' '}
               {index === history.length - 1 ? (
-                <Text>{t('prev')}</Text>
+                <span>{t('prev')}</span>
               ) : (
-                <StyledLink
+                <Link
+                  className='text-primary hover:text-primary-accent transition-colors'
                   onClick={resetSelectedTokens}
                   to={`?${queryString.stringify({
                     ...queryString.parse(location.search),
@@ -88,12 +76,12 @@ const HistoryTokenList: React.FC<HistoryTokenListProps> = ({
                   })}`}
                 >
                   {t('prev')}
-                </StyledLink>
+                </Link>
               )}
               )
-            </Text>
+            </span>
             <Checkbox
-              ml='10px'
+              className='ml-3'
               checked={
                 !!selectedTokens.find(
                   selectedItem => selectedItem.id === item.id
@@ -107,12 +95,12 @@ const HistoryTokenList: React.FC<HistoryTokenListProps> = ({
               }
               onChange={() => onChangeCheckbox(item)}
             />
-            <Text ml='20px'>
-              {new Date(+item.updatedAt * 1000).toLocaleString()}{' '}
-            </Text>
-          </StyledCard>
+            <span className='ml-auto text-main-muted'>
+              {dayjs(+item.updatedAt * 1000).format('MMMM D, YYYY h:mm A')}
+            </span>
+          </Card>
         ))}
-    </Flex>
+    </div>
   )
 }
 

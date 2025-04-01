@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom'
+import { generatePath, Link, useParams } from 'react-router-dom'
 import TokenContentSkeleton from 'src/components/Token/TokenContentSkeleton'
 import TokenView from 'src/components/Token/TokenView'
 import { TokenContextProvider } from 'src/components/providers/TokenContext'
@@ -7,11 +7,12 @@ import useTabs from 'src/hooks/useTabs'
 import { TokenTabs } from 'src/shared/enums/tabs'
 import DotMenu from 'src/components/ui-kit/DotMenu/DotMenu'
 import { useTranslation } from 'react-i18next'
+import RoutePaths from 'src/shared/enums/routes-paths'
 
 const TokenPage = () => {
   const { t } = useTranslation('token')
 
-  const { tokenId = '' } = useParams()
+  const { tokenId = '', nftId = '' } = useParams()
 
   const { changeTab } = useTabs<TokenTabs>({
     defaultTab: TokenTabs.READ,
@@ -38,9 +39,11 @@ const TokenPage = () => {
           <div className='flex justify-between items-center'>
             <h1 className='typo-heading1 text-main-accent'>{token?.name}</h1>
             <DotMenu>
-              <li className='px-4 py-2 hover:bg-gray-100 cursor-pointer rounded'>
-                {t('menu.history')}
-              </li>
+              <Link to={generatePath(RoutePaths.HISTORY, { nftId, tokenId })}>
+                <li className='px-4 py-2 hover:bg-gray-100 cursor-pointer rounded'>
+                  {t('menu.history')}
+                </li>
+              </Link>
             </DotMenu>
           </div>
 

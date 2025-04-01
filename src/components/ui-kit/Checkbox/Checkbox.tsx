@@ -38,7 +38,7 @@ const Checkbox: React.FC<CheckboxProps> = ({
       />
       <span className={clsx(!noIconStyle && 'ui-checkbox-icon')}>
         {checked
-          ? CheckedIcon || <Icon name='check-bold' />
+          ? CheckedIcon || <Icon name='check-bold' size={12} />
           : UncheckedIcon || null}
       </span>
     </label>
