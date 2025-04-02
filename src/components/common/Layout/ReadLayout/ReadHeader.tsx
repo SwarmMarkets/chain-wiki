@@ -1,6 +1,8 @@
 import clsx from 'clsx'
+import React from 'react'
 import { useCustomizationStore } from 'src/shared/store/customization-store'
 import { NFTWithMetadata } from 'src/shared/utils'
+import ReadHeaderSkeleton from './ReadHeaderSkeleton'
 
 interface ReadHeaderProps {
   nft: NFTWithMetadata | null
@@ -29,6 +31,10 @@ const ReadHeader: React.FC<ReadHeaderProps> = ({ nft, preview }) => {
   const headerStyle = headerBackground
     ? { backgroundColor: headerBackground }
     : {}
+
+  if (!nft && !preview) {
+    return <ReadHeaderSkeleton />
+  }
 
   return (
     <header
