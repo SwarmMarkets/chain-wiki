@@ -1,15 +1,23 @@
 import clsx from 'clsx'
+import React from 'react'
 import Content from 'src/components/common/Layout/ReadLayout/Content'
+import RightSidebarSkeleton from './Content/RightSidebarSkeleton'
 
 interface RightSidebarProps {
   contentElem: HTMLDivElement | null
   preview?: boolean
+  isLoading?: boolean
 }
 
 const RightSidebar: React.FC<RightSidebarProps> = ({
   contentElem,
   preview,
+  isLoading,
 }) => {
+  if (isLoading) {
+    return <RightSidebarSkeleton />
+  }
+
   return (
     <aside
       className={clsx(
