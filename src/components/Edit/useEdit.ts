@@ -256,9 +256,7 @@ const useEdit = (readonly?: boolean) => {
       t => +t.id.split('-')[1]
     )
     if (!tokenIds) return
-    const tokenId = (tokenIds.length ? Math.max(...tokenIds) + 1 : 1).toString(
-      16
-    )
+    const tokenId = tokenIds.length.toString(16)
 
     const nextTokenId = `${nftId}-0x${tokenId}`
     return nextTokenId
