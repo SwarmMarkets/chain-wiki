@@ -11,7 +11,7 @@ interface IndexPagesProps {
 }
 
 const IndexPages: React.FC<IndexPagesProps> = ({ nft }) => {
-  const { nftId = '', tokenId = '' } = useParams()
+  const { tokenId = '' } = useParams()
 
   const isEditMode = window.location.pathname.includes('edit')
 
@@ -26,7 +26,7 @@ const IndexPages: React.FC<IndexPagesProps> = ({ nft }) => {
       <EditIndexPagesItem
         className='mb-1'
         name={nft?.name}
-        active={nft?.id === nftId}
+        active={!tokenId}
         to={generatePath(RoutePaths.NFT, { nftId: nft?.id })}
         readonly
       />
