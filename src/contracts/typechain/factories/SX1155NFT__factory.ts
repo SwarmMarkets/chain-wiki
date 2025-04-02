@@ -4,25 +4,36 @@
 
 import { Contract, Signer, utils } from "ethers";
 import type { Provider } from "@ethersproject/providers";
-import type { SX1155NFT, SX1155NFTInterface } from "../SX1155NFT";
+import type {
+  SX1155NFT,
+  SX1155NFTInterface,
+  ERC1155DataStruct,
+} from "../SX1155NFT";
 
 const _abi = [
   {
     inputs: [
       {
-        internalType: "string",
-        name: "_name",
-        type: "string",
-      },
-      {
-        internalType: "string",
-        name: "_symbol",
-        type: "string",
-      },
-      {
-        internalType: "string",
-        name: "_uri",
-        type: "string",
+        components: [
+          {
+            internalType: "string",
+            name: "name",
+            type: "string",
+          },
+          {
+            internalType: "string",
+            name: "symbol",
+            type: "string",
+          },
+          {
+            internalType: "string",
+            name: "kya",
+            type: "string",
+          },
+        ],
+        internalType: "struct ERC1155Data",
+        name: "tokenParams",
+        type: "tuple",
       },
       {
         internalType: "address",
@@ -37,6 +48,11 @@ const _abi = [
     ],
     stateMutability: "nonpayable",
     type: "constructor",
+  },
+  {
+    inputs: [],
+    name: "AccountBalanceOverflow",
+    type: "error",
   },
   {
     inputs: [
@@ -62,6 +78,16 @@ const _abi = [
   },
   {
     inputs: [],
+    name: "AlreadyInitialized",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "ArrayLengthsMismatch",
+    type: "error",
+  },
+  {
+    inputs: [],
     name: "ArraysSizeNotEqual",
     type: "error",
   },
@@ -82,6 +108,16 @@ const _abi = [
     type: "error",
   },
   {
+    inputs: [],
+    name: "EnumerableRolesUnauthorized",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "InsufficientBalance",
+    type: "error",
+  },
+  {
     inputs: [
       {
         internalType: "uint256",
@@ -94,33 +130,38 @@ const _abi = [
   },
   {
     inputs: [],
-    name: "InvalidQuantity",
+    name: "InvalidRequestId",
     type: "error",
   },
   {
     inputs: [],
-    name: "InvalidRequestId",
+    name: "InvalidRole",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "NewOwnerIsZeroAddress",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "NoHandoverRequest",
     type: "error",
   },
   {
     inputs: [
       {
-        internalType: "address",
-        name: "owner",
-        type: "address",
-      },
-      {
         internalType: "uint256",
         name: "id",
         type: "uint256",
       },
-      {
-        internalType: "uint256",
-        name: "quantity",
-        type: "uint256",
-      },
     ],
-    name: "NotEnoughTokens",
+    name: "NotExists",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "NotOwnerNorApproved",
     type: "error",
   },
   {
@@ -134,19 +175,33 @@ const _abi = [
     type: "error",
   },
   {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "tokenId",
-        type: "uint256",
-      },
-    ],
-    name: "TokenNotExists",
+    inputs: [],
+    name: "QuantityEmpty",
     type: "error",
   },
   {
     inputs: [],
-    name: "UriAlreadySet",
+    name: "RoleHolderIsZeroAddress",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "RoleHoldersIndexOutOfBounds",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "TransferToNonERC1155ReceiverImplementer",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "TransferToZeroAddress",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "Unauthorized",
     type: "error",
   },
   {
@@ -160,7 +215,7 @@ const _abi = [
       {
         indexed: true,
         internalType: "address",
-        name: "account",
+        name: "owner",
         type: "address",
       },
       {
@@ -172,7 +227,7 @@ const _abi = [
       {
         indexed: false,
         internalType: "bool",
-        name: "approved",
+        name: "isApproved",
         type: "bool",
       },
     ],
@@ -374,12 +429,6 @@ const _abi = [
         name: "uri",
         type: "string",
       },
-      {
-        indexed: false,
-        internalType: "bytes",
-        name: "data",
-        type: "bytes",
-      },
     ],
     name: "Minted",
     type: "event",
@@ -402,24 +451,12 @@ const _abi = [
     inputs: [
       {
         indexed: true,
-        internalType: "bytes32",
-        name: "role",
-        type: "bytes32",
-      },
-      {
-        indexed: true,
-        internalType: "bytes32",
-        name: "previousAdminRole",
-        type: "bytes32",
-      },
-      {
-        indexed: true,
-        internalType: "bytes32",
-        name: "newAdminRole",
-        type: "bytes32",
+        internalType: "address",
+        name: "pendingOwner",
+        type: "address",
       },
     ],
-    name: "RoleAdminChanged",
+    name: "OwnershipHandoverCanceled",
     type: "event",
   },
   {
@@ -427,24 +464,12 @@ const _abi = [
     inputs: [
       {
         indexed: true,
-        internalType: "bytes32",
-        name: "role",
-        type: "bytes32",
-      },
-      {
-        indexed: true,
         internalType: "address",
-        name: "account",
-        type: "address",
-      },
-      {
-        indexed: true,
-        internalType: "address",
-        name: "sender",
+        name: "pendingOwner",
         type: "address",
       },
     ],
-    name: "RoleGranted",
+    name: "OwnershipHandoverRequested",
     type: "event",
   },
   {
@@ -452,24 +477,68 @@ const _abi = [
     inputs: [
       {
         indexed: true,
-        internalType: "bytes32",
-        name: "role",
-        type: "bytes32",
-      },
-      {
-        indexed: true,
         internalType: "address",
-        name: "account",
+        name: "oldOwner",
         type: "address",
       },
       {
         indexed: true,
         internalType: "address",
-        name: "sender",
+        name: "newOwner",
         type: "address",
       },
     ],
-    name: "RoleRevoked",
+    name: "OwnershipTransferred",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "holder",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "uint256",
+        name: "role",
+        type: "uint256",
+      },
+      {
+        indexed: true,
+        internalType: "bool",
+        name: "active",
+        type: "bool",
+      },
+    ],
+    name: "RoleSet",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "address",
+        name: "from",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "uint256",
+        name: "id",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "string",
+        name: "kya",
+        type: "string",
+      },
+    ],
+    name: "TokenKyaUpdated",
     type: "event",
   },
   {
@@ -494,7 +563,7 @@ const _abi = [
         type: "string",
       },
     ],
-    name: "TokenURISet",
+    name: "TokenURIUpdated",
     type: "event",
   },
   {
@@ -527,7 +596,7 @@ const _abi = [
       {
         indexed: false,
         internalType: "uint256[]",
-        name: "values",
+        name: "amounts",
         type: "uint256[]",
       },
     ],
@@ -564,7 +633,7 @@ const _abi = [
       {
         indexed: false,
         internalType: "uint256",
-        name: "value",
+        name: "amount",
         type: "uint256",
       },
     ],
@@ -595,9 +664,9 @@ const _abi = [
     name: "DEFAULT_ADMIN_ROLE",
     outputs: [
       {
-        internalType: "bytes32",
+        internalType: "uint256",
         name: "",
-        type: "bytes32",
+        type: "uint256",
       },
     ],
     stateMutability: "view",
@@ -608,9 +677,9 @@ const _abi = [
     name: "EDITOR_ROLE",
     outputs: [
       {
-        internalType: "bytes32",
+        internalType: "uint256",
         name: "",
-        type: "bytes32",
+        type: "uint256",
       },
     ],
     stateMutability: "view",
@@ -620,7 +689,7 @@ const _abi = [
     inputs: [
       {
         internalType: "address",
-        name: "account",
+        name: "owner",
         type: "address",
       },
       {
@@ -633,7 +702,7 @@ const _abi = [
     outputs: [
       {
         internalType: "uint256",
-        name: "",
+        name: "result",
         type: "uint256",
       },
     ],
@@ -644,7 +713,7 @@ const _abi = [
     inputs: [
       {
         internalType: "address[]",
-        name: "accounts",
+        name: "owners",
         type: "address[]",
       },
       {
@@ -657,11 +726,36 @@ const _abi = [
     outputs: [
       {
         internalType: "uint256[]",
-        name: "",
+        name: "balances",
         type: "uint256[]",
       },
     ],
     stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "_id",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "_quantity",
+        type: "uint256",
+      },
+    ],
+    name: "burn",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "cancelOwnershipHandover",
+    outputs: [],
+    stateMutability: "payable",
     type: "function",
   },
   {
@@ -689,13 +783,39 @@ const _abi = [
     type: "function",
   },
   {
+    inputs: [
+      {
+        internalType: "address",
+        name: "pendingOwner",
+        type: "address",
+      },
+    ],
+    name: "completeOwnershipHandover",
+    outputs: [],
+    stateMutability: "payable",
+    type: "function",
+  },
+  {
     inputs: [],
-    name: "contractUri",
+    name: "contractURI",
     outputs: [
       {
         internalType: "string",
-        name: "_uri",
+        name: "",
         type: "string",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "currentAttestationId",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
       },
     ],
     stateMutability: "view",
@@ -819,25 +939,6 @@ const _abi = [
   {
     inputs: [
       {
-        internalType: "bytes32",
-        name: "role",
-        type: "bytes32",
-      },
-    ],
-    name: "getRoleAdmin",
-    outputs: [
-      {
-        internalType: "bytes32",
-        name: "",
-        type: "bytes32",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
         internalType: "address",
         name: "to",
         type: "address",
@@ -851,9 +952,9 @@ const _abi = [
   {
     inputs: [
       {
-        internalType: "bytes32",
+        internalType: "uint256",
         name: "role",
-        type: "bytes32",
+        type: "uint256",
       },
       {
         internalType: "address",
@@ -869,21 +970,21 @@ const _abi = [
   {
     inputs: [
       {
-        internalType: "bytes32",
-        name: "role",
-        type: "bytes32",
+        internalType: "address",
+        name: "holder",
+        type: "address",
       },
       {
-        internalType: "address",
-        name: "account",
-        type: "address",
+        internalType: "uint256",
+        name: "role",
+        type: "uint256",
       },
     ],
     name: "hasRole",
     outputs: [
       {
         internalType: "bool",
-        name: "",
+        name: "result",
         type: "bool",
       },
     ],
@@ -894,7 +995,7 @@ const _abi = [
     inputs: [
       {
         internalType: "address",
-        name: "account",
+        name: "owner",
         type: "address",
       },
       {
@@ -907,8 +1008,21 @@ const _abi = [
     outputs: [
       {
         internalType: "bool",
-        name: "",
+        name: "result",
         type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "kya",
+    outputs: [
+      {
+        internalType: "string",
+        name: "",
+        type: "string",
       },
     ],
     stateMutability: "view",
@@ -962,11 +1076,6 @@ const _abi = [
         name: "_tokenURI",
         type: "string",
       },
-      {
-        internalType: "bytes",
-        name: "_data",
-        type: "bytes",
-      },
     ],
     name: "mint",
     outputs: [],
@@ -990,11 +1099,6 @@ const _abi = [
         name: "_tokenURIs",
         type: "string[]",
       },
-      {
-        internalType: "bytes[]",
-        name: "_data",
-        type: "bytes[]",
-      },
     ],
     name: "mintBatch",
     outputs: [],
@@ -1015,21 +1119,49 @@ const _abi = [
     type: "function",
   },
   {
-    inputs: [
-      {
-        internalType: "bytes32",
-        name: "role",
-        type: "bytes32",
-      },
+    inputs: [],
+    name: "owner",
+    outputs: [
       {
         internalType: "address",
-        name: "account",
+        name: "result",
         type: "address",
       },
     ],
-    name: "renounceRole",
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "pendingOwner",
+        type: "address",
+      },
+    ],
+    name: "ownershipHandoverExpiresAt",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "result",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "renounceOwnership",
     outputs: [],
-    stateMutability: "nonpayable",
+    stateMutability: "payable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "requestOwnershipHandover",
+    outputs: [],
+    stateMutability: "payable",
     type: "function",
   },
   {
@@ -1048,9 +1180,9 @@ const _abi = [
   {
     inputs: [
       {
-        internalType: "bytes32",
+        internalType: "uint256",
         name: "role",
-        type: "bytes32",
+        type: "uint256",
       },
       {
         internalType: "address",
@@ -1061,6 +1193,68 @@ const _abi = [
     name: "revokeRole",
     outputs: [],
     stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "role",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "i",
+        type: "uint256",
+      },
+    ],
+    name: "roleHolderAt",
+    outputs: [
+      {
+        internalType: "address",
+        name: "result",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "role",
+        type: "uint256",
+      },
+    ],
+    name: "roleHolderCount",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "result",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "role",
+        type: "uint256",
+      },
+    ],
+    name: "roleHolders",
+    outputs: [
+      {
+        internalType: "address[]",
+        name: "result",
+        type: "address[]",
+      },
+    ],
+    stateMutability: "view",
     type: "function",
   },
   {
@@ -1138,7 +1332,7 @@ const _abi = [
       },
       {
         internalType: "bool",
-        name: "approved",
+        name: "isApproved",
         type: "bool",
       },
     ],
@@ -1176,6 +1370,29 @@ const _abi = [
   {
     inputs: [
       {
+        internalType: "address",
+        name: "holder",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "role",
+        type: "uint256",
+      },
+      {
+        internalType: "bool",
+        name: "active",
+        type: "bool",
+      },
+    ],
+    name: "setRole",
+    outputs: [],
+    stateMutability: "payable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
         internalType: "uint256",
         name: "_id",
         type: "uint256",
@@ -1203,7 +1420,7 @@ const _abi = [
     outputs: [
       {
         internalType: "bool",
-        name: "",
+        name: "result",
         type: "bool",
       },
     ],
@@ -1251,34 +1468,15 @@ const _abi = [
     inputs: [
       {
         internalType: "uint256",
-        name: "tokenId",
+        name: "_id",
         type: "uint256",
       },
     ],
-    name: "tokenData",
-    outputs: [
-      {
-        internalType: "bytes",
-        name: "data",
-        type: "bytes",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "tokenId",
-        type: "uint256",
-      },
-    ],
-    name: "tokenUri",
+    name: "tokenKya",
     outputs: [
       {
         internalType: "string",
-        name: "_uri",
+        name: "",
         type: "string",
       },
     ],
@@ -1289,7 +1487,45 @@ const _abi = [
     inputs: [
       {
         internalType: "uint256",
-        name: "tokenId",
+        name: "_id",
+        type: "uint256",
+      },
+    ],
+    name: "tokenUri",
+    outputs: [
+      {
+        internalType: "string",
+        name: "",
+        type: "string",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "_id",
+        type: "uint256",
+      },
+    ],
+    name: "totalSupply",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "_id",
         type: "uint256",
       },
     ],
@@ -1307,8 +1543,21 @@ const _abi = [
   {
     inputs: [
       {
+        internalType: "address",
+        name: "newOwner",
+        type: "address",
+      },
+    ],
+    name: "transferOwnership",
+    outputs: [],
+    stateMutability: "payable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
         internalType: "uint256",
-        name: "",
+        name: "_id",
         type: "uint256",
       },
     ],

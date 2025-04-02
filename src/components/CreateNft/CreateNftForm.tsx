@@ -41,10 +41,8 @@ const CreateNftForm: React.FC<CreateNftFormProps> = ({
     })
 
     try {
-      const response = await call('deployNFTContract', [
-        name,
-        symbol,
-        jsonData,
+      const response = await call('deployChainWiki', [
+        { name, symbol, kya: jsonData },
         admin,
         editor,
       ])

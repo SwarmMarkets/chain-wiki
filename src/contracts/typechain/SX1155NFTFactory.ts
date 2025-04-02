@@ -25,45 +25,51 @@ import type {
   OnEvent,
 } from "./common";
 
+export type ERC1155DataStruct = { name: string; symbol: string; kya: string };
+
+export type ERC1155DataStructOutput = [string, string, string] & {
+  name: string;
+  symbol: string;
+  kya: string;
+};
+
 export interface SX1155NFTFactoryInterface extends utils.Interface {
   functions: {
-    "deployNFTContract(string,string,string,address,address)": FunctionFragment;
+    "deployChainWiki((string,string,string),address,address)": FunctionFragment;
   };
 
-  getFunction(nameOrSignatureOrTopic: "deployNFTContract"): FunctionFragment;
+  getFunction(nameOrSignatureOrTopic: "deployChainWiki"): FunctionFragment;
 
   encodeFunctionData(
-    functionFragment: "deployNFTContract",
-    values: [string, string, string, string, string]
+    functionFragment: "deployChainWiki",
+    values: [ERC1155DataStruct, string, string]
   ): string;
 
   decodeFunctionResult(
-    functionFragment: "deployNFTContract",
+    functionFragment: "deployChainWiki",
     data: BytesLike
   ): Result;
 
   events: {
-    "SX1155NFTDeployed(address,string,string,string,address,address)": EventFragment;
+    "ChainWikiDeployed(address,(string,string,string),address,address)": EventFragment;
   };
 
-  getEvent(nameOrSignatureOrTopic: "SX1155NFTDeployed"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "ChainWikiDeployed"): EventFragment;
 }
 
-export interface SX1155NFTDeployedEventObject {
+export interface ChainWikiDeployedEventObject {
   deployedAddress: string;
-  name: string;
-  symbol: string;
-  uri: string;
+  tokenParams: ERC1155DataStructOutput;
   admin: string;
   editor: string;
 }
-export type SX1155NFTDeployedEvent = TypedEvent<
-  [string, string, string, string, string, string],
-  SX1155NFTDeployedEventObject
+export type ChainWikiDeployedEvent = TypedEvent<
+  [string, ERC1155DataStructOutput, string, string],
+  ChainWikiDeployedEventObject
 >;
 
-export type SX1155NFTDeployedEventFilter =
-  TypedEventFilter<SX1155NFTDeployedEvent>;
+export type ChainWikiDeployedEventFilter =
+  TypedEventFilter<ChainWikiDeployedEvent>;
 
 export interface SX1155NFTFactory extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
@@ -92,30 +98,24 @@ export interface SX1155NFTFactory extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
-    deployNFTContract(
-      _name: string,
-      _symbol: string,
-      _uri: string,
+    deployChainWiki(
+      tokenParams: ERC1155DataStruct,
       _admin: string,
       _editor: string,
       overrides?: Overrides & { from?: string }
     ): Promise<ContractTransaction>;
   };
 
-  deployNFTContract(
-    _name: string,
-    _symbol: string,
-    _uri: string,
+  deployChainWiki(
+    tokenParams: ERC1155DataStruct,
     _admin: string,
     _editor: string,
     overrides?: Overrides & { from?: string }
   ): Promise<ContractTransaction>;
 
   callStatic: {
-    deployNFTContract(
-      _name: string,
-      _symbol: string,
-      _uri: string,
+    deployChainWiki(
+      tokenParams: ERC1155DataStruct,
       _admin: string,
       _editor: string,
       overrides?: CallOverrides
@@ -123,29 +123,23 @@ export interface SX1155NFTFactory extends BaseContract {
   };
 
   filters: {
-    "SX1155NFTDeployed(address,string,string,string,address,address)"(
+    "ChainWikiDeployed(address,(string,string,string),address,address)"(
       deployedAddress?: null,
-      name?: null,
-      symbol?: null,
-      uri?: null,
+      tokenParams?: null,
       admin?: null,
       editor?: null
-    ): SX1155NFTDeployedEventFilter;
-    SX1155NFTDeployed(
+    ): ChainWikiDeployedEventFilter;
+    ChainWikiDeployed(
       deployedAddress?: null,
-      name?: null,
-      symbol?: null,
-      uri?: null,
+      tokenParams?: null,
       admin?: null,
       editor?: null
-    ): SX1155NFTDeployedEventFilter;
+    ): ChainWikiDeployedEventFilter;
   };
 
   estimateGas: {
-    deployNFTContract(
-      _name: string,
-      _symbol: string,
-      _uri: string,
+    deployChainWiki(
+      tokenParams: ERC1155DataStruct,
       _admin: string,
       _editor: string,
       overrides?: Overrides & { from?: string }
@@ -153,10 +147,8 @@ export interface SX1155NFTFactory extends BaseContract {
   };
 
   populateTransaction: {
-    deployNFTContract(
-      _name: string,
-      _symbol: string,
-      _uri: string,
+    deployChainWiki(
+      tokenParams: ERC1155DataStruct,
       _admin: string,
       _editor: string,
       overrides?: Overrides & { from?: string }
