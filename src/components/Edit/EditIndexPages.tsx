@@ -70,16 +70,14 @@ const EditIndexPages: React.FC<EditIndexPagesProps> = ({ nft }) => {
     }
   }
   return (
-    <Flex flexDirection='column'>
-      {
-        <EditIndexPagesItem
-          className='mb-1'
-          name={editedNft?.name || nft.name}
-          active={currEditableToken === null}
-          onClick={() => updateCurrEditableToken(null)}
-          onEdit={handleEditNftName}
-        />
-      }
+    <div>
+      <EditIndexPagesItem
+        className='mb-0.5'
+        name={editedNft?.name || nft.name}
+        active={currEditableToken === null}
+        onClick={() => updateCurrEditableToken(null)}
+        onEdit={handleEditNftName}
+      />
 
       <EditIndexPagesTree
         activeId={currEditableToken?.id}
@@ -92,7 +90,7 @@ const EditIndexPages: React.FC<EditIndexPagesProps> = ({ nft }) => {
       <Button className='mt-2' onClick={handleAddGroup}>
         {t('addGroup')}
       </Button>
-    </Flex>
+    </div>
   )
 }
 
