@@ -48,7 +48,7 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({ nft, preview }) => {
       title: nft?.name || '',
       tokenId: nft?.id || '',
       children: [],
-      to: generatePath(RoutePaths.NFT, { nftId: nft?.id || '' }),
+      to: generatePath(RoutePaths.NFT_READ, { nftId: nft?.id || '' }),
     },
     ...treeData,
   ]
