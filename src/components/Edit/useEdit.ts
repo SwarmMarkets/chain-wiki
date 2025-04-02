@@ -126,7 +126,6 @@ const useEdit = (readonly?: boolean) => {
               account,
               1,
               JSON.stringify({ uri: firstUri, name: addedToken.name }),
-              '0x',
             ])
             txs.push(tokenContentMintTx)
           }
