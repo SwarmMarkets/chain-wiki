@@ -5,6 +5,7 @@ import RoutePaths from 'src/shared/enums/routes-paths'
 import SidebarTree from './SidebarTree'
 import SidebarTreeNode, { ISidebarTreeNode } from './SidebarTreeNode'
 import clsx from 'clsx'
+import LeftSidebarSkeleton from './Content/LeftSidebarSkeleton'
 
 interface LeftSidebarProps {
   nft: NFTWithMetadata | null
@@ -36,7 +37,7 @@ const buildTree = (
 }
 
 const LeftSidebar: React.FC<LeftSidebarProps> = ({ nft, preview }) => {
-  const { indexPages } = useIpfsIndexPages(nft?.indexPagesUri)
+  const { indexPages, isLoading } = useIpfsIndexPages(nft?.indexPagesUri)
   const treeData = indexPages
     ? buildTree(
         [{ title: nft?.name || '', tokenId: nft?.id || '' }, ...indexPages],
@@ -52,6 +53,10 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({ nft, preview }) => {
     },
     ...treeData,
   ]
+
+  if (isLoading) {
+    return <LeftSidebarSkeleton />
+  }
 
   return (
     <aside

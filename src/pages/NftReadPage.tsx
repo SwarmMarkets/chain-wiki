@@ -1,31 +1,26 @@
-import { useCallback, useState } from 'react'
+import React, { useCallback, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useParams } from 'react-router-dom'
-import { useContentRef } from 'src/components/common/Layout/ReadLayout'
+import NftReadPageSkeleton from './NftReadPageSkeleton'
 import AttestationHtmlRender from 'src/components/HtmlRender/AttestationHtmlRender'
 import AttestationDrawer from 'src/components/Token/Attestation/AttestationDrawer'
-import { SelectedSection } from 'src/components/Token/TokenView/TokenView'
-import useNFT from 'src/hooks/subgraph/useNFT'
-import useToken from 'src/hooks/subgraph/useToken'
 
-const NftReadPage = () => {
+interface NftReadPageProps {
+  title: string
+  html: string | null | undefined
+}
+
+interface SelectedSection {
+  id: string | null
+  htmlContent: string | null
+}
+
+const NftReadPage: React.FC<NftReadPageProps> = ({ title, html }) => {
   const { t } = useTranslation('nft')
-  const { nftId = '', tokenId = '' } = useParams()
+  const contentRef = useRef<HTMLDivElement>(null)
   const [selectedSection, setSelectedSection] = useState<SelectedSection>({
     id: null,
     htmlContent: null,
   })
-  const { nft } = useNFT(nftId, { fetchFullData: true, disableRefetch: true })
-  const { token } = useToken(tokenId, { disableRefetch: true })
-
-  const contentRef = useContentRef()
-
-  const html =
-    (tokenId
-      ? token?.ipfsContent?.htmlContent
-      : nft?.ipfsContent?.htmlContent) || ''
-
-  const title = tokenId ? token?.name : nft?.name
 
   const handleSelectSection = useCallback((section: SelectedSection) => {
     console.log(section)
@@ -40,8 +35,9 @@ const NftReadPage = () => {
   }
 
   if (!html) {
-    return <p className='text-center'>{t('messages.noContent')}</p>
+    return <NftReadPageSkeleton />
   }
+
   return (
     <div>
       <div className='typo-heading2 text-main-accent mb-3 font-bold'>
@@ -62,4 +58,5 @@ const NftReadPage = () => {
     </div>
   )
 }
+
 export default NftReadPage
