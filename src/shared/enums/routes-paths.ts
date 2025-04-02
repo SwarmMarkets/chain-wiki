@@ -7,6 +7,7 @@ enum RoutePaths {
   NFT_READ = '/site/:nftId/read',
   TOKEN_READ = '/site/:nftId/page/:tokenId/read',
   SETTINGS = '/site/:nftId/settings/:setting',
+  HISTORY = '/site/:nftId/page/:tokenId/history',
 }
 
 export default RoutePaths

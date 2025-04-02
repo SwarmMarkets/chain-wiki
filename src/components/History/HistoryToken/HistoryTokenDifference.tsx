@@ -1,12 +1,12 @@
-import Flex from 'src/components/ui/Flex'
 import useTokenURIUpdates from 'src/hooks/subgraph/useTokenURIUpdates'
 import queryString from 'query-string'
 import { useMemo } from 'react'
 import { useLocation } from 'react-router-dom'
 import HtmlDiffViewer from '../HtmlDiffViewer'
 import { OrderDirection, TokenUriUpdate_OrderBy } from 'src/queries/gql/graphql'
-import HistoryDifferenceSkeleton from '../HistoryDIfferenceSkeleton'
 import { useTranslation } from 'react-i18next'
+import dayjs from 'dayjs'
+import Skeleton from 'src/components/ui-kit/Skeleton/Skeleton'
 
 const HistoryTokenDifference = () => {
   const location = useLocation()
@@ -36,29 +36,26 @@ const HistoryTokenDifference = () => {
     <>
       {fullTokenUriTokens ? (
         <>
-          <Flex>
+          <div className='flex'>
             {fullTokenUriTokens?.map(token => (
-              <Flex
-                flex={1}
-                justifyContent='center'
-                alignItems='center'
-                flexDirection='column'
+              <div
+                className='flex flex-1 justify-center items-center flex-col'
                 key={token.id}
               >
                 <span>
                   {t('revisionAsOf')}{' '}
-                  {new Date(+token.updatedAt * 1000).toLocaleString()}
+                  {dayjs(+token.updatedAt * 1000).format('MMMM D, YYYY h:mm A')}
                 </span>
-              </Flex>
+              </div>
             ))}
-          </Flex>
+          </div>
           <HtmlDiffViewer
             oldHtml={fullTokenUriTokens[0].ipfsNewUriContent?.htmlContent || ''}
             newHtml={fullTokenUriTokens[1].ipfsNewUriContent?.htmlContent || ''}
           />
         </>
       ) : (
-        <HistoryDifferenceSkeleton />
+        <Skeleton height={650} />
       )}
     </>
   )
