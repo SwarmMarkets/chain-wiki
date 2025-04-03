@@ -2,6 +2,7 @@ import { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
 import { useContentRef } from 'src/components/common/Layout/ReadLayout'
+import HtmlRender from 'src/components/HtmlRender'
 import AttestationHtmlRender from 'src/components/HtmlRender/AttestationHtmlRender'
 import NftReadPageSkeleton from 'src/components/Nft/NftReadSkeleton'
 import AttestationDrawer from 'src/components/Token/Attestation/AttestationDrawer'
@@ -61,12 +62,16 @@ const NftReadPage = () => {
       <div className='typo-heading2 text-main-accent mb-3 font-bold'>
         {title}
       </div>
-      <AttestationHtmlRender
-        id='read-page-content'
-        html={html}
-        ref={contentRef}
-        onSelectSection={handleSelectSection}
-      />
+      {tokenId ? (
+        <AttestationHtmlRender
+          id='read-page-content'
+          html={html}
+          ref={contentRef}
+          onSelectSection={handleSelectSection}
+        />
+      ) : (
+        <HtmlRender html={html} ref={contentRef} />
+      )}
 
       <AttestationDrawer
         isOpen={!!selectedSection.id}
