@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
 import { useContentRef } from 'src/components/common/Layout/ReadLayout'
 import AttestationHtmlRender from 'src/components/HtmlRender/AttestationHtmlRender'
+import NftReadPageSkeleton from 'src/components/Nft/NftReadSkeleton'
 import AttestationDrawer from 'src/components/Token/Attestation/AttestationDrawer'
 import { SelectedSection } from 'src/components/Token/TokenView/TokenView'
 import useNFT from 'src/hooks/subgraph/useNFT'
@@ -15,8 +16,13 @@ const NftReadPage = () => {
     id: null,
     htmlContent: null,
   })
-  const { nft } = useNFT(nftId, { fetchFullData: true, disableRefetch: true })
-  const { token } = useToken(tokenId, { disableRefetch: true })
+  const { nft, loadingNft, refetchingNft } = useNFT(nftId, {
+    fetchFullData: true,
+    disableRefetch: true,
+  })
+  const { token, loadingToken, refetchingToken } = useToken(tokenId, {
+    disableRefetch: true,
+  })
 
   const contentRef = useContentRef()
 
@@ -39,9 +45,17 @@ const NftReadPage = () => {
     })
   }
 
+  const loading =
+    (loadingNft && !refetchingNft) || (loadingToken && !refetchingToken)
+
+  if (loading) {
+    return <NftReadPageSkeleton />
+  }
+
   if (!html) {
     return <p className='text-center'>{t('messages.noContent')}</p>
   }
+
   return (
     <div>
       <div className='typo-heading2 text-main-accent mb-3 font-bold'>
