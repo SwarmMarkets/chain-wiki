@@ -40,7 +40,7 @@ const NftLayoutSideBar: React.FC<NftLayoutSideBarProps> = ({
   return (
     <AnimatePresence>
       <Collapse direction='left'>
-        <aside className='min-w-64 max-w-80 bg-paper flex flex-col border-r-gray-200 border-r overflow-y-auto h-full'>
+        <aside className='bg-paper flex flex-col border-r-gray-200 border-r overflow-y-auto h-full'>
           {loading ? (
             <NftSideBarSkeleton />
           ) : setting === RoutePathSetting.CUSTOMIZATION ? (
@@ -48,7 +48,7 @@ const NftLayoutSideBar: React.FC<NftLayoutSideBarProps> = ({
               <h2 className='typo-heading1 font-medium text-main-accent p-4'>
                 {t('customization.title', { ns: 'layout' })}
               </h2>
-              <div className='px-4'>
+              <div className='px-4 w-96'>
                 <TabContext value={activeTab}>
                   <Tabs<CustomizationTab>
                     onChange={tab => changeTab(tab.value)}
@@ -77,7 +77,7 @@ const NftLayoutSideBar: React.FC<NftLayoutSideBarProps> = ({
             </>
           ) : (
             <>
-              <nav className='flex-1 overflow-y-auto p-4'>
+              <nav className='flex-1 overflow-y-auto p-4 w-64'>
                 <IndexPages nft={nft} />
               </nav>
               <footer></footer>

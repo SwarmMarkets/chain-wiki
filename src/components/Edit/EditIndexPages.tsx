@@ -84,10 +84,10 @@ const EditIndexPages: React.FC<EditIndexPagesProps> = ({ nft }) => {
         onClick={handleIndexPageClick}
       />
 
-      <Button className='mt-2' onClick={handleAddPage}>
+      <Button className='mt-2 w-full' onClick={handleAddPage}>
         {t('addToken')}
       </Button>
-      <Button className='mt-2' onClick={handleAddGroup}>
+      <Button className='mt-2 w-full' onClick={handleAddGroup}>
         {t('addGroup')}
       </Button>
     </div>
