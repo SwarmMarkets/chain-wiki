@@ -14,7 +14,7 @@ const RightSidebar: React.FC<RightSidebarProps> = ({
   preview,
   isLoading,
 }) => {
-  if (isLoading || !contentElem) {
+  if (isLoading) {
     return <RightSidebarSkeleton />
   }
 

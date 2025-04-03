@@ -31,6 +31,7 @@ import NftReadPage from './pages/NftReadPage'
 import HomePage from './pages/HomePage'
 import NftSettingsPage from './pages/NftSettingsPage'
 import HistoryPage from './pages/HistoryPage'
+import ContentContext from './components/common/Layout/ReadLayout/ContentContext'
 
 const queryClient = new QueryClient()
 
@@ -105,7 +106,13 @@ function App() {
                     }
                   />
                 </Route>
-                <Route element={<ReadLayout />}>
+                <Route
+                  element={
+                    <ContentContext>
+                      <ReadLayout />
+                    </ContentContext>
+                  }
+                >
                   <Route path={RoutePaths.NFT_READ} element={<NftReadPage />} />
                   <Route
                     path={RoutePaths.TOKEN_READ}

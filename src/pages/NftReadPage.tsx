@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
-import { useContentRef } from 'src/components/common/Layout/ReadLayout'
+import { useContentRef } from 'src/components/common/Layout/ReadLayout/ContentContext'
 import HtmlRender from 'src/components/HtmlRender'
 import AttestationHtmlRender from 'src/components/HtmlRender/AttestationHtmlRender'
 import NftReadPageSkeleton from 'src/components/Nft/NftReadSkeleton'
@@ -25,7 +25,7 @@ const NftReadPage = () => {
     disableRefetch: true,
   })
 
-  const contentRef = useContentRef()
+  const { setContentElem } = useContentRef()
 
   const html =
     (tokenId
@@ -66,11 +66,11 @@ const NftReadPage = () => {
         <AttestationHtmlRender
           id='read-page-content'
           html={html}
-          ref={contentRef}
+          ref={setContentElem}
           onSelectSection={handleSelectSection}
         />
       ) : (
-        <HtmlRender html={html} ref={contentRef} />
+        <HtmlRender html={html} ref={setContentElem} />
       )}
 
       <AttestationDrawer
