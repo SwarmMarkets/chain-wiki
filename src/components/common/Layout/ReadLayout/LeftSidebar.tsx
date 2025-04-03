@@ -38,12 +38,7 @@ const buildTree = (
 
 const LeftSidebar: React.FC<LeftSidebarProps> = ({ nft, preview }) => {
   const { indexPages, isLoading } = useIpfsIndexPages(nft?.indexPagesUri)
-  const treeData = indexPages
-    ? buildTree(
-        [{ title: nft?.name || '', tokenId: nft?.id || '' }, ...indexPages],
-        0
-      )
-    : []
+  const treeData = indexPages ? buildTree(indexPages, 0) : []
   const treeDataWithNft: ISidebarTreeNode[] = [
     {
       title: nft?.name || '',
