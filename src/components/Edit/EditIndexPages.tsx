@@ -52,7 +52,11 @@ const EditIndexPages: React.FC<EditIndexPagesProps> = ({ nft }) => {
 
   const handleAddPage = () => {
     if (nextTokenId) {
-      addIndexPage({ tokenId: nextTokenId, title: t('initialTokenName') })
+      addIndexPage({
+        tokenId: nextTokenId,
+        title: t('initialTokenName'),
+        parent: 0,
+      })
       updateOrCreateAddedToken({
         id: nextTokenId,
         name: t('initialTokenName'),

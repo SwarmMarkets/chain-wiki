@@ -1,11 +1,11 @@
-import { useIpfsIndexPages } from 'src/hooks/ipfs/nft'
-import { IpfsIndexPage, NFTWithMetadata } from 'src/shared/utils'
-import { generatePath } from 'react-router-dom'
-import RoutePaths from 'src/shared/enums/routes-paths'
-import SidebarTree from './SidebarTree'
-import SidebarTreeNode, { ISidebarTreeNode } from './SidebarTreeNode'
 import clsx from 'clsx'
+import { generatePath } from 'react-router-dom'
+import { useIpfsIndexPages } from 'src/hooks/ipfs/nft'
+import RoutePaths from 'src/shared/enums/routes-paths'
+import { IpfsIndexPage, NFTWithMetadata } from 'src/shared/utils'
 import LeftSidebarSkeleton from './Content/LeftSidebarSkeleton'
+import SidebarTree from './SidebarTree'
+import { ISidebarTreeNode } from './SidebarTreeNode'
 
 interface LeftSidebarProps {
   nft: NFTWithMetadata | null
@@ -38,7 +38,12 @@ const buildTree = (
 
 const LeftSidebar: React.FC<LeftSidebarProps> = ({ nft, preview }) => {
   const { indexPages, isLoading } = useIpfsIndexPages(nft?.indexPagesUri)
-  const treeData = indexPages ? buildTree(indexPages, 0) : []
+  const treeData = indexPages
+    ? buildTree(
+        indexPages.map(ip => ({ ...ip, parent: ip.parent || 0 })),
+        0
+      )
+    : []
   const treeDataWithNft: ISidebarTreeNode[] = [
     {
       title: nft?.name || '',
@@ -60,7 +65,7 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({ nft, preview }) => {
         !preview && 'h-screen'
       )}
     >
-      {treeData.length > 0 ? (
+      {treeDataWithNft.length > 0 ? (
         <SidebarTree data={treeDataWithNft} />
       ) : (
         <p>No data available</p>
