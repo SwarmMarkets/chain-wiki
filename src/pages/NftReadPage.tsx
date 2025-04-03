@@ -1,26 +1,31 @@
-import React, { useCallback, useRef, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import NftReadPageSkeleton from './NftReadPageSkeleton'
+import { useParams } from 'react-router-dom'
+import { useContentRef } from 'src/components/common/Layout/ReadLayout'
 import AttestationHtmlRender from 'src/components/HtmlRender/AttestationHtmlRender'
 import AttestationDrawer from 'src/components/Token/Attestation/AttestationDrawer'
+import { SelectedSection } from 'src/components/Token/TokenView/TokenView'
+import useNFT from 'src/hooks/subgraph/useNFT'
+import useToken from 'src/hooks/subgraph/useToken'
 
-interface NftReadPageProps {
-  title: string
-  html: string | null | undefined
-}
-
-interface SelectedSection {
-  id: string | null
-  htmlContent: string | null
-}
-
-const NftReadPage: React.FC<NftReadPageProps> = ({ title, html }) => {
+const NftReadPage = () => {
   const { t } = useTranslation('nft')
-  const contentRef = useRef<HTMLDivElement>(null)
+  const { nftId = '', tokenId = '' } = useParams()
   const [selectedSection, setSelectedSection] = useState<SelectedSection>({
     id: null,
     htmlContent: null,
   })
+  const { nft } = useNFT(nftId, { fetchFullData: true, disableRefetch: true })
+  const { token } = useToken(tokenId, { disableRefetch: true })
+
+  const contentRef = useContentRef()
+
+  const html =
+    (tokenId
+      ? token?.ipfsContent?.htmlContent
+      : nft?.ipfsContent?.htmlContent) || ''
+
+  const title = tokenId ? token?.name : nft?.name
 
   const handleSelectSection = useCallback((section: SelectedSection) => {
     console.log(section)
@@ -35,9 +40,8 @@ const NftReadPage: React.FC<NftReadPageProps> = ({ title, html }) => {
   }
 
   if (!html) {
-    return <NftReadPageSkeleton />
+    return <p className='text-center'>{t('messages.noContent')}</p>
   }
-
   return (
     <div>
       <div className='typo-heading2 text-main-accent mb-3 font-bold'>
@@ -58,5 +62,4 @@ const NftReadPage: React.FC<NftReadPageProps> = ({ title, html }) => {
     </div>
   )
 }
-
 export default NftReadPage
