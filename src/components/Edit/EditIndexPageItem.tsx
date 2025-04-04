@@ -107,7 +107,7 @@ const EditIndexPagesItem: React.FC<EditIndexPagesItemProps> = ({
             <Icon size={16} name={isOn ? 'checkmark' : 'edit'} />
           </IconButton>
         )}
-        {hasChild && (!isGroup || !readonly) && (
+        {hasChild  && (
           <IconButton hoverBackground='gray-200' onClick={handleToggle}>
             <Icon
               name='arrow-right-secondary'
