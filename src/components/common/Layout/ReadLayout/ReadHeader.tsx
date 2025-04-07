@@ -3,13 +3,19 @@ import React from 'react'
 import { useCustomizationStore } from 'src/shared/store/customization-store'
 import { NFTWithMetadata } from 'src/shared/utils'
 import ReadHeaderSkeleton from './ReadHeaderSkeleton'
+import { ConnectWallet, ConnectWalletProps } from '@thirdweb-dev/react'
 
 interface ReadHeaderProps {
   nft: NFTWithMetadata | null
   preview?: boolean
+  connectWalletProps?: ConnectWalletProps
 }
 
-const ReadHeader: React.FC<ReadHeaderProps> = ({ nft, preview }) => {
+const ReadHeader: React.FC<ReadHeaderProps> = ({
+  nft,
+  preview,
+  connectWalletProps,
+}) => {
   const customization = useCustomizationStore()
   const headerLinks = preview
     ? customization.headerLinks
@@ -44,10 +50,9 @@ const ReadHeader: React.FC<ReadHeaderProps> = ({ nft, preview }) => {
       )}
       style={headerStyle}
     >
-      <div className='max-w-screen-2xl mx-auto px-4 sm:px-6 md:px-8 flex items-center max-h-10 justify-between'>
+      <div className='max-w-screen-2xl mx-auto px-4 sm:px-6 md:px-8 flex items-center justify-between'>
         <img src={logoUrl} alt='Logo' className='max-w-80 max-h-12' />
-
-        <div className='flex gap-6'>
+        <div className='flex items-center gap-6'>
           {headerLinks?.map(link => (
             <a
               key={link.id}
@@ -60,6 +65,7 @@ const ReadHeader: React.FC<ReadHeaderProps> = ({ nft, preview }) => {
               {link.title}
             </a>
           ))}
+          <ConnectWallet {...connectWalletProps} theme={'light'} />
         </div>
       </div>
     </header>
