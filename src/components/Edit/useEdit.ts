@@ -52,9 +52,7 @@ const useEdit = (readonly?: boolean) => {
   )
 
   useEffectCompare(() => {
-    if (indexPages.length > 0) {
-      initIndexPages(indexPages)
-    }
+    initIndexPages(indexPages)
   }, [indexPages])
 
   const {
