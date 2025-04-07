@@ -54,12 +54,12 @@ export const useIpfsIndexPages = (ipfsUri?: string) => {
   const { data, isLoading, ...rest } = useQuery({
     queryKey: ['ipfsIndexPages', ipfsUri],
     queryFn: async () => {
-      const res = await storage?.downloadJSON(ipfsUri!)
+      if (!ipfsUri) return
+      const res = await storage?.downloadJSON(ipfsUri)
       return parseIpfsIndexPagesContent(res)
     },
     staleTime: 300000, // 5 minutes
     refetchOnWindowFocus: false,
-    enabled: Boolean(ipfsUri),
   })
 
   return {
