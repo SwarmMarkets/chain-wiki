@@ -4,7 +4,6 @@ import Flex from 'src/components/ui/Flex'
 import UpdateNftContentButton from 'src/components/UpdateContent/UpdateNftContentButton'
 import useNFT from 'src/hooks/subgraph/useNFT'
 import { useTranslation } from 'react-i18next'
-import styled from 'styled-components'
 
 interface GeneralSettingsProps {
   nftAddress: string
@@ -34,7 +33,7 @@ const GeneralSettings: React.FC<GeneralSettingsProps> = ({ nftAddress }) => {
           nftAddress={nftAddress}
           nftContentToUpdate={{ name: nameValue }}
           disabled={!nameValue || nameValue === nft?.name}
-          style={{ marginBottom: '12px' }} // Добавляем margin-top
+          style={{ marginBottom: '12px' }} 
         >
           {t('save')}
         </UpdateNftContentButton>
