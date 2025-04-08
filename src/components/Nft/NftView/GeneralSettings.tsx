@@ -3,28 +3,10 @@ import TextField from 'src/components/ui-kit/TextField/TextField'
 import UpdateNftContentButton from 'src/components/UpdateContent/UpdateNftContentButton'
 import useNFT from 'src/hooks/subgraph/useNFT'
 import { useTranslation } from 'react-i18next'
-import styled from 'styled-components'
 
 interface GeneralSettingsProps {
   nftAddress: string
 }
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-`
-
-const GridContainer = styled.div`
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 8px;
-  align-items: center;
-`
-
-const MarginBottom = styled.div`
-  margin-bottom: 12px;
-`
 
 const GeneralSettings: React.FC<GeneralSettingsProps> = ({ nftAddress }) => {
   const { nft } = useNFT(nftAddress, { disableRefetch: true })
@@ -38,14 +20,14 @@ const GeneralSettings: React.FC<GeneralSettingsProps> = ({ nftAddress }) => {
   const nameValue = name === null ? nft?.name : name
 
   return (
-    <Container>
-      <GridContainer>
+    <div className='flex flex-col gap-4'>
+      <div className='grid grid-cols-[1fr_auto] gap-2 items-center'>
         <TextField
           value={nameValue}
           onChange={handleNameChange}
           inputProps={{ placeholder: 'Enter site name' }}
         />
-        <MarginBottom>
+        <div className='mb-3'>
           <UpdateNftContentButton
             nftAddress={nftAddress}
             nftContentToUpdate={{ name: nameValue }}
@@ -53,9 +35,9 @@ const GeneralSettings: React.FC<GeneralSettingsProps> = ({ nftAddress }) => {
           >
             {t('save')}
           </UpdateNftContentButton>
-        </MarginBottom>
-      </GridContainer>
-    </Container>
+        </div>
+      </div>
+    </div>
   )
 }
 
