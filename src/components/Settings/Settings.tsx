@@ -31,7 +31,10 @@ const Settings = () => {
         </div>
       </ConditionalItem>
       <ConditionalItem case={RoutePathSetting.CUSTOMIZATION}>
-        <div className='rounded-md border border-main overflow-y-auto pointer-events-none'>
+        <div
+          className='rounded-md border border-main overflow-y-auto pointer-events-none'
+          style={{ maxHeight: 'calc(100vh - 170px)' }}
+        >
           <ReadLayout preview>
             <NftReadPage />
           </ReadLayout>
