@@ -1,5 +1,5 @@
 import { NetworkConfiguration } from 'src/shared/types/network-configuration'
-import { ArbitrumSepolia } from '@thirdweb-dev/chains'
+import { ArbitrumSepolia, Chain } from '@thirdweb-dev/chains'
 
 export const arbitrumSepolia: NetworkConfiguration = {
   subgraphURL:
@@ -9,4 +9,10 @@ export const arbitrumSepolia: NetworkConfiguration = {
   },
 }
 
-export const arbitrumSepoliaChainConfig = ArbitrumSepolia
+export const arbitrumSepoliaChainConfig: Chain = {
+  ...ArbitrumSepolia,
+  // override because explorer url is not correct in thirdweb
+  explorers: [
+    { ...ArbitrumSepolia.explorers[0], url: 'https://sepolia.arbiscan.io' },
+  ],
+}
