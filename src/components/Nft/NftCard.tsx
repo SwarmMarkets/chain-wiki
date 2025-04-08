@@ -54,7 +54,13 @@ const NftCard: React.FC<NftCardProps> = ({ nft, showRole = false }) => {
     <div className='bg-paper rounded-lg p-4 flex flex-col gap-2 justify-between border border-main transition-shadow duration-300 hover:shadow-lg hover:shadow-main/50'>
       <div className='flex justify-center items-center h-16'>
         {nft.logoUrl ? (
-          <img src={nft.logoUrl} alt={nft.name} className='max-w-44 max-h-16' />
+          <div className='bg-gray-100 rounded-lg p-4'>
+            <img
+              src={nft.logoUrl}
+              alt={nft.name}
+              className='max-w-44 max-h-16'
+            />
+          </div>
         ) : (
           <RequirePermissions nftAddress={nft.id} canUpdateContent>
             <UploadFileButton
