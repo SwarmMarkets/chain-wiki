@@ -7,7 +7,6 @@ import useNFTRoleManager from 'src/components/Nft/NftRoleManager/useNFTRoleManag
 import Badge from 'src/components/ui-kit/Badge'
 import Button from 'src/components/ui-kit/Button/Button'
 import Icon from 'src/components/ui-kit/Icon/Icon'
-import IconButton from 'src/components/ui-kit/IconButton'
 import RadioButtonGroup from 'src/components/ui-kit/RadioButton/RadioButtonGroup'
 import useNftPermissions from 'src/hooks/permissions/useNftPermissions'
 import useSmartAccount from 'src/services/safe-protocol-kit/useSmartAccount'
@@ -23,7 +22,7 @@ interface NftLayoutHeaderProps {
 
 const NftLayoutHeader: React.FC<NftLayoutHeaderProps> = ({ nft, loading }) => {
   const { nftId = '' } = useParams()
-  const { t } = useTranslation()
+  const { t } = useTranslation(['layout', 'buttons'])
   const { setting = null } = useParams<{ setting: RoutePathSetting }>()
   const navigate = useNavigate()
 
@@ -62,9 +61,13 @@ const NftLayoutHeader: React.FC<NftLayoutHeaderProps> = ({ nft, loading }) => {
             {nft?.name}
           </h1>
         </Link>
-        <IconButton onClick={handleIconClick}>
+        <div
+          onClick={handleIconClick}
+          className='flex items-center gap-1 hover:bg-gray-100 px-2 py-1 rounded-md cursor-pointer'
+        >
+          <div className='typo-body1'>{t('header.viewContract')}</div>
           <Icon name='externalLink' size={10} />
-        </IconButton>
+        </div>
         <RadioButtonGroup
           value={setting}
           onChange={value =>
