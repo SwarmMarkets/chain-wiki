@@ -61,13 +61,17 @@ const NftLayoutHeader: React.FC<NftLayoutHeaderProps> = ({ nft, loading }) => {
             {nft?.name}
           </h1>
         </Link>
-        <div
+        <Button
           onClick={handleIconClick}
+          variant='outlined'
+          size='sm'
           className='flex items-center gap-1 hover:bg-gray-100 px-2 py-1 rounded-md cursor-pointer'
+          EndAdornment={<Icon name='externalLink' size={12} />}
         >
-          <div className='typo-body1'>{t('header.viewContract')}</div>
-          <Icon name='externalLink' size={10} />
-        </div>
+          <div className='typo-body1 text-primary'>
+            {t('header.viewContract')}
+          </div>
+        </Button>
         <RadioButtonGroup
           value={setting}
           onChange={value =>
