@@ -38,7 +38,6 @@ const SettingsBody = ({ activeLink }: Props) => {
             target='_blank'
           >
             {generateSiteLink(nftId)}
-            {generateSiteLink(nftId)}
           </a>
         </SettingCard>
       </ConditionalItem>
