@@ -48,6 +48,10 @@
       "subtitle": "Rename site",
       "description": "Change the title of your website after it has been published."
     },
+    "siteLink": {
+      "title": "Site link",
+      "description": "The link to your site where people can see it."
+    },
     "roleManager": {
       "title": "Site roles",
       "subtitle": "Manage site roles",
