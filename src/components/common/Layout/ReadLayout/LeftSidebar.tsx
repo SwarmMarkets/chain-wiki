@@ -2,7 +2,7 @@ import clsx from 'clsx'
 import { generatePath } from 'react-router-dom'
 import { useIpfsIndexPages } from 'src/hooks/ipfs/nft'
 import RoutePaths from 'src/shared/enums/routes-paths'
-import { IpfsIndexPage, NFTWithMetadata } from 'src/shared/utils'
+import { IpfsIndexPage, NFTWithMetadata, splitTokenId } from 'src/shared/utils'
 import LeftSidebarSkeleton from './Content/LeftSidebarSkeleton'
 import SidebarTree from './SidebarTree'
 import { ISidebarTreeNode } from './SidebarTreeNode'
@@ -24,7 +24,7 @@ const buildTree = (
         item.type === 'group'
           ? undefined
           : generatePath(RoutePaths.TOKEN_READ, {
-              tokenId: item.tokenId,
+              tokenId: splitTokenId(item.tokenId).tokenId,
               nftId,
             })
 

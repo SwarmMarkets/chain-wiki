@@ -9,10 +9,12 @@ import AttestationDrawer from 'src/components/Token/Attestation/AttestationDrawe
 import { SelectedSection } from 'src/components/Token/TokenView/TokenView'
 import useNFT from 'src/hooks/subgraph/useNFT'
 import useToken from 'src/hooks/subgraph/useToken'
+import useTokenIdParam from 'src/hooks/useTokenIdParam'
 
 const NftReadPage = () => {
   const { t } = useTranslation('nft')
-  const { nftId = '', tokenId = '' } = useParams()
+  const { nftId = '' } = useParams()
+  const tokenId = useTokenIdParam()
   const [selectedSection, setSelectedSection] = useState<SelectedSection>({
     id: null,
     htmlContent: null,

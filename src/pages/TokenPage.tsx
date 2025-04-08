@@ -8,11 +8,13 @@ import { TokenTabs } from 'src/shared/enums/tabs'
 import DotMenu from 'src/components/ui-kit/DotMenu/DotMenu'
 import { useTranslation } from 'react-i18next'
 import RoutePaths from 'src/shared/enums/routes-paths'
+import useTokenIdParam from 'src/hooks/useTokenIdParam'
 
 const TokenPage = () => {
   const { t } = useTranslation('token')
 
-  const { tokenId = '', nftId = '' } = useParams()
+  const { nftId = '' } = useParams()
+  const tokenId = useTokenIdParam()
 
   const { changeTab } = useTabs<TokenTabs>({
     defaultTab: TokenTabs.READ,

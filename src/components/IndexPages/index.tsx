@@ -1,17 +1,19 @@
 import React from 'react'
-import { generatePath, useParams } from 'react-router-dom'
+import { generatePath } from 'react-router-dom'
+import useTokenIdParam from 'src/hooks/useTokenIdParam'
 import RoutePaths from 'src/shared/enums/routes-paths'
 import { NFTWithMetadata } from 'src/shared/utils/ipfs/types'
+import EditIndexPagesItem from '../Edit/EditIndexPageItem'
 import EditIndexPages from '../Edit/EditIndexPages'
 import EditIndexPagesTree from '../Edit/EditIndexPagesTree/EditIndexPagesTree'
-import EditIndexPagesItem from '../Edit/EditIndexPageItem'
+import { isFullTokenId, splitTokenId } from 'src/shared/utils'
 
 interface IndexPagesProps {
   nft: NFTWithMetadata | null
 }
 
 const IndexPages: React.FC<IndexPagesProps> = ({ nft }) => {
-  const { tokenId = '' } = useParams()
+  const tokenId = useTokenIdParam()
 
   const isEditMode = window.location.pathname.includes('edit')
 
@@ -35,7 +37,9 @@ const IndexPages: React.FC<IndexPagesProps> = ({ nft }) => {
         readonly
         to={node =>
           generatePath(RoutePaths.NFT + RoutePaths.TOKEN, {
-            tokenId: node.id,
+            tokenId: isFullTokenId(node.id.toString())
+              ? splitTokenId(node.id.toString()).tokenId
+              : '',
             nftId: nft.id,
           })
         }

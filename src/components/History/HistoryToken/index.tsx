@@ -1,26 +1,23 @@
-import { useMemo, useState } from 'react'
-import { Link, useLocation, useParams } from 'react-router-dom'
 import queryString from 'query-string'
-import HistoryTokenDifference from './HistoryTokenDifference'
-import HistoryTokenList from './HistoryTokenList'
+import { useMemo, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { Link, useLocation } from 'react-router-dom'
+import Button from 'src/components/ui-kit/Button/Button'
+import Skeleton from 'src/components/ui-kit/Skeleton/Skeleton'
+import useTokenURIUpdates from 'src/hooks/subgraph/useTokenURIUpdates'
 import {
   OrderDirection,
   TokenUriUpdate_OrderBy,
   TokenUriUpdatesQuery,
 } from 'src/queries/gql/graphql'
-import Text from '../../ui/Text'
-import { useTranslation } from 'react-i18next'
-import useTokenURIUpdates from 'src/hooks/subgraph/useTokenURIUpdates'
-import HistoryCardSkeleton from '../HistoryCardSkeleton'
-import { useTheme } from 'styled-components'
-import Button from 'src/components/ui-kit/Button/Button'
-import Skeleton from 'src/components/ui-kit/Skeleton/Skeleton'
+import HistoryTokenDifference from './HistoryTokenDifference'
+import HistoryTokenList from './HistoryTokenList'
+import useTokenIdParam from 'src/hooks/useTokenIdParam'
 
 const HistoryToken = () => {
-  const theme = useTheme()
   const { t } = useTranslation(['buttons', 'history'])
   const location = useLocation()
-  const { tokenId = '' } = useParams()
+  const tokenId = useTokenIdParam()
 
   const { tokenUriUpdates, loading, refetching } = useTokenURIUpdates(tokenId, {
     variables: {
