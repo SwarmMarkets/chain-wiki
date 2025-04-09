@@ -55,7 +55,6 @@ const MakeAttestationButton: React.FC<MakeAttestationButtonProps> = ({
   )
 
   const startContentUpdate = async () => {
-    open()
     const uri = await uploadContent()
     if (!uri) return
 
