@@ -5,7 +5,7 @@ import ReadHeader from './ReadHeader'
 import RightSidebar from './RightSidebar'
 
 import clsx from 'clsx'
-import React, { PropsWithChildren, useRef } from 'react'
+import React, { PropsWithChildren } from 'react'
 import { useContentRef } from './ContentContext'
 
 interface ReadLayoutProps {

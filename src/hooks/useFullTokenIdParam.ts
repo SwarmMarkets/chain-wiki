@@ -1,9 +1,9 @@
 import { useParams } from 'react-router-dom'
 
-const useTokenIdParam = () => {
+const useFullTokenIdParam = () => {
   const { nftId = '', tokenId = '' } = useParams()
 
   return `${nftId}-${tokenId}`
 }
 
-export default useTokenIdParam
+export default useFullTokenIdParam

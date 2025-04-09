@@ -1,14 +1,17 @@
-import React, { useState } from 'react'
+import React from 'react'
 import SidebarTreeNode, { ISidebarTreeNode } from './SidebarTreeNode'
 
 interface SidebarTreeProps {
   data: ISidebarTreeNode[]
+  selectedId: string
   onSelect?: (id: string) => void
 }
 
-const SidebarTree: React.FC<SidebarTreeProps> = ({ data, onSelect }) => {
-  const [selectedId, setSelectedId] = useState<string | null>(null)
-
+const SidebarTree: React.FC<SidebarTreeProps> = ({
+  data,
+  selectedId,
+  onSelect,
+}) => {
   return (
     <ul>
       {data.map(node => (
@@ -16,10 +19,7 @@ const SidebarTree: React.FC<SidebarTreeProps> = ({ data, onSelect }) => {
           key={node.tokenId}
           node={node}
           selectedId={selectedId}
-          onSelect={id => {
-            setSelectedId(id)
-            onSelect?.(id)
-          }}
+          onSelect={onSelect}
         />
       ))}
     </ul>

@@ -12,12 +12,12 @@ import {
 } from 'src/queries/gql/graphql'
 import HistoryTokenDifference from './HistoryTokenDifference'
 import HistoryTokenList from './HistoryTokenList'
-import useTokenIdParam from 'src/hooks/useTokenIdParam'
+import useFullTokenIdParam from 'src/hooks/useFullTokenIdParam'
 
 const HistoryToken = () => {
   const { t } = useTranslation(['buttons', 'history'])
   const location = useLocation()
-  const tokenId = useTokenIdParam()
+  const tokenId = useFullTokenIdParam()
 
   const { tokenUriUpdates, loading, refetching } = useTokenURIUpdates(tokenId, {
     variables: {

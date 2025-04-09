@@ -1,11 +1,9 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ContentItemChild, ContentItemParent } from 'src/shared/types/content'
 import { ExpandableListItem } from 'src/shared/types/expandedList'
 import { IpfsIndexPage, buildContentHierarchy } from 'src/shared/utils'
 import { useTheme } from 'styled-components'
-import ExpandableList from '../../../../ui/ExpandableList'
-import Text from '../../../../ui/Text'
 import SidebarTree from '../SidebarTree'
 import SidebarTreeNode, { ISidebarTreeNode } from '../SidebarTreeNode'
 
@@ -158,6 +156,7 @@ const Content: React.FC<ContentProps> = ({ contentElem, className }) => {
         onSelect={id => {
           onClickItem(findItemRecursive(contentData, id))
         }}
+        selectedId={firstHeadingInView.toString()}
       />
       {/* {contentData.map(item => (
         <ExpandableList

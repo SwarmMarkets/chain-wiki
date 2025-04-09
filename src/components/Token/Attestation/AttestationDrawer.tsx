@@ -10,7 +10,7 @@ import useComments from 'src/hooks/subgraph/useComments'
 import { SelectedSection } from '../TokenView/TokenView'
 import AttestationList from './AttestationList'
 import Drawer from 'src/components/ui-kit/Drawer'
-import useTokenIdParam from 'src/hooks/useTokenIdParam'
+import useFullTokenIdParam from 'src/hooks/useFullTokenIdParam'
 
 interface AttestationDrawerProps {
   isOpen: boolean
@@ -24,7 +24,7 @@ const AttestationDrawer: React.FC<AttestationDrawerProps> = ({
   onClose,
 }) => {
   const { nftId = '' } = useParams()
-  const tokenId = useTokenIdParam()
+  const tokenId = useFullTokenIdParam()
   const { t } = useTranslation('token')
   const [editorContent, setEditorContent] = useState('')
 
