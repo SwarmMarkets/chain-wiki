@@ -61,7 +61,6 @@ const MakeAttestationButton: React.FC<MakeAttestationButtonProps> = ({
     const res = await signTransaction(uri)
     if (res) {
       onSuccess?.()
-      close()
       resetCallState()
       resetStorageState()
     }
