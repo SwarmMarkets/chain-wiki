@@ -26,6 +26,11 @@ const NftHeaderSkeleton = () => {
           height='2rem'
           className='ui-skeleton ui-skeleton-rect'
         />
+        <Skeleton
+          width='80px'
+          height='2rem'
+          className='ui-skeleton ui-skeleton-rect'
+        />
       </div>
     </header>
   )

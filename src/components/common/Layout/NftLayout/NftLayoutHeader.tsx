@@ -139,6 +139,9 @@ const NftLayoutHeader: React.FC<NftLayoutHeaderProps> = ({ nft, loading }) => {
             <Button className='px-8'>{t('edit', { ns: 'buttons' })}</Button>
           )}
         </Link>
+        <Link to={generatePath(RoutePaths.NFT_READ, { nftId })} target='_blank'>
+          <Button>{t('visit', { ns: 'buttons' })}</Button>
+        </Link>
       </div>
     </header>
   )
