@@ -49,8 +49,12 @@
       "description": "Change the title of your website after it has been published."
     },
     "siteLink": {
-      "title": "Site link",
-      "description": "The link to your site where people can see it."
+      "title": "Your site",
+      "description": "Share this link with your audience."
+    },
+    "smartContract": {
+      "title": "Smart contract",
+      "description": "The link to the smart contract which represents your site."
     },
     "roleManager": {
       "title": "Site roles",

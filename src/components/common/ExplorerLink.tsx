@@ -65,7 +65,7 @@ const ExplorerLink: React.FC<ExplorerLinkProps> = ({
         href={explorerUrl}
         target='_blank'
         rel='noopener noreferrer'
-        className='text-primary font-medium transition-colors duration-200 group-hover:text-primary-accent cursor-pointer'
+        className='text-primary transition-colors duration-200 group-hover:text-primary-accent cursor-pointer'
       >
         {children}
       </a>

@@ -6,6 +6,7 @@ import SettingCard from './SettingCard'
 import { useTranslation } from 'react-i18next'
 import { ConditionalItem, ConditionalRender } from '../common/ConditionalRender'
 import { generateSiteLink } from 'src/shared/utils'
+import ExplorerLink from '../common/ExplorerLink'
 
 interface Props {
   activeLink: string
@@ -39,6 +40,14 @@ const SettingsBody = ({ activeLink }: Props) => {
           >
             {generateSiteLink(nftId)}
           </a>
+        </SettingCard>
+        <SettingCard
+          description={t('smartContract.description')}
+          title={t('smartContract.title')}
+        >
+          <ExplorerLink type='address' hash={nftId}>
+            {nftId}
+          </ExplorerLink>
         </SettingCard>
       </ConditionalItem>
       <ConditionalItem case={SettingView.ROLES}>
