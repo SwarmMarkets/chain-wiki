@@ -32,7 +32,7 @@ const ReadLayout: React.FC<PropsWithChildren<ReadLayoutProps>> = ({
       <div
         className={clsx(
           'flex flex-1 max-w-screen-2xl mx-auto px-4 sm:px-6 md:px-8 w-full',
-          preview ? 'pt-8' : 'pt-24'
+          preview ? 'pt-8' : 'pt-28'
         )}
       >
         <LeftSidebar nft={nft} preview={preview} />
