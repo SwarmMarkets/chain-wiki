@@ -1,18 +1,16 @@
 import React from 'react'
-import { useChainId } from '@thirdweb-dev/react'
 import { useTranslation } from 'react-i18next'
 import { generatePath, Link, useNavigate, useParams } from 'react-router-dom'
 import useEdit from 'src/components/Edit/useEdit'
 import useNFTRoleManager from 'src/components/Nft/NftRoleManager/useNFTRoleManager'
 import Badge from 'src/components/ui-kit/Badge'
 import Button from 'src/components/ui-kit/Button/Button'
-import Icon from 'src/components/ui-kit/Icon/Icon'
 import RadioButtonGroup from 'src/components/ui-kit/RadioButton/RadioButtonGroup'
 import useNftPermissions from 'src/hooks/permissions/useNftPermissions'
 import useSmartAccount from 'src/services/safe-protocol-kit/useSmartAccount'
 import { Roles } from 'src/shared/enums'
 import RoutePaths, { RoutePathSetting } from 'src/shared/enums/routes-paths'
-import { getExplorerUrl, NFTWithMetadata } from 'src/shared/utils'
+import { NFTWithMetadata } from 'src/shared/utils'
 import NftHeaderSkeleton from './NftHeaderSkeleton'
 
 interface NftLayoutHeaderProps {
@@ -27,21 +25,11 @@ const NftLayoutHeader: React.FC<NftLayoutHeaderProps> = ({ nft, loading }) => {
   const navigate = useNavigate()
 
   const { smartAccountInfo } = useSmartAccount()
-  const chainId = useChainId()
   const { smartAccountPermissions } = useNftPermissions(nftId)
   const { grantRole, txLoading } = useNFTRoleManager(nftId)
   const { merge, mergeLoading } = useEdit()
 
   const isEditMode = window.location.pathname.includes('edit')
-
-  const handleIconClick = () => {
-    const explorerUrl = getExplorerUrl({
-      type: 'address',
-      chainId,
-      hash: nftId,
-    })
-    window.open(explorerUrl, '_blank')
-  }
 
   const grantRoleForSmartAccount = async () => {
     if (smartAccountInfo?.address) {
@@ -61,17 +49,7 @@ const NftLayoutHeader: React.FC<NftLayoutHeaderProps> = ({ nft, loading }) => {
             {nft?.name}
           </h1>
         </Link>
-        <Button
-          onClick={handleIconClick}
-          variant='outlined'
-          size='sm'
-          className='flex items-center gap-1 hover:bg-gray-100 px-2 py-1 rounded-md cursor-pointer'
-          EndAdornment={<Icon name='externalLink' size={12} />}
-        >
-          <div className='typo-body1 text-primary'>
-            {t('header.viewContract')}
-          </div>
-        </Button>
+
         <RadioButtonGroup
           value={setting}
           onChange={value =>
