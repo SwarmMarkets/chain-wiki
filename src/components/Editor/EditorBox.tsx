@@ -2,14 +2,13 @@ import { Editor as TinyEditor } from '@tinymce/tinymce-react'
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
 import React, { useRef } from 'react'
 import { storage } from 'src/firebase'
-import { Editor as TinyEditorType } from 'tinymce'
 
 import './editor.css'
 
 interface EditorBoxProps {
   initialContent?: string
   content?: string
-  onChange: (content: string, editor: TinyEditorType) => void
+  onChange: (content: string, editor: TinyEditor) => void
   onEditorInit?: (editorInit: boolean) => void
 }
 
@@ -21,7 +20,7 @@ const EditorBox: React.FC<EditorBoxProps> = ({
 }) => {
   const editorRef = useRef<TinyEditor | null>(null)
 
-  const onEditorChange = (content: string, editor: TinyEditorType) => {
+  const onEditorChange = (content: string, editor: TinyEditor) => {
     onChange && onChange(content, editor)
   }
 
@@ -49,17 +48,19 @@ const EditorBox: React.FC<EditorBoxProps> = ({
     onEditorInit?.(true)
   }
 
+  console.log(content)
+
   return (
     <TinyEditor
-      tinymceScriptSrc='https://cdnjs.cloudflare.com/ajax/libs/tinymce/7.6.0/tinymce.min.js'
+      // tinymceScriptSrc='https://cdnjs.cloudflare.com/ajax/libs/tinymce/7.6.0/tinymce.min.js'
       ref={editorRef}
-      apiKey='osr60izccxxfs99zbrmmbiqk16ux1fas0muug1e2hvh16kgg'
+      apiKey='eq9n6yyh5256xn3u2dihjv9n2cjd2g4tb15cwa50xidbrmgh'
       onEditorChange={onEditorChange}
       onInit={onInitEdiror}
       value={content}
       init={{
         plugins:
-          'anchor autolink charmap codesample emoticons image link lists searchreplace table visualblocks wordcount',
+          'markdown anchor autolink charmap codesample emoticons image link lists searchreplace table visualblocks wordcount',
         toolbar:
           'undo redo | blocks fontsize | bold italic underline strikethrough | link image media table mergetags | align | tinycomments | numlist bullist indent outdent | emoticons charmap | removeformat',
         tinycomments_mode: 'embedded',
