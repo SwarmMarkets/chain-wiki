@@ -76,7 +76,7 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({ nft, preview }) => {
 
   const firstTokenId = findFirstNonGroupTokenId(treeData)
 
-  if (!tokenId && nft?.id && firstTokenId)
+  if (!tokenId && nft?.id && firstTokenId && !preview)
     return (
       <Navigate
         to={generatePath(RoutePaths.TOKEN_READ, {
