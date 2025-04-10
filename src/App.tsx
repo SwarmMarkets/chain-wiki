@@ -21,7 +21,6 @@ import RoutePaths from './shared/enums/routes-paths'
 import theme from './theme'
 import { GlobalStyle } from './globalStyle'
 import ConnectWalletPage from './pages/ConnectWalletPage'
-import WalletConnectedProtect from './components/common/WalletConnectedProtect'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import EditPage from './pages/EditPage'
 import Layout from './components/common/Layout'
@@ -55,56 +54,23 @@ function App() {
               <Routes>
                 <Route element={<Layout />}>
                   <Route element={<NftLayout />}>
-                    <Route
-                      path={RoutePaths.NFT}
-                      element={
-                        <WalletConnectedProtect>
-                          <NftPage />
-                        </WalletConnectedProtect>
-                      }
-                    />
+                    <Route path={RoutePaths.NFT} element={<NftPage />} />
                     <Route
                       path={RoutePaths.NFT + RoutePaths.TOKEN}
-                      element={
-                        <WalletConnectedProtect>
-                          <TokenPage />
-                        </WalletConnectedProtect>
-                      }
+                      element={<TokenPage />}
                     />
-                    <Route
-                      path={RoutePaths.EDIT}
-                      element={
-                        <WalletConnectedProtect>
-                          <EditPage />
-                        </WalletConnectedProtect>
-                      }
-                    />
+                    <Route path={RoutePaths.EDIT} element={<EditPage />} />
                     <Route
                       path={RoutePaths.SETTINGS}
-                      element={
-                        <WalletConnectedProtect>
-                          <NftSettingsPage />
-                        </WalletConnectedProtect>
-                      }
+                      element={<NftSettingsPage />}
                     />
                     <Route
                       path={RoutePaths.HISTORY}
-                      element={
-                        <WalletConnectedProtect>
-                          <HistoryPage />
-                        </WalletConnectedProtect>
-                      }
+                      element={<HistoryPage />}
                     />
                   </Route>
 
-                  <Route
-                    path={RoutePaths.MY_NFTS}
-                    element={
-                      <WalletConnectedProtect>
-                        <HomePage />
-                      </WalletConnectedProtect>
-                    }
-                  />
+                  <Route path={RoutePaths.HOME} element={<HomePage />} />
                 </Route>
                 <Route
                   element={

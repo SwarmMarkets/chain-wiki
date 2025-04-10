@@ -1,7 +1,9 @@
-import { Outlet, useParams } from 'react-router-dom'
+import { Navigate, Outlet, useParams } from 'react-router-dom'
 import useNFT from 'src/hooks/subgraph/useNFT'
 import NftLayoutHeader from './NftLayoutHeader'
 import NftLayoutSideBar from './NftLayoutSideBar'
+import useNftPermissions from 'src/hooks/permissions/useNftPermissions'
+import RoutePaths from 'src/shared/enums/routes-paths'
 
 const NftLayout = () => {
   const { nftId = '' } = useParams()
@@ -10,7 +12,13 @@ const NftLayout = () => {
     fetchFullData: true,
   })
 
-  const loading = loadingNft && !refetchingNft
+  const { permissions, loading: loadingPermissions } = useNftPermissions(nftId)
+
+  const loading = (loadingNft && !refetchingNft) || loadingPermissions
+
+  if (!permissions.canGetAccessToManagerPage && !loading) {
+    return <Navigate to={RoutePaths.HOME} />
+  }
 
   return (
     <div className='flex flex-col h-screen'>
