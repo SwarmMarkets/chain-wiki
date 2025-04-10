@@ -18,7 +18,7 @@ const NftRoleManager: React.FC<NftRoleManagerProps> = ({ nftAddress }) => {
   const { smartAccountInfo } = useSmartAccount()
 
   const users = useMemo(() => {
-    if (!nft) return []
+    if (!nft || !smartAccountInfo) return []
 
     const admins = nft.admins.map(admin => ({
       address: admin,
@@ -37,7 +37,7 @@ const NftRoleManager: React.FC<NftRoleManagerProps> = ({ nftAddress }) => {
     )
 
     return usersWithoutSmartAccount
-  }, [nft, smartAccountInfo?.address, t])
+  }, [nft, smartAccountInfo, t])
 
   return (
     <>
