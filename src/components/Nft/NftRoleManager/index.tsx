@@ -5,6 +5,8 @@ import { Roles } from 'src/shared/enums/roles'
 import ExplorerLink from '../../common/ExplorerLink'
 import GrantRoleForm from './GrantRoleForm'
 import RevokeRoleButton from './RevokeRoleButton'
+import useSmartAccount from 'src/services/safe-protocol-kit/useSmartAccount'
+import { isSameEthereumAddress } from 'src/shared/utils'
 
 interface NftRoleManagerProps {
   nftAddress: string
@@ -13,6 +15,7 @@ interface NftRoleManagerProps {
 const NftRoleManager: React.FC<NftRoleManagerProps> = ({ nftAddress }) => {
   const { nft } = useNFTRoles(nftAddress)
   const { t } = useTranslation('nft')
+  const { smartAccountInfo } = useSmartAccount()
 
   const users = useMemo(() => {
     if (!nft) return []
@@ -29,8 +32,12 @@ const NftRoleManager: React.FC<NftRoleManagerProps> = ({ nftAddress }) => {
       roleType: Roles.EDITOR,
     }))
 
-    return [...editors, ...admins]
-  }, [nft, t])
+    const usersWithoutSmartAccount = [...editors, ...admins].filter(
+      user => !isSameEthereumAddress(user.address, smartAccountInfo?.address)
+    )
+
+    return usersWithoutSmartAccount
+  }, [nft, smartAccountInfo?.address, t])
 
   return (
     <>
