@@ -18,6 +18,21 @@ interface LeftSidebarProps {
   preview?: boolean
 }
 
+const findFirstNonGroupTokenId = (
+  nodes: ISidebarTreeNode[]
+): string | undefined => {
+  for (const node of nodes) {
+    if (node.type !== 'group') {
+      return node.tokenId
+    }
+    const childResult = findFirstNonGroupTokenId(node.children || [])
+    if (childResult) {
+      return childResult
+    }
+  }
+  return undefined
+}
+
 const buildTree = (
   items: IpfsIndexPage[],
   parentId?: number | string
@@ -59,7 +74,7 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({ nft, preview }) => {
     return <LeftSidebarSkeleton />
   }
 
-  const firstTokenId = treeData.find(item => item.type !== 'group')?.tokenId
+  const firstTokenId = findFirstNonGroupTokenId(treeData)
 
   if (!tokenId && nft?.id && firstTokenId)
     return (
