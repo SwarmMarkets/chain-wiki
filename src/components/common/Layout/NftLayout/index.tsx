@@ -1,12 +1,13 @@
-import { Navigate, Outlet, useParams } from 'react-router-dom'
+import { generatePath, Navigate, Outlet, useParams } from 'react-router-dom'
 import useNFT from 'src/hooks/subgraph/useNFT'
 import NftLayoutHeader from './NftLayoutHeader'
 import NftLayoutSideBar from './NftLayoutSideBar'
 import useNftPermissions from 'src/hooks/permissions/useNftPermissions'
 import RoutePaths from 'src/shared/enums/routes-paths'
+import { splitTokenId } from 'src/shared/utils'
 
 const NftLayout = () => {
-  const { nftId = '' } = useParams()
+  const { nftId = '', tokenId = '' } = useParams()
 
   const { nft, loadingNft, refetchingNft } = useNFT(nftId, {
     fetchFullData: true,
@@ -18,6 +19,23 @@ const NftLayout = () => {
 
   if (!permissions.canGetAccessToManagerPage && !loading) {
     return <Navigate to={RoutePaths.HOME} />
+  }
+
+  const isEditMode = window.location.pathname.includes('edit')
+
+  const firstNotGroupTokenId = nft?.indexPagesContent?.indexPages.find(
+    ip => ip.type !== 'group'
+  )?.tokenId
+
+  if (!isEditMode && !tokenId && firstNotGroupTokenId) {
+    return (
+      <Navigate
+        to={generatePath(RoutePaths.NFT + RoutePaths.TOKEN, {
+          nftId: nft?.id,
+          tokenId: splitTokenId(firstNotGroupTokenId).tokenId,
+        })}
+      />
+    )
   }
 
   return (

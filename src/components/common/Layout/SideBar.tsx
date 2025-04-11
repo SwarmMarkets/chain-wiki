@@ -56,7 +56,7 @@ const SideBar = () => {
         />
       </header>
       <nav className='flex-1 overflow-y-auto p-4 flex flex-col gap-1'>
-        <NavLink to={RoutePaths.MY_NFTS}>
+        <NavLink to={RoutePaths.HOME}>
           {({ isActive }) => (
             <ExpandableListItem
               item={{

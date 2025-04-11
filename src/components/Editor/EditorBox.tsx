@@ -48,8 +48,6 @@ const EditorBox: React.FC<EditorBoxProps> = ({
     onEditorInit?.(true)
   }
 
-  console.log(content)
-
   return (
     <TinyEditor
       // tinymceScriptSrc='https://cdnjs.cloudflare.com/ajax/libs/tinymce/7.6.0/tinymce.min.js'

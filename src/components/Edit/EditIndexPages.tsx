@@ -1,9 +1,7 @@
 import { useTranslation } from 'react-i18next'
-import Flex from 'src/components/ui/Flex'
 import { useEditingStore } from 'src/shared/store/editing-store'
 import { getUniqueId, NFTWithMetadata } from 'src/shared/utils'
 import Button from '../ui-kit/Button/Button'
-import EditIndexPagesItem from './EditIndexPageItem'
 import EditIndexPagesTree from './EditIndexPagesTree/EditIndexPagesTree'
 import useEdit from './useEdit'
 
@@ -17,8 +15,6 @@ const EditIndexPages: React.FC<EditIndexPagesProps> = ({ nft }) => {
   const {
     currEditableToken,
     updateCurrEditableToken,
-    editedNft,
-    updateNft,
     addIndexPage,
     updateOrCreateAddedToken,
     addedTokens,
@@ -26,13 +22,6 @@ const EditIndexPages: React.FC<EditIndexPagesProps> = ({ nft }) => {
 
   const { fullTokens, nextTokenId } = useEdit()
 
-  const handleEditNftName = (name: string) => {
-    updateNft({
-      id: nft.id,
-      name,
-      content: editedNft?.content || nft.ipfsContent?.htmlContent || '',
-    })
-  }
   const handleIndexPageClick = (id: string) => {
     const token = fullTokens?.find(t => t.id === id)
     const addedToken = addedTokens.find(t => t.id === id)
@@ -75,14 +64,6 @@ const EditIndexPages: React.FC<EditIndexPagesProps> = ({ nft }) => {
   }
   return (
     <div>
-      <EditIndexPagesItem
-        className='mb-0.5'
-        name={editedNft?.name || nft.name}
-        active={currEditableToken === null}
-        onClick={() => updateCurrEditableToken(null)}
-        onEdit={handleEditNftName}
-      />
-
       <EditIndexPagesTree
         activeId={currEditableToken?.id}
         onClick={handleIndexPageClick}

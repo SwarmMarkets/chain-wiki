@@ -5,7 +5,6 @@ import {
   useNavigate,
   useParams,
 } from 'react-router-dom'
-import { useIpfsIndexPages } from 'src/hooks/ipfs/nft'
 import RoutePaths from 'src/shared/enums/routes-paths'
 import { IpfsIndexPage, NFTWithMetadata, splitTokenId } from 'src/shared/utils'
 import LeftSidebarSkeleton from './Content/LeftSidebarSkeleton'
@@ -62,15 +61,17 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({ nft, preview }) => {
   const fullTokenId = useFullTokenIdParam()
   const navigate = useNavigate()
 
-  const { indexPages, isLoading } = useIpfsIndexPages(nft?.indexPagesUri)
-  const treeData = indexPages
+  const treeData = nft?.indexPagesContent?.indexPages
     ? buildTree(
-        indexPages.map(ip => ({ ...ip, parent: ip.parent || 0 })),
+        nft?.indexPagesContent?.indexPages.map(ip => ({
+          ...ip,
+          parent: ip.parent || 0,
+        })),
         0
       )
     : []
 
-  if (isLoading) {
+  if (!nft?.indexPagesContent?.indexPages) {
     return <LeftSidebarSkeleton />
   }
 
