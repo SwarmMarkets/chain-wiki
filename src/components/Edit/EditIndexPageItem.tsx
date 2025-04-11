@@ -51,8 +51,8 @@ const EditIndexPagesItem: React.FC<EditIndexPagesItemProps> = ({
     }
   }
 
-  const handleChangeName = (name: string) => {
-    onEdit?.(name)
+  const handleChangeName = (newName: string) => {
+    onEdit?.(newName)
   }
 
   const handleBlurName = () => {
@@ -70,6 +70,12 @@ const EditIndexPagesItem: React.FC<EditIndexPagesItemProps> = ({
     e.stopPropagation()
     e.preventDefault()
     onToggle?.(e)
+  }
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      handleBlurName()
+    }
   }
 
   return (
@@ -90,7 +96,11 @@ const EditIndexPagesItem: React.FC<EditIndexPagesItemProps> = ({
       {isOn ? (
         <TextField
           className='max-w-40'
-          inputProps={{ onBlur: handleBlurName, ref: textFieldRef }}
+          inputProps={{
+            onBlur: handleBlurName,
+            ref: textFieldRef,
+            onKeyDown: handleKeyDown,
+          }}
           value={name}
           onChange={handleChangeName}
           hideError
@@ -107,7 +117,7 @@ const EditIndexPagesItem: React.FC<EditIndexPagesItemProps> = ({
             <Icon size={16} name={isOn ? 'checkmark' : 'edit'} />
           </IconButton>
         )}
-        {hasChild  && (
+        {hasChild && (
           <IconButton hoverBackground='gray-200' onClick={handleToggle}>
             <Icon
               name='arrow-right-secondary'
