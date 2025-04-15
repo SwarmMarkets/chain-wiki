@@ -22,12 +22,13 @@ const NftLayout = () => {
   }
 
   const isEditMode = window.location.pathname.includes('edit')
+  const isSettingsPage = window.location.pathname.includes('settings')
 
   const firstNotGroupTokenId = nft?.indexPagesContent?.indexPages.find(
     ip => ip.type !== 'group'
   )?.tokenId
 
-  if (!isEditMode && !tokenId && firstNotGroupTokenId) {
+  if (!isEditMode && !isSettingsPage && !tokenId && firstNotGroupTokenId) {
     return (
       <Navigate
         to={generatePath(RoutePaths.NFT + RoutePaths.TOKEN, {
