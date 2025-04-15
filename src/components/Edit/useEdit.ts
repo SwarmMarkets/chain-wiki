@@ -1,9 +1,8 @@
 import { Transaction, useAddress, useStorageUpload } from '@thirdweb-dev/react'
 import differenceWith from 'lodash/differenceWith'
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useSX1155NFT } from 'src/hooks/contracts/useSX1155NFT'
-import { useIpfsIndexPages } from 'src/hooks/ipfs/nft'
 import useNFT from 'src/hooks/subgraph/useNFT'
 import useTokens from 'src/hooks/subgraph/useTokens'
 import useEffectCompare from 'src/hooks/useEffectCompare'
@@ -12,7 +11,6 @@ import useSmartAccount from 'src/services/safe-protocol-kit/useSmartAccount'
 import { useEditingStore } from 'src/shared/store/editing-store'
 import {
   generateIpfsIndexPagesContent,
-  generateIpfsTokenContent,
   resolveAllThirdwebTransactions,
   unifyAddressToId,
 } from 'src/shared/utils'
@@ -47,13 +45,9 @@ const useEdit = (readonly?: boolean) => {
     addIndexPage,
   } = useEditingStore()
 
-  const { indexPages = [], isLoading: isIndexPagesLoading } = useIpfsIndexPages(
-    nft?.indexPagesUri
-  )
-
-  useEffectCompare(() => {
-    initIndexPages(indexPages)
-  }, [indexPages])
+  useEffect(() => {
+    initIndexPages(nft?.indexPagesContent?.indexPages || [])
+  }, [initIndexPages, nft?.indexPagesContent?.indexPages])
 
   const {
     fullTokens,
@@ -203,6 +197,7 @@ const useEdit = (readonly?: boolean) => {
     const editedIndexPagesNodes = convertIndexPagesToNodes(
       editedIndexPages.items
     )
+    console.log(editedIndexPagesNodes)
 
     if (readonly) {
       return editedIndexPagesNodes
@@ -271,9 +266,8 @@ const useEdit = (readonly?: boolean) => {
     fullTokens: fullTokens,
     loading:
       (loadingNft && !refetchingNft) ||
-      (fullTokensLoading && !refetchingFullTokens) ||
-      isIndexPagesLoading,
-    indexPages,
+      (fullTokensLoading && !refetchingFullTokens),
+    indexPages: nft?.indexPagesContent?.indexPages || [],
     hiddenIndexPages,
     nextTokenId,
     merge,

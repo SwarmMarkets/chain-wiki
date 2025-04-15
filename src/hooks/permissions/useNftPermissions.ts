@@ -12,6 +12,7 @@ export interface Permissions {
   canManageRoles: boolean
   canCreateAttestation: boolean
   canDeleteAttestation: boolean
+  canGetAccessToManagerPage: boolean
 }
 
 type HasPermissionsFunction = (permission: keyof Permissions) => boolean
@@ -24,6 +25,7 @@ const initialPermissions: Permissions = {
   canManageRoles: false,
   canCreateAttestation: false,
   canDeleteAttestation: false,
+  canGetAccessToManagerPage: false,
 }
 
 const useNftPermissions = (nftAddress?: string) => {
@@ -63,6 +65,7 @@ const useNftPermissions = (nftAddress?: string) => {
         canCreateToken: isEditor,
         canCreateAttestation: connected === 'connected',
         canDeleteAttestation: isEditor,
+        canGetAccessToManagerPage: isAdmin || isEditor,
       }
     },
     [connected, nft]

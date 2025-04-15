@@ -1,9 +1,9 @@
-import { Outlet, useParams } from 'react-router-dom'
+import { Outlet, useParams, useLocation, generatePath } from 'react-router-dom'
 import useNFT from 'src/hooks/subgraph/useNFT'
 import LeftSidebar from './LeftSidebar'
 import ReadHeader from './ReadHeader'
 import RightSidebar from './RightSidebar'
-
+import RoutePaths from 'src/shared/enums/routes-paths'
 import clsx from 'clsx'
 import React, { PropsWithChildren } from 'react'
 import { useContentRef } from './ContentContext'
@@ -16,14 +16,21 @@ const ReadLayout: React.FC<PropsWithChildren<ReadLayoutProps>> = ({
   children,
   preview,
 }) => {
-  const { nftId = '' } = useParams()
+  const { nftId = '', tokenId = '' } = useParams()
   const { nft, loadingNft, refetchingNft } = useNFT(nftId, {
     fetchFullData: true,
   })
-
   const { contentElem } = useContentRef()
+  const location = useLocation()
 
   const loading = loadingNft && !refetchingNft
+
+  const isHistoryPage =
+    location.pathname ===
+    generatePath(RoutePaths.TOKEN_READ_HISTORY, {
+      nftId: nftId,
+      tokenId: tokenId,
+    })
 
   return (
     <div className='flex flex-col w-full'>
@@ -39,11 +46,13 @@ const ReadLayout: React.FC<PropsWithChildren<ReadLayoutProps>> = ({
 
         <main className='flex-1 px-12'>{children || <Outlet />}</main>
 
-        <RightSidebar
-          contentElem={contentElem}
-          preview={preview}
-          isLoading={loading}
-        />
+        {!isHistoryPage && (
+          <RightSidebar
+            contentElem={contentElem}
+            preview={preview}
+            isLoading={loading}
+          />
+        )}
       </div>
     </div>
   )

@@ -1,15 +1,35 @@
 import clsx from 'clsx'
-import { generatePath } from 'react-router-dom'
-import { useIpfsIndexPages } from 'src/hooks/ipfs/nft'
+import {
+  generatePath,
+  Navigate,
+  useNavigate,
+  useParams,
+} from 'react-router-dom'
 import RoutePaths from 'src/shared/enums/routes-paths'
 import { IpfsIndexPage, NFTWithMetadata, splitTokenId } from 'src/shared/utils'
 import LeftSidebarSkeleton from './Content/LeftSidebarSkeleton'
 import SidebarTree from './SidebarTree'
 import { ISidebarTreeNode } from './SidebarTreeNode'
+import useFullTokenIdParam from 'src/hooks/useFullTokenIdParam'
 
 interface LeftSidebarProps {
   nft: NFTWithMetadata | null
   preview?: boolean
+}
+
+const findFirstNonGroupTokenId = (
+  nodes: ISidebarTreeNode[]
+): string | undefined => {
+  for (const node of nodes) {
+    if (node.type !== 'group') {
+      return node.tokenId
+    }
+    const childResult = findFirstNonGroupTokenId(node.children || [])
+    if (childResult) {
+      return childResult
+    }
+  }
+  return undefined
 }
 
 const buildTree = (
@@ -37,26 +57,35 @@ const buildTree = (
 }
 
 const LeftSidebar: React.FC<LeftSidebarProps> = ({ nft, preview }) => {
-  const { indexPages, isLoading } = useIpfsIndexPages(nft?.indexPagesUri)
-  const treeData = indexPages
+  const { tokenId } = useParams()
+  const fullTokenId = useFullTokenIdParam()
+  const navigate = useNavigate()
+
+  const treeData = nft?.indexPagesContent?.indexPages
     ? buildTree(
-        indexPages.map(ip => ({ ...ip, parent: ip.parent || 0 })),
+        nft?.indexPagesContent?.indexPages.map(ip => ({
+          ...ip,
+          parent: ip.parent || 0,
+        })),
         0
       )
     : []
-  const treeDataWithNft: ISidebarTreeNode[] = [
-    {
-      title: nft?.name || '',
-      tokenId: nft?.id || '',
-      children: [],
-      to: generatePath(RoutePaths.NFT_READ, { nftId: nft?.id || '' }),
-    },
-    ...treeData,
-  ]
 
-  if (isLoading) {
+  if (!nft?.indexPagesContent?.indexPages) {
     return <LeftSidebarSkeleton />
   }
+
+  const firstTokenId = findFirstNonGroupTokenId(treeData)
+
+  if (!tokenId && nft?.id && firstTokenId && !preview)
+    return (
+      <Navigate
+        to={generatePath(RoutePaths.TOKEN_READ, {
+          tokenId: splitTokenId(firstTokenId).tokenId,
+          nftId: nft?.id,
+        })}
+      />
+    )
 
   return (
     <aside
@@ -65,8 +94,19 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({ nft, preview }) => {
         !preview && 'h-screen'
       )}
     >
-      {treeDataWithNft.length > 0 ? (
-        <SidebarTree data={treeDataWithNft} />
+      {treeData.length > 0 ? (
+        <SidebarTree
+          data={treeData}
+          onSelect={id => {
+            navigate(
+              generatePath(RoutePaths.TOKEN_READ, {
+                tokenId: id,
+                nftId: splitTokenId(id).nftId,
+              })
+            )
+          }}
+          selectedId={fullTokenId}
+        />
       ) : (
         <p>No data available</p>
       )}

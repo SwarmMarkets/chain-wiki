@@ -63,7 +63,7 @@ export const useIpfsIndexPages = (ipfsUri?: string) => {
   })
 
   return {
-    indexPages: data?.indexPages,
+    indexPagesContent: data,
     isLoading: ipfsUri ? isLoading : false,
     ...rest,
   }

@@ -47,7 +47,7 @@ const GrantRoleForm: React.FC<GrantRoleFormProps> = ({ nftAddress }) => {
           {...restRegisterTo}
           errorMessage={errors.to?.message}
         />
-        <div className='w-3/12'>
+        <div className='w-3/12' onClick={e => e.preventDefault()}>
           <Select<Roles>
             variant='filled'
             value={watch('role')}

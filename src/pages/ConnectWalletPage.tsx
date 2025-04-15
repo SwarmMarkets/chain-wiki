@@ -19,11 +19,11 @@ const ConnectWalletPage = () => {
   const connected = useConnectionStatus()
 
   const handleConnectWallet = () => {
-    navigate(RoutePaths.MY_NFTS)
+    navigate(RoutePaths.HOME)
   }
 
   if (connected === 'connected') {
-    return <Navigate to={RoutePaths.MY_NFTS} />
+    return <Navigate to={RoutePaths.HOME} />
   }
 
   return (

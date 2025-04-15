@@ -37,7 +37,6 @@ const NftReadPage = () => {
   const title = tokenId ? token?.name : nft?.name
 
   const handleSelectSection = useCallback((section: SelectedSection) => {
-    console.log(section)
     setSelectedSection(section)
   }, [])
 
