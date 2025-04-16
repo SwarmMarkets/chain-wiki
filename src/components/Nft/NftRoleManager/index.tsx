@@ -82,7 +82,10 @@ const NftRoleManager: React.FC<NftRoleManagerProps> = ({ nftAddress }) => {
             >
               <td className='p-3'>
                 <ExplorerLink type='address' hash={user.address}>
-                  {user.displayName}
+                  <div className='font-semibold'>{user.displayName}</div>
+                  {user.displayName !== user.address && (
+                    <div className='text-sm text-gray-500'>{user.address}</div>
+                  )}
                 </ExplorerLink>
               </td>
               <td className='p-3'>{user.role}</td>

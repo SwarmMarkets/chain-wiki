@@ -45,7 +45,7 @@ const GrantRoleForm: React.FC<GrantRoleFormProps> = ({ nftAddress }) => {
   }
 
   const { onChange: onChangeAddress, ...restRegisterTo } = register('to')
-  const { register: registerName } = register('name')
+  const { onChange: onChangeName, ...restRegisterName } = register('name')
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -66,8 +66,10 @@ const GrantRoleForm: React.FC<GrantRoleFormProps> = ({ nftAddress }) => {
           label={t('roleManager.form.name')}
           inputProps={{
             placeholder: t('roleManager.form.enterName'),
+            onChange: onChangeName,
+            ...restRegisterName,
           }}
-          {...registerName}
+          {...restRegisterName}
         />
         <div className='w-2/12' onClick={e => e.preventDefault()}>
           <Select<Roles>
