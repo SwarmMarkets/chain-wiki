@@ -132,14 +132,14 @@ const ParagraphWithComment: React.FC<ParagraphWithCommentProps> = ({
 }) => {
   const Tag = tag
   return (
-    <Tag id={id} className='group relative flex items-center'>
+    <Tag id={id} className='group relative'>
       {children}
       {id && (
         <IconButton
-          className='ml-2 opacity-0 group-hover:opacity-100 transition-opacity'
+          className='ml-2 opacity-0 group-hover:opacity-100 transition-opacity absolute right-0 top-0'
           onClick={() => onClickComment?.(id)}
         >
-          <Icon name='comment' />
+          <Icon name='comment' size={16} />
         </IconButton>
       )}
     </Tag>
