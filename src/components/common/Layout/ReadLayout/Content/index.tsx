@@ -156,7 +156,7 @@ const Content: React.FC<ContentProps> = ({ contentElem, className }) => {
         onSelect={id => {
           onClickItem(findItemRecursive(contentData, id))
         }}
-        selectedId={firstHeadingInView.toString()}
+        selectedId={beginningActive ? '' : firstHeadingInView.toString()}
       />
       {/* {contentData.map(item => (
         <ExpandableList
