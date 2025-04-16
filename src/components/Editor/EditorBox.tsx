@@ -40,7 +40,7 @@ const EditorBox: React.FC<EditorBoxProps> = ({
   return (
     <MDXEditor
       className='w-full'
-      contentEditableClassName='prose prose-sm md:prose-base lg:prose-lg'
+      contentEditableClassName='prose'
       ref={mdxRef}
       markdown={content || ''}
       onChange={onEditorChange}
