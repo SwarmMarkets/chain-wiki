@@ -60,6 +60,7 @@ const NftReadPage = () => {
       <MarkdownRenderer
         markdown={html}
         showComments
+        ref={setContentElem}
         onClickComment={handleSelectSection}
       />
 
