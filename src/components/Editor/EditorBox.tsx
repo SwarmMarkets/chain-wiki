@@ -48,7 +48,7 @@ const EditorBox: React.FC<EditorBoxProps> = ({
   return (
     <MDXEditor
       className='w-full'
-      contentEditableClassName='prose'
+      contentEditableClassName='prose font-[Inter] font-sans'
       ref={mdxRef}
       markdown={content || ''}
       onChange={onEditorChange}
