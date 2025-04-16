@@ -15,7 +15,7 @@ import {
   toolbarPlugin,
   UndoRedo,
 } from '@mdxeditor/editor'
-import React, { useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 
 import '@mdxeditor/editor/style.css'
 
@@ -32,10 +32,18 @@ const EditorBox: React.FC<EditorBoxProps> = ({
   onChange,
   onEditorInit,
 }) => {
+  console.log(content)
   const onEditorChange = (content: string) => {
     onChange && onChange(content)
   }
+
   const mdxRef = useRef<MDXEditorMethods>(null)
+
+  useEffect(() => {
+    if (mdxRef.current && content !== undefined) {
+      mdxRef.current.setMarkdown(content)
+    }
+  }, [content])
 
   return (
     <MDXEditor
