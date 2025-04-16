@@ -2,7 +2,6 @@ import { useStorageUpload } from '@thirdweb-dev/react'
 import { useCallback } from 'react'
 import {
   generateIpfsTokenContent,
-  getUniqueId,
   IpfsTokenContent,
   IpfsVoteProposal,
 } from 'src/shared/utils'
@@ -34,20 +33,6 @@ const useTokenUpdate = (nftAddress: string) => {
     tokenId: number,
     content: Partial<IpfsTokenContent>
   ) => {
-    if (content.htmlContent) {
-      const contentElem = document.createElement('div')
-      contentElem.innerHTML = content.htmlContent
-      const children = Array.from(contentElem.children)
-
-      for (let i = 0; i < children.length; i++) {
-        const item = children[i]
-        if (!item.hasAttribute('id')) {
-          item.setAttribute('id', getUniqueId())
-        }
-      }
-      content.htmlContent = contentElem.innerHTML
-    }
-
     const contentToGenerate = {
       address: nftAddress,
       tokenId,

@@ -1,29 +1,23 @@
-import { Editor as TinyEditor } from '@tinymce/tinymce-react'
-import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
-import React, { useRef } from 'react'
-import { storage } from 'src/firebase'
 import {
+  BlockTypeSelect,
+  BoldItalicUnderlineToggles,
+  codeBlockPlugin,
   headingsPlugin,
+  linkPlugin,
   listsPlugin,
+  ListsToggle,
+  markdownShortcutPlugin,
+  MDXEditor,
+  MDXEditorMethods,
   quotePlugin,
+  tablePlugin,
   thematicBreakPlugin,
   toolbarPlugin,
-  markdownShortcutPlugin,
-  linkPlugin,
-  tablePlugin,
-  codeBlockPlugin,
-  MDXEditor,
   UndoRedo,
-  BoldItalicUnderlineToggles,
-  MDXEditorMethods,
-  ListsToggle,
-  InsertImage,
-  BlockTypeSelect,
-  imagePlugin,
 } from '@mdxeditor/editor'
+import React, { useRef } from 'react'
 
 import '@mdxeditor/editor/style.css'
-import { BulletList } from 'react-content-loader'
 
 interface EditorBoxProps {
   initialContent?: string
@@ -38,36 +32,9 @@ const EditorBox: React.FC<EditorBoxProps> = ({
   onChange,
   onEditorInit,
 }) => {
-  const editorRef = useRef<TinyEditor | null>(null)
-
   const onEditorChange = (content: string) => {
     onChange && onChange(content)
   }
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleImageUpload = (image: any) => {
-    const imageBlob = image.blob()
-    const storageRef = ref(storage, `images/${imageBlob.name}`)
-    const uploadTask = uploadBytesResumable(storageRef, imageBlob)
-
-    return new Promise<string>((resolve, reject) => {
-      uploadTask.on('state_changed', {
-        error: error => {
-          console.error('Error uploading image: ', error)
-          reject(error)
-        },
-        complete: async () => {
-          const downloadURL = await getDownloadURL(uploadTask.snapshot.ref)
-          resolve(downloadURL)
-        },
-      })
-    })
-  }
-
-  const onInitEdiror = () => {
-    onEditorInit?.(true)
-  }
-
   const mdxRef = useRef<MDXEditorMethods>(null)
 
   return (
