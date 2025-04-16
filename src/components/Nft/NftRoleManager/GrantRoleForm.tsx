@@ -9,6 +9,7 @@ import Select from 'src/components/ui-kit/Select/Select'
 import Option from 'src/components/ui-kit/Select/Option'
 import Button from 'src/components/ui-kit/Button/Button'
 import TextField from 'src/components/ui-kit/TextField/TextField'
+import { useAddressNameStore } from './addressNameStore'
 
 interface GrantRoleFormProps {
   nftAddress: string
@@ -16,38 +17,59 @@ interface GrantRoleFormProps {
 
 const GrantRoleForm: React.FC<GrantRoleFormProps> = ({ nftAddress }) => {
   const { t } = useTranslation('nft')
+  const { setAddressName } = useAddressNameStore()
   const {
     register,
     watch,
     handleSubmit,
     formState: { errors, isValid },
     setValue,
+    reset,
   } = useGrantRoleForm()
 
   const { grantRole, txLoading } = useNFTRoleManager(nftAddress)
 
-  const onSubmit: SubmitHandler<GrantRoleFormInputs> = async (data, e) => {
+  const onSubmit: SubmitHandler<
+    GrantRoleFormInputs & { name?: string }
+  > = async (data, e) => {
     e?.preventDefault()
-    const { to, role } = data
-    return grantRole(to, role)
+
+    const { to, role, name } = data
+    const success = await grantRole(to, role)
+
+    if (success && name) {
+      setAddressName(to, name)
+    }
+
+    reset()
   }
 
-  const { onChange, ...restRegisterTo } = register('to')
+  const { onChange: onChangeAddress, ...restRegisterTo } = register('to')
+  const { register: registerName } = register('name')
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className='flex gap-2 w-full items-start'>
         <TextField
-          className='w-6/12'
+          className='w-4/12'
+          label={t('roleManager.form.address')}
           inputProps={{
             placeholder: t('roleManager.form.grantRole'),
-            onChange,
+            onChange: onChangeAddress,
             ...restRegisterTo,
           }}
           {...restRegisterTo}
           errorMessage={errors.to?.message}
         />
-        <div className='w-3/12' onClick={e => e.preventDefault()}>
+        <TextField
+          className='w-4/12'
+          label={t('roleManager.form.name')}
+          inputProps={{
+            placeholder: t('roleManager.form.enterName'),
+          }}
+          {...registerName}
+        />
+        <div className='w-2/12' onClick={e => e.preventDefault()}>
           <Select<Roles>
             variant='filled'
             value={watch('role')}
@@ -61,11 +83,10 @@ const GrantRoleForm: React.FC<GrantRoleFormProps> = ({ nftAddress }) => {
             ))}
           </Select>
         </div>
-
         <Button
           type='submit'
           loading={txLoading}
-          className='w-3/12'
+          className='w-2/12'
           disabled={!isValid}
         >
           {t('roleManager.actions.grantRole')}

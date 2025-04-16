@@ -7,6 +7,8 @@ import GrantRoleForm from './GrantRoleForm'
 import RevokeRoleButton from './RevokeRoleButton'
 import useSmartAccount from 'src/services/safe-protocol-kit/useSmartAccount'
 import { isSameEthereumAddress } from 'src/shared/utils'
+import { useAddress } from '@thirdweb-dev/react'
+import { useAddressNameStore } from './addressNameStore'
 
 interface NftRoleManagerProps {
   nftAddress: string
@@ -16,6 +18,8 @@ const NftRoleManager: React.FC<NftRoleManagerProps> = ({ nftAddress }) => {
   const { nft } = useNFTRoles(nftAddress)
   const { t } = useTranslation('nft')
   const { smartAccountInfo } = useSmartAccount()
+  const { addressNames } = useAddressNameStore()
+  const currentAddress = useAddress()
 
   const users = useMemo(() => {
     if (!nft || !smartAccountInfo) return []
@@ -32,12 +36,29 @@ const NftRoleManager: React.FC<NftRoleManagerProps> = ({ nftAddress }) => {
       roleType: Roles.EDITOR,
     }))
 
-    const usersWithoutSmartAccount = [...editors, ...admins].filter(
+    const allUsers = [...editors, ...admins]
+
+    return allUsers.map(user => {
+      const isCurrentUser =
+        currentAddress && isSameEthereumAddress(user.address, currentAddress)
+
+      const displayName = isCurrentUser
+        ? t('you')
+        : addressNames[user.address] || user.address
+
+      return {
+        ...user,
+        displayName,
+      }
+    })
+  }, [nft, smartAccountInfo, t, addressNames, currentAddress])
+
+  const usersWithoutSmartAccount = useMemo(() => {
+    if (!smartAccountInfo) return users
+    return users.filter(
       user => !isSameEthereumAddress(user.address, smartAccountInfo?.address)
     )
-
-    return usersWithoutSmartAccount
-  }, [nft, smartAccountInfo, t])
+  }, [users, smartAccountInfo])
 
   return (
     <>
@@ -54,14 +75,14 @@ const NftRoleManager: React.FC<NftRoleManagerProps> = ({ nftAddress }) => {
           </tr>
         </thead>
         <tbody>
-          {users.map(user => (
+          {usersWithoutSmartAccount.map(user => (
             <tr
               key={user.address + user.role}
               className='hover:bg-blue-50 border-b border-main'
             >
               <td className='p-3'>
                 <ExplorerLink type='address' hash={user.address}>
-                  {user.address}
+                  {user.displayName}
                 </ExplorerLink>
               </td>
               <td className='p-3'>{user.role}</td>
