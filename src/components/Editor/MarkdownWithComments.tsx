@@ -9,6 +9,8 @@ import md5 from 'md5'
 import Icon from '../ui-kit/Icon/Icon'
 import IconButton from '../ui-kit/IconButton'
 import useFullTokenIdParam from 'src/hooks/useFullTokenIdParam'
+import remarkGfm from 'remark-gfm'
+import rehypeRaw from 'rehype-raw'
 
 interface MarkdownRendererProps {
   markdown: string
@@ -23,6 +25,7 @@ const MarkdownRenderer = forwardRef<HTMLDivElement, MarkdownRendererProps>(
     const Content = useMemo(() => {
       const processor = unified()
         .use(remarkParse)
+        .use(remarkGfm)
         .use(() => tree => {
           visit(tree, (node: any) => {
             if (
@@ -61,7 +64,8 @@ const MarkdownRenderer = forwardRef<HTMLDivElement, MarkdownRendererProps>(
             }
           })
         })
-        .use(remarkRehype)
+        .use(remarkRehype, { allowDangerousHtml: true })
+        .use(rehypeRaw)
         .use(rehypeReact, {
           Fragment: prod.Fragment,
           jsx: prod.jsx,
