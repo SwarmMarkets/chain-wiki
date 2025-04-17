@@ -154,7 +154,9 @@ export enum Comment_OrderBy {
   Id = 'id',
   SectionId = 'sectionId',
   Token = 'token',
+  TokenCarbonCreditTokenId = 'token__carbonCreditTokenId',
   TokenCreatedAt = 'token__createdAt',
+  TokenGuid = 'token__guid',
   TokenId = 'token__id',
   TokenName = 'token__name',
   TokenUpdatedAt = 'token__updatedAt',
@@ -676,140 +678,11 @@ export type QueryTokensArgs = {
   where?: InputMaybe<Token_Filter>;
 };
 
-export type Subscription = {
-  __typename?: 'Subscription';
-  /** Access to subgraph metadata */
-  _meta?: Maybe<_Meta_>;
-  comment?: Maybe<Comment>;
-  comments: Array<Comment>;
-  nft?: Maybe<Nft>;
-  nftfactories: Array<NftFactory>;
-  nftfactory?: Maybe<NftFactory>;
-  nfts: Array<Nft>;
-  nfturiupdate?: Maybe<NfturiUpdate>;
-  nfturiupdates: Array<NfturiUpdate>;
-  token?: Maybe<Token>;
-  tokenURIUpdate?: Maybe<TokenUriUpdate>;
-  tokenURIUpdates: Array<TokenUriUpdate>;
-  tokens: Array<Token>;
-};
-
-
-export type Subscription_MetaArgs = {
-  block?: InputMaybe<Block_Height>;
-};
-
-
-export type SubscriptionCommentArgs = {
-  block?: InputMaybe<Block_Height>;
-  id: Scalars['ID']['input'];
-  subgraphError?: _SubgraphErrorPolicy_;
-};
-
-
-export type SubscriptionCommentsArgs = {
-  block?: InputMaybe<Block_Height>;
-  first?: InputMaybe<Scalars['Int']['input']>;
-  orderBy?: InputMaybe<Comment_OrderBy>;
-  orderDirection?: InputMaybe<OrderDirection>;
-  skip?: InputMaybe<Scalars['Int']['input']>;
-  subgraphError?: _SubgraphErrorPolicy_;
-  where?: InputMaybe<Comment_Filter>;
-};
-
-
-export type SubscriptionNftArgs = {
-  block?: InputMaybe<Block_Height>;
-  id: Scalars['ID']['input'];
-  subgraphError?: _SubgraphErrorPolicy_;
-};
-
-
-export type SubscriptionNftfactoriesArgs = {
-  block?: InputMaybe<Block_Height>;
-  first?: InputMaybe<Scalars['Int']['input']>;
-  orderBy?: InputMaybe<NftFactory_OrderBy>;
-  orderDirection?: InputMaybe<OrderDirection>;
-  skip?: InputMaybe<Scalars['Int']['input']>;
-  subgraphError?: _SubgraphErrorPolicy_;
-  where?: InputMaybe<NftFactory_Filter>;
-};
-
-
-export type SubscriptionNftfactoryArgs = {
-  block?: InputMaybe<Block_Height>;
-  id: Scalars['ID']['input'];
-  subgraphError?: _SubgraphErrorPolicy_;
-};
-
-
-export type SubscriptionNftsArgs = {
-  block?: InputMaybe<Block_Height>;
-  first?: InputMaybe<Scalars['Int']['input']>;
-  orderBy?: InputMaybe<Nft_OrderBy>;
-  orderDirection?: InputMaybe<OrderDirection>;
-  skip?: InputMaybe<Scalars['Int']['input']>;
-  subgraphError?: _SubgraphErrorPolicy_;
-  where?: InputMaybe<Nft_Filter>;
-};
-
-
-export type SubscriptionNfturiupdateArgs = {
-  block?: InputMaybe<Block_Height>;
-  id: Scalars['ID']['input'];
-  subgraphError?: _SubgraphErrorPolicy_;
-};
-
-
-export type SubscriptionNfturiupdatesArgs = {
-  block?: InputMaybe<Block_Height>;
-  first?: InputMaybe<Scalars['Int']['input']>;
-  orderBy?: InputMaybe<NfturiUpdate_OrderBy>;
-  orderDirection?: InputMaybe<OrderDirection>;
-  skip?: InputMaybe<Scalars['Int']['input']>;
-  subgraphError?: _SubgraphErrorPolicy_;
-  where?: InputMaybe<NfturiUpdate_Filter>;
-};
-
-
-export type SubscriptionTokenArgs = {
-  block?: InputMaybe<Block_Height>;
-  id: Scalars['ID']['input'];
-  subgraphError?: _SubgraphErrorPolicy_;
-};
-
-
-export type SubscriptionTokenUriUpdateArgs = {
-  block?: InputMaybe<Block_Height>;
-  id: Scalars['ID']['input'];
-  subgraphError?: _SubgraphErrorPolicy_;
-};
-
-
-export type SubscriptionTokenUriUpdatesArgs = {
-  block?: InputMaybe<Block_Height>;
-  first?: InputMaybe<Scalars['Int']['input']>;
-  orderBy?: InputMaybe<TokenUriUpdate_OrderBy>;
-  orderDirection?: InputMaybe<OrderDirection>;
-  skip?: InputMaybe<Scalars['Int']['input']>;
-  subgraphError?: _SubgraphErrorPolicy_;
-  where?: InputMaybe<TokenUriUpdate_Filter>;
-};
-
-
-export type SubscriptionTokensArgs = {
-  block?: InputMaybe<Block_Height>;
-  first?: InputMaybe<Scalars['Int']['input']>;
-  orderBy?: InputMaybe<Token_OrderBy>;
-  orderDirection?: InputMaybe<OrderDirection>;
-  skip?: InputMaybe<Scalars['Int']['input']>;
-  subgraphError?: _SubgraphErrorPolicy_;
-  where?: InputMaybe<Token_Filter>;
-};
-
 export type Token = {
   __typename?: 'Token';
+  carbonCreditTokenId: Scalars['String']['output'];
   createdAt: Scalars['BigInt']['output'];
+  guid: Scalars['String']['output'];
   id: Scalars['ID']['output'];
   name: Scalars['String']['output'];
   nft: Nft;
@@ -950,7 +823,9 @@ export enum TokenUriUpdate_OrderBy {
   NftUri = 'nft__uri',
   PreviousUri = 'previousURI',
   Token = 'token',
+  TokenCarbonCreditTokenId = 'token__carbonCreditTokenId',
   TokenCreatedAt = 'token__createdAt',
+  TokenGuid = 'token__guid',
   TokenId = 'token__id',
   TokenName = 'token__name',
   TokenUpdatedAt = 'token__updatedAt',
@@ -963,6 +838,26 @@ export type Token_Filter = {
   /** Filter for the block changed event. */
   _change_block?: InputMaybe<BlockChangedFilter>;
   and?: InputMaybe<Array<InputMaybe<Token_Filter>>>;
+  carbonCreditTokenId?: InputMaybe<Scalars['String']['input']>;
+  carbonCreditTokenId_contains?: InputMaybe<Scalars['String']['input']>;
+  carbonCreditTokenId_contains_nocase?: InputMaybe<Scalars['String']['input']>;
+  carbonCreditTokenId_ends_with?: InputMaybe<Scalars['String']['input']>;
+  carbonCreditTokenId_ends_with_nocase?: InputMaybe<Scalars['String']['input']>;
+  carbonCreditTokenId_gt?: InputMaybe<Scalars['String']['input']>;
+  carbonCreditTokenId_gte?: InputMaybe<Scalars['String']['input']>;
+  carbonCreditTokenId_in?: InputMaybe<Array<Scalars['String']['input']>>;
+  carbonCreditTokenId_lt?: InputMaybe<Scalars['String']['input']>;
+  carbonCreditTokenId_lte?: InputMaybe<Scalars['String']['input']>;
+  carbonCreditTokenId_not?: InputMaybe<Scalars['String']['input']>;
+  carbonCreditTokenId_not_contains?: InputMaybe<Scalars['String']['input']>;
+  carbonCreditTokenId_not_contains_nocase?: InputMaybe<Scalars['String']['input']>;
+  carbonCreditTokenId_not_ends_with?: InputMaybe<Scalars['String']['input']>;
+  carbonCreditTokenId_not_ends_with_nocase?: InputMaybe<Scalars['String']['input']>;
+  carbonCreditTokenId_not_in?: InputMaybe<Array<Scalars['String']['input']>>;
+  carbonCreditTokenId_not_starts_with?: InputMaybe<Scalars['String']['input']>;
+  carbonCreditTokenId_not_starts_with_nocase?: InputMaybe<Scalars['String']['input']>;
+  carbonCreditTokenId_starts_with?: InputMaybe<Scalars['String']['input']>;
+  carbonCreditTokenId_starts_with_nocase?: InputMaybe<Scalars['String']['input']>;
   createdAt?: InputMaybe<Scalars['BigInt']['input']>;
   createdAt_gt?: InputMaybe<Scalars['BigInt']['input']>;
   createdAt_gte?: InputMaybe<Scalars['BigInt']['input']>;
@@ -971,6 +866,26 @@ export type Token_Filter = {
   createdAt_lte?: InputMaybe<Scalars['BigInt']['input']>;
   createdAt_not?: InputMaybe<Scalars['BigInt']['input']>;
   createdAt_not_in?: InputMaybe<Array<Scalars['BigInt']['input']>>;
+  guid?: InputMaybe<Scalars['String']['input']>;
+  guid_contains?: InputMaybe<Scalars['String']['input']>;
+  guid_contains_nocase?: InputMaybe<Scalars['String']['input']>;
+  guid_ends_with?: InputMaybe<Scalars['String']['input']>;
+  guid_ends_with_nocase?: InputMaybe<Scalars['String']['input']>;
+  guid_gt?: InputMaybe<Scalars['String']['input']>;
+  guid_gte?: InputMaybe<Scalars['String']['input']>;
+  guid_in?: InputMaybe<Array<Scalars['String']['input']>>;
+  guid_lt?: InputMaybe<Scalars['String']['input']>;
+  guid_lte?: InputMaybe<Scalars['String']['input']>;
+  guid_not?: InputMaybe<Scalars['String']['input']>;
+  guid_not_contains?: InputMaybe<Scalars['String']['input']>;
+  guid_not_contains_nocase?: InputMaybe<Scalars['String']['input']>;
+  guid_not_ends_with?: InputMaybe<Scalars['String']['input']>;
+  guid_not_ends_with_nocase?: InputMaybe<Scalars['String']['input']>;
+  guid_not_in?: InputMaybe<Array<Scalars['String']['input']>>;
+  guid_not_starts_with?: InputMaybe<Scalars['String']['input']>;
+  guid_not_starts_with_nocase?: InputMaybe<Scalars['String']['input']>;
+  guid_starts_with?: InputMaybe<Scalars['String']['input']>;
+  guid_starts_with_nocase?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['ID']['input']>;
   id_gt?: InputMaybe<Scalars['ID']['input']>;
   id_gte?: InputMaybe<Scalars['ID']['input']>;
@@ -1072,7 +987,9 @@ export type Token_Filter = {
 };
 
 export enum Token_OrderBy {
+  CarbonCreditTokenId = 'carbonCreditTokenId',
   CreatedAt = 'createdAt',
+  Guid = 'guid',
   Id = 'id',
   Name = 'name',
   Nft = 'nft',
