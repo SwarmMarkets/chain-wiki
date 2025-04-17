@@ -28,7 +28,7 @@ import {
   tablePlugin,
   thematicBreakPlugin,
   toolbarPlugin,
-  UndoRedo
+  UndoRedo,
 } from '@mdxeditor/editor'
 import React, { useEffect, useRef } from 'react'
 
@@ -120,18 +120,15 @@ const EditorBox: React.FC<EditorBoxProps> = ({ content = '', onChange }) => {
     markdownShortcutPlugin(),
   ]
 
-  console.log(content)
   return (
-    <>
-      <MDXEditor
-        className='w-full'
-        contentEditableClassName='prose font-[Inter] font-sans'
-        ref={mdxRef}
-        markdown={content}
-        onChange={onEditorChange}
-        plugins={allPlugins(initialContent.current)}
-      />
-    </>
+    <MDXEditor
+      className='w-full'
+      contentEditableClassName='prose font-[Inter] font-sans max-w-full'
+      ref={mdxRef}
+      markdown={content}
+      onChange={onEditorChange}
+      plugins={allPlugins(initialContent.current)}
+    />
   )
 }
 
