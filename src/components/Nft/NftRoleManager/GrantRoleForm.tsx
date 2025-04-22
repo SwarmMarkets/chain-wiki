@@ -1,7 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { SubmitHandler } from 'react-hook-form'
 import { Roles } from 'src/shared/enums/roles'
-import useNFTRoleManager from './useNFTRoleManager'
 import useGrantRoleForm, {
   GrantRoleFormInputs,
 } from 'src/hooks/forms/useGrantRoleForm'
@@ -10,6 +9,7 @@ import Option from 'src/components/ui-kit/Select/Option'
 import Button from 'src/components/ui-kit/Button/Button'
 import TextField from 'src/components/ui-kit/TextField/TextField'
 import { useAddressNameStore } from './addressNameStore'
+import useNFTRoleManager from './useNFTRoleManager'
 
 interface GrantRoleFormProps {
   nftAddress: string
