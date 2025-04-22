@@ -43,7 +43,7 @@ const NftRoleManager: React.FC<NftRoleManagerProps> = ({ nftAddress }) => {
         currentAddress && isSameEthereumAddress(user.address, currentAddress)
 
       const displayName = isCurrentUser
-        ? t('you')
+        ? t('messages.you')
         : addressNames[user.address] || user.address
 
       return {
