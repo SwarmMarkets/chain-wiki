@@ -32,6 +32,7 @@ import NftSettingsPage from './pages/NftSettingsPage'
 import HistoryPage from './pages/HistoryPage'
 import ContentContext from './components/common/Layout/ReadLayout/ContentContext'
 import NftReadHistory from './components/common/Layout/ReadLayout/NftReadHistory'
+import ExplorePage from './pages/ExplorePage'
 
 const queryClient = new QueryClient()
 
@@ -94,6 +95,7 @@ function App() {
                   path={RoutePaths.CONNECT_WALLET}
                   element={<ConnectWalletPage />}
                 />
+                <Route path={RoutePaths.EXPLORE} element={<ExplorePage />} />
               </Routes>
             </Router>
             <GlobalStyle />
