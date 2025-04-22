@@ -49,10 +49,10 @@ const GrantRoleForm: React.FC<GrantRoleFormProps> = ({ nftAddress }) => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div className='flex gap-2 w-full items-start'>
+      <div className='flex flex-col gap-2 w-full items-start'>
         <TextField
-          className='w-4/12'
-          label={t('roleManager.form.address')}
+          className='w-full'
+          label={t('roleManager.form.grantRole')}
           inputProps={{
             placeholder: t('roleManager.form.grantRole'),
             onChange: onChangeAddress,
@@ -61,38 +61,43 @@ const GrantRoleForm: React.FC<GrantRoleFormProps> = ({ nftAddress }) => {
           {...restRegisterTo}
           errorMessage={errors.to?.message}
         />
-        <TextField
-          className='w-4/12'
-          label={t('roleManager.form.name')}
-          inputProps={{
-            placeholder: t('roleManager.form.enterName'),
-            onChange: onChangeName,
-            ...restRegisterName,
-          }}
-          {...restRegisterName}
-        />
-        <div className='w-2/12' onClick={e => e.preventDefault()}>
-          <Select<Roles>
-            variant='filled'
-            value={watch('role')}
-            onChange={value => setValue('role', value)}
-            className='capitalize'
+        <div className='flex gap-2 w-full'>
+          <TextField
+            className='w-4/12'
+            label={t('roleManager.form.name')}
+            inputProps={{
+              placeholder: t('roleManager.formPlaceholders.name'),
+              onChange: onChangeName,
+              ...restRegisterName,
+            }}
+            {...restRegisterName}
+          />
+          <div
+            className='w-4/12 flex items-stretch'
+            onClick={e => e.preventDefault()}
           >
-            {Object.values(Roles).map(role => (
-              <Option key={role} value={role} className='capitalize'>
-                <div className='flex items-center gap-2'>{role}</div>
-              </Option>
-            ))}
-          </Select>
+            <Select<Roles>
+              variant='filled'
+              value={watch('role')}
+              onChange={value => setValue('role', value)}
+              className='capitalize w-full flex-grow'
+            >
+              {Object.values(Roles).map(role => (
+                <Option key={role} value={role} className='capitalize'>
+                  <div className='flex items-center gap-2'>{role}</div>
+                </Option>
+              ))}
+            </Select>
+          </div>
+          <Button
+            type='submit'
+            loading={txLoading}
+            className='w-4/12 h-10'
+            disabled={!isValid}
+          >
+            {t('roleManager.actions.grantRole')}
+          </Button>
         </div>
-        <Button
-          type='submit'
-          loading={txLoading}
-          className='w-2/12'
-          disabled={!isValid}
-        >
-          {t('roleManager.actions.grantRole')}
-        </Button>
       </div>
     </form>
   )
