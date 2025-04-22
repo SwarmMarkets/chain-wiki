@@ -1,9 +1,5 @@
 import { ApolloProvider } from '@apollo/client'
 import {
-  arbitrumSepoliaChainConfig,
-  supportedChains,
-} from 'src/environment/networks'
-import {
   ThirdwebProvider,
   coinbaseWallet,
   en,
@@ -33,8 +29,11 @@ import HistoryPage from './pages/HistoryPage'
 import ContentContext from './components/common/Layout/ReadLayout/ContentContext'
 import NftReadHistory from './components/common/Layout/ReadLayout/NftReadHistory'
 import ExplorePage from './pages/ExplorePage'
+import staticConfig from './config'
 
 const queryClient = new QueryClient()
+
+const { defaultChain, supportedChains } = staticConfig
 
 function App() {
   return (
@@ -42,7 +41,7 @@ function App() {
       <ApolloProvider client={client}>
         <ThirdwebProvider
           supportedChains={supportedChains}
-          activeChain={arbitrumSepoliaChainConfig.chainId}
+          activeChain={defaultChain.chainId}
           clientId={environment.thirdWebClientId}
           locale={en()}
           supportedWallets={[

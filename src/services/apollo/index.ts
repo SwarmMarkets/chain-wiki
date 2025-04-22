@@ -1,8 +1,8 @@
 import { ApolloClient, InMemoryCache } from '@apollo/client'
-import { arbitrumSepolia } from 'src/environment/networks'
+import staticConfig from 'src/config'
 
 const client = new ApolloClient({
-  uri: arbitrumSepolia.subgraphURL,
+  uri: staticConfig.defaultNetworkEnv.subgraphURL,
   cache: new InMemoryCache(),
 })
 
