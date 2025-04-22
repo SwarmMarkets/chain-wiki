@@ -1,56 +1,42 @@
 import React from 'react'
-import { useTranslation } from 'react-i18next'
-import { generatePath, useParams } from 'react-router-dom'
-import Box from 'src/components/ui/Box'
-import Text from 'src/components/ui/Text'
+import { generatePath } from 'react-router-dom'
+import useFullTokenIdParam from 'src/hooks/useFullTokenIdParam'
 import RoutePaths from 'src/shared/enums/routes-paths'
-import {
-  NFTWithMetadata,
-  TokensQueryFullData,
-} from 'src/shared/utils/ipfs/types'
-import { useTheme } from 'styled-components'
+import { isFullTokenId, splitTokenId } from 'src/shared/utils'
+import { NFTWithMetadata } from 'src/shared/utils/ipfs/types'
+import EditIndexPages from '../Edit/EditIndexPages'
 import EditIndexPagesTree from '../Edit/EditIndexPagesTree/EditIndexPagesTree'
-import { SideContentWrap } from '../Nft/styled-components'
 
 interface IndexPagesProps {
-  tokens: TokensQueryFullData[] | null
   nft: NFTWithMetadata | null
 }
 
-const IndexPages: React.FC<IndexPagesProps> = ({ tokens, nft, ...props }) => {
-  const theme = useTheme()
-  const { t } = useTranslation(['nft', 'buttons'])
-  const { tokenId = '' } = useParams()
+const IndexPages: React.FC<IndexPagesProps> = ({ nft }) => {
+  const tokenId = useFullTokenIdParam()
 
-  const noTokens = tokens?.length === 0
+  const isEditMode = window.location.pathname.includes('edit')
 
-  if (noTokens || !nft?.id) {
-    return (
-      <SideContentWrap {...props}>
-        <Text.p
-          textAlign='center'
-          fontWeight={theme.fontWeights.medium}
-          color={theme.palette.gray}
-        >
-          {t('indexPages.noTokens')}
-        </Text.p>
-      </SideContentWrap>
-    )
+  if (!nft) return null
+
+  if (isEditMode) {
+    return <EditIndexPages nft={nft} />
   }
 
   return (
-    <SideContentWrap>
+    <>
       <EditIndexPagesTree
         activeId={tokenId}
         readonly
         to={node =>
           generatePath(RoutePaths.NFT + RoutePaths.TOKEN, {
-            tokenId: node.id,
+            tokenId: isFullTokenId(node.id.toString())
+              ? splitTokenId(node.id.toString()).tokenId
+              : '',
             nftId: nft.id,
           })
         }
       />
-    </SideContentWrap>
+    </>
   )
 }
 

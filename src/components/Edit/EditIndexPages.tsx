@@ -1,12 +1,9 @@
-import { SideContentWrap } from 'src/components/Nft/styled-components'
-import Flex from 'src/components/ui/Flex'
+import { useTranslation } from 'react-i18next'
 import { useEditingStore } from 'src/shared/store/editing-store'
 import { getUniqueId, NFTWithMetadata } from 'src/shared/utils'
-import EditIndexPagesItem from './EditIndexPageItem'
+import Button from '../ui-kit/Button/Button'
 import EditIndexPagesTree from './EditIndexPagesTree/EditIndexPagesTree'
 import useEdit from './useEdit'
-import Button from '../ui/Button/Button'
-import { useTranslation } from 'react-i18next'
 
 interface EditIndexPagesProps {
   nft: NFTWithMetadata
@@ -18,8 +15,6 @@ const EditIndexPages: React.FC<EditIndexPagesProps> = ({ nft }) => {
   const {
     currEditableToken,
     updateCurrEditableToken,
-    editedNft,
-    updateNft,
     addIndexPage,
     updateOrCreateAddedToken,
     addedTokens,
@@ -27,13 +22,6 @@ const EditIndexPages: React.FC<EditIndexPagesProps> = ({ nft }) => {
 
   const { fullTokens, nextTokenId } = useEdit()
 
-  const handleEditNftName = (name: string) => {
-    updateNft({
-      id: nft.id,
-      name,
-      content: editedNft?.content || nft.ipfsContent?.htmlContent || '',
-    })
-  }
   const handleIndexPageClick = (id: string) => {
     const token = fullTokens?.find(t => t.id === id)
     const addedToken = addedTokens.find(t => t.id === id)
@@ -53,7 +41,11 @@ const EditIndexPages: React.FC<EditIndexPagesProps> = ({ nft }) => {
 
   const handleAddPage = () => {
     if (nextTokenId) {
-      addIndexPage({ tokenId: nextTokenId, title: t('initialTokenName') })
+      addIndexPage({
+        tokenId: nextTokenId,
+        title: t('initialTokenName'),
+        parent: 0,
+      })
       updateOrCreateAddedToken({
         id: nextTokenId,
         name: t('initialTokenName'),
@@ -71,30 +63,19 @@ const EditIndexPages: React.FC<EditIndexPagesProps> = ({ nft }) => {
     }
   }
   return (
-    <SideContentWrap>
-      <Flex flexDirection='column'>
-        {
-          <EditIndexPagesItem
-            name={editedNft?.name || nft.name}
-            active={currEditableToken === null}
-            onClick={() => updateCurrEditableToken(null)}
-            onEdit={handleEditNftName}
-          />
-        }
+    <div>
+      <EditIndexPagesTree
+        activeId={currEditableToken?.id}
+        onClick={handleIndexPageClick}
+      />
 
-        <EditIndexPagesTree
-          activeId={currEditableToken?.id}
-          onClick={handleIndexPageClick}
-        />
-
-        <Button mt='10px' onClick={handleAddPage}>
-          {t('addToken')}
-        </Button>
-        <Button mt='10px' onClick={handleAddGroup}>
-          {t('addGroup')}
-        </Button>
-      </Flex>
-    </SideContentWrap>
+      <Button className='mt-2 w-full' onClick={handleAddPage}>
+        {t('addToken')}
+      </Button>
+      <Button className='mt-2 w-full' onClick={handleAddGroup}>
+        {t('addGroup')}
+      </Button>
+    </div>
   )
 }
 

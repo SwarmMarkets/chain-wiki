@@ -44,18 +44,28 @@
       }
     },
     "siteName": {
-      "title": "Title",
-      "description": "Overwrite the title of your content when published"
+      "title": "Site title",
+      "subtitle": "Rename site",
+      "description": "Change the title of your website after it has been published."
+    },
+    "siteLink": {
+      "title": "Your site",
+      "description": "Share this link with your audience."
+    },
+    "smartContract": {
+      "title": "Smart contract",
+      "description": "The link to the smart contract which represents your site."
     },
     "roleManager": {
-      "title": "Manage site roles",
+      "title": "Site roles",
+      "subtitle": "Manage site roles",
       "description": "This page is dedicated to managing user roles within the site. It allows for the assignment and adjustment of roles to ensure proper access control and responsibility distribution across the team."
     },
     "customLogo": {
       "title": "Custom logo",
       "description": "Replace the content's title with a custom logo"
     },
-    "colorPicker": {
+    "headerColor": {
       "title": "Header color",
       "description": "Select a new color for the header using the color picker"
     },
@@ -64,7 +74,8 @@
       "description": "Update the content of your page when published."
     },
     "editHeaderLinks": {
-      "title": "Navigation",
+      "title": "Header",
+      "subtitle": "Navigation",
       "description": "Create a navigation menu by adding links",
       "placeholders": {
         "title": "Title",
@@ -83,7 +94,7 @@
       "buttonAddLink": "Add link"
     },
     "linksColor": {
-      "title": "Title links color",
+      "title": "Links color",
       "description": "Sets the color of the title links in the header"
     }
   },
@@ -169,5 +180,8 @@
     "editNft": "Edit site",
     "addLogo": "Add logo",
     "noContent": "No content yet"
+  },
+  "card": {
+    "lastEdited": "Last edited {{date}}"
   }
 }

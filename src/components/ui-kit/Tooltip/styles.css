@@ -1,0 +1,28 @@
+.ui-tooltip {
+  @apply absolute z-10 px-1.5 py-0.5 rounded shadow-lg pointer-events-none;
+  @apply text-label1 font-semibold text-primary-contrast bg-paper-contrast;
+  @apply opacity-0 transition-opacity duration-200;
+  @apply whitespace-nowrap;
+
+  /* Show on hover when parent has .group class */
+  .group:hover & {
+    @apply opacity-100;
+  }
+}
+
+/* Position-specific classes */
+.ui-tooltip.top {
+  @apply bottom-full left-1/2 transform -translate-x-1/2 mb-1;
+}
+
+.ui-tooltip.bottom {
+  @apply top-full left-1/2 transform -translate-x-1/2 mt-1;
+}
+
+.ui-tooltip.left {
+  @apply right-full top-1/2 transform -translate-y-1/2 mr-1;
+}
+
+.ui-tooltip.right {
+  @apply left-full top-1/2 transform -translate-y-1/2 ml-1;
+}

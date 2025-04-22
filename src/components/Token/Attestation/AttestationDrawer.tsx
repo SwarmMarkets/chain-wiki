@@ -1,17 +1,16 @@
+import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { useParams } from 'react-router-dom'
+import RequirePermissions from 'src/components/common/RequirePermissions'
 import LiteEditor from 'src/components/Editor/LiteEditor'
 import HtmlRender from 'src/components/HtmlRender'
-import Box from 'src/components/ui/Box'
 import Divider from 'src/components/ui/Divider'
-import Drawer from 'src/components/ui/Drawer'
-import Flex from 'src/components/ui/Flex'
-import { useTranslation } from 'react-i18next'
-import { useState } from 'react'
 import MakeAttestationButton from 'src/components/UpdateContent/MakeAttestationButton'
-import { useParams } from 'react-router-dom'
-import { SelectedSection } from '../TokenView/TokenView'
 import useComments from 'src/hooks/subgraph/useComments'
+import { SelectedSection } from '../TokenView/TokenView'
 import AttestationList from './AttestationList'
-import RequirePermissions from 'src/components/common/RequirePermissions'
+import Drawer from 'src/components/ui-kit/Drawer'
+import useFullTokenIdParam from 'src/hooks/useFullTokenIdParam'
 
 interface AttestationDrawerProps {
   isOpen: boolean
@@ -24,7 +23,8 @@ const AttestationDrawer: React.FC<AttestationDrawerProps> = ({
   section,
   onClose,
 }) => {
-  const { nftId = '', tokenId = '' } = useParams()
+  const { nftId = '' } = useParams()
+  const tokenId = useFullTokenIdParam()
   const { t } = useTranslation('token')
   const [editorContent, setEditorContent] = useState('')
 
@@ -45,30 +45,18 @@ const AttestationDrawer: React.FC<AttestationDrawerProps> = ({
   }
 
   return (
-    <Drawer
-      title={t('attestation.title')}
-      maxWidth='600px'
-      isOpen={isOpen}
-      onClose={onClose}
-    >
-      <Flex
-        height={'100%'}
-        width='100%'
-        justifyContent='space-between'
-        flexDirection='column'
-      >
-        <Box>
+    <Drawer open={isOpen} onClose={onClose} position='right'>
+      <div className='flex h-full w-full flex-col justify-between'>
+        <div>
           <HtmlRender html={section.htmlContent || ''} />
           <Divider />
           <AttestationList
-            // nftAddress={nftId}
-            // tokenAddress={tokenId}
             attestations={fullComments}
             loading={showSkeletons}
           />
-        </Box>
+        </div>
         <RequirePermissions nftAddress={nftId} canCreateAttestation>
-          <Flex flexDirection='column'>
+          <div className='flex flex-col'>
             <LiteEditor
               height={200}
               onChange={handleChangeEditor}
@@ -83,9 +71,9 @@ const AttestationDrawer: React.FC<AttestationDrawerProps> = ({
             >
               {t('attestation.send')}
             </MakeAttestationButton>
-          </Flex>
+          </div>
         </RequirePermissions>
-      </Flex>
+      </div>
     </Drawer>
   )
 }

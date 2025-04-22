@@ -1,18 +1,59 @@
-import { useSearchParams } from 'react-router-dom'
+import { useParams, useSearchParams } from 'react-router-dom'
 import SettingsNavigation from './SettingsNavigation'
 import SettingsBody from './SettingsBody'
-import { SettingView } from 'src/components/Settings/enums'
-import Flex from '../ui/Flex'
+import { RoutePathSetting } from 'src/shared/enums'
+import { ConditionalItem, ConditionalRender } from '../common/ConditionalRender'
+import NftReadPage from 'src/pages/NftReadPage'
+import ReadLayout from '../common/Layout/ReadLayout'
+import RequirePermissions from '../common/RequirePermissions'
+import UpdateNftContentButton from '../UpdateContent/UpdateNftContentButton'
+import { useCustomizationStore } from 'src/shared/store/customization-store'
+import { useTranslation } from 'react-i18next'
 
 const Settings = () => {
+  const { setting = '' } = useParams()
   const [searchParams] = useSearchParams()
-  const activeLink = searchParams.get('setting') || SettingView.GENERAL
+  const actilveLink = searchParams.get('setting') || RoutePathSetting.GENERAL
+  const { nftId = '' } = useParams()
+  const { headerBackground, headerLinks, linksColor, logoUrl, isEdited } =
+    useCustomizationStore()
+  const { t } = useTranslation('buttons')
 
   return (
-    <Flex $gap='24px'>
-      <SettingsNavigation />
-      <SettingsBody activeLink={activeLink} />
-    </Flex>
+    <ConditionalRender value={setting}>
+      <ConditionalItem
+        case={RoutePathSetting.GENERAL}
+        className='flex justify-center'
+      >
+        <div className='flex gap-12 w-full max-w-screen-lg mt-8'>
+          <SettingsNavigation />
+          <SettingsBody activeLink={actilveLink} />
+        </div>
+      </ConditionalItem>
+      <ConditionalItem case={RoutePathSetting.CUSTOMIZATION}>
+        <div
+          className='rounded-md border border-main overflow-y-auto pointer-events-none'
+          style={{ maxHeight: 'calc(100vh - 170px)' }}
+        >
+          <ReadLayout preview>
+            <NftReadPage />
+          </ReadLayout>
+        </div>
+        <div className='flex justify-end'>
+          <RequirePermissions nftAddress={nftId}>
+            <UpdateNftContentButton
+              className='mt-4'
+              nftAddress={nftId}
+              ipfsHeaderLinkToUpdate={{ headerLinks, color: linksColor }}
+              nftContentToUpdate={{ headerBackground, logoUrl }}
+              disabled={!isEdited}
+            >
+              {t('save')}
+            </UpdateNftContentButton>
+          </RequirePermissions>
+        </div>
+      </ConditionalItem>
+    </ConditionalRender>
   )
 }
 

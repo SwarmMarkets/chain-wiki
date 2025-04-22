@@ -8,14 +8,19 @@ import { useStorage } from '@thirdweb-dev/react'
 
 const POLL_INTERVAL = 15000
 
-const useToken = (id: QueryTokenArgs['id']) => {
+const useToken = (
+  id: QueryTokenArgs['id'],
+  options?: {
+    disableRefetch?: boolean
+  }
+) => {
   const storage = useStorage()
   const [tokenData, setTokenData] = useState<TokenQueryFullData | null>(null)
 
   const { loading, error, networkStatus, refetch } = useQuery(TokenQuery, {
     fetchPolicy: 'cache-first',
     notifyOnNetworkStatusChange: true,
-    pollInterval: POLL_INTERVAL,
+    pollInterval: options?.disableRefetch ? undefined : POLL_INTERVAL,
     variables: {
       id,
     },

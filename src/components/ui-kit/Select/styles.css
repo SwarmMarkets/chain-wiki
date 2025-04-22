@@ -1,0 +1,46 @@
+.ui-select {
+  @apply relative;
+
+  .ui-select-button {
+    @apply flex items-center justify-between;
+    @apply w-full h-10 pl-2 pr-8;
+    @apply relative;
+  }
+
+  .ui-select-value {
+    @apply text-nowrap overflow-hidden text-ellipsis;
+  }
+
+  .ui-select-button--standard {
+    @apply text-button leading-snug bg-paper rounded border border-main;
+  }
+  .ui-select-button--filled {
+    @apply text-button leading-snug bg-primary-muted rounded;
+    @apply hover:border-main-hover hover:bg-paper-hover focus:border-main-active;
+  }
+
+  .ui-select-dropdown {
+    @apply absolute top-1/2 -translate-y-2/4 right-2;
+  }
+
+  .ui-options-list {
+    @apply absolute;
+    @apply w-full p-2;
+    @apply shadow-md bg-paper border-primary-muted rounded-md text-main-accent overflow-auto;
+  }
+
+  .ui-options-item {
+    @apply px-0 py-0;
+  }
+
+  .ui-options-header {
+    @apply text-main-muted pl-2 pb-1 text-button;
+  }
+
+  .ui-options-item {
+    @apply flex items-center justify-between;
+    @apply text-button px-2 py-2.5 cursor-pointer rounded;
+    @apply transition-all ease-in-out duration-100;
+    @apply hover:bg-paper-hover;
+  }
+}

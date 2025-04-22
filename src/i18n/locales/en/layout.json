@@ -1,7 +1,18 @@
 {
   "header": {
-    "myNfts": "My sites",
-    "searchPlaceholder": "Search ChainWiki"
+    "viewContract": "View smart contract"
+  },
+  "sidebar": {
+    "home": "Home",
+    "sites": "Sites"
+  },
+  "customization": {
+    "basic": "Basic",
+    "title": "Site customization",
+    "tabs": {
+      "general": "General",
+      "layout": "Layout"
+    }
   },
   "poweredBy": "powered by"
 }

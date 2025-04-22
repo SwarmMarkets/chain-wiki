@@ -4,27 +4,32 @@
     "inputs": [
       {
         "indexed": false,
-        "internalType": "contract SX1155NFT",
+        "internalType": "contract ChainWiki",
         "name": "deployedAddress",
         "type": "address"
       },
       {
+        "components": [
+          {
+            "internalType": "string",
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "symbol",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "kya",
+            "type": "string"
+          }
+        ],
         "indexed": false,
-        "internalType": "string",
-        "name": "name",
-        "type": "string"
-      },
-      {
-        "indexed": false,
-        "internalType": "string",
-        "name": "symbol",
-        "type": "string"
-      },
-      {
-        "indexed": false,
-        "internalType": "string",
-        "name": "uri",
-        "type": "string"
+        "internalType": "struct ERC1155Data",
+        "name": "tokenParams",
+        "type": "tuple"
       },
       {
         "indexed": false,
@@ -39,25 +44,32 @@
         "type": "address"
       }
     ],
-    "name": "SX1155NFTDeployed",
+    "name": "ChainWikiDeployed",
     "type": "event"
   },
   {
     "inputs": [
       {
-        "internalType": "string",
-        "name": "_name",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "_symbol",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "_uri",
-        "type": "string"
+        "components": [
+          {
+            "internalType": "string",
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "symbol",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "kya",
+            "type": "string"
+          }
+        ],
+        "internalType": "struct ERC1155Data",
+        "name": "tokenParams",
+        "type": "tuple"
       },
       {
         "internalType": "address",
@@ -70,10 +82,10 @@
         "type": "address"
       }
     ],
-    "name": "deployNFTContract",
+    "name": "deployChainWiki",
     "outputs": [
       {
-        "internalType": "contract SX1155NFT",
+        "internalType": "contract ChainWiki",
         "name": "newSx1155",
         "type": "address"
       }

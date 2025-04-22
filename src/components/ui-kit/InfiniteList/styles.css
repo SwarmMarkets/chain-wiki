@@ -1,0 +1,11 @@
+.ui-list-container {
+  @apply flex flex-col space-y-2;
+}
+
+.ui-list-loading {
+  @apply text-center p-3;
+}
+
+.ui-list-loader {
+  @apply h-5 w-full;
+}

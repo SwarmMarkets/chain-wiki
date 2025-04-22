@@ -7,7 +7,7 @@ import { LayoutProps, layout } from 'styled-system'
 import ReactPortal from '../../ReactPortal'
 import Divider from '../Divider'
 import Flex from '../Flex'
-import Icon from '../Icon'
+import Icon from '../../ui-kit/Icon/Icon'
 import Text from '../Text'
 
 interface DrawerProps extends ChildrenProp, LayoutProps {

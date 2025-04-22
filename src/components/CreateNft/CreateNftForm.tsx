@@ -1,24 +1,24 @@
-import { useSX1155NFTFactory } from 'src/hooks/contracts/useSX1155NFTFactory'
+import { useAddress } from '@thirdweb-dev/react'
+import { useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import Box from '../ui/Box'
-import LoadingButton from '../ui/Button/LoadingButton'
-import Flex from '../ui/Flex'
-import Text from '../ui/Text'
-import { LogoPreview, LogoWrapper } from './styled-components'
+import { useSX1155NFTFactory } from 'src/hooks/contracts/useSX1155NFTFactory'
 import useCreateNftForm, {
   CreateNftFormInputs,
 } from 'src/hooks/forms/useCreateNftForm'
 import { generateSymbolFromString } from 'src/shared/utils'
-import { useAddress } from '@thirdweb-dev/react'
-import { useState } from 'react'
 import UploadFileButton from '../common/UploadFileButton'
-import TextField from '../ui/TextField/TextField'
+import Button from '../ui-kit/Button/Button'
+import TextField from '../ui-kit/TextField/TextField'
 interface CreateNftFormProps {
   onSuccessSubmit(): void
+  onErrorSubmit(e: Error): void
 }
 
-const CreateNftForm: React.FC<CreateNftFormProps> = ({ onSuccessSubmit }) => {
+const CreateNftForm: React.FC<CreateNftFormProps> = ({
+  onSuccessSubmit,
+  onErrorSubmit,
+}) => {
   const { t } = useTranslation('nft', { keyPrefix: 'createNft' })
   const {
     register,
@@ -41,9 +41,15 @@ const CreateNftForm: React.FC<CreateNftFormProps> = ({ onSuccessSubmit }) => {
     })
 
     try {
-      await call('deployNFTContract', [name, symbol, jsonData, admin, editor])
+      const response = await call('deployChainWiki', [
+        { name, symbol, kya: jsonData },
+        admin,
+        editor,
+      ])
+      if (!response) throw new Error('Failed to deploy NFT contract')
       onSuccessSubmit()
-    } catch {
+    } catch (e) {
+      onErrorSubmit(e)
       // TODO: Add error handler
     }
   }
@@ -52,35 +58,37 @@ const CreateNftForm: React.FC<CreateNftFormProps> = ({ onSuccessSubmit }) => {
     setUploadedLogoUrl(url)
   }
 
+  const { onChange, ...restRegisterName } = register('name')
+
   return (
-    <Box pt={4} pb={2} px={2}>
-      <Text.h1 mb={5} textAlign='center'>
-        {t('title')}
-      </Text.h1>
-      <Flex as='form' flexDirection='column' onSubmit={handleSubmit(onSubmit)}>
+    <div>
+      <h1 className='mb-1 text-center'>{t('title')}</h1>
+      <form className='flex flex-col' onSubmit={handleSubmit(onSubmit)}>
+        <p className='typo-body1'>{t('form.name')}</p>
         <TextField
-          mb='1em'
-          label={t('form.name')}
-          width='100%'
-          inputProps={{ ...register('name'), height: '40px' }}
-          placeholder={t('formPlaceholders.name')}
-          error={errors.name?.message}
+          inputProps={{
+            placeholder: t('formPlaceholders.name'),
+            onChange,
+            ...restRegisterName,
+          }}
+          {...restRegisterName}
+          errorMessage={errors.name?.message}
         />
-        <Box mb={4}>
-          <UploadFileButton width='100%' onUpload={handleUploadLogo} mt={2}>
+        <div className='mb-2'>
+          {uploadedLogoUrl && (
+            <div className='p-5 flex justify-center bg-gray-100 rounded'>
+              <img className='max-w-52 max-h-28' src={uploadedLogoUrl} />
+            </div>
+          )}
+          <UploadFileButton className='w-full mt-2' onUpload={handleUploadLogo}>
             {t('form.uploadLogo')}
           </UploadFileButton>
-          {uploadedLogoUrl && (
-            <LogoWrapper mt={2} justifyContent='center' p='20px'>
-              <LogoPreview src={uploadedLogoUrl} />
-            </LogoWrapper>
-          )}
-        </Box>
-        <LoadingButton type='submit' loading={txLoading}>
+        </div>
+        <Button type='submit' loading={txLoading}>
           {t('form.submit')}
-        </LoadingButton>
-      </Flex>
-    </Box>
+        </Button>
+      </form>
+    </div>
   )
 }
 

@@ -1,12 +1,20 @@
 import { CommentIdsQuery } from 'src/queries'
 import client from 'src/services/apollo'
 
+const countsBySectionId = new Map<string, number>()
+
 const getCountOfAttestations = async (sectionId: string): Promise<number> => {
   try {
+    if (countsBySectionId.has(sectionId)) {
+      return countsBySectionId.get(sectionId) || 0
+    }
+
     const { data } = await client.query({
       query: CommentIdsQuery,
       variables: { filter: { sectionId }, limit: 50 },
+      fetchPolicy: 'cache-first',
     })
+    countsBySectionId.set(sectionId, data.comments.length)
     return data.comments.length
   } catch (error) {
     console.error('Error fetching comments count:', error)

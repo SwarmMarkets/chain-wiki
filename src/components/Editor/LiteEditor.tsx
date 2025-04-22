@@ -1,57 +1,57 @@
-import { Editor as TinyEditor } from '@tinymce/tinymce-react'
-import React, { useState } from 'react'
-import styled from 'styled-components'
-import { Editor as TinyEditorType } from 'tinymce'
-import EditorSkeleton from './EditorSkeleton'
+import {
+  BoldItalicUnderlineToggles,
+  codeBlockPlugin,
+  headingsPlugin,
+  linkPlugin,
+  listsPlugin,
+  ListsToggle,
+  markdownShortcutPlugin,
+  MDXEditor,
+  quotePlugin,
+  tablePlugin,
+  thematicBreakPlugin,
+  toolbarPlugin,
+  UndoRedo,
+} from '@mdxeditor/editor'
+import React from 'react'
 
 interface LiteEditorProps {
-  onChange?: (content: string, editor: TinyEditorType) => void
+  onChange?: (content: string) => void
   height?: number
   value: string
 }
 
-interface EditorWrapperProps {
-  $editorInit: boolean
-}
-
-const EditorWrapper = styled.div<EditorWrapperProps>`
-  display: ${({ $editorInit }) => ($editorInit ? 'block' : 'none')};
-`
-
-const LiteEditor: React.FC<LiteEditorProps> = ({
-  height = 650,
-  onChange,
-  value,
-}) => {
-  const [editorInit, setEditorInit] = useState(false)
-
-  const onEditorChange = (content: string, editor: TinyEditorType) => {
-    onChange && onChange(content, editor)
-  }
-
-  const onInitEdiror = () => {
-    setEditorInit(true)
+const LiteEditor: React.FC<LiteEditorProps> = ({ onChange, value }) => {
+  const onEditorChange = (content: string) => {
+    onChange?.(content)
   }
 
   return (
-    <>
-      <EditorWrapper $editorInit={editorInit}>
-        <TinyEditor
-          apiKey='osr60izccxxfs99zbrmmbiqk16ux1fas0muug1e2hvh16kgg'
-          onEditorChange={onEditorChange}
-          onInit={onInitEdiror}
-          init={{
-            height: height,
-            content_style:
-              'body { font-family: "Roboto", sans-serif; font-size: 14px; }',
-            menubar: false,
-            resize: false,
-          }}
-          value={value}
-        />
-      </EditorWrapper>
-      {!editorInit && <EditorSkeleton height={height} />}
-    </>
+    <MDXEditor
+      className='w-full'
+      contentEditableClassName='prose h-40 overflow-y-auto'
+      markdown={value || ''}
+      onChange={onEditorChange}
+      plugins={[
+        headingsPlugin(),
+        listsPlugin(),
+        quotePlugin(),
+        thematicBreakPlugin(),
+        toolbarPlugin({
+          toolbarContents: () => (
+            <>
+              <UndoRedo />
+              <BoldItalicUnderlineToggles />
+              <ListsToggle options={['bullet', 'number']} />
+            </>
+          ),
+        }),
+        markdownShortcutPlugin(),
+        linkPlugin(),
+        tablePlugin(),
+        codeBlockPlugin(),
+      ]}
+    />
   )
 }
 

@@ -1,10 +1,35 @@
-import ContentLoader from 'react-content-loader'
+import Skeleton from 'src/components/ui-kit/Skeleton/Skeleton'
 
-const NftContentSkeleton = ({ ...rest }) => (
-  <ContentLoader height='1500' width='100%' viewBox='0 0 100% 230' {...rest}>
-    <rect x='0' y='0' rx='10' ry='10' width='100%' height='61' />
-    <rect x='0' y='76' rx='10' ry='10' width='100%' height='700' />
-  </ContentLoader>
-)
+const NftContentSkeleton = () => {
+  return (
+    <div className='w-full flex flex-col gap-4'>
+      <Skeleton
+        width='100%'
+        height='3rem'
+        className='ui-skeleton ui-skeleton-rect'
+      />
+      <Skeleton
+        width='100'
+        height='2rem'
+        className='ui-skeleton ui-skeleton-rect'
+      />
+      <Skeleton
+        width='100%'
+        height='2rem'
+        className='ui-skeleton ui-skeleton-rect'
+      />
+      <Skeleton
+        width='100%'
+        height='2rem'
+        className='ui-skeleton ui-skeleton-rect'
+      />
+      <Skeleton
+        width='100%'
+        height='50rem'
+        className='ui-skeleton ui-skeleton-rect'
+      />
+    </div>
+  )
+}
 
 export default NftContentSkeleton

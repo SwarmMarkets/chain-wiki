@@ -1,7 +1,7 @@
 import ExplorerLink from 'src/components/common/ExplorerLink'
 import { useTokenContext } from 'src/components/providers/TokenContext'
 import Flex from 'src/components/ui/Flex'
-import Icon from 'src/components/ui/Icon'
+import Icon from 'src/components/ui-kit/Icon/Icon'
 import Text from 'src/components/ui/Text'
 import { IpfsVoteProposal } from 'src/shared/utils/ipfs/types'
 import { VoteProposal } from 'src/shared/types/vote-proposal'

@@ -1,9 +1,11 @@
 import { useTranslation } from 'react-i18next'
-import useYupValidationResolver from '../useYupValidationResolvber'
 import yup from 'src/shared/validations/yup'
 import { useFieldArray, useForm } from 'react-hook-form'
 import { IpfsHeaderLink } from 'src/shared/utils'
 import { TFunction } from 'i18next'
+import { useCustomizationStore } from 'src/shared/store/customization-store'
+import { useEffect, useCallback } from 'react'
+import useYupValidationResolver from '../useYupValidationResolvber'
 
 export interface EditHeaderLinksInputs {
   title: string
@@ -11,7 +13,7 @@ export interface EditHeaderLinksInputs {
 }
 
 export interface EditHeaderLinksFormValues {
-  headerLinks: Omit<IpfsHeaderLink, 'id'>[]
+  headerLinks: IpfsHeaderLink[]
 }
 
 const createSchema = (t: TFunction) =>
@@ -21,7 +23,7 @@ const createSchema = (t: TFunction) =>
         title: yup
           .string()
           .required(t('editHeaderLinks.formErrors.title.required')),
-        link: yup
+        url: yup
           .string()
           .url(t('editHeaderLinks.formErrors.link.url'))
           .required(t('editHeaderLinks.formErrors.link.required')),
@@ -29,30 +31,38 @@ const createSchema = (t: TFunction) =>
     ),
   })
 
-const useEditHeaderLinks = (initLinks: IpfsHeaderLink[]) => {
+const useEditHeaderLinks = () => {
   const { t } = useTranslation('nft', { keyPrefix: 'settings' })
+  const { headerLinks, setHeaderLinks } = useCustomizationStore()
 
   const schema = createSchema(t)
-
   const resolver = useYupValidationResolver(schema)
 
   const { control, watch, ...form } = useForm<EditHeaderLinksFormValues>({
     resolver,
-    defaultValues: {
-      headerLinks: initLinks,
-    },
+    defaultValues: { headerLinks },
     mode: 'onChange',
   })
 
-  const fieldArray = useFieldArray({
-    control,
-    name: 'headerLinks',
-  })
+  const fieldArray = useFieldArray({ control, name: 'headerLinks' })
 
-  const headerLinks = watch('headerLinks').map((link, index) => ({
-    ...link,
-    id: fieldArray.fields[index].id,
-  }))
+  // Обновление Zustand сразу при каждом изменении формы
+  const handleUpdate = useCallback(
+    (newLinks: IpfsHeaderLink[]) => {
+      setHeaderLinks(newLinks)
+    },
+    [setHeaderLinks]
+  )
+
+  useEffect(() => {
+    const subscription = watch(value => {
+      return (
+        value.headerLinks && handleUpdate(value.headerLinks as IpfsHeaderLink[])
+      )
+    })
+    return () => subscription.unsubscribe()
+  }, [watch, handleUpdate])
+
   const errors = form.formState.errors
 
   return { form, errors, headerLinks, fieldArray }

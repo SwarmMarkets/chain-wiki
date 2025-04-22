@@ -69,6 +69,7 @@ export type NFTsQueryFullData = NfTsQuery['nfts'][0] & {
 export type NFTWithMetadata = NftQuery['nft'] & {
   ipfsContent?: IpfsNftContent
   headerLinksContent?: IpfsHeaderLinksContent
+  indexPagesContent?: IpfsIndexPagesContent
 }
 
 export type NftUriUpdatesQueryFullData =

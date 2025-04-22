@@ -23,7 +23,10 @@ const useGrantRoleForm = () => {
     })
   )
 
-  return useForm<GrantRoleFormInputs>({ resolver })
+  return useForm<GrantRoleFormInputs>({
+    resolver,
+    defaultValues: { role: Roles.ADMIN },
+  })
 }
 
 export default useGrantRoleForm

@@ -1,18 +1,15 @@
 import { Transaction, useAddress, useStorageUpload } from '@thirdweb-dev/react'
 import differenceWith from 'lodash/differenceWith'
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useSX1155NFT } from 'src/hooks/contracts/useSX1155NFT'
-import { useIpfsIndexPages } from 'src/hooks/ipfs/nft'
 import useNFT from 'src/hooks/subgraph/useNFT'
 import useTokens from 'src/hooks/subgraph/useTokens'
-import useEffectCompare from 'src/hooks/useEffectCompare'
 import useNFTUpdate from 'src/hooks/useNFTUpdate'
 import useSmartAccount from 'src/services/safe-protocol-kit/useSmartAccount'
 import { useEditingStore } from 'src/shared/store/editing-store'
 import {
   generateIpfsIndexPagesContent,
-  generateIpfsTokenContent,
   resolveAllThirdwebTransactions,
   unifyAddressToId,
 } from 'src/shared/utils'
@@ -24,6 +21,7 @@ import {
 } from './utils'
 import { HIDDEN_INDEX_PAGES_ID } from './const'
 import { EditNodeModel } from './EditIndexPagesTree/types'
+import useTokenUpdate from 'src/hooks/useTokenUpdate'
 
 const useEdit = (readonly?: boolean) => {
   const { nftId = '' } = useParams()
@@ -46,15 +44,9 @@ const useEdit = (readonly?: boolean) => {
     addIndexPage,
   } = useEditingStore()
 
-  const { indexPages = [], isLoading: isIndexPagesLoading } = useIpfsIndexPages(
-    nft?.indexPagesUri
-  )
-
-  useEffectCompare(() => {
-    if (indexPages.length > 0) {
-      initIndexPages(indexPages)
-    }
-  }, [indexPages])
+  useEffect(() => {
+    initIndexPages(nft?.indexPagesContent?.indexPages || [])
+  }, [initIndexPages, nft?.indexPagesContent?.indexPages])
 
   const {
     fullTokens,
@@ -73,6 +65,7 @@ const useEdit = (readonly?: boolean) => {
 
   const { contract: sx1555NFTContract } = useSX1155NFT(nftId)
   const { uploadContent } = useNFTUpdate(nftId)
+  const { uploadContent: uploadTokenContent } = useTokenUpdate(nftId)
 
   const merge = async () => {
     setMergeLoading(true)
@@ -94,14 +87,11 @@ const useEdit = (readonly?: boolean) => {
       if (editedTokens.length > 0) {
         for (const editedToken of editedTokens) {
           const tokenId = +editedToken.id.split('-')[1]
-          const ipfsContent = generateIpfsTokenContent({
-            tokenId,
+          const firstUri = await uploadTokenContent(tokenId, {
             htmlContent: editedToken.content,
             address: nftId,
+            tokenId,
           })
-          const filesToUpload = [ipfsContent]
-          const uris = await upload({ data: filesToUpload })
-          const firstUri = uris[0]
           if (firstUri) {
             const tokenContentUpdateTx = sx1555NFTContract.prepare(
               'setTokenUri',
@@ -117,20 +107,16 @@ const useEdit = (readonly?: boolean) => {
       if (addedTokens.length > 0) {
         for (const addedToken of addedTokens) {
           const tokenId = +addedToken.id.split('-')[1]
-          const ipfsContent = generateIpfsTokenContent({
-            tokenId,
+          const firstUri = await uploadTokenContent(tokenId, {
             htmlContent: addedToken.content,
             address: nftId,
+            tokenId,
           })
-          const filesToUpload = [ipfsContent]
-          const uris = await upload({ data: filesToUpload })
-          const firstUri = uris[0]
           if (firstUri && account) {
             const tokenContentMintTx = sx1555NFTContract.prepare('mint', [
               account,
               1,
               JSON.stringify({ uri: firstUri, name: addedToken.name }),
-              '0x',
             ])
             txs.push(tokenContentMintTx)
           }
@@ -235,7 +221,10 @@ const useEdit = (readonly?: boolean) => {
       }
     })
 
-    if (editedIndexPagesNodes.length === 0) {
+    if (
+      editedIndexPagesNodes.length === 0 &&
+      hiddenIndexPagesNodes.length === 0
+    ) {
       return []
     }
 
@@ -258,7 +247,7 @@ const useEdit = (readonly?: boolean) => {
       t => +t.id.split('-')[1]
     )
     if (!tokenIds) return
-    const tokenId = (tokenIds.length ? Math.max(...tokenIds) + 1 : 1).toString(16)
+    const tokenId = tokenIds.length.toString(16)
 
     const nextTokenId = `${nftId}-0x${tokenId}`
     return nextTokenId
@@ -275,9 +264,8 @@ const useEdit = (readonly?: boolean) => {
     fullTokens: fullTokens,
     loading:
       (loadingNft && !refetchingNft) ||
-      (fullTokensLoading && !refetchingFullTokens) ||
-      isIndexPagesLoading,
-    indexPages,
+      (fullTokensLoading && !refetchingFullTokens),
+    indexPages: nft?.indexPagesContent?.indexPages || [],
     hiddenIndexPages,
     nextTokenId,
     merge,

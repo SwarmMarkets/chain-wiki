@@ -12,6 +12,8 @@ import Node from './Node'
 import Placeholder from './Placeholder'
 import styles from './styles.module.css'
 import { EditNodeModel, EditNodeModelData } from './types'
+import clsx from 'clsx'
+import { useTranslation } from 'react-i18next'
 
 interface EditIndexPagesTreeProps {
   onClick?: (id: string) => void
@@ -28,6 +30,13 @@ const EditIndexPagesTree: React.FC<EditIndexPagesTreeProps> = ({
 }) => {
   const { treeData, updateIndexPagesByTreeNodes, updateTokenName } =
     useEdit(readonly)
+
+  const { t } = useTranslation('nft')
+  const noTokens = treeData?.length === 0
+
+  if (noTokens) {
+    return <p className='text-center'>{t('indexPages.noTokens')}</p>
+  }
 
   const handleDrop = (
     newTree: EditNodeModel[],
@@ -52,7 +61,7 @@ const EditIndexPagesTree: React.FC<EditIndexPagesTreeProps> = ({
       <div className={styles.wrapper}>
         <Tree
           classes={{
-            root: styles.treeRoot,
+            root: clsx(styles.treeRoot),
             placeholder: styles.placeholder,
             dropTarget: styles.dropTarget,
             listItem: styles.listItem,

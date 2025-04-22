@@ -1,33 +1,66 @@
-import { Editor as TinyEditor } from '@tinymce/tinymce-react'
+import {
+  AdmonitionDirectiveDescriptor,
+  BlockTypeSelect,
+  BoldItalicUnderlineToggles,
+  codeBlockPlugin,
+  codeMirrorPlugin,
+  CodeToggle,
+  CreateLink,
+  diffSourcePlugin,
+  DiffSourceToggleWrapper,
+  directivesPlugin,
+  frontmatterPlugin,
+  headingsPlugin,
+  imagePlugin,
+  InsertCodeBlock,
+  InsertImage,
+  InsertTable,
+  InsertThematicBreak,
+  linkDialogPlugin,
+  linkPlugin,
+  listsPlugin,
+  ListsToggle,
+  markdownShortcutPlugin,
+  MDXEditor,
+  MDXEditorMethods,
+  quotePlugin,
+  StrikeThroughSupSubToggles,
+  tablePlugin,
+  thematicBreakPlugin,
+  toolbarPlugin,
+  UndoRedo,
+} from '@mdxeditor/editor'
+import React, { useEffect, useRef } from 'react'
+
+import '@mdxeditor/editor/style.css'
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
-import React, { useRef } from 'react'
 import { storage } from 'src/firebase'
-import { Editor as TinyEditorType } from 'tinymce'
 
 interface EditorBoxProps {
   initialContent?: string
   content?: string
-  onChange: (content: string, editor: TinyEditorType) => void
+  onChange: (content: string) => void
   onEditorInit?: (editorInit: boolean) => void
 }
 
-const EditorBox: React.FC<EditorBoxProps> = ({
-  initialContent,
-  content,
-  onChange,
-  onEditorInit,
-}) => {
-  const editorRef = useRef<TinyEditor | null>(null)
-
-  const onEditorChange = (content: string, editor: TinyEditorType) => {
-    onChange && onChange(content, editor)
+const EditorBox: React.FC<EditorBoxProps> = ({ content = '', onChange }) => {
+  const onEditorChange = (content: string) => {
+    onChange && onChange(content)
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleImageUpload = (image: any) => {
-    const imageBlob = image.blob()
-    const storageRef = ref(storage, `images/${imageBlob.name}`)
-    const uploadTask = uploadBytesResumable(storageRef, imageBlob)
+  const mdxRef = useRef<MDXEditorMethods>(null)
+  const initialContent = useRef(content)
+
+  useEffect(() => {
+    if (mdxRef.current && content !== undefined) {
+      mdxRef.current.setMarkdown(content)
+    }
+  }, [content])
+
+  const handleImageUpload = async (image: File) => {
+    const imageBuffer = await image.arrayBuffer()
+    const storageRef = ref(storage, `images/${image.name}`)
+    const uploadTask = uploadBytesResumable(storageRef, imageBuffer)
 
     return new Promise<string>((resolve, reject) => {
       uploadTask.on('state_changed', {
@@ -43,41 +76,58 @@ const EditorBox: React.FC<EditorBoxProps> = ({
     })
   }
 
-  const onInitEdiror = () => {
-    onEditorInit?.(true)
-  }
+  const allPlugins = (diffMarkdown: string) => [
+    toolbarPlugin({
+      toolbarContents: () => (
+        <>
+          <UndoRedo />
+          <BoldItalicUnderlineToggles />
+          <CodeToggle />
+          <StrikeThroughSupSubToggles />
+          <ListsToggle />
+          <BlockTypeSelect />
+          <CreateLink />
+          <InsertImage />
+          <InsertTable />
+          <InsertThematicBreak />
+          <InsertCodeBlock />
+          {/* <InsertAdmonition /> */}
+          <DiffSourceToggleWrapper children={<></>} />
+        </>
+      ),
+    }),
+    listsPlugin(),
+    quotePlugin(),
+    headingsPlugin(),
+    linkPlugin(),
+    linkDialogPlugin(),
+    // eslint-disable-next-line @typescript-eslint/require-await
+    imagePlugin({ imageUploadHandler: handleImageUpload }),
+    tablePlugin(),
+    thematicBreakPlugin(),
+    frontmatterPlugin(),
+    codeBlockPlugin({ defaultCodeBlockLanguage: 'txt' }),
+    codeMirrorPlugin({
+      codeBlockLanguages: {
+        js: 'JavaScript',
+        css: 'CSS',
+        txt: 'text',
+        tsx: 'TypeScript',
+      },
+    }),
+    directivesPlugin({ directiveDescriptors: [AdmonitionDirectiveDescriptor] }),
+    diffSourcePlugin({ viewMode: 'rich-text', diffMarkdown }),
+    markdownShortcutPlugin(),
+  ]
 
   return (
-    <TinyEditor
-      tinymceScriptSrc='https://cdnjs.cloudflare.com/ajax/libs/tinymce/7.6.0/tinymce.min.js'
-      ref={editorRef}
-      // apiKey='osr60izccxxfs99zbrmmbiqk16ux1fas0muug1e2hvh16kgg'
-      onEditorChange={onEditorChange}
-      onInit={onInitEdiror}
-      value={content}
-      init={{
-        plugins:
-          'anchor autolink charmap codesample emoticons image link lists searchreplace table visualblocks wordcount',
-        toolbar:
-          'undo redo | blocks fontsize | bold italic underline strikethrough | link image media table mergetags | align | tinycomments | numlist bullist indent outdent | emoticons charmap | removeformat',
-        tinycomments_mode: 'embedded',
-        tinycomments_author: 'Author name',
-        mergetags_list: [
-          { value: 'First.Name', title: 'First Name' },
-          { value: 'Email', title: 'Email' },
-        ],
-        height: 650,
-        font_size_formats: '10px 12px 14px 16px 18px 24px 36px 48px',
-        menubar: false,
-        image_description: true, // Включаем поле описания для изображений
-        image_caption: true, // Включаем подписи для изображений
-        // automatic_uploads: true,
-        // images_reuse_filename: true,
-        images_upload_handler: handleImageUpload,
-        content_style:
-          'body { font-family: "Roboto", sans-serif; font-size: 14px; }',
-      }}
-      initialValue={initialContent}
+    <MDXEditor
+      className='w-full'
+      contentEditableClassName='prose font-[Inter] font-sans max-w-full'
+      ref={mdxRef}
+      markdown={content}
+      onChange={onEditorChange}
+      plugins={allPlugins(initialContent.current)}
     />
   )
 }

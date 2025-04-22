@@ -1,8 +1,5 @@
-import Content from 'src/components/Content'
-import EditIndexPages from 'src/components/Edit/EditIndexPages'
 import EditorView from 'src/components/Edit/EditorView'
 import useEdit from 'src/components/Edit/useEdit'
-import { SideContentWrap } from 'src/components/Nft/styled-components'
 import NftContentSkeleton from 'src/components/Token/TokenContentSkeleton'
 import Box from 'src/components/ui/Box'
 import Flex from 'src/components/ui/Flex'
@@ -26,10 +23,10 @@ const EditPage = () => {
   const editorContent =
     (currEditableToken ? currTokenHtmlContent : currNftHtmlContent) || ''
 
-  if (showSkeleton) {
+  if (showSkeleton || !nft) {
     return (
       <Flex justifyContent='center' $gap='20px'>
-        <Box width='900px'>
+        <Box className='w-full'>
           <NftContentSkeleton />
         </Box>
       </Flex>
@@ -40,8 +37,11 @@ const EditPage = () => {
 
   return (
     <>
-      <Flex justifyContent={allLoaded ? 'space-between' : 'center'} $gap='20px'>
-        <EditIndexPages nft={nft} />
+      <Flex
+        className='w-full'
+        justifyContent={allLoaded ? 'space-between' : 'center'}
+        $gap='20px'
+      >
         <EditorView
           nft={nft}
           content={
@@ -49,9 +49,6 @@ const EditPage = () => {
             ''
           }
         />
-        <SideContentWrap>
-          <Content contentElem={contentElem} />
-        </SideContentWrap>
       </Flex>
     </>
   )

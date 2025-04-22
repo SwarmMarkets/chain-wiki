@@ -3,10 +3,10 @@ import { useTranslation } from 'react-i18next'
 import useNFTRoles from 'src/hooks/subgraph/useNFTRoles'
 import { Roles } from 'src/shared/enums/roles'
 import ExplorerLink from '../../common/ExplorerLink'
-import Box from '../../ui/Box'
-import { Table, TableCell, TableHeader, TableRow } from '../../ui/Table'
 import GrantRoleForm from './GrantRoleForm'
 import RevokeRoleButton from './RevokeRoleButton'
+import useSmartAccount from 'src/services/safe-protocol-kit/useSmartAccount'
+import { isSameEthereumAddress } from 'src/shared/utils'
 
 interface NftRoleManagerProps {
   nftAddress: string
@@ -15,9 +15,10 @@ interface NftRoleManagerProps {
 const NftRoleManager: React.FC<NftRoleManagerProps> = ({ nftAddress }) => {
   const { nft } = useNFTRoles(nftAddress)
   const { t } = useTranslation('nft')
+  const { smartAccountInfo } = useSmartAccount()
 
   const users = useMemo(() => {
-    if (!nft) return
+    if (!nft || !smartAccountInfo) return []
 
     const admins = nft.admins.map(admin => ({
       address: admin,
@@ -31,45 +32,54 @@ const NftRoleManager: React.FC<NftRoleManagerProps> = ({ nftAddress }) => {
       roleType: Roles.EDITOR,
     }))
 
-    return [...editors, ...admins]
-  }, [nft, t])
+    const usersWithoutSmartAccount = [...editors, ...admins].filter(
+      user => !isSameEthereumAddress(user.address, smartAccountInfo?.address)
+    )
+
+    return usersWithoutSmartAccount
+  }, [nft, smartAccountInfo, t])
 
   return (
-    <Box>
-      <Table mb={4}>
-        <thead>
-          <TableRow>
-            <TableHeader p={2}>
+    <>
+      <table className='w-full overflow-hidden'>
+        <thead className='border-b border-main'>
+          <tr>
+            <th className='p-3 text-left font-semibold'>
               {t('roleManager.tableHead.address')}
-            </TableHeader>
-            <TableHeader p={2}>{t('roleManager.tableHead.role')}</TableHeader>
-            <TableHeader p={2}></TableHeader>
-          </TableRow>
+            </th>
+            <th className='p-3 text-left font-semibold'>
+              {t('roleManager.tableHead.role')}
+            </th>
+            <th className='p-3 text-left'></th>
+          </tr>
         </thead>
         <tbody>
-          {users?.map(user => (
-            <TableRow key={user.address + user.role}>
-              <TableCell p={2}>
+          {users.map(user => (
+            <tr
+              key={user.address + user.role}
+              className='hover:bg-blue-50 border-b border-main'
+            >
+              <td className='p-3'>
                 <ExplorerLink type='address' hash={user.address}>
                   {user.address}
                 </ExplorerLink>
-              </TableCell>
-              <TableCell width='30%' p={2}>
-                {user.role}
-              </TableCell>
-              <TableCell p={2}>
+              </td>
+              <td className='p-3'>{user.role}</td>
+              <td className='p-3'>
                 <RevokeRoleButton
                   from={user.address}
                   role={user.roleType}
                   nftAddress={nftAddress}
                 />
-              </TableCell>
-            </TableRow>
+              </td>
+            </tr>
           ))}
         </tbody>
-      </Table>
-      <GrantRoleForm nftAddress={nftAddress} />
-    </Box>
+      </table>
+      <div className='mt-4'>
+        <GrantRoleForm nftAddress={nftAddress} />
+      </div>
+    </>
   )
 }
 

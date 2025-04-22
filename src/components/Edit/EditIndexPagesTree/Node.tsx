@@ -1,5 +1,4 @@
 import React from 'react'
-import Flex from 'src/components/ui/Flex'
 import EditIndexPagesItem from '../EditIndexPageItem'
 import { EditNodeModel } from './types'
 
@@ -49,21 +48,19 @@ const Node: React.FC<{
       // }`}
       style={{ marginInlineStart: parent?.data?.type === 'group' ? 0 : indent }}
     >
-      <Flex justifyContent='space-between'>
-        <EditIndexPagesItem
-          to={isGroup ? '' : to}
-          name={node.text}
-          active={active}
-          onClick={onClick}
-          readonly={readonly}
-          onEdit={onEdit}
-          isOpen={isOpen}
-          isGroup={isGroup}
-          onToggle={handleToggle}
-          hasChild={hasChild}
-          editable={editable}
-        />
-      </Flex>
+      <EditIndexPagesItem
+        to={isGroup ? '' : to}
+        name={node.text}
+        active={active}
+        onClick={onClick}
+        readonly={readonly}
+        onEdit={onEdit}
+        isOpen={isOpen}
+        isGroup={isGroup}
+        onToggle={handleToggle}
+        hasChild={hasChild}
+        editable={editable}
+      />
     </div>
   )
 }

@@ -1,8 +1,8 @@
 import { forwardRef, useEffect, useRef } from 'react'
-import { HtmlRenderProps } from '.'
-import { HtmlRenderHover } from './styled-components'
-import { createCommentIconElement } from './utils'
+import { HtmlRenderHover, HtmlRenderProps } from '.'
 import { SelectedSection } from '../Token/TokenView/TokenView'
+import { createCommentIconElement } from './utils'
+import React from 'react'
 
 interface AttestationHtmlRenderProps extends HtmlRenderProps {
   onSelectSection: (section: SelectedSection) => void
@@ -57,7 +57,7 @@ const AttestationHtmlRender = forwardRef<
 
       child.appendChild(commentIconElem)
     })
-  }, [])
+  }, [onSelectSection])
 
   return (
     <div ref={ref}>
@@ -66,4 +66,4 @@ const AttestationHtmlRender = forwardRef<
   )
 })
 
-export default AttestationHtmlRender
+export default React.memo(AttestationHtmlRender)

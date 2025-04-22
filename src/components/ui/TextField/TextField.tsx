@@ -1,6 +1,7 @@
 import { ChangeEvent, forwardRef, useState } from 'react'
 import { useTheme } from 'styled-components'
 import { LayoutProps, SpaceProps } from 'styled-system'
+import Text from '../Text'
 import {
   ErrorText,
   InputWrapper,
@@ -8,8 +9,7 @@ import {
   StyledInput,
   TextFieldWrapper,
 } from './styled-components'
-import { IconName } from 'src/shared/types/ui-components'
-import Text from '../Text'
+import { IconName } from 'src/shared/types/iconNames'
 
 interface TextFieldProps extends SpaceProps, LayoutProps {
   prependIcon?: IconName

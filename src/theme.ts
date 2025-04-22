@@ -41,7 +41,7 @@ const theme = {
     bold: 700,
   },
   fontFamilies: {
-    roboto: "'Roboto', sans-serif",
+    roboto: "'Inter', sans-serif",
   },
   breakpoints: {
     xs: 0,

@@ -1,0 +1,44 @@
+.ui-radio {
+  @apply inline-flex items-center;
+
+  input[type='radio'].peer:disabled {
+    @apply cursor-not-allowed;
+  }
+
+  input[type='radio'] {
+    @apply sr-only; /* Hide the radio button but keep it accessible for screenreaders */
+  }
+
+  .ui-radio-input {
+    @apply relative w-5 h-5 min-w-5 border-2 border-main-muted rounded-full;
+  }
+
+  .ui-radio-input::after {
+    @apply invisible scale-0 top-1/2 left-1/2 -translate-y-2/4 -translate-x-2/4 transition-all ease-in-out;
+    @apply content-[''] absolute w-2 h-2 bg-primary rounded-full;
+  }
+
+  .ui-radio-text {
+    @apply ml-2 text-main text-label2;
+  }
+
+  input[type='radio']:checked + .ui-radio-input::after {
+    @apply visible scale-100;
+  }
+
+  input[type='radio']:checked + .ui-radio-input {
+    @apply border-primary;
+  }
+
+  input[type='radio']:checked + .ui-radio-input + .ui-radio-text {
+    @apply text-main-accent;
+  }
+
+  input[type='radio']:not(:disabled) + .ui-radio-input {
+    @apply cursor-pointer;
+  }
+
+  input[type='radio']:not(:disabled):hover + .ui-radio-input {
+    @apply opacity-80;
+  }
+}

@@ -1,10 +1,9 @@
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
-import LoadingButton from '../ui/Button/LoadingButton'
 import { storage } from 'src/firebase'
 import { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ButtonProps } from '../ui/Button/Button'
 import { ChildrenProp } from 'src/shared/types/common-props'
+import Button, { ButtonProps } from '../ui-kit/Button/Button'
 
 interface UploadFileButtonProps extends ButtonProps, ChildrenProp {
   onUpload: (url: string) => void
@@ -52,7 +51,7 @@ const UploadFileButton: React.FC<UploadFileButtonProps> = ({
         style={{ display: 'none' }}
         accept='.png, .jpg, .jpeg'
       />
-      <LoadingButton
+      <Button
         {...props}
         loading={loading || isLoading}
         type='button'
@@ -63,7 +62,7 @@ const UploadFileButton: React.FC<UploadFileButtonProps> = ({
         }}
       >
         {children || t('chooseFile')}
-      </LoadingButton>
+      </Button>
     </>
   )
 }

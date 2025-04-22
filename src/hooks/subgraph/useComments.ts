@@ -23,6 +23,7 @@ const useComments = (
 ) => {
   const storage = useStorage()
   const [fullData, setFullData] = useState<CommentsQueryFullData[] | null>(null)
+  const [fullDataLoading, setFullDataLoading] = useState(false)
 
   const getBatchIpfsData = async (comments: CommentsQuery['comments']) => {
     const results = new Map<string, IpfsAttestationContent>()
@@ -55,7 +56,11 @@ const useComments = (
       },
       async onCompleted(data) {
         if (!config?.fetchFullData) return
+        setFullDataLoading(true)
+
         const commentsIpfsData = await getBatchIpfsData(data.comments)
+
+        setFullDataLoading(false)
 
         const fullData = data.comments.map(item => {
           const ipfsData = commentsIpfsData.get(item.id)
@@ -78,6 +83,7 @@ const useComments = (
       fullComments: fullData,
       loadingComments:
         loading ||
+        fullDataLoading ||
         ![
           NetworkStatus.ready,
           NetworkStatus.error,
@@ -93,6 +99,7 @@ const useComments = (
       error,
       fetchMore,
       fullData,
+      fullDataLoading,
       loading,
       networkStatus,
       refetch,

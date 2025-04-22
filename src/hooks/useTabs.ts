@@ -1,11 +1,11 @@
 import queryString from 'query-string'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 
-interface UseTabsOptions {
-  defaultTab?: string
+interface UseTabsOptions<T> {
+  defaultTab?: T
 }
 
-const useTabs = <T>(options?: UseTabsOptions) => {
+const useTabs = <T>(options?: UseTabsOptions<T>) => {
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
   const activeTab = (searchParams.get('tab') ||

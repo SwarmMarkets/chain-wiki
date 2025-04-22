@@ -1,12 +1,10 @@
-import { useSX1155NFT } from 'src/hooks/contracts/useSX1155NFT'
-import useModalState from 'src/hooks/useModalState'
-import { ChildrenProp } from 'src/shared/types/common-props'
 import { useStorageUpload } from '@thirdweb-dev/react'
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
-import Button, { ButtonProps } from '../ui/Button/Button'
-import UpdateContentModal, { Steps } from './UpdateContentModal'
+import { useSX1155NFT } from 'src/hooks/contracts/useSX1155NFT'
+import { ChildrenProp } from 'src/shared/types/common-props'
 import { generateIpfsAttestationContent } from 'src/shared/utils'
+import Button, { ButtonProps } from '../ui-kit/Button/Button'
 
 interface MakeAttestationButtonProps extends ButtonProps, ChildrenProp {
   nftAddress: string
@@ -25,27 +23,17 @@ const MakeAttestationButton: React.FC<MakeAttestationButtonProps> = ({
   children,
   ...buttonProps
 }) => {
-  const [ipfsUri, setIpfsUri] = useState('')
   const { t } = useTranslation('buttons')
-  const { isOpen, open, close } = useModalState(false)
 
-  const {
-    call,
-    txLoading,
-    result,
-    isTxError,
-    reset: resetCallState,
-  } = useSX1155NFT(nftAddress)
+  const { call, txLoading, reset: resetCallState } = useSX1155NFT(nftAddress)
   const {
     mutateAsync: upload,
     isLoading,
-    isSuccess,
     reset: resetStorageState,
   } = useStorageUpload()
   const shortTokenId = Number(tokenId.split('-')[1])
 
   const uploadContent = async () => {
-    // if (!token?.ipfsContent) return
     if (!sectionId) return
 
     const ipfsContent = generateIpfsAttestationContent({
@@ -67,53 +55,27 @@ const MakeAttestationButton: React.FC<MakeAttestationButtonProps> = ({
   )
 
   const startContentUpdate = async () => {
-    open()
     const uri = await uploadContent()
     if (!uri) return
-
-    setIpfsUri(uri)
 
     const res = await signTransaction(uri)
     if (res) {
       onSuccess?.()
-      close()
       resetCallState()
       resetStorageState()
     }
   }
 
-  const steps = useMemo(() => {
-    return {
-      [Steps.PrepareContent]: { success: true, loading: false },
-      [Steps.UploadToIPFS]: { success: isSuccess, loading: isLoading },
-      [Steps.SignTransaction]: {
-        success: !!result,
-        loading: txLoading,
-        error: isTxError,
-        retry: () => signTransaction(ipfsUri),
-      },
-    }
-  }, [
-    ipfsUri,
-    isLoading,
-    isSuccess,
-    isTxError,
-    result,
-    signTransaction,
-    txLoading,
-  ])
-
   const caption = children || t('updateContent')
 
   return (
     <>
-      <UpdateContentModal
-        contentType='attestation'
-        steps={steps}
-        isOpen={isOpen}
-        onClose={close}
-      />
-      <Button mt={15} onClick={startContentUpdate} {...buttonProps}>
+      <Button
+        loading={txLoading || isLoading}
+        className='mt-4'
+        onClick={startContentUpdate}
+        {...buttonProps}
+      >
         {caption}
       </Button>
     </>

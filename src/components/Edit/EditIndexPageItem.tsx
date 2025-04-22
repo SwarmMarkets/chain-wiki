@@ -1,10 +1,11 @@
 import React, { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import useToggle from 'src/hooks/useToggle'
-import styled, { useTheme } from 'styled-components'
-import Flex from '../ui/Flex'
-import Icon from '../ui/Icon'
-import TextField from '../ui/TextField/TextField'
+import Icon from '../ui-kit/Icon/Icon'
+import TextField from '../ui-kit/TextField/TextField'
+import clsx from 'clsx'
+import IconButton from '../ui-kit/IconButton'
+import DynamicComponent from '../DynamicComponent'
 
 interface EditIndexPagesItemProps {
   to?: string
@@ -18,65 +19,8 @@ interface EditIndexPagesItemProps {
   onClick?: () => void
   onEdit?: (value: string) => void
   onToggle?: (e: React.MouseEvent) => void
+  className?: string
 }
-
-const ActionIcon = styled(Icon)`
-  &:hover {
-    color: ${({ theme }) => theme.palette.linkPrimaryAccent} !important;
-  }
-
-  opacity: 0;
-  transition: 0.2s;
-`
-
-const ChevronRightIcon = styled(Icon)`
-  &:hover {
-    color: ${({ theme }) => theme.palette.linkPrimaryAccent} !important;
-  }
-
-  transition: all 0.2s;
-`
-
-export const StyledEditLink = styled(Link)<{
-  $isActive: boolean
-  $isGroup: boolean
-  $readonly: boolean
-}>`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  box-sizing: border-box;
-  cursor: ${({ $isGroup, $readonly }) =>
-    !$isGroup || ($isGroup && !$readonly) ? 'pointer' : 'default'};
-  font-size: ${({ theme, $isGroup }) =>
-    $isGroup ? theme.fontSizes.mediumPlus : theme.fontSizes.medium};
-  color: ${({ theme, $isActive, $isGroup }) =>
-    $isActive
-      ? theme.palette.linkPrimary
-      : $isGroup
-      ? theme.palette.darkGray
-      : theme.palette.black};
-  border-radius: 4px;
-  text-decoration: none;
-  transition: background-color 0.3s, color 0.3s;
-  overflow: hidden;
-  padding: ${({ theme, $isGroup }) => $isGroup ? '12px 5px' : '5px'};
-
-  &:hover {
-    background-color: ${({ theme, $isActive, $isGroup, $readonly }) =>
-      $isGroup && $readonly
-        ? 'transparent'
-        : $isActive
-        ? theme.palette.blueLight
-        : theme.palette.lightGray};
-  }
-
-  &:hover .edit-icon {
-    opacity: 1;
-    visibility: visible;
-  }
-`
 
 const EditIndexPagesItem: React.FC<EditIndexPagesItemProps> = ({
   to,
@@ -90,10 +34,10 @@ const EditIndexPagesItem: React.FC<EditIndexPagesItemProps> = ({
   onClick,
   onEdit,
   onToggle,
+  className,
 }) => {
-  const theme = useTheme()
   const { toggle, isOn } = useToggle(false)
-  const textFieldRef = useRef<HTMLInputElement | null>(null)
+  const textFieldRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     if (isOn) {
@@ -107,8 +51,8 @@ const EditIndexPagesItem: React.FC<EditIndexPagesItemProps> = ({
     }
   }
 
-  const handleChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onEdit?.(e.target.value)
+  const handleChangeName = (newName: string) => {
+    onEdit?.(newName)
   }
 
   const handleBlurName = () => {
@@ -128,48 +72,65 @@ const EditIndexPagesItem: React.FC<EditIndexPagesItemProps> = ({
     onToggle?.(e)
   }
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      handleBlurName()
+    }
+  }
+
   return (
-    <StyledEditLink
-      $isGroup={isGroup}
-      $readonly={readonly}
+    <DynamicComponent
+      as={to ? Link : 'div'}
       to={to || ''}
-      $isActive={active}
+      className={clsx(
+        'flex items-center justify-between w-full box-border rounded transition-colors overflow-hidden px-2 py-1.5 gap-2',
+        active && 'bg-gray-100 text-main-accent',
+        hasChild && 'mb-1',
+        isGroup
+          ? 'uppercase font-bold text-main-accrent'
+          : 'hover:bg-gray-100 cursor-pointer',
+        className
+      )}
       onClick={handleClick}
     >
       {isOn ? (
         <TextField
-          inputProps={{ onBlur: handleBlurName }}
-          ref={textFieldRef}
+          className='max-w-40'
+          inputProps={{
+            onBlur: handleBlurName,
+            ref: textFieldRef,
+            onKeyDown: handleKeyDown,
+          }}
           value={name}
           onChange={handleChangeName}
-          maxWidth='160px'
+          hideError
         />
       ) : (
         name
       )}
-      <Flex $gap='5px' alignItems='center'>
+      <div className='flex items-center gap-2'>
         {!readonly && editable && (
-          <ActionIcon
+          <IconButton
+            hoverBackground='gray-200'
             onClick={handleActionIconClick}
-            className='edit-icon'
-            cursor='pointer'
-            name={isOn ? 'checkmark' : 'edit'}
-            color={active ? theme.palette.linkPrimary : theme.palette.black}
-          />
+          >
+            <Icon size={16} name={isOn ? 'checkmark' : 'edit'} />
+          </IconButton>
         )}
-        {hasChild && (!isGroup || !readonly) && (
-          <ChevronRightIcon
-            cursor='pointer'
-            style={{ transform: isOpen ? 'rotate(90deg)' : '' }}
-            name='chevronRight'
-            color={theme.palette.textPrimary}
-            width={12}
-            height={12}
-            onClick={handleToggle}
-          />
+        {hasChild && (
+          <IconButton hoverBackground='gray-200' onClick={handleToggle}>
+            <Icon
+              name='arrow-right-secondary'
+              size={8}
+              className={clsx(
+                'transition-transform',
+                isOpen ? 'rotate-90' : 'rotate-0'
+              )}
+            />
+          </IconButton>
         )}
-      </Flex>
-    </StyledEditLink>
+      </div>
+    </DynamicComponent>
   )
 }
 

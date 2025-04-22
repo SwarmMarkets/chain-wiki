@@ -1,0 +1,15 @@
+.base:active {
+  transform: scale(0.98);
+}
+
+.base {
+  @apply inline-flex;
+  @apply items-center;
+  @apply justify-center;
+  @apply transition-all;
+  @apply transform;
+  @apply leading-4;
+  @apply text-button;
+  @apply font-medium;
+  @apply rounded-md;
+}

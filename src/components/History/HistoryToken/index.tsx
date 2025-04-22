@@ -1,26 +1,23 @@
-import { useMemo, useState } from 'react'
-import { Link, useLocation, useParams } from 'react-router-dom'
 import queryString from 'query-string'
-import HistoryTokenDifference from './HistoryTokenDifference'
-import HistoryTokenList from './HistoryTokenList'
+import { useMemo, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { Link, useLocation } from 'react-router-dom'
+import Button from 'src/components/ui-kit/Button/Button'
+import Skeleton from 'src/components/ui-kit/Skeleton/Skeleton'
+import useTokenURIUpdates from 'src/hooks/subgraph/useTokenURIUpdates'
 import {
   OrderDirection,
   TokenUriUpdate_OrderBy,
   TokenUriUpdatesQuery,
 } from 'src/queries/gql/graphql'
-import Box from '../../ui/Box'
-import Button from '../../ui/Button/Button'
-import Text from '../../ui/Text'
-import { useTranslation } from 'react-i18next'
-import useTokenURIUpdates from 'src/hooks/subgraph/useTokenURIUpdates'
-import HistoryCardSkeleton from '../HistoryCardSkeleton'
-import { useTheme } from 'styled-components'
+import HistoryTokenDifference from './HistoryTokenDifference'
+import HistoryTokenList from './HistoryTokenList'
+import useFullTokenIdParam from 'src/hooks/useFullTokenIdParam'
 
 const HistoryToken = () => {
-  const theme = useTheme()
   const { t } = useTranslation(['buttons', 'history'])
   const location = useLocation()
-  const { tokenId = '' } = useParams()
+  const tokenId = useFullTokenIdParam()
 
   const { tokenUriUpdates, loading, refetching } = useTokenURIUpdates(tokenId, {
     variables: {
@@ -54,41 +51,35 @@ const HistoryToken = () => {
 
   if ((!tokenUriUpdates || !tokenUriUpdates.length) && !showSkeletons)
     return (
-      <Text.p
-        mt={3}
-        textAlign='center'
-        color={theme.palette.gray}
-        fontWeight={theme.fontWeights.medium}
-      >
+      <div className='mt-1 text-center'>
         {t('messages.noHistory', { ns: 'history' })}
-      </Text.p>
+      </div>
     )
 
   return (
     <div>
       {mode === 'list' ? (
-        <Box>
-          {tokenUriUpdates &&
-            tokenUriUpdates?.length > 1 &&
-            (selectedTokens.length === 2 ? (
-              <Link
-                onClick={() => onSelectTokens([])}
-                to={`?${queryString.stringify({
-                  ...queryString.parse(location.search),
-                  oldTokenId: sortedTokensByUpdatedAt[0]?.id,
-                  newTokenId: sortedTokensByUpdatedAt[1]?.id,
-                })}`}
-              >
-                <Button>{t('compare')}</Button>
-              </Link>
-            ) : (
-              <Button disabled>{t('compare')}</Button>
-            ))}
-          <Box mt='10px'>
-            {showSkeletons &&
-              [...Array(5)].map((_, index) => (
-                <HistoryCardSkeleton key={index} />
-              ))}
+        <div>
+          {selectedTokens.length === 2 ? (
+            <Link
+              onClick={() => onSelectTokens([])}
+              to={`?${queryString.stringify({
+                ...queryString.parse(location.search),
+                oldTokenId: sortedTokensByUpdatedAt[0]?.id,
+                newTokenId: sortedTokensByUpdatedAt[1]?.id,
+              })}`}
+            >
+              <Button>{t('compare')}</Button>
+            </Link>
+          ) : (
+            <Button disabled>{t('compare')}</Button>
+          )}
+          <div className='mt-3'>
+            {showSkeletons && (
+              <div className='flex flex-col gap-2'>
+                <Skeleton height={55} count={10} />
+              </div>
+            )}
             {tokenUriUpdates && (
               <HistoryTokenList
                 selectedTokens={selectedTokens}
@@ -96,8 +87,8 @@ const HistoryToken = () => {
                 history={tokenUriUpdates}
               />
             )}
-          </Box>
-        </Box>
+          </div>
+        </div>
       ) : (
         <HistoryTokenDifference />
       )}
