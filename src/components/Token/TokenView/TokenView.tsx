@@ -3,7 +3,6 @@ import { useRef } from 'react'
 import { TokenViewProps } from '.'
 import TokenViewActions from './TokenViewActions'
 import { useTranslation } from 'react-i18next'
-import HtmlRender from 'src/components/HtmlRender'
 import MarkdownRenderer from 'src/components/Editor/MarkdownWithComments'
 
 export interface SelectedSection {
