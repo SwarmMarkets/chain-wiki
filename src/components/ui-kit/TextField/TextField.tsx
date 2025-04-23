@@ -70,7 +70,7 @@ const TextField = <T extends TextFieldTypes>({
     text: commonClass,
   }
 
-  const displayValue = display ? display(value) : (value as string)
+  const displayValue = display ? display(value || '') : (value as string)
 
   return (
     <div className={className} {...props}>
