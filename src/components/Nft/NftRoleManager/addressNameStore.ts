@@ -1,3 +1,4 @@
+import { unifyAddressToId } from 'src/shared/utils'
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
 
@@ -16,7 +17,10 @@ export const useAddressNameStore = create<AddressNameStore>()(
       addressNames: {},
       setAddressName: (address, name) =>
         set(state => ({
-          addressNames: { ...state.addressNames, [address]: name },
+          addressNames: {
+            ...state.addressNames,
+            [unifyAddressToId(address)]: name,
+          },
         })),
     }),
     {
