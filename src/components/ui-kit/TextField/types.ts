@@ -1,4 +1,9 @@
-import { HTMLAttributes, InputHTMLAttributes, ReactNode } from 'react'
+import {
+  HTMLAttributes,
+  InputHTMLAttributes,
+  LegacyRef,
+  ReactNode,
+} from 'react'
 import { UiKit } from '../types'
 
 type TextFieldVariant = 'outlined' | 'text'
@@ -20,7 +25,9 @@ export interface TextFieldProps<T extends TextFieldTypes = TextFieldTypes>
   type?: T
   value?: TextFieldValue<T>
   onChange?: (value: TextFieldValue<T>) => void
-  inputProps?: InputHTMLAttributes<HTMLInputElement>
+  inputProps?: InputHTMLAttributes<HTMLInputElement> & {
+    ref?: LegacyRef<HTMLInputElement>
+  }
   className?: string
   disabled?: boolean
 }
