@@ -52,7 +52,6 @@ const EditHeaderLinks = () => {
             >
               <div className='pt-2 pb-5'>⋮⋮</div>
               <TextField
-                {...registerTitle}
                 inputProps={{
                   placeholder: t('editHeaderLinks.placeholders.title'),
                   onChange: onChangeTitle,
@@ -61,7 +60,6 @@ const EditHeaderLinks = () => {
                 errorMessage={errors.headerLinks?.[index]?.title?.message}
               />
               <TextField
-                {...registerLink}
                 inputProps={{
                   placeholder: t('editHeaderLinks.placeholders.link'),
                   onChange: onChangeLink,
@@ -84,7 +82,7 @@ const EditHeaderLinks = () => {
         <Button
           onClick={e => {
             e.preventDefault()
-            append({ title: '', link: '' })
+            append({ title: '', link: '', id: '' })
           }}
         >
           {t('editHeaderLinks.buttonAddLink')}
