@@ -9,13 +9,20 @@ import UploadFileButton from '../common/UploadFileButton'
 import Icon from '../ui-kit/Icon/Icon'
 import IconButton from '../ui-kit/IconButton'
 import dayjs from 'src/shared/utils/dayjsConfig'
+import clsx from 'clsx'
 
 interface NftCardProps {
   nft: NFTsQueryFullData
   showRole?: boolean
+  addLogoButton?: boolean
+  className?: string
 }
 
-const NftCard: React.FC<NftCardProps> = ({ nft, showRole = false }) => {
+const NftCard: React.FC<NftCardProps> = ({
+  nft,
+  showRole = false,
+  className,
+}) => {
   const { t } = useTranslation(['nft', 'nfts'])
   const account = useAddress()
   const { signTransaction, tx } = useNFTUpdate(nft.id)
@@ -51,16 +58,19 @@ const NftCard: React.FC<NftCardProps> = ({ nft, showRole = false }) => {
   }
 
   return (
-    <div className='bg-paper rounded-lg p-4 flex flex-col gap-2 justify-between border border-main transition-shadow duration-300 hover:shadow-lg hover:shadow-main/50'>
-      <div className='flex justify-center items-center h-16'>
+    <div
+      className={clsx(
+        'bg-paper rounded-lg p-4 flex flex-col gap-2 justify-between border border-main transition-shadow duration-300 hover:shadow-lg hover:shadow-main/50',
+        className
+      )}
+    >
+      <div className='flex justify-center items-center h-16 bg-gray-100 rounded-lg'>
         {nft.logoUrl ? (
-          <div className='bg-gray-100 rounded-lg p-4'>
-            <img
-              src={nft.logoUrl}
-              alt={nft.name}
-              className='max-w-44 max-h-16'
-            />
-          </div>
+          <img
+            src={nft.logoUrl}
+            alt={nft.name}
+            className='max-w-44 max-h-16 p-1'
+          />
         ) : (
           <RequirePermissions nftAddress={nft.id} canUpdateContent>
             <UploadFileButton

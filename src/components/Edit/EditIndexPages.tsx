@@ -1,15 +1,11 @@
 import { useTranslation } from 'react-i18next'
 import { useEditingStore } from 'src/shared/store/editing-store'
-import { getUniqueId, NFTWithMetadata } from 'src/shared/utils'
+import { getUniqueId } from 'src/shared/utils'
 import Button from '../ui-kit/Button/Button'
 import EditIndexPagesTree from './EditIndexPagesTree/EditIndexPagesTree'
 import useEdit from './useEdit'
 
-interface EditIndexPagesProps {
-  nft: NFTWithMetadata
-}
-
-const EditIndexPages: React.FC<EditIndexPagesProps> = ({ nft }) => {
+const EditIndexPages = () => {
   const { t } = useTranslation('edit', { keyPrefix: 'indexPages' })
 
   const {

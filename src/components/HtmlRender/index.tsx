@@ -14,7 +14,7 @@ const HtmlRender = forwardRef<HTMLDivElement, HtmlRenderProps>(
     }, [onMount])
 
     return (
-      <HtmlWrapper
+      <div className='prose'
         ref={ref}
         dangerouslySetInnerHTML={{ __html: html }}
         {...props}

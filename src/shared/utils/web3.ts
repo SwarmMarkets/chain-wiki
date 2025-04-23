@@ -1,4 +1,3 @@
-import { supportedChains } from 'src/environment/networks'
 import { ethers } from 'ethers'
 
 export const unifyAddressToId = (address: string) => {
@@ -37,7 +36,7 @@ export const isSameEthereumAddress = (
 }
 
 export const checkNetworkSupported = (chainId?: number) => {
-  return supportedChains.some(chain => chain.chainId === chainId)
+  return staticConfig.supportedChains.some(chain => chain.chainId === chainId)
 }
 
 // Function to convert a string to a byte array and then hash it using keccak256
@@ -54,6 +53,7 @@ export const stringToByteArray = (str: string) => {
 
 import { TransactionBase } from '@safe-global/types-kit'
 import { Transaction } from '@thirdweb-dev/sdk'
+import staticConfig from 'src/config'
 
 export const resolveThirdwebTransaction = async (
   thirdwebTx?: Transaction

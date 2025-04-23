@@ -1,11 +1,11 @@
 import { SX1155NFTFactoryABI } from 'src/contracts/abis'
-import { environment } from 'src/environment'
 import { useWeb3Contract } from '../web3/useWeb3Contract'
 import { SX1155NFTFactory } from './../../contracts/typechain/SX1155NFTFactory'
+import staticConfig from 'src/config'
 
 const {
-  contractsAddresses: { sx1155NFTFactoryAddress },
-} = environment
+  contracts: { sx1155NFTFactoryAddress },
+} = staticConfig.defaultNetworkEnv
 
 export const useSX1155NFTFactory = () => {
   const web3Contract = useWeb3Contract<SX1155NFTFactory>(

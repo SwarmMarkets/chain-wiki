@@ -40,6 +40,7 @@ const NftList: React.FC<NftListProps> = ({
       </div>
     )
   }
+
   return (
     <div
       className={clsx(
@@ -55,7 +56,7 @@ const NftList: React.FC<NftListProps> = ({
             to={generatePath(RoutePaths.NFT, { nftId: nft.id })}
             key={nft.id}
           >
-            <NftCard nft={nft} showRole={showRole} />
+            <NftCard nft={nft} showRole={showRole} className='h-full' />
           </Link>
         ))
       )}

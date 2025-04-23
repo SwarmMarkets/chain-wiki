@@ -1,8 +1,8 @@
 import { ApolloClient, InMemoryCache } from '@apollo/client'
-import { environment } from 'src/environment'
+import staticConfig from 'src/config'
 
 const client = new ApolloClient({
-  uri: environment.subgraphURL,
+  uri: staticConfig.defaultNetworkEnv.subgraphURL,
   cache: new InMemoryCache(),
 })
 

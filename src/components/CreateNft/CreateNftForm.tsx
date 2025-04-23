@@ -58,8 +58,6 @@ const CreateNftForm: React.FC<CreateNftFormProps> = ({
     setUploadedLogoUrl(url)
   }
 
-  const { onChange, ...restRegisterName } = register('name')
-
   return (
     <div>
       <h1 className='mb-1 text-center'>{t('title')}</h1>
@@ -68,10 +66,8 @@ const CreateNftForm: React.FC<CreateNftFormProps> = ({
         <TextField
           inputProps={{
             placeholder: t('formPlaceholders.name'),
-            onChange,
-            ...restRegisterName,
+            ...register('name'),
           }}
-          {...restRegisterName}
           errorMessage={errors.name?.message}
         />
         <div className='mb-2'>

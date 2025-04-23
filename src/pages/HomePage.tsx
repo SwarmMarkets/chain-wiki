@@ -21,7 +21,7 @@ const HomePage = () => {
     skip: !address,
   })
 
-  const loading = loadingNfts && !refetchingNfts
+  const loading = !address || (loadingNfts && !refetchingNfts)
 
   return (
     <div className='p-20 h-full'>

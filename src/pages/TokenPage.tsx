@@ -13,14 +13,14 @@ import useFullTokenIdParam from 'src/hooks/useFullTokenIdParam'
 const TokenPage = () => {
   const { t } = useTranslation('token')
 
-  const { nftId = '' } = useParams()
-  const tokenId = useFullTokenIdParam()
+  const { nftId = '', tokenId = '' } = useParams()
+  const fullTokenId = useFullTokenIdParam()
 
   const { changeTab } = useTabs<TokenTabs>({
     defaultTab: TokenTabs.READ,
   })
 
-  const { token, loadingToken, refetchingToken } = useToken(tokenId)
+  const { token, loadingToken, refetchingToken } = useToken(fullTokenId)
 
   const showSkeleton = loadingToken && !refetchingToken
 
