@@ -26,6 +26,7 @@ const MarkdownRenderer = forwardRef<HTMLDivElement, MarkdownRendererProps>(
       const processor = unified()
         .use(remarkParse)
         .use(remarkGfm)
+        .use(remarkGfm)
         .use(() => tree => {
           visit(tree, (node: any) => {
             if (
