@@ -30,11 +30,11 @@ import {
   toolbarPlugin,
   UndoRedo,
 } from '@mdxeditor/editor'
-import React, { useEffect, useRef } from 'react'
 
+import React, { useEffect, useRef } from 'react'
 import '@mdxeditor/editor/style.css'
-import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
-import { storage } from 'src/firebase'
+import { useStorageUpload } from '@thirdweb-dev/react'
+import { ipfsToHttp } from 'src/shared/utils'
 
 interface EditorBoxProps {
   initialContent?: string
@@ -44,12 +44,10 @@ interface EditorBoxProps {
 }
 
 const EditorBox: React.FC<EditorBoxProps> = ({ content = '', onChange }) => {
-  const onEditorChange = (content: string) => {
-    onChange && onChange(content)
-  }
-
   const mdxRef = useRef<MDXEditorMethods>(null)
   const initialContent = useRef(content)
+
+  const { mutateAsync: upload } = useStorageUpload()
 
   useEffect(() => {
     if (mdxRef.current && content !== undefined) {
@@ -57,23 +55,20 @@ const EditorBox: React.FC<EditorBoxProps> = ({ content = '', onChange }) => {
     }
   }, [content])
 
-  const handleImageUpload = async (image: File) => {
-    const imageBuffer = await image.arrayBuffer()
-    const storageRef = ref(storage, `images/${image.name}`)
-    const uploadTask = uploadBytesResumable(storageRef, imageBuffer)
+  const onEditorChange = (content: string) => {
+    onChange && onChange(content)
+  }
 
-    return new Promise<string>((resolve, reject) => {
-      uploadTask.on('state_changed', {
-        error: error => {
-          console.error('Error uploading image: ', error)
-          reject(error)
-        },
-        complete: async () => {
-          const downloadURL = await getDownloadURL(uploadTask.snapshot.ref)
-          resolve(downloadURL)
-        },
-      })
-    })
+  const handleImageUpload = async (image: File): Promise<string> => {
+    try {
+      const uris = await upload({ data: [image] })
+      const ipfsUri = uris[0]
+
+      return ipfsToHttp(ipfsUri)
+    } catch (err) {
+      console.error('Failed to upload image with useStorageUpload', err)
+      throw err
+    }
   }
 
   const allPlugins = (diffMarkdown: string) => [
@@ -91,7 +86,6 @@ const EditorBox: React.FC<EditorBoxProps> = ({ content = '', onChange }) => {
           <InsertTable />
           <InsertThematicBreak />
           <InsertCodeBlock />
-          {/* <InsertAdmonition /> */}
           <DiffSourceToggleWrapper children={<></>} />
         </>
       ),
@@ -101,7 +95,6 @@ const EditorBox: React.FC<EditorBoxProps> = ({ content = '', onChange }) => {
     headingsPlugin(),
     linkPlugin(),
     linkDialogPlugin(),
-    // eslint-disable-next-line @typescript-eslint/require-await
     imagePlugin({ imageUploadHandler: handleImageUpload }),
     tablePlugin(),
     thematicBreakPlugin(),

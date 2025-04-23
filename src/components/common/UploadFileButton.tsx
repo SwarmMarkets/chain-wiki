@@ -1,9 +1,9 @@
-import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
-import { storage } from 'src/firebase'
-import { useRef, useState } from 'react'
+import { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ChildrenProp } from 'src/shared/types/common-props'
 import Button, { ButtonProps } from '../ui-kit/Button/Button'
+import { useStorageUpload } from '@thirdweb-dev/react'
+import { ipfsToHttp } from 'src/shared/utils'
 
 interface UploadFileButtonProps extends ButtonProps, ChildrenProp {
   onUpload: (url: string) => void
@@ -18,27 +18,20 @@ const UploadFileButton: React.FC<UploadFileButtonProps> = ({
 }) => {
   const inputRef = useRef<HTMLInputElement>(null)
   const { t } = useTranslation('buttons')
-  const [loading, setLoading] = useState(false)
+
+  const {
+    mutateAsync: upload,
+    isLoading: isLoadingStorage,
+    reset: resetStorageState,
+  } = useStorageUpload()
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    setLoading(true)
     const imageBlob = e.target.files?.[0]
     if (!imageBlob) return
+    const uri = await upload({ data: [imageBlob] })
+    resetStorageState()
 
-    const storageRef = ref(storage, `logos/${imageBlob?.name}`)
-    const uploadTask = uploadBytesResumable(storageRef, imageBlob)
-
-    uploadTask.on('state_changed', {
-      error: error => {
-        console.error('Error uploading image: ', error)
-        setLoading(false)
-      },
-      complete: async () => {
-        const downloadURL = await getDownloadURL(uploadTask.snapshot.ref)
-        onUpload(downloadURL)
-        setLoading(false)
-      },
-    })
+    onUpload(ipfsToHttp(uri[0]))
   }
 
   return (
@@ -53,7 +46,7 @@ const UploadFileButton: React.FC<UploadFileButtonProps> = ({
       />
       <Button
         {...props}
-        loading={loading || isLoading}
+        loading={isLoadingStorage || isLoading}
         type='button'
         onClick={e => {
           e.stopPropagation()
