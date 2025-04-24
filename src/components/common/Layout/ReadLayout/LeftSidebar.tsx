@@ -90,8 +90,8 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({ nft, preview }) => {
   return (
     <aside
       className={clsx(
-        'w-1/5 overflow-y-auto sticky top-24)',
-        !preview && 'h-screen'
+        'w-1/5 sticky top-24 self-start',
+        !preview && 'max-h-[calc(100vh-6rem)] overflow-y-auto'
       )}
     >
       {treeData.length > 0 ? (
