@@ -1,6 +1,6 @@
 import React from 'react'
 import { useParams } from 'react-router-dom'
-import EditorBox from 'src/components/Editor/EditorBox'
+import Editor from 'src/components/Editor'
 import { useEditingStore } from 'src/shared/store/editing-store'
 import { NFTWithMetadata } from 'src/shared/utils'
 
@@ -42,7 +42,7 @@ const EditorView: React.FC<EditorViewProps> = ({ nft, content }) => {
     }
   }
 
-  return <EditorBox content={content} onChange={updateContent} />
+  return <Editor content={content} onChange={updateContent} />
 }
 
 export default EditorView
