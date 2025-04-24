@@ -24,19 +24,18 @@ import {
   MDXEditor,
   MDXEditorMethods,
   quotePlugin,
-  saveImage$,
   StrikeThroughSupSubToggles,
   tablePlugin,
   thematicBreakPlugin,
   toolbarPlugin,
   UndoRedo,
-  usePublisher,
 } from '@mdxeditor/editor'
 
-import React, { useEffect, useRef } from 'react'
 import '@mdxeditor/editor/style.css'
 import { useStorageUpload } from '@thirdweb-dev/react'
+import React, { useEffect, useRef } from 'react'
 import { ipfsToHttp } from 'src/shared/utils'
+import CustomInsertImageDialog from './CustomInsertImageDialog'
 
 interface EditorProps {
   initialContent?: string
@@ -46,8 +45,6 @@ interface EditorProps {
 }
 
 const Editor: React.FC<EditorProps> = ({ content = '', onChange }) => {
-  const saveImage = usePublisher(saveImage$)
-  console.log(saveImage)
   const mdxRef = useRef<MDXEditorMethods>(null)
   const initialContent = useRef(content)
 
@@ -99,7 +96,10 @@ const Editor: React.FC<EditorProps> = ({ content = '', onChange }) => {
     headingsPlugin(),
     linkPlugin(),
     linkDialogPlugin(),
-    imagePlugin({ imageUploadHandler: handleImageUpload }),
+    imagePlugin({
+      imageUploadHandler: handleImageUpload,
+      ImageDialog: CustomInsertImageDialog,
+    }),
     tablePlugin(),
     thematicBreakPlugin(),
     frontmatterPlugin(),
