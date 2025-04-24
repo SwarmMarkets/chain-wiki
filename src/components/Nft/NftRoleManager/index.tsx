@@ -1,13 +1,11 @@
 import { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useAddress } from '@thirdweb-dev/react'
-
 import useNFTRoles from 'src/hooks/subgraph/useNFTRoles'
 import useSmartAccount from 'src/services/safe-protocol-kit/useSmartAccount'
 import { useAddressNameStore } from './addressNameStore'
 import { isSameEthereumAddress } from 'src/shared/utils'
 import { Roles } from 'src/shared/enums/roles'
-
 import ExplorerLink from '../../common/ExplorerLink'
 import GrantRoleForm from './GrantRoleForm'
 import RevokeRoleButton from './RevokeRoleButton'
@@ -27,9 +25,10 @@ const NftRoleManager: React.FC<NftRoleManagerProps> = ({ nftAddress }) => {
     (address: string, role: string, roleType: Roles) => {
       const isCurrent =
         currentAddress && isSameEthereumAddress(address, currentAddress)
+      const key = `${address.toLowerCase()}-${roleType}`
       const displayName = isCurrent
         ? t('messages.you')
-        : addressNames[address] || address
+        : addressNames[key] || address
 
       return { address, role, roleType, displayName }
     },
@@ -46,11 +45,9 @@ const NftRoleManager: React.FC<NftRoleManagerProps> = ({ nftAddress }) => {
       formatUser(addr, t('roles.editor'), Roles.EDITOR)
     )
 
-    const usersWithoutSmartAccount = [...editors, ...admins].filter(
+    return [...editors, ...admins].filter(
       user => !isSameEthereumAddress(user.address, smartAccountInfo?.address)
     )
-
-    return usersWithoutSmartAccount
   }, [nft, formatUser, t, smartAccountInfo?.address])
 
   return (

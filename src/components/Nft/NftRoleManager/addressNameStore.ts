@@ -1,31 +1,26 @@
-import { unifyAddressToId } from 'src/shared/utils'
 import { create } from 'zustand'
-import { persist, createJSONStorage } from 'zustand/middleware'
+import { persist } from 'zustand/middleware'
+import { Roles } from 'src/shared/enums/roles'
 
-interface AddressNameMap {
-  [address: string]: string
-}
-
-interface AddressNameStore {
-  addressNames: AddressNameMap
-  setAddressName: (address: string, name: string) => void
+type AddressNameStore = {
+  addressNames: Record<string, string>
+  setAddressName: (address: string, role: Roles, name: string) => void
 }
 
 export const useAddressNameStore = create<AddressNameStore>()(
   persist(
     set => ({
       addressNames: {},
-      setAddressName: (address, name) =>
+      setAddressName: (address, role, name) =>
         set(state => ({
           addressNames: {
             ...state.addressNames,
-            [unifyAddressToId(address)]: name,
+            [`${address.toLowerCase()}-${role}`]: name,
           },
         })),
     }),
     {
-      name: 'addressNames',
-      storage: createJSONStorage(() => localStorage),
+      name: 'address-name-store',
     }
   )
 )

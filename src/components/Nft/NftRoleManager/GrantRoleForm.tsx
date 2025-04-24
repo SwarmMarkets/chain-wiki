@@ -33,12 +33,11 @@ const GrantRoleForm: React.FC<GrantRoleFormProps> = ({ nftAddress }) => {
     GrantRoleFormInputs & { name?: string }
   > = async (data, e) => {
     e?.preventDefault()
-
     const { to, role, name } = data
-    const success = await grantRole(to, role)
 
+    const success = await grantRole(to, role)
     if (success && name) {
-      setAddressName(to, name)
+      setAddressName(to, role, name)
     }
 
     reset()
@@ -58,7 +57,6 @@ const GrantRoleForm: React.FC<GrantRoleFormProps> = ({ nftAddress }) => {
             onChange: onChangeAddress,
             ...restRegisterTo,
           }}
-          {...restRegisterTo}
           errorMessage={errors.to?.message}
         />
         <div className='flex gap-2 w-full'>
@@ -70,14 +68,13 @@ const GrantRoleForm: React.FC<GrantRoleFormProps> = ({ nftAddress }) => {
               onChange: onChangeName,
               ...restRegisterName,
             }}
-            {...restRegisterName}
           />
           <div
             className='w-4/12 flex items-stretch'
             onClick={e => e.preventDefault()}
           >
             <Select<Roles>
-              variant='filled'
+              option='filled'
               value={watch('role')}
               onChange={value => setValue('role', value)}
               className='capitalize w-full flex-grow'
