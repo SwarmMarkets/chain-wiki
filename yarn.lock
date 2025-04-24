@@ -3862,10 +3862,10 @@
   resolved "https://registry.yarnpkg.com/@marijn/find-cluster-break/-/find-cluster-break-1.0.2.tgz#775374306116d51c0c500b8c4face0f9a04752d8"
   integrity sha512-l0h88YhZFyKdXIFNfSWpyjStDjGHwZ/U7iobcK1cQQD8sejsONdQtTVU+1wVN1PBw40PiiHB1vA5S7VTfQiP9g==
 
-"@mdxeditor/editor@^3.29.3":
-  version "3.29.3"
-  resolved "https://registry.yarnpkg.com/@mdxeditor/editor/-/editor-3.29.3.tgz#a0c41b41c0d195cd15350ab4e905300e0684a1e7"
-  integrity sha512-k8s8yS3Qcf7J7CyXLVdJ6tKwUiUAgm6rsWoU6Zm9PTTCjFvJIcwMi0H/RhUB9CMdRtuh1ymqXfkY+yFa3wrEug==
+"@mdxeditor/editor@^3.30.1":
+  version "3.30.1"
+  resolved "https://registry.yarnpkg.com/@mdxeditor/editor/-/editor-3.30.1.tgz#873ddabe8dfe897fbe69caf9fc98d99bc798e996"
+  integrity sha512-v4i+6dNhL86SXqQ+hXZqg/PcCKqTR114JmC8aivk4XZDYCT0OWeiKLZriNMqGNIQSAlZAOv6JsulcBZGyiWBTw==
   dependencies:
     "@codemirror/lang-markdown" "^6.2.3"
     "@codemirror/language-data" "^6.5.1"
