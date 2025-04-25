@@ -68,7 +68,7 @@ const NftRoleManager: React.FC<NftRoleManagerProps> = ({ nftAddress }) => {
           {users.map(user => (
             <tr
               key={`${user.address}-${user.role}`}
-              className='hover:bg-blue-50 border-b border-main'
+              className='hover:bg-primary-muted border-b border-main'
             >
               <td className='p-3'>
                 <ExplorerLink type='address' hash={user.address}>
