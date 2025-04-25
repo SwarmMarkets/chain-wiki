@@ -17,16 +17,28 @@ const rolesMapping = {
 const useNFTRoleManager = (nftAddress: string) => {
   const { call, txLoading } = useSX1155NFT(nftAddress)
 
-  const grantRole = (to: string, role: Roles) => {
+  const grantRole = async (to: string, role: Roles): Promise<boolean> => {
     const roleToGrant = rolesMapping[role]
 
-    call('grantRole', [roleToGrant, to])
+    try {
+      await call('grantRole', [roleToGrant, to])
+      return true
+    } catch (err) {
+      console.error('Failed to grant role:', err)
+      return false
+    }
   }
 
-  const revokeRole = (from: string, role: Roles) => {
+  const revokeRole = async (from: string, role: Roles): Promise<boolean> => {
     const roleToRevoke = rolesMapping[role]
 
-    call('revokeRole', [roleToRevoke, from])
+    try {
+      await call('revokeRole', [roleToRevoke, from])
+      return true
+    } catch (err) {
+      console.error('Failed to revoke role:', err)
+      return false
+    }
   }
 
   return {

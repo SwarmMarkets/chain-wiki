@@ -6,6 +6,7 @@ import { Roles } from 'src/shared/enums'
 
 export interface GrantRoleFormInputs {
   to: string
+  name: string
   role: Roles
 }
 
@@ -19,6 +20,7 @@ const useGrantRoleForm = () => {
         .string()
         .required(t('to.required'))
         .isEthereumAddress(t('to.invalid')),
+      name: yup.string().optional(),
       role: yup.string().required(t('role.required')),
     })
   )

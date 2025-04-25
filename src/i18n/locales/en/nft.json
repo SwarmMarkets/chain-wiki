@@ -151,8 +151,8 @@
       "role": "Role"
     },
     "formPlaceholders": {
-      "grantRole": "  0x1234...",
-      "role": "Select role"
+      "role": "Select role",
+      "name": "Enter username"
     },
     "formErrors": {
       "to": {
@@ -179,7 +179,8 @@
   "messages": {
     "editNft": "Edit site",
     "addLogo": "Add logo",
-    "noContent": "No content yet"
+    "noContent": "No content yet",
+    "you": "You"
   },
   "card": {
     "lastEdited": "Last edited {{date}}"
