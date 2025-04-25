@@ -1,19 +1,13 @@
-import {
-  DndProvider,
-  DropOptions,
-  getBackendOptions,
-  MultiBackend,
-  Tree,
-} from '@minoru/react-dnd-treeview'
+import { DropOptions, Tree } from '@minoru/react-dnd-treeview'
+import clsx from 'clsx'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import useEdit from '../useEdit'
 import { isHiddenList } from '../utils'
 import Node from './Node'
 import Placeholder from './Placeholder'
 import styles from './styles.module.css'
 import { EditNodeModel, EditNodeModelData } from './types'
-import clsx from 'clsx'
-import { useTranslation } from 'react-i18next'
 
 interface EditIndexPagesTreeProps {
   onClick?: (id: string) => void
@@ -57,54 +51,52 @@ const EditIndexPagesTree: React.FC<EditIndexPagesTreeProps> = ({
   }
 
   return (
-    <DndProvider backend={MultiBackend} options={getBackendOptions()}>
-      <div className={styles.wrapper}>
-        <Tree
-          classes={{
-            root: clsx(styles.treeRoot),
-            placeholder: styles.placeholder,
-            dropTarget: styles.dropTarget,
-            listItem: styles.listItem,
-          }}
-          tree={treeData}
-          sort={false}
-          rootId={0}
-          insertDroppableFirst={false}
-          enableAnimateExpand={true}
-          onDrop={handleDrop}
-          canDrop={() => true}
-          {...(readonly && { canDrag: () => false, canDrop: () => false })}
-          dropTargetOffset={5}
-          placeholderRender={(node, { depth }) => (
-            <Placeholder
-              depth={depth}
+    <div className={styles.wrapper}>
+      <Tree
+        classes={{
+          root: clsx(styles.treeRoot),
+          placeholder: styles.placeholder,
+          dropTarget: styles.dropTarget,
+          listItem: styles.listItem,
+        }}
+        tree={treeData}
+        sort={false}
+        rootId={0}
+        insertDroppableFirst={false}
+        enableAnimateExpand={true}
+        onDrop={handleDrop}
+        canDrop={() => true}
+        {...(readonly && { canDrag: () => false, canDrop: () => false })}
+        dropTargetOffset={5}
+        placeholderRender={(node, { depth }) => (
+          <Placeholder
+            depth={depth}
+            parent={treeData.find(t => t.id === node.parent)}
+          />
+        )}
+        initialOpen
+        render={(node, { depth, isOpen, hasChild, onToggle }) => {
+          return (
+            <Node
               parent={treeData.find(t => t.id === node.parent)}
+              onToggle={onToggle}
+              editable={!isHiddenList(node.id.toString())}
+              to={to?.(node)}
+              active={activeId === node.id}
+              onEdit={name => updateTokenName(node.id.toString(), name)}
+              hasChild={hasChild}
+              node={node}
+              depth={depth}
+              isOpen={isOpen}
+              isGroup={node.data?.type === 'group'}
+              readonly={readonly}
+              onClick={() => onClick?.(node.id.toString())}
+              treeData={treeData}
             />
-          )}
-          initialOpen
-          render={(node, { depth, isOpen, hasChild, onToggle }) => {
-            return (
-              <Node
-                parent={treeData.find(t => t.id === node.parent)}
-                onToggle={onToggle}
-                editable={!isHiddenList(node.id.toString())}
-                to={to?.(node)}
-                active={activeId === node.id}
-                onEdit={name => updateTokenName(node.id.toString(), name)}
-                hasChild={hasChild}
-                node={node}
-                depth={depth}
-                isOpen={isOpen}
-                isGroup={node.data?.type === 'group'}
-                readonly={readonly}
-                onClick={() => onClick?.(node.id.toString())}
-                treeData={treeData}
-              />
-            )
-          }}
-        />
-      </div>
-    </DndProvider>
+          )
+        }}
+      />
+    </div>
   )
 }
 
