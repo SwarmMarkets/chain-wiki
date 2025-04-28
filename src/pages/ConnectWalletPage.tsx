@@ -27,7 +27,12 @@ const ConnectWalletPage = () => {
   }
 
   return (
-    <Flex height='100vh' justifyContent='center' alignItems='center'>
+    <Flex
+      height='100vh'
+      justifyContent='center'
+      alignItems='center'
+      className='bg-gradient-to-br from-[#c2ebfb] to-[#a1a7fd]'
+    >
       <Card p='40px'>
         <Flex flexDirection='column' alignItems='center'>
           <Logo src={'assets/logo.png'} alt='ChainWiki' />
