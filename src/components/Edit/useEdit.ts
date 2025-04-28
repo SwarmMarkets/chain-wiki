@@ -22,6 +22,7 @@ import {
 import { HIDDEN_INDEX_PAGES_ID } from './const'
 import { EditNodeModel } from './EditIndexPagesTree/types'
 import useTokenUpdate from 'src/hooks/useTokenUpdate'
+import { SafeClientTxStatus } from '@safe-global/sdk-starter-kit/dist/src/constants'
 
 const useEdit = (readonly?: boolean) => {
   const { nftId = '' } = useParams()
@@ -42,6 +43,7 @@ const useEdit = (readonly?: boolean) => {
     updateIndexPage,
     updateIndexPages,
     addIndexPage,
+    resetTokens,
   } = useEditingStore()
 
   useEffect(() => {
@@ -142,6 +144,10 @@ const useEdit = (readonly?: boolean) => {
       const receipt = await smartAccount?.send({
         transactions: await resolveAllThirdwebTransactions(txs),
       })
+
+      if (receipt?.status == SafeClientTxStatus.EXECUTED) {
+        resetTokens()
+      }
 
       console.log(receipt)
     } catch (e) {

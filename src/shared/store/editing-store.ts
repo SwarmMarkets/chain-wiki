@@ -32,6 +32,8 @@ interface EditingState {
   updateIndexPages: (indexPages: IpfsIndexPage[]) => void
   updateIndexPage: (indexPage: IpfsIndexPage) => void
   addIndexPage: (indexPage: IpfsIndexPage) => void
+
+  resetTokens: () => void
 }
 
 export const useEditingStore = create<EditingState>((set, get) => ({
@@ -102,4 +104,10 @@ export const useEditingStore = create<EditingState>((set, get) => ({
   },
   initIndexPages: (indexPages: IpfsIndexPage[]) =>
     set({ editedIndexPages: { isEdited: false, items: indexPages } }),
+  resetTokens: () =>
+    set({
+      editedTokens: [],
+      addedTokens: [],
+      editedNft: null,
+    }),
 }))
