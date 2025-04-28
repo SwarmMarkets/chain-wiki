@@ -52,7 +52,7 @@ const RightSidebar: React.FC<RightSidebarProps> = ({
               color='primary'
               className={className}
             >
-              View history
+              View page history
             </Button>
           </Link>
         ) : null}
