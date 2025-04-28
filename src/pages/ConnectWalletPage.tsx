@@ -1,37 +1,30 @@
 import ConnectButton from 'src/components/common/ConnectButton'
 import Card from 'src/components/ui/Card'
-import Flex from 'src/components/ui/Flex'
-import Text from 'src/components/ui/Text'
-import RoutePaths from 'src/shared/enums/routes-paths'
 import { useConnectionStatus } from '@thirdweb-dev/react'
 import { useTranslation } from 'react-i18next'
 import { Navigate, useNavigate } from 'react-router-dom'
-import { useTheme } from 'styled-components'
 
 const ConnectWalletPage = () => {
   const { t } = useTranslation('connectWallet')
-  const theme = useTheme()
   const navigate = useNavigate()
   const connected = useConnectionStatus()
 
   const handleConnectWallet = () => {
-    navigate(RoutePaths.HOME)
+    navigate('/')
   }
 
   if (connected === 'connected') {
-    return <Navigate to={RoutePaths.HOME} />
+    return <Navigate to='/' />
   }
 
   return (
     <div className='h-screen flex justify-center items-center bg-gradient-to-br from-[#c2ebfb] to-[#a1a7fd]'>
       <Card p='40px'>
-        <Flex flexDirection='column' alignItems='center'>
+        <div className='flex flex-col items-center'>
           <img src={'assets/logo.png'} alt='ChainWiki' className='w-[230px]' />
-          <Text.h1 mt='20px' mb='30px' fontSize={theme.fontSizes.mediumPlus}>
-            {t('title')}
-          </Text.h1>
+          <h1 className='typo-title3 mt-5 mb-7'>{t('title')}</h1>
           <ConnectButton onConnect={handleConnectWallet} />
-        </Flex>
+        </div>
       </Card>
     </div>
   )
