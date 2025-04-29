@@ -3,6 +3,7 @@ import { useConnectionStatus } from '@thirdweb-dev/react'
 import { useTranslation } from 'react-i18next'
 import { Navigate, useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
+import RoutePaths from 'src/shared/enums/routes-paths'
 
 const ConnectWalletPage = () => {
   const { t } = useTranslation('connectWallet')
@@ -10,11 +11,11 @@ const ConnectWalletPage = () => {
   const connected = useConnectionStatus()
 
   const handleConnectWallet = () => {
-    navigate('/')
+    navigate(RoutePaths.HOME)
   }
 
   if (connected === 'connected') {
-    return <Navigate to='/' />
+    return <Navigate to={RoutePaths.HOME} />
   }
 
   return (
