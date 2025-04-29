@@ -26,7 +26,12 @@ const ConnectWalletPage = () => {
         <ConnectButton onConnect={handleConnectWallet} />
         <p className='typo-body1 text-center mt-3'>
           {t('orExplorePublicWikisPart1')}{' '}
-          <Link to='/explore' className='text-primary'>
+          <Link
+            to='/explore'
+            className='text-primary hover:text-primary-accent'
+            target='_blank'
+            rel='noopener noreferrer'
+          >
             {t('orExplorePublicWikisPart2')}
           </Link>
         </p>
