@@ -1,0 +1,329 @@
+{
+    "apiVersion": "v1",
+    "kind": "Pod",
+    "metadata": {
+        "creationTimestamp": "2025-04-10T18:05:51Z",
+        "deletionGracePeriodSeconds": 300,
+        "deletionTimestamp": "2025-04-28T16:25:02Z",
+        "generateName": "nginx-controller-ingress-nginx-controller-5d7ff8c88f-",
+        "labels": {
+            "app.kubernetes.io/component": "controller",
+            "app.kubernetes.io/instance": "nginx-controller",
+            "app.kubernetes.io/managed-by": "Helm",
+            "app.kubernetes.io/name": "ingress-nginx",
+            "app.kubernetes.io/part-of": "ingress-nginx",
+            "app.kubernetes.io/version": "1.10.0",
+            "helm.sh/chart": "ingress-nginx-4.10.0",
+            "pod-template-hash": "5d7ff8c88f"
+        },
+        "name": "nginx-controller-ingress-nginx-controller-5d7ff8c88f-dcsdg",
+        "namespace": "default",
+        "ownerReferences": [
+            {
+                "apiVersion": "apps/v1",
+                "blockOwnerDeletion": true,
+                "controller": true,
+                "kind": "ReplicaSet",
+                "name": "nginx-controller-ingress-nginx-controller-5d7ff8c88f",
+                "uid": "e5c3c3d6-a3c6-451f-9ba5-3da32c9bf534"
+            }
+        ],
+        "resourceVersion": "309570576",
+        "uid": "b89acbaf-d8ce-4d1d-8270-ff3946aac752"
+    },
+    "spec": {
+        "containers": [
+            {
+                "args": [
+                    "/nginx-ingress-controller",
+                    "--publish-service=$(POD_NAMESPACE)/nginx-controller-ingress-nginx-controller",
+                    "--election-id=nginx-controller-ingress-nginx-leader",
+                    "--controller-class=k8s.io/ingress-nginx",
+                    "--ingress-class=nginx",
+                    "--configmap=$(POD_NAMESPACE)/nginx-controller-ingress-nginx-controller",
+                    "--validating-webhook=:8443",
+                    "--validating-webhook-certificate=/usr/local/certificates/cert",
+                    "--validating-webhook-key=/usr/local/certificates/key",
+                    "--enable-metrics=false"
+                ],
+                "env": [
+                    {
+                        "name": "POD_NAME",
+                        "valueFrom": {
+                            "fieldRef": {
+                                "apiVersion": "v1",
+                                "fieldPath": "metadata.name"
+                            }
+                        }
+                    },
+                    {
+                        "name": "POD_NAMESPACE",
+                        "valueFrom": {
+                            "fieldRef": {
+                                "apiVersion": "v1",
+                                "fieldPath": "metadata.namespace"
+                            }
+                        }
+                    },
+                    {
+                        "name": "LD_PRELOAD",
+                        "value": "/usr/local/lib/libmimalloc.so"
+                    }
+                ],
+                "image": "registry.k8s.io/ingress-nginx/controller:v1.10.0@sha256:42b3f0e5d0846876b1791cd3afeb5f1cbbe4259d6f35651dcc1b5c980925379c",
+                "imagePullPolicy": "IfNotPresent",
+                "lifecycle": {
+                    "preStop": {
+                        "exec": {
+                            "command": [
+                                "/wait-shutdown"
+                            ]
+                        }
+                    }
+                },
+                "livenessProbe": {
+                    "failureThreshold": 5,
+                    "httpGet": {
+                        "path": "/healthz",
+                        "port": 10254,
+                        "scheme": "HTTP"
+                    },
+                    "initialDelaySeconds": 10,
+                    "periodSeconds": 10,
+                    "successThreshold": 1,
+                    "timeoutSeconds": 1
+                },
+                "name": "controller",
+                "ports": [
+                    {
+                        "containerPort": 80,
+                        "name": "http",
+                        "protocol": "TCP"
+                    },
+                    {
+                        "containerPort": 443,
+                        "name": "https",
+                        "protocol": "TCP"
+                    },
+                    {
+                        "containerPort": 8443,
+                        "name": "webhook",
+                        "protocol": "TCP"
+                    }
+                ],
+                "readinessProbe": {
+                    "failureThreshold": 3,
+                    "httpGet": {
+                        "path": "/healthz",
+                        "port": 10254,
+                        "scheme": "HTTP"
+                    },
+                    "initialDelaySeconds": 10,
+                    "periodSeconds": 10,
+                    "successThreshold": 1,
+                    "timeoutSeconds": 1
+                },
+                "resources": {
+                    "requests": {
+                        "cpu": "100m",
+                        "memory": "90Mi"
+                    }
+                },
+                "securityContext": {
+                    "allowPrivilegeEscalation": false,
+                    "capabilities": {
+                        "add": [
+                            "NET_BIND_SERVICE"
+                        ],
+                        "drop": [
+                            "ALL"
+                        ]
+                    },
+                    "readOnlyRootFilesystem": false,
+                    "runAsNonRoot": true,
+                    "runAsUser": 101,
+                    "seccompProfile": {
+                        "type": "RuntimeDefault"
+                    }
+                },
+                "terminationMessagePath": "/dev/termination-log",
+                "terminationMessagePolicy": "File",
+                "volumeMounts": [
+                    {
+                        "mountPath": "/usr/local/certificates/",
+                        "name": "webhook-cert",
+                        "readOnly": true
+                    },
+                    {
+                        "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                        "name": "kube-api-access-sx6wx",
+                        "readOnly": true
+                    }
+                ]
+            }
+        ],
+        "dnsPolicy": "ClusterFirst",
+        "enableServiceLinks": true,
+        "nodeName": "ip-10-0-3-157.eu-central-1.compute.internal",
+        "nodeSelector": {
+            "kubernetes.io/os": "linux"
+        },
+        "preemptionPolicy": "PreemptLowerPriority",
+        "priority": 0,
+        "restartPolicy": "Always",
+        "schedulerName": "default-scheduler",
+        "securityContext": {},
+        "serviceAccount": "nginx-controller-ingress-nginx",
+        "serviceAccountName": "nginx-controller-ingress-nginx",
+        "terminationGracePeriodSeconds": 300,
+        "tolerations": [
+            {
+                "effect": "NoExecute",
+                "key": "node.kubernetes.io/not-ready",
+                "operator": "Exists",
+                "tolerationSeconds": 300
+            },
+            {
+                "effect": "NoExecute",
+                "key": "node.kubernetes.io/unreachable",
+                "operator": "Exists",
+                "tolerationSeconds": 300
+            }
+        ],
+        "volumes": [
+            {
+                "name": "webhook-cert",
+                "secret": {
+                    "defaultMode": 420,
+                    "secretName": "nginx-controller-ingress-nginx-admission"
+                }
+            },
+            {
+                "name": "kube-api-access-sx6wx",
+                "projected": {
+                    "defaultMode": 420,
+                    "sources": [
+                        {
+                            "serviceAccountToken": {
+                                "expirationSeconds": 3607,
+                                "path": "token"
+                            }
+                        },
+                        {
+                            "configMap": {
+                                "items": [
+                                    {
+                                        "key": "ca.crt",
+                                        "path": "ca.crt"
+                                    }
+                                ],
+                                "name": "kube-root-ca.crt"
+                            }
+                        },
+                        {
+                            "downwardAPI": {
+                                "items": [
+                                    {
+                                        "fieldRef": {
+                                            "apiVersion": "v1",
+                                            "fieldPath": "metadata.namespace"
+                                        },
+                                        "path": "namespace"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            }
+        ]
+    },
+    "status": {
+        "conditions": [
+            {
+                "lastProbeTime": null,
+                "lastTransitionTime": "2025-04-10T18:05:53Z",
+                "status": "True",
+                "type": "PodReadyToStartContainers"
+            },
+            {
+                "lastProbeTime": null,
+                "lastTransitionTime": "2025-04-10T18:05:51Z",
+                "status": "True",
+                "type": "Initialized"
+            },
+            {
+                "lastProbeTime": null,
+                "lastTransitionTime": "2025-04-28T16:14:56Z",
+                "status": "False",
+                "type": "Ready"
+            },
+            {
+                "lastProbeTime": null,
+                "lastTransitionTime": "2025-04-10T18:06:04Z",
+                "status": "True",
+                "type": "ContainersReady"
+            },
+            {
+                "lastProbeTime": null,
+                "lastTransitionTime": "2025-04-10T18:05:51Z",
+                "status": "True",
+                "type": "PodScheduled"
+            },
+            {
+                "lastProbeTime": null,
+                "lastTransitionTime": "2025-04-28T16:20:01Z",
+                "message": "Taint manager: deleting due to NoExecute taint",
+                "reason": "DeletionByTaintManager",
+                "status": "True",
+                "type": "DisruptionTarget"
+            }
+        ],
+        "containerStatuses": [
+            {
+                "containerID": "containerd://f4e4f8a5d7ee34c5a6fa45fa9a0e0a38be0d75fdaa79b9584d22ba6b58997a8e",
+                "image": "sha256:ffcc66479b5baa5a65f94b8b7c73c6ee5ed989ec0b7f8f9371999f335ce4f44c",
+                "imageID": "registry.k8s.io/ingress-nginx/controller@sha256:42b3f0e5d0846876b1791cd3afeb5f1cbbe4259d6f35651dcc1b5c980925379c",
+                "lastState": {},
+                "name": "controller",
+                "ready": true,
+                "restartCount": 0,
+                "started": true,
+                "state": {
+                    "running": {
+                        "startedAt": "2025-04-10T18:05:52Z"
+                    }
+                },
+                "volumeMounts": [
+                    {
+                        "mountPath": "/usr/local/certificates/",
+                        "name": "webhook-cert",
+                        "readOnly": true,
+                        "recursiveReadOnly": "Disabled"
+                    },
+                    {
+                        "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                        "name": "kube-api-access-sx6wx",
+                        "readOnly": true,
+                        "recursiveReadOnly": "Disabled"
+                    }
+                ]
+            }
+        ],
+        "hostIP": "10.0.3.157",
+        "hostIPs": [
+            {
+                "ip": "10.0.3.157"
+            }
+        ],
+        "phase": "Running",
+        "podIP": "10.0.3.163",
+        "podIPs": [
+            {
+                "ip": "10.0.3.163"
+            }
+        ],
+        "qosClass": "Burstable",
+        "startTime": "2025-04-10T18:05:51Z"
+    }
+}

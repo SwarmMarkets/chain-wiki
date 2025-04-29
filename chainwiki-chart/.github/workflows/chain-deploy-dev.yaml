@@ -1,0 +1,69 @@
+name: CI/CD for ChainWiki
+
+on:
+  push:
+    branches:
+      - "**"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and Push Docker Image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          push: true
+          tags: ghcr.io/${{ github.repository }}:${{ github.sha }}
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Load secrets from 1Password
+        id: secrets
+        uses: 1password/load-secrets-action@v1.2.0
+        with:
+          export-env: true
+        env:
+          OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
+          REACT_APP_THIRD_WEB_CLIENT_ID: op://ChainWiki/REACT_APP_THIRD_WEB_CLIENT_ID/credential
+          REACT_APP_SUBGRAPH_API_KEY: op://ChainWiki/REACT_APP_SUBGRAPH_API_KEY/credential
+          REACT_APP_MODE: op://ChainWiki/REACT_APP_MODE/credential
+          KUBECONFIG_CONTENT: op://ChainWiki/KUBECONFIG/file
+
+      - name: Configure kubeconfig
+        run: |
+          echo "$KUBECONFIG_CONTENT" > kubeconfig.yaml
+          export KUBECONFIG=$PWD/kubeconfig.yaml
+
+      - name: Setup Helm
+        uses: azure/setup-helm@v3
+
+      - name: Helm Upgrade
+        run: |
+          helm upgrade --install chainwiki ./helm \
+            --namespace chainwiki \
+            --create-namespace \
+            --kubeconfig kubeconfig.yaml \
+            --set image.repository=ghcr.io/${{ github.repository }} \
+            --set image.tag=${{ github.sha }} \
+            --set env[0].name=REACT_APP_THIRD_WEB_CLIENT_ID \
+            --set env[0].value="$REACT_APP_THIRD_WEB_CLIENT_ID" \
+            --set env[1].name=REACT_APP_SUBGRAPH_API_KEY \
+            --set env[1].value="$REACT_APP_SUBGRAPH_API_KEY" \
+            --set env[2].name=REACT_APP_MODE \
+            --set env[2].value="$REACT_APP_MODE"

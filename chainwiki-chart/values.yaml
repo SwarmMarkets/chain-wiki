@@ -1,0 +1,12 @@
+image:
+  repository: farid987/chainwiki
+  tag: e2
+  pullPolicy: IfNotPresent
+
+service:
+  type: LoadBalancer
+  port: 80
+
+ingress:
+  enabled: true
+  host: dev.chainwiki.com
