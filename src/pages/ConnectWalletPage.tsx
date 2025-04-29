@@ -18,7 +18,7 @@ const ConnectWalletPage = () => {
 
   return (
     <div className='h-screen flex justify-center items-center bg-gradient-to-br from-[#c2ebfb] to-[#a1a7fd]'>
-      <div className='flex flex-col items-center bg-paper py-12 px-16 rounded-2xl shadow-xl'>
+      <div className='flex flex-col items-center bg-paper py-12 px-16 rounded-2xl shadow-lg'>
         <img src={'assets/logo.png'} alt='ChainWiki' className='w-72' />
         <h1 className='typo-title2 font-medium mt-5 mb-6'>{t('title')}</h1>
         <ConnectButton onConnect={handleConnectWallet} />
