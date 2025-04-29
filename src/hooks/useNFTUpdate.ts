@@ -15,6 +15,7 @@ import {
 
 export interface NFTContentToUpdate {
   logoUrl?: string | null
+  iconLogoUrl?: string | null
   headerBackground?: string | null
   name?: string | null
   uri?: string

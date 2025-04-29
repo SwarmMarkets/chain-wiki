@@ -15,8 +15,14 @@ const Settings = () => {
   const [searchParams] = useSearchParams()
   const actilveLink = searchParams.get('setting') || RoutePathSetting.GENERAL
   const { nftId = '' } = useParams()
-  const { headerBackground, headerLinks, linksColor, logoUrl, isEdited } =
-    useCustomizationStore()
+  const {
+    headerBackground,
+    headerLinks,
+    linksColor,
+    logoUrl,
+    iconLogoUrl,
+    isEdited,
+  } = useCustomizationStore()
   const { t } = useTranslation('buttons')
 
   return (
@@ -45,7 +51,7 @@ const Settings = () => {
               className='mt-4'
               nftAddress={nftId}
               ipfsHeaderLinkToUpdate={{ headerLinks, color: linksColor }}
-              nftContentToUpdate={{ headerBackground, logoUrl }}
+              nftContentToUpdate={{ headerBackground, logoUrl, iconLogoUrl }}
               disabled={!isEdited}
             >
               {t('save')}

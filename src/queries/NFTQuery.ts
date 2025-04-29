@@ -12,10 +12,11 @@ export const NFTQuery = graphql(`
       indexPagesUri
       headerLinksUri
       logoUrl
+      iconLogoUrl
       creator
       admins
       editors
-      headerBackground 
+      headerBackground
     }
   }
 `)

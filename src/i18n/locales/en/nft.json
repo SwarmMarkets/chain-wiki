@@ -61,9 +61,14 @@
       "subtitle": "Manage site roles",
       "description": "This page is dedicated to managing user roles within the site. It allows for the assignment and adjustment of roles to ensure proper access control and responsibility distribution across the team."
     },
+    "icon": {
+      "title": "Icon",
+      "description": "A small image that represents your brand or app.",
+      "upload": "Upload icon"
+    },
     "customLogo": {
       "title": "Custom logo",
-      "description": "Replace the content's title with a custom logo"
+      "description": "Your logo shown in the app interface."
     },
     "headerColor": {
       "title": "Header color",

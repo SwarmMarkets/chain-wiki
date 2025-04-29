@@ -6,6 +6,7 @@ interface CustomizationState {
   linksColor: string
   headerLinks: IpfsHeaderLink[]
   logoUrl: string
+  iconLogoUrl?: string
   isEdited?: boolean
 }
 
@@ -14,6 +15,7 @@ interface CustomizationSetters {
   setLinksColor: (color: string) => void
   setHeaderLinks: (links: IpfsHeaderLink[]) => void
   setLogoUrl: (url: string) => void
+  setIconLogoUrl: (url: string) => void
   init: (state: Partial<CustomizationState>) => void
   reset: () => void
 }
@@ -25,6 +27,7 @@ export const useCustomizationStore = create<CustomizationStore>(set => ({
   linksColor: '#ffffff',
   headerLinks: [],
   logoUrl: '',
+  iconLogoUrl: '',
   isEdited: false,
 
   setHeaderBackground: (background: string) =>
@@ -32,12 +35,14 @@ export const useCustomizationStore = create<CustomizationStore>(set => ({
   setLinksColor: color => set({ linksColor: color, isEdited: true }),
   setHeaderLinks: links => set({ headerLinks: links, isEdited: true }),
   setLogoUrl: url => set({ logoUrl: url, isEdited: true }),
+  setIconLogoUrl: url => set({ iconLogoUrl: url, isEdited: true }),
   init: state => set(state),
   reset: () =>
     set({
       headerBackground: '#0179ef',
       linksColor: '#ffffff',
       logoUrl: '',
+      iconLogoUrl: '',
       headerLinks: [],
     }),
 }))

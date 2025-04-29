@@ -24,6 +24,7 @@ export const NFTsQuery = graphql(`
       uri
       indexPagesUri
       logoUrl
+      iconLogoUrl
       admins
       editors
     }

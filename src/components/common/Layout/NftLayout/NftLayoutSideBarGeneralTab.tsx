@@ -15,7 +15,8 @@ const NftLayoutSideBarGeneralTab: React.FC<NftLayoutSideBarGeneralTabProps> = ({
 }) => {
   const { t } = useTranslation(['nft', 'layout'])
 
-  const { logoUrl, setLogoUrl, init } = useCustomizationStore()
+  const { logoUrl, iconLogoUrl, setLogoUrl, setIconLogoUrl, init } =
+    useCustomizationStore()
 
   useOnFirstMount(() => {
     init({
@@ -27,12 +28,18 @@ const NftLayoutSideBarGeneralTab: React.FC<NftLayoutSideBarGeneralTabProps> = ({
       }),
       headerLinks: nft.headerLinksContent?.headerLinks,
       logoUrl: nft.logoUrl,
+      iconLogoUrl: nft.iconLogoUrl,
     })
   })
+
+  const handleUploadIconLogo = (url: string) => {
+    setIconLogoUrl(url)
+  }
 
   const handleUploadLogo = (url: string) => {
     setLogoUrl(url)
   }
+
   return (
     <Card>
       <h4 className='typo-title2 text-main-accent font-semibold'>
@@ -41,6 +48,25 @@ const NftLayoutSideBarGeneralTab: React.FC<NftLayoutSideBarGeneralTabProps> = ({
       <div className='border-b border-main my-4'></div>
       <div className='mb-2'>
         <div className='typo-title2 text-main-accent font-semibold mb-1'>
+          {t('settings.icon.title')}
+        </div>
+        <div>{t('settings.icon.description')}</div>
+        <div className='flex items-center gap-2 mt-2'>
+          <div className='p-1 bg-gray-100 rounded-md flex items-center justify-center w-10 h-10 shrink-0'>
+            {iconLogoUrl && (
+              <img
+                src={iconLogoUrl}
+                className='w-5 h-5 object-contain rounded'
+                alt='icon'
+              />
+            )}
+          </div>
+          <UploadFileButton className='w-full' onUpload={handleUploadIconLogo}>
+            {t('settings.icon.upload')}
+          </UploadFileButton>
+        </div>
+
+        <div className='typo-title2 text-main-accent font-semibold mb-1 mt-3'>
           {t('settings.customLogo.title')}
         </div>
         <div>{t('settings.customLogo.description')}</div>

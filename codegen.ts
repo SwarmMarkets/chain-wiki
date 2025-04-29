@@ -1,9 +1,9 @@
 import type { CodegenConfig } from '@graphql-codegen/cli'
-import { environment } from './src/environment'
 
 const config: CodegenConfig = {
   overwrite: true,
-  schema: environment.subgraphURL,
+  schema:
+    'https://api.studio.thegraph.com/query/60829/chain-wiki-testnet/version/latest',
   documents: ['src/**/*.{ts,tsx}'],
   ignoreNoDocuments: true,
   generates: {
