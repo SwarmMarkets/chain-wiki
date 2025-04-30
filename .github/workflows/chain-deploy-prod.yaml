@@ -2,7 +2,7 @@ name: '[PRODUCTION] Deploy'
 
 on:
   push:
-    branches: [feature/deployment-test]
+    branches: [master]
 
 permissions:
   contents: write 
@@ -129,6 +129,6 @@ jobs:
           push: true
           tags: ghcr.io/swarmmarkets/chain-wiki:${{ needs.release.outputs.tag }}
 
-      - name: Deployment to dev cluster
+      - name: Deployment to prod cluster
         run: |
             helm upgrade --install chainwiki  ./chainwiki-chart -f ./chainwiki-chart/values-prod.yaml --set=image.repository="ghcr.io/swarmmarkets/chain-wiki:${{ needs.release.outputs.tag }}" -n ${{ env.NAMESPACE }}

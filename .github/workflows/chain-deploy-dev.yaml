@@ -2,7 +2,7 @@ name: '[DEVELOPMENT] Deploy'
 
 on:
   push:
-    branches: [feature/deployment-test]
+    branches: [development]
 
 permissions:
   contents: write 
