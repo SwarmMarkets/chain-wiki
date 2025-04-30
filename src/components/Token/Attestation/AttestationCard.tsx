@@ -1,7 +1,7 @@
 import { shortenAddress } from '@thirdweb-dev/react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import MarkdownRenderer from 'src/components/Editor/MarkdownWithComments'
+import MarkdownRenderer from 'src/components/Editor/MarkdownRenderer'
 import ExplorerLink from 'src/components/common/ExplorerLink'
 import Card from 'src/components/ui/Card'
 import Text from 'src/components/ui/Text'

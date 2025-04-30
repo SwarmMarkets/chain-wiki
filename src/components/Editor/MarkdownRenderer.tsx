@@ -11,6 +11,8 @@ import IconButton from '../ui-kit/IconButton'
 import useFullTokenIdParam from 'src/hooks/useFullTokenIdParam'
 import remarkGfm from 'remark-gfm'
 import rehypeRaw from 'rehype-raw'
+import rehypeHighlight from 'rehype-highlight'
+import 'highlight.js/styles/atom-one-dark.css'
 
 interface MarkdownRendererProps {
   markdown: string
@@ -67,6 +69,7 @@ const MarkdownRenderer = forwardRef<HTMLDivElement, MarkdownRendererProps>(
         })
         .use(remarkRehype, { allowDangerousHtml: true })
         .use(rehypeRaw)
+        .use(rehypeHighlight)
         .use(rehypeReact, {
           Fragment: prod.Fragment,
           jsx: prod.jsx,
