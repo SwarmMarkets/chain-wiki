@@ -2,7 +2,7 @@ import Skeleton from 'src/components/ui-kit/Skeleton/Skeleton'
 
 const ReadHeaderSkeleton = () => {
   return (
-    <header className='gray-200 py-3 w-full'>
+    <header className='bg-gray-50 py-3 w-full'>
       <div className='max-w-screen-2xl mx-auto px-4 sm:px-6 md:px-8 flex items-center max-h-10 justify-between'>
         <Skeleton
           width='100px'
