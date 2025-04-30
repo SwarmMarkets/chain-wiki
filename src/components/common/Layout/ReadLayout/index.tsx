@@ -5,7 +5,7 @@ import ReadHeader from './ReadHeader'
 import RightSidebar from './RightSidebar'
 import RoutePaths from 'src/shared/enums/routes-paths'
 import clsx from 'clsx'
-import React, { PropsWithChildren } from 'react'
+import React, { PropsWithChildren, useEffect } from 'react'
 import { useContentRef } from './ContentContext'
 
 interface ReadLayoutProps {
@@ -31,6 +31,22 @@ const ReadLayout: React.FC<PropsWithChildren<ReadLayoutProps>> = ({
       nftId: nftId,
       tokenId: tokenId,
     })
+
+  useEffect(() => {
+    if (preview) return
+
+    if (nft?.name) {
+      document.title = nft.name
+    }
+    if (nft?.iconLogoUrl) {
+      const favicon = document.querySelector(
+        "link[rel~='icon']"
+      ) as HTMLLinkElement | null
+      if (favicon) {
+        favicon.href = nft.iconLogoUrl
+      }
+    }
+  }, [nft?.name, nft?.iconLogoUrl, preview])
 
   return (
     <div className='flex flex-col w-full'>
