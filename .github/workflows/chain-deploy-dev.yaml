@@ -33,7 +33,7 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: op://CI-CD/AWS_ACCESS_KEY_ID/credential
           AWS_SECRET_KEY: op://CI-CD/AWS_SECRET_KEY/credential
-          ENV_FILE: op://CI-CD/.env-dev-chainwiki/notes
+          ENV_FILE: op://CI-CD/.env-chainwiki-dev/notes
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1-node16
