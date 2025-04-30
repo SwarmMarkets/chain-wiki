@@ -7,4 +7,4 @@ service:
 
 ingress:
   enabled: true
-  host: dev.chainwiki.com
+  host: app.chainwiki.com

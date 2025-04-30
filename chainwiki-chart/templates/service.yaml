@@ -6,5 +6,5 @@ spec:
   selector:
     app: {{ .Release.Name }}
   ports:
-    - port: 80          # Expose port 80 externally
-      targetPort: 3000   # Forward traffic to port 3000 inside the container
+    - port: 80
+      targetPort: 3000

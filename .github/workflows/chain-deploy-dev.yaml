@@ -5,7 +5,7 @@ on:
     branches: [feature/deployment-test]
 
 permissions:
-  contents: read 
+  contents: write 
   packages: write
 
 
@@ -89,4 +89,4 @@ jobs:
 
       - name: Deployment to dev cluster
         run: |
-            helm upgrade --install chainwiki  ./chainwiki-chart -f ./chainwiki-chart/values-dev.yaml --set=web.image="ghcr.io/swarmmarkets/chain-wiki:${{ github.sha}}" -n ${{ env.NAMESPACE }}
+            helm upgrade --install chainwiki  ./chainwiki-chart -f ./chainwiki-chart/values-dev.yaml --set=image.repository="ghcr.io/swarmmarkets/chain-wiki:${{ github.sha}}" -n ${{ env.NAMESPACE }}
