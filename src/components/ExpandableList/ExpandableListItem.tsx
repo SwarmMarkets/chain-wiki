@@ -9,6 +9,7 @@ export interface ExpandableListItem {
   active?: boolean
   label: ReactNode
   icon?: IconName
+  iconImageUrl?: string
   to?: string
 }
 
@@ -32,12 +33,16 @@ const ExpandableListItem: React.FC<ExpandableListItemProps> = ({
       )}
       onClick={() => onClickItem?.(item)}
     >
-      {item.icon && (
-        <Icon
-          name={item.icon}
-          size={16}
-          className='text-main transition-colors group-hover:text-main-accent flex-shrink-0'
-        />
+      {item.iconImageUrl ? (
+        <img src={item.iconImageUrl} className='max-w-4 max-h-4' />
+      ) : (
+        item.icon && (
+          <Icon
+            name={item.icon}
+            size={16}
+            className='text-main transition-colors group-hover:text-main-accent flex-shrink-0'
+          />
+        )
       )}
       <div className='typo-body2'>{item.label}</div>
     </div>
