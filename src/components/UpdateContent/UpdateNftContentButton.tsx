@@ -29,9 +29,6 @@ const UpdateNftContentButton: React.FC<UpdateNftContentButtonProps> = ({
   ...buttonProps
 }) => {
   const [isLoading, setIsLoading] = useState(false)
-  const [ipfsUri, setIpfsUri] = useState('')
-  const [indexPagesUri, setIndexPagesUri] = useState('')
-  const [headerLinksUri, setHeaderLinksUri] = useState('')
   const { t } = useTranslation('buttons')
 
   const {
@@ -51,28 +48,16 @@ const UpdateNftContentButton: React.FC<UpdateNftContentButtonProps> = ({
     let uri
     if (ipfsNftToUpdate?.htmlContent) {
       uri = await uploadContent(ipfsNftToUpdate)
-
-      if (uri) {
-        setIpfsUri(uri)
-      }
     }
 
     let indexPagesUri
     if (ipfsIndexPagesToUpdate) {
       indexPagesUri = await uploadIndexPagesContent(ipfsIndexPagesToUpdate)
-
-      if (indexPagesUri) {
-        setIndexPagesUri(indexPagesUri)
-      }
     }
 
     let headerLinksUri
     if (ipfsHeaderLinkToUpdate) {
       headerLinksUri = await uploadHeaderLinksContent(ipfsHeaderLinkToUpdate)
-
-      if (headerLinksUri) {
-        setHeaderLinksUri(headerLinksUri)
-      }
     }
 
     const res = await signTransaction({
