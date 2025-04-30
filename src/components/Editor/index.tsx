@@ -110,6 +110,7 @@ const Editor: React.FC<EditorProps> = ({ content = '', onChange }) => {
         css: 'CSS',
         txt: 'text',
         tsx: 'TypeScript',
+        json: 'JSON',
       },
     }),
     directivesPlugin({ directiveDescriptors: [AdmonitionDirectiveDescriptor] }),
