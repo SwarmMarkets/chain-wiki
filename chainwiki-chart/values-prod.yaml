@@ -14,17 +14,16 @@ affinity:
     requiredDuringSchedulingIgnoredDuringExecution:
       nodeSelectorTerms:
         - matchExpressions:
-            - key:    chainwiki
+            - key: "chainwiki"
               operator: In
               values:
-                - enabled
+                - "enabled"
 
 tolerations:
-  - key:      chainwiki
-    operator: Equal
-    value:    "true"
-    effect:   NoSchedule
+  - key: "chainwiki"
+    operator: "Equal"
+    value: "true"
+    effect: "NoSchedule"
 
 nodeSelector:
   chainwiki: "enabled"
-
