@@ -1,5 +1,5 @@
 image:
-  repository: ""
+  repository: ""  
   pullPolicy: Always
 
 service:
@@ -7,23 +7,23 @@ service:
 
 ingress:
   enabled: true
-  host: app.chainwiki.com
+  host: app.chainwiki.com 
 
 affinity:
   nodeAffinity:
     requiredDuringSchedulingIgnoredDuringExecution:
       nodeSelectorTerms:
         - matchExpressions:
-            - key: "chainwiki"
+            - key:    chainwiki
               operator: In
               values:
-                - "enabled"
+                - enabled
 
 tolerations:
-  - key: "chainwiki"
-    operator: "Equal"
-    value: "true"
-    effect: "NoSchedule"
+  - key:      chainwiki
+    operator: Equal
+    value:    "true"
+    effect:   NoSchedule
 
 nodeSelector:
   chainwiki: "enabled"
