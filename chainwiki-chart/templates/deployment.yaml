@@ -15,19 +15,19 @@ spec:
         app: {{ .Release.Name }}
     spec:
 
-      {{- with .Values-dev.affinity }}
+      {{- with .Values.affinity }}
       affinity:
 {{ toYaml . | indent 8 }}
       {{- end }}
 
-      {{- with .Values-dev.tolerations }}
+      {{- with .Values.tolerations }}
       tolerations:
 {{ toYaml . | indent 8 }}
       {{- end }}
 
       containers:
         - name: {{ .Release.Name }}
-          image: "{{ .Values-dev.image.repository }}"
-          imagePullPolicy: {{ .Values-dev.image.pullPolicy }}
+          image: "{{ .Values.image.repository }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - containerPort: 3000

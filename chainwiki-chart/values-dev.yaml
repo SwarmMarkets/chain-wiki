@@ -7,17 +7,17 @@ service:
 
 ingress:
   enabled: true
-  host: dev.chainwiki.
+  host: dev.chainwiki.com
   
-  affinity:
-  nodeAffinity:
-    requiredDuringSchedulingIgnoredDuringExecution:
-      nodeSelectorTerms:
-        - matchExpressions:
-            - key:   "chainwiki"
-              operator: In
-              values:
-                - "enabled"
+affinity:
+nodeAffinity:
+  requiredDuringSchedulingIgnoredDuringExecution:
+    nodeSelectorTerms:
+      - matchExpressions:
+          - key:   "chainwiki"
+            operator: In
+            values:
+              - "enabled"
 
 tolerations:
   - key:      "chainwiki"
