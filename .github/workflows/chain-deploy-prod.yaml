@@ -2,8 +2,9 @@ name: '[PRODUCTION] Deploy'
 
 on:
   push:
-    branches: [master]
-
+    branches:
+      - master
+      - 'feature/deployment-test'  
 permissions:
   contents: write 
   packages: write

@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - development
-      - 'feature/**'  # triggers on any branch starting with feature/
+      - 'feature/deployment-test'  # triggers on any branch starting with feature/
   workflow_dispatch:  # allow manual trigger
 
 permissions:
