@@ -27,3 +27,4 @@ tolerations:
 
 nodeSelector:
   chainwiki: "enabled"
+
