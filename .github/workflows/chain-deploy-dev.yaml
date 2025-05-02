@@ -2,20 +2,20 @@ name: '[DEVELOPMENT] Deploy'
 
 on:
   push:
-    branches: [feature/development-test]
+    branches:
+      - development
+      - 'feature/**'  # triggers on any branch starting with feature/
+  workflow_dispatch:  # allow manual trigger
 
 permissions:
-  contents: write 
+  contents: write
   packages: write
 
-
 jobs:
-
   Development:
     name: Chainwiki-Development
     runs-on: ubuntu-latest
     env:
-      # Cluster variables
       AWS_REGION: eu-central-1
       KUBECTL_VERSION: 1.23.5
       CLUSTER_NAME: 'swarm-dev'
@@ -51,18 +51,17 @@ jobs:
           curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 > get_helm.sh
           chmod 700 get_helm.sh
           sudo bash get_helm.sh
-  
+
       - name: Install kubectl
         run: |
           curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/${{ env.KUBECTL_VERSION }}/2021-07-05/bin/linux/amd64/kubectl
           chmod +x ./kubectl
           sudo mv kubectl /usr/bin/
-  
+
       - name: Configure kubectl
         id: kubeconfig
         run: |
           aws eks --region ${{ env.AWS_REGION }} update-kubeconfig --name ${{ env.CLUSTER_NAME }}
-
 
       - name: Get .env file from 1Password
         run: |
@@ -78,15 +77,16 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-
       - name: Docker build image
         uses: docker/build-push-action@v4.1.1
         with:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ghcr.io/swarmmarkets/chain-wiki:${{ github.sha}}
+          tags: ghcr.io/swarmmarkets/chain-wiki:${{ github.sha }}
 
       - name: Deployment to dev cluster
         run: |
-            helm upgrade --install chainwiki  ./chainwiki-chart -f ./chainwiki-chart/values-dev.yaml --set=image.repository="ghcr.io/swarmmarkets/chain-wiki:${{ github.sha}}" -n ${{ env.NAMESPACE }}
+          helm upgrade --install chainwiki ./chainwiki-chart -f ./chainwiki-chart/values-dev.yaml \
+          --set=image.repository="ghcr.io/swarmmarkets/chain-wiki:${{ github.sha }}" \
+          -n ${{ env.NAMESPACE }}
