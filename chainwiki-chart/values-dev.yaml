@@ -26,4 +26,4 @@ tolerations:
     effect: "NoSchedule"
 
 nodeSelector:
-  chainwiki: "true"
+  chainwiki: "enabled"
