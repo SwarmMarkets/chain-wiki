@@ -14,6 +14,7 @@ spec:
       labels:
         app: {{ .Release.Name }}
     spec:
+
       {{- with .Values.affinity }}
       affinity:
 {{ toYaml . | indent 8 }}
@@ -21,11 +22,6 @@ spec:
 
       {{- with .Values.tolerations }}
       tolerations:
-{{ toYaml . | indent 8 }}
-      {{- end }}
-
-      {{- with .Values.nodeSelector }}
-      nodeSelector:
 {{ toYaml . | indent 8 }}
       {{- end }}
 
