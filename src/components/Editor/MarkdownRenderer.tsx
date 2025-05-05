@@ -74,8 +74,13 @@ const MarkdownRenderer = forwardRef<HTMLDivElement, MarkdownRendererProps>(
           Fragment: prod.Fragment,
           jsx: prod.jsx,
           jsxs: prod.jsxs,
-          ...(showComments && {
-            components: {
+          components: {
+            a: (props: any) => (
+              <a {...props} target='_blank' rel='noopener noreferrer'>
+                {props.children}
+              </a>
+            ),
+            ...(showComments && {
               p: (props: any) => (
                 <ParagraphWithComment
                   onClickComment={onClickComment}
@@ -111,8 +116,8 @@ const MarkdownRenderer = forwardRef<HTMLDivElement, MarkdownRendererProps>(
                   tag='li'
                 />
               ),
-            },
-          }),
+            }),
+          },
         })
 
       const file = processor.processSync(markdown)
