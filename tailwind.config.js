@@ -20,7 +20,7 @@ module.exports = {
       primary: {
         DEFAULT: '#511DD7',
         accent: '#4317B2',
-        muted: '#F5FAFF',
+        muted: '#B7B7B7',
         contrast: '#FFF',
       },
       secondary: {
@@ -52,9 +52,9 @@ module.exports = {
       },
       info: {
         DEFAULT: '#511DD7',
-        accent: '0160bd',
+        accent: '#4317B2',
         lightAccent: '#D9ECFF',
-        muted: '#EEF7FF',
+        muted: '#B7B7B7',
         contrast: '#5C6670',
       },
       chart: {
