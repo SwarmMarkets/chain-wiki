@@ -34,7 +34,6 @@ const HomePage = () => {
         nfts={nfts}
         skeletonLength={10}
         className='mt-7'
-        showRole
       />
     </div>
   )

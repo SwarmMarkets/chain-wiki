@@ -13,23 +13,17 @@ import clsx from 'clsx'
 
 interface NftCardProps {
   nft: NFTsQueryFullData
-  showRole?: boolean
   addLogoButton?: boolean
   className?: string
 }
 
-const NftCard: React.FC<NftCardProps> = ({
-  nft,
-  showRole = false,
-  className,
-}) => {
+const NftCard: React.FC<NftCardProps> = ({ nft, className }) => {
   const { t } = useTranslation(['nft', 'nfts'])
   const account = useAddress()
   const { signTransaction, tx } = useNFTUpdate(nft.id)
   const chainId = useChainId()
 
   const roles = useMemo(() => {
-    if (!showRole) return []
     const isAdmin = nft.admins.some(address =>
       isSameEthereumAddress(address, account)
     )
@@ -40,7 +34,7 @@ const NftCard: React.FC<NftCardProps> = ({
     if (isAdmin) roles.push(t('filter.admin', { ns: 'nfts' }))
     if (isEditor) roles.push(t('filter.editor', { ns: 'nfts' }))
     return roles
-  }, [account, nft.admins, nft.editors, t, showRole])
+  }, [account, nft.admins, nft.editors, t])
 
   const handleUploadLogo = async (url: string) => {
     await signTransaction({ logoUrl: url })

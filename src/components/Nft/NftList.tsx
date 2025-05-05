@@ -13,7 +13,6 @@ import useModalState from 'src/hooks/useModalState'
 interface NftListProps {
   loading: boolean
   nfts?: NfTsQuery['nfts'] | null
-  showRole?: boolean
   skeletonLength?: number
   className?: string
 }
@@ -21,7 +20,6 @@ interface NftListProps {
 const NftList: React.FC<NftListProps> = ({
   loading,
   nfts,
-  showRole,
   skeletonLength,
   className,
 }) => {
@@ -56,7 +54,7 @@ const NftList: React.FC<NftListProps> = ({
             to={generatePath(RoutePaths.NFT, { nftId: nft.id })}
             key={nft.id}
           >
-            <NftCard nft={nft} showRole={showRole} className='h-full' />
+            <NftCard nft={nft} className='h-full' />
           </Link>
         ))
       )}
