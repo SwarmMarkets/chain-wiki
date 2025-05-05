@@ -20,12 +20,12 @@ module.exports = {
       primary: {
         DEFAULT: '#511DD7',
         accent: '#4317B2',
-        muted: '#B7B7B7',
+        muted: '#f9f6ff',
         contrast: '#FFF',
       },
       secondary: {
-        DEFAULT: '#F5FAFF',
-        accent: '#EEF7FF',
+        DEFAULT: '#f9f6ff',
+        accent: '#f3edff',
         muted: '#fff',
         contrast: '#5C6670',
       },
@@ -54,7 +54,7 @@ module.exports = {
         DEFAULT: '#511DD7',
         accent: '#4317B2',
         lightAccent: '#ADD8E6',
-        muted: '#B7B7B7',
+        muted: '#f9f6ff',
         contrast: '#5C6670',
       },
       chart: {
@@ -66,8 +66,8 @@ module.exports = {
       },
       paper: {
         DEFAULT: '#FFFFFF',
-        hover: '#F5FAFF',
-        accent: '#F5FAFF',
+        hover: '#f9f6ff',
+        accent: '#f9f6ff',
         muted: '#FFF',
         contrast: '#5C6670',
       },
