@@ -53,7 +53,7 @@ module.exports = {
       info: {
         DEFAULT: '#511DD7',
         accent: '#4317B2',
-        lightAccent: '#D9ECFF',
+        lightAccent: '#ADD8E6',
         muted: '#B7B7B7',
         contrast: '#5C6670',
       },
