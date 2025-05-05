@@ -31,6 +31,7 @@
     "ethers": "^5.7.2",
     "framer-motion": "^12.5.0",
     "graphql": "^16.8.1",
+    "highlight.js": "^11.11.1",
     "i18next": "^23.7.16",
     "js-beautify": "^1.14.11",
     "lodash": "^4.17.21",

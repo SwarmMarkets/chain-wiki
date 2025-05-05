@@ -18,8 +18,8 @@ module.exports = {
     colors: {
       transparent: 'transparent', // TODO: Check if it's possible to avoid hadrdcoding basic TW properties
       primary: {
-        DEFAULT: '#0179EF',
-        accent: '#0167CB',
+        DEFAULT: '#511DD7',
+        accent: '#4317B2',
         muted: '#F5FAFF',
         contrast: '#FFF',
       },
@@ -51,7 +51,7 @@ module.exports = {
         contrast: '#2E3338',
       },
       info: {
-        DEFAULT: '#0179EF',
+        DEFAULT: '#511DD7',
         accent: '0160bd',
         lightAccent: '#D9ECFF',
         muted: '#EEF7FF',
@@ -111,7 +111,7 @@ module.exports = {
       main: {
         DEFAULT: '#E3E5E8',
         hover: '#96CAFE',
-        active: '#0179EF',
+        active: '#511DD7',
         muted: '#ABB2BA',
       },
     }),
