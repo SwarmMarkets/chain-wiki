@@ -14,6 +14,8 @@ const ExplorePage = () => {
 
   const loading = loadingNfts && !refetchingNfts
 
+  const noNfts = !loading && (!nfts || nfts?.length === 0)
+
   return (
     <div className='h-full'>
       <div
@@ -29,12 +31,16 @@ const ExplorePage = () => {
           {t('title')}
         </h1>
         <h3 className='heading-md'>{t('subtitle')}</h3>
-        <NftList
-          loading={loading}
-          nfts={nfts}
-          skeletonLength={10}
-          className='mt-7'
-        />
+        {noNfts ? (
+          <div className='text-center mt-14 typo-title2'>{t('noNfts')}</div>
+        ) : (
+          <NftList
+            loading={loading}
+            nfts={nfts}
+            skeletonLength={10}
+            className='mt-7'
+          />
+        )}
       </div>
     </div>
   )
