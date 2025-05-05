@@ -1,7 +1,9 @@
 import { useTranslation } from 'react-i18next'
+import { generatePath } from 'react-router-dom'
 import NftList from 'src/components/Nft/NftList'
 import useNFTs from 'src/hooks/subgraph/useNFTs'
 import { Nft_OrderBy, OrderDirection } from 'src/queries/gql/graphql'
+import RoutePaths from 'src/shared/enums/routes-paths'
 
 const ExplorePage = () => {
   const { t } = useTranslation('explore')
@@ -39,6 +41,7 @@ const ExplorePage = () => {
             nfts={nfts}
             skeletonLength={10}
             className='mt-7'
+            to={nft => generatePath(RoutePaths.NFT_READ, { nftId: nft.id })}
           />
         )}
       </div>

@@ -11,6 +11,7 @@ interface NftListProps {
   nfts?: NfTsQuery['nfts'] | null
   skeletonLength?: number
   className?: string
+  to?: (nft: NfTsQuery['nfts'][0]) => string
 }
 
 const NftList: React.FC<NftListProps> = ({
@@ -18,6 +19,7 @@ const NftList: React.FC<NftListProps> = ({
   nfts,
   skeletonLength,
   className,
+  to,
 }) => {
   return (
     <div
@@ -31,7 +33,7 @@ const NftList: React.FC<NftListProps> = ({
       ) : (
         nfts?.map(nft => (
           <Link
-            to={generatePath(RoutePaths.NFT, { nftId: nft.id })}
+            to={to ? to(nft) : generatePath(RoutePaths.NFT, { nftId: nft.id })}
             key={nft.id}
           >
             <NftCard nft={nft} className='h-full' />
