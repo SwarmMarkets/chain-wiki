@@ -34,7 +34,6 @@ const AttestationDrawer: React.FC<AttestationDrawerProps> = ({
     },
     { fetchFullData: true }
   )
-  const showSkeletons = loadingComments && !refetchingComments
 
   const handleChangeEditor = (value: string) => {
     setEditorContent(value)
@@ -50,29 +49,24 @@ const AttestationDrawer: React.FC<AttestationDrawerProps> = ({
         <div>
           <HtmlRender html={section.htmlContent || ''} />
           <Divider />
-          <AttestationList
-            attestations={fullComments}
-            loading={showSkeletons}
-          />
+          <AttestationList attestations={fullComments} />
         </div>
-        <RequirePermissions nftAddress={nftId} canCreateAttestation>
-          <div className='flex flex-col'>
-            <LiteEditor
-              height={200}
-              onChange={handleChangeEditor}
-              value={editorContent}
-            />
-            <MakeAttestationButton
-              onSuccess={handleSendAttestation}
-              nftAddress={nftId}
-              sectionId={section.id}
-              attestationContent={editorContent}
-              tokenId={tokenId}
-            >
-              {t('attestation.send')}
-            </MakeAttestationButton>
-          </div>
-        </RequirePermissions>
+        <div className='flex flex-col'>
+          <LiteEditor
+            height={200}
+            onChange={handleChangeEditor}
+            value={editorContent}
+          />
+          <MakeAttestationButton
+            onSuccess={handleSendAttestation}
+            nftAddress={nftId}
+            sectionId={section.id}
+            attestationContent={editorContent}
+            tokenId={tokenId}
+          >
+            {t('attestation.send')}
+          </MakeAttestationButton>
+        </div>
       </div>
     </Drawer>
   )
