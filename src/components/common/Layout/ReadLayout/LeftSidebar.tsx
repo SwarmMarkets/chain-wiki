@@ -1,3 +1,4 @@
+import React from 'react'
 import clsx from 'clsx'
 import {
   generatePath,
@@ -11,6 +12,7 @@ import LeftSidebarSkeleton from './Content/LeftSidebarSkeleton'
 import SidebarTree from './SidebarTree'
 import { ISidebarTreeNode } from './SidebarTreeNode'
 import useFullTokenIdParam from 'src/hooks/useFullTokenIdParam'
+import { useTranslation } from 'react-i18next'
 
 interface LeftSidebarProps {
   nft: NFTWithMetadata | null
@@ -57,6 +59,7 @@ const buildTree = (
 }
 
 const LeftSidebar: React.FC<LeftSidebarProps> = ({ nft, preview }) => {
+  const { t } = useTranslation('contents')
   const { tokenId } = useParams()
   const fullTokenId = useFullTokenIdParam()
   const navigate = useNavigate()
@@ -77,7 +80,7 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({ nft, preview }) => {
 
   const firstTokenId = findFirstNonGroupTokenId(treeData)
 
-  if (!tokenId && nft?.id && firstTokenId && !preview)
+  if (!tokenId && nft?.id && firstTokenId && !preview) {
     return (
       <Navigate
         to={generatePath(RoutePaths.TOKEN_READ, {
@@ -87,30 +90,43 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({ nft, preview }) => {
         replace
       />
     )
+  }
 
   return (
     <aside
       className={clsx(
-        'w-1/5 sticky top-24 self-start',
-        !preview && 'max-h-[calc(100vh-6rem)] overflow-y-auto'
+        'w-1/5 sticky top-24 self-start relative text-main z-10 flex flex-col justify-between',
+        !preview && 'max-h-[calc(100vh-6rem)] overflow-y-auto pr-2'
       )}
     >
-      {treeData.length > 0 ? (
-        <SidebarTree
-          data={treeData}
-          onSelect={id => {
-            navigate(
-              generatePath(RoutePaths.TOKEN_READ, {
-                tokenId: id,
-                nftId: splitTokenId(id).nftId,
-              })
-            )
-          }}
-          selectedId={fullTokenId}
-        />
-      ) : (
-        <p>No data available</p>
-      )}
+      <div className='flex-grow'>
+        {treeData.length > 0 ? (
+          <SidebarTree
+            data={treeData}
+            onSelect={id => {
+              navigate(
+                generatePath(RoutePaths.TOKEN_READ, {
+                  tokenId: id,
+                  nftId: splitTokenId(id).nftId,
+                })
+              )
+            }}
+            selectedId={fullTokenId}
+          />
+        ) : (
+          <p className='text-body2 text-gray-500 px-4 py-2'>
+            {t('noDataAvailable')}
+          </p>
+        )}
+      </div>
+      <a
+        href='https://www.chainwiki.com'
+        target='_blank'
+        rel='noopener noreferrer'
+        className='text-caption text-gray-400 hover:underline text-sm'
+      >
+        {t('createdWithChainWiki')}
+      </a>
     </aside>
   )
 }
