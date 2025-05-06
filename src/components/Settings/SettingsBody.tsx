@@ -1,9 +1,10 @@
+import { useState } from 'react'
+import { useParams } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { SettingView } from 'src/components/Settings/enums'
 import NftRoleManager from '../Nft/NftRoleManager'
-import { useParams } from 'react-router-dom'
 import GeneralSettings from '../Nft/NftView/GeneralSettings'
 import SettingCard from './SettingCard'
-import { useTranslation } from 'react-i18next'
 import { ConditionalItem, ConditionalRender } from '../common/ConditionalRender'
 import { generateSiteLink } from 'src/shared/utils'
 import ExplorerLink from '../common/ExplorerLink'
@@ -31,8 +32,12 @@ const SettingsBody = ({ activeLink }: Props) => {
   const { t } = useTranslation('nft', { keyPrefix: 'settings' })
   const shareUrl = generateSiteLink(nftId)
 
+  const [showCheckmark, setShowCheckmark] = useState(false)
+
   const handleCopy = () => {
     navigator.clipboard.writeText(shareUrl)
+    setShowCheckmark(true)
+    setTimeout(() => setShowCheckmark(false), 1000)
   }
 
   return (
@@ -74,16 +79,27 @@ const SettingsBody = ({ activeLink }: Props) => {
           }
           title={t('siteLink.title')}
         >
-          <div className='flex items-center gap-2 mb-4'>
-            <Icon
-              name='copy'
-              size={16}
-              cursor='pointer'
-              className='text-primary hover:text-primary-accent'
-              onClick={handleCopy}
-            />
+          <div className='flex items-center gap-2 mb-4 group hover:text-primary-accent transition-colors duration-200'>
+            <div style={{ width: 16 }}>
+              {!showCheckmark ? (
+                <Icon
+                  name='copy'
+                  size={16}
+                  cursor='pointer'
+                  className='text-primary hover:text-primary-accent'
+                  onClick={handleCopy}
+                />
+              ) : (
+                <Icon
+                  name='checkmark'
+                  size={16}
+                  cursor='pointer'
+                  className='group-hover:text-primary-accent'
+                />
+              )}
+            </div>
             <a
-              className='text-primary hover:text-primary-accent transition-colors break-all'
+              className='text-primary transition-colors duration-200 group-hover:text-primary-accent break-all cursor-pointer'
               href={shareUrl}
               target='_blank'
               rel='noopener noreferrer'
