@@ -30,6 +30,7 @@ import ContentContext from './components/common/Layout/ReadLayout/ContentContext
 import NftReadHistory from './components/common/Layout/ReadLayout/NftReadHistory'
 import ExplorePage from './pages/ExplorePage'
 import staticConfig from './config'
+import WalletConnectedProtect from './components/common/WalletConnectedProtect'
 
 const queryClient = new QueryClient()
 
@@ -53,7 +54,13 @@ function App() {
           <ThemeProvider theme={theme}>
             <Router>
               <Routes>
-                <Route element={<Layout />}>
+                <Route
+                  element={
+                    <WalletConnectedProtect>
+                      <Layout />
+                    </WalletConnectedProtect>
+                  }
+                >
                   <Route element={<NftLayout />}>
                     <Route path={RoutePaths.NFT} element={<NftPage />} />
                     <Route
