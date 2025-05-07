@@ -67,20 +67,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18.x
-
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile
-
-      - name: Disable CI lint error enforcement
-        run: echo "CI=false" >> $GITHUB_ENV
-
-      - name: Build React app
-        run: npx craco build
-
       - name: Configure 1Password Connect
         uses: 1password/load-secrets-action/configure@v1
         with:
