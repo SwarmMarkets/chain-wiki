@@ -29,8 +29,5 @@ spec:
         - name: {{ .Release.Name }}
           image: "{{ .Values.image.repository }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          {{- if .Values.command }}
-          command: {{ toYaml .Values.command | nindent 12 }}
-          {{- end }}
           ports:
             - containerPort: 3000
