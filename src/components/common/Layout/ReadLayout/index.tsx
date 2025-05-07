@@ -7,6 +7,7 @@ import RoutePaths from 'src/shared/enums/routes-paths'
 import clsx from 'clsx'
 import React, { PropsWithChildren, useEffect } from 'react'
 import { useContentRef } from './ContentContext'
+import { useTranslation } from 'react-i18next'
 
 interface ReadLayoutProps {
   preview?: boolean
@@ -22,6 +23,7 @@ const ReadLayout: React.FC<PropsWithChildren<ReadLayoutProps>> = ({
   })
   const { contentElem } = useContentRef()
   const location = useLocation()
+  const { t } = useTranslation('contents')
 
   const loading = loadingNft && !refetchingNft
 
@@ -49,7 +51,7 @@ const ReadLayout: React.FC<PropsWithChildren<ReadLayoutProps>> = ({
   }, [nft?.name, nft?.iconLogoUrl, preview])
 
   return (
-    <div className='flex flex-col w-full'>
+    <div className='flex flex-col w-full relative'>
       <ReadHeader nft={nft} preview={preview} />
 
       <div
@@ -59,9 +61,7 @@ const ReadLayout: React.FC<PropsWithChildren<ReadLayoutProps>> = ({
         )}
       >
         <LeftSidebar nft={nft} preview={preview} />
-
         <main className='flex-1 px-12'>{children || <Outlet />}</main>
-
         {!isHistoryPage && (
           <RightSidebar
             contentElem={contentElem}
@@ -70,6 +70,14 @@ const ReadLayout: React.FC<PropsWithChildren<ReadLayoutProps>> = ({
           />
         )}
       </div>
+      <a
+        href='https://www.chainwiki.com'
+        target='_blank'
+        rel='noopener noreferrer'
+        className='fixed bottom-2 left-4 text-body2 text-gray-400 hover:underline text-sm z-50'
+      >
+        {t('createdWithChainWiki')}
+      </a>
     </div>
   )
 }

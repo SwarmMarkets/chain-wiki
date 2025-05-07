@@ -119,14 +119,6 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({ nft, preview }) => {
           </p>
         )}
       </div>
-      <a
-        href='https://www.chainwiki.com'
-        target='_blank'
-        rel='noopener noreferrer'
-        className='text-caption text-gray-400 hover:underline text-sm'
-      >
-        {t('createdWithChainWiki')}
-      </a>
     </aside>
   )
 }
