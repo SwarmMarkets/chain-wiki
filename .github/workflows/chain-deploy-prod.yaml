@@ -70,15 +70,13 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 18.x
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile
 
       - name: Build React app
-
         run: npx craco build
-      
 
       - name: Configure 1Password Connect
         uses: 1password/load-secrets-action/configure@v1
