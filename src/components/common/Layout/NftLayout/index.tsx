@@ -35,6 +35,7 @@ const NftLayout = () => {
           nftId: nft?.id,
           tokenId: splitTokenId(firstNotGroupTokenId).tokenId,
         })}
+        replace
       />
     )
   }

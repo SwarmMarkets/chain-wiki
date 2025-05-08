@@ -84,6 +84,7 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({ nft, preview }) => {
           tokenId: splitTokenId(firstTokenId).tokenId,
           nftId: nft?.id,
         })}
+        replace
       />
     )
 

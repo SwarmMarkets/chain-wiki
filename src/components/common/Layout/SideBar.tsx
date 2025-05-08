@@ -84,6 +84,7 @@ const SideBar = () => {
             id: nft.id,
             label: nft.name,
             icon: 'internet',
+            iconImageUrl: nft.iconLogoUrl,
             active: isSameEthereumAddress(nftId, nft.id),
             to: generatePath(RoutePaths.NFT, { nftId: nft.id }),
           }))}

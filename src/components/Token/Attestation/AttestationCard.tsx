@@ -1,11 +1,9 @@
 import { shortenAddress } from '@thirdweb-dev/react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import MarkdownRenderer from 'src/components/Editor/MarkdownWithComments'
+import MarkdownRenderer from 'src/components/Editor/MarkdownRenderer'
 import ExplorerLink from 'src/components/common/ExplorerLink'
 import Card from 'src/components/ui/Card'
-import Text from 'src/components/ui/Text'
-import { useTheme } from 'styled-components'
 
 interface AttestationCardProps {
   address: string
@@ -18,7 +16,6 @@ const AttestationCard: React.FC<AttestationCardProps> = ({
   message,
   date,
 }) => {
-  const theme = useTheme()
   const { t } = useTranslation(['token', 'buttons'])
 
   return (
@@ -27,12 +24,7 @@ const AttestationCard: React.FC<AttestationCardProps> = ({
         <div className='flex items-center gap-2'>
           <div>{t('attestation.author')}</div>
           <ExplorerLink iconSize={10} type={'address'} hash={address}>
-            <Text
-              fontSize={theme.fontSizes.small}
-              color={theme.palette.linkPrimary}
-            >
-              {shortenAddress(address, true)}
-            </Text>
+            {shortenAddress(address, true)}
           </ExplorerLink>
         </div>
         <div>{date}</div>

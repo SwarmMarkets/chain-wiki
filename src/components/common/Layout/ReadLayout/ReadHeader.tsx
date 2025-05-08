@@ -3,20 +3,13 @@ import React from 'react'
 import { useCustomizationStore } from 'src/shared/store/customization-store'
 import { NFTWithMetadata } from 'src/shared/utils'
 import ReadHeaderSkeleton from './ReadHeaderSkeleton'
-import ConnectButton from 'src/components/common/ConnectButton'
-import { ConnectWalletProps } from '@thirdweb-dev/react'
 
 interface ReadHeaderProps {
   nft: NFTWithMetadata | null
   preview?: boolean
-  connectWalletProps?: ConnectWalletProps
 }
 
-const ReadHeader: React.FC<ReadHeaderProps> = ({
-  nft,
-  preview,
-  connectWalletProps,
-}) => {
+const ReadHeader: React.FC<ReadHeaderProps> = ({ nft, preview }) => {
   const customization = useCustomizationStore()
   const headerLinks = preview
     ? customization.headerLinks
@@ -66,7 +59,6 @@ const ReadHeader: React.FC<ReadHeaderProps> = ({
               {link.title}
             </a>
           ))}
-          <ConnectButton {...connectWalletProps} theme={'light'} />
         </div>
       </div>
     </header>

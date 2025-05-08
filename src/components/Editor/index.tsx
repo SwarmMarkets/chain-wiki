@@ -33,7 +33,7 @@ import {
 
 import '@mdxeditor/editor/style.css'
 import { useStorageUpload } from '@thirdweb-dev/react'
-import React, { useEffect, useRef } from 'react'
+import { forwardRef, useRef } from 'react'
 import { ipfsToHttp } from 'src/shared/utils'
 import CustomInsertImageDialog from './CustomInsertImageDialog'
 
@@ -44,89 +44,87 @@ interface EditorProps {
   onEditorInit?: (editorInit: boolean) => void
 }
 
-const Editor: React.FC<EditorProps> = ({ content = '', onChange }) => {
-  const mdxRef = useRef<MDXEditorMethods>(null)
-  const initialContent = useRef(content)
+const Editor = forwardRef<MDXEditorMethods, EditorProps>(
+  ({ content = '', onChange }, ref) => {
+    const initialContent = useRef(content)
 
-  const { mutateAsync: upload } = useStorageUpload()
+    const { mutateAsync: upload } = useStorageUpload()
 
-  useEffect(() => {
-    if (mdxRef.current && content !== undefined) {
-      mdxRef.current.setMarkdown(content)
+    const onEditorChange = (content: string) => {
+      onChange && onChange(content)
     }
-  }, [content])
 
-  const onEditorChange = (content: string) => {
-    onChange && onChange(content)
-  }
+    const handleImageUpload = async (image: File): Promise<string> => {
+      try {
+        const uris = await upload({ data: [image] })
+        const ipfsUri = uris[0]
 
-  const handleImageUpload = async (image: File): Promise<string> => {
-    try {
-      const uris = await upload({ data: [image] })
-      const ipfsUri = uris[0]
-
-      return ipfsToHttp(ipfsUri)
-    } catch (err) {
-      console.error('Failed to upload image with useStorageUpload', err)
-      throw err
+        return ipfsToHttp(ipfsUri)
+      } catch (err) {
+        console.error('Failed to upload image with useStorageUpload', err)
+        throw err
+      }
     }
+
+    const allPlugins = (diffMarkdown: string) => [
+      toolbarPlugin({
+        toolbarContents: () => (
+          <>
+            <UndoRedo />
+            <BoldItalicUnderlineToggles />
+            <CodeToggle />
+            <StrikeThroughSupSubToggles />
+            <ListsToggle />
+            <BlockTypeSelect />
+            <CreateLink />
+            <InsertImage />
+            <InsertTable />
+            <InsertThematicBreak />
+            <InsertCodeBlock />
+            <DiffSourceToggleWrapper children={<></>} />
+          </>
+        ),
+      }),
+      listsPlugin(),
+      quotePlugin(),
+      headingsPlugin(),
+      linkPlugin(),
+      linkDialogPlugin(),
+      imagePlugin({
+        imageUploadHandler: handleImageUpload,
+        ImageDialog: CustomInsertImageDialog,
+      }),
+      tablePlugin(),
+      thematicBreakPlugin(),
+      frontmatterPlugin(),
+      codeBlockPlugin({ defaultCodeBlockLanguage: 'txt' }),
+      codeMirrorPlugin({
+        codeBlockLanguages: {
+          js: 'JavaScript',
+          css: 'CSS',
+          txt: 'text',
+          tsx: 'TypeScript',
+          json: 'JSON',
+        },
+      }),
+      directivesPlugin({
+        directiveDescriptors: [AdmonitionDirectiveDescriptor],
+      }),
+      diffSourcePlugin({ viewMode: 'rich-text', diffMarkdown }),
+      markdownShortcutPlugin(),
+    ]
+
+    return (
+      <MDXEditor
+        className='w-full'
+        contentEditableClassName='prose font-[Inter] font-sans max-w-full'
+        ref={ref}
+        markdown={content}
+        onChange={onEditorChange}
+        plugins={allPlugins(initialContent.current)}
+      />
+    )
   }
-
-  const allPlugins = (diffMarkdown: string) => [
-    toolbarPlugin({
-      toolbarContents: () => (
-        <>
-          <UndoRedo />
-          <BoldItalicUnderlineToggles />
-          <CodeToggle />
-          <StrikeThroughSupSubToggles />
-          <ListsToggle />
-          <BlockTypeSelect />
-          <CreateLink />
-          <InsertImage />
-          <InsertTable />
-          <InsertThematicBreak />
-          <InsertCodeBlock />
-          <DiffSourceToggleWrapper children={<></>} />
-        </>
-      ),
-    }),
-    listsPlugin(),
-    quotePlugin(),
-    headingsPlugin(),
-    linkPlugin(),
-    linkDialogPlugin(),
-    imagePlugin({
-      imageUploadHandler: handleImageUpload,
-      ImageDialog: CustomInsertImageDialog,
-    }),
-    tablePlugin(),
-    thematicBreakPlugin(),
-    frontmatterPlugin(),
-    codeBlockPlugin({ defaultCodeBlockLanguage: 'txt' }),
-    codeMirrorPlugin({
-      codeBlockLanguages: {
-        js: 'JavaScript',
-        css: 'CSS',
-        txt: 'text',
-        tsx: 'TypeScript',
-      },
-    }),
-    directivesPlugin({ directiveDescriptors: [AdmonitionDirectiveDescriptor] }),
-    diffSourcePlugin({ viewMode: 'rich-text', diffMarkdown }),
-    markdownShortcutPlugin(),
-  ]
-
-  return (
-    <MDXEditor
-      className='w-full'
-      contentEditableClassName='prose font-[Inter] font-sans max-w-full'
-      ref={mdxRef}
-      markdown={content}
-      onChange={onEditorChange}
-      plugins={allPlugins(initialContent.current)}
-    />
-  )
-}
+)
 
 export default Editor
