@@ -114,9 +114,7 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({ nft, preview }) => {
             selectedId={fullTokenId}
           />
         ) : (
-          <p className='text-body2 text-gray-500 px-4 py-2'>
-            {t('noDataAvailable')}
-          </p>
+          <p className='text-body2 px-4 py-2'>{t('noDataAvailable')}</p>
         )}
       </div>
     </aside>
