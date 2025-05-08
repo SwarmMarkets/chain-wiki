@@ -23,7 +23,7 @@ const ReadLayout: React.FC<PropsWithChildren<ReadLayoutProps>> = ({
   })
   const { contentElem } = useContentRef()
   const location = useLocation()
-  const { t } = useTranslation('contents')
+  const { t } = useTranslation('layout')
 
   const loading = loadingNft && !refetchingNft
 
