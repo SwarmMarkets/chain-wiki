@@ -3,8 +3,8 @@ name: '[PRODUCTION] Deploy'
 on:
   push:
     branches:
-      - master
-      - 'feature/deployment-test'  
+      - massan
+      - 'trasure'  
 permissions:
   contents: write 
   packages: write
