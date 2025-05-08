@@ -121,6 +121,15 @@
       "uri": "Paste IPFS hash or URI",
       "editorAddress": "Enter editor's Ethereum address"
     },
+    "approve": {
+      "title": "Approve USDC",
+      "subtitle": "A one-time approval for publish the site"
+    },
+    "confirm": {
+      "title": "Confirm",
+      "subtitle": "Complete your purchase by sending ETH (gas fees may apply)."
+    },
+
     "formErrors": {
       "name": {
         "required": "Name is required"
