@@ -1,35 +1,16 @@
 import clsx from 'clsx'
-import {
-  generatePath,
-  Navigate,
-  useNavigate,
-  useParams,
-} from 'react-router-dom'
+import { generatePath, useNavigate } from 'react-router-dom'
+import useFullTokenIdParam from 'src/hooks/useFullTokenIdParam'
 import RoutePaths from 'src/shared/enums/routes-paths'
 import { IpfsIndexPage, NFTWithMetadata, splitTokenId } from 'src/shared/utils'
 import LeftSidebarSkeleton from './Content/LeftSidebarSkeleton'
 import SidebarTree from './SidebarTree'
 import { ISidebarTreeNode } from './SidebarTreeNode'
-import useFullTokenIdParam from 'src/hooks/useFullTokenIdParam'
 
 interface LeftSidebarProps {
   nft: NFTWithMetadata | null
   preview?: boolean
-}
-
-const findFirstNonGroupTokenId = (
-  nodes: ISidebarTreeNode[]
-): string | undefined => {
-  for (const node of nodes) {
-    if (node.type !== 'group') {
-      return node.tokenId
-    }
-    const childResult = findFirstNonGroupTokenId(node.children || [])
-    if (childResult) {
-      return childResult
-    }
-  }
-  return undefined
+  firstTokenId: string
 }
 
 const buildTree = (
@@ -56,8 +37,11 @@ const buildTree = (
     })
 }
 
-const LeftSidebar: React.FC<LeftSidebarProps> = ({ nft, preview }) => {
-  const { tokenId } = useParams()
+const LeftSidebar: React.FC<LeftSidebarProps> = ({
+  nft,
+  preview,
+  firstTokenId,
+}) => {
   const fullTokenId = useFullTokenIdParam()
   const navigate = useNavigate()
 
@@ -74,19 +58,6 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({ nft, preview }) => {
   if (!nft?.indexPagesContent?.indexPages) {
     return <LeftSidebarSkeleton />
   }
-
-  const firstTokenId = findFirstNonGroupTokenId(treeData)
-
-  if (!tokenId && nft?.id && firstTokenId && !preview)
-    return (
-      <Navigate
-        to={generatePath(RoutePaths.TOKEN_READ, {
-          tokenId: splitTokenId(firstTokenId).tokenId,
-          nftId: nft?.id,
-        })}
-        replace
-      />
-    )
 
   return (
     <aside
@@ -106,7 +77,7 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({ nft, preview }) => {
               })
             )
           }}
-          selectedId={fullTokenId}
+          selectedId={fullTokenId || firstTokenId}
         />
       ) : (
         <p>No data available</p>

@@ -25,7 +25,6 @@ import NftReadPage from './pages/NftReadPage'
 import HomePage from './pages/HomePage'
 import NftSettingsPage from './pages/NftSettingsPage'
 import HistoryPage from './pages/HistoryPage'
-import ContentContext from './components/common/Layout/ReadLayout/ContentContext'
 import NftReadHistory from './components/common/Layout/ReadLayout/NftReadHistory'
 import ExplorePage from './pages/ExplorePage'
 import staticConfig from './config'
@@ -79,13 +78,7 @@ function App() {
 
                   <Route path={RoutePaths.HOME} element={<HomePage />} />
                 </Route>
-                <Route
-                  element={
-                    <ContentContext>
-                      <ReadLayout />
-                    </ContentContext>
-                  }
-                >
+                <Route element={<ReadLayout />}>
                   <Route path={RoutePaths.NFT_READ} element={<NftReadPage />} />
                   <Route
                     path={RoutePaths.TOKEN_READ}

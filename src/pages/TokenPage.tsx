@@ -36,7 +36,6 @@ const TokenPage = () => {
   const { token, loadingToken, refetchingToken } = useToken(
     fullTokenId || firstTokenId
   )
-  console.log(token)
 
   const showSkeleton = loadingToken && !refetchingToken
 
