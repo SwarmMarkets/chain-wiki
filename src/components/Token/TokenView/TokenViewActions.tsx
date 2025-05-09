@@ -1,14 +1,16 @@
 import dayjs from 'dayjs'
 import { useTranslation } from 'react-i18next'
-import { useTokenContext } from 'src/components/providers/TokenContext'
 import Flex from 'src/components/ui/Flex'
 import useModalState from 'src/hooks/useModalState'
 import UploadVoteProposalModal from '../UploadVoteProposal/UploadVoteProposalModal'
 import VoteOnProposalButton from '../VoteOnProposal'
+import useFullTokenIdParam from 'src/hooks/useFullTokenIdParam'
+import useToken from 'src/hooks/subgraph/useToken'
 
 const TokenViewActions: React.FC = () => {
   const { t } = useTranslation('token')
-  const token = useTokenContext()
+  const fullTokenId = useFullTokenIdParam()
+  const { token } = useToken(fullTokenId)
   const uploadVoteProposal = useModalState(false)
 
   const voteProposal = token?.voteProposal

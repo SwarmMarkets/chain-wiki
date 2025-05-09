@@ -2,7 +2,6 @@ import { DropOptions, Tree } from '@minoru/react-dnd-treeview'
 import clsx from 'clsx'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import useEdit from '../useEdit'
 import { isHiddenList } from '../utils'
 import Node from './Node'
 import Placeholder from './Placeholder'
@@ -14,17 +13,20 @@ interface EditIndexPagesTreeProps {
   readonly?: boolean
   activeId?: string
   to?: (node: EditNodeModel) => string
+  treeData: EditNodeModel[]
+  onDrop?: (newTree: EditNodeModel[], e: DropOptions<EditNodeModelData>) => void
+  onUpdateName?: (id: string, name: string) => void
 }
 
 const EditIndexPagesTree: React.FC<EditIndexPagesTreeProps> = ({
+  treeData,
   readonly = false,
   to,
   activeId,
   onClick,
+  onDrop,
+  onUpdateName,
 }) => {
-  const { treeData, updateIndexPagesByTreeNodes, updateTokenName } =
-    useEdit(readonly)
-
   const { t } = useTranslation('nft')
   const noTokens = treeData?.length === 0
 
@@ -43,7 +45,7 @@ const EditIndexPagesTree: React.FC<EditIndexPagesTreeProps> = ({
       !isHiddenList(e.dropTargetId.toString())
     )
       return
-    updateIndexPagesByTreeNodes(newTree)
+    onDrop?.(newTree, e)
   }
 
   if (!treeData.length) {
@@ -83,7 +85,7 @@ const EditIndexPagesTree: React.FC<EditIndexPagesTreeProps> = ({
               editable={!isHiddenList(node.id.toString())}
               to={to?.(node)}
               active={activeId === node.id}
-              onEdit={name => updateTokenName(node.id.toString(), name)}
+              onEdit={name => onUpdateName?.(node.id.toString(), name)}
               hasChild={hasChild}
               node={node}
               depth={depth}

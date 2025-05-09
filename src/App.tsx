@@ -11,7 +11,6 @@ import { ToastContainer } from 'react-toastify'
 import { ThemeProvider } from 'styled-components'
 import { environment } from './environment'
 import TokenPage from './pages/TokenPage'
-import NftPage from './pages/NftPage'
 import client from './services/apollo'
 import RoutePaths from './shared/enums/routes-paths'
 import theme from './theme'
@@ -62,7 +61,7 @@ function App() {
                   }
                 >
                   <Route element={<NftLayout />}>
-                    <Route path={RoutePaths.NFT} element={<NftPage />} />
+                    <Route path={RoutePaths.NFT} element={<TokenPage />} />
                     <Route
                       path={RoutePaths.NFT + RoutePaths.TOKEN}
                       element={<TokenPage />}

@@ -1,7 +1,6 @@
 import { generatePath, Link, useParams } from 'react-router-dom'
 import TokenContentSkeleton from 'src/components/Token/TokenContentSkeleton'
 import TokenView from 'src/components/Token/TokenView'
-import { TokenContextProvider } from 'src/components/providers/TokenContext'
 import useToken from 'src/hooks/subgraph/useToken'
 import useTabs from 'src/hooks/useTabs'
 import { TokenTabs } from 'src/shared/enums/tabs'
@@ -9,6 +8,9 @@ import DotMenu from 'src/components/ui-kit/DotMenu/DotMenu'
 import { useTranslation } from 'react-i18next'
 import RoutePaths from 'src/shared/enums/routes-paths'
 import useFullTokenIdParam from 'src/hooks/useFullTokenIdParam'
+import useNFT from 'src/hooks/subgraph/useNFT'
+import { useMemo } from 'react'
+import { findFirstNonGroupVisibleNode } from 'src/shared/utils/treeHelpers'
 
 const TokenPage = () => {
   const { t } = useTranslation('token')
@@ -20,7 +22,21 @@ const TokenPage = () => {
     defaultTab: TokenTabs.READ,
   })
 
-  const { token, loadingToken, refetchingToken } = useToken(fullTokenId)
+  const { nft } = useNFT(nftId, {
+    fetchFullData: true,
+  })
+
+  const firstTokenId = useMemo(
+    () =>
+      findFirstNonGroupVisibleNode(nft?.indexPagesContent?.indexPages)
+        ?.tokenId || '',
+    [nft?.indexPagesContent?.indexPages]
+  )
+
+  const { token, loadingToken, refetchingToken } = useToken(
+    fullTokenId || firstTokenId
+  )
+  console.log(token)
 
   const showSkeleton = loadingToken && !refetchingToken
 
@@ -29,7 +45,7 @@ const TokenPage = () => {
   }
 
   return (
-    <TokenContextProvider value={token}>
+    <>
       {showSkeleton ? (
         <div className='flex justify-center gap-5 w-full'>
           <div className='w-full'>
@@ -52,7 +68,7 @@ const TokenPage = () => {
           <TokenView onClickEditSite={handleEditSite} token={token} />
         </div>
       )}
-    </TokenContextProvider>
+    </>
   )
 }
 
