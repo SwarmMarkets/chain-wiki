@@ -73,6 +73,7 @@ const NftReadPage = () => {
 
       <AttestationDrawer
         isOpen={!!selectedSectionId}
+        fullTokenId={tokenId}
         section={{
           id: selectedSectionId,
           htmlContent:
