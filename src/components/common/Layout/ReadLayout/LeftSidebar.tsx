@@ -59,7 +59,7 @@ const buildTree = (
 }
 
 const LeftSidebar: React.FC<LeftSidebarProps> = ({ nft, preview }) => {
-  const { t } = useTranslation('contents')
+  const { t } = useTranslation('layout')
   const { tokenId } = useParams()
   const fullTokenId = useFullTokenIdParam()
   const navigate = useNavigate()

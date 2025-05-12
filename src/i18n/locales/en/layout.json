@@ -15,5 +15,6 @@
     }
   },
   "poweredBy": "powered by",
-  "createdWithChainWiki": "Created with ChainWiki"
+  "createdWithChainWiki": "Created with ChainWiki",
+  "noDataAvailable": "No data available"
 }
