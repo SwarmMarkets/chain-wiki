@@ -43,8 +43,8 @@ const RightSidebar: React.FC<RightSidebarProps> = ({
   return (
     <aside
       className={clsx(
-        'w-1/6 sticky top-24 self-start',
-        !preview && 'max-h-[calc(100vh-6rem)] overflow-y-auto'
+        'w-1/6 sticky top-28 self-start',
+        !preview && 'max-h-[calc(100vh-9rem)] overflow-y-auto'
       )}
     >
       <div className='mb-4'>
