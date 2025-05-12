@@ -1,5 +1,4 @@
 import ExplorerLink from 'src/components/common/ExplorerLink'
-import { useTokenContext } from 'src/components/providers/TokenContext'
 import Flex from 'src/components/ui/Flex'
 import Icon from 'src/components/ui-kit/Icon/Icon'
 import Text from 'src/components/ui/Text'
@@ -15,6 +14,7 @@ import {
   VoteProposalWrap,
 } from './styled-components'
 import UpdateTokenContentButton from 'src/components/UpdateContent/UpdateTokenContentButton'
+import useFullTokenIdParam from 'src/hooks/useFullTokenIdParam'
 
 interface ReviewVoteProposalProps {
   voteProposal: VoteProposal
@@ -29,7 +29,7 @@ const ReviewVoteProposal: React.FC<ReviewVoteProposalProps> = ({
 }) => {
   const { t } = useTranslation('token', { keyPrefix: 'reviewProposal' })
 
-  const token = useTokenContext()
+  const fullTokenId = useFullTokenIdParam()
   const theme = useTheme()
 
   const { data, address, hash } = voteProposal
@@ -38,7 +38,7 @@ const ReviewVoteProposal: React.FC<ReviewVoteProposalProps> = ({
   const endDate = convertUnixToLocaleString(data.message.end)
   const creationDate = convertUnixToLocaleString(data.message.timestamp)
 
-  const [nftId] = token?.id ? token.id.split('-') : []
+  const [nftId] = fullTokenId ? fullTokenId.split('-') : []
 
   const proposal: IpfsVoteProposal = useMemo(() => {
     const { start, end, choices, title, body, timestamp, type, space } =
@@ -104,18 +104,16 @@ const ReviewVoteProposal: React.FC<ReviewVoteProposalProps> = ({
         </ExplorerLink>
       </VoteProposalWrap>
 
-      {token && (
-        <UpdateTokenContentButton
-          mt={15}
-          width='100%'
-          tokenAddress={token?.id}
-          tokenContentToUpdate={{ voteProposal: proposal }}
-          nftAddress={nftId}
-          onSuccess={nextStep}
-        >
-          {t('submit')}
-        </UpdateTokenContentButton>
-      )}
+      <UpdateTokenContentButton
+        mt={15}
+        width='100%'
+        tokenAddress={fullTokenId}
+        tokenContentToUpdate={{ voteProposal: proposal }}
+        nftAddress={nftId}
+        onSuccess={nextStep}
+      >
+        {t('submit')}
+      </UpdateTokenContentButton>
     </Flex>
   )
 }

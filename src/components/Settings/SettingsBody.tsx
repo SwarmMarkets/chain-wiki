@@ -1,12 +1,27 @@
+import { useState } from 'react'
+import { useParams } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { SettingView } from 'src/components/Settings/enums'
 import NftRoleManager from '../Nft/NftRoleManager'
-import { useParams } from 'react-router-dom'
 import GeneralSettings from '../Nft/NftView/GeneralSettings'
 import SettingCard from './SettingCard'
-import { useTranslation } from 'react-i18next'
 import { ConditionalItem, ConditionalRender } from '../common/ConditionalRender'
 import { generateSiteLink } from 'src/shared/utils'
 import ExplorerLink from '../common/ExplorerLink'
+
+import {
+  EmailShareButton,
+  EmailIcon,
+  FacebookShareButton,
+  FacebookIcon,
+  TwitterShareButton,
+  TwitterIcon,
+  RedditShareButton,
+  RedditIcon,
+  WhatsappShareButton,
+  WhatsappIcon,
+} from 'react-share'
+import Icon from '../ui-kit/Icon/Icon'
 
 interface Props {
   activeLink: string
@@ -15,6 +30,15 @@ interface Props {
 const SettingsBody = ({ activeLink }: Props) => {
   const { nftId = '' } = useParams()
   const { t } = useTranslation('nft', { keyPrefix: 'settings' })
+  const shareUrl = generateSiteLink(nftId)
+
+  const [showCheckmark, setShowCheckmark] = useState(false)
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(shareUrl)
+    setShowCheckmark(true)
+    setTimeout(() => setShowCheckmark(false), 1000)
+  }
 
   return (
     <ConditionalRender value={activeLink}>
@@ -29,18 +53,62 @@ const SettingsBody = ({ activeLink }: Props) => {
         >
           <GeneralSettings nftAddress={nftId} />
         </SettingCard>
+
         <SettingCard
-          description={t('siteLink.description')}
+          description={
+            <div className='flex items-center justify-between flex-wrap gap-2'>
+              <span>{t('siteLink.description')}</span>
+              <div className='flex gap-2 ml-4'>
+                <EmailShareButton url={shareUrl}>
+                  <EmailIcon size={24} round />
+                </EmailShareButton>
+                <FacebookShareButton url={shareUrl}>
+                  <FacebookIcon size={24} round />
+                </FacebookShareButton>
+                <TwitterShareButton url={shareUrl}>
+                  <TwitterIcon size={24} round />
+                </TwitterShareButton>
+                <RedditShareButton url={shareUrl}>
+                  <RedditIcon size={24} round />
+                </RedditShareButton>
+                <WhatsappShareButton url={shareUrl}>
+                  <WhatsappIcon size={24} round />
+                </WhatsappShareButton>
+              </div>
+            </div>
+          }
           title={t('siteLink.title')}
         >
-          <a
-            className='text-primary hover:text-primary-accent transition-colors break-all inline-block w-full'
-            href={generateSiteLink(nftId)}
-            target='_blank'
-          >
-            {generateSiteLink(nftId)}
-          </a>
+          <div className='flex items-center gap-2 mb-4 group hover:text-primary-accent transition-colors duration-200'>
+            <div style={{ width: 16 }}>
+              {!showCheckmark ? (
+                <Icon
+                  name='copy'
+                  size={16}
+                  cursor='pointer'
+                  className='text-primary hover:text-primary-accent'
+                  onClick={handleCopy}
+                />
+              ) : (
+                <Icon
+                  name='checkmark'
+                  size={16}
+                  cursor='pointer'
+                  className='group-hover:text-primary-accent'
+                />
+              )}
+            </div>
+            <a
+              className='text-primary transition-colors duration-200 group-hover:text-primary-accent break-all cursor-pointer'
+              href={shareUrl}
+              target='_blank'
+              rel='noopener noreferrer'
+            >
+              {shareUrl}
+            </a>
+          </div>
         </SettingCard>
+
         <SettingCard
           description={t('smartContract.description')}
           title={t('smartContract.title')}
@@ -50,6 +118,7 @@ const SettingsBody = ({ activeLink }: Props) => {
           </ExplorerLink>
         </SettingCard>
       </ConditionalItem>
+
       <ConditionalItem case={SettingView.ROLES}>
         <SettingCard
           title={t('roleManager.title')}

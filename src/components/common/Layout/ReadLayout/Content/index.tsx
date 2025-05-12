@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ContentItemChild, ContentItemParent } from 'src/shared/types/content'
 import { ExpandableListItem } from 'src/shared/types/expandedList'
-import { IpfsIndexPage, buildContentHierarchy } from 'src/shared/utils'
-import { useTheme } from 'styled-components'
+import { buildContentHierarchy } from 'src/shared/utils'
 import SidebarTree from '../SidebarTree'
 import SidebarTreeNode, { ISidebarTreeNode } from '../SidebarTreeNode'
 
@@ -12,23 +11,8 @@ interface ContentProps {
   className?: string
 }
 
-const buildTree = (
-  items: IpfsIndexPage[],
-  parentId?: number | string
-): ISidebarTreeNode[] => {
-  return items
-    .filter(item => item.parent === parentId)
-    .map(item => {
-      return {
-        ...item,
-        children: buildTree(items, item.tokenId),
-      }
-    })
-}
-
 const Content: React.FC<ContentProps> = ({ contentElem, className }) => {
   const { t } = useTranslation('contents')
-  const theme = useTheme()
 
   const [headingsInView, setHeadingsInView] = useState<number[]>([])
   const [beginningActive, setBeginningActive] = useState(window.scrollY === 0)

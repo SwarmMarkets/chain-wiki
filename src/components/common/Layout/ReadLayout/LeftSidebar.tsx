@@ -1,37 +1,18 @@
 import React from 'react'
 import clsx from 'clsx'
-import {
-  generatePath,
-  Navigate,
-  useNavigate,
-  useParams,
-} from 'react-router-dom'
+import { generatePath, useNavigate } from 'react-router-dom'
+import useFullTokenIdParam from 'src/hooks/useFullTokenIdParam'
 import RoutePaths from 'src/shared/enums/routes-paths'
 import { IpfsIndexPage, NFTWithMetadata, splitTokenId } from 'src/shared/utils'
 import LeftSidebarSkeleton from './Content/LeftSidebarSkeleton'
 import SidebarTree from './SidebarTree'
 import { ISidebarTreeNode } from './SidebarTreeNode'
-import useFullTokenIdParam from 'src/hooks/useFullTokenIdParam'
 import { useTranslation } from 'react-i18next'
 
 interface LeftSidebarProps {
   nft: NFTWithMetadata | null
   preview?: boolean
-}
-
-const findFirstNonGroupTokenId = (
-  nodes: ISidebarTreeNode[]
-): string | undefined => {
-  for (const node of nodes) {
-    if (node.type !== 'group') {
-      return node.tokenId
-    }
-    const childResult = findFirstNonGroupTokenId(node.children || [])
-    if (childResult) {
-      return childResult
-    }
-  }
-  return undefined
+  firstTokenId: string
 }
 
 const buildTree = (
@@ -58,9 +39,12 @@ const buildTree = (
     })
 }
 
-const LeftSidebar: React.FC<LeftSidebarProps> = ({ nft, preview }) => {
+const LeftSidebar: React.FC<LeftSidebarProps> = ({
+  nft,
+  preview,
+  firstTokenId,
+}) => {
   const { t } = useTranslation('contents')
-  const { tokenId } = useParams()
   const fullTokenId = useFullTokenIdParam()
   const navigate = useNavigate()
 
@@ -78,19 +62,6 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({ nft, preview }) => {
     return <LeftSidebarSkeleton />
   }
 
-  const firstTokenId = findFirstNonGroupTokenId(treeData)
-
-  if (!tokenId && nft?.id && firstTokenId && !preview) {
-    return (
-      <Navigate
-        to={generatePath(RoutePaths.TOKEN_READ, {
-          tokenId: splitTokenId(firstTokenId).tokenId,
-          nftId: nft?.id,
-        })}
-        replace
-      />
-    )
-  }
   return (
     <aside
       className={clsx(
@@ -111,7 +82,7 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({ nft, preview }) => {
                 })
               )
             }}
-            selectedId={fullTokenId}
+            selectedId={fullTokenId || firstTokenId}
           />
         ) : (
           <p className='text-body2 px-4 py-2'>{t('noDataAvailable')}</p>

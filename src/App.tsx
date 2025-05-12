@@ -11,7 +11,6 @@ import { ToastContainer } from 'react-toastify'
 import { ThemeProvider } from 'styled-components'
 import { environment } from './environment'
 import TokenPage from './pages/TokenPage'
-import NftPage from './pages/NftPage'
 import client from './services/apollo'
 import RoutePaths from './shared/enums/routes-paths'
 import theme from './theme'
@@ -26,10 +25,10 @@ import NftReadPage from './pages/NftReadPage'
 import HomePage from './pages/HomePage'
 import NftSettingsPage from './pages/NftSettingsPage'
 import HistoryPage from './pages/HistoryPage'
-import ContentContext from './components/common/Layout/ReadLayout/ContentContext'
 import NftReadHistory from './components/common/Layout/ReadLayout/NftReadHistory'
 import ExplorePage from './pages/ExplorePage'
 import staticConfig from './config'
+import WalletConnectedProtect from './components/common/WalletConnectedProtect'
 
 const queryClient = new QueryClient()
 
@@ -53,9 +52,15 @@ function App() {
           <ThemeProvider theme={theme}>
             <Router>
               <Routes>
-                <Route element={<Layout />}>
+                <Route
+                  element={
+                    <WalletConnectedProtect>
+                      <Layout />
+                    </WalletConnectedProtect>
+                  }
+                >
                   <Route element={<NftLayout />}>
-                    <Route path={RoutePaths.NFT} element={<NftPage />} />
+                    <Route path={RoutePaths.NFT} element={<TokenPage />} />
                     <Route
                       path={RoutePaths.NFT + RoutePaths.TOKEN}
                       element={<TokenPage />}
@@ -73,13 +78,7 @@ function App() {
 
                   <Route path={RoutePaths.HOME} element={<HomePage />} />
                 </Route>
-                <Route
-                  element={
-                    <ContentContext>
-                      <ReadLayout />
-                    </ContentContext>
-                  }
-                >
+                <Route element={<ReadLayout />}>
                   <Route path={RoutePaths.NFT_READ} element={<NftReadPage />} />
                   <Route
                     path={RoutePaths.TOKEN_READ}

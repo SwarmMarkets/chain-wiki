@@ -1,0 +1,12 @@
+image:
+  repository: ""  
+  pullPolicy: Always
+
+
+service:
+  port: 80
+
+ingress:
+  enabled: true
+  host: app.chainwiki.com 
+

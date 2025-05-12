@@ -1,14 +1,14 @@
-import { motion } from 'framer-motion'
+import { HTMLMotionProps, motion } from 'framer-motion'
 import React, { forwardRef } from 'react'
 
-interface CollapseProps {
+interface CollapseProps extends Partial<HTMLMotionProps<'div'>> {
   children: React.ReactNode
   className?: string
   direction?: 'up' | 'down' | 'left' | 'right'
 }
 
 const Collapse = forwardRef<HTMLDivElement, CollapseProps>(
-  ({ children, className, direction = 'down' }, ref) => {
+  ({ children, className, direction = 'down', ...rest }, ref) => {
     const isVertical = direction === 'up' || direction === 'down'
     const isReversed = direction === 'up' || direction === 'left'
 
@@ -41,6 +41,7 @@ const Collapse = forwardRef<HTMLDivElement, CollapseProps>(
           overflow: 'hidden',
           display: isVertical ? 'block' : 'inline-block',
         }}
+        {...rest}
       >
         {children}
       </motion.div>

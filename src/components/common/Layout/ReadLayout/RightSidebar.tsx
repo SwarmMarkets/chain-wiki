@@ -5,19 +5,21 @@ import RightSidebarSkeleton from './Content/RightSidebarSkeleton'
 import { useParams, generatePath, Link } from 'react-router-dom'
 import RoutePaths from 'src/shared/enums/routes-paths'
 import Button from 'src/components/ui-kit/Button/Button'
+import { splitTokenId } from 'src/shared/utils'
+import { useContentRef } from './ContentContext'
 
 interface RightSidebarProps {
-  contentElem: HTMLDivElement | null
   preview?: boolean
   isLoading?: boolean
+  firstTokenId: string
   className?: string
 }
 
 const RightSidebar: React.FC<RightSidebarProps> = ({
-  contentElem,
   preview,
   isLoading,
   className,
+  firstTokenId,
 }) => {
   const { nftId, tokenId } = useParams<{ nftId?: string; tokenId?: string }>()
 
@@ -28,9 +30,11 @@ const RightSidebar: React.FC<RightSidebarProps> = ({
     currentNftId && currentTokenId
       ? generatePath(RoutePaths.TOKEN_READ_HISTORY, {
           nftId: currentNftId,
-          tokenId: currentTokenId,
+          tokenId: currentTokenId || splitTokenId(firstTokenId).tokenId,
         })
       : ''
+
+  const { contentElem } = useContentRef()
 
   if (isLoading) {
     return <RightSidebarSkeleton />
@@ -44,7 +48,7 @@ const RightSidebar: React.FC<RightSidebarProps> = ({
       )}
     >
       <div className='mb-4'>
-        {currentNftId && currentTokenId && historyPath ? (
+        {currentNftId && historyPath ? (
           <Link to={historyPath} className='no-underline'>
             <Button
               variant='contained'
