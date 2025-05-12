@@ -39,8 +39,8 @@ const NftLayoutSideBar: React.FC<NftLayoutSideBarProps> = ({
 
   return (
     <AnimatePresence>
-      <Collapse direction='left'>
-        <aside className='bg-paper flex flex-col border-r-gray-200 border-r overflow-y-auto h-full'>
+      <Collapse direction='left' layout>
+        <aside className='bg-paper flex flex-col border-r-gray-200 border-r overflow-y-auto h-full transition-all'>
           {loading ? (
             <NftSideBarSkeleton />
           ) : setting === RoutePathSetting.CUSTOMIZATION ? (

@@ -1,0 +1,134 @@
+name: '[PRODUCTION] Deploy'
+
+on:
+  push:
+    branches:
+      - master
+permissions:
+  contents: write 
+  packages: write
+
+
+jobs:
+
+  release:
+    runs-on: ubuntu-latest
+    outputs:
+      tag: ${{ steps.get_tag.outputs.new_tag }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Get latest tag
+        id: get_tag
+        run: |
+          git fetch --tags
+          latest_tag=$(git tag --sort=-version:refname | head -n 1)
+          echo "Latest tag: $latest_tag"
+
+          if [[ "$latest_tag" =~ ^v([0-9]+)\.([0-9]+)\.([0-9]+)$ ]]; then
+            major="${BASH_REMATCH[1]}"
+            minor="${BASH_REMATCH[2]}"
+            patch="${BASH_REMATCH[3]}"
+            new_tag="v$major.$minor.$((patch + 1))"
+          else
+            new_tag="v1.0.0"
+          fi
+
+          echo "new_tag=$new_tag" >> $GITHUB_OUTPUT
+
+      - name: Create Git tag
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git tag ${{ steps.get_tag.outputs.new_tag }}
+          git push origin ${{ steps.get_tag.outputs.new_tag }}
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.get_tag.outputs.new_tag }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  Production:
+    name: Chainwiki-Production
+    runs-on: ubuntu-latest
+    needs: release
+    env:
+      # Cluster variables
+      AWS_REGION: eu-central-1
+      KUBECTL_VERSION: 1.23.5
+      CLUSTER_NAME: 'swarm-prod'
+      NAMESPACE: 'swarm-prod'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure 1Password Connect
+        uses: 1password/load-secrets-action/configure@v1
+        with:
+          service-account-token: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
+
+      - name: Load secrets
+        id: load-credentials
+        uses: 1Password/load-secrets-action@v2.0.0
+        with:
+          export-env: true
+        env:
+          AWS_ACCESS_KEY_ID: op://CI-CD/AWS_ACCESS_KEY_ID/credential
+          AWS_SECRET_KEY: op://CI-CD/AWS_SECRET_KEY/credential
+          ENV_FILE: op://CI-CD/env_chainwiki_prod/notes
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1-node16
+        with:
+          aws-access-key-id: ${{ env.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ env.AWS_SECRET_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Install Helm
+        run: |
+          curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 > get_helm.sh
+          chmod 700 get_helm.sh
+          sudo bash get_helm.sh
+  
+      - name: Install kubectl
+        run: |
+          curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/${{ env.KUBECTL_VERSION }}/2021-07-05/bin/linux/amd64/kubectl
+          chmod +x ./kubectl
+          sudo mv kubectl /usr/bin/
+  
+      - name: Configure kubectl
+        id: kubeconfig
+        run: |
+          aws eks --region ${{ env.AWS_REGION }} update-kubeconfig --name ${{ env.CLUSTER_NAME }}
+
+
+      - name: Get .env file from 1Password
+        run: |
+          echo $ENV_FILE > .env
+          sed -i 's/ \?REACT_APP_/\'$'\nREACT_APP_/g' .env
+
+      - uses: docker/setup-buildx-action@v2.7.0
+
+      - name: Login to Github registry
+        uses: docker/login-action@v2.2.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+
+      - name: Docker build image
+        uses: docker/build-push-action@v4.1.1
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: ghcr.io/swarmmarkets/chain-wiki:${{ needs.release.outputs.tag }}
+
+      - name: Deployment to prod cluster
+        run: |
+            helm upgrade --install chainwiki  ./chainwiki-chart -f ./chainwiki-chart/values-prod.yaml --set=image.repository="ghcr.io/swarmmarkets/chain-wiki:${{ needs.release.outputs.tag }}" -n ${{ env.NAMESPACE }}

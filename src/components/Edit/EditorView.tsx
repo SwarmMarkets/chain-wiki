@@ -1,4 +1,5 @@
-import React from 'react'
+import { MDXEditorMethods } from '@mdxeditor/editor'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import Editor from 'src/components/Editor'
 import { useEditingStore } from 'src/shared/store/editing-store'
@@ -22,6 +23,13 @@ const EditorView: React.FC<EditorViewProps> = ({ nft, content }) => {
     updateNft,
   } = useEditingStore()
 
+  const mdxRef = useRef<MDXEditorMethods>(null)
+
+  useEffect(() => {
+    if (!currEditableToken) return
+    mdxRef.current?.setMarkdown(content)
+  }, [currEditableToken])
+
   const updateContent = (content: string) => {
     if (currEditableToken) {
       const addedToken = getAddedTokenById(currEditableToken.id)
@@ -42,7 +50,7 @@ const EditorView: React.FC<EditorViewProps> = ({ nft, content }) => {
     }
   }
 
-  return <Editor content={content} onChange={updateContent} />
+  return <Editor ref={mdxRef} content={content} onChange={updateContent} />
 }
 
 export default EditorView

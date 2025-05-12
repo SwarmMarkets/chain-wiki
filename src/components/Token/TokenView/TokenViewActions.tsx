@@ -1,19 +1,18 @@
-import RequirePermissions from 'src/components/common/RequirePermissions'
-import { useTokenContext } from 'src/components/providers/TokenContext'
-import Button from 'src/components/ui-kit/Button/Button'
-import Flex from 'src/components/ui/Flex'
-import useModalState from 'src/hooks/useModalState'
 import dayjs from 'dayjs'
 import { useTranslation } from 'react-i18next'
+import Flex from 'src/components/ui/Flex'
+import useModalState from 'src/hooks/useModalState'
 import UploadVoteProposalModal from '../UploadVoteProposal/UploadVoteProposalModal'
 import VoteOnProposalButton from '../VoteOnProposal'
+import useFullTokenIdParam from 'src/hooks/useFullTokenIdParam'
+import useToken from 'src/hooks/subgraph/useToken'
 
 const TokenViewActions: React.FC = () => {
   const { t } = useTranslation('token')
-  const token = useTokenContext()
+  const fullTokenId = useFullTokenIdParam()
+  const { token } = useToken(fullTokenId)
   const uploadVoteProposal = useModalState(false)
 
-  const nftId = token?.id.split('-')[0]
   const voteProposal = token?.voteProposal
 
   const isVotingStarted =
@@ -25,13 +24,6 @@ const TokenViewActions: React.FC = () => {
 
   return (
     <Flex justifyContent='flex-end' width='100%' $gap='20px'>
-      <RequirePermissions canUpdateContent nftAddress={nftId}>
-        {/* TODO CHECK IF PROPOSAL DISABLED ON CONTRACT SIDE */}
-        <Button onClick={uploadVoteProposal.open} disabled={isVotingEnabled}>
-          {t('connectProposal')}
-        </Button>
-      </RequirePermissions>
-
       {isVotingEnabled ? (
         <VoteOnProposalButton px={4}>{t('vote')}</VoteOnProposalButton>
       ) : null}

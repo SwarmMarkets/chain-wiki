@@ -1,4 +1,3 @@
-import { useTokenContext } from 'src/components/providers/TokenContext'
 import LoadingButton from 'src/components/ui/Button/LoadingButton'
 import { Select } from 'src/components/ui/Select'
 import api from 'src/services/api'
@@ -9,15 +8,17 @@ import { StyledTextField } from './styled-components'
 import useVoteOnProposalForm, {
   VoteOnProposalFormInputs,
 } from 'src/hooks/forms/useVoteOnProposalForm'
+import { TokenQueryFullData } from 'src/shared/utils'
 
 interface VoteOnProposalFormProps {
   onSuccessSubmit(): void
+  token: TokenQueryFullData | null
 }
 
 const VoteOnProposalForm: React.FC<VoteOnProposalFormProps> = ({
   onSuccessSubmit,
+  token,
 }) => {
-  const token = useTokenContext()
   const { t } = useTranslation(['token', 'errors'], {
     keyPrefix: 'voteOnProposal',
   })
