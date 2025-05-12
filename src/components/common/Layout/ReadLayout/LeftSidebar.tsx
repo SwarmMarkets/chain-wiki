@@ -97,6 +97,7 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({ nft, preview }) => {
         'w-1/5 sticky top-28 self-start text-main z-10 flex flex-col',
         !preview && 'max-h-[calc(100vh-9rem)]'
       )}
+      style={{ height: 'calc(100vh - 6rem)' }}
     >
       <div className={clsx('flex-grow overflow-y-auto pr-2')}>
         {treeData.length > 0 ? (
@@ -116,13 +117,18 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({ nft, preview }) => {
           <p className='text-body2 px-4 py-2'>{t('noDataAvailable')}</p>
         )}
       </div>
-      <div className='p-3'>
+      <div className='p-3 absolute bottom-0 left-0 w-full'>
         <a
           href='https://www.chainwiki.com'
           target='_blank'
           rel='noopener noreferrer'
-          className='text-sm text-gray-400 no-underline hover:text-gray-300 active:text-primary'
+          className='text-sm text-gray-400 no-underline hover:text-primary inline-flex items-center gap-1'
         >
+          <img
+            src='/assets/icon-logo.png'
+            alt='ChainWiki Icon'
+            className='w-4 h-4 object-contain'
+          />
           {t('createdWithChainWiki')}
         </a>
       </div>
