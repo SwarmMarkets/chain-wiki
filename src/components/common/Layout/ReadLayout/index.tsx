@@ -70,14 +70,6 @@ const ReadLayout: React.FC<PropsWithChildren<ReadLayoutProps>> = ({
           />
         )}
       </div>
-      <a
-        href='https://www.chainwiki.com'
-        target='_blank'
-        rel='noopener noreferrer'
-        className='fixed bottom-2 left-4 typo-body2 text-gray-400 hover:underline z-50'
-      >
-        {t('createdWithChainWiki')}
-      </a>
     </div>
   )
 }

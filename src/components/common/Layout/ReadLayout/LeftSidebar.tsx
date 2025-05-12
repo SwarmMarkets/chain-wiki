@@ -91,15 +91,14 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({ nft, preview }) => {
       />
     )
   }
-
   return (
     <aside
       className={clsx(
-        'w-1/5 sticky top-24 self-start relative text-main z-10 flex flex-col justify-between',
-        !preview && 'max-h-[calc(100vh-6rem)] overflow-y-auto pr-2'
+        'w-1/5 sticky top-24 self-start relative text-main z-10 flex flex-col',
+        !preview && 'max-h-[calc(100vh-6rem)]'
       )}
     >
-      <div className='flex-grow'>
+      <div className={clsx('flex-grow overflow-y-auto pr-2')}>
         {treeData.length > 0 ? (
           <SidebarTree
             data={treeData}
@@ -116,6 +115,16 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({ nft, preview }) => {
         ) : (
           <p className='text-body2 px-4 py-2'>{t('noDataAvailable')}</p>
         )}
+      </div>
+      <div className='p-3'>
+        <a
+          href='https://www.chainwiki.com'
+          target='_blank'
+          rel='noopener noreferrer'
+          className='text-sm text-gray-400 no-underline hover:text-gray-300 active:text-primary'
+        >
+          {t('createdWithChainWiki')}
+        </a>
       </div>
     </aside>
   )
