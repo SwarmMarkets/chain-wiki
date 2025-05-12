@@ -97,6 +97,7 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({ nft, preview }) => {
         'w-1/5 sticky top-24 self-start relative text-main z-10 flex flex-col',
         !preview && 'max-h-[calc(100vh-6rem)]'
       )}
+      style={{ height: 'calc(100vh - 6rem)' }}
     >
       <div className={clsx('flex-grow overflow-y-auto pr-2')}>
         {treeData.length > 0 ? (
@@ -116,7 +117,7 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({ nft, preview }) => {
           <p className='text-body2 px-4 py-2'>{t('noDataAvailable')}</p>
         )}
       </div>
-      <div className='p-3'>
+      <div className='p-3 absolute bottom-0 left-0 w-full'>
         <a
           href='https://www.chainwiki.com'
           target='_blank'
