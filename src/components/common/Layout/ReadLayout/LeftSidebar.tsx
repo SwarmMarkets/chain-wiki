@@ -94,8 +94,8 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({ nft, preview }) => {
   return (
     <aside
       className={clsx(
-        'w-1/5 sticky top-24 self-start relative text-main z-10 flex flex-col',
-        !preview && 'max-h-[calc(100vh-6rem)]'
+        'w-1/5 sticky top-28 self-start text-main z-10 flex flex-col',
+        !preview && 'max-h-[calc(100vh-9rem)]'
       )}
     >
       <div className={clsx('flex-grow overflow-y-auto pr-2')}>
