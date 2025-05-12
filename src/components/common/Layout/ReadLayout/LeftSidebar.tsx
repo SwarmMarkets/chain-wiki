@@ -44,7 +44,7 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
   preview,
   firstTokenId,
 }) => {
-  const { t } = useTranslation('contents')
+  const { t } = useTranslation('layout')
   const fullTokenId = useFullTokenIdParam()
   const navigate = useNavigate()
 
