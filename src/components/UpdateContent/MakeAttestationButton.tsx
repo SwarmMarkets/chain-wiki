@@ -4,7 +4,8 @@ import { useTranslation } from 'react-i18next'
 import { useSX1155NFT } from 'src/hooks/contracts/useSX1155NFT'
 import { ChildrenProp } from 'src/shared/types/common-props'
 import { generateIpfsAttestationContent } from 'src/shared/utils'
-import Button, { ButtonProps } from '../ui-kit/Button/Button'
+import SmartButton from '../SmartButton'
+import { ButtonProps } from '../ui-kit/Button/Button'
 
 interface MakeAttestationButtonProps extends ButtonProps, ChildrenProp {
   nftAddress: string
@@ -70,14 +71,14 @@ const MakeAttestationButton: React.FC<MakeAttestationButtonProps> = ({
 
   return (
     <>
-      <Button
+      <SmartButton
         loading={txLoading || isLoading}
         className='mt-4'
         onClick={startContentUpdate}
         {...buttonProps}
       >
         {caption}
-      </Button>
+      </SmartButton>
     </>
   )
 }

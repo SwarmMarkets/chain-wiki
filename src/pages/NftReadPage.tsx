@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
 import { useContentRef } from 'src/components/common/Layout/ReadLayout/ContentContext'
@@ -8,11 +8,12 @@ import AttestationDrawer from 'src/components/Token/Attestation/AttestationDrawe
 import useNFT from 'src/hooks/subgraph/useNFT'
 import useToken from 'src/hooks/subgraph/useToken'
 import useFullTokenIdParam from 'src/hooks/useFullTokenIdParam'
+import { findFirstNonGroupVisibleNode } from 'src/shared/utils/treeHelpers'
 
 const NftReadPage = () => {
   const { t } = useTranslation('nft')
   const { nftId = '' } = useParams()
-  const tokenId = useFullTokenIdParam()
+  const fullTokenId = useFullTokenIdParam()
   const [selectedSectionId, setSelectedSectionId] = useState<string | null>(
     null
   )
@@ -20,16 +21,22 @@ const NftReadPage = () => {
     fetchFullData: true,
     disableRefetch: true,
   })
-  const { token, loadingToken, refetchingToken } = useToken(tokenId, {
-    disableRefetch: true,
-  })
 
-  const html =
-    (tokenId
-      ? token?.ipfsContent?.htmlContent
-      : nft?.ipfsContent?.htmlContent) || ''
+  const firstTokenId = useMemo(
+    () =>
+      findFirstNonGroupVisibleNode(nft?.indexPagesContent?.indexPages)
+        ?.tokenId || '',
+    [nft?.indexPagesContent?.indexPages]
+  )
 
-  const title = tokenId ? token?.name : nft?.name
+  const { token, loadingToken, refetchingToken } = useToken(
+    fullTokenId || firstTokenId,
+    {
+      disableRefetch: true,
+    }
+  )
+
+  const markdown = token?.ipfsContent?.htmlContent
 
   const { setContentElem } = useContentRef()
 
@@ -48,17 +55,17 @@ const NftReadPage = () => {
     return <NftReadPageSkeleton />
   }
 
-  if (!html) {
+  if (!markdown) {
     return <p className='text-center'>{t('messages.noContent')}</p>
   }
 
   return (
     <div>
       <div className='typo-heading2 text-main-accent mb-3 font-bold'>
-        {title}
+        {token?.name}
       </div>
       <MarkdownRenderer
-        markdown={html}
+        markdown={markdown}
         showComments
         ref={setContentElem}
         onClickComment={handleSelectSection}

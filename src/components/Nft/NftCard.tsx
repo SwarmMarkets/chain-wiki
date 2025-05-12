@@ -1,35 +1,30 @@
-import { useAddress, useChainId } from '@thirdweb-dev/react'
+import { useAddress } from '@thirdweb-dev/react'
+import clsx from 'clsx'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import useNFTUpdate from 'src/hooks/useNFTUpdate'
-import { getExplorerUrl, isSameEthereumAddress } from 'src/shared/utils'
+import { isSameEthereumAddress } from 'src/shared/utils'
+import dayjs from 'src/shared/utils/dayjsConfig'
 import { NFTsQueryFullData } from 'src/shared/utils/ipfs/types'
 import RequirePermissions from '../common/RequirePermissions'
 import UploadFileButton from '../common/UploadFileButton'
 import Icon from '../ui-kit/Icon/Icon'
 import IconButton from '../ui-kit/IconButton'
-import dayjs from 'src/shared/utils/dayjsConfig'
-import clsx from 'clsx'
+import { generatePath, Link } from 'react-router-dom'
+import RoutePaths from 'src/shared/enums/routes-paths'
 
 interface NftCardProps {
   nft: NFTsQueryFullData
-  showRole?: boolean
   addLogoButton?: boolean
   className?: string
 }
 
-const NftCard: React.FC<NftCardProps> = ({
-  nft,
-  showRole = false,
-  className,
-}) => {
+const NftCard: React.FC<NftCardProps> = ({ nft, className }) => {
   const { t } = useTranslation(['nft', 'nfts'])
   const account = useAddress()
   const { signTransaction, tx } = useNFTUpdate(nft.id)
-  const chainId = useChainId()
 
   const roles = useMemo(() => {
-    if (!showRole) return []
     const isAdmin = nft.admins.some(address =>
       isSameEthereumAddress(address, account)
     )
@@ -40,21 +35,10 @@ const NftCard: React.FC<NftCardProps> = ({
     if (isAdmin) roles.push(t('filter.admin', { ns: 'nfts' }))
     if (isEditor) roles.push(t('filter.editor', { ns: 'nfts' }))
     return roles
-  }, [account, nft.admins, nft.editors, t, showRole])
+  }, [account, nft.admins, nft.editors, t])
 
   const handleUploadLogo = async (url: string) => {
     await signTransaction({ logoUrl: url })
-  }
-
-  const handleIconClick = (e: React.MouseEvent) => {
-    e.stopPropagation()
-    e.preventDefault()
-    const explorerUrl = getExplorerUrl({
-      type: 'address',
-      chainId,
-      hash: nft.id,
-    })
-    window.open(explorerUrl, '_blank')
   }
 
   return (
@@ -87,9 +71,15 @@ const NftCard: React.FC<NftCardProps> = ({
       <div>
         <div className='flex justify-between items-center'>
           <h3 className='text-lg font-semibold truncate'>{nft.name}</h3>
-          <IconButton onClick={handleIconClick}>
-            <Icon name='externalLink' size={14} />
-          </IconButton>
+          <Link
+            to={generatePath(RoutePaths.NFT_READ, { nftId: nft.id })}
+            onClick={e => e.stopPropagation()}
+            target='_blank'
+          >
+            <IconButton>
+              <Icon name='externalLink' size={14} />
+            </IconButton>
+          </Link>
         </div>
 
         {roles.length > 0 && (

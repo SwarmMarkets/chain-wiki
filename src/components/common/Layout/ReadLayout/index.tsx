@@ -5,8 +5,9 @@ import ReadHeader from './ReadHeader'
 import RightSidebar from './RightSidebar'
 import RoutePaths from 'src/shared/enums/routes-paths'
 import clsx from 'clsx'
-import React, { PropsWithChildren, useEffect } from 'react'
-import { useContentRef } from './ContentContext'
+import React, { PropsWithChildren, useEffect, useMemo } from 'react'
+import ContentContext, { useContentRef } from './ContentContext'
+import { findFirstNonGroupVisibleNode } from 'src/shared/utils/treeHelpers'
 
 interface ReadLayoutProps {
   preview?: boolean
@@ -20,7 +21,6 @@ const ReadLayout: React.FC<PropsWithChildren<ReadLayoutProps>> = ({
   const { nft, loadingNft, refetchingNft } = useNFT(nftId, {
     fetchFullData: true,
   })
-  const { contentElem } = useContentRef()
   const location = useLocation()
 
   const loading = loadingNft && !refetchingNft
@@ -48,29 +48,42 @@ const ReadLayout: React.FC<PropsWithChildren<ReadLayoutProps>> = ({
     }
   }, [nft?.name, nft?.iconLogoUrl, preview])
 
+  const firstTokenId = useMemo(
+    () =>
+      findFirstNonGroupVisibleNode(nft?.indexPagesContent?.indexPages)
+        ?.tokenId || '',
+    [nft?.indexPagesContent?.indexPages]
+  )
+
   return (
-    <div className='flex flex-col w-full'>
-      <ReadHeader nft={nft} preview={preview} />
+    <ContentContext>
+      <div className='flex flex-col w-full'>
+        <ReadHeader nft={nft} preview={preview} />
 
-      <div
-        className={clsx(
-          'flex flex-1 max-w-screen-2xl mx-auto px-4 sm:px-6 md:px-8 w-full',
-          preview ? 'pt-8' : 'pt-28'
-        )}
-      >
-        <LeftSidebar nft={nft} preview={preview} />
-
-        <main className='flex-1 px-12'>{children || <Outlet />}</main>
-
-        {!isHistoryPage && (
-          <RightSidebar
-            contentElem={contentElem}
+        <div
+          className={clsx(
+            'flex flex-1 max-w-screen-2xl mx-auto px-4 sm:px-6 md:px-8 w-full',
+            preview ? 'pt-8' : 'pt-28'
+          )}
+        >
+          <LeftSidebar
+            nft={nft}
             preview={preview}
-            isLoading={loading}
+            firstTokenId={firstTokenId}
           />
-        )}
+
+          <main className='flex-1 px-12'>{children || <Outlet />}</main>
+
+          {!isHistoryPage && (
+            <RightSidebar
+              preview={preview}
+              isLoading={loading}
+              firstTokenId={firstTokenId}
+            />
+          )}
+        </div>
       </div>
-    </div>
+    </ContentContext>
   )
 }
 

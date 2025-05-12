@@ -1,4 +1,3 @@
-import Flex from 'src/components/ui/Flex'
 import { CommentsQueryFullData } from 'src/shared/utils/ipfs/types'
 import dayjs from 'dayjs'
 import React from 'react'
@@ -8,20 +7,18 @@ import AttestationCardSkeleton from './AttestationCardSkeleton'
 
 interface AttestationListProps {
   attestations: CommentsQueryFullData[] | null
-  loading: boolean
   // tokenAddress: string
   // nftAddress: string
 }
 
 const AttestationList: React.FC<AttestationListProps> = ({
   attestations,
-  loading,
   // tokenAddress,
   // nftAddress,
 }) => {
   // const { call } = useSX1155NFT(nftAddress)
 
-  if (loading) {
+  if (!attestations) {
     return (
       <div className='flex flex-col py-5 gap-2'>
         {[...new Array(3)].map((_, index) => (

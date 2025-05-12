@@ -23,7 +23,7 @@ interface CustomizationSetters {
 type CustomizationStore = CustomizationState & CustomizationSetters
 
 export const useCustomizationStore = create<CustomizationStore>(set => ({
-  headerBackground: '#0179ef',
+  headerBackground: '#511DD7',
   linksColor: '#ffffff',
   headerLinks: [],
   logoUrl: '',
@@ -39,7 +39,7 @@ export const useCustomizationStore = create<CustomizationStore>(set => ({
   init: state => set(state),
   reset: () =>
     set({
-      headerBackground: '#0179ef',
+      headerBackground: '#511DD7',
       linksColor: '#ffffff',
       logoUrl: '',
       iconLogoUrl: '',

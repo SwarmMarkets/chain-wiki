@@ -1,7 +1,9 @@
 import { useTranslation } from 'react-i18next'
+import { generatePath } from 'react-router-dom'
 import NftList from 'src/components/Nft/NftList'
 import useNFTs from 'src/hooks/subgraph/useNFTs'
 import { Nft_OrderBy, OrderDirection } from 'src/queries/gql/graphql'
+import RoutePaths from 'src/shared/enums/routes-paths'
 
 const ExplorePage = () => {
   const { t } = useTranslation('explore')
@@ -13,6 +15,8 @@ const ExplorePage = () => {
   })
 
   const loading = loadingNfts && !refetchingNfts
+
+  const noNfts = !loading && (!nfts || nfts?.length === 0)
 
   return (
     <div className='h-full'>
@@ -29,13 +33,17 @@ const ExplorePage = () => {
           {t('title')}
         </h1>
         <h3 className='heading-md'>{t('subtitle')}</h3>
-        <NftList
-          loading={loading}
-          nfts={nfts}
-          skeletonLength={10}
-          className='mt-7'
-          showRole
-        />
+        {noNfts ? (
+          <div className='text-center mt-14 typo-title2'>{t('noNfts')}</div>
+        ) : (
+          <NftList
+            loading={loading}
+            nfts={nfts}
+            skeletonLength={10}
+            className='mt-7'
+            to={nft => generatePath(RoutePaths.NFT_READ, { nftId: nft.id })}
+          />
+        )}
       </div>
     </div>
   )
