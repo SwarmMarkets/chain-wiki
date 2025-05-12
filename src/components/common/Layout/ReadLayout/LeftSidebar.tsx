@@ -117,7 +117,7 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({ nft, preview }) => {
           <p className='text-body2 px-4 py-2'>{t('noDataAvailable')}</p>
         )}
       </div>
-      <div className='p-3 absolute bottom-0 left-0 w-full'>
+      <div className='p-3'>
         <a
           href='https://www.chainwiki.com'
           target='_blank'
