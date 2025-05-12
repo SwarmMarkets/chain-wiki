@@ -22,7 +22,7 @@ const TokenPage = () => {
     defaultTab: TokenTabs.READ,
   })
 
-  const { nft } = useNFT(nftId, {
+  const { nft, loadingNft, refetchingNft } = useNFT(nftId, {
     fetchFullData: true,
   })
 
@@ -37,7 +37,8 @@ const TokenPage = () => {
     fullTokenId || firstTokenId
   )
 
-  const showSkeleton = loadingToken && !refetchingToken
+  const showSkeleton =
+    (loadingToken && !refetchingToken) || (loadingNft && !refetchingNft)
 
   const handleEditSite = () => {
     changeTab(TokenTabs.EDIT)
