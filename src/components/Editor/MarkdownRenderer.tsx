@@ -15,15 +15,14 @@ import rehypeHighlight from 'rehype-highlight'
 import 'highlight.js/styles/atom-one-dark.css'
 
 interface MarkdownRendererProps {
+  fullTokenId?: string
   markdown: string
   showComments?: boolean
   onClickComment?: (sectionId: string) => void
 }
 
 const MarkdownRenderer = forwardRef<HTMLDivElement, MarkdownRendererProps>(
-  ({ markdown, showComments, onClickComment }, ref) => {
-    const fullTokenId = useFullTokenIdParam()
-
+  ({ markdown, showComments, onClickComment, fullTokenId }, ref) => {
     const Content = useMemo(() => {
       const processor = unified()
         .use(remarkParse)
@@ -31,6 +30,7 @@ const MarkdownRenderer = forwardRef<HTMLDivElement, MarkdownRendererProps>(
         .use(remarkGfm)
         .use(() => tree => {
           visit(tree, (node: any) => {
+            if (!fullTokenId || !showComments) return
             if (
               node.type === 'paragraph' ||
               node.type === 'heading' ||

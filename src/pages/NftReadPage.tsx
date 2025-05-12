@@ -29,12 +29,11 @@ const NftReadPage = () => {
     [nft?.indexPagesContent?.indexPages]
   )
 
-  const { token, loadingToken, refetchingToken } = useToken(
-    fullTokenId || firstTokenId,
-    {
-      disableRefetch: true,
-    }
-  )
+  const tokenId = fullTokenId || firstTokenId
+
+  const { token, loadingToken, refetchingToken } = useToken(tokenId, {
+    disableRefetch: true,
+  })
 
   const markdown = token?.ipfsContent?.htmlContent
 
@@ -69,6 +68,7 @@ const NftReadPage = () => {
         showComments
         ref={setContentElem}
         onClickComment={handleSelectSection}
+        fullTokenId={tokenId}
       />
 
       <AttestationDrawer
