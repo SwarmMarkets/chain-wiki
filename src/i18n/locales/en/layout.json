@@ -14,5 +14,7 @@
       "layout": "Layout"
     }
   },
-  "poweredBy": "powered by"
+  "poweredBy": "powered by",
+  "createdWithChainWiki": "Created with ChainWiki",
+  "noDataAvailable": "No data available"
 }

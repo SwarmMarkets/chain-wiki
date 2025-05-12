@@ -7,6 +7,7 @@ import RoutePaths from 'src/shared/enums/routes-paths'
 import clsx from 'clsx'
 import React, { PropsWithChildren, useEffect, useMemo } from 'react'
 import ContentContext, { useContentRef } from './ContentContext'
+import { useTranslation } from 'react-i18next'
 import { findFirstNonGroupVisibleNode } from 'src/shared/utils/treeHelpers'
 
 interface ReadLayoutProps {
@@ -22,6 +23,7 @@ const ReadLayout: React.FC<PropsWithChildren<ReadLayoutProps>> = ({
     fetchFullData: true,
   })
   const location = useLocation()
+  const { t } = useTranslation('layout')
 
   const loading = loadingNft && !refetchingNft
 
