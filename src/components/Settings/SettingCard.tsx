@@ -3,7 +3,7 @@ import { ChildrenProp } from 'src/shared/types/common-props'
 import Card from '../ui/Card'
 
 interface SettingCardProps extends ChildrenProp {
-  description: string
+  description: React.ReactNode
   subtitle?: string
   title: string
 }
