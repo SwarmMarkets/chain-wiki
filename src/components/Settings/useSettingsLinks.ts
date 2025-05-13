@@ -22,21 +22,11 @@ const useSettingsLinks = (): SettingsLink[] => {
       link: SettingView.ROLES,
       icon: 'roles',
     },
-    // layoutPreferences: {
-    //   title: t('navigation.layoutPreferences.title'),
-    //   links: [
-    //     {
-    //       label: t('navigation.layoutPreferences.links.contentEditor.label'),
-    //       link: SettingView.CONTENT,
-    //       icon: 'contentEditor',
-    //     },
-    //     {
-    //       label: t('navigation.layoutPreferences.links.layout.label'),
-    //       link: SettingView.LAYOUT,
-    //       icon: 'layout',
-    //     },
-    //   ],
-    // },
+    {
+      label: t('navigation.integration.label'),
+      link: SettingView.INTEGRATION,
+      icon: 'gear',
+    },
   ]
 }
 

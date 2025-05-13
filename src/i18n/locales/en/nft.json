@@ -41,6 +41,9 @@
             "icon": "layout"
           }
         }
+      },
+      "integration": {
+        "label": "Integration"
       }
     },
     "siteName": {
@@ -97,6 +100,11 @@
         "minLinks": "Please add at least one link"
       },
       "buttonAddLink": "Add link"
+    },
+    "import": {
+      "title": "Import from GitBook",
+      "subtitle": "Import your site from a public GitHub-synced GitBook project",
+      "description": "Use GitHub repository to import pages from your GitBook workspace. You can select a specific branch, and the imported pages will be added directly to your ChainWiki site."
     },
     "linksColor": {
       "title": "Links color",

@@ -1,6 +1,5 @@
 export enum   SettingView {
   GENERAL = 'general',
   ROLES = 'roles',
-  CONTENT = 'content',
-  LAYOUT = 'layout',
+  INTEGRATION = 'integration',
 }

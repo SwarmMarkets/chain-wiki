@@ -128,6 +128,13 @@ const SettingsBody = ({ activeLink }: Props) => {
           <NftRoleManager nftAddress={nftId} />
         </SettingCard>
       </ConditionalItem>
+      <ConditionalItem case={SettingView.INTEGRATION}>
+        <SettingCard
+          title={t('import.title')}
+          subtitle={t('import.subtitle')}
+          description={t('import.description')}
+        ></SettingCard>
+      </ConditionalItem>
     </ConditionalRender>
   )
 }
