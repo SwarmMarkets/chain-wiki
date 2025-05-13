@@ -2,12 +2,7 @@ import { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { SettingView } from 'src/components/Settings/enums'
-import NftRoleManager from '../Nft/NftRoleManager'
-import GeneralSettings from '../Nft/NftView/GeneralSettings'
-import SettingCard from './SettingCard'
-import { ConditionalItem, ConditionalRender } from '../common/ConditionalRender'
 import { generateSiteLink } from 'src/shared/utils'
-import ExplorerLink from '../common/ExplorerLink'
 
 import {
   EmailShareButton,
@@ -21,7 +16,16 @@ import {
   WhatsappShareButton,
   WhatsappIcon,
 } from 'react-share'
-import Icon from '../ui-kit/Icon/Icon'
+import {
+  ConditionalRender,
+  ConditionalItem,
+} from 'src/components/common/ConditionalRender'
+import ExplorerLink from 'src/components/common/ExplorerLink'
+import NftRoleManager from 'src/components/Nft/NftRoleManager'
+import GeneralSettings from 'src/components/Nft/NftView/GeneralSettings'
+import Icon from 'src/components/ui-kit/Icon/Icon'
+import SettingCard from '../SettingCard'
+import IntegrationSetting from './IntegrationSetting'
 
 interface Props {
   activeLink: string
@@ -129,11 +133,7 @@ const SettingsBody = ({ activeLink }: Props) => {
         </SettingCard>
       </ConditionalItem>
       <ConditionalItem case={SettingView.INTEGRATION}>
-        <SettingCard
-          title={t('import.title')}
-          subtitle={t('import.subtitle')}
-          description={t('import.description')}
-        ></SettingCard>
+        <IntegrationSetting />
       </ConditionalItem>
     </ConditionalRender>
   )
