@@ -6,5 +6,9 @@
   "switchNetwork": {
     "description": "Connect your wallet to {{networkName}} to continue.",
     "button": "Switch network"
+  },
+  "toasts": {
+    "walletRegistered": "Your wallet is registered",
+    "walletRegistrationFailed": "Wallet registration failed"
   }
 }
