@@ -3,20 +3,20 @@ import dayjs from 'dayjs'
 import React from 'react'
 import AttestationCard from './AttestationCard'
 import AttestationCardSkeleton from './AttestationCardSkeleton'
-// import { useSX1155NFT } from 'src/hooks/contracts/useSX1155NFT'
+import { useSX1155NFT } from 'src/hooks/contracts/useSX1155NFT'
 
 interface AttestationListProps {
   attestations: CommentsQueryFullData[] | null
-  // tokenAddress: string
-  // nftAddress: string
+  tokenAddress: string
+  nftAddress: string
 }
 
 const AttestationList: React.FC<AttestationListProps> = ({
   attestations,
-  // tokenAddress,
-  // nftAddress,
+  tokenAddress,
+  nftAddress,
 }) => {
-  // const { call } = useSX1155NFT(nftAddress)
+  const { call } = useSX1155NFT(nftAddress)
 
   if (!attestations) {
     return (
@@ -28,19 +28,18 @@ const AttestationList: React.FC<AttestationListProps> = ({
     )
   }
 
-  // const handleDeleteAttestation = (attestationId: string) => {
-  //   const tokenId = Number(tokenAddress.split('-')[1])
-  //   const commentId = Number(attestationId.split('-')[2])
+  const handleDeleteAttestation = (attestationId: string) => {
+    const tokenId = Number(tokenAddress.split('-')[1])
+    const commentId = Number(attestationId.split('-')[2])
 
-  //   return call('deleteAttestation', [tokenId, commentId])
-  // }
+    return call('deleteAttestation', [tokenId, commentId])
+  }
 
   return (
     <div className='flex flex-col py-5 gap-2'>
       {attestations?.map(item => (
         <AttestationCard
-          // onDelete={() => handleDeleteAttestation(item.id)}
-          // nftAddress={nftAddress}
+          onDelete={() => handleDeleteAttestation(item.id)}
           key={item.id}
           address={item.commentator}
           message={item.ipfsContent?.htmlContent || ''}

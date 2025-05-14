@@ -3,7 +3,7 @@ import { Base, Chain } from '@thirdweb-dev/chains'
 import { environment } from '..'
 
 export const baseEnvironment: NetworkConfiguration = Object.freeze({
-  subgraphURL: `https://gateway.thegraph.com/api/${environment.subgraphApiKey}/subgraphs/id/3PWCiLW4ZxG3o6RrJBgUaaYKkeMNuUsSVsHbmE4ptufq`,
+  subgraphURL: `https://api.studio.thegraph.com/query/60829/chainwiki-base/version/latest`,
   contracts: {
     sx1155NFTFactoryAddress: '0x04620054fB4052Faf2a6A3F664149d574A907193',
   },
