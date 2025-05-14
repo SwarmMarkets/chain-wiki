@@ -12,6 +12,7 @@ import { Roles } from 'src/shared/enums'
 import RoutePaths, { RoutePathSetting } from 'src/shared/enums/routes-paths'
 import { NFTWithMetadata } from 'src/shared/utils'
 import NftHeaderSkeleton from './NftHeaderSkeleton'
+import { useToastManager } from 'src/hooks/useToastManager'
 
 interface NftLayoutHeaderProps {
   nft: NFTWithMetadata | null
@@ -28,12 +29,22 @@ const NftLayoutHeader: React.FC<NftLayoutHeaderProps> = ({ nft, loading }) => {
   const { smartAccountPermissions } = useNftPermissions(nftId)
   const { grantRole, txLoading } = useNFTRoleManager(nftId)
   const { merge, mergeLoading } = useEdit()
+  const { addToast } = useToastManager()
 
   const isEditMode = window.location.pathname.includes('edit')
 
   const grantRoleForSmartAccount = async () => {
     if (smartAccountInfo?.address) {
       grantRole(smartAccountInfo?.address, Roles.EDITOR)
+    }
+  }
+
+  const handleMerge = async () => {
+    try {
+      await merge()
+      addToast(t('merge_success', { ns: 'buttons' }), { type: 'success' })
+    } catch (error) {
+      addToast(t('merge_error', { ns: 'buttons' }), { type: 'error' })
     }
   }
 
@@ -107,7 +118,7 @@ const NftLayoutHeader: React.FC<NftLayoutHeaderProps> = ({ nft, loading }) => {
               <Button
                 className='px-8'
                 loading={mergeLoading}
-                onClick={merge}
+                onClick={handleMerge}
                 disabled={!smartAccountPermissions.canUpdateContent}
               >
                 {t('merge', { ns: 'buttons' })}

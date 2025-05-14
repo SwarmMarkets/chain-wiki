@@ -9,6 +9,9 @@
   },
   "toasts": {
     "walletRegistered": "Your wallet is registered",
-    "walletRegistrationFailed": "Wallet registration failed"
+    "walletRegistrationFailed": "Wallet registration failed",
+    "merge": "Merge",
+    "merge_success": "Successfully merged!",
+    "merge_error": "An error occurred while merging"
   }
 }
