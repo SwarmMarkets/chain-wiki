@@ -11,14 +11,7 @@ const IntegrationSetting = () => {
       subtitle={t('import.subtitle')}
       description={t('import.description')}
     >
-      <IntegrationForm
-        onSuccessSubmit={function (): void {
-          throw new Error('Function not implemented.')
-        }}
-        onErrorSubmit={function (e: Error): void {
-          throw new Error('Function not implemented.')
-        }}
-      />
+      <IntegrationForm onSuccessSubmit={() => {}} onErrorSubmit={() => {}} />
     </SettingCard>
   )
 }
