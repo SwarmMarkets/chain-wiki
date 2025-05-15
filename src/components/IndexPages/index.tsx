@@ -15,8 +15,7 @@ interface IndexPagesProps {
 
 const IndexPages: React.FC<IndexPagesProps> = ({ nft }) => {
   const fullTokenId = useFullTokenIdParam()
-  const { treeData, updateIndexPagesByTreeNodes, updateTokenName } =
-    useEdit(true)
+  const { treeData } = useEdit(true)
   const isEditMode = window.location.pathname.includes('edit')
 
   const firstNotGroupTokenId = useMemo(
@@ -45,8 +44,7 @@ const IndexPages: React.FC<IndexPagesProps> = ({ nft }) => {
           })
         }
         treeData={treeData}
-        onDrop={updateIndexPagesByTreeNodes}
-        onUpdateName={updateTokenName}
+        readonly
       />
     </>
   )
