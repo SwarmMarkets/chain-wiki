@@ -1,5 +1,4 @@
 import React from 'react'
-import { useTranslation } from 'react-i18next'
 import { generatePath, Link, useNavigate, useParams } from 'react-router-dom'
 import useEdit from 'src/components/Edit/useEdit'
 import useNFTRoleManager from 'src/components/Nft/NftRoleManager/useNFTRoleManager'
@@ -13,6 +12,7 @@ import RoutePaths, { RoutePathSetting } from 'src/shared/enums/routes-paths'
 import { NFTWithMetadata } from 'src/shared/utils'
 import NftHeaderSkeleton from './NftHeaderSkeleton'
 import { useToastManager } from 'src/hooks/useToastManager'
+import { useTranslation } from 'react-i18next'
 
 interface NftLayoutHeaderProps {
   nft: NFTWithMetadata | null
@@ -21,7 +21,7 @@ interface NftLayoutHeaderProps {
 
 const NftLayoutHeader: React.FC<NftLayoutHeaderProps> = ({ nft, loading }) => {
   const { nftId = '' } = useParams()
-  const { t } = useTranslation(['layout', 'buttons'])
+  const { t } = useTranslation(['layout', 'buttons', 'common', 'toasts'])
   const { setting = null } = useParams<{ setting: RoutePathSetting }>()
   const navigate = useNavigate()
 
@@ -42,7 +42,9 @@ const NftLayoutHeader: React.FC<NftLayoutHeaderProps> = ({ nft, loading }) => {
   const handleMerge = async () => {
     try {
       await merge()
-      addToast(t('merge_success', { ns: 'buttons' }), { type: 'success' })
+      addToast(t('toasts.siteUpdatedViewSite', { ns: 'common' }), {
+        type: 'success',
+      })
     } catch (error) {
       addToast(t('merge_error', { ns: 'buttons' }), { type: 'error' })
     }
@@ -112,7 +114,7 @@ const NftLayoutHeader: React.FC<NftLayoutHeaderProps> = ({ nft, loading }) => {
                 loading={txLoading}
                 onClick={grantRoleForSmartAccount}
               >
-                Enable batch editing
+                {t('enableBatchEditing', { ns: 'buttons' })}
               </Button>
             ) : (
               <Button

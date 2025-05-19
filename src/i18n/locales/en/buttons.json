@@ -9,5 +9,6 @@
   "chooseFile": "Choose file",
   "merge": "Merge",
   "settings": "Settings",
-  "visit": "Visit"
+  "visit": "Visit",
+  "enableBatchEditing": "Enable batch editing"
 }
