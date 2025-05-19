@@ -1,15 +1,42 @@
-import { AnimatePresence, AnimationDefinition, motion } from 'framer-motion'
 import React, { useEffect, useState } from 'react'
+import { AnimatePresence, motion } from 'framer-motion'
 import Icon from '../Icon/Icon'
 import IconButton from '../IconButton'
+import { ToastType } from 'src/shared/types/toast-types'
 
-type ToastProps = {
-  toast: Omit<IToast, 'id'>
+export interface Toast {
+  id: number
+  message: React.ReactNode
+  type?: ToastType
+  actionHref?: string
+  actionText?: string
+}
+
+interface ToastComponentProps {
+  toast: Toast
   duration?: number
   onClose: () => void
 }
 
-const Toast: React.FC<ToastProps> = ({ toast, duration = 3000, onClose }) => {
+type IconName =
+  | 'info-status'
+  | 'success-status'
+  | 'warn-status'
+  | 'error-status'
+  | 'close'
+
+const iconMap: Record<ToastType, IconName> = {
+  info: 'info-status',
+  success: 'success-status',
+  warn: 'warn-status',
+  error: 'error-status',
+}
+
+const Toast: React.FC<ToastComponentProps> = ({
+  toast,
+  duration = 3000,
+  onClose,
+}) => {
   const [isVisible, setIsVisible] = useState(true)
   const type = toast.type || 'info'
   const isAction = !!(toast.actionHref && toast.actionText)
@@ -19,11 +46,8 @@ const Toast: React.FC<ToastProps> = ({ toast, duration = 3000, onClose }) => {
     return () => clearTimeout(timer)
   }, [duration])
 
-  const handleAnimationComplete = (
-    deifinition: AnimationDefinition & { x: number }
-  ) => {
-    const isExit = deifinition.x === -100
-    if (isExit) {
+  const handleAnimationComplete = () => {
+    if (!isVisible) {
       onClose()
     }
   }
@@ -40,16 +64,11 @@ const Toast: React.FC<ToastProps> = ({ toast, duration = 3000, onClose }) => {
           exit={{ opacity: 0, x: -100 }}
           transition={{ duration: 0.3 }}
           onAnimationComplete={handleAnimationComplete}
-          className={`flex max-w-80 items-center p-2 bg-${type}-lightAccent text-main-accent rounded-lg`}
+          className={`flex max-w-80 items-center p-2 rounded-lg text-main-accent bg-${type}-lightAccent`}
           style={{ zIndex: 100 }}
         >
           <div>
-            <Icon
-              width='20px'
-              height='20px'
-              name={`${type}-status`}
-              color={type}
-            />
+            <Icon width={20} height={20} name={iconMap[type]} color={type} />
           </div>
           <span className='ml-2 max-h-24 typo-label1 overflow-ellipsis overflow-hidden'>
             {toast.message}
@@ -57,7 +76,7 @@ const Toast: React.FC<ToastProps> = ({ toast, duration = 3000, onClose }) => {
           {isAction && (
             <span
               className={`ml-2 px-1 py-0.5 typo-label1 text-${type} cursor-pointer rounded hover:bg-${type}-muted`}
-              onClick={() => window.open(toast.actionHref)}
+              onClick={() => window.open(toast.actionHref, '_blank')}
             >
               {toast.actionText}
             </span>
@@ -67,7 +86,7 @@ const Toast: React.FC<ToastProps> = ({ toast, duration = 3000, onClose }) => {
             hoverBackground={`${type}-muted`}
             onClick={handleCloseButton}
           >
-            <Icon name='close' color={type} width='18px' height='18px' />
+            <Icon name='close' color={type} width={18} height={18} />
           </IconButton>
         </motion.div>
       )}
