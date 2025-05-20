@@ -29,6 +29,7 @@ import NftReadHistory from './components/common/Layout/ReadLayout/NftReadHistory
 import ExplorePage from './pages/ExplorePage'
 import staticConfig from './config'
 import WalletConnectedProtect from './components/common/WalletConnectedProtect'
+import ToastManager from './components/ui-kit/Toast/ToastManager'
 
 const queryClient = new QueryClient()
 
@@ -97,6 +98,7 @@ function App() {
               </Routes>
             </Router>
             <GlobalStyle />
+            <ToastManager />
             <ToastContainer />
             <div id='drawers' />
             <div id='modals' />
