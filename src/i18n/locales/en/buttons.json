@@ -9,5 +9,7 @@
   "chooseFile": "Choose file",
   "publish": "Publish",
   "settings": "Settings",
-  "visit": "Visit"
+  "visit": "Visit",
+  "setAttestator": "Set as preferred attestator",
+  "unsetAttestator": "Unset preferred attestator"
 }

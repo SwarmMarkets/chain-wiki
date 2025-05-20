@@ -71,18 +71,21 @@ const NftReadPage = () => {
         fullTokenId={tokenId}
       />
 
-      <AttestationDrawer
-        isOpen={!!selectedSectionId}
-        fullTokenId={tokenId}
-        section={{
-          id: selectedSectionId,
-          htmlContent:
-            (selectedSectionId &&
-              document.getElementById(selectedSectionId)?.outerHTML) ||
-            '',
-        }}
-        onClose={handleCloseDrawer}
-      />
+      {nft && (
+        <AttestationDrawer
+          nft={nft}
+          isOpen={!!selectedSectionId}
+          fullTokenId={tokenId}
+          section={{
+            id: selectedSectionId,
+            htmlContent:
+              (selectedSectionId &&
+                document.getElementById(selectedSectionId)?.outerHTML) ||
+              '',
+          }}
+          onClose={handleCloseDrawer}
+        />
+      )}
     </div>
   )
 }
