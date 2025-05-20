@@ -9,8 +9,10 @@ import useComments from 'src/hooks/subgraph/useComments'
 import { SelectedSection } from '../TokenView/TokenView'
 import AttestationList from './AttestationList'
 import Drawer from 'src/components/ui-kit/Drawer'
+import { NFTWithMetadata } from 'src/shared/utils'
 
 interface AttestationDrawerProps {
+  nft: NFTWithMetadata
   isOpen: boolean
   section: SelectedSection
   onClose: () => void
@@ -18,16 +20,16 @@ interface AttestationDrawerProps {
 }
 
 const AttestationDrawer: React.FC<AttestationDrawerProps> = ({
+  nft,
   isOpen,
   section,
   onClose,
   fullTokenId,
 }) => {
-  const { nftId = '' } = useParams()
   const { t } = useTranslation('token')
   const [editorContent, setEditorContent] = useState('')
 
-  const { fullComments, refetchingComments, loadingComments } = useComments(
+  const { fullComments } = useComments(
     {
       variables: { filter: { sectionId: section.id } },
     },
@@ -49,9 +51,9 @@ const AttestationDrawer: React.FC<AttestationDrawerProps> = ({
           <HtmlRender html={section.htmlContent || ''} />
           <Divider />
           <AttestationList
+            nft={nft}
             attestations={fullComments}
             tokenAddress={fullTokenId}
-            nftAddress={nftId}
           />
         </div>
         <div className='flex flex-col'>
@@ -62,7 +64,7 @@ const AttestationDrawer: React.FC<AttestationDrawerProps> = ({
           />
           <MakeAttestationButton
             onSuccess={handleSendAttestation}
-            nftAddress={nftId}
+            nftAddress={nft.id}
             sectionId={section.id}
             attestationContent={editorContent}
             tokenId={fullTokenId}

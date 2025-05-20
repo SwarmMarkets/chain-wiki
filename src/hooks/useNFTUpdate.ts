@@ -21,6 +21,8 @@ export interface NFTContentToUpdate {
   uri?: string
   indexPagesUri?: string | null
   headerLinksUri?: string | null
+  preferredAttestatorToAdd?: string
+  preferredAttestatorToRemove?: string
 }
 
 const useNFTUpdate = (nftAddress: string) => {
