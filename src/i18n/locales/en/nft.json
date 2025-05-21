@@ -15,8 +15,7 @@
         "title": "General settings",
         "links": {
           "general": {
-            "label": "General",
-            "icon": "settings"
+            "label": "General"
           }
         }
       },
@@ -24,8 +23,7 @@
         "title": "Access control",
         "links": {
           "roles": {
-            "label": "Roles",
-            "icon": "roles"
+            "label": "Roles"
           }
         }
       },
@@ -33,12 +31,18 @@
         "title": "Preferences and layout",
         "links": {
           "contentEditor": {
-            "label": "Content editor",
-            "icon": "contentEditor"
+            "label": "Content editor"
           },
           "layout": {
-            "label": "Layout",
-            "icon": "layout"
+            "label": "Layout"
+          }
+        }
+      },
+      "attestators": {
+        "title": "Preferred attestators",
+        "links": {
+          "attestators": {
+            "label": "Attestators"
           }
         }
       }
@@ -60,6 +64,11 @@
       "title": "Site roles",
       "subtitle": "Manage site roles",
       "description": "This page is dedicated to managing user roles within the site. It allows for the assignment and adjustment of roles to ensure proper access control and responsibility distribution across the team."
+    },
+    "attestatorsManager": {
+      "title": "Manage preferred attestators",
+      "subtitle": "Highlight trusted voices across your site",
+      "description": "Select and manage preferred attestators whose attestations will appear at the top of relevant content and be marked with a checkmark icon. This feature helps surface trusted opinions and enhances credibility for your users."
     },
     "icon": {
       "title": "Icon",
@@ -166,6 +175,29 @@
       },
       "role": {
         "required": "Role is required"
+      }
+    }
+  },
+  "attestatorsManager": {
+    "tableHead": {
+      "address": "Address",
+      "role": "Role"
+    },
+    "actions": {
+      "makePreferred": "Make preferred",
+      "removePreferred": "Remove preferred"
+    },
+    "form": {
+      "makePreferred": "Enter the user's Ethereum address to make preferred"
+    },
+    "formPlaceholders": {
+      "address": "Enter address",
+      "name": "Enter username"
+    },
+    "formErrors": {
+      "address": {
+        "required": "User address is required",
+        "invalid": "User address is invalid"
       }
     }
   },
