@@ -54,7 +54,7 @@ const MakePreferredForm: React.FC<MakePreferredFormProps> = ({
         errorMessage={errors.address?.message}
       />
       <Button type='submit' loading={tx.txLoading} className='w-4/12'>
-        {t('roleManager.actions.grantRole')}
+        {t('attestatorsManager.actions.makePreferred')}
       </Button>
     </form>
   )

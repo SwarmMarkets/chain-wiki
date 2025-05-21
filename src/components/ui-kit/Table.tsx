@@ -1,7 +1,27 @@
+import clsx from 'clsx'
 import { FC, PropsWithChildren } from 'react'
 
-const TableRoot: FC<PropsWithChildren> = ({ children }) => (
-  <div className='w-full overflow-x-auto'>
+type Align = 'left' | 'center' | 'right' | 'justify'
+
+const alignmentClass = (align?: Align) => {
+  switch (align) {
+    case 'center':
+      return 'text-center'
+    case 'right':
+      return 'text-right'
+    case 'justify':
+      return 'text-justify'
+    case 'left':
+    default:
+      return 'text-left'
+  }
+}
+
+const TableRoot: FC<PropsWithChildren & { className?: string }> = ({
+  children,
+  className,
+}) => (
+  <div className={clsx('w-full overflow-x-auto', className)}>
     <table className='w-full border-collapse'>{children}</table>
   </div>
 )
@@ -22,12 +42,18 @@ const TableRow: FC<PropsWithChildren> = ({ children }) => (
   <tr className='hover:bg-primary-muted border-b border-main'>{children}</tr>
 )
 
-const TableHeadCell: FC<PropsWithChildren> = ({ children }) => (
-  <th className='p-3 text-left font-semibold'>{children}</th>
+const TableHeadCell: FC<
+  PropsWithChildren & { align?: Align; className?: string }
+> = ({ children, align = 'left', className }) => (
+  <th className={clsx('p-3 font-semibold', alignmentClass(align), className)}>
+    {children}
+  </th>
 )
 
-const TableCell: FC<PropsWithChildren> = ({ children }) => (
-  <td className='p-3'>{children}</td>
+const TableCell: FC<
+  PropsWithChildren & { align?: Align; className?: string }
+> = ({ children, align = 'left', className }) => (
+  <td className={clsx('p-3', alignmentClass(align), className)}>{children}</td>
 )
 
 const Table = {
