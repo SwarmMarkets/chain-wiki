@@ -44,6 +44,14 @@ const AttestationDrawer: React.FC<AttestationDrawerProps> = ({
     setEditorContent('')
   }
 
+  const sortedAttestationsByPreferred =
+    fullComments?.sort((a, b) => {
+      const aIsPreferred = nft.preferredAttestators.includes(a.commentator)
+      const bIsPreferred = nft.preferredAttestators.includes(b.commentator)
+
+      return Number(bIsPreferred) - Number(aIsPreferred)
+    }) ?? null
+
   return (
     <Drawer open={isOpen} onClose={onClose} position='right'>
       <div className='flex h-full w-full flex-col justify-between'>
@@ -52,7 +60,7 @@ const AttestationDrawer: React.FC<AttestationDrawerProps> = ({
           <Divider />
           <AttestationList
             nft={nft}
-            attestations={fullComments}
+            attestations={sortedAttestationsByPreferred}
             tokenAddress={fullTokenId}
           />
         </div>
