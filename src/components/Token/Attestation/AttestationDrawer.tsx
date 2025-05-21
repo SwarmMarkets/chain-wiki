@@ -1,15 +1,14 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useParams } from 'react-router-dom'
 import LiteEditor from 'src/components/Editor/LiteEditor'
 import HtmlRender from 'src/components/HtmlRender'
+import Drawer from 'src/components/ui-kit/Drawer'
 import Divider from 'src/components/ui/Divider'
 import MakeAttestationButton from 'src/components/UpdateContent/MakeAttestationButton'
 import useComments from 'src/hooks/subgraph/useComments'
+import { NFTWithMetadata } from 'src/shared/utils'
 import { SelectedSection } from '../TokenView/TokenView'
 import AttestationList from './AttestationList'
-import Drawer from 'src/components/ui-kit/Drawer'
-import { NFTWithMetadata } from 'src/shared/utils'
 
 interface AttestationDrawerProps {
   nft: NFTWithMetadata
