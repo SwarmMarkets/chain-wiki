@@ -28,34 +28,36 @@ const AttestatorsSetting = () => {
       subtitle={t('subtitle')}
       description={t('description')}
     >
-      <Table.Root className='mb-4'>
-        <Table.Header>
-          <Table.HeaderRow>
-            <Table.HeadCell>{t('tableHead.address')}</Table.HeadCell>
-            <Table.HeadCell></Table.HeadCell>
-          </Table.HeaderRow>
-        </Table.Header>
-        <Table.Body>
-          {nft?.preferredAttestators.map(address => (
-            <Table.Row key={address}>
-              <Table.Cell>
-                <ExplorerLink type='address' hash={address}>
-                  {address}
-                </ExplorerLink>
-              </Table.Cell>
-              <Table.Cell align='right'>
-                <Button
-                  className='w-full'
-                  onClick={() => handleRemovePreferred(address)}
-                  loading={latestRemovePreferred === address && tx.txLoading}
-                >
-                  {t('actions.removePreferred')}
-                </Button>
-              </Table.Cell>
-            </Table.Row>
-          ))}
-        </Table.Body>
-      </Table.Root>
+      {nft && nft.preferredAttestators.length > 0 && (
+        <Table.Root className='mb-4'>
+          <Table.Header>
+            <Table.HeaderRow>
+              <Table.HeadCell>{t('tableHead.address')}</Table.HeadCell>
+              <Table.HeadCell></Table.HeadCell>
+            </Table.HeaderRow>
+          </Table.Header>
+          <Table.Body>
+            {nft?.preferredAttestators.map(address => (
+              <Table.Row key={address}>
+                <Table.Cell>
+                  <ExplorerLink type='address' hash={address}>
+                    {address}
+                  </ExplorerLink>
+                </Table.Cell>
+                <Table.Cell align='right'>
+                  <Button
+                    className='w-full'
+                    onClick={() => handleRemovePreferred(address)}
+                    loading={latestRemovePreferred === address && tx.txLoading}
+                  >
+                    {t('actions.removePreferred')}
+                  </Button>
+                </Table.Cell>
+              </Table.Row>
+            ))}
+          </Table.Body>
+        </Table.Root>
+      )}
       <MakePreferredForm nftAddress={nftId} />
     </SettingCard>
   )
