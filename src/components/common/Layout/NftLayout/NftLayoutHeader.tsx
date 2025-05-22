@@ -42,11 +42,23 @@ const NftLayoutHeader: React.FC<NftLayoutHeaderProps> = ({ nft, loading }) => {
   const handleMerge = async () => {
     try {
       await merge()
-      addToast(t('toasts.siteUpdatedViewSite', { ns: 'common' }), {
-        type: 'success',
-      })
+      const siteUrl = generatePath(RoutePaths.NFT_READ, { nftId })
+
+      addToast(
+        <>
+          {t('toasts.siteUpdated', { ns: 'common' })}.{' '}
+          <Link
+            to={siteUrl}
+            target='_blank'
+            className='underline text-main-accent hover:text-main'
+          >
+            {t('toasts.viewSite', { ns: 'common' })}
+          </Link>
+        </>,
+        { type: 'success' }
+      )
     } catch (error) {
-      addToast(t('merge_error', { ns: 'buttons' }), { type: 'error' })
+      addToast(t('toasts.merge_error', { ns: 'common' }), { type: 'error' })
     }
   }
 

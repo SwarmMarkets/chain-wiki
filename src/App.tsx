@@ -96,9 +96,9 @@ function App() {
                 />
                 <Route path={RoutePaths.EXPLORE} element={<ExplorePage />} />
               </Routes>
+              <ToastManager />
             </Router>
             <GlobalStyle />
-            <ToastManager />
             <ToastContainer />
             <div id='drawers' />
             <div id='modals' />

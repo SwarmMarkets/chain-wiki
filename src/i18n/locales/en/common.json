@@ -11,7 +11,8 @@
     "walletRegistered": "Your wallet is registered",
     "walletRegistrationFailed": "Wallet registration failed",
     "merge": "Merge",
-    "siteUpdatedViewSite": "Site updated. View site",
+    "siteUpdated": "Site updated",
+    "viewSite": "View site",
     "merge_error": "An error occurred while merging"
   }
 }
