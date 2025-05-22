@@ -46,7 +46,7 @@ const NftLayoutHeader: React.FC<NftLayoutHeaderProps> = ({ nft, loading }) => {
 
       addToast(
         <>
-          {t('toasts.siteUpdated', { ns: 'common' })}.{' '}
+          {t('toasts.siteUpdated', { ns: 'common' })}{' '}
           <Link
             to={siteUrl}
             target='_blank'
