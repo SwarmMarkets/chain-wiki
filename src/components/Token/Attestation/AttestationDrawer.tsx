@@ -76,7 +76,7 @@ const AttestationDrawer: React.FC<AttestationDrawerProps> = ({
             attestationContent={editorContent}
             tokenId={fullTokenId}
           >
-            {t('attestation.send')}
+            {t('attestation.comment')}
           </MakeAttestationButton>
         </div>
       </div>
