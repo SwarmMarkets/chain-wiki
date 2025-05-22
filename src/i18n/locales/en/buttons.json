@@ -10,6 +10,6 @@
   "publish": "Publish",
   "settings": "Settings",
   "visit": "Visit",
-  "setAttestator": "Set as preferred attestator",
-  "unsetAttestator": "Unset preferred attestator"
+  "setAttestator": "Set as preferred attestor",
+  "unsetAttestator": "Remove as preferred attestor"
 }
