@@ -184,18 +184,18 @@
       "makePreferred": "Make preferred",
       "removePreferred": "Remove preferred"
     },
-    "form": {
-      "makePreferred": "Enter the user's Ethereum address to make preferred"
-    },
     "formPlaceholders": {
-      "address": "Enter address",
-      "name": "Enter username"
+      "makePreferred": "Enter the user's Ethereum address",
+      "name": "Enter name (only visible to you)"
     },
     "formErrors": {
       "address": {
         "required": "User address is required",
         "invalid": "User address is invalid"
       }
+    },
+    "messages": {
+      "you": "You"
     }
   },
   "roles": {

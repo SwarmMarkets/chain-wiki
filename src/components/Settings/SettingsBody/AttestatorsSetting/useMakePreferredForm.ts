@@ -5,6 +5,7 @@ import yup from 'src/shared/validations/yup'
 
 export interface MakePreferredFormInputs {
   address: string
+  name: string
 }
 
 const useMakePreferredForm = () => {
@@ -17,6 +18,7 @@ const useMakePreferredForm = () => {
         .string()
         .required(t('address.required'))
         .isEthereumAddress(t('address.invalid')),
+      name: yup.string().optional(),
     })
   )
 

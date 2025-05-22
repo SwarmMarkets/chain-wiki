@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
 import ExplorerLink from 'src/components/common/ExplorerLink'
@@ -8,6 +8,10 @@ import useNFT from 'src/hooks/subgraph/useNFT'
 import useNFTUpdate from 'src/hooks/useNFTUpdate'
 import SettingCard from '../../SettingCard'
 import MakePreferredForm from './MakePreferredForm'
+import { AdditionalRoles, Roles } from 'src/shared/enums'
+import { isSameEthereumAddress } from 'src/shared/utils'
+import { useAddress } from '@thirdweb-dev/react'
+import { useAddressNameStore } from 'src/components/Nft/NftRoleManager/addressNameStore'
 
 const AttestatorsSetting = () => {
   const { nftId = '' } = useParams()
@@ -16,6 +20,28 @@ const AttestatorsSetting = () => {
   const { signTransaction, tx } = useNFTUpdate(nftId)
 
   const [latestRemovePreferred, setLatestRemovePreferred] = useState('')
+  const { addressNames } = useAddressNameStore()
+  const currentAddress = useAddress()
+
+  const formatAttestator = useCallback(
+    (address: string) => {
+      const isCurrent =
+        currentAddress && isSameEthereumAddress(address, currentAddress)
+      const key = `${address.toLowerCase()}-${
+        AdditionalRoles.PREFERRED_ATTESTOR
+      }`
+      const displayName = isCurrent
+        ? t('messages.you')
+        : addressNames[key] || address
+
+      return { address, displayName }
+    },
+    [addressNames, currentAddress, t]
+  )
+
+  const preferredAttestators = useMemo(() => {
+    return nft?.preferredAttestators.map(formatAttestator) || []
+  }, [formatAttestator, nft?.preferredAttestators])
 
   const handleRemovePreferred = (attestatorAddress: string) => {
     setLatestRemovePreferred(attestatorAddress)
@@ -28,7 +54,7 @@ const AttestatorsSetting = () => {
       subtitle={t('subtitle')}
       description={t('description')}
     >
-      {nft && nft.preferredAttestators.length > 0 && (
+      {preferredAttestators.length > 0 && (
         <Table.Root className='mb-4'>
           <Table.Header>
             <Table.HeaderRow>
@@ -37,11 +63,14 @@ const AttestatorsSetting = () => {
             </Table.HeaderRow>
           </Table.Header>
           <Table.Body>
-            {nft?.preferredAttestators.map(address => (
+            {preferredAttestators.map(({ address, displayName }) => (
               <Table.Row key={address}>
                 <Table.Cell>
                   <ExplorerLink type='address' hash={address}>
-                    {address}
+                    <div className='font-semibold'>{displayName}</div>
+                    {displayName !== address && (
+                      <div className='text-sm'>{address}</div>
+                    )}
                   </ExplorerLink>
                 </Table.Cell>
                 <Table.Cell align='right'>

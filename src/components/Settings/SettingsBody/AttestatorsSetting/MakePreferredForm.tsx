@@ -7,6 +7,8 @@ import useNFTUpdate from 'src/hooks/useNFTUpdate'
 import useMakePreferredForm, {
   MakePreferredFormInputs,
 } from './useMakePreferredForm'
+import { useAddressNameStore } from 'src/components/Nft/NftRoleManager/addressNameStore'
+import { AdditionalRoles } from 'src/shared/enums'
 
 interface MakePreferredFormProps {
   nftAddress: string
@@ -15,23 +17,26 @@ interface MakePreferredFormProps {
 const MakePreferredForm: React.FC<MakePreferredFormProps> = ({
   nftAddress,
 }) => {
-  const { t } = useTranslation('nft')
+  const { t } = useTranslation('nft', { keyPrefix: 'attestatorsManager' })
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
   } = useMakePreferredForm()
+  const { setAddressName } = useAddressNameStore()
 
   const { signTransaction, tx } = useNFTUpdate(nftAddress)
 
   const onSubmit: SubmitHandler<MakePreferredFormInputs> = async (data, e) => {
     e?.preventDefault()
-    const { address } = data
+    const { address, name } = data
 
-    console.log(address)
+    const success = await signTransaction({ preferredAttestatorToAdd: address })
 
-    signTransaction({ preferredAttestatorToAdd: address })
+    if (success && name) {
+      setAddressName(address, AdditionalRoles.PREFERRED_ATTESTOR, name)
+    }
   }
 
   useEffect(() => {
@@ -46,15 +51,23 @@ const MakePreferredForm: React.FC<MakePreferredFormProps> = ({
       className='flex gap-2 w-full items-start'
     >
       <TextField
-        className='w-full'
+        className='w-5/12'
         inputProps={{
-          placeholder: t('attestatorsManager.form.makePreferred'),
+          placeholder: t('formPlaceholders.makePreferred'),
           ...register('address'),
         }}
         errorMessage={errors.address?.message}
       />
-      <Button type='submit' loading={tx.txLoading} className='w-4/12'>
-        {t('attestatorsManager.actions.makePreferred')}
+      <TextField
+        className='w-4/12'
+        inputProps={{
+          placeholder: t('formPlaceholders.name'),
+          ...register('name'),
+        }}
+        errorMessage={errors.address?.message}
+      />
+      <Button type='submit' loading={tx.txLoading} className='w-3/12'>
+        {t('actions.makePreferred')}
       </Button>
     </form>
   )
