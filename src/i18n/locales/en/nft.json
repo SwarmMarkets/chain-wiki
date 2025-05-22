@@ -176,7 +176,7 @@
   "attestatorsManager": {
     "title": "Manage preferred attestors",
     "subtitle": "Highlight trusted voices across your site",
-    "description": "Select and manage preferred users whose attestations will appear at the top of relevant content and be marked with a checkmark icon. This feature helps surface trusted opinions and enhances credibility for your users.",
+    "description": "Select and manage preferred users whose attestations will appear at the top of relevant content and be marked with a checkmark icon. This feature helps surface trusted opinions and enhances credibility for your readers.",
     "tableHead": {
       "address": "Address"
     },
