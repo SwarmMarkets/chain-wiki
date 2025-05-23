@@ -55,7 +55,15 @@ const AttestationDrawer: React.FC<AttestationDrawerProps> = ({
     <Drawer open={isOpen} onClose={onClose} position='right'>
       <div className='flex h-full w-full flex-col justify-between'>
         <div>
-          <HtmlRender html={section.htmlContent || ''} />
+          <h3 className='typo-title2 text-main-accent font-medium mb-2'>
+            {t('attestation.youAreCommentingOn')}
+          </h3>
+
+          <Divider />
+          <HtmlRender
+            className='my-4 max-h-[30vh] overflow-y-auto'
+            html={section.htmlContent || ''}
+          />
           <Divider />
           <AttestationList
             nft={nft}

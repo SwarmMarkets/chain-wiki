@@ -38,6 +38,7 @@ const LiteEditor: React.FC<LiteEditorProps> = ({ onChange, value }) => {
         quotePlugin(),
         thematicBreakPlugin(),
         toolbarPlugin({
+          toolbarClassName: 'bg-gray-100',
           toolbarContents: () => (
             <>
               <UndoRedo />

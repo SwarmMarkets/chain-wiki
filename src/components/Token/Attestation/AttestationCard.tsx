@@ -67,11 +67,17 @@ const AttestationCard: React.FC<AttestationCardProps> = ({
   const showDotMenu = canManageRoles || canDeleteAtestation
 
   return (
-    <Card className='group'>
+    <div className='bg-gray-100 rounded-lg p-2'>
+      <MarkdownRenderer markdown={message} />
       <div className='flex items-center justify-between'>
         <div className='flex items-center gap-2 relative'>
-          <div>{t('attestation.author')}</div>
-          <ExplorerLink iconSize={10} type={'address'} hash={attestatorAddress}>
+          <div className='typo-body1'>{t('attestation.author')}</div>
+          <ExplorerLink
+            className='typo-body1'
+            iconSize={10}
+            type={'address'}
+            hash={attestatorAddress}
+          >
             {shortenAddress(attestatorAddress, true)}
           </ExplorerLink>
           {isPreferredAttestator && (
@@ -111,10 +117,9 @@ const AttestationCard: React.FC<AttestationCardProps> = ({
             </div>
           )}
         </div>
-        <div>{date}</div>
+        <div className='typo-body1'>{date}</div>
       </div>
-      <MarkdownRenderer markdown={message} />
-    </Card>
+    </div>
   )
 }
 
