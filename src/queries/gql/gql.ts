@@ -13,7 +13,7 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
-    "\n  query CommentIds($limit: Int, $skip: Int = 0, $filter: Comment_filter) {\n    comments(where: $filter, first: $limit, skip: $skip) {\n      id\n    }\n  }\n": types.CommentIdsDocument,
+    "\n  query CommentIds($limit: Int, $skip: Int = 0, $filter: Comment_filter) {\n    comments(where: $filter, first: $limit, skip: $skip) {\n      id\n      sectionId\n    }\n  }\n": types.CommentIdsDocument,
     "\n  query Comments(\n    $limit: Int\n    $skip: Int = 0\n    $filter: Comment_filter\n    $orderBy: Comment_orderBy\n    $orderDirection: OrderDirection\n  ) {\n    comments(\n      where: $filter\n      first: $limit\n      skip: $skip\n      orderBy: $orderBy\n      orderDirection: $orderDirection\n    ) {\n      commentator\n      createdAt\n      id\n      sectionId\n      uri\n      token {\n        createdAt\n        id\n        updatedAt\n        uri\n      }\n    }\n  }\n": types.CommentsDocument,
     "\n  query NFT($id: ID!) {\n    nft(id: $id) {\n      id\n      name\n      symbol\n      updatedAt\n      createdAt\n      uri\n      indexPagesUri\n      headerLinksUri\n      logoUrl\n      iconLogoUrl\n      creator\n      admins\n      editors\n      headerBackground\n      preferredAttestators\n    }\n  }\n": types.NftDocument,
     "\n  query NFTAccessRoles($id: ID!) {\n    nft(id: $id) {\n      id\n      creator\n      admins\n      editors\n    }\n  }\n": types.NftAccessRolesDocument,
@@ -41,7 +41,7 @@ export function graphql(source: string): unknown;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  query CommentIds($limit: Int, $skip: Int = 0, $filter: Comment_filter) {\n    comments(where: $filter, first: $limit, skip: $skip) {\n      id\n    }\n  }\n"): (typeof documents)["\n  query CommentIds($limit: Int, $skip: Int = 0, $filter: Comment_filter) {\n    comments(where: $filter, first: $limit, skip: $skip) {\n      id\n    }\n  }\n"];
+export function graphql(source: "\n  query CommentIds($limit: Int, $skip: Int = 0, $filter: Comment_filter) {\n    comments(where: $filter, first: $limit, skip: $skip) {\n      id\n      sectionId\n    }\n  }\n"): (typeof documents)["\n  query CommentIds($limit: Int, $skip: Int = 0, $filter: Comment_filter) {\n    comments(where: $filter, first: $limit, skip: $skip) {\n      id\n      sectionId\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
