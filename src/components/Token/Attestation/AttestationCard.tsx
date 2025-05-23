@@ -67,7 +67,7 @@ const AttestationCard: React.FC<AttestationCardProps> = ({
   const showDotMenu = canManageRoles || canDeleteAtestation
 
   return (
-    <div className='bg-gray-100 rounded-lg p-2'>
+    <div className='bg-gray-100 rounded-lg p-2 group'>
       <MarkdownRenderer markdown={message} />
       <div className='flex items-center justify-between'>
         <div className='flex items-center gap-2 relative'>
