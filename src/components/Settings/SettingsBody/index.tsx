@@ -2,12 +2,7 @@ import { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { SettingView } from 'src/components/Settings/enums'
-import NftRoleManager from '../Nft/NftRoleManager'
-import GeneralSettings from '../Nft/NftView/GeneralSettings'
-import SettingCard from './SettingCard'
-import { ConditionalItem, ConditionalRender } from '../common/ConditionalRender'
 import { generateSiteLink } from 'src/shared/utils'
-import ExplorerLink from '../common/ExplorerLink'
 
 import {
   EmailShareButton,
@@ -21,7 +16,16 @@ import {
   WhatsappShareButton,
   WhatsappIcon,
 } from 'react-share'
-import Icon from '../ui-kit/Icon/Icon'
+import Icon from 'src/components/ui-kit/Icon/Icon'
+import {
+  ConditionalRender,
+  ConditionalItem,
+} from 'src/components/common/ConditionalRender'
+import ExplorerLink from 'src/components/common/ExplorerLink'
+import NftRoleManager from 'src/components/Nft/NftRoleManager'
+import GeneralSettings from 'src/components/Nft/NftView/GeneralSettings'
+import SettingCard from '../SettingCard'
+import AttestatorsSetting from './AttestatorsSetting'
 
 interface Props {
   activeLink: string
@@ -127,6 +131,9 @@ const SettingsBody = ({ activeLink }: Props) => {
         >
           <NftRoleManager nftAddress={nftId} />
         </SettingCard>
+      </ConditionalItem>
+      <ConditionalItem case={SettingView.ATTESTATORS}>
+        <AttestatorsSetting />
       </ConditionalItem>
     </ConditionalRender>
   )

@@ -15,8 +15,7 @@
         "title": "General settings",
         "links": {
           "general": {
-            "label": "General",
-            "icon": "settings"
+            "label": "General"
           }
         }
       },
@@ -24,8 +23,7 @@
         "title": "Access control",
         "links": {
           "roles": {
-            "label": "Roles",
-            "icon": "roles"
+            "label": "Roles"
           }
         }
       },
@@ -33,12 +31,18 @@
         "title": "Preferences and layout",
         "links": {
           "contentEditor": {
-            "label": "Content editor",
-            "icon": "contentEditor"
+            "label": "Content editor"
           },
           "layout": {
-            "label": "Layout",
-            "icon": "layout"
+            "label": "Layout"
+          }
+        }
+      },
+      "attestators": {
+        "title": "Preferred attestors",
+        "links": {
+          "attestators": {
+            "label": "Attestors"
           }
         }
       }
@@ -167,6 +171,31 @@
       "role": {
         "required": "Role is required"
       }
+    }
+  },
+  "attestatorsManager": {
+    "title": "Manage preferred attestors",
+    "subtitle": "Highlight trusted voices across your site",
+    "description": "Select and manage preferred users whose attestations will appear at the top of relevant content and be marked with a checkmark icon. This feature helps surface trusted opinions and enhances credibility for your readers.",
+    "tableHead": {
+      "address": "Address"
+    },
+    "actions": {
+      "makePreferred": "Make preferred",
+      "removePreferred": "Remove preferred"
+    },
+    "formPlaceholders": {
+      "makePreferred": "Enter the user's Ethereum address",
+      "name": "Enter name (only visible to you)"
+    },
+    "formErrors": {
+      "address": {
+        "required": "User address is required",
+        "invalid": "User address is invalid"
+      }
+    },
+    "messages": {
+      "you": "You"
     }
   },
   "roles": {

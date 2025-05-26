@@ -3,17 +3,20 @@ import { ExplorerLinkType, getExplorerUrl } from 'src/shared/utils'
 import { useChainId } from '@thirdweb-dev/react'
 import { useState, MouseEvent } from 'react'
 import Icon from '../ui-kit/Icon/Icon'
+import clsx from 'clsx'
 
 interface ExplorerLinkProps extends ChildrenProp {
   type: ExplorerLinkType
   hash?: string
   iconSize?: number
+  className?: string
 }
 
 const ExplorerLink: React.FC<ExplorerLinkProps> = ({
   type,
   hash,
   iconSize,
+  className,
   children,
 }) => {
   const [showCheckmark, setShowCheckmark] = useState(false)
@@ -33,7 +36,12 @@ const ExplorerLink: React.FC<ExplorerLinkProps> = ({
   }
 
   return (
-    <div className='flex items-center gap-2 group hover:text-primary-accent transition-colors duration-200'>
+    <div
+      className={clsx(
+        'flex items-center gap-2 group hover:text-primary-accent transition-colors duration-200',
+        className
+      )}
+    >
       <div style={{ width: iconSizeWithDefault }}>
         {!showCheckmark ? (
           <Icon

@@ -6,7 +6,7 @@ import { Roles } from 'src/shared/enums'
 
 export interface GrantRoleFormInputs {
   to: string
-  name: string
+  name?: string
   role: Roles
 }
 

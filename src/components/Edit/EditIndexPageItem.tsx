@@ -83,32 +83,35 @@ const EditIndexPagesItem: React.FC<EditIndexPagesItemProps> = ({
       as={to ? Link : 'div'}
       to={to || ''}
       className={clsx(
-        'flex items-center justify-between w-full box-border rounded transition-colors overflow-hidden px-2 py-1.5 gap-2',
+        'flex justify-between w-full box-border rounded transition-colors overflow-hidden px-2 py-1.5 gap-2',
         active && 'bg-gray-100 text-main-accent',
         hasChild && 'mb-1',
         isGroup
-          ? 'uppercase font-bold text-main-accrent'
+          ? 'uppercase font-bold text-main-accent'
           : 'hover:bg-gray-100 cursor-pointer',
         className
       )}
       onClick={handleClick}
     >
-      {isOn ? (
-        <TextField
-          className='max-w-40'
-          inputProps={{
-            onBlur: handleBlurName,
-            ref: textFieldRef,
-            onKeyDown: handleKeyDown,
-          }}
-          value={name}
-          onChange={handleChangeName}
-          hideError
-        />
-      ) : (
-        name
-      )}
-      <div className='flex items-center gap-2'>
+      <div className='flex-1 break-words min-w-0'>
+        {isOn ? (
+          <TextField
+            className='w-full'
+            inputProps={{
+              onBlur: handleBlurName,
+              ref: textFieldRef,
+              onKeyDown: handleKeyDown,
+            }}
+            value={name}
+            onChange={handleChangeName}
+            hideError
+          />
+        ) : (
+          <span className='block text-sm leading-snug break-words'>{name}</span>
+        )}
+      </div>
+
+      <div className='flex items-center gap-2 flex-shrink-0'>
         {!readonly && editable && (
           <IconButton
             hoverBackground='gray-200'

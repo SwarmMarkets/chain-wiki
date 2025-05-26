@@ -135,7 +135,7 @@ const NftLayoutHeader: React.FC<NftLayoutHeaderProps> = ({ nft, loading }) => {
                 onClick={handleMerge}
                 disabled={!smartAccountPermissions.canUpdateContent}
               >
-                {t('merge', { ns: 'buttons' })}
+                {t('publish', { ns: 'buttons' })}
               </Button>
             )
           ) : (
