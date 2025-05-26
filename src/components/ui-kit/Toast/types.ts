@@ -8,3 +8,16 @@ export interface Toast {
   actionHref?: string
   actionText?: string
 }
+
+export type ToastIconName =
+  | 'info-status'
+  | 'success-status'
+  | 'warn-status'
+  | 'error-status'
+  | 'close'
+
+export interface ToastComponentProps {
+  toast: Toast
+  duration?: number
+  onClose: () => void
+}

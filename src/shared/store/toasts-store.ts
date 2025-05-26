@@ -1,5 +1,5 @@
+import { Toast, ToastType } from 'src/components/ui-kit/Toast/types'
 import { create } from 'zustand'
-import { Toast, ToastType } from '../types/toast-types'
 
 interface ToastStore {
   toasts: Toast[]

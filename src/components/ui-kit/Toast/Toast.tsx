@@ -2,30 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import Icon from '../Icon/Icon'
 import IconButton from '../IconButton'
-import { ToastType } from 'src/shared/types/toast-types'
+import { ToastComponentProps, ToastIconName, ToastType } from './types'
 
-export interface Toast {
-  id: number
-  message: React.ReactNode
-  type?: ToastType
-  actionHref?: string
-  actionText?: string
-}
-
-interface ToastComponentProps {
-  toast: Toast
-  duration?: number
-  onClose: () => void
-}
-
-type IconName =
-  | 'info-status'
-  | 'success-status'
-  | 'warn-status'
-  | 'error-status'
-  | 'close'
-
-const iconMap: Record<ToastType, IconName> = {
+const iconMap: Record<ToastType, ToastIconName> = {
   info: 'info-status',
   success: 'success-status',
   warn: 'warn-status',

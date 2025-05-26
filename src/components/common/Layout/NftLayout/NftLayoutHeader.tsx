@@ -21,7 +21,7 @@ interface NftLayoutHeaderProps {
 
 const NftLayoutHeader: React.FC<NftLayoutHeaderProps> = ({ nft, loading }) => {
   const { nftId = '' } = useParams()
-  const { t } = useTranslation(['layout', 'buttons', 'common', 'toasts'])
+  const { t } = useTranslation(['layout', 'buttons', 'common'])
   const { setting = null } = useParams<{ setting: RoutePathSetting }>()
   const navigate = useNavigate()
 
@@ -80,7 +80,7 @@ const NftLayoutHeader: React.FC<NftLayoutHeaderProps> = ({ nft, loading }) => {
           onChange={value =>
             navigate(
               generatePath(RoutePaths.SETTINGS, {
-                setting: value as RoutePathSetting,
+                setting: value,
                 nftId,
               })
             )
