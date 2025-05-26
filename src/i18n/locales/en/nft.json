@@ -50,10 +50,6 @@
       "title": "Header color",
       "description": "Select a new color for the header using the color picker"
     },
-    "editPageContent": {
-      "title": "Edit page content",
-      "description": "Update the content of your page when published."
-    },
     "editHeaderLinks": {
       "title": "Header",
       "subtitle": "Navigation",
@@ -133,65 +129,65 @@
         "you": "You"
       }
     },
-    "createNft": {
-      "title": "Create site",
-      "form": {
-        "name": "Site name",
-        "symbol": "Site symbol",
-        "adminAddress": "Admin address",
-        "uri": "IPFS hash",
-        "editorAddress": "Editor address",
-        "submit": "Create",
-        "uploadLogo": "Upload logo"
-      },
-      "formPlaceholders": {
-        "name": "Enter full name of the site",
-        "symbol": "Enter site symbol (e.g., ABC)",
-        "adminAddress": "Enter admin's Ethereum address",
-        "uri": "Paste IPFS hash or URI",
-        "editorAddress": "Enter editor's Ethereum address"
-      },
-      "formErrors": {
-        "name": {
-          "required": "Name is required"
-        },
-        "symbol": {
-          "required": "Symbol is required"
-        },
-        "admin": {
-          "required": "Admin address is required",
-          "invalid": "Admin address is invalid"
-        },
-        "editor": {
-          "required": "Editor address is required",
-          "invalid": "Editor address is invalid"
-        }
-      }
-    },
-    "successCreateNft": {
-      "title": "Site created",
-      "description": "Your site is visible on \"My sites\" page."
-    },
     "roles": {
       "admin": "Admin",
       "editor": "Editor",
       "issuer": "Issuer"
-    },
-    "indexPages": {
-      "noIndexPages": "No index pages yet",
-      "noTokens": "No pages yet",
-      "hiddenListTitle": "Hidden pages",
-      "noPagesInActiveList": "Move the pages you want to show here",
-      "noPagesInHiddenList": "Move the pages you want to hide here"
-    },
-    "messages": {
-      "editNft": "Edit site",
-      "addLogo": "Add logo",
-      "noContent": "No content yet",
-      "you": "You"
-    },
-    "card": {
-      "lastEdited": "Last edited {{date}}"
     }
+  },
+  "createNft": {
+    "title": "Create site",
+    "form": {
+      "name": "Site name",
+      "symbol": "Site symbol",
+      "adminAddress": "Admin address",
+      "uri": "IPFS hash",
+      "editorAddress": "Editor address",
+      "submit": "Create",
+      "uploadLogo": "Upload logo"
+    },
+    "formPlaceholders": {
+      "name": "Enter full name of the site",
+      "symbol": "Enter site symbol (e.g., ABC)",
+      "adminAddress": "Enter admin's Ethereum address",
+      "uri": "Paste IPFS hash or URI",
+      "editorAddress": "Enter editor's Ethereum address"
+    },
+    "formErrors": {
+      "name": {
+        "required": "Name is required"
+      },
+      "symbol": {
+        "required": "Symbol is required"
+      },
+      "admin": {
+        "required": "Admin address is required",
+        "invalid": "Admin address is invalid"
+      },
+      "editor": {
+        "required": "Editor address is required",
+        "invalid": "Editor address is invalid"
+      }
+    }
+  },
+  "successCreateNft": {
+    "title": "Site created",
+    "description": "Your site is visible on \"My sites\" page."
+  },
+  "indexPages": {
+    "noIndexPages": "No index pages yet",
+    "noTokens": "No pages yet",
+    "hiddenListTitle": "Hidden pages",
+    "noPagesInActiveList": "Move the pages you want to show here",
+    "noPagesInHiddenList": "Move the pages you want to hide here"
+  },
+  "messages": {
+    "editNft": "Edit site",
+    "addLogo": "Add logo",
+    "noContent": "No content yet",
+    "you": "You"
+  },
+  "card": {
+    "lastEdited": "Last edited {{date}}"
   }
 }
