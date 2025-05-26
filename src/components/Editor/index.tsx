@@ -68,6 +68,7 @@ const Editor = forwardRef<MDXEditorMethods, EditorProps>(
 
     const allPlugins = (diffMarkdown: string) => [
       toolbarPlugin({
+        toolbarClassName: 'bg-gray-100',
         toolbarContents: () => (
           <>
             <UndoRedo />

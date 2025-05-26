@@ -16,7 +16,13 @@ const EditIndexPages = () => {
     addedTokens,
   } = useEditingStore()
 
-  const { fullTokens, nextTokenId, treeData } = useEdit()
+  const {
+    fullTokens,
+    nextTokenId,
+    treeData,
+    updateIndexPagesByTreeNodes,
+    updateTokenName,
+  } = useEdit()
 
   const handleIndexPageClick = (id: string) => {
     const token = fullTokens?.find(t => t.id === id)
@@ -64,6 +70,8 @@ const EditIndexPages = () => {
         activeId={currEditableToken?.id}
         onClick={handleIndexPageClick}
         treeData={treeData}
+        onDrop={updateIndexPagesByTreeNodes}
+        onUpdateName={updateTokenName}
       />
 
       <Button className='mt-2 w-full' onClick={handleAddPage}>

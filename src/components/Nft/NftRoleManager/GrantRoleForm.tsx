@@ -29,9 +29,7 @@ const GrantRoleForm: React.FC<GrantRoleFormProps> = ({ nftAddress }) => {
 
   const { grantRole, txLoading } = useNFTRoleManager(nftAddress)
 
-  const onSubmit: SubmitHandler<
-    GrantRoleFormInputs & { name?: string }
-  > = async (data, e) => {
+  const onSubmit: SubmitHandler<GrantRoleFormInputs> = async (data, e) => {
     e?.preventDefault()
     const { to, role, name } = data
 
@@ -51,7 +49,6 @@ const GrantRoleForm: React.FC<GrantRoleFormProps> = ({ nftAddress }) => {
       <div className='flex flex-col gap-2 w-full items-start'>
         <TextField
           className='w-full'
-          label={t('roleManager.form.grantRole')}
           inputProps={{
             placeholder: t('roleManager.form.grantRole'),
             onChange: onChangeAddress,
@@ -62,7 +59,6 @@ const GrantRoleForm: React.FC<GrantRoleFormProps> = ({ nftAddress }) => {
         <div className='flex gap-2 w-full'>
           <TextField
             className='w-4/12'
-            label={t('roleManager.form.name')}
             inputProps={{
               placeholder: t('roleManager.formPlaceholders.name'),
               onChange: onChangeName,
@@ -74,7 +70,6 @@ const GrantRoleForm: React.FC<GrantRoleFormProps> = ({ nftAddress }) => {
             onClick={e => e.preventDefault()}
           >
             <Select<Roles>
-              option='filled'
               value={watch('role')}
               onChange={value => setValue('role', value)}
               className='capitalize w-full flex-grow'
