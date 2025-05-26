@@ -16,7 +16,7 @@ interface NftRoleManagerProps {
 }
 
 const NftRoleManager: React.FC<NftRoleManagerProps> = ({ nftAddress }) => {
-  const { t } = useTranslation('nft')
+  const { t } = useTranslation('nft', { keyPrefix: 'settings' })
   const { nft } = useNFTRoles(nftAddress)
   const { smartAccountInfo } = useSmartAccount()
   const { addressNames } = useAddressNameStore()

@@ -16,7 +16,7 @@ interface GrantRoleFormProps {
 }
 
 const GrantRoleForm: React.FC<GrantRoleFormProps> = ({ nftAddress }) => {
-  const { t } = useTranslation('nft')
+  const { t } = useTranslation('nft', { keyPrefix: 'settings' })
   const { setAddressName } = useAddressNameStore()
   const {
     register,

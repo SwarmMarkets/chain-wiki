@@ -4,11 +4,11 @@ import UpdateNftContentButton from 'src/components/UpdateContent/UpdateNftConten
 import useNFT from 'src/hooks/subgraph/useNFT'
 import { useTranslation } from 'react-i18next'
 
-interface GeneralSettingsProps {
+interface SiteNameSettingProps {
   nftAddress: string
 }
 
-const GeneralSettings: React.FC<GeneralSettingsProps> = ({ nftAddress }) => {
+const SiteNameSetting: React.FC<SiteNameSettingProps> = ({ nftAddress }) => {
   const { nft } = useNFT(nftAddress, { disableRefetch: true })
   const [name, setName] = useState<string | null>(null)
   const { t } = useTranslation('buttons')
@@ -41,4 +41,4 @@ const GeneralSettings: React.FC<GeneralSettingsProps> = ({ nftAddress }) => {
   )
 }
 
-export default GeneralSettings
+export default SiteNameSetting

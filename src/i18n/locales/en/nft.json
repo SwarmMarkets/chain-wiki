@@ -12,39 +12,16 @@
     "layout": "Layout",
     "navigation": {
       "general": {
-        "title": "General settings",
-        "links": {
-          "general": {
-            "label": "General"
-          }
-        }
+        "label": "General"
       },
-      "accessControl": {
-        "title": "Access control",
-        "links": {
-          "roles": {
-            "label": "Roles"
-          }
-        }
-      },
-      "layoutPreferences": {
-        "title": "Preferences and layout",
-        "links": {
-          "contentEditor": {
-            "label": "Content editor"
-          },
-          "layout": {
-            "label": "Layout"
-          }
-        }
+      "roles": {
+        "label": "Roles"
       },
       "attestators": {
-        "title": "Preferred attestors",
-        "links": {
-          "attestators": {
-            "label": "Attestors"
-          }
-        }
+        "label": "Attestors"
+      },
+      "ens": {
+        "label": "ENS Domain"
       }
     },
     "siteName": {
@@ -59,11 +36,6 @@
     "smartContract": {
       "title": "Smart contract",
       "description": "The link to the smart contract which represents your site."
-    },
-    "roleManager": {
-      "title": "Site roles",
-      "subtitle": "Manage site roles",
-      "description": "This page is dedicated to managing user roles within the site. It allows for the assignment and adjustment of roles to ensure proper access control and responsibility distribution across the team."
     },
     "icon": {
       "title": "Icon",
@@ -105,118 +77,121 @@
     "linksColor": {
       "title": "Links color",
       "description": "Sets the color of the title links in the header"
-    }
-  },
-  "createNft": {
-    "title": "Create site",
-    "form": {
-      "name": "Site name",
-      "symbol": "Site symbol",
-      "adminAddress": "Admin address",
-      "uri": "IPFS hash",
-      "editorAddress": "Editor address",
-      "submit": "Create",
-      "uploadLogo": "Upload logo"
     },
-    "formPlaceholders": {
-      "name": "Enter full name of the site",
-      "symbol": "Enter site symbol (e.g., ABC)",
-      "adminAddress": "Enter admin's Ethereum address",
-      "uri": "Paste IPFS hash or URI",
-      "editorAddress": "Enter editor's Ethereum address"
-    },
-    "formErrors": {
-      "name": {
-        "required": "Name is required"
+    "roleManager": {
+      "title": "Site roles",
+      "subtitle": "Manage site roles",
+      "description": "This page is dedicated to managing user roles within the site. It allows for the assignment and adjustment of roles to ensure proper access control and responsibility distribution across the team.",
+      "tableHead": {
+        "address": "Address",
+        "role": "Role"
       },
-      "symbol": {
-        "required": "Symbol is required"
+      "actions": {
+        "grantRole": "Grant role",
+        "revokeRole": "Revoke role"
       },
-      "admin": {
-        "required": "Admin address is required",
-        "invalid": "Admin address is invalid"
+      "form": {
+        "grantRole": "Enter the user's Ethereum address to assign a role",
+        "role": "Role"
       },
-      "editor": {
-        "required": "Editor address is required",
-        "invalid": "Editor address is invalid"
+      "formPlaceholders": {
+        "role": "Select role",
+        "name": "Enter username"
+      },
+      "formErrors": {
+        "to": {
+          "required": "User address is required",
+          "invalid": "User address is invalid"
+        },
+        "role": {
+          "required": "Role is required"
+        }
       }
-    }
-  },
-  "successCreateNft": {
-    "title": "Site created",
-    "description": "Your site is visible on \"My sites\" page."
-  },
-  "roleManager": {
-    "tableHead": {
-      "address": "Address",
-      "role": "Role"
     },
-    "actions": {
-      "grantRole": "Grant role",
-      "revokeRole": "Revoke role"
-    },
-    "form": {
-      "grantRole": "Enter the user's Ethereum address to assign a role",
-      "role": "Role"
-    },
-    "formPlaceholders": {
-      "role": "Select role",
-      "name": "Enter username"
-    },
-    "formErrors": {
-      "to": {
-        "required": "User address is required",
-        "invalid": "User address is invalid"
+    "attestatorsManager": {
+      "title": "Manage preferred attestors",
+      "subtitle": "Highlight trusted voices across your site",
+      "description": "Select and manage preferred users whose attestations will appear at the top of relevant content and be marked with a checkmark icon. This feature helps surface trusted opinions and enhances credibility for your readers.",
+      "tableHead": {
+        "address": "Address"
       },
-      "role": {
-        "required": "Role is required"
+      "actions": {
+        "makePreferred": "Make preferred",
+        "removePreferred": "Remove preferred"
+      },
+      "formPlaceholders": {
+        "makePreferred": "Enter the user's Ethereum address",
+        "name": "Enter name (only visible to you)"
+      },
+      "formErrors": {
+        "address": {
+          "required": "User address is required",
+          "invalid": "User address is invalid"
+        }
+      },
+      "messages": {
+        "you": "You"
       }
-    }
-  },
-  "attestatorsManager": {
-    "title": "Manage preferred attestors",
-    "subtitle": "Highlight trusted voices across your site",
-    "description": "Select and manage preferred users whose attestations will appear at the top of relevant content and be marked with a checkmark icon. This feature helps surface trusted opinions and enhances credibility for your readers.",
-    "tableHead": {
-      "address": "Address"
     },
-    "actions": {
-      "makePreferred": "Make preferred",
-      "removePreferred": "Remove preferred"
-    },
-    "formPlaceholders": {
-      "makePreferred": "Enter the user's Ethereum address",
-      "name": "Enter name (only visible to you)"
-    },
-    "formErrors": {
-      "address": {
-        "required": "User address is required",
-        "invalid": "User address is invalid"
+    "createNft": {
+      "title": "Create site",
+      "form": {
+        "name": "Site name",
+        "symbol": "Site symbol",
+        "adminAddress": "Admin address",
+        "uri": "IPFS hash",
+        "editorAddress": "Editor address",
+        "submit": "Create",
+        "uploadLogo": "Upload logo"
+      },
+      "formPlaceholders": {
+        "name": "Enter full name of the site",
+        "symbol": "Enter site symbol (e.g., ABC)",
+        "adminAddress": "Enter admin's Ethereum address",
+        "uri": "Paste IPFS hash or URI",
+        "editorAddress": "Enter editor's Ethereum address"
+      },
+      "formErrors": {
+        "name": {
+          "required": "Name is required"
+        },
+        "symbol": {
+          "required": "Symbol is required"
+        },
+        "admin": {
+          "required": "Admin address is required",
+          "invalid": "Admin address is invalid"
+        },
+        "editor": {
+          "required": "Editor address is required",
+          "invalid": "Editor address is invalid"
+        }
       }
+    },
+    "successCreateNft": {
+      "title": "Site created",
+      "description": "Your site is visible on \"My sites\" page."
+    },
+    "roles": {
+      "admin": "Admin",
+      "editor": "Editor",
+      "issuer": "Issuer"
+    },
+    "indexPages": {
+      "noIndexPages": "No index pages yet",
+      "noTokens": "No pages yet",
+      "hiddenListTitle": "Hidden pages",
+      "noPagesInActiveList": "Move the pages you want to show here",
+      "noPagesInHiddenList": "Move the pages you want to hide here"
     },
     "messages": {
+      "editNft": "Edit site",
+      "addLogo": "Add logo",
+      "noContent": "No content yet",
       "you": "You"
+    },
+    "card": {
+      "lastEdited": "Last edited {{date}}"
     }
-  },
-  "roles": {
-    "admin": "Admin",
-    "editor": "Editor",
-    "issuer": "Issuer"
-  },
-  "indexPages": {
-    "noIndexPages": "No index pages yet",
-    "noTokens": "No pages yet",
-    "hiddenListTitle": "Hidden pages",
-    "noPagesInActiveList": "Move the pages you want to show here",
-    "noPagesInHiddenList": "Move the pages you want to hide here"
-  },
-  "messages": {
-    "editNft": "Edit site",
-    "addLogo": "Add logo",
-    "noContent": "No content yet",
-    "you": "You"
-  },
-  "card": {
-    "lastEdited": "Last edited {{date}}"
   }
 }
