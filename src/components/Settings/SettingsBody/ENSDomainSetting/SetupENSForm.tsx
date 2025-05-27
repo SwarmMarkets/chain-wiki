@@ -48,7 +48,7 @@ const SetupENSForm = () => {
       const html = generateRedirectHtml(targetUrl)
       const ipfsUrl = await uploadHtmlToIpfs(html)
       const ipfsCid = ipfsUrl.replace('ipfs://', '').split('/')[0]
-      const encodedHash = '0x' + encode('ipns', ipfsCid)
+      const encodedHash = '0x' + encode('ipfs', ipfsCid)
 
       const provider = new ethers.providers.Web3Provider(window.ethereum)
       await provider.send('eth_requestAccounts', [])
