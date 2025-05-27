@@ -13,6 +13,7 @@ import SmartButton from 'src/components/SmartButton'
 import { useStorageUpload, useSwitchChain } from '@thirdweb-dev/react'
 import staticConfig from 'src/config'
 import { useToastManager } from 'src/hooks/useToastManager'
+import { useState } from 'react'
 
 const resolverAbi = [
   'function setContenthash(bytes32 node, bytes calldata hash) external',
@@ -32,6 +33,7 @@ const SetupENSForm = () => {
   const { mutateAsync: upload } = useStorageUpload()
   const switchChain = useSwitchChain()
   const { addToast } = useToastManager()
+  const [loading, setLoading] = useState(false)
 
   const onSubmit: SubmitHandler<SetupENSFormInputs> = async (data, e) => {
     e?.preventDefault()
@@ -45,6 +47,7 @@ const SetupENSForm = () => {
     }
 
     try {
+      setLoading(true)
       const html = generateRedirectHtml(targetUrl)
       const ipfsUrl = await uploadHtmlToIpfs(html)
       const ipfsCid = ipfsUrl.replace('ipfs://', '').split('/')[0]
@@ -78,6 +81,8 @@ const SetupENSForm = () => {
         type: 'error',
       })
       console.error(err)
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -97,7 +102,7 @@ const SetupENSForm = () => {
       <SmartButton
         desiredChainId={1}
         type='submit'
-        loading={false}
+        loading={loading}
         className='w-4/12'
       >
         {t('actions.set')}
