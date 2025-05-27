@@ -16,7 +16,7 @@ interface NftRoleManagerProps {
 }
 
 const NftRoleManager: React.FC<NftRoleManagerProps> = ({ nftAddress }) => {
-  const { t } = useTranslation('nft', { keyPrefix: 'settings' })
+  const { t } = useTranslation('nft', { keyPrefix: 'settings.roleManager' })
   const { nft } = useNFTRoles(nftAddress)
   const { smartAccountInfo } = useSmartAccount()
   const { addressNames } = useAddressNameStore()
@@ -56,10 +56,8 @@ const NftRoleManager: React.FC<NftRoleManagerProps> = ({ nftAddress }) => {
       <Table.Root>
         <Table.Header>
           <Table.HeaderRow>
-            <Table.HeadCell>
-              {t('roleManager.tableHead.address')}
-            </Table.HeadCell>
-            <Table.HeadCell>{t('roleManager.tableHead.role')}</Table.HeadCell>
+            <Table.HeadCell>{t('tableHead.address')}</Table.HeadCell>
+            <Table.HeadCell>{t('tableHead.role')}</Table.HeadCell>
             <Table.HeadCell></Table.HeadCell>
           </Table.HeaderRow>
         </Table.Header>

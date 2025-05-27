@@ -102,6 +102,17 @@
         "role": {
           "required": "Role is required"
         }
+      },
+      "messages": {
+        "editNft": "Edit site",
+        "addLogo": "Add logo",
+        "noContent": "No content yet",
+        "you": "You"
+      },
+      "roles": {
+        "admin": "Admin",
+        "editor": "Editor",
+        "issuer": "Issuer"
       }
     },
     "attestatorsManager": {
@@ -129,10 +140,22 @@
         "you": "You"
       }
     },
-    "roles": {
-      "admin": "Admin",
-      "editor": "Editor",
-      "issuer": "Issuer"
+    "ens": {
+      "title": "Connect ENS Domain",
+      "subtitle": "Link your ENS domain to your ChainWiki site",
+      "description": "Connect with the wallet that owns your ENS domain to link it to your ChainWiki site. Once configured, visiting your ENS domain will automatically redirect to your ChainWiki page.",
+      "actions": {
+        "set": "Set ENS"
+      },
+      "formPlaceholders": {
+        "domain": "Enter your ENS domain"
+      },
+      "formErrors": {
+        "domain": {
+          "required": "User address is required",
+          "invalid": "Please enter a valid ENS domain (e.g., myname.eth)"
+        }
+      }
     }
   },
   "createNft": {
@@ -180,12 +203,6 @@
     "hiddenListTitle": "Hidden pages",
     "noPagesInActiveList": "Move the pages you want to show here",
     "noPagesInHiddenList": "Move the pages you want to hide here"
-  },
-  "messages": {
-    "editNft": "Edit site",
-    "addLogo": "Add logo",
-    "noContent": "No content yet",
-    "you": "You"
   },
   "card": {
     "lastEdited": "Last edited {{date}}"

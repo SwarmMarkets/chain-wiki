@@ -16,7 +16,7 @@ interface GrantRoleFormProps {
 }
 
 const GrantRoleForm: React.FC<GrantRoleFormProps> = ({ nftAddress }) => {
-  const { t } = useTranslation('nft', { keyPrefix: 'settings' })
+  const { t } = useTranslation('nft', { keyPrefix: 'settings.roleManager' })
   const { setAddressName } = useAddressNameStore()
   const {
     register,
@@ -50,7 +50,7 @@ const GrantRoleForm: React.FC<GrantRoleFormProps> = ({ nftAddress }) => {
         <TextField
           className='w-full'
           inputProps={{
-            placeholder: t('roleManager.form.grantRole'),
+            placeholder: t('form.grantRole'),
             onChange: onChangeAddress,
             ...restRegisterTo,
           }}
@@ -60,7 +60,7 @@ const GrantRoleForm: React.FC<GrantRoleFormProps> = ({ nftAddress }) => {
           <TextField
             className='w-4/12'
             inputProps={{
-              placeholder: t('roleManager.formPlaceholders.name'),
+              placeholder: t('formPlaceholders.name'),
               onChange: onChangeName,
               ...restRegisterName,
             }}
@@ -87,7 +87,7 @@ const GrantRoleForm: React.FC<GrantRoleFormProps> = ({ nftAddress }) => {
             className='w-4/12 h-10'
             disabled={!isValid}
           >
-            {t('roleManager.actions.grantRole')}
+            {t('actions.grantRole')}
           </Button>
         </div>
       </div>

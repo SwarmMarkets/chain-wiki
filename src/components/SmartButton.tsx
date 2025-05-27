@@ -44,6 +44,7 @@ const SmartButton: React.FC<SmartButtonProps> = ({
 
   const handleClick = async (e: MouseEvent<HTMLButtonElement>) => {
     if (needConnect) {
+      e.preventDefault()
       setWalletModalConfig({
         modalSize: 'compact',
         theme: 'light',
@@ -53,7 +54,9 @@ const SmartButton: React.FC<SmartButtonProps> = ({
     }
 
     if (needSwitch) {
+      e.preventDefault()
       await switchNetwork(targetChainId)
+      return
     }
 
     onClick?.(e)
