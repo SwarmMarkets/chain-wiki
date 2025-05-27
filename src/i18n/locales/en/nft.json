@@ -155,6 +155,11 @@
           "required": "User address is required",
           "invalid": "Please enter a valid ENS domain (e.g., myname.eth)"
         }
+      },
+      "messages": {
+        "notOwned": "You don't own this ENS domain",
+        "failed": "Failed to set ENS domain",
+        "success": "Successfully set ENS domain"
       }
     }
   },

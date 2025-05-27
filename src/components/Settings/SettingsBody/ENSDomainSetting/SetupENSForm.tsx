@@ -10,11 +10,15 @@ import { encode } from '@ensdomains/content-hash'
 import { ethers } from 'ethers'
 import { namehash } from 'ethers/lib/utils'
 import SmartButton from 'src/components/SmartButton'
-import { useStorageUpload } from '@thirdweb-dev/react'
+import { useStorageUpload, useSwitchChain } from '@thirdweb-dev/react'
+import staticConfig from 'src/config'
+import { useToastManager } from 'src/hooks/useToastManager'
 
 const resolverAbi = [
   'function setContenthash(bytes32 node, bytes calldata hash) external',
 ]
+
+const { supportedChains } = staticConfig
 
 const SetupENSForm = () => {
   const { nftId = '' } = useParams()
@@ -26,6 +30,8 @@ const SetupENSForm = () => {
     reset,
   } = useSetupENSForm()
   const { mutateAsync: upload } = useStorageUpload()
+  const switchChain = useSwitchChain()
+  const { addToast } = useToastManager()
 
   const onSubmit: SubmitHandler<SetupENSFormInputs> = async (data, e) => {
     e?.preventDefault()
@@ -50,8 +56,7 @@ const SetupENSForm = () => {
 
       const node = namehash(domain)
       const resolverAddress = await provider.getResolver(domain)
-      if (!resolverAddress)
-        throw new Error('ENS-домен не найден или не привязан к резолверу.')
+      if (!resolverAddress) throw new Error(t('messages.notOwned'))
 
       const resolver = new ethers.Contract(
         resolverAddress.address,
@@ -63,7 +68,15 @@ const SetupENSForm = () => {
       await tx.wait()
 
       reset()
+      switchChain(supportedChains[0].chainId)
+
+      addToast(t('messages.success'), {
+        type: 'success',
+      })
     } catch (err) {
+      addToast(err.message || t('messages.failed'), {
+        type: 'error',
+      })
       console.error(err)
     }
   }
