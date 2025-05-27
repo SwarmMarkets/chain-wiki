@@ -1,6 +1,6 @@
 import { ReactNode } from 'react'
+import { Toast } from 'src/components/ui-kit/Toast/types'
 import { useToastStore } from 'src/shared/store/toasts-store'
-import { Toast } from 'src/components/ui-kit/Toast/toast-types'
 
 export type AddToastOptions = Omit<Toast, 'id' | 'message'>
 
