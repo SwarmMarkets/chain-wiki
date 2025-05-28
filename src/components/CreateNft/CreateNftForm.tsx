@@ -10,6 +10,7 @@ import { generateSymbolFromString } from 'src/shared/utils'
 import UploadFileButton from '../common/UploadFileButton'
 import Button from '../ui-kit/Button/Button'
 import TextField from '../ui-kit/TextField/TextField'
+import { keyframes } from 'styled-components'
 interface CreateNftFormProps {
   onSuccessSubmit(): void
   onErrorSubmit(e: Error): void
@@ -36,13 +37,15 @@ const CreateNftForm: React.FC<CreateNftFormProps> = ({
     const symbol = generateSymbolFromString(name)
     const admin = account
     const editor = account
-    const jsonData = JSON.stringify({
+    const kya = JSON.stringify({
       logoUrl: uploadedLogoUrl,
     })
 
     try {
       const response = await call('deployChainWiki', [
-        { name, symbol, kya: jsonData },
+        name,
+        symbol,
+        kya,
         admin,
         editor,
       ])
