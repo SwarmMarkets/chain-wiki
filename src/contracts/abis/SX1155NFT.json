@@ -1,39 +1,6 @@
 [
   {
-    "inputs": [
-      {
-        "components": [
-          {
-            "internalType": "string",
-            "name": "name",
-            "type": "string"
-          },
-          {
-            "internalType": "string",
-            "name": "symbol",
-            "type": "string"
-          },
-          {
-            "internalType": "string",
-            "name": "kya",
-            "type": "string"
-          }
-        ],
-        "internalType": "struct ERC1155Data",
-        "name": "tokenParams",
-        "type": "tuple"
-      },
-      {
-        "internalType": "address",
-        "name": "_admin",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "_editor",
-        "type": "address"
-      }
-    ],
+    "inputs": [],
     "stateMutability": "nonpayable",
     "type": "constructor"
   },
@@ -118,6 +85,11 @@
   },
   {
     "inputs": [],
+    "name": "InvalidInitialization",
+    "type": "error"
+  },
+  {
+    "inputs": [],
     "name": "InvalidRequestId",
     "type": "error"
   },
@@ -145,6 +117,11 @@
       }
     ],
     "name": "NotExists",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "NotInitializing",
     "type": "error"
   },
   {
@@ -178,6 +155,33 @@
     "type": "error"
   },
   {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "slug",
+        "type": "string"
+      }
+    ],
+    "name": "SlugIsFulfilled",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "slug",
+        "type": "string"
+      },
+      {
+        "internalType": "uint256",
+        "name": "id",
+        "type": "uint256"
+      }
+    ],
+    "name": "SlugShouldBeUnique",
+    "type": "error"
+  },
+  {
     "inputs": [],
     "name": "TransferToNonERC1155ReceiverImplementer",
     "type": "error"
@@ -190,6 +194,16 @@
   {
     "inputs": [],
     "name": "Unauthorized",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "UnauthorizedCallContext",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "UpgradeFailed",
     "type": "error"
   },
   {
@@ -370,6 +384,19 @@
     "inputs": [
       {
         "indexed": false,
+        "internalType": "uint64",
+        "name": "version",
+        "type": "uint64"
+      }
+    ],
+    "name": "Initialized",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
         "internalType": "address",
         "name": "from",
         "type": "address"
@@ -415,6 +442,12 @@
         "indexed": false,
         "internalType": "string",
         "name": "uri",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "slug",
         "type": "string"
       }
     ],
@@ -502,6 +535,25 @@
       }
     ],
     "name": "RoleSet",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "id",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "internalType": "string",
+        "name": "slug",
+        "type": "string"
+      }
+    ],
+    "name": "SlugUpdated",
     "type": "event"
   },
   {
@@ -645,6 +697,19 @@
       }
     ],
     "name": "URI",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "implementation",
+        "type": "address"
+      }
+    ],
+    "name": "Upgraded",
     "type": "event"
   },
   {
@@ -982,6 +1047,39 @@
   {
     "inputs": [
       {
+        "internalType": "string",
+        "name": "_name",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "_symbol",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "_kya",
+        "type": "string"
+      },
+      {
+        "internalType": "address",
+        "name": "_admin",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "_editor",
+        "type": "address"
+      }
+    ],
+    "name": "initialize",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
         "internalType": "address",
         "name": "owner",
         "type": "address"
@@ -1063,6 +1161,11 @@
         "internalType": "string",
         "name": "_tokenURI",
         "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "_slug",
+        "type": "string"
       }
     ],
     "name": "mint",
@@ -1085,6 +1188,11 @@
       {
         "internalType": "string[]",
         "name": "_tokenURIs",
+        "type": "string[]"
+      },
+      {
+        "internalType": "string[]",
+        "name": "_slug",
         "type": "string[]"
       }
     ],
@@ -1133,6 +1241,19 @@
         "internalType": "uint256",
         "name": "result",
         "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "proxiableUUID",
+    "outputs": [
+      {
+        "internalType": "bytes32",
+        "name": "",
+        "type": "bytes32"
       }
     ],
     "stateMutability": "view",
@@ -1312,6 +1433,19 @@
     "type": "function"
   },
   {
+    "inputs": [],
+    "name": "selfImplementation",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [
       {
         "internalType": "address",
@@ -1333,11 +1467,11 @@
     "inputs": [
       {
         "internalType": "string",
-        "name": "_contractUri",
+        "name": "_kya",
         "type": "string"
       }
     ],
-    "name": "setContractUri",
+    "name": "setKya",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -1387,11 +1521,16 @@
       },
       {
         "internalType": "string",
-        "name": "_uri",
+        "name": "_kya",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "_slug",
         "type": "string"
       }
     ],
-    "name": "setTokenUri",
+    "name": "setTokenKya",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -1537,6 +1676,24 @@
       }
     ],
     "name": "transferOwnership",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "newImplementation",
+        "type": "address"
+      },
+      {
+        "internalType": "bytes",
+        "name": "data",
+        "type": "bytes"
+      }
+    ],
+    "name": "upgradeToAndCall",
     "outputs": [],
     "stateMutability": "payable",
     "type": "function"
