@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useEffect, useMemo } from 'react'
+import React, { PropsWithChildren, useEffect, useMemo, useState } from 'react'
 import { Outlet, useParams, useLocation, generatePath } from 'react-router-dom'
 import clsx from 'clsx'
 import useNFT from 'src/hooks/subgraph/useNFT'
@@ -10,6 +10,7 @@ import ContentContext from './ContentContext'
 import { useTranslation } from 'react-i18next'
 import { findFirstNonGroupVisibleNode } from 'src/shared/utils/treeHelpers'
 import useBreakpoint from 'src/hooks/ui/useBreakpoint'
+import Drawer from 'src/components/ui-kit/Drawer'
 
 interface ReadLayoutProps {
   preview?: boolean
@@ -22,8 +23,11 @@ const ReadLayout: React.FC<PropsWithChildren<ReadLayoutProps>> = ({
   const { nftId = '', tokenId = '' } = useParams()
   const location = useLocation()
   const { t } = useTranslation('layout')
-
-  const isMobile = useBreakpoint('md')
+  const [isLeftSidebarOpen, setLeftSidebarOpen] = useState(false)
+  const isXs = useBreakpoint('xs')
+  const isSm = useBreakpoint('sm')
+  const isMd = useBreakpoint('md')
+  const isMobile = isXs || isSm || isMd
 
   const { nft, loadingNft, refetchingNft } = useNFT(nftId, {
     fetchFullData: true,
@@ -47,26 +51,25 @@ const ReadLayout: React.FC<PropsWithChildren<ReadLayoutProps>> = ({
 
   useEffect(() => {
     if (preview) return
-
-    if (nft?.name) {
-      document.title = nft.name
-    }
+    if (nft?.name) document.title = nft.name
 
     if (nft?.iconLogoUrl) {
       const favicon = document.querySelector(
         "link[rel~='icon']"
       ) as HTMLLinkElement | null
-      if (favicon) {
-        favicon.href = nft.iconLogoUrl
-      }
+      if (favicon) favicon.href = nft.iconLogoUrl
     }
   }, [nft?.name, nft?.iconLogoUrl, preview])
 
   return (
     <ContentContext>
       <div className='flex flex-col w-full'>
-        <ReadHeader nft={nft} preview={preview} />
-
+        <ReadHeader
+          nft={nft}
+          preview={preview}
+          isMobile={isMobile}
+          toggleSidebar={() => setLeftSidebarOpen(prev => !prev)}
+        />
         <div
           className={clsx(
             'flex flex-1 w-full max-w-screen-2xl mx-auto',
@@ -74,11 +77,33 @@ const ReadLayout: React.FC<PropsWithChildren<ReadLayoutProps>> = ({
             preview ? 'pt-8' : 'pt-28'
           )}
         >
-          {!isMobile && (
+          {isMobile ? (
+            <Drawer
+              open={isLeftSidebarOpen}
+              onClose={() => setLeftSidebarOpen(false)}
+              position='left'
+              className='max-w-lg  sm:w-[27vw]'
+            >
+              <div className='w-full h-full overflow-y-auto px-4 sm:px-6 md:px-8'>
+                <div className='w-[500px] sm:w-[600px]'>
+                  <LeftSidebar
+                    nft={nft}
+                    preview={preview}
+                    firstTokenId={firstTokenId}
+                    onClose={() => setLeftSidebarOpen(false)}
+                    isMobile={isMobile}
+                  />
+                </div>
+              </div>
+            </Drawer>
+          ) : (
             <LeftSidebar
               nft={nft}
               preview={preview}
               firstTokenId={firstTokenId}
+              // eslint-disable-next-line @typescript-eslint/no-empty-function
+              onClose={() => {}}
+              isMobile={isMobile}
             />
           )}
 
@@ -89,8 +114,9 @@ const ReadLayout: React.FC<PropsWithChildren<ReadLayoutProps>> = ({
           {!isMobile && !isHistoryPage && (
             <RightSidebar
               preview={preview}
-              isLoading={loading}
-              firstTokenId={firstTokenId}
+              nft={nft}
+              tokenId={tokenId}
+              isHistoryPage={isHistoryPage}
             />
           )}
         </div>
