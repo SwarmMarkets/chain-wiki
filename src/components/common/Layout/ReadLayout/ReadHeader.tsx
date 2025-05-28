@@ -3,13 +3,22 @@ import React from 'react'
 import { useCustomizationStore } from 'src/shared/store/customization-store'
 import { NFTWithMetadata } from 'src/shared/utils'
 import ReadHeaderSkeleton from './ReadHeaderSkeleton'
+import IconButton from 'src/components/ui-kit/IconButton'
+import Icon from 'src/components/ui-kit/Icon/Icon'
 
 interface ReadHeaderProps {
   nft: NFTWithMetadata | null
   preview?: boolean
+  isMobile?: boolean
+  toggleSidebar?: () => void
 }
 
-const ReadHeader: React.FC<ReadHeaderProps> = ({ nft, preview }) => {
+const ReadHeader: React.FC<ReadHeaderProps> = ({
+  nft,
+  preview,
+  isMobile,
+  toggleSidebar,
+}) => {
   const customization = useCustomizationStore()
   const headerLinks = preview
     ? customization.headerLinks
@@ -45,7 +54,19 @@ const ReadHeader: React.FC<ReadHeaderProps> = ({ nft, preview }) => {
       style={headerStyle}
     >
       <div className='max-w-screen-2xl mx-auto px-4 sm:px-6 md:px-8 flex items-center justify-between'>
-        <img src={logoUrl} alt='Logo' className='max-w-80 max-h-12' />
+        <div className='flex items-center gap-3'>
+          {isMobile && toggleSidebar && (
+            <IconButton onClick={toggleSidebar}>
+              <Icon
+                src='/assets/icons/hamburger.svg'
+                alt='Menu'
+                className='w-6 h-6 text-primary'
+              />
+            </IconButton>
+          )}
+          <img src={logoUrl} alt='Logo' className='max-w-80 max-h-12' />
+        </div>
+
         <div className='flex items-center gap-6'>
           {headerLinks?.map(link => (
             <a
