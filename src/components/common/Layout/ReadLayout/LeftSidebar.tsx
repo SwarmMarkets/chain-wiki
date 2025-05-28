@@ -13,6 +13,8 @@ interface LeftSidebarProps {
   nft: NFTWithMetadata | null
   preview?: boolean
   firstTokenId: string
+  isMobile?: boolean
+  onClose?: () => void
 }
 
 const buildTree = (
