@@ -15,6 +15,7 @@ interface LeftSidebarProps {
   firstTokenId: string
   isMobile?: boolean
   onClose?: () => void
+  className?: string
 }
 
 const buildTree = (
@@ -45,6 +46,8 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
   nft,
   preview,
   firstTokenId,
+  className,
+  onClose,
 }) => {
   const { t } = useTranslation('layout')
   const fullTokenId = useFullTokenIdParam()
@@ -68,7 +71,8 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
     <aside
       className={clsx(
         'w-1/5 sticky top-28 self-start text-main z-10 flex flex-col',
-        !preview && 'max-h-[calc(100vh-9rem)]'
+        !preview && 'max-h-[calc(100vh-9rem)]',
+        className
       )}
       style={{ height: 'calc(100vh - 6rem)' }}
     >
@@ -83,6 +87,7 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
                   nftId: splitTokenId(id).nftId,
                 })
               )
+              onClose?.()
             }}
             selectedId={fullTokenId || firstTokenId}
           />

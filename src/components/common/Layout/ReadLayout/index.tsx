@@ -82,18 +82,18 @@ const ReadLayout: React.FC<PropsWithChildren<ReadLayoutProps>> = ({
               open={isLeftSidebarOpen}
               onClose={() => setLeftSidebarOpen(false)}
               position='left'
-              className='max-w-lg  sm:w-[27vw]'
+              className='!w-[240px] [&>button]:!left-[210px]'
             >
-              <div className='w-full h-full overflow-y-auto px-4 sm:px-6 md:px-8'>
-                <div className='w-[500px] sm:w-[600px]'>
-                  <LeftSidebar
-                    nft={nft}
-                    preview={preview}
-                    firstTokenId={firstTokenId}
-                    onClose={() => setLeftSidebarOpen(false)}
-                    isMobile={isMobile}
-                  />
-                </div>
+              <div className='flex flex-col overflow-y-auto pt-0'>
+                <LeftSidebar
+                  nft={nft}
+                  preview={preview}
+                  firstTokenId={firstTokenId}
+                  onClose={() => setLeftSidebarOpen(false)}
+                  isMobile={isMobile}
+                  onNavigate={() => setLeftSidebarOpen(false)}
+                  className='w-full px-2'
+                />
               </div>
             </Drawer>
           ) : (
