@@ -5,6 +5,7 @@ import { NFTWithMetadata } from 'src/shared/utils'
 import ReadHeaderSkeleton from './ReadHeaderSkeleton'
 import IconButton from 'src/components/ui-kit/IconButton'
 import Icon from 'src/components/ui-kit/Icon/Icon'
+import DotMenu from 'src/components/ui-kit/DotMenu/DotMenu'
 
 interface ReadHeaderProps {
   nft: NFTWithMetadata | null
@@ -45,6 +46,59 @@ const ReadHeader: React.FC<ReadHeaderProps> = ({
     return <ReadHeaderSkeleton />
   }
 
+  const renderLinks = () => {
+    if (!headerLinks?.length) return null
+
+    if (isMobile) {
+      const [firstLink, ...restLinks] = headerLinks
+      return (
+        <>
+          <a
+            href={firstLink.link}
+            className='text-primary-contrast hover:opacity-85'
+            target='_blank'
+            rel='noopener noreferrer'
+            style={linkStyle}
+          >
+            {firstLink.title}
+          </a>
+          {restLinks.length > 0 && (
+            <DotMenu>
+              {restLinks.map(link => (
+                <li
+                  key={link.id}
+                  className='px-2 py-1.5 hover:bg-gray-100 cursor-pointer rounded'
+                >
+                  <a
+                    href={link.link}
+                    className='text-gray-900 block w-full'
+                    target='_blank'
+                    rel='noopener noreferrer'
+                  >
+                    {link.title}
+                  </a>
+                </li>
+              ))}
+            </DotMenu>
+          )}
+        </>
+      )
+    }
+
+    return headerLinks.map(link => (
+      <a
+        key={link.id}
+        href={link.link}
+        className='text-primary-contrast hover:opacity-85'
+        target='_blank'
+        rel='noopener noreferrer'
+        style={linkStyle}
+      >
+        {link.title}
+      </a>
+    ))
+  }
+
   return (
     <header
       className={clsx(
@@ -57,30 +111,13 @@ const ReadHeader: React.FC<ReadHeaderProps> = ({
         <div className='flex items-center gap-3'>
           {isMobile && toggleSidebar && (
             <IconButton onClick={toggleSidebar}>
-              <Icon
-                src='/assets/icons/hamburger.svg'
-                alt='Menu'
-                className='w-6 h-6 text-primary'
-              />
+              <Icon name='hamburger' className='w-6 h-6 text-primary' />
             </IconButton>
           )}
           <img src={logoUrl} alt='Logo' className='max-w-80 max-h-12' />
         </div>
 
-        <div className='flex items-center gap-6'>
-          {headerLinks?.map(link => (
-            <a
-              key={link.id}
-              href={link.link}
-              className='text-primary-contrast hover:opacity-85'
-              target='_blank'
-              rel='noopener noreferrer'
-              style={linkStyle}
-            >
-              {link.title}
-            </a>
-          ))}
-        </div>
+        <div className='flex items-center gap-6'>{renderLinks()}</div>
       </div>
     </header>
   )
