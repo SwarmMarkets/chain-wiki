@@ -13,6 +13,7 @@ import { NFTWithMetadata } from 'src/shared/utils'
 import NftHeaderSkeleton from './NftHeaderSkeleton'
 import { useToastManager } from 'src/hooks/useToastManager'
 import { useTranslation } from 'react-i18next'
+import Icon from 'src/components/ui-kit/Icon/Icon'
 
 interface NftLayoutHeaderProps {
   nft: NFTWithMetadata | null
@@ -122,7 +123,7 @@ const NftLayoutHeader: React.FC<NftLayoutHeaderProps> = ({ nft, loading }) => {
           {isEditMode ? (
             !smartAccountPermissions.canUpdateContent ? (
               <Button
-                className='px-8'
+                size='sm'
                 loading={txLoading}
                 onClick={grantRoleForSmartAccount}
               >
@@ -130,7 +131,7 @@ const NftLayoutHeader: React.FC<NftLayoutHeaderProps> = ({ nft, loading }) => {
               </Button>
             ) : (
               <Button
-                className='px-8'
+                size='sm'
                 loading={mergeLoading}
                 onClick={handleMerge}
                 disabled={!smartAccountPermissions.canUpdateContent}
@@ -139,7 +140,18 @@ const NftLayoutHeader: React.FC<NftLayoutHeaderProps> = ({ nft, loading }) => {
               </Button>
             )
           ) : (
-            <Button className='px-8'>{t('edit', { ns: 'buttons' })}</Button>
+            <Button
+              StartAdornment={
+                <Icon
+                  size={20}
+                  name='edit-paper'
+                  className='text-primary-contrast'
+                />
+              }
+              size='sm'
+            >
+              {t('edit', { ns: 'buttons' })}
+            </Button>
           )}
         </Link>
         {!isEditMode && (
@@ -147,7 +159,18 @@ const NftLayoutHeader: React.FC<NftLayoutHeaderProps> = ({ nft, loading }) => {
             to={generatePath(RoutePaths.NFT_READ, { nftId })}
             target='_blank'
           >
-            <Button>{t('visit', { ns: 'buttons' })}</Button>
+            <Button
+              size='sm'
+              StartAdornment={
+                <Icon
+                  size={20}
+                  name='external-link'
+                  className='text-primary-contrast'
+                />
+              }
+            >
+              {t('visit', { ns: 'buttons' })}
+            </Button>
           </Link>
         )}
       </div>
