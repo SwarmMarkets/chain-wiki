@@ -1071,13 +1071,18 @@ const _abi = [
       },
       {
         internalType: "address",
-        name: "_admin",
+        name: "_owner",
         type: "address",
       },
       {
-        internalType: "address",
-        name: "_editor",
-        type: "address",
+        internalType: "address[]",
+        name: "_admins",
+        type: "address[]",
+      },
+      {
+        internalType: "address[]",
+        name: "_editors",
+        type: "address[]",
       },
     ],
     name: "initialize",

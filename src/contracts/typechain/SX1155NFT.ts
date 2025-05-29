@@ -47,7 +47,7 @@ export interface SX1155NFTInterface extends utils.Interface {
     "grantEditorRole(address)": FunctionFragment;
     "grantRole(uint256,address)": FunctionFragment;
     "hasRole(address,uint256)": FunctionFragment;
-    "initialize(string,string,string,address,address)": FunctionFragment;
+    "initialize(string,string,string,address,address[],address[])": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
     "kya()": FunctionFragment;
     "makeAttestation(uint256,string)": FunctionFragment;
@@ -217,7 +217,7 @@ export interface SX1155NFTInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "initialize",
-    values: [string, string, string, string, string]
+    values: [string, string, string, string, string[], string[]]
   ): string;
   encodeFunctionData(
     functionFragment: "isApprovedForAll",
@@ -916,8 +916,9 @@ export interface SX1155NFT extends BaseContract {
       _name: string,
       _symbol: string,
       _kya: string,
-      _admin: string,
-      _editor: string,
+      _owner: string,
+      _admins: string[],
+      _editors: string[],
       overrides?: Overrides & { from?: string }
     ): Promise<ContractTransaction>;
 
@@ -1184,8 +1185,9 @@ export interface SX1155NFT extends BaseContract {
     _name: string,
     _symbol: string,
     _kya: string,
-    _admin: string,
-    _editor: string,
+    _owner: string,
+    _admins: string[],
+    _editors: string[],
     overrides?: Overrides & { from?: string }
   ): Promise<ContractTransaction>;
 
@@ -1441,8 +1443,9 @@ export interface SX1155NFT extends BaseContract {
       _name: string,
       _symbol: string,
       _kya: string,
-      _admin: string,
-      _editor: string,
+      _owner: string,
+      _admins: string[],
+      _editors: string[],
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -1906,8 +1909,9 @@ export interface SX1155NFT extends BaseContract {
       _name: string,
       _symbol: string,
       _kya: string,
-      _admin: string,
-      _editor: string,
+      _owner: string,
+      _admins: string[],
+      _editors: string[],
       overrides?: Overrides & { from?: string }
     ): Promise<BigNumber>;
 
@@ -2179,8 +2183,9 @@ export interface SX1155NFT extends BaseContract {
       _name: string,
       _symbol: string,
       _kya: string,
-      _admin: string,
-      _editor: string,
+      _owner: string,
+      _admins: string[],
+      _editors: string[],
       overrides?: Overrides & { from?: string }
     ): Promise<PopulatedTransaction>;
 

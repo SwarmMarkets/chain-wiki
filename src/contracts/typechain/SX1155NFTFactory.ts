@@ -31,7 +31,7 @@ export interface SX1155NFTFactoryInterface extends utils.Interface {
     "cancelOwnershipHandover()": FunctionFragment;
     "completeOwnershipHandover(address)": FunctionFragment;
     "currentImplementation()": FunctionFragment;
-    "deployChainWiki(string,string,string,address,address)": FunctionFragment;
+    "deployChainWiki(string,string,string,address,address[],address[])": FunctionFragment;
     "owner()": FunctionFragment;
     "ownershipHandoverExpiresAt(address)": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
@@ -68,7 +68,7 @@ export interface SX1155NFTFactoryInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "deployChainWiki",
-    values: [string, string, string, string, string]
+    values: [string, string, string, string, string[], string[]]
   ): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(
@@ -131,7 +131,7 @@ export interface SX1155NFTFactoryInterface extends utils.Interface {
   ): Result;
 
   events: {
-    "ChainWikiDeployed(address,string,string,string,address,address)": EventFragment;
+    "ChainWikiDeployed(address,string,string,string,address,address[],address[])": EventFragment;
     "ImplementationUpgraded(address)": EventFragment;
     "OwnershipHandoverCanceled(address)": EventFragment;
     "OwnershipHandoverRequested(address)": EventFragment;
@@ -150,11 +150,12 @@ export interface ChainWikiDeployedEventObject {
   name: string;
   symbol: string;
   kya: string;
-  admin: string;
-  editor: string;
+  owner: string;
+  admin: string[];
+  editor: string[];
 }
 export type ChainWikiDeployedEvent = TypedEvent<
-  [string, string, string, string, string, string],
+  [string, string, string, string, string, string[], string[]],
   ChainWikiDeployedEventObject
 >;
 
@@ -248,8 +249,9 @@ export interface SX1155NFTFactory extends BaseContract {
       _name: string,
       _symbol: string,
       _kya: string,
-      _admin: string,
-      _editor: string,
+      _owner: string,
+      _admins: string[],
+      _editors: string[],
       overrides?: Overrides & { from?: string }
     ): Promise<ContractTransaction>;
 
@@ -294,8 +296,9 @@ export interface SX1155NFTFactory extends BaseContract {
     _name: string,
     _symbol: string,
     _kya: string,
-    _admin: string,
-    _editor: string,
+    _owner: string,
+    _admins: string[],
+    _editors: string[],
     overrides?: Overrides & { from?: string }
   ): Promise<ContractTransaction>;
 
@@ -338,8 +341,9 @@ export interface SX1155NFTFactory extends BaseContract {
       _name: string,
       _symbol: string,
       _kya: string,
-      _admin: string,
-      _editor: string,
+      _owner: string,
+      _admins: string[],
+      _editors: string[],
       overrides?: CallOverrides
     ): Promise<string>;
 
@@ -366,11 +370,12 @@ export interface SX1155NFTFactory extends BaseContract {
   };
 
   filters: {
-    "ChainWikiDeployed(address,string,string,string,address,address)"(
+    "ChainWikiDeployed(address,string,string,string,address,address[],address[])"(
       deployedAddress?: null,
       name?: null,
       symbol?: null,
       kya?: null,
+      owner?: null,
       admin?: null,
       editor?: null
     ): ChainWikiDeployedEventFilter;
@@ -379,6 +384,7 @@ export interface SX1155NFTFactory extends BaseContract {
       name?: null,
       symbol?: null,
       kya?: null,
+      owner?: null,
       admin?: null,
       editor?: null
     ): ChainWikiDeployedEventFilter;
@@ -430,8 +436,9 @@ export interface SX1155NFTFactory extends BaseContract {
       _name: string,
       _symbol: string,
       _kya: string,
-      _admin: string,
-      _editor: string,
+      _owner: string,
+      _admins: string[],
+      _editors: string[],
       overrides?: Overrides & { from?: string }
     ): Promise<BigNumber>;
 
@@ -479,8 +486,9 @@ export interface SX1155NFTFactory extends BaseContract {
       _name: string,
       _symbol: string,
       _kya: string,
-      _admin: string,
-      _editor: string,
+      _owner: string,
+      _admins: string[],
+      _editors: string[],
       overrides?: Overrides & { from?: string }
     ): Promise<PopulatedTransaction>;
 

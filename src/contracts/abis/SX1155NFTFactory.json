@@ -60,14 +60,20 @@
       {
         "indexed": false,
         "internalType": "address",
-        "name": "admin",
+        "name": "owner",
         "type": "address"
       },
       {
         "indexed": false,
-        "internalType": "address",
+        "internalType": "address[]",
+        "name": "admin",
+        "type": "address[]"
+      },
+      {
+        "indexed": false,
+        "internalType": "address[]",
         "name": "editor",
-        "type": "address"
+        "type": "address[]"
       }
     ],
     "name": "ChainWikiDeployed",
@@ -183,13 +189,18 @@
       },
       {
         "internalType": "address",
-        "name": "_admin",
+        "name": "_owner",
         "type": "address"
       },
       {
-        "internalType": "address",
-        "name": "_editor",
-        "type": "address"
+        "internalType": "address[]",
+        "name": "_admins",
+        "type": "address[]"
+      },
+      {
+        "internalType": "address[]",
+        "name": "_editors",
+        "type": "address[]"
       }
     ],
     "name": "deployChainWiki",

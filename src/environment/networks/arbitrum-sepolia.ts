@@ -5,7 +5,7 @@ import { environment } from 'src/environment'
 export const arbitrumSepoliaEnvironment: NetworkConfiguration = Object.freeze({
   subgraphURL: `https://gateway.thegraph.com/api/${environment.subgraphApiKey}/subgraphs/id/5e8ucLJSGPd2fy54u8GuaLctKHSWPctUPLYqtTHpL1JX`,
   contracts: {
-    sx1155NFTFactoryAddress: '0x8cEAb2Cc2238889249CdF6134ca485628E75C2ca',
+    sx1155NFTFactoryAddress: '0xbEb511e4598803b1Fa22B893b87EE3e58A8f9Fa6',
   },
 })
 
