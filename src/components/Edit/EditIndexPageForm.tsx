@@ -52,25 +52,15 @@ const EditIndexPageForm: React.FC<EditIndexPageFormProps> = ({
             }}
             errorMessage={errors.slug?.message}
           />
-          <span >
-            {t('form.slug.help')}
-          </span>
+          <span>{t('form.slug.help')}</span>
         </div>
-        <div className="flex justify-end gap-2">
-          <Button
-            variant="text"
-            size="sm"
-            color="secondary"
-            onClick={onCancel}
-            type="button"
-          >
+        <div className='flex justify-end gap-2'>
+          <Button variant='outlined' onClick={onCancel}>
             {t('buttons.cancel')}
           </Button>
           <Button
-            variant="contained"
-            size="sm"
-            color="primary"
-            type="submit"
+            variant='contained'
+            type='submit'
             disabled={!isDirty || !isValid || !name || !slug}
           >
             {t('buttons.save')}
@@ -81,4 +71,4 @@ const EditIndexPageForm: React.FC<EditIndexPageFormProps> = ({
   )
 }
 
-export default EditIndexPageForm 
+export default EditIndexPageForm
