@@ -11,7 +11,8 @@ import { EditNodeModel, EditNodeModelData } from './types'
 interface EditIndexPagesTreeProps {
   onClick?: (id: string) => void
   readonly?: boolean
-  activeId?: string
+  activeTokenIdOrSlug?: string
+  activeSlug?: string
   to?: (node: EditNodeModel) => string
   treeData: EditNodeModel[]
   onDrop?: (newTree: EditNodeModel[], e: DropOptions<EditNodeModelData>) => void
@@ -22,7 +23,7 @@ const EditIndexPagesTree: React.FC<EditIndexPagesTreeProps> = ({
   treeData,
   readonly = false,
   to,
-  activeId,
+  activeTokenIdOrSlug,
   onClick,
   onDrop,
   onUpdateName,
@@ -84,7 +85,10 @@ const EditIndexPagesTree: React.FC<EditIndexPagesTreeProps> = ({
               onToggle={onToggle}
               editable={!isHiddenList(node.id.toString())}
               to={to?.(node)}
-              active={activeId === node.id}
+              active={
+                activeTokenIdOrSlug === node.data?.slug ||
+                node.id === activeTokenIdOrSlug
+              }
               onEdit={data => onUpdateName?.(node.id.toString(), data)}
               hasChild={hasChild}
               node={node}

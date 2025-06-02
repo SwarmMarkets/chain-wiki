@@ -17,7 +17,6 @@ interface EditingState {
   currEditableToken: EditingToken | null
   editedTokens: EditingToken[]
   addedTokens: EditingToken[]
-  editedNft: EditingToken | null
   editedIndexPages: EditedIndexPagesState
 
   getEditedTokenById: (id: string) => EditingToken | undefined
@@ -40,7 +39,6 @@ export const useEditingStore = create<EditingState>((set, get) => ({
   currEditableToken: null,
   editedTokens: [],
   addedTokens: [],
-  editedNft: null,
   editedIndexPages: {
     isEdited: false,
     items: [],
@@ -106,6 +104,5 @@ export const useEditingStore = create<EditingState>((set, get) => ({
     set({
       editedTokens: [],
       addedTokens: [],
-      editedNft: null,
     }),
 }))

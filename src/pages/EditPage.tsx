@@ -11,17 +11,13 @@ const EditPage = () => {
   const showSkeleton = loading
   const allLoaded = !loading
 
-  const { currEditableToken, editedNft, getTokenById } = useEditingStore()
+  const { currEditableToken, getTokenById } = useEditingStore()
 
   const currTokenHtmlContent =
     getTokenById(currEditableToken?.id || '')?.content ??
-    fullTokens?.find(t => t.id === currEditableToken?.id)?.ipfsContent
-      ?.htmlContent
-
-  const currNftHtmlContent = editedNft?.content ?? nft?.ipfsContent?.htmlContent
-
-  const editorContent =
-    (currEditableToken ? currTokenHtmlContent : currNftHtmlContent) || ''
+    (fullTokens?.find(t => t.id === currEditableToken?.id)?.ipfsContent
+      ?.htmlContent ||
+      '')
 
   if (showSkeleton || !nft) {
     return (
@@ -33,7 +29,7 @@ const EditPage = () => {
     )
   }
   const contentElem = document.createElement('div', {})
-  contentElem.innerHTML = editorContent
+  contentElem.innerHTML = currTokenHtmlContent
 
   return (
     <>
@@ -42,12 +38,7 @@ const EditPage = () => {
         justifyContent={allLoaded ? 'space-between' : 'center'}
         $gap='20px'
       >
-        <EditorView
-          content={
-            (currEditableToken ? currTokenHtmlContent : currNftHtmlContent) ||
-            ''
-          }
-        />
+        <EditorView content={currTokenHtmlContent} />
       </Flex>
     </>
   )

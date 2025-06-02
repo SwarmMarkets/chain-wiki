@@ -1,12 +1,15 @@
 import { useTranslation } from 'react-i18next'
 import { useEditingStore } from 'src/shared/store/editing-store'
-import { getUniqueId } from 'src/shared/utils'
+import {
+  getUniqueId,
+  NFTWithMetadata
+} from 'src/shared/utils'
 import Button from '../ui-kit/Button/Button'
 import EditIndexPagesTree from './EditIndexPagesTree/EditIndexPagesTree'
 import useEdit from './useEdit'
 import { generateSlug } from './utils'
 
-const EditIndexPages = () => {
+const EditIndexPages: React.FC<{ nft: NFTWithMetadata }> = ({ nft }) => {
   const { t } = useTranslation('edit', { keyPrefix: 'indexPages' })
 
   const {
@@ -77,12 +80,11 @@ const EditIndexPages = () => {
     }
   }
 
-  console.log(currEditableToken?.id)
-
   return (
     <div>
       <EditIndexPagesTree
-        activeId={currEditableToken?.id}
+        activeTokenIdOrSlug={currEditableToken?.id}
+        activeSlug={currEditableToken?.slug}
         onClick={handleIndexPageClick}
         treeData={treeData}
         onDrop={updateIndexPagesByTreeNodes}

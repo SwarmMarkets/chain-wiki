@@ -27,7 +27,7 @@ const buildTree = (
         item.type === 'group'
           ? undefined
           : generatePath(RoutePaths.TOKEN_READ, {
-              tokenId: splitTokenId(item.tokenId).tokenId,
+              tokenIdOrSlug: splitTokenId(item.tokenId).tokenId,
               nftId,
             })
 
@@ -77,7 +77,7 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
             onSelect={id => {
               navigate(
                 generatePath(RoutePaths.TOKEN_READ, {
-                  tokenId: id,
+                  tokenIdOrSlug: id,
                   nftId: splitTokenId(id).nftId,
                 })
               )

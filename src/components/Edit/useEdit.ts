@@ -5,11 +5,11 @@ import { useParams } from 'react-router-dom'
 import { useSX1155NFT } from 'src/hooks/contracts/useSX1155NFT'
 import useNFT from 'src/hooks/subgraph/useNFT'
 import useTokens from 'src/hooks/subgraph/useTokens'
-import useNFTUpdate from 'src/hooks/useNFTUpdate'
 import useSmartAccount from 'src/services/safe-protocol-kit/useSmartAccount'
 import { useEditingStore } from 'src/shared/store/editing-store'
 import {
   generateIpfsIndexPagesContent,
+  isSameEthereumAddress,
   resolveAllThirdwebTransactions,
   unifyAddressToId,
 } from 'src/shared/utils'
@@ -23,6 +23,7 @@ import { HIDDEN_INDEX_PAGES_ID } from './const'
 import { EditNodeModel } from './EditIndexPagesTree/types'
 import useTokenUpdate from 'src/hooks/useTokenUpdate'
 import { SafeClientTxStatus } from '@safe-global/sdk-starter-kit/dist/src/constants'
+import { findFirstNonGroupVisibleNode } from 'src/shared/utils/treeHelpers'
 
 const useEdit = (readonly?: boolean) => {
   const { nftId = '' } = useParams()
@@ -32,16 +33,17 @@ const useEdit = (readonly?: boolean) => {
   const account = useAddress()
 
   const {
-    editedNft,
     editedTokens,
     addedTokens,
     editedIndexPages,
+    currEditableToken,
     initIndexPages,
     getEditedTokenById,
     updateOrCreateEditedToken,
     updateOrCreateAddedToken,
     updateIndexPage,
     updateIndexPages,
+    updateCurrEditableToken,
     addIndexPage,
     resetTokens,
   } = useEditingStore()
@@ -61,30 +63,43 @@ const useEdit = (readonly?: boolean) => {
     { fetchFullData: true }
   )
 
+  // Init the first editable token
+  useEffect(() => {
+    if (!fullTokens || currEditableToken) return
+
+    const firstToken = findFirstNonGroupVisibleNode(
+      nft?.indexPagesContent?.indexPages
+    )
+    const firstTokenContent =
+      fullTokens?.find(t => isSameEthereumAddress(t.id, firstToken?.tokenId))
+        ?.ipfsContent?.htmlContent || ''
+
+    if (firstToken) {
+      updateCurrEditableToken({
+        id: firstToken.tokenId,
+        name: firstToken.title,
+        content: firstTokenContent,
+        slug: firstToken.slug,
+      })
+    }
+  }, [
+    currEditableToken,
+    fullTokens,
+    nft?.indexPagesContent?.indexPages,
+    updateCurrEditableToken,
+  ])
+
   const { smartAccount } = useSmartAccount()
   const { mutateAsync: upload } = useStorageUpload()
   const [mergeLoading, setMergeLoading] = useState(false)
 
   const { contract: sx1555NFTContract } = useSX1155NFT(nftId)
-  const { uploadContent } = useNFTUpdate(nftId)
   const { uploadContent: uploadTokenContent } = useTokenUpdate(nftId)
 
   const merge = async () => {
     setMergeLoading(true)
     const txs: Transaction[] = []
     try {
-      if (editedNft) {
-        const ipfsUri = await uploadContent({
-          address: nftId,
-          htmlContent: editedNft.content,
-        })
-        if (ipfsUri) {
-          const nftContentUpdateTx = sx1555NFTContract.prepare('setKya', [
-            JSON.stringify({ uri: ipfsUri, name: editedNft.name }),
-          ])
-          txs.push(nftContentUpdateTx)
-        }
-      }
       if (editedTokens.length > 0) {
         for (const editedToken of editedTokens) {
           const tokenId = +editedToken.id.split('-')[1]
