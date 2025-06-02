@@ -79,10 +79,9 @@ const useEdit = (readonly?: boolean) => {
           htmlContent: editedNft.content,
         })
         if (ipfsUri) {
-          const nftContentUpdateTx = sx1555NFTContract.prepare(
-            'setContractUri',
-            [JSON.stringify({ uri: ipfsUri, name: editedNft.name })]
-          )
+          const nftContentUpdateTx = sx1555NFTContract.prepare('setKya', [
+            JSON.stringify({ uri: ipfsUri, name: editedNft.name }),
+          ])
           txs.push(nftContentUpdateTx)
         }
       }
@@ -96,10 +95,11 @@ const useEdit = (readonly?: boolean) => {
           })
           if (firstUri) {
             const tokenContentUpdateTx = sx1555NFTContract.prepare(
-              'setTokenUri',
+              'setTokenKya',
               [
                 tokenId,
                 JSON.stringify({ uri: firstUri, name: editedToken.name }),
+                editedToken.slug,
               ]
             )
             txs.push(tokenContentUpdateTx)
@@ -119,6 +119,7 @@ const useEdit = (readonly?: boolean) => {
               account,
               1,
               JSON.stringify({ uri: firstUri, name: addedToken.name }),
+              addedToken.slug,
             ])
             txs.push(tokenContentMintTx)
           }
@@ -133,10 +134,9 @@ const useEdit = (readonly?: boolean) => {
         const uris = await upload({ data: filesToUpload })
         const firstUri = uris[0]
         if (firstUri) {
-          const tokenContentUpdateTx = sx1555NFTContract.prepare(
-            'setContractUri',
-            [JSON.stringify({ indexPagesUri: firstUri })]
-          )
+          const tokenContentUpdateTx = sx1555NFTContract.prepare('setKya', [
+            JSON.stringify({ indexPagesUri: firstUri }),
+          ])
           txs.push(tokenContentUpdateTx)
         }
       }
@@ -167,13 +167,17 @@ const useEdit = (readonly?: boolean) => {
     )
   }, [editedIndexPages.items, fullTokens])
 
-  const updateTokenName = (id: string, name: string) => {
+  const updateTokenName = (
+    id: string,
+    data: { name: string; slug: string }
+  ) => {
     const addedToken = addedTokens.find(t => t.id === id)
 
     if (addedToken) {
       updateOrCreateAddedToken({
         ...addedToken,
-        name,
+        name: data.name,
+        slug: data.slug,
       })
     } else {
       const token = fullTokens?.find(t => t.id === id)
@@ -185,7 +189,8 @@ const useEdit = (readonly?: boolean) => {
 
         updateOrCreateEditedToken({
           id: token.id,
-          name,
+          name: data.name,
+          slug: data.slug,
           content,
         })
       }
@@ -194,7 +199,11 @@ const useEdit = (readonly?: boolean) => {
     const indexPageToUpdate = editedIndexPages.items.find(p => p.tokenId === id)
 
     if (indexPageToUpdate) {
-      updateIndexPage({ ...indexPageToUpdate, title: name })
+      updateIndexPage({
+        ...indexPageToUpdate,
+        title: data.name,
+        slug: data.slug,
+      })
     }
   }
 
@@ -260,9 +269,21 @@ const useEdit = (readonly?: boolean) => {
   }, [addedTokens, fullTokens, nftId])
 
   const addEmptyIndexPage = () => {
-    if (nextTokenId) {
-      addIndexPage({ tokenId: nextTokenId, title: 'Page' })
-    }
+    const newTokenId = `${nftId}-${Date.now()}`
+    const newTitle = 'New Page'
+    const newSlug = 'new-page'
+    addIndexPage({
+      tokenId: newTokenId,
+      title: newTitle,
+      slug: newSlug,
+    })
+
+    updateOrCreateAddedToken({
+      id: newTokenId,
+      name: newTitle,
+      slug: newSlug,
+      content: '',
+    })
   }
 
   return {

@@ -4,6 +4,7 @@ import { IpfsIndexPage } from '../utils'
 interface EditingToken {
   id: string
   name: string
+  slug: string
   content: string
 }
 
@@ -26,7 +27,6 @@ interface EditingState {
   updateOrCreateEditedToken: (token: EditingToken) => void
   updateOrCreateAddedToken: (token: EditingToken) => void
   updateCurrEditableToken: (id: EditingToken | null) => void
-  updateNft: (nft: EditingToken) => void
 
   initIndexPages: (indexPages: IpfsIndexPage[]) => void
   updateIndexPages: (indexPages: IpfsIndexPage[]) => void
@@ -79,8 +79,6 @@ export const useEditingStore = create<EditingState>((set, get) => ({
         addedTokens: [...state.addedTokens, token],
       }
     }),
-  updateNft: nft =>
-    set({ editedNft: { id: nft.id, content: nft.content, name: nft.name } }),
   updateCurrEditableToken: (token: EditingToken | null) =>
     set({ currEditableToken: token }),
   updateIndexPages: (indexPages: IpfsIndexPage[]) =>

@@ -15,7 +15,7 @@ interface EditIndexPagesTreeProps {
   to?: (node: EditNodeModel) => string
   treeData: EditNodeModel[]
   onDrop?: (newTree: EditNodeModel[], e: DropOptions<EditNodeModelData>) => void
-  onUpdateName?: (id: string, name: string) => void
+  onUpdateName?: (id: string, data: { name: string; slug: string }) => void
 }
 
 const EditIndexPagesTree: React.FC<EditIndexPagesTreeProps> = ({
@@ -85,7 +85,7 @@ const EditIndexPagesTree: React.FC<EditIndexPagesTreeProps> = ({
               editable={!isHiddenList(node.id.toString())}
               to={to?.(node)}
               active={activeId === node.id}
-              onEdit={name => onUpdateName?.(node.id.toString(), name)}
+              onEdit={data => onUpdateName?.(node.id.toString(), data)}
               hasChild={hasChild}
               node={node}
               depth={depth}

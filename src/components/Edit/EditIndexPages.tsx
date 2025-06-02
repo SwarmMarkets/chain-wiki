@@ -4,6 +4,7 @@ import { getUniqueId } from 'src/shared/utils'
 import Button from '../ui-kit/Button/Button'
 import EditIndexPagesTree from './EditIndexPagesTree/EditIndexPagesTree'
 import useEdit from './useEdit'
+import { generateSlug } from './utils'
 
 const EditIndexPages = () => {
   const { t } = useTranslation('edit', { keyPrefix: 'indexPages' })
@@ -37,33 +38,47 @@ const EditIndexPages = () => {
         id: token.id,
         name: token.name,
         content: token.ipfsContent?.htmlContent || '',
+        slug: token.slug,
       })
     }
   }
 
   const handleAddPage = () => {
     if (nextTokenId) {
+      const initialName = t('initialTokenName')
+      const initialSlug = generateSlug(initialName)
+
       addIndexPage({
         tokenId: nextTokenId,
-        title: t('initialTokenName'),
+        title: initialName,
+        slug: initialSlug,
         parent: 0,
       })
       updateOrCreateAddedToken({
         id: nextTokenId,
-        name: t('initialTokenName'),
+        name: initialName,
+        slug: initialSlug,
         content: '',
       })
     }
   }
+
   const handleAddGroup = () => {
     if (nextTokenId) {
+      const initialName = t('initialGroupName')
+      const initialSlug = generateSlug(initialName)
+
       addIndexPage({
         tokenId: getUniqueId(),
-        title: t('initialGroupName'),
+        title: initialName,
+        slug: initialSlug,
         type: 'group',
       })
     }
   }
+
+  console.log(currEditableToken?.id)
+
   return (
     <div>
       <EditIndexPagesTree

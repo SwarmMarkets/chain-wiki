@@ -43,7 +43,6 @@ const EditPage = () => {
         $gap='20px'
       >
         <EditorView
-          nft={nft}
           content={
             (currEditableToken ? currTokenHtmlContent : currNftHtmlContent) ||
             ''
