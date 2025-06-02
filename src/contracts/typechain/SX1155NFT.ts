@@ -27,14 +27,6 @@ import type {
   OnEvent,
 } from "./common";
 
-export type ERC1155DataStruct = { name: string; symbol: string; kya: string };
-
-export type ERC1155DataStructOutput = [string, string, string] & {
-  name: string;
-  symbol: string;
-  kya: string;
-};
-
 export interface SX1155NFTInterface extends utils.Interface {
   functions: {
     "DEFAULT_ADMIN_ROLE()": FunctionFragment;
@@ -55,15 +47,17 @@ export interface SX1155NFTInterface extends utils.Interface {
     "grantEditorRole(address)": FunctionFragment;
     "grantRole(uint256,address)": FunctionFragment;
     "hasRole(address,uint256)": FunctionFragment;
+    "initialize(string,string,string,address,address[],address[])": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
     "kya()": FunctionFragment;
     "makeAttestation(uint256,string)": FunctionFragment;
     "maxArraySize()": FunctionFragment;
-    "mint(address,uint256,string)": FunctionFragment;
-    "mintBatch(address[],uint256[],string[])": FunctionFragment;
+    "mint(address,uint256,string,string)": FunctionFragment;
+    "mintBatch(address[],uint256[],string[],string[])": FunctionFragment;
     "name()": FunctionFragment;
     "owner()": FunctionFragment;
     "ownershipHandoverExpiresAt(address)": FunctionFragment;
+    "proxiableUUID()": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
     "requestOwnershipHandover()": FunctionFragment;
     "revokeEditorRole(address)": FunctionFragment;
@@ -73,11 +67,12 @@ export interface SX1155NFTInterface extends utils.Interface {
     "roleHolders(uint256)": FunctionFragment;
     "safeBatchTransferFrom(address,address,uint256[],uint256[],bytes)": FunctionFragment;
     "safeTransferFrom(address,address,uint256,uint256,bytes)": FunctionFragment;
+    "selfImplementation()": FunctionFragment;
     "setApprovalForAll(address,bool)": FunctionFragment;
-    "setContractUri(string)": FunctionFragment;
+    "setKya(string)": FunctionFragment;
     "setMaxArraySize(uint256)": FunctionFragment;
     "setRole(address,uint256,bool)": FunctionFragment;
-    "setTokenUri(uint256,string)": FunctionFragment;
+    "setTokenKya(uint256,string,string)": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
     "symbol()": FunctionFragment;
     "tokenCommentByCommentId(uint256,uint256)": FunctionFragment;
@@ -86,6 +81,7 @@ export interface SX1155NFTInterface extends utils.Interface {
     "totalSupply(uint256)": FunctionFragment;
     "totalTokenIdsSupply(uint256)": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
+    "upgradeToAndCall(address,bytes)": FunctionFragment;
     "uri(uint256)": FunctionFragment;
   };
 
@@ -109,6 +105,7 @@ export interface SX1155NFTInterface extends utils.Interface {
       | "grantEditorRole"
       | "grantRole"
       | "hasRole"
+      | "initialize"
       | "isApprovedForAll"
       | "kya"
       | "makeAttestation"
@@ -118,6 +115,7 @@ export interface SX1155NFTInterface extends utils.Interface {
       | "name"
       | "owner"
       | "ownershipHandoverExpiresAt"
+      | "proxiableUUID"
       | "renounceOwnership"
       | "requestOwnershipHandover"
       | "revokeEditorRole"
@@ -127,11 +125,12 @@ export interface SX1155NFTInterface extends utils.Interface {
       | "roleHolders"
       | "safeBatchTransferFrom"
       | "safeTransferFrom"
+      | "selfImplementation"
       | "setApprovalForAll"
-      | "setContractUri"
+      | "setKya"
       | "setMaxArraySize"
       | "setRole"
-      | "setTokenUri"
+      | "setTokenKya"
       | "supportsInterface"
       | "symbol"
       | "tokenCommentByCommentId"
@@ -140,6 +139,7 @@ export interface SX1155NFTInterface extends utils.Interface {
       | "totalSupply"
       | "totalTokenIdsSupply"
       | "transferOwnership"
+      | "upgradeToAndCall"
       | "uri"
   ): FunctionFragment;
 
@@ -216,6 +216,10 @@ export interface SX1155NFTInterface extends utils.Interface {
     values: [string, BigNumberish]
   ): string;
   encodeFunctionData(
+    functionFragment: "initialize",
+    values: [string, string, string, string, string[], string[]]
+  ): string;
+  encodeFunctionData(
     functionFragment: "isApprovedForAll",
     values: [string, string]
   ): string;
@@ -230,17 +234,21 @@ export interface SX1155NFTInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "mint",
-    values: [string, BigNumberish, string]
+    values: [string, BigNumberish, string, string]
   ): string;
   encodeFunctionData(
     functionFragment: "mintBatch",
-    values: [string[], BigNumberish[], string[]]
+    values: [string[], BigNumberish[], string[], string[]]
   ): string;
   encodeFunctionData(functionFragment: "name", values?: undefined): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "ownershipHandoverExpiresAt",
     values: [string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "proxiableUUID",
+    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "renounceOwnership",
@@ -279,13 +287,14 @@ export interface SX1155NFTInterface extends utils.Interface {
     values: [string, string, BigNumberish, BigNumberish, BytesLike]
   ): string;
   encodeFunctionData(
+    functionFragment: "selfImplementation",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
     functionFragment: "setApprovalForAll",
     values: [string, boolean]
   ): string;
-  encodeFunctionData(
-    functionFragment: "setContractUri",
-    values: [string]
-  ): string;
+  encodeFunctionData(functionFragment: "setKya", values: [string]): string;
   encodeFunctionData(
     functionFragment: "setMaxArraySize",
     values: [BigNumberish]
@@ -295,8 +304,8 @@ export interface SX1155NFTInterface extends utils.Interface {
     values: [string, BigNumberish, boolean]
   ): string;
   encodeFunctionData(
-    functionFragment: "setTokenUri",
-    values: [BigNumberish, string]
+    functionFragment: "setTokenKya",
+    values: [BigNumberish, string, string]
   ): string;
   encodeFunctionData(
     functionFragment: "supportsInterface",
@@ -326,6 +335,10 @@ export interface SX1155NFTInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "transferOwnership",
     values: [string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "upgradeToAndCall",
+    values: [string, BytesLike]
   ): string;
   encodeFunctionData(functionFragment: "uri", values: [BigNumberish]): string;
 
@@ -386,6 +399,7 @@ export interface SX1155NFTInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(functionFragment: "grantRole", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "hasRole", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "initialize", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "isApprovedForAll",
     data: BytesLike
@@ -405,6 +419,10 @@ export interface SX1155NFTInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "ownershipHandoverExpiresAt",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "proxiableUUID",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -441,20 +459,21 @@ export interface SX1155NFTInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "setApprovalForAll",
+    functionFragment: "selfImplementation",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "setContractUri",
+    functionFragment: "setApprovalForAll",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "setKya", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "setMaxArraySize",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "setRole", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "setTokenUri",
+    functionFragment: "setTokenKya",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -480,6 +499,10 @@ export interface SX1155NFTInterface extends utils.Interface {
     functionFragment: "transferOwnership",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(
+    functionFragment: "upgradeToAndCall",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "uri", data: BytesLike): Result;
 
   events: {
@@ -489,18 +512,21 @@ export interface SX1155NFTInterface extends utils.Interface {
     "ContractURISet(address,string)": EventFragment;
     "ForceBurn(address,address,uint256,string)": EventFragment;
     "ForceTransfer(address,address,address,uint256)": EventFragment;
+    "Initialized(uint64)": EventFragment;
     "KyaUpdated(address,string)": EventFragment;
-    "Minted(address,address,uint256,uint256,string)": EventFragment;
+    "Minted(address,address,uint256,uint256,string,string)": EventFragment;
     "NewMaxArraySizeSet(uint256)": EventFragment;
     "OwnershipHandoverCanceled(address)": EventFragment;
     "OwnershipHandoverRequested(address)": EventFragment;
     "OwnershipTransferred(address,address)": EventFragment;
     "RoleSet(address,uint256,bool)": EventFragment;
+    "SlugUpdated(uint256,string)": EventFragment;
     "TokenKyaUpdated(address,uint256,string)": EventFragment;
     "TokenURIUpdated(address,uint256,string)": EventFragment;
     "TransferBatch(address,address,address,uint256[],uint256[])": EventFragment;
     "TransferSingle(address,address,address,uint256,uint256)": EventFragment;
     "URI(string,uint256)": EventFragment;
+    "Upgraded(address)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "ApprovalForAll"): EventFragment;
@@ -509,6 +535,7 @@ export interface SX1155NFTInterface extends utils.Interface {
   getEvent(nameOrSignatureOrTopic: "ContractURISet"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "ForceBurn"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "ForceTransfer"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Initialized"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "KyaUpdated"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Minted"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "NewMaxArraySizeSet"): EventFragment;
@@ -516,11 +543,13 @@ export interface SX1155NFTInterface extends utils.Interface {
   getEvent(nameOrSignatureOrTopic: "OwnershipHandoverRequested"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "RoleSet"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "SlugUpdated"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "TokenKyaUpdated"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "TokenURIUpdated"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "TransferBatch"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "TransferSingle"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "URI"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Upgraded"): EventFragment;
 }
 
 export interface ApprovalForAllEventObject {
@@ -598,6 +627,13 @@ export type ForceTransferEvent = TypedEvent<
 
 export type ForceTransferEventFilter = TypedEventFilter<ForceTransferEvent>;
 
+export interface InitializedEventObject {
+  version: BigNumber;
+}
+export type InitializedEvent = TypedEvent<[BigNumber], InitializedEventObject>;
+
+export type InitializedEventFilter = TypedEventFilter<InitializedEvent>;
+
 export interface KyaUpdatedEventObject {
   from: string;
   kya: string;
@@ -615,9 +651,10 @@ export interface MintedEventObject {
   tokenId: BigNumber;
   amount: BigNumber;
   uri: string;
+  slug: string;
 }
 export type MintedEvent = TypedEvent<
-  [string, string, BigNumber, BigNumber, string],
+  [string, string, BigNumber, BigNumber, string, string],
   MintedEventObject
 >;
 
@@ -680,6 +717,17 @@ export type RoleSetEvent = TypedEvent<
 
 export type RoleSetEventFilter = TypedEventFilter<RoleSetEvent>;
 
+export interface SlugUpdatedEventObject {
+  id: BigNumber;
+  slug: string;
+}
+export type SlugUpdatedEvent = TypedEvent<
+  [BigNumber, string],
+  SlugUpdatedEventObject
+>;
+
+export type SlugUpdatedEventFilter = TypedEventFilter<SlugUpdatedEvent>;
+
 export interface TokenKyaUpdatedEventObject {
   from: string;
   id: BigNumber;
@@ -739,6 +787,13 @@ export interface URIEventObject {
 export type URIEvent = TypedEvent<[string, BigNumber], URIEventObject>;
 
 export type URIEventFilter = TypedEventFilter<URIEvent>;
+
+export interface UpgradedEventObject {
+  implementation: string;
+}
+export type UpgradedEvent = TypedEvent<[string], UpgradedEventObject>;
+
+export type UpgradedEventFilter = TypedEventFilter<UpgradedEvent>;
 
 export interface SX1155NFT extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
@@ -857,6 +912,16 @@ export interface SX1155NFT extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[boolean] & { result: boolean }>;
 
+    initialize(
+      _name: string,
+      _symbol: string,
+      _kya: string,
+      _owner: string,
+      _admins: string[],
+      _editors: string[],
+      overrides?: Overrides & { from?: string }
+    ): Promise<ContractTransaction>;
+
     isApprovedForAll(
       owner: string,
       operator: string,
@@ -877,6 +942,7 @@ export interface SX1155NFT extends BaseContract {
       _to: string,
       _quantity: BigNumberish,
       _tokenURI: string,
+      _slug: string,
       overrides?: Overrides & { from?: string }
     ): Promise<ContractTransaction>;
 
@@ -884,6 +950,7 @@ export interface SX1155NFT extends BaseContract {
       _accounts: string[],
       _quantities: BigNumberish[],
       _tokenURIs: string[],
+      _slug: string[],
       overrides?: Overrides & { from?: string }
     ): Promise<ContractTransaction>;
 
@@ -895,6 +962,8 @@ export interface SX1155NFT extends BaseContract {
       pendingOwner: string,
       overrides?: CallOverrides
     ): Promise<[BigNumber] & { result: BigNumber }>;
+
+    proxiableUUID(overrides?: CallOverrides): Promise<[string]>;
 
     renounceOwnership(
       overrides?: PayableOverrides & { from?: string }
@@ -949,14 +1018,16 @@ export interface SX1155NFT extends BaseContract {
       overrides?: Overrides & { from?: string }
     ): Promise<ContractTransaction>;
 
+    selfImplementation(overrides?: CallOverrides): Promise<[string]>;
+
     setApprovalForAll(
       operator: string,
       isApproved: boolean,
       overrides?: Overrides & { from?: string }
     ): Promise<ContractTransaction>;
 
-    setContractUri(
-      _contractUri: string,
+    setKya(
+      _kya: string,
       overrides?: Overrides & { from?: string }
     ): Promise<ContractTransaction>;
 
@@ -972,9 +1043,10 @@ export interface SX1155NFT extends BaseContract {
       overrides?: PayableOverrides & { from?: string }
     ): Promise<ContractTransaction>;
 
-    setTokenUri(
+    setTokenKya(
       _id: BigNumberish,
-      _uri: string,
+      _kya: string,
+      _slug: string,
       overrides?: Overrides & { from?: string }
     ): Promise<ContractTransaction>;
 
@@ -1007,6 +1079,12 @@ export interface SX1155NFT extends BaseContract {
 
     transferOwnership(
       newOwner: string,
+      overrides?: PayableOverrides & { from?: string }
+    ): Promise<ContractTransaction>;
+
+    upgradeToAndCall(
+      newImplementation: string,
+      data: BytesLike,
       overrides?: PayableOverrides & { from?: string }
     ): Promise<ContractTransaction>;
 
@@ -1103,6 +1181,16 @@ export interface SX1155NFT extends BaseContract {
     overrides?: CallOverrides
   ): Promise<boolean>;
 
+  initialize(
+    _name: string,
+    _symbol: string,
+    _kya: string,
+    _owner: string,
+    _admins: string[],
+    _editors: string[],
+    overrides?: Overrides & { from?: string }
+  ): Promise<ContractTransaction>;
+
   isApprovedForAll(
     owner: string,
     operator: string,
@@ -1123,6 +1211,7 @@ export interface SX1155NFT extends BaseContract {
     _to: string,
     _quantity: BigNumberish,
     _tokenURI: string,
+    _slug: string,
     overrides?: Overrides & { from?: string }
   ): Promise<ContractTransaction>;
 
@@ -1130,6 +1219,7 @@ export interface SX1155NFT extends BaseContract {
     _accounts: string[],
     _quantities: BigNumberish[],
     _tokenURIs: string[],
+    _slug: string[],
     overrides?: Overrides & { from?: string }
   ): Promise<ContractTransaction>;
 
@@ -1141,6 +1231,8 @@ export interface SX1155NFT extends BaseContract {
     pendingOwner: string,
     overrides?: CallOverrides
   ): Promise<BigNumber>;
+
+  proxiableUUID(overrides?: CallOverrides): Promise<string>;
 
   renounceOwnership(
     overrides?: PayableOverrides & { from?: string }
@@ -1192,14 +1284,16 @@ export interface SX1155NFT extends BaseContract {
     overrides?: Overrides & { from?: string }
   ): Promise<ContractTransaction>;
 
+  selfImplementation(overrides?: CallOverrides): Promise<string>;
+
   setApprovalForAll(
     operator: string,
     isApproved: boolean,
     overrides?: Overrides & { from?: string }
   ): Promise<ContractTransaction>;
 
-  setContractUri(
-    _contractUri: string,
+  setKya(
+    _kya: string,
     overrides?: Overrides & { from?: string }
   ): Promise<ContractTransaction>;
 
@@ -1215,9 +1309,10 @@ export interface SX1155NFT extends BaseContract {
     overrides?: PayableOverrides & { from?: string }
   ): Promise<ContractTransaction>;
 
-  setTokenUri(
+  setTokenKya(
     _id: BigNumberish,
-    _uri: string,
+    _kya: string,
+    _slug: string,
     overrides?: Overrides & { from?: string }
   ): Promise<ContractTransaction>;
 
@@ -1247,6 +1342,12 @@ export interface SX1155NFT extends BaseContract {
 
   transferOwnership(
     newOwner: string,
+    overrides?: PayableOverrides & { from?: string }
+  ): Promise<ContractTransaction>;
+
+  upgradeToAndCall(
+    newImplementation: string,
+    data: BytesLike,
     overrides?: PayableOverrides & { from?: string }
   ): Promise<ContractTransaction>;
 
@@ -1338,6 +1439,16 @@ export interface SX1155NFT extends BaseContract {
       overrides?: CallOverrides
     ): Promise<boolean>;
 
+    initialize(
+      _name: string,
+      _symbol: string,
+      _kya: string,
+      _owner: string,
+      _admins: string[],
+      _editors: string[],
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     isApprovedForAll(
       owner: string,
       operator: string,
@@ -1358,6 +1469,7 @@ export interface SX1155NFT extends BaseContract {
       _to: string,
       _quantity: BigNumberish,
       _tokenURI: string,
+      _slug: string,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -1365,6 +1477,7 @@ export interface SX1155NFT extends BaseContract {
       _accounts: string[],
       _quantities: BigNumberish[],
       _tokenURIs: string[],
+      _slug: string[],
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -1376,6 +1489,8 @@ export interface SX1155NFT extends BaseContract {
       pendingOwner: string,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
+
+    proxiableUUID(overrides?: CallOverrides): Promise<string>;
 
     renounceOwnership(overrides?: CallOverrides): Promise<void>;
 
@@ -1423,16 +1538,15 @@ export interface SX1155NFT extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
+    selfImplementation(overrides?: CallOverrides): Promise<string>;
+
     setApprovalForAll(
       operator: string,
       isApproved: boolean,
       overrides?: CallOverrides
     ): Promise<void>;
 
-    setContractUri(
-      _contractUri: string,
-      overrides?: CallOverrides
-    ): Promise<void>;
+    setKya(_kya: string, overrides?: CallOverrides): Promise<void>;
 
     setMaxArraySize(
       _maxArraySize: BigNumberish,
@@ -1446,9 +1560,10 @@ export interface SX1155NFT extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    setTokenUri(
+    setTokenKya(
       _id: BigNumberish,
-      _uri: string,
+      _kya: string,
+      _slug: string,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -1481,6 +1596,12 @@ export interface SX1155NFT extends BaseContract {
 
     transferOwnership(
       newOwner: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    upgradeToAndCall(
+      newImplementation: string,
+      data: BytesLike,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -1557,25 +1678,30 @@ export interface SX1155NFT extends BaseContract {
       tokenId?: null
     ): ForceTransferEventFilter;
 
+    "Initialized(uint64)"(version?: null): InitializedEventFilter;
+    Initialized(version?: null): InitializedEventFilter;
+
     "KyaUpdated(address,string)"(
       from?: null,
       kya?: null
     ): KyaUpdatedEventFilter;
     KyaUpdated(from?: null, kya?: null): KyaUpdatedEventFilter;
 
-    "Minted(address,address,uint256,uint256,string)"(
+    "Minted(address,address,uint256,uint256,string,string)"(
       minter?: null,
       receiver?: null,
       tokenId?: null,
       amount?: null,
-      uri?: null
+      uri?: null,
+      slug?: null
     ): MintedEventFilter;
     Minted(
       minter?: null,
       receiver?: null,
       tokenId?: null,
       amount?: null,
-      uri?: null
+      uri?: null,
+      slug?: null
     ): MintedEventFilter;
 
     "NewMaxArraySizeSet(uint256)"(
@@ -1616,6 +1742,15 @@ export interface SX1155NFT extends BaseContract {
       role?: BigNumberish | null,
       active?: boolean | null
     ): RoleSetEventFilter;
+
+    "SlugUpdated(uint256,string)"(
+      id?: BigNumberish | null,
+      slug?: string | null
+    ): SlugUpdatedEventFilter;
+    SlugUpdated(
+      id?: BigNumberish | null,
+      slug?: string | null
+    ): SlugUpdatedEventFilter;
 
     "TokenKyaUpdated(address,uint256,string)"(
       from?: null,
@@ -1674,6 +1809,9 @@ export interface SX1155NFT extends BaseContract {
       id?: BigNumberish | null
     ): URIEventFilter;
     URI(value?: null, id?: BigNumberish | null): URIEventFilter;
+
+    "Upgraded(address)"(implementation?: string | null): UpgradedEventFilter;
+    Upgraded(implementation?: string | null): UpgradedEventFilter;
   };
 
   estimateGas: {
@@ -1767,6 +1905,16 @@ export interface SX1155NFT extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    initialize(
+      _name: string,
+      _symbol: string,
+      _kya: string,
+      _owner: string,
+      _admins: string[],
+      _editors: string[],
+      overrides?: Overrides & { from?: string }
+    ): Promise<BigNumber>;
+
     isApprovedForAll(
       owner: string,
       operator: string,
@@ -1787,6 +1935,7 @@ export interface SX1155NFT extends BaseContract {
       _to: string,
       _quantity: BigNumberish,
       _tokenURI: string,
+      _slug: string,
       overrides?: Overrides & { from?: string }
     ): Promise<BigNumber>;
 
@@ -1794,6 +1943,7 @@ export interface SX1155NFT extends BaseContract {
       _accounts: string[],
       _quantities: BigNumberish[],
       _tokenURIs: string[],
+      _slug: string[],
       overrides?: Overrides & { from?: string }
     ): Promise<BigNumber>;
 
@@ -1805,6 +1955,8 @@ export interface SX1155NFT extends BaseContract {
       pendingOwner: string,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
+
+    proxiableUUID(overrides?: CallOverrides): Promise<BigNumber>;
 
     renounceOwnership(
       overrides?: PayableOverrides & { from?: string }
@@ -1859,14 +2011,16 @@ export interface SX1155NFT extends BaseContract {
       overrides?: Overrides & { from?: string }
     ): Promise<BigNumber>;
 
+    selfImplementation(overrides?: CallOverrides): Promise<BigNumber>;
+
     setApprovalForAll(
       operator: string,
       isApproved: boolean,
       overrides?: Overrides & { from?: string }
     ): Promise<BigNumber>;
 
-    setContractUri(
-      _contractUri: string,
+    setKya(
+      _kya: string,
       overrides?: Overrides & { from?: string }
     ): Promise<BigNumber>;
 
@@ -1882,9 +2036,10 @@ export interface SX1155NFT extends BaseContract {
       overrides?: PayableOverrides & { from?: string }
     ): Promise<BigNumber>;
 
-    setTokenUri(
+    setTokenKya(
       _id: BigNumberish,
-      _uri: string,
+      _kya: string,
+      _slug: string,
       overrides?: Overrides & { from?: string }
     ): Promise<BigNumber>;
 
@@ -1917,6 +2072,12 @@ export interface SX1155NFT extends BaseContract {
 
     transferOwnership(
       newOwner: string,
+      overrides?: PayableOverrides & { from?: string }
+    ): Promise<BigNumber>;
+
+    upgradeToAndCall(
+      newImplementation: string,
+      data: BytesLike,
       overrides?: PayableOverrides & { from?: string }
     ): Promise<BigNumber>;
 
@@ -2018,6 +2179,16 @@ export interface SX1155NFT extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    initialize(
+      _name: string,
+      _symbol: string,
+      _kya: string,
+      _owner: string,
+      _admins: string[],
+      _editors: string[],
+      overrides?: Overrides & { from?: string }
+    ): Promise<PopulatedTransaction>;
+
     isApprovedForAll(
       owner: string,
       operator: string,
@@ -2038,6 +2209,7 @@ export interface SX1155NFT extends BaseContract {
       _to: string,
       _quantity: BigNumberish,
       _tokenURI: string,
+      _slug: string,
       overrides?: Overrides & { from?: string }
     ): Promise<PopulatedTransaction>;
 
@@ -2045,6 +2217,7 @@ export interface SX1155NFT extends BaseContract {
       _accounts: string[],
       _quantities: BigNumberish[],
       _tokenURIs: string[],
+      _slug: string[],
       overrides?: Overrides & { from?: string }
     ): Promise<PopulatedTransaction>;
 
@@ -2056,6 +2229,8 @@ export interface SX1155NFT extends BaseContract {
       pendingOwner: string,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
+
+    proxiableUUID(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     renounceOwnership(
       overrides?: PayableOverrides & { from?: string }
@@ -2110,14 +2285,18 @@ export interface SX1155NFT extends BaseContract {
       overrides?: Overrides & { from?: string }
     ): Promise<PopulatedTransaction>;
 
+    selfImplementation(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     setApprovalForAll(
       operator: string,
       isApproved: boolean,
       overrides?: Overrides & { from?: string }
     ): Promise<PopulatedTransaction>;
 
-    setContractUri(
-      _contractUri: string,
+    setKya(
+      _kya: string,
       overrides?: Overrides & { from?: string }
     ): Promise<PopulatedTransaction>;
 
@@ -2133,9 +2312,10 @@ export interface SX1155NFT extends BaseContract {
       overrides?: PayableOverrides & { from?: string }
     ): Promise<PopulatedTransaction>;
 
-    setTokenUri(
+    setTokenKya(
       _id: BigNumberish,
-      _uri: string,
+      _kya: string,
+      _slug: string,
       overrides?: Overrides & { from?: string }
     ): Promise<PopulatedTransaction>;
 
@@ -2174,6 +2354,12 @@ export interface SX1155NFT extends BaseContract {
 
     transferOwnership(
       newOwner: string,
+      overrides?: PayableOverrides & { from?: string }
+    ): Promise<PopulatedTransaction>;
+
+    upgradeToAndCall(
+      newImplementation: string,
+      data: BytesLike,
       overrides?: PayableOverrides & { from?: string }
     ): Promise<PopulatedTransaction>;
 

@@ -18,7 +18,7 @@ const ReadLayout: React.FC<PropsWithChildren<ReadLayoutProps>> = ({
   children,
   preview,
 }) => {
-  const { nftId = '', tokenId = '' } = useParams()
+  const { nftId = '', tokenIdOrSlug = '' } = useParams()
   const { nft, loadingNft, refetchingNft } = useNFT(nftId, {
     fetchFullData: true,
   })
@@ -31,7 +31,7 @@ const ReadLayout: React.FC<PropsWithChildren<ReadLayoutProps>> = ({
     location.pathname ===
     generatePath(RoutePaths.TOKEN_READ_HISTORY, {
       nftId: nftId,
-      tokenId: tokenId,
+      tokenIdOrSlug: tokenIdOrSlug,
     })
 
   useEffect(() => {

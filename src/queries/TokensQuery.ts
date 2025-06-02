@@ -16,6 +16,7 @@ export const TokensQuery = graphql(`
       orderDirection: $orderDirection
     ) {
       id
+      slug
       updatedAt
       createdAt
       name

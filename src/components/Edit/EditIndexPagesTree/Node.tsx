@@ -18,7 +18,7 @@ const Node: React.FC<{
   hasChild: boolean
   onToggle: (id: EditNodeModel['id']) => void
   onClick: () => void
-  onEdit?: (name: string) => void
+  onEdit?: (data: { name: string; slug: string }) => void
 }> = ({
   to,
   node,
@@ -51,6 +51,7 @@ const Node: React.FC<{
       <EditIndexPagesItem
         to={isGroup ? '' : to}
         name={node.text}
+        slug={node.data?.slug || ''}
         active={active}
         onClick={onClick}
         readonly={readonly}

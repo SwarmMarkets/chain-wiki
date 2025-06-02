@@ -5,6 +5,7 @@ export const TokenQuery = graphql(`
     token(id: $id) {
       createdAt
       id
+      slug
       name
       voteProposalUri
       updatedAt

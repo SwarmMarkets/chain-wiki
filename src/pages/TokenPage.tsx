@@ -15,7 +15,7 @@ import { findFirstNonGroupVisibleNode } from 'src/shared/utils/treeHelpers'
 const TokenPage = () => {
   const { t } = useTranslation('token')
 
-  const { nftId = '', tokenId = '' } = useParams()
+  const { nftId = '', tokenIdOrSlug = '' } = useParams()
   const fullTokenId = useFullTokenIdParam()
 
   const { changeTab } = useTabs<TokenTabs>({
@@ -57,7 +57,9 @@ const TokenPage = () => {
           <div className='flex justify-between items-center'>
             <h1 className='typo-heading1 text-main-accent'>{token?.name}</h1>
             <DotMenu>
-              <Link to={generatePath(RoutePaths.HISTORY, { nftId, tokenId })}>
+              <Link
+                to={generatePath(RoutePaths.HISTORY, { nftId, tokenIdOrSlug })}
+              >
                 <li className='px-4 py-2 hover:bg-gray-100 cursor-pointer rounded'>
                   {t('menu.history')}
                 </li>

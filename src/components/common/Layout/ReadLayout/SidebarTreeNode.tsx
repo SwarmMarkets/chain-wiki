@@ -18,7 +18,7 @@ interface SidebarTreeNodeProps {
   selectedId: string | null
   isParentGroup?: boolean
   isChild?: boolean
-  onSelect?: (id: string) => void
+  onSelect?: (node: ISidebarTreeNode) => void
   className?: string
 }
 
@@ -47,7 +47,7 @@ const SidebarTreeNode: React.FC<SidebarTreeNodeProps> = ({
       <DynamicComponent
         as={node?.to ? Link : 'div'}
         to={node?.to}
-        onClick={() => !isGroup && onSelect?.(node.tokenId)}
+        onClick={() => !isGroup && onSelect?.(node)}
         className={clsx(
           'group flex justify-between items-center transition-colors px-3 py-1.5',
           {

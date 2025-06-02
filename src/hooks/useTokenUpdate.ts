@@ -64,7 +64,7 @@ const useTokenUpdate = (nftAddress: string) => {
 
       const tokenUpdateJson = JSON.stringify(tokenUpdate)
 
-      return call('setTokenUri', [tokenId, tokenUpdateJson])
+      return call('setTokenKya', [tokenId, tokenUpdateJson])
     },
     [call]
   )

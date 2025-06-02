@@ -10,6 +10,8 @@ import { generateSymbolFromString } from 'src/shared/utils'
 import UploadFileButton from '../common/UploadFileButton'
 import Button from '../ui-kit/Button/Button'
 import TextField from '../ui-kit/TextField/TextField'
+import useSmartAccount from 'src/services/safe-protocol-kit/useSmartAccount'
+
 interface CreateNftFormProps {
   onSuccessSubmit(): void
   onErrorSubmit(e: Error): void
@@ -27,24 +29,29 @@ const CreateNftForm: React.FC<CreateNftFormProps> = ({
   } = useCreateNftForm()
   const { call, txLoading } = useSX1155NFTFactory()
   const account = useAddress()
+  const { smartAccountInfo } = useSmartAccount()
   const [uploadedLogoUrl, setUploadedLogoUrl] = useState<string | null>(null)
   const onSubmit: SubmitHandler<CreateNftFormInputs> = async (data, e) => {
     e?.preventDefault()
-    if (!account) return
+    if (!account || !smartAccountInfo?.address) return
 
     const { name } = data
     const symbol = generateSymbolFromString(name)
-    const admin = account
-    const editor = account
-    const jsonData = JSON.stringify({
+    const owner = account
+    const admins = [account, smartAccountInfo.address]
+    const editors = [account, smartAccountInfo.address]
+    const kya = JSON.stringify({
       logoUrl: uploadedLogoUrl,
     })
 
     try {
       const response = await call('deployChainWiki', [
-        { name, symbol, kya: jsonData },
-        admin,
-        editor,
+        name,
+        symbol,
+        kya,
+        owner,
+        admins,
+        editors,
       ])
       if (!response) throw new Error('Failed to deploy NFT contract')
       onSuccessSubmit()
