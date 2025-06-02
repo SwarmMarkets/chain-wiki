@@ -27,7 +27,7 @@ const buildTree = (
         item.type === 'group'
           ? undefined
           : generatePath(RoutePaths.TOKEN_READ, {
-              tokenIdOrSlug: splitTokenId(item.tokenId).tokenId,
+              tokenIdOrSlug: item.slug,
               nftId,
             })
 
@@ -46,7 +46,6 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
 }) => {
   const { t } = useTranslation('layout')
   const fullTokenId = useFullTokenIdParam()
-  const navigate = useNavigate()
 
   const treeData = nft?.indexPagesContent?.indexPages
     ? buildTree(
@@ -74,14 +73,6 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
         {treeData.length > 0 ? (
           <SidebarTree
             data={treeData}
-            onSelect={id => {
-              navigate(
-                generatePath(RoutePaths.TOKEN_READ, {
-                  tokenIdOrSlug: id,
-                  nftId: splitTokenId(id).nftId,
-                })
-              )
-            }}
             selectedId={fullTokenId || firstTokenId}
           />
         ) : (
