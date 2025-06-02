@@ -22,6 +22,7 @@ interface EditIndexPagesItemProps {
   className?: string
 }
 
+
 const EditIndexPagesItem: React.FC<EditIndexPagesItemProps> = ({
   to,
   name,
@@ -83,7 +84,7 @@ const EditIndexPagesItem: React.FC<EditIndexPagesItemProps> = ({
       as={to ? Link : 'div'}
       to={to || ''}
       className={clsx(
-        'flex justify-between w-full box-border rounded transition-colors overflow-hidden px-2 py-1.5 gap-2',
+        'flex items-center justify-between w-full box-border rounded transition-colors overflow-hidden px-2 py-1.5 gap-2',
         active && 'bg-gray-100 text-main-accent',
         hasChild && 'mb-1',
         isGroup
