@@ -16,6 +16,7 @@ export const NFTsQuery = graphql(`
       orderDirection: $orderDirection
     ) {
       id
+      slug
       name
       symbol
       createdAt
