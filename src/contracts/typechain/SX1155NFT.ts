@@ -27,6 +27,26 @@ import type {
   OnEvent,
 } from "./common";
 
+export type ERC1155DataStruct = { name: string; symbol: string; kya: string };
+
+export type ERC1155DataStructOutput = [string, string, string] & {
+  name: string;
+  symbol: string;
+  kya: string;
+};
+
+export type RolesStruct = {
+  owner: string;
+  admins: string[];
+  editors: string[];
+};
+
+export type RolesStructOutput = [string, string[], string[]] & {
+  owner: string;
+  admins: string[];
+  editors: string[];
+};
+
 export interface SX1155NFTInterface extends utils.Interface {
   functions: {
     "DEFAULT_ADMIN_ROLE()": FunctionFragment;
@@ -37,17 +57,19 @@ export interface SX1155NFTInterface extends utils.Interface {
     "cancelOwnershipHandover()": FunctionFragment;
     "commentatorByCommentsId(uint256,uint256)": FunctionFragment;
     "completeOwnershipHandover(address)": FunctionFragment;
+    "contractSlug()": FunctionFragment;
     "contractURI()": FunctionFragment;
     "currentAttestationId()": FunctionFragment;
     "currentTokenId()": FunctionFragment;
     "deleteAttestation(uint256,uint256)": FunctionFragment;
+    "factory()": FunctionFragment;
     "forceBurn(address,uint256,uint256,string)": FunctionFragment;
     "forceBurnBatch(address[],uint256[],uint256[],string)": FunctionFragment;
     "forceTransfer(address,address,uint256,uint256)": FunctionFragment;
     "grantEditorRole(address)": FunctionFragment;
     "grantRole(uint256,address)": FunctionFragment;
     "hasRole(address,uint256)": FunctionFragment;
-    "initialize(string,string,string,address,address[],address[])": FunctionFragment;
+    "initialize((string,string,string),string,(address,address[],address[]),address)": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
     "kya()": FunctionFragment;
     "makeAttestation(uint256,string)": FunctionFragment;
@@ -69,18 +91,20 @@ export interface SX1155NFTInterface extends utils.Interface {
     "safeTransferFrom(address,address,uint256,uint256,bytes)": FunctionFragment;
     "selfImplementation()": FunctionFragment;
     "setApprovalForAll(address,bool)": FunctionFragment;
-    "setKya(string)": FunctionFragment;
+    "setContractKya(string)": FunctionFragment;
+    "setContractSlug(string)": FunctionFragment;
     "setMaxArraySize(uint256)": FunctionFragment;
     "setRole(address,uint256,bool)": FunctionFragment;
-    "setTokenKya(uint256,string,string)": FunctionFragment;
+    "setTokenKya(uint256,string)": FunctionFragment;
+    "slugToTokenId(string)": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
     "symbol()": FunctionFragment;
     "tokenCommentByCommentId(uint256,uint256)": FunctionFragment;
+    "tokenIdToSlug(uint256)": FunctionFragment;
     "tokenKya(uint256)": FunctionFragment;
-    "tokenUri(uint256)": FunctionFragment;
     "totalSupply(uint256)": FunctionFragment;
-    "totalTokenIdsSupply(uint256)": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
+    "updateTokenSlug(uint256,string)": FunctionFragment;
     "upgradeToAndCall(address,bytes)": FunctionFragment;
     "uri(uint256)": FunctionFragment;
   };
@@ -95,10 +119,12 @@ export interface SX1155NFTInterface extends utils.Interface {
       | "cancelOwnershipHandover"
       | "commentatorByCommentsId"
       | "completeOwnershipHandover"
+      | "contractSlug"
       | "contractURI"
       | "currentAttestationId"
       | "currentTokenId"
       | "deleteAttestation"
+      | "factory"
       | "forceBurn"
       | "forceBurnBatch"
       | "forceTransfer"
@@ -127,18 +153,20 @@ export interface SX1155NFTInterface extends utils.Interface {
       | "safeTransferFrom"
       | "selfImplementation"
       | "setApprovalForAll"
-      | "setKya"
+      | "setContractKya"
+      | "setContractSlug"
       | "setMaxArraySize"
       | "setRole"
       | "setTokenKya"
+      | "slugToTokenId"
       | "supportsInterface"
       | "symbol"
       | "tokenCommentByCommentId"
+      | "tokenIdToSlug"
       | "tokenKya"
-      | "tokenUri"
       | "totalSupply"
-      | "totalTokenIdsSupply"
       | "transferOwnership"
+      | "updateTokenSlug"
       | "upgradeToAndCall"
       | "uri"
   ): FunctionFragment;
@@ -176,6 +204,10 @@ export interface SX1155NFTInterface extends utils.Interface {
     values: [string]
   ): string;
   encodeFunctionData(
+    functionFragment: "contractSlug",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
     functionFragment: "contractURI",
     values?: undefined
   ): string;
@@ -191,6 +223,7 @@ export interface SX1155NFTInterface extends utils.Interface {
     functionFragment: "deleteAttestation",
     values: [BigNumberish, BigNumberish]
   ): string;
+  encodeFunctionData(functionFragment: "factory", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "forceBurn",
     values: [string, BigNumberish, BigNumberish, string]
@@ -217,7 +250,7 @@ export interface SX1155NFTInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "initialize",
-    values: [string, string, string, string, string[], string[]]
+    values: [ERC1155DataStruct, string, RolesStruct, string]
   ): string;
   encodeFunctionData(
     functionFragment: "isApprovedForAll",
@@ -294,7 +327,14 @@ export interface SX1155NFTInterface extends utils.Interface {
     functionFragment: "setApprovalForAll",
     values: [string, boolean]
   ): string;
-  encodeFunctionData(functionFragment: "setKya", values: [string]): string;
+  encodeFunctionData(
+    functionFragment: "setContractKya",
+    values: [string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setContractSlug",
+    values: [string]
+  ): string;
   encodeFunctionData(
     functionFragment: "setMaxArraySize",
     values: [BigNumberish]
@@ -305,7 +345,11 @@ export interface SX1155NFTInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "setTokenKya",
-    values: [BigNumberish, string, string]
+    values: [BigNumberish, string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "slugToTokenId",
+    values: [string]
   ): string;
   encodeFunctionData(
     functionFragment: "supportsInterface",
@@ -317,11 +361,11 @@ export interface SX1155NFTInterface extends utils.Interface {
     values: [BigNumberish, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "tokenKya",
+    functionFragment: "tokenIdToSlug",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "tokenUri",
+    functionFragment: "tokenKya",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
@@ -329,12 +373,12 @@ export interface SX1155NFTInterface extends utils.Interface {
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "totalTokenIdsSupply",
-    values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
     functionFragment: "transferOwnership",
     values: [string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "updateTokenSlug",
+    values: [BigNumberish, string]
   ): string;
   encodeFunctionData(
     functionFragment: "upgradeToAndCall",
@@ -369,6 +413,10 @@ export interface SX1155NFTInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "contractSlug",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "contractURI",
     data: BytesLike
   ): Result;
@@ -384,6 +432,7 @@ export interface SX1155NFTInterface extends utils.Interface {
     functionFragment: "deleteAttestation",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "factory", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "forceBurn", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "forceBurnBatch",
@@ -466,7 +515,14 @@ export interface SX1155NFTInterface extends utils.Interface {
     functionFragment: "setApprovalForAll",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "setKya", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "setContractKya",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setContractSlug",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "setMaxArraySize",
     data: BytesLike
@@ -474,6 +530,10 @@ export interface SX1155NFTInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "setRole", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "setTokenKya",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "slugToTokenId",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -485,18 +545,21 @@ export interface SX1155NFTInterface extends utils.Interface {
     functionFragment: "tokenCommentByCommentId",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(
+    functionFragment: "tokenIdToSlug",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "tokenKya", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "tokenUri", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "totalSupply",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "totalTokenIdsSupply",
+    functionFragment: "transferOwnership",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "transferOwnership",
+    functionFragment: "updateTokenSlug",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -509,6 +572,7 @@ export interface SX1155NFTInterface extends utils.Interface {
     "ApprovalForAll(address,address,bool)": EventFragment;
     "CommentRemoved(address,uint256,string,uint256)": EventFragment;
     "Commented(address,uint256,string,uint256)": EventFragment;
+    "ContractSlugUpdated(string)": EventFragment;
     "ContractURISet(address,string)": EventFragment;
     "ForceBurn(address,address,uint256,string)": EventFragment;
     "ForceTransfer(address,address,address,uint256)": EventFragment;
@@ -520,8 +584,8 @@ export interface SX1155NFTInterface extends utils.Interface {
     "OwnershipHandoverRequested(address)": EventFragment;
     "OwnershipTransferred(address,address)": EventFragment;
     "RoleSet(address,uint256,bool)": EventFragment;
-    "SlugUpdated(uint256,string)": EventFragment;
     "TokenKyaUpdated(address,uint256,string)": EventFragment;
+    "TokenSlugUpdated(uint256,string)": EventFragment;
     "TokenURIUpdated(address,uint256,string)": EventFragment;
     "TransferBatch(address,address,address,uint256[],uint256[])": EventFragment;
     "TransferSingle(address,address,address,uint256,uint256)": EventFragment;
@@ -532,6 +596,7 @@ export interface SX1155NFTInterface extends utils.Interface {
   getEvent(nameOrSignatureOrTopic: "ApprovalForAll"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "CommentRemoved"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Commented"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "ContractSlugUpdated"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "ContractURISet"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "ForceBurn"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "ForceTransfer"): EventFragment;
@@ -543,8 +608,8 @@ export interface SX1155NFTInterface extends utils.Interface {
   getEvent(nameOrSignatureOrTopic: "OwnershipHandoverRequested"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "RoleSet"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "SlugUpdated"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "TokenKyaUpdated"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "TokenSlugUpdated"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "TokenURIUpdated"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "TransferBatch"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "TransferSingle"): EventFragment;
@@ -589,6 +654,17 @@ export type CommentedEvent = TypedEvent<
 >;
 
 export type CommentedEventFilter = TypedEventFilter<CommentedEvent>;
+
+export interface ContractSlugUpdatedEventObject {
+  slug: string;
+}
+export type ContractSlugUpdatedEvent = TypedEvent<
+  [string],
+  ContractSlugUpdatedEventObject
+>;
+
+export type ContractSlugUpdatedEventFilter =
+  TypedEventFilter<ContractSlugUpdatedEvent>;
 
 export interface ContractURISetEventObject {
   from: string;
@@ -717,17 +793,6 @@ export type RoleSetEvent = TypedEvent<
 
 export type RoleSetEventFilter = TypedEventFilter<RoleSetEvent>;
 
-export interface SlugUpdatedEventObject {
-  id: BigNumber;
-  slug: string;
-}
-export type SlugUpdatedEvent = TypedEvent<
-  [BigNumber, string],
-  SlugUpdatedEventObject
->;
-
-export type SlugUpdatedEventFilter = TypedEventFilter<SlugUpdatedEvent>;
-
 export interface TokenKyaUpdatedEventObject {
   from: string;
   id: BigNumber;
@@ -739,6 +804,18 @@ export type TokenKyaUpdatedEvent = TypedEvent<
 >;
 
 export type TokenKyaUpdatedEventFilter = TypedEventFilter<TokenKyaUpdatedEvent>;
+
+export interface TokenSlugUpdatedEventObject {
+  slugId: BigNumber;
+  slug: string;
+}
+export type TokenSlugUpdatedEvent = TypedEvent<
+  [BigNumber, string],
+  TokenSlugUpdatedEventObject
+>;
+
+export type TokenSlugUpdatedEventFilter =
+  TypedEventFilter<TokenSlugUpdatedEvent>;
 
 export interface TokenURIUpdatedEventObject {
   from: string;
@@ -839,8 +916,8 @@ export interface SX1155NFT extends BaseContract {
     ): Promise<[BigNumber[]] & { balances: BigNumber[] }>;
 
     burn(
-      _id: BigNumberish,
-      _quantity: BigNumberish,
+      tokenId: BigNumberish,
+      quantity: BigNumberish,
       overrides?: Overrides & { from?: string }
     ): Promise<ContractTransaction>;
 
@@ -859,6 +936,8 @@ export interface SX1155NFT extends BaseContract {
       overrides?: PayableOverrides & { from?: string }
     ): Promise<ContractTransaction>;
 
+    contractSlug(overrides?: CallOverrides): Promise<[string]>;
+
     contractURI(overrides?: CallOverrides): Promise<[string]>;
 
     currentAttestationId(overrides?: CallOverrides): Promise<[BigNumber]>;
@@ -871,6 +950,8 @@ export interface SX1155NFT extends BaseContract {
       overrides?: Overrides & { from?: string }
     ): Promise<ContractTransaction>;
 
+    factory(overrides?: CallOverrides): Promise<[string]>;
+
     forceBurn(
       from: string,
       tokenId: BigNumberish,
@@ -880,9 +961,9 @@ export interface SX1155NFT extends BaseContract {
     ): Promise<ContractTransaction>;
 
     forceBurnBatch(
-      _accounts: string[],
-      _tokenIds: BigNumberish[],
-      _quantities: BigNumberish[],
+      accounts: string[],
+      tokenIds: BigNumberish[],
+      quantities: BigNumberish[],
       reason: string,
       overrides?: Overrides & { from?: string }
     ): Promise<ContractTransaction>;
@@ -913,12 +994,10 @@ export interface SX1155NFT extends BaseContract {
     ): Promise<[boolean] & { result: boolean }>;
 
     initialize(
-      _name: string,
-      _symbol: string,
-      _kya: string,
-      _owner: string,
-      _admins: string[],
-      _editors: string[],
+      _data: ERC1155DataStruct,
+      _slug: string,
+      _roles: RolesStruct,
+      _factory: string,
       overrides?: Overrides & { from?: string }
     ): Promise<ContractTransaction>;
 
@@ -939,18 +1018,18 @@ export interface SX1155NFT extends BaseContract {
     maxArraySize(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     mint(
-      _to: string,
-      _quantity: BigNumberish,
-      _tokenURI: string,
-      _slug: string,
+      to: string,
+      quantity: BigNumberish,
+      tokenURI: string,
+      slug: string,
       overrides?: Overrides & { from?: string }
     ): Promise<ContractTransaction>;
 
     mintBatch(
-      _accounts: string[],
-      _quantities: BigNumberish[],
-      _tokenURIs: string[],
-      _slug: string[],
+      accounts: string[],
+      quantities: BigNumberish[],
+      tokenURIs: string[],
+      slug: string[],
       overrides?: Overrides & { from?: string }
     ): Promise<ContractTransaction>;
 
@@ -1026,8 +1105,13 @@ export interface SX1155NFT extends BaseContract {
       overrides?: Overrides & { from?: string }
     ): Promise<ContractTransaction>;
 
-    setKya(
-      _kya: string,
+    setContractKya(
+      Kya: string,
+      overrides?: Overrides & { from?: string }
+    ): Promise<ContractTransaction>;
+
+    setContractSlug(
+      slug: string,
       overrides?: Overrides & { from?: string }
     ): Promise<ContractTransaction>;
 
@@ -1044,11 +1128,15 @@ export interface SX1155NFT extends BaseContract {
     ): Promise<ContractTransaction>;
 
     setTokenKya(
-      _id: BigNumberish,
-      _kya: string,
-      _slug: string,
+      tokenId: BigNumberish,
+      Kya: string,
       overrides?: Overrides & { from?: string }
     ): Promise<ContractTransaction>;
+
+    slugToTokenId(
+      slug: string,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
 
     supportsInterface(
       interfaceId: BytesLike,
@@ -1063,23 +1151,27 @@ export interface SX1155NFT extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[string] & { comment: string }>;
 
-    tokenKya(_id: BigNumberish, overrides?: CallOverrides): Promise<[string]>;
+    tokenIdToSlug(
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<[string]>;
 
-    tokenUri(_id: BigNumberish, overrides?: CallOverrides): Promise<[string]>;
+    tokenKya(_id: BigNumberish, overrides?: CallOverrides): Promise<[string]>;
 
     totalSupply(
       _id: BigNumberish,
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
 
-    totalTokenIdsSupply(
-      _id: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber] & { supply: BigNumber }>;
-
     transferOwnership(
       newOwner: string,
       overrides?: PayableOverrides & { from?: string }
+    ): Promise<ContractTransaction>;
+
+    updateTokenSlug(
+      tokenId: BigNumberish,
+      slug: string,
+      overrides?: Overrides & { from?: string }
     ): Promise<ContractTransaction>;
 
     upgradeToAndCall(
@@ -1108,8 +1200,8 @@ export interface SX1155NFT extends BaseContract {
   ): Promise<BigNumber[]>;
 
   burn(
-    _id: BigNumberish,
-    _quantity: BigNumberish,
+    tokenId: BigNumberish,
+    quantity: BigNumberish,
     overrides?: Overrides & { from?: string }
   ): Promise<ContractTransaction>;
 
@@ -1128,6 +1220,8 @@ export interface SX1155NFT extends BaseContract {
     overrides?: PayableOverrides & { from?: string }
   ): Promise<ContractTransaction>;
 
+  contractSlug(overrides?: CallOverrides): Promise<string>;
+
   contractURI(overrides?: CallOverrides): Promise<string>;
 
   currentAttestationId(overrides?: CallOverrides): Promise<BigNumber>;
@@ -1140,6 +1234,8 @@ export interface SX1155NFT extends BaseContract {
     overrides?: Overrides & { from?: string }
   ): Promise<ContractTransaction>;
 
+  factory(overrides?: CallOverrides): Promise<string>;
+
   forceBurn(
     from: string,
     tokenId: BigNumberish,
@@ -1149,9 +1245,9 @@ export interface SX1155NFT extends BaseContract {
   ): Promise<ContractTransaction>;
 
   forceBurnBatch(
-    _accounts: string[],
-    _tokenIds: BigNumberish[],
-    _quantities: BigNumberish[],
+    accounts: string[],
+    tokenIds: BigNumberish[],
+    quantities: BigNumberish[],
     reason: string,
     overrides?: Overrides & { from?: string }
   ): Promise<ContractTransaction>;
@@ -1182,12 +1278,10 @@ export interface SX1155NFT extends BaseContract {
   ): Promise<boolean>;
 
   initialize(
-    _name: string,
-    _symbol: string,
-    _kya: string,
-    _owner: string,
-    _admins: string[],
-    _editors: string[],
+    _data: ERC1155DataStruct,
+    _slug: string,
+    _roles: RolesStruct,
+    _factory: string,
     overrides?: Overrides & { from?: string }
   ): Promise<ContractTransaction>;
 
@@ -1208,18 +1302,18 @@ export interface SX1155NFT extends BaseContract {
   maxArraySize(overrides?: CallOverrides): Promise<BigNumber>;
 
   mint(
-    _to: string,
-    _quantity: BigNumberish,
-    _tokenURI: string,
-    _slug: string,
+    to: string,
+    quantity: BigNumberish,
+    tokenURI: string,
+    slug: string,
     overrides?: Overrides & { from?: string }
   ): Promise<ContractTransaction>;
 
   mintBatch(
-    _accounts: string[],
-    _quantities: BigNumberish[],
-    _tokenURIs: string[],
-    _slug: string[],
+    accounts: string[],
+    quantities: BigNumberish[],
+    tokenURIs: string[],
+    slug: string[],
     overrides?: Overrides & { from?: string }
   ): Promise<ContractTransaction>;
 
@@ -1292,8 +1386,13 @@ export interface SX1155NFT extends BaseContract {
     overrides?: Overrides & { from?: string }
   ): Promise<ContractTransaction>;
 
-  setKya(
-    _kya: string,
+  setContractKya(
+    Kya: string,
+    overrides?: Overrides & { from?: string }
+  ): Promise<ContractTransaction>;
+
+  setContractSlug(
+    slug: string,
     overrides?: Overrides & { from?: string }
   ): Promise<ContractTransaction>;
 
@@ -1310,11 +1409,12 @@ export interface SX1155NFT extends BaseContract {
   ): Promise<ContractTransaction>;
 
   setTokenKya(
-    _id: BigNumberish,
-    _kya: string,
-    _slug: string,
+    tokenId: BigNumberish,
+    Kya: string,
     overrides?: Overrides & { from?: string }
   ): Promise<ContractTransaction>;
+
+  slugToTokenId(slug: string, overrides?: CallOverrides): Promise<BigNumber>;
 
   supportsInterface(
     interfaceId: BytesLike,
@@ -1329,20 +1429,24 @@ export interface SX1155NFT extends BaseContract {
     overrides?: CallOverrides
   ): Promise<string>;
 
+  tokenIdToSlug(
+    tokenId: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<string>;
+
   tokenKya(_id: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
-  tokenUri(_id: BigNumberish, overrides?: CallOverrides): Promise<string>;
-
   totalSupply(_id: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
-
-  totalTokenIdsSupply(
-    _id: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<BigNumber>;
 
   transferOwnership(
     newOwner: string,
     overrides?: PayableOverrides & { from?: string }
+  ): Promise<ContractTransaction>;
+
+  updateTokenSlug(
+    tokenId: BigNumberish,
+    slug: string,
+    overrides?: Overrides & { from?: string }
   ): Promise<ContractTransaction>;
 
   upgradeToAndCall(
@@ -1371,8 +1475,8 @@ export interface SX1155NFT extends BaseContract {
     ): Promise<BigNumber[]>;
 
     burn(
-      _id: BigNumberish,
-      _quantity: BigNumberish,
+      tokenId: BigNumberish,
+      quantity: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -1389,6 +1493,8 @@ export interface SX1155NFT extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
+    contractSlug(overrides?: CallOverrides): Promise<string>;
+
     contractURI(overrides?: CallOverrides): Promise<string>;
 
     currentAttestationId(overrides?: CallOverrides): Promise<BigNumber>;
@@ -1401,6 +1507,8 @@ export interface SX1155NFT extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
+    factory(overrides?: CallOverrides): Promise<string>;
+
     forceBurn(
       from: string,
       tokenId: BigNumberish,
@@ -1410,9 +1518,9 @@ export interface SX1155NFT extends BaseContract {
     ): Promise<void>;
 
     forceBurnBatch(
-      _accounts: string[],
-      _tokenIds: BigNumberish[],
-      _quantities: BigNumberish[],
+      accounts: string[],
+      tokenIds: BigNumberish[],
+      quantities: BigNumberish[],
       reason: string,
       overrides?: CallOverrides
     ): Promise<void>;
@@ -1440,12 +1548,10 @@ export interface SX1155NFT extends BaseContract {
     ): Promise<boolean>;
 
     initialize(
-      _name: string,
-      _symbol: string,
-      _kya: string,
-      _owner: string,
-      _admins: string[],
-      _editors: string[],
+      _data: ERC1155DataStruct,
+      _slug: string,
+      _roles: RolesStruct,
+      _factory: string,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -1466,18 +1572,18 @@ export interface SX1155NFT extends BaseContract {
     maxArraySize(overrides?: CallOverrides): Promise<BigNumber>;
 
     mint(
-      _to: string,
-      _quantity: BigNumberish,
-      _tokenURI: string,
-      _slug: string,
+      to: string,
+      quantity: BigNumberish,
+      tokenURI: string,
+      slug: string,
       overrides?: CallOverrides
     ): Promise<void>;
 
     mintBatch(
-      _accounts: string[],
-      _quantities: BigNumberish[],
-      _tokenURIs: string[],
-      _slug: string[],
+      accounts: string[],
+      quantities: BigNumberish[],
+      tokenURIs: string[],
+      slug: string[],
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -1546,7 +1652,9 @@ export interface SX1155NFT extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    setKya(_kya: string, overrides?: CallOverrides): Promise<void>;
+    setContractKya(Kya: string, overrides?: CallOverrides): Promise<void>;
+
+    setContractSlug(slug: string, overrides?: CallOverrides): Promise<void>;
 
     setMaxArraySize(
       _maxArraySize: BigNumberish,
@@ -1561,11 +1669,12 @@ export interface SX1155NFT extends BaseContract {
     ): Promise<void>;
 
     setTokenKya(
-      _id: BigNumberish,
-      _kya: string,
-      _slug: string,
+      tokenId: BigNumberish,
+      Kya: string,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    slugToTokenId(slug: string, overrides?: CallOverrides): Promise<BigNumber>;
 
     supportsInterface(
       interfaceId: BytesLike,
@@ -1580,22 +1689,26 @@ export interface SX1155NFT extends BaseContract {
       overrides?: CallOverrides
     ): Promise<string>;
 
-    tokenKya(_id: BigNumberish, overrides?: CallOverrides): Promise<string>;
+    tokenIdToSlug(
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<string>;
 
-    tokenUri(_id: BigNumberish, overrides?: CallOverrides): Promise<string>;
+    tokenKya(_id: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
     totalSupply(
       _id: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    totalTokenIdsSupply(
-      _id: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     transferOwnership(
       newOwner: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    updateTokenSlug(
+      tokenId: BigNumberish,
+      slug: string,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -1645,6 +1758,11 @@ export interface SX1155NFT extends BaseContract {
       comment?: null,
       commentId?: null
     ): CommentedEventFilter;
+
+    "ContractSlugUpdated(string)"(
+      slug?: string | null
+    ): ContractSlugUpdatedEventFilter;
+    ContractSlugUpdated(slug?: string | null): ContractSlugUpdatedEventFilter;
 
     "ContractURISet(address,string)"(
       from?: null,
@@ -1743,15 +1861,6 @@ export interface SX1155NFT extends BaseContract {
       active?: boolean | null
     ): RoleSetEventFilter;
 
-    "SlugUpdated(uint256,string)"(
-      id?: BigNumberish | null,
-      slug?: string | null
-    ): SlugUpdatedEventFilter;
-    SlugUpdated(
-      id?: BigNumberish | null,
-      slug?: string | null
-    ): SlugUpdatedEventFilter;
-
     "TokenKyaUpdated(address,uint256,string)"(
       from?: null,
       id?: BigNumberish | null,
@@ -1762,6 +1871,15 @@ export interface SX1155NFT extends BaseContract {
       id?: BigNumberish | null,
       kya?: null
     ): TokenKyaUpdatedEventFilter;
+
+    "TokenSlugUpdated(uint256,string)"(
+      slugId?: BigNumberish | null,
+      slug?: string | null
+    ): TokenSlugUpdatedEventFilter;
+    TokenSlugUpdated(
+      slugId?: BigNumberish | null,
+      slug?: string | null
+    ): TokenSlugUpdatedEventFilter;
 
     "TokenURIUpdated(address,uint256,string)"(
       from?: null,
@@ -1832,8 +1950,8 @@ export interface SX1155NFT extends BaseContract {
     ): Promise<BigNumber>;
 
     burn(
-      _id: BigNumberish,
-      _quantity: BigNumberish,
+      tokenId: BigNumberish,
+      quantity: BigNumberish,
       overrides?: Overrides & { from?: string }
     ): Promise<BigNumber>;
 
@@ -1852,6 +1970,8 @@ export interface SX1155NFT extends BaseContract {
       overrides?: PayableOverrides & { from?: string }
     ): Promise<BigNumber>;
 
+    contractSlug(overrides?: CallOverrides): Promise<BigNumber>;
+
     contractURI(overrides?: CallOverrides): Promise<BigNumber>;
 
     currentAttestationId(overrides?: CallOverrides): Promise<BigNumber>;
@@ -1864,6 +1984,8 @@ export interface SX1155NFT extends BaseContract {
       overrides?: Overrides & { from?: string }
     ): Promise<BigNumber>;
 
+    factory(overrides?: CallOverrides): Promise<BigNumber>;
+
     forceBurn(
       from: string,
       tokenId: BigNumberish,
@@ -1873,9 +1995,9 @@ export interface SX1155NFT extends BaseContract {
     ): Promise<BigNumber>;
 
     forceBurnBatch(
-      _accounts: string[],
-      _tokenIds: BigNumberish[],
-      _quantities: BigNumberish[],
+      accounts: string[],
+      tokenIds: BigNumberish[],
+      quantities: BigNumberish[],
       reason: string,
       overrides?: Overrides & { from?: string }
     ): Promise<BigNumber>;
@@ -1906,12 +2028,10 @@ export interface SX1155NFT extends BaseContract {
     ): Promise<BigNumber>;
 
     initialize(
-      _name: string,
-      _symbol: string,
-      _kya: string,
-      _owner: string,
-      _admins: string[],
-      _editors: string[],
+      _data: ERC1155DataStruct,
+      _slug: string,
+      _roles: RolesStruct,
+      _factory: string,
       overrides?: Overrides & { from?: string }
     ): Promise<BigNumber>;
 
@@ -1932,18 +2052,18 @@ export interface SX1155NFT extends BaseContract {
     maxArraySize(overrides?: CallOverrides): Promise<BigNumber>;
 
     mint(
-      _to: string,
-      _quantity: BigNumberish,
-      _tokenURI: string,
-      _slug: string,
+      to: string,
+      quantity: BigNumberish,
+      tokenURI: string,
+      slug: string,
       overrides?: Overrides & { from?: string }
     ): Promise<BigNumber>;
 
     mintBatch(
-      _accounts: string[],
-      _quantities: BigNumberish[],
-      _tokenURIs: string[],
-      _slug: string[],
+      accounts: string[],
+      quantities: BigNumberish[],
+      tokenURIs: string[],
+      slug: string[],
       overrides?: Overrides & { from?: string }
     ): Promise<BigNumber>;
 
@@ -2019,8 +2139,13 @@ export interface SX1155NFT extends BaseContract {
       overrides?: Overrides & { from?: string }
     ): Promise<BigNumber>;
 
-    setKya(
-      _kya: string,
+    setContractKya(
+      Kya: string,
+      overrides?: Overrides & { from?: string }
+    ): Promise<BigNumber>;
+
+    setContractSlug(
+      slug: string,
       overrides?: Overrides & { from?: string }
     ): Promise<BigNumber>;
 
@@ -2037,11 +2162,12 @@ export interface SX1155NFT extends BaseContract {
     ): Promise<BigNumber>;
 
     setTokenKya(
-      _id: BigNumberish,
-      _kya: string,
-      _slug: string,
+      tokenId: BigNumberish,
+      Kya: string,
       overrides?: Overrides & { from?: string }
     ): Promise<BigNumber>;
+
+    slugToTokenId(slug: string, overrides?: CallOverrides): Promise<BigNumber>;
 
     supportsInterface(
       interfaceId: BytesLike,
@@ -2056,16 +2182,14 @@ export interface SX1155NFT extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    tokenKya(_id: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
-
-    tokenUri(_id: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
-
-    totalSupply(
-      _id: BigNumberish,
+    tokenIdToSlug(
+      tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    totalTokenIdsSupply(
+    tokenKya(_id: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
+
+    totalSupply(
       _id: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
@@ -2073,6 +2197,12 @@ export interface SX1155NFT extends BaseContract {
     transferOwnership(
       newOwner: string,
       overrides?: PayableOverrides & { from?: string }
+    ): Promise<BigNumber>;
+
+    updateTokenSlug(
+      tokenId: BigNumberish,
+      slug: string,
+      overrides?: Overrides & { from?: string }
     ): Promise<BigNumber>;
 
     upgradeToAndCall(
@@ -2104,8 +2234,8 @@ export interface SX1155NFT extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     burn(
-      _id: BigNumberish,
-      _quantity: BigNumberish,
+      tokenId: BigNumberish,
+      quantity: BigNumberish,
       overrides?: Overrides & { from?: string }
     ): Promise<PopulatedTransaction>;
 
@@ -2124,6 +2254,8 @@ export interface SX1155NFT extends BaseContract {
       overrides?: PayableOverrides & { from?: string }
     ): Promise<PopulatedTransaction>;
 
+    contractSlug(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     contractURI(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     currentAttestationId(
@@ -2138,6 +2270,8 @@ export interface SX1155NFT extends BaseContract {
       overrides?: Overrides & { from?: string }
     ): Promise<PopulatedTransaction>;
 
+    factory(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     forceBurn(
       from: string,
       tokenId: BigNumberish,
@@ -2147,9 +2281,9 @@ export interface SX1155NFT extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     forceBurnBatch(
-      _accounts: string[],
-      _tokenIds: BigNumberish[],
-      _quantities: BigNumberish[],
+      accounts: string[],
+      tokenIds: BigNumberish[],
+      quantities: BigNumberish[],
       reason: string,
       overrides?: Overrides & { from?: string }
     ): Promise<PopulatedTransaction>;
@@ -2180,12 +2314,10 @@ export interface SX1155NFT extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     initialize(
-      _name: string,
-      _symbol: string,
-      _kya: string,
-      _owner: string,
-      _admins: string[],
-      _editors: string[],
+      _data: ERC1155DataStruct,
+      _slug: string,
+      _roles: RolesStruct,
+      _factory: string,
       overrides?: Overrides & { from?: string }
     ): Promise<PopulatedTransaction>;
 
@@ -2206,18 +2338,18 @@ export interface SX1155NFT extends BaseContract {
     maxArraySize(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     mint(
-      _to: string,
-      _quantity: BigNumberish,
-      _tokenURI: string,
-      _slug: string,
+      to: string,
+      quantity: BigNumberish,
+      tokenURI: string,
+      slug: string,
       overrides?: Overrides & { from?: string }
     ): Promise<PopulatedTransaction>;
 
     mintBatch(
-      _accounts: string[],
-      _quantities: BigNumberish[],
-      _tokenURIs: string[],
-      _slug: string[],
+      accounts: string[],
+      quantities: BigNumberish[],
+      tokenURIs: string[],
+      slug: string[],
       overrides?: Overrides & { from?: string }
     ): Promise<PopulatedTransaction>;
 
@@ -2295,8 +2427,13 @@ export interface SX1155NFT extends BaseContract {
       overrides?: Overrides & { from?: string }
     ): Promise<PopulatedTransaction>;
 
-    setKya(
-      _kya: string,
+    setContractKya(
+      Kya: string,
+      overrides?: Overrides & { from?: string }
+    ): Promise<PopulatedTransaction>;
+
+    setContractSlug(
+      slug: string,
       overrides?: Overrides & { from?: string }
     ): Promise<PopulatedTransaction>;
 
@@ -2313,10 +2450,14 @@ export interface SX1155NFT extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     setTokenKya(
-      _id: BigNumberish,
-      _kya: string,
-      _slug: string,
+      tokenId: BigNumberish,
+      Kya: string,
       overrides?: Overrides & { from?: string }
+    ): Promise<PopulatedTransaction>;
+
+    slugToTokenId(
+      slug: string,
+      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     supportsInterface(
@@ -2332,12 +2473,12 @@ export interface SX1155NFT extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    tokenKya(
-      _id: BigNumberish,
+    tokenIdToSlug(
+      tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    tokenUri(
+    tokenKya(
       _id: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
@@ -2347,14 +2488,15 @@ export interface SX1155NFT extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    totalTokenIdsSupply(
-      _id: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
     transferOwnership(
       newOwner: string,
       overrides?: PayableOverrides & { from?: string }
+    ): Promise<PopulatedTransaction>;
+
+    updateTokenSlug(
+      tokenId: BigNumberish,
+      slug: string,
+      overrides?: Overrides & { from?: string }
     ): Promise<PopulatedTransaction>;
 
     upgradeToAndCall(
