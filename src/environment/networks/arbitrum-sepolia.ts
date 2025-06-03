@@ -3,7 +3,7 @@ import { ArbitrumSepolia, Chain } from '@thirdweb-dev/chains'
 import { environment } from 'src/environment'
 
 export const arbitrumSepoliaEnvironment: NetworkConfiguration = Object.freeze({
-  subgraphURL: `https://gateway.thegraph.com/api/${environment.subgraphApiKey}/subgraphs/id/5e8ucLJSGPd2fy54u8GuaLctKHSWPctUPLYqtTHpL1JX`,
+  subgraphURL: `https://api.studio.thegraph.com/query/60829/chain-wiki-testnet/v0.2.5`,
   contracts: {
     sx1155NFTFactoryAddress: '0xe3d5D82bFc090285FC2045a66F8eEdDEbE0dB9b5',
   },
