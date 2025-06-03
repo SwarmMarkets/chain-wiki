@@ -14,7 +14,7 @@ export type Cursor =
   | 'pointer'
   | 'default'
 
-interface IconProps
+export interface IconProps
   extends HTMLAttributes<HTMLDivElement>,
     SpaceProps,
     PositionProps {

@@ -12,35 +12,16 @@
     "layout": "Layout",
     "navigation": {
       "general": {
-        "title": "General settings",
-        "links": {
-          "general": {
-            "label": "General",
-            "icon": "settings"
-          }
-        }
+        "label": "General"
       },
-      "accessControl": {
-        "title": "Access control",
-        "links": {
-          "roles": {
-            "label": "Roles",
-            "icon": "roles"
-          }
-        }
+      "roles": {
+        "label": "Roles"
       },
-      "layoutPreferences": {
-        "title": "Preferences and layout",
-        "links": {
-          "contentEditor": {
-            "label": "Content editor",
-            "icon": "contentEditor"
-          },
-          "layout": {
-            "label": "Layout",
-            "icon": "layout"
-          }
-        }
+      "attestators": {
+        "label": "Attestors"
+      },
+      "ens": {
+        "label": "ENS Domain"
       },
       "integration": {
         "label": "Integration"
@@ -59,11 +40,6 @@
       "title": "Smart contract",
       "description": "The link to the smart contract which represents your site."
     },
-    "roleManager": {
-      "title": "Site roles",
-      "subtitle": "Manage site roles",
-      "description": "This page is dedicated to managing user roles within the site. It allows for the assignment and adjustment of roles to ensure proper access control and responsibility distribution across the team."
-    },
     "icon": {
       "title": "Icon",
       "description": "A small image that represents your brand or app.",
@@ -76,10 +52,6 @@
     "headerColor": {
       "title": "Header color",
       "description": "Select a new color for the header using the color picker"
-    },
-    "editPageContent": {
-      "title": "Edit page content",
-      "description": "Update the content of your page when published."
     },
     "editHeaderLinks": {
       "title": "Header",
@@ -131,6 +103,92 @@
     "linksColor": {
       "title": "Links color",
       "description": "Sets the color of the title links in the header"
+    },
+    "roleManager": {
+      "title": "Site roles",
+      "subtitle": "Manage site roles",
+      "description": "This page is dedicated to managing user roles within the site. It allows for the assignment and adjustment of roles to ensure proper access control and responsibility distribution across the team.",
+      "tableHead": {
+        "address": "Address",
+        "role": "Role"
+      },
+      "actions": {
+        "grantRole": "Grant role",
+        "revokeRole": "Revoke role"
+      },
+      "form": {
+        "grantRole": "Enter the user's Ethereum address to assign a role",
+        "role": "Role"
+      },
+      "formPlaceholders": {
+        "role": "Select role",
+        "name": "Enter username"
+      },
+      "formErrors": {
+        "to": {
+          "required": "User address is required",
+          "invalid": "User address is invalid"
+        },
+        "role": {
+          "required": "Role is required"
+        }
+      },
+      "messages": {
+        "editNft": "Edit site",
+        "you": "You"
+      },
+      "roles": {
+        "admin": "Admin",
+        "editor": "Editor",
+        "issuer": "Issuer"
+      }
+    },
+    "attestatorsManager": {
+      "title": "Manage preferred attestors",
+      "subtitle": "Highlight trusted voices across your site",
+      "description": "Select and manage preferred users whose attestations will appear at the top of relevant content and be marked with a checkmark icon. This feature helps surface trusted opinions and enhances credibility for your readers.",
+      "tableHead": {
+        "address": "Address"
+      },
+      "actions": {
+        "makePreferred": "Make preferred",
+        "removePreferred": "Remove preferred"
+      },
+      "formPlaceholders": {
+        "makePreferred": "Enter the user's Ethereum address",
+        "name": "Enter name (only visible to you)"
+      },
+      "formErrors": {
+        "address": {
+          "required": "User address is required",
+          "invalid": "User address is invalid"
+        }
+      },
+      "messages": {
+        "you": "You"
+      }
+    },
+    "ens": {
+      "title": "Connect ENS Domain",
+      "subtitle": "Link your ENS domain to your ChainWiki site",
+      "description": "Connect with the wallet that owns your ENS domain to link it to your ChainWiki site. Once configured, visiting your ENS domain will automatically redirect to your ChainWiki site.",
+      "actions": {
+        "set": "Set ENS"
+      },
+      "formPlaceholders": {
+        "domain": "Enter your ENS domain"
+      },
+      "formErrors": {
+        "domain": {
+          "required": "User address is required",
+          "invalid": "Please enter a valid ENS domain (e.g., myname.eth)"
+        }
+      },
+      "messages": {
+        "notOwned": "You don't own this ENS domain",
+        "failed": "Failed to set ENS domain",
+        "success": "Successfully set ENS domain"
+      }
     }
   },
   "createNft": {
@@ -172,38 +230,6 @@
     "title": "Site created",
     "description": "Your site is visible on \"My sites\" page."
   },
-  "roleManager": {
-    "tableHead": {
-      "address": "Address",
-      "role": "Role"
-    },
-    "actions": {
-      "grantRole": "Grant role",
-      "revokeRole": "Revoke role"
-    },
-    "form": {
-      "grantRole": "Enter the user's Ethereum address to assign a role",
-      "role": "Role"
-    },
-    "formPlaceholders": {
-      "role": "Select role",
-      "name": "Enter username"
-    },
-    "formErrors": {
-      "to": {
-        "required": "User address is required",
-        "invalid": "User address is invalid"
-      },
-      "role": {
-        "required": "Role is required"
-      }
-    }
-  },
-  "roles": {
-    "admin": "Admin",
-    "editor": "Editor",
-    "issuer": "Issuer"
-  },
   "indexPages": {
     "noIndexPages": "No index pages yet",
     "noTokens": "No pages yet",
@@ -211,13 +237,10 @@
     "noPagesInActiveList": "Move the pages you want to show here",
     "noPagesInHiddenList": "Move the pages you want to hide here"
   },
-  "messages": {
-    "editNft": "Edit site",
-    "addLogo": "Add logo",
-    "noContent": "No content yet",
-    "you": "You"
-  },
   "card": {
     "lastEdited": "Last edited {{date}}"
+  },
+  "messages": {
+    "noContent": "No content yet"
   }
 }

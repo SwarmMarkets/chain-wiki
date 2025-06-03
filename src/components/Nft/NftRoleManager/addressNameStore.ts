@@ -1,10 +1,16 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-import { Roles } from 'src/shared/enums/roles'
+import { ExtendedRoles, Roles } from 'src/shared/enums/roles'
+
+
 
 type AddressNameStore = {
   addressNames: Record<string, string>
-  setAddressName: (address: string, role: Roles, name: string) => void
+  setAddressName: (
+    address: string,
+    role: Roles | ExtendedRoles,
+    name: string
+  ) => void
 }
 
 export const useAddressNameStore = create<AddressNameStore>()(

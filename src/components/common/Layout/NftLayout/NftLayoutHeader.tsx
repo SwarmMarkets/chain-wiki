@@ -1,5 +1,4 @@
 import React from 'react'
-import { useTranslation } from 'react-i18next'
 import { generatePath, Link, useNavigate, useParams } from 'react-router-dom'
 import useEdit from 'src/components/Edit/useEdit'
 import useNFTRoleManager from 'src/components/Nft/NftRoleManager/useNFTRoleManager'
@@ -12,6 +11,9 @@ import { Roles } from 'src/shared/enums'
 import RoutePaths, { RoutePathSetting } from 'src/shared/enums/routes-paths'
 import { NFTWithMetadata } from 'src/shared/utils'
 import NftHeaderSkeleton from './NftHeaderSkeleton'
+import { useToastManager } from 'src/hooks/useToastManager'
+import { useTranslation } from 'react-i18next'
+import Icon from 'src/components/ui-kit/Icon/Icon'
 
 interface NftLayoutHeaderProps {
   nft: NFTWithMetadata | null
@@ -20,7 +22,7 @@ interface NftLayoutHeaderProps {
 
 const NftLayoutHeader: React.FC<NftLayoutHeaderProps> = ({ nft, loading }) => {
   const { nftId = '' } = useParams()
-  const { t } = useTranslation(['layout', 'buttons'])
+  const { t } = useTranslation(['layout', 'buttons', 'common'])
   const { setting = null } = useParams<{ setting: RoutePathSetting }>()
   const navigate = useNavigate()
 
@@ -28,12 +30,36 @@ const NftLayoutHeader: React.FC<NftLayoutHeaderProps> = ({ nft, loading }) => {
   const { smartAccountPermissions } = useNftPermissions(nftId)
   const { grantRole, txLoading } = useNFTRoleManager(nftId)
   const { merge, mergeLoading } = useEdit()
+  const { addToast } = useToastManager()
 
   const isEditMode = window.location.pathname.includes('edit')
 
   const grantRoleForSmartAccount = async () => {
     if (smartAccountInfo?.address) {
       grantRole(smartAccountInfo?.address, Roles.EDITOR)
+    }
+  }
+
+  const handleMerge = async () => {
+    try {
+      await merge()
+      const siteUrl = generatePath(RoutePaths.NFT_READ, { nftId })
+
+      addToast(
+        <>
+          {t('toasts.siteUpdated', { ns: 'common' })}{' '}
+          <Link
+            to={siteUrl}
+            target='_blank'
+            className='underline text-main-accent hover:text-main'
+          >
+            {t('toasts.viewSite', { ns: 'common' })}
+          </Link>
+        </>,
+        { type: 'success' }
+      )
+    } catch (error) {
+      addToast(t('toasts.merge_error', { ns: 'common' }), { type: 'error' })
     }
   }
 
@@ -55,7 +81,7 @@ const NftLayoutHeader: React.FC<NftLayoutHeaderProps> = ({ nft, loading }) => {
           onChange={value =>
             navigate(
               generatePath(RoutePaths.SETTINGS, {
-                setting: value as RoutePathSetting,
+                setting: value,
                 nftId,
               })
             )
@@ -97,24 +123,35 @@ const NftLayoutHeader: React.FC<NftLayoutHeaderProps> = ({ nft, loading }) => {
           {isEditMode ? (
             !smartAccountPermissions.canUpdateContent ? (
               <Button
-                className='px-8'
+                size='sm'
                 loading={txLoading}
                 onClick={grantRoleForSmartAccount}
               >
-                Enable batch editing
+                {t('enableBatchEditing', { ns: 'buttons' })}
               </Button>
             ) : (
               <Button
-                className='px-8'
+                size='sm'
                 loading={mergeLoading}
-                onClick={merge}
+                onClick={handleMerge}
                 disabled={!smartAccountPermissions.canUpdateContent}
               >
-                {t('merge', { ns: 'buttons' })}
+                {t('publish', { ns: 'buttons' })}
               </Button>
             )
           ) : (
-            <Button className='px-8'>{t('edit', { ns: 'buttons' })}</Button>
+            <Button
+              StartAdornment={
+                <Icon
+                  size={20}
+                  name='edit-paper'
+                  className='text-primary-contrast'
+                />
+              }
+              size='sm'
+            >
+              {t('edit', { ns: 'buttons' })}
+            </Button>
           )}
         </Link>
         {!isEditMode && (
@@ -122,7 +159,18 @@ const NftLayoutHeader: React.FC<NftLayoutHeaderProps> = ({ nft, loading }) => {
             to={generatePath(RoutePaths.NFT_READ, { nftId })}
             target='_blank'
           >
-            <Button>{t('visit', { ns: 'buttons' })}</Button>
+            <Button
+              size='sm'
+              StartAdornment={
+                <Icon
+                  size={20}
+                  name='external-link'
+                  className='text-primary-contrast'
+                />
+              }
+            >
+              {t('visit', { ns: 'buttons' })}
+            </Button>
           </Link>
         )}
       </div>

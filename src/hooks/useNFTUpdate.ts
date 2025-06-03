@@ -21,6 +21,8 @@ export interface NFTContentToUpdate {
   uri?: string
   indexPagesUri?: string | null
   headerLinksUri?: string | null
+  preferredAttestatorToAdd?: string
+  preferredAttestatorToRemove?: string
 }
 
 const useNFTUpdate = (nftAddress: string) => {
@@ -86,7 +88,7 @@ const useNFTUpdate = (nftAddress: string) => {
     (nftContentToUpdate: NFTContentToUpdate) => {
       const nftUpdateJson = JSON.stringify(nftContentToUpdate)
 
-      return call('setContractUri', [nftUpdateJson])
+      return call('setKya', [nftUpdateJson])
     },
     [call]
   )

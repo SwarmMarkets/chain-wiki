@@ -9,13 +9,14 @@ import { Roles } from 'src/shared/enums/roles'
 import ExplorerLink from '../../common/ExplorerLink'
 import GrantRoleForm from './GrantRoleForm'
 import RevokeRoleButton from './RevokeRoleButton'
+import Table from 'src/components/ui-kit/Table'
 
 interface NftRoleManagerProps {
   nftAddress: string
 }
 
 const NftRoleManager: React.FC<NftRoleManagerProps> = ({ nftAddress }) => {
-  const { t } = useTranslation('nft')
+  const { t } = useTranslation('nft', { keyPrefix: 'settings.roleManager' })
   const { nft } = useNFTRoles(nftAddress)
   const { smartAccountInfo } = useSmartAccount()
   const { addressNames } = useAddressNameStore()
@@ -52,44 +53,38 @@ const NftRoleManager: React.FC<NftRoleManagerProps> = ({ nftAddress }) => {
 
   return (
     <>
-      <table className='w-full overflow-hidden'>
-        <thead className='border-b border-main'>
-          <tr>
-            <th className='p-3 text-left font-semibold'>
-              {t('roleManager.tableHead.address')}
-            </th>
-            <th className='p-3 text-left font-semibold'>
-              {t('roleManager.tableHead.role')}
-            </th>
-            <th className='p-3 text-left'></th>
-          </tr>
-        </thead>
-        <tbody>
+      <Table.Root>
+        <Table.Header>
+          <Table.HeaderRow>
+            <Table.HeadCell>{t('tableHead.address')}</Table.HeadCell>
+            <Table.HeadCell>{t('tableHead.role')}</Table.HeadCell>
+            <Table.HeadCell></Table.HeadCell>
+          </Table.HeaderRow>
+        </Table.Header>
+        <Table.Body>
           {users.map(user => (
-            <tr
-              key={`${user.address}-${user.role}`}
-              className='hover:bg-primary-muted border-b border-main'
-            >
-              <td className='p-3'>
+            <Table.Row key={`${user.address}-${user.role}`}>
+              <Table.Cell>
                 <ExplorerLink type='address' hash={user.address}>
                   <div className='font-semibold'>{user.displayName}</div>
                   {user.displayName !== user.address && (
                     <div className='text-sm'>{user.address}</div>
                   )}
                 </ExplorerLink>
-              </td>
-              <td className='p-3'>{user.role}</td>
-              <td className='p-3'>
+              </Table.Cell>
+              <Table.Cell>{user.role}</Table.Cell>
+              <Table.Cell>
                 <RevokeRoleButton
                   from={user.address}
                   role={user.roleType}
                   nftAddress={nftAddress}
                 />
-              </td>
-            </tr>
+              </Table.Cell>
+            </Table.Row>
           ))}
-        </tbody>
-      </table>
+        </Table.Body>
+      </Table.Root>
+
       <div className='mt-4'>
         <GrantRoleForm nftAddress={nftAddress} />
       </div>

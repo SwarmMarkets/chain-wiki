@@ -8,6 +8,7 @@ import {
 import React, { MouseEvent } from 'react'
 import staticConfig from 'src/config'
 import Button, { ButtonProps } from './ui-kit/Button/Button'
+import { useTranslation } from 'react-i18next'
 
 export interface SmartButtonProps extends ButtonProps {
   requireAccount?: boolean
@@ -27,6 +28,7 @@ const SmartButton: React.FC<SmartButtonProps> = ({
   loading,
   ...rest
 }) => {
+  const { t } = useTranslation('connectWallet')
   const account = useAddress()
   const activeChainId = useChainId()
   const setIsWalletModalOpen = useSetIsWalletModalOpen()
@@ -37,12 +39,12 @@ const SmartButton: React.FC<SmartButtonProps> = ({
 
   const needConnect = requireAccount && !account
   const needSwitch = requireChain && activeChainId !== targetChainId
-
   // If a connection or network switch is needed, ignore the passed disabled prop.
   const isDisabled = (!needConnect && !needSwitch && disabledProp) || loading
 
   const handleClick = async (e: MouseEvent<HTMLButtonElement>) => {
     if (needConnect) {
+      e.preventDefault()
       setWalletModalConfig({
         modalSize: 'compact',
         theme: 'light',
@@ -52,15 +54,17 @@ const SmartButton: React.FC<SmartButtonProps> = ({
     }
 
     if (needSwitch) {
+      e.preventDefault()
       await switchNetwork(targetChainId)
+      return
     }
 
     onClick?.(e)
   }
 
   const renderButtonContent = () => {
-    if (needConnect) return 'Connect wallet'
-    if (needSwitch) return 'Switch network'
+    if (needConnect) return t('connectWalletToComment')
+    if (needSwitch) return t('switchNetwork')
     return children
   }
 

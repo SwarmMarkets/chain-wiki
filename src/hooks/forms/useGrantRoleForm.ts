@@ -6,13 +6,13 @@ import { Roles } from 'src/shared/enums'
 
 export interface GrantRoleFormInputs {
   to: string
-  name: string
+  name?: string
   role: Roles
 }
 
 const useGrantRoleForm = () => {
   const { t } = useTranslation('nft', {
-    keyPrefix: 'roleManager.formErrors',
+    keyPrefix: 'settings.roleManager.formErrors',
   })
   const resolver = useYupValidationResolver(
     yup.object({

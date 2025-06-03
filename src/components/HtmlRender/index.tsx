@@ -1,5 +1,5 @@
+import clsx from 'clsx'
 import { forwardRef, useEffect } from 'react'
-import { HtmlWrapper } from './styled-components'
 import styled from 'styled-components'
 
 export interface HtmlRenderProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -8,13 +8,14 @@ export interface HtmlRenderProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 const HtmlRender = forwardRef<HTMLDivElement, HtmlRenderProps>(
-  ({ html, onMount, ...props }, ref) => {
+  ({ html, onMount, className, ...props }, ref) => {
     useEffect(() => {
       onMount && onMount()
     }, [onMount])
 
     return (
-      <div className='prose'
+      <div
+        className={clsx('prose', className)}
         ref={ref}
         dangerouslySetInnerHTML={{ __html: html }}
         {...props}

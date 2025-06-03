@@ -27,6 +27,7 @@ export const NFTsQuery = graphql(`
       iconLogoUrl
       admins
       editors
+      preferredAttestators
     }
   }
 `)

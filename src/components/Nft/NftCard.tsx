@@ -20,7 +20,7 @@ interface NftCardProps {
 }
 
 const NftCard: React.FC<NftCardProps> = ({ nft, className }) => {
-  const { t } = useTranslation(['nft', 'nfts'])
+  const { t } = useTranslation(['nft', 'nfts', 'buttons'])
   const account = useAddress()
   const { signTransaction, tx } = useNFTUpdate(nft.id)
 
@@ -63,7 +63,7 @@ const NftCard: React.FC<NftCardProps> = ({ nft, className }) => {
               onUpload={handleUploadLogo}
               variant='outlined'
             >
-              {t('messages.addLogo')}
+              {t('addLogo', { ns: 'buttons' })}
             </UploadFileButton>
           </RequirePermissions>
         )}

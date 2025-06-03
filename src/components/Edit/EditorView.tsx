@@ -1,31 +1,26 @@
 import { MDXEditorMethods } from '@mdxeditor/editor'
-import React, { useEffect, useMemo, useRef, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import React, { useRef } from 'react'
 import Editor from 'src/components/Editor'
+import useEffectCompare from 'src/hooks/useEffectCompare'
 import { useEditingStore } from 'src/shared/store/editing-store'
-import { NFTWithMetadata } from 'src/shared/utils'
+import { generateSlug } from './utils'
 
 interface EditorViewProps {
-  nft: NFTWithMetadata
   content: string
 }
 
-const EditorView: React.FC<EditorViewProps> = ({ nft, content }) => {
-  const { nftId = '' } = useParams()
-
+const EditorView: React.FC<EditorViewProps> = ({ content }) => {
   const {
     currEditableToken,
-    editedNft,
     getEditedTokenById,
     getAddedTokenById,
     updateOrCreateEditedToken,
     updateOrCreateAddedToken,
-    updateNft,
   } = useEditingStore()
 
   const mdxRef = useRef<MDXEditorMethods>(null)
 
-  useEffect(() => {
+  useEffectCompare(() => {
     if (!currEditableToken) return
     mdxRef.current?.setMarkdown(content)
   }, [currEditableToken])
@@ -43,10 +38,11 @@ const EditorView: React.FC<EditorViewProps> = ({ nft, content }) => {
         name:
           getEditedTokenById(currEditableToken.id)?.name ||
           currEditableToken.name,
+        slug:
+          getEditedTokenById(currEditableToken.id)?.slug ||
+          generateSlug(currEditableToken.name),
         content,
       })
-    } else {
-      updateNft({ id: nftId, name: editedNft?.name || nft.name, content })
     }
   }
 

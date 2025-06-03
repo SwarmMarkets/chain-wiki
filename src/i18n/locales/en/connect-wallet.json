@@ -1,4 +1,6 @@
 {
+  "connectWalletToComment": "Connect wallet to comment",
+  "switchNetwork": "Switch network",
   "title": "Sign in to ChainWiki",
   "orExplorePublicWikisPart1": "or explore ",
   "orExplorePublicWikisPart2": "public wikis"

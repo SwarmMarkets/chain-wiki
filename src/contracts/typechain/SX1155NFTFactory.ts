@@ -8,6 +8,7 @@ import type {
   CallOverrides,
   ContractTransaction,
   Overrides,
+  PayableOverrides,
   PopulatedTransaction,
   Signer,
   utils,
@@ -25,51 +26,186 @@ import type {
   OnEvent,
 } from "./common";
 
-export type ERC1155DataStruct = { name: string; symbol: string; kya: string };
-
-export type ERC1155DataStructOutput = [string, string, string] & {
-  name: string;
-  symbol: string;
-  kya: string;
-};
-
 export interface SX1155NFTFactoryInterface extends utils.Interface {
   functions: {
-    "deployChainWiki((string,string,string),address,address)": FunctionFragment;
+    "cancelOwnershipHandover()": FunctionFragment;
+    "completeOwnershipHandover(address)": FunctionFragment;
+    "currentImplementation()": FunctionFragment;
+    "deployChainWiki(string,string,string,address,address[],address[])": FunctionFragment;
+    "owner()": FunctionFragment;
+    "ownershipHandoverExpiresAt(address)": FunctionFragment;
+    "renounceOwnership()": FunctionFragment;
+    "requestOwnershipHandover()": FunctionFragment;
+    "transferOwnership(address)": FunctionFragment;
+    "upgradeImplementation(address)": FunctionFragment;
   };
 
-  getFunction(nameOrSignatureOrTopic: "deployChainWiki"): FunctionFragment;
+  getFunction(
+    nameOrSignatureOrTopic:
+      | "cancelOwnershipHandover"
+      | "completeOwnershipHandover"
+      | "currentImplementation"
+      | "deployChainWiki"
+      | "owner"
+      | "ownershipHandoverExpiresAt"
+      | "renounceOwnership"
+      | "requestOwnershipHandover"
+      | "transferOwnership"
+      | "upgradeImplementation"
+  ): FunctionFragment;
 
   encodeFunctionData(
+    functionFragment: "cancelOwnershipHandover",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "completeOwnershipHandover",
+    values: [string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "currentImplementation",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
     functionFragment: "deployChainWiki",
-    values: [ERC1155DataStruct, string, string]
+    values: [string, string, string, string, string[], string[]]
+  ): string;
+  encodeFunctionData(functionFragment: "owner", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "ownershipHandoverExpiresAt",
+    values: [string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "renounceOwnership",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "requestOwnershipHandover",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "transferOwnership",
+    values: [string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "upgradeImplementation",
+    values: [string]
   ): string;
 
+  decodeFunctionResult(
+    functionFragment: "cancelOwnershipHandover",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "completeOwnershipHandover",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "currentImplementation",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "deployChainWiki",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "ownershipHandoverExpiresAt",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "renounceOwnership",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "requestOwnershipHandover",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "transferOwnership",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "upgradeImplementation",
+    data: BytesLike
+  ): Result;
 
   events: {
-    "ChainWikiDeployed(address,(string,string,string),address,address)": EventFragment;
+    "ChainWikiDeployed(address,string,string,string,address,address[],address[])": EventFragment;
+    "ImplementationUpgraded(address)": EventFragment;
+    "OwnershipHandoverCanceled(address)": EventFragment;
+    "OwnershipHandoverRequested(address)": EventFragment;
+    "OwnershipTransferred(address,address)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "ChainWikiDeployed"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "ImplementationUpgraded"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "OwnershipHandoverCanceled"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "OwnershipHandoverRequested"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
 }
 
 export interface ChainWikiDeployedEventObject {
   deployedAddress: string;
-  tokenParams: ERC1155DataStructOutput;
-  admin: string;
-  editor: string;
+  name: string;
+  symbol: string;
+  kya: string;
+  owner: string;
+  admin: string[];
+  editor: string[];
 }
 export type ChainWikiDeployedEvent = TypedEvent<
-  [string, ERC1155DataStructOutput, string, string],
+  [string, string, string, string, string, string[], string[]],
   ChainWikiDeployedEventObject
 >;
 
 export type ChainWikiDeployedEventFilter =
   TypedEventFilter<ChainWikiDeployedEvent>;
+
+export interface ImplementationUpgradedEventObject {
+  newImplementation: string;
+}
+export type ImplementationUpgradedEvent = TypedEvent<
+  [string],
+  ImplementationUpgradedEventObject
+>;
+
+export type ImplementationUpgradedEventFilter =
+  TypedEventFilter<ImplementationUpgradedEvent>;
+
+export interface OwnershipHandoverCanceledEventObject {
+  pendingOwner: string;
+}
+export type OwnershipHandoverCanceledEvent = TypedEvent<
+  [string],
+  OwnershipHandoverCanceledEventObject
+>;
+
+export type OwnershipHandoverCanceledEventFilter =
+  TypedEventFilter<OwnershipHandoverCanceledEvent>;
+
+export interface OwnershipHandoverRequestedEventObject {
+  pendingOwner: string;
+}
+export type OwnershipHandoverRequestedEvent = TypedEvent<
+  [string],
+  OwnershipHandoverRequestedEventObject
+>;
+
+export type OwnershipHandoverRequestedEventFilter =
+  TypedEventFilter<OwnershipHandoverRequestedEvent>;
+
+export interface OwnershipTransferredEventObject {
+  oldOwner: string;
+  newOwner: string;
+}
+export type OwnershipTransferredEvent = TypedEvent<
+  [string, string],
+  OwnershipTransferredEventObject
+>;
+
+export type OwnershipTransferredEventFilter =
+  TypedEventFilter<OwnershipTransferredEvent>;
 
 export interface SX1155NFTFactory extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
@@ -98,59 +234,286 @@ export interface SX1155NFTFactory extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
+    cancelOwnershipHandover(
+      overrides?: PayableOverrides & { from?: string }
+    ): Promise<ContractTransaction>;
+
+    completeOwnershipHandover(
+      pendingOwner: string,
+      overrides?: PayableOverrides & { from?: string }
+    ): Promise<ContractTransaction>;
+
+    currentImplementation(overrides?: CallOverrides): Promise<[string]>;
+
     deployChainWiki(
-      tokenParams: ERC1155DataStruct,
-      _admin: string,
-      _editor: string,
+      _name: string,
+      _symbol: string,
+      _kya: string,
+      _owner: string,
+      _admins: string[],
+      _editors: string[],
+      overrides?: Overrides & { from?: string }
+    ): Promise<ContractTransaction>;
+
+    owner(overrides?: CallOverrides): Promise<[string] & { result: string }>;
+
+    ownershipHandoverExpiresAt(
+      pendingOwner: string,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber] & { result: BigNumber }>;
+
+    renounceOwnership(
+      overrides?: PayableOverrides & { from?: string }
+    ): Promise<ContractTransaction>;
+
+    requestOwnershipHandover(
+      overrides?: PayableOverrides & { from?: string }
+    ): Promise<ContractTransaction>;
+
+    transferOwnership(
+      newOwner: string,
+      overrides?: PayableOverrides & { from?: string }
+    ): Promise<ContractTransaction>;
+
+    upgradeImplementation(
+      newImplementation: string,
       overrides?: Overrides & { from?: string }
     ): Promise<ContractTransaction>;
   };
 
+  cancelOwnershipHandover(
+    overrides?: PayableOverrides & { from?: string }
+  ): Promise<ContractTransaction>;
+
+  completeOwnershipHandover(
+    pendingOwner: string,
+    overrides?: PayableOverrides & { from?: string }
+  ): Promise<ContractTransaction>;
+
+  currentImplementation(overrides?: CallOverrides): Promise<string>;
+
   deployChainWiki(
-    tokenParams: ERC1155DataStruct,
-    _admin: string,
-    _editor: string,
+    _name: string,
+    _symbol: string,
+    _kya: string,
+    _owner: string,
+    _admins: string[],
+    _editors: string[],
+    overrides?: Overrides & { from?: string }
+  ): Promise<ContractTransaction>;
+
+  owner(overrides?: CallOverrides): Promise<string>;
+
+  ownershipHandoverExpiresAt(
+    pendingOwner: string,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
+
+  renounceOwnership(
+    overrides?: PayableOverrides & { from?: string }
+  ): Promise<ContractTransaction>;
+
+  requestOwnershipHandover(
+    overrides?: PayableOverrides & { from?: string }
+  ): Promise<ContractTransaction>;
+
+  transferOwnership(
+    newOwner: string,
+    overrides?: PayableOverrides & { from?: string }
+  ): Promise<ContractTransaction>;
+
+  upgradeImplementation(
+    newImplementation: string,
     overrides?: Overrides & { from?: string }
   ): Promise<ContractTransaction>;
 
   callStatic: {
+    cancelOwnershipHandover(overrides?: CallOverrides): Promise<void>;
+
+    completeOwnershipHandover(
+      pendingOwner: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    currentImplementation(overrides?: CallOverrides): Promise<string>;
+
     deployChainWiki(
-      tokenParams: ERC1155DataStruct,
-      _admin: string,
-      _editor: string,
+      _name: string,
+      _symbol: string,
+      _kya: string,
+      _owner: string,
+      _admins: string[],
+      _editors: string[],
       overrides?: CallOverrides
     ): Promise<string>;
+
+    owner(overrides?: CallOverrides): Promise<string>;
+
+    ownershipHandoverExpiresAt(
+      pendingOwner: string,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    renounceOwnership(overrides?: CallOverrides): Promise<void>;
+
+    requestOwnershipHandover(overrides?: CallOverrides): Promise<void>;
+
+    transferOwnership(
+      newOwner: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    upgradeImplementation(
+      newImplementation: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
   };
 
   filters: {
-    "ChainWikiDeployed(address,(string,string,string),address,address)"(
+    "ChainWikiDeployed(address,string,string,string,address,address[],address[])"(
       deployedAddress?: null,
-      tokenParams?: null,
+      name?: null,
+      symbol?: null,
+      kya?: null,
+      owner?: null,
       admin?: null,
       editor?: null
     ): ChainWikiDeployedEventFilter;
     ChainWikiDeployed(
       deployedAddress?: null,
-      tokenParams?: null,
+      name?: null,
+      symbol?: null,
+      kya?: null,
+      owner?: null,
       admin?: null,
       editor?: null
     ): ChainWikiDeployedEventFilter;
+
+    "ImplementationUpgraded(address)"(
+      newImplementation?: null
+    ): ImplementationUpgradedEventFilter;
+    ImplementationUpgraded(
+      newImplementation?: null
+    ): ImplementationUpgradedEventFilter;
+
+    "OwnershipHandoverCanceled(address)"(
+      pendingOwner?: string | null
+    ): OwnershipHandoverCanceledEventFilter;
+    OwnershipHandoverCanceled(
+      pendingOwner?: string | null
+    ): OwnershipHandoverCanceledEventFilter;
+
+    "OwnershipHandoverRequested(address)"(
+      pendingOwner?: string | null
+    ): OwnershipHandoverRequestedEventFilter;
+    OwnershipHandoverRequested(
+      pendingOwner?: string | null
+    ): OwnershipHandoverRequestedEventFilter;
+
+    "OwnershipTransferred(address,address)"(
+      oldOwner?: string | null,
+      newOwner?: string | null
+    ): OwnershipTransferredEventFilter;
+    OwnershipTransferred(
+      oldOwner?: string | null,
+      newOwner?: string | null
+    ): OwnershipTransferredEventFilter;
   };
 
   estimateGas: {
+    cancelOwnershipHandover(
+      overrides?: PayableOverrides & { from?: string }
+    ): Promise<BigNumber>;
+
+    completeOwnershipHandover(
+      pendingOwner: string,
+      overrides?: PayableOverrides & { from?: string }
+    ): Promise<BigNumber>;
+
+    currentImplementation(overrides?: CallOverrides): Promise<BigNumber>;
+
     deployChainWiki(
-      tokenParams: ERC1155DataStruct,
-      _admin: string,
-      _editor: string,
+      _name: string,
+      _symbol: string,
+      _kya: string,
+      _owner: string,
+      _admins: string[],
+      _editors: string[],
+      overrides?: Overrides & { from?: string }
+    ): Promise<BigNumber>;
+
+    owner(overrides?: CallOverrides): Promise<BigNumber>;
+
+    ownershipHandoverExpiresAt(
+      pendingOwner: string,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    renounceOwnership(
+      overrides?: PayableOverrides & { from?: string }
+    ): Promise<BigNumber>;
+
+    requestOwnershipHandover(
+      overrides?: PayableOverrides & { from?: string }
+    ): Promise<BigNumber>;
+
+    transferOwnership(
+      newOwner: string,
+      overrides?: PayableOverrides & { from?: string }
+    ): Promise<BigNumber>;
+
+    upgradeImplementation(
+      newImplementation: string,
       overrides?: Overrides & { from?: string }
     ): Promise<BigNumber>;
   };
 
   populateTransaction: {
+    cancelOwnershipHandover(
+      overrides?: PayableOverrides & { from?: string }
+    ): Promise<PopulatedTransaction>;
+
+    completeOwnershipHandover(
+      pendingOwner: string,
+      overrides?: PayableOverrides & { from?: string }
+    ): Promise<PopulatedTransaction>;
+
+    currentImplementation(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     deployChainWiki(
-      tokenParams: ERC1155DataStruct,
-      _admin: string,
-      _editor: string,
+      _name: string,
+      _symbol: string,
+      _kya: string,
+      _owner: string,
+      _admins: string[],
+      _editors: string[],
+      overrides?: Overrides & { from?: string }
+    ): Promise<PopulatedTransaction>;
+
+    owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    ownershipHandoverExpiresAt(
+      pendingOwner: string,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    renounceOwnership(
+      overrides?: PayableOverrides & { from?: string }
+    ): Promise<PopulatedTransaction>;
+
+    requestOwnershipHandover(
+      overrides?: PayableOverrides & { from?: string }
+    ): Promise<PopulatedTransaction>;
+
+    transferOwnership(
+      newOwner: string,
+      overrides?: PayableOverrides & { from?: string }
+    ): Promise<PopulatedTransaction>;
+
+    upgradeImplementation(
+      newImplementation: string,
       overrides?: Overrides & { from?: string }
     ): Promise<PopulatedTransaction>;
   };

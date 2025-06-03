@@ -1,4 +1,4 @@
-import { ethers } from 'ethers'
+import { ethers, PopulatedTransaction } from 'ethers'
 
 export const unifyAddressToId = (address: string) => {
   return address.toLowerCase()
@@ -82,6 +82,37 @@ export const resolveAllThirdwebTransactions = async (
   if (!thirdwebTxs) return []
   const resolvedTxs = await Promise.all(
     thirdwebTxs.map(tx => resolveThirdwebTransaction(tx))
+  )
+  return resolvedTxs.filter(
+    (tx): tx is TransactionBase => tx !== null && tx !== undefined
+  )
+}
+export const resolveEthersPopulatedTransaction = async (
+  ethersTx?: PopulatedTransaction
+): Promise<TransactionBase | null> => {
+  if (!ethersTx) return null
+
+  const to = ethersTx.to
+  const value = ethersTx.value?.toString() ?? ''
+  const data = ethersTx.data
+
+  if (to && data) {
+    return {
+      to,
+      value,
+      data,
+    }
+  }
+
+  return null
+}
+
+export const resolveAllEthersPopulatedTransactions = async (
+  ethersTxs?: PopulatedTransaction[]
+): Promise<TransactionBase[]> => {
+  if (!ethersTxs) return []
+  const resolvedTxs = await Promise.all(
+    ethersTxs.map(tx => resolveEthersPopulatedTransaction(tx))
   )
   return resolvedTxs.filter(
     (tx): tx is TransactionBase => tx !== null && tx !== undefined

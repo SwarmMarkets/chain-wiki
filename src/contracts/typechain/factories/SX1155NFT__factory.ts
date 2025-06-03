@@ -4,48 +4,11 @@
 
 import { Contract, Signer, utils } from "ethers";
 import type { Provider } from "@ethersproject/providers";
-import type {
-  SX1155NFT,
-  SX1155NFTInterface,
-  ERC1155DataStruct,
-} from "../SX1155NFT";
+import type { SX1155NFT, SX1155NFTInterface } from "../SX1155NFT";
 
 const _abi = [
   {
-    inputs: [
-      {
-        components: [
-          {
-            internalType: "string",
-            name: "name",
-            type: "string",
-          },
-          {
-            internalType: "string",
-            name: "symbol",
-            type: "string",
-          },
-          {
-            internalType: "string",
-            name: "kya",
-            type: "string",
-          },
-        ],
-        internalType: "struct ERC1155Data",
-        name: "tokenParams",
-        type: "tuple",
-      },
-      {
-        internalType: "address",
-        name: "_admin",
-        type: "address",
-      },
-      {
-        internalType: "address",
-        name: "_editor",
-        type: "address",
-      },
-    ],
+    inputs: [],
     stateMutability: "nonpayable",
     type: "constructor",
   },
@@ -130,6 +93,11 @@ const _abi = [
   },
   {
     inputs: [],
+    name: "InvalidInitialization",
+    type: "error",
+  },
+  {
+    inputs: [],
     name: "InvalidRequestId",
     type: "error",
   },
@@ -157,6 +125,11 @@ const _abi = [
       },
     ],
     name: "NotExists",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "NotInitializing",
     type: "error",
   },
   {
@@ -190,6 +163,33 @@ const _abi = [
     type: "error",
   },
   {
+    inputs: [
+      {
+        internalType: "string",
+        name: "slug",
+        type: "string",
+      },
+    ],
+    name: "SlugIsFulfilled",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "string",
+        name: "slug",
+        type: "string",
+      },
+      {
+        internalType: "uint256",
+        name: "id",
+        type: "uint256",
+      },
+    ],
+    name: "SlugShouldBeUnique",
+    type: "error",
+  },
+  {
     inputs: [],
     name: "TransferToNonERC1155ReceiverImplementer",
     type: "error",
@@ -202,6 +202,16 @@ const _abi = [
   {
     inputs: [],
     name: "Unauthorized",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "UnauthorizedCallContext",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "UpgradeFailed",
     type: "error",
   },
   {
@@ -382,6 +392,19 @@ const _abi = [
     inputs: [
       {
         indexed: false,
+        internalType: "uint64",
+        name: "version",
+        type: "uint64",
+      },
+    ],
+    name: "Initialized",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
         internalType: "address",
         name: "from",
         type: "address",
@@ -427,6 +450,12 @@ const _abi = [
         indexed: false,
         internalType: "string",
         name: "uri",
+        type: "string",
+      },
+      {
+        indexed: false,
+        internalType: "string",
+        name: "slug",
         type: "string",
       },
     ],
@@ -514,6 +543,25 @@ const _abi = [
       },
     ],
     name: "RoleSet",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "uint256",
+        name: "id",
+        type: "uint256",
+      },
+      {
+        indexed: true,
+        internalType: "string",
+        name: "slug",
+        type: "string",
+      },
+    ],
+    name: "SlugUpdated",
     type: "event",
   },
   {
@@ -657,6 +705,19 @@ const _abi = [
       },
     ],
     name: "URI",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "implementation",
+        type: "address",
+      },
+    ],
+    name: "Upgraded",
     type: "event",
   },
   {
@@ -994,6 +1055,44 @@ const _abi = [
   {
     inputs: [
       {
+        internalType: "string",
+        name: "_name",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "_symbol",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "_kya",
+        type: "string",
+      },
+      {
+        internalType: "address",
+        name: "_owner",
+        type: "address",
+      },
+      {
+        internalType: "address[]",
+        name: "_admins",
+        type: "address[]",
+      },
+      {
+        internalType: "address[]",
+        name: "_editors",
+        type: "address[]",
+      },
+    ],
+    name: "initialize",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
         internalType: "address",
         name: "owner",
         type: "address",
@@ -1076,6 +1175,11 @@ const _abi = [
         name: "_tokenURI",
         type: "string",
       },
+      {
+        internalType: "string",
+        name: "_slug",
+        type: "string",
+      },
     ],
     name: "mint",
     outputs: [],
@@ -1097,6 +1201,11 @@ const _abi = [
       {
         internalType: "string[]",
         name: "_tokenURIs",
+        type: "string[]",
+      },
+      {
+        internalType: "string[]",
+        name: "_slug",
         type: "string[]",
       },
     ],
@@ -1145,6 +1254,19 @@ const _abi = [
         internalType: "uint256",
         name: "result",
         type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "proxiableUUID",
+    outputs: [
+      {
+        internalType: "bytes32",
+        name: "",
+        type: "bytes32",
       },
     ],
     stateMutability: "view",
@@ -1324,6 +1446,19 @@ const _abi = [
     type: "function",
   },
   {
+    inputs: [],
+    name: "selfImplementation",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
     inputs: [
       {
         internalType: "address",
@@ -1345,11 +1480,11 @@ const _abi = [
     inputs: [
       {
         internalType: "string",
-        name: "_contractUri",
+        name: "_kya",
         type: "string",
       },
     ],
-    name: "setContractUri",
+    name: "setKya",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -1399,11 +1534,16 @@ const _abi = [
       },
       {
         internalType: "string",
-        name: "_uri",
+        name: "_kya",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "_slug",
         type: "string",
       },
     ],
-    name: "setTokenUri",
+    name: "setTokenKya",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -1549,6 +1689,24 @@ const _abi = [
       },
     ],
     name: "transferOwnership",
+    outputs: [],
+    stateMutability: "payable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "newImplementation",
+        type: "address",
+      },
+      {
+        internalType: "bytes",
+        name: "data",
+        type: "bytes",
+      },
+    ],
+    name: "upgradeToAndCall",
     outputs: [],
     stateMutability: "payable",
     type: "function",
