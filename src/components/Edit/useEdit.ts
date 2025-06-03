@@ -114,10 +114,14 @@ const useEdit = (readonly?: boolean) => {
               [
                 tokenId,
                 JSON.stringify({ uri: firstUri, name: editedToken.name }),
-                editedToken.slug,
               ]
             )
+            const tokenSlugUpdateTx = sx1555NFTContract.prepare(
+              'updateTokenSlug',
+              [tokenId, editedToken.slug]
+            )
             txs.push(tokenContentUpdateTx)
+            txs.push(tokenSlugUpdateTx)
           }
         }
       }
@@ -149,9 +153,10 @@ const useEdit = (readonly?: boolean) => {
         const uris = await upload({ data: filesToUpload })
         const firstUri = uris[0]
         if (firstUri) {
-          const tokenContentUpdateTx = sx1555NFTContract.prepare('setKya', [
-            JSON.stringify({ indexPagesUri: firstUri }),
-          ])
+          const tokenContentUpdateTx = sx1555NFTContract.prepare(
+            'setContractKya',
+            [JSON.stringify({ indexPagesUri: firstUri })]
+          )
           txs.push(tokenContentUpdateTx)
         }
       }

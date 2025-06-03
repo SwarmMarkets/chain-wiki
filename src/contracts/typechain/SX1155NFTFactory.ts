@@ -4,6 +4,7 @@
 import type {
   BaseContract,
   BigNumber,
+  BigNumberish,
   BytesLike,
   CallOverrides,
   ContractTransaction,
@@ -26,31 +27,59 @@ import type {
   OnEvent,
 } from "./common";
 
+export type ERC1155DataStruct = { name: string; symbol: string; kya: string };
+
+export type ERC1155DataStructOutput = [string, string, string] & {
+  name: string;
+  symbol: string;
+  kya: string;
+};
+
+export type RolesStruct = {
+  owner: string;
+  admins: string[];
+  editors: string[];
+};
+
+export type RolesStructOutput = [string, string[], string[]] & {
+  owner: string;
+  admins: string[];
+  editors: string[];
+};
+
 export interface SX1155NFTFactoryInterface extends utils.Interface {
   functions: {
     "cancelOwnershipHandover()": FunctionFragment;
+    "chainWikiToSlug(address)": FunctionFragment;
     "completeOwnershipHandover(address)": FunctionFragment;
+    "contractSlug()": FunctionFragment;
     "currentImplementation()": FunctionFragment;
-    "deployChainWiki(string,string,string,address,address[],address[])": FunctionFragment;
+    "deployChainWiki((string,string,string),string,(address,address[],address[]))": FunctionFragment;
     "owner()": FunctionFragment;
     "ownershipHandoverExpiresAt(address)": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
     "requestOwnershipHandover()": FunctionFragment;
+    "slugToChainWiki(string)": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
+    "updateChainWikiSlug(address,string)": FunctionFragment;
     "upgradeImplementation(address)": FunctionFragment;
   };
 
   getFunction(
     nameOrSignatureOrTopic:
       | "cancelOwnershipHandover"
+      | "chainWikiToSlug"
       | "completeOwnershipHandover"
+      | "contractSlug"
       | "currentImplementation"
       | "deployChainWiki"
       | "owner"
       | "ownershipHandoverExpiresAt"
       | "renounceOwnership"
       | "requestOwnershipHandover"
+      | "slugToChainWiki"
       | "transferOwnership"
+      | "updateChainWikiSlug"
       | "upgradeImplementation"
   ): FunctionFragment;
 
@@ -59,8 +88,16 @@ export interface SX1155NFTFactoryInterface extends utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
+    functionFragment: "chainWikiToSlug",
+    values: [string]
+  ): string;
+  encodeFunctionData(
     functionFragment: "completeOwnershipHandover",
     values: [string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "contractSlug",
+    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "currentImplementation",
@@ -68,7 +105,7 @@ export interface SX1155NFTFactoryInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "deployChainWiki",
-    values: [string, string, string, string, string[], string[]]
+    values: [ERC1155DataStruct, string, RolesStruct]
   ): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(
@@ -84,8 +121,16 @@ export interface SX1155NFTFactoryInterface extends utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
+    functionFragment: "slugToChainWiki",
+    values: [string]
+  ): string;
+  encodeFunctionData(
     functionFragment: "transferOwnership",
     values: [string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "updateChainWikiSlug",
+    values: [string, string]
   ): string;
   encodeFunctionData(
     functionFragment: "upgradeImplementation",
@@ -97,7 +142,15 @@ export interface SX1155NFTFactoryInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "chainWikiToSlug",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "completeOwnershipHandover",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "contractSlug",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -122,7 +175,15 @@ export interface SX1155NFTFactoryInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "slugToChainWiki",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "transferOwnership",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "updateChainWikiSlug",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -131,36 +192,48 @@ export interface SX1155NFTFactoryInterface extends utils.Interface {
   ): Result;
 
   events: {
-    "ChainWikiDeployed(address,string,string,string,address,address[],address[])": EventFragment;
+    "ChainWikiDeployed(address,string,(string,string,string),(address,address[],address[]))": EventFragment;
+    "ContractSlugUpdated(string)": EventFragment;
     "ImplementationUpgraded(address)": EventFragment;
     "OwnershipHandoverCanceled(address)": EventFragment;
     "OwnershipHandoverRequested(address)": EventFragment;
     "OwnershipTransferred(address,address)": EventFragment;
+    "TokenSlugUpdated(uint256,string)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "ChainWikiDeployed"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "ContractSlugUpdated"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "ImplementationUpgraded"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OwnershipHandoverCanceled"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OwnershipHandoverRequested"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "TokenSlugUpdated"): EventFragment;
 }
 
 export interface ChainWikiDeployedEventObject {
-  deployedAddress: string;
-  name: string;
-  symbol: string;
-  kya: string;
-  owner: string;
-  admin: string[];
-  editor: string[];
+  chainWiki: string;
+  slug: string;
+  data: ERC1155DataStructOutput;
+  roles: RolesStructOutput;
 }
 export type ChainWikiDeployedEvent = TypedEvent<
-  [string, string, string, string, string, string[], string[]],
+  [string, string, ERC1155DataStructOutput, RolesStructOutput],
   ChainWikiDeployedEventObject
 >;
 
 export type ChainWikiDeployedEventFilter =
   TypedEventFilter<ChainWikiDeployedEvent>;
+
+export interface ContractSlugUpdatedEventObject {
+  slug: string;
+}
+export type ContractSlugUpdatedEvent = TypedEvent<
+  [string],
+  ContractSlugUpdatedEventObject
+>;
+
+export type ContractSlugUpdatedEventFilter =
+  TypedEventFilter<ContractSlugUpdatedEvent>;
 
 export interface ImplementationUpgradedEventObject {
   newImplementation: string;
@@ -207,6 +280,18 @@ export type OwnershipTransferredEvent = TypedEvent<
 export type OwnershipTransferredEventFilter =
   TypedEventFilter<OwnershipTransferredEvent>;
 
+export interface TokenSlugUpdatedEventObject {
+  slugId: BigNumber;
+  slug: string;
+}
+export type TokenSlugUpdatedEvent = TypedEvent<
+  [BigNumber, string],
+  TokenSlugUpdatedEventObject
+>;
+
+export type TokenSlugUpdatedEventFilter =
+  TypedEventFilter<TokenSlugUpdatedEvent>;
+
 export interface SX1155NFTFactory extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
@@ -238,20 +323,24 @@ export interface SX1155NFTFactory extends BaseContract {
       overrides?: PayableOverrides & { from?: string }
     ): Promise<ContractTransaction>;
 
+    chainWikiToSlug(
+      chainWiki: string,
+      overrides?: CallOverrides
+    ): Promise<[string]>;
+
     completeOwnershipHandover(
       pendingOwner: string,
       overrides?: PayableOverrides & { from?: string }
     ): Promise<ContractTransaction>;
 
+    contractSlug(overrides?: CallOverrides): Promise<[string]>;
+
     currentImplementation(overrides?: CallOverrides): Promise<[string]>;
 
     deployChainWiki(
-      _name: string,
-      _symbol: string,
-      _kya: string,
-      _owner: string,
-      _admins: string[],
-      _editors: string[],
+      data: ERC1155DataStruct,
+      slug: string,
+      roles: RolesStruct,
       overrides?: Overrides & { from?: string }
     ): Promise<ContractTransaction>;
 
@@ -270,9 +359,17 @@ export interface SX1155NFTFactory extends BaseContract {
       overrides?: PayableOverrides & { from?: string }
     ): Promise<ContractTransaction>;
 
+    slugToChainWiki(slug: string, overrides?: CallOverrides): Promise<[string]>;
+
     transferOwnership(
       newOwner: string,
       overrides?: PayableOverrides & { from?: string }
+    ): Promise<ContractTransaction>;
+
+    updateChainWikiSlug(
+      chainWiki: string,
+      slug: string,
+      overrides?: Overrides & { from?: string }
     ): Promise<ContractTransaction>;
 
     upgradeImplementation(
@@ -285,20 +382,24 @@ export interface SX1155NFTFactory extends BaseContract {
     overrides?: PayableOverrides & { from?: string }
   ): Promise<ContractTransaction>;
 
+  chainWikiToSlug(
+    chainWiki: string,
+    overrides?: CallOverrides
+  ): Promise<string>;
+
   completeOwnershipHandover(
     pendingOwner: string,
     overrides?: PayableOverrides & { from?: string }
   ): Promise<ContractTransaction>;
 
+  contractSlug(overrides?: CallOverrides): Promise<string>;
+
   currentImplementation(overrides?: CallOverrides): Promise<string>;
 
   deployChainWiki(
-    _name: string,
-    _symbol: string,
-    _kya: string,
-    _owner: string,
-    _admins: string[],
-    _editors: string[],
+    data: ERC1155DataStruct,
+    slug: string,
+    roles: RolesStruct,
     overrides?: Overrides & { from?: string }
   ): Promise<ContractTransaction>;
 
@@ -317,9 +418,17 @@ export interface SX1155NFTFactory extends BaseContract {
     overrides?: PayableOverrides & { from?: string }
   ): Promise<ContractTransaction>;
 
+  slugToChainWiki(slug: string, overrides?: CallOverrides): Promise<string>;
+
   transferOwnership(
     newOwner: string,
     overrides?: PayableOverrides & { from?: string }
+  ): Promise<ContractTransaction>;
+
+  updateChainWikiSlug(
+    chainWiki: string,
+    slug: string,
+    overrides?: Overrides & { from?: string }
   ): Promise<ContractTransaction>;
 
   upgradeImplementation(
@@ -330,20 +439,24 @@ export interface SX1155NFTFactory extends BaseContract {
   callStatic: {
     cancelOwnershipHandover(overrides?: CallOverrides): Promise<void>;
 
+    chainWikiToSlug(
+      chainWiki: string,
+      overrides?: CallOverrides
+    ): Promise<string>;
+
     completeOwnershipHandover(
       pendingOwner: string,
       overrides?: CallOverrides
     ): Promise<void>;
 
+    contractSlug(overrides?: CallOverrides): Promise<string>;
+
     currentImplementation(overrides?: CallOverrides): Promise<string>;
 
     deployChainWiki(
-      _name: string,
-      _symbol: string,
-      _kya: string,
-      _owner: string,
-      _admins: string[],
-      _editors: string[],
+      data: ERC1155DataStruct,
+      slug: string,
+      roles: RolesStruct,
       overrides?: CallOverrides
     ): Promise<string>;
 
@@ -358,8 +471,16 @@ export interface SX1155NFTFactory extends BaseContract {
 
     requestOwnershipHandover(overrides?: CallOverrides): Promise<void>;
 
+    slugToChainWiki(slug: string, overrides?: CallOverrides): Promise<string>;
+
     transferOwnership(
       newOwner: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    updateChainWikiSlug(
+      chainWiki: string,
+      slug: string,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -370,24 +491,23 @@ export interface SX1155NFTFactory extends BaseContract {
   };
 
   filters: {
-    "ChainWikiDeployed(address,string,string,string,address,address[],address[])"(
-      deployedAddress?: null,
-      name?: null,
-      symbol?: null,
-      kya?: null,
-      owner?: null,
-      admin?: null,
-      editor?: null
+    "ChainWikiDeployed(address,string,(string,string,string),(address,address[],address[]))"(
+      chainWiki?: string | null,
+      slug?: string | null,
+      data?: null,
+      roles?: null
     ): ChainWikiDeployedEventFilter;
     ChainWikiDeployed(
-      deployedAddress?: null,
-      name?: null,
-      symbol?: null,
-      kya?: null,
-      owner?: null,
-      admin?: null,
-      editor?: null
+      chainWiki?: string | null,
+      slug?: string | null,
+      data?: null,
+      roles?: null
     ): ChainWikiDeployedEventFilter;
+
+    "ContractSlugUpdated(string)"(
+      slug?: string | null
+    ): ContractSlugUpdatedEventFilter;
+    ContractSlugUpdated(slug?: string | null): ContractSlugUpdatedEventFilter;
 
     "ImplementationUpgraded(address)"(
       newImplementation?: null
@@ -418,6 +538,15 @@ export interface SX1155NFTFactory extends BaseContract {
       oldOwner?: string | null,
       newOwner?: string | null
     ): OwnershipTransferredEventFilter;
+
+    "TokenSlugUpdated(uint256,string)"(
+      slugId?: BigNumberish | null,
+      slug?: string | null
+    ): TokenSlugUpdatedEventFilter;
+    TokenSlugUpdated(
+      slugId?: BigNumberish | null,
+      slug?: string | null
+    ): TokenSlugUpdatedEventFilter;
   };
 
   estimateGas: {
@@ -425,20 +554,24 @@ export interface SX1155NFTFactory extends BaseContract {
       overrides?: PayableOverrides & { from?: string }
     ): Promise<BigNumber>;
 
+    chainWikiToSlug(
+      chainWiki: string,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     completeOwnershipHandover(
       pendingOwner: string,
       overrides?: PayableOverrides & { from?: string }
     ): Promise<BigNumber>;
 
+    contractSlug(overrides?: CallOverrides): Promise<BigNumber>;
+
     currentImplementation(overrides?: CallOverrides): Promise<BigNumber>;
 
     deployChainWiki(
-      _name: string,
-      _symbol: string,
-      _kya: string,
-      _owner: string,
-      _admins: string[],
-      _editors: string[],
+      data: ERC1155DataStruct,
+      slug: string,
+      roles: RolesStruct,
       overrides?: Overrides & { from?: string }
     ): Promise<BigNumber>;
 
@@ -457,9 +590,20 @@ export interface SX1155NFTFactory extends BaseContract {
       overrides?: PayableOverrides & { from?: string }
     ): Promise<BigNumber>;
 
+    slugToChainWiki(
+      slug: string,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     transferOwnership(
       newOwner: string,
       overrides?: PayableOverrides & { from?: string }
+    ): Promise<BigNumber>;
+
+    updateChainWikiSlug(
+      chainWiki: string,
+      slug: string,
+      overrides?: Overrides & { from?: string }
     ): Promise<BigNumber>;
 
     upgradeImplementation(
@@ -473,22 +617,26 @@ export interface SX1155NFTFactory extends BaseContract {
       overrides?: PayableOverrides & { from?: string }
     ): Promise<PopulatedTransaction>;
 
+    chainWikiToSlug(
+      chainWiki: string,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     completeOwnershipHandover(
       pendingOwner: string,
       overrides?: PayableOverrides & { from?: string }
     ): Promise<PopulatedTransaction>;
+
+    contractSlug(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     currentImplementation(
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     deployChainWiki(
-      _name: string,
-      _symbol: string,
-      _kya: string,
-      _owner: string,
-      _admins: string[],
-      _editors: string[],
+      data: ERC1155DataStruct,
+      slug: string,
+      roles: RolesStruct,
       overrides?: Overrides & { from?: string }
     ): Promise<PopulatedTransaction>;
 
@@ -507,9 +655,20 @@ export interface SX1155NFTFactory extends BaseContract {
       overrides?: PayableOverrides & { from?: string }
     ): Promise<PopulatedTransaction>;
 
+    slugToChainWiki(
+      slug: string,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     transferOwnership(
       newOwner: string,
       overrides?: PayableOverrides & { from?: string }
+    ): Promise<PopulatedTransaction>;
+
+    updateChainWikiSlug(
+      chainWiki: string,
+      slug: string,
+      overrides?: Overrides & { from?: string }
     ): Promise<PopulatedTransaction>;
 
     upgradeImplementation(

@@ -28,6 +28,16 @@ const _abi = [
   },
   {
     inputs: [],
+    name: "DeploymentFailed",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "EmptySlugPassed",
+    type: "error",
+  },
+  {
+    inputs: [],
     name: "NewOwnerIsZeroAddress",
     type: "error",
   },
@@ -38,56 +48,105 @@ const _abi = [
   },
   {
     inputs: [],
+    name: "SlugAlreadyExists",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "SlugFulfilled",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "SlugNotFulfilled",
+    type: "error",
+  },
+  {
+    inputs: [],
     name: "Unauthorized",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "ZeroAddressPassed",
     type: "error",
   },
   {
     anonymous: false,
     inputs: [
       {
-        indexed: false,
+        indexed: true,
         internalType: "address",
-        name: "deployedAddress",
+        name: "chainWiki",
         type: "address",
       },
       {
-        indexed: false,
+        indexed: true,
         internalType: "string",
-        name: "name",
+        name: "slug",
         type: "string",
       },
       {
+        components: [
+          {
+            internalType: "string",
+            name: "name",
+            type: "string",
+          },
+          {
+            internalType: "string",
+            name: "symbol",
+            type: "string",
+          },
+          {
+            internalType: "string",
+            name: "kya",
+            type: "string",
+          },
+        ],
         indexed: false,
-        internalType: "string",
-        name: "symbol",
-        type: "string",
+        internalType: "struct ERC1155Data",
+        name: "data",
+        type: "tuple",
       },
       {
+        components: [
+          {
+            internalType: "address",
+            name: "owner",
+            type: "address",
+          },
+          {
+            internalType: "address[]",
+            name: "admins",
+            type: "address[]",
+          },
+          {
+            internalType: "address[]",
+            name: "editors",
+            type: "address[]",
+          },
+        ],
         indexed: false,
-        internalType: "string",
-        name: "kya",
-        type: "string",
-      },
-      {
-        indexed: false,
-        internalType: "address",
-        name: "owner",
-        type: "address",
-      },
-      {
-        indexed: false,
-        internalType: "address[]",
-        name: "admin",
-        type: "address[]",
-      },
-      {
-        indexed: false,
-        internalType: "address[]",
-        name: "editor",
-        type: "address[]",
+        internalType: "struct Roles",
+        name: "roles",
+        type: "tuple",
       },
     ],
     name: "ChainWikiDeployed",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "string",
+        name: "slug",
+        type: "string",
+      },
+    ],
+    name: "ContractSlugUpdated",
     type: "event",
   },
   {
@@ -149,10 +208,48 @@ const _abi = [
     type: "event",
   },
   {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "uint256",
+        name: "slugId",
+        type: "uint256",
+      },
+      {
+        indexed: true,
+        internalType: "string",
+        name: "slug",
+        type: "string",
+      },
+    ],
+    name: "TokenSlugUpdated",
+    type: "event",
+  },
+  {
     inputs: [],
     name: "cancelOwnershipHandover",
     outputs: [],
     stateMutability: "payable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "chainWiki",
+        type: "address",
+      },
+    ],
+    name: "chainWikiToSlug",
+    outputs: [
+      {
+        internalType: "string",
+        name: "",
+        type: "string",
+      },
+    ],
+    stateMutability: "view",
     type: "function",
   },
   {
@@ -166,6 +263,19 @@ const _abi = [
     name: "completeOwnershipHandover",
     outputs: [],
     stateMutability: "payable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "contractSlug",
+    outputs: [
+      {
+        internalType: "string",
+        name: "",
+        type: "string",
+      },
+    ],
+    stateMutability: "view",
     type: "function",
   },
   {
@@ -184,34 +294,53 @@ const _abi = [
   {
     inputs: [
       {
-        internalType: "string",
-        name: "_name",
-        type: "string",
+        components: [
+          {
+            internalType: "string",
+            name: "name",
+            type: "string",
+          },
+          {
+            internalType: "string",
+            name: "symbol",
+            type: "string",
+          },
+          {
+            internalType: "string",
+            name: "kya",
+            type: "string",
+          },
+        ],
+        internalType: "struct ERC1155Data",
+        name: "data",
+        type: "tuple",
       },
       {
         internalType: "string",
-        name: "_symbol",
+        name: "slug",
         type: "string",
       },
       {
-        internalType: "string",
-        name: "_kya",
-        type: "string",
-      },
-      {
-        internalType: "address",
-        name: "_owner",
-        type: "address",
-      },
-      {
-        internalType: "address[]",
-        name: "_admins",
-        type: "address[]",
-      },
-      {
-        internalType: "address[]",
-        name: "_editors",
-        type: "address[]",
+        components: [
+          {
+            internalType: "address",
+            name: "owner",
+            type: "address",
+          },
+          {
+            internalType: "address[]",
+            name: "admins",
+            type: "address[]",
+          },
+          {
+            internalType: "address[]",
+            name: "editors",
+            type: "address[]",
+          },
+        ],
+        internalType: "struct Roles",
+        name: "roles",
+        type: "tuple",
       },
     ],
     name: "deployChainWiki",
@@ -274,6 +403,25 @@ const _abi = [
   {
     inputs: [
       {
+        internalType: "string",
+        name: "slug",
+        type: "string",
+      },
+    ],
+    name: "slugToChainWiki",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
         internalType: "address",
         name: "newOwner",
         type: "address",
@@ -282,6 +430,24 @@ const _abi = [
     name: "transferOwnership",
     outputs: [],
     stateMutability: "payable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "chainWiki",
+        type: "address",
+      },
+      {
+        internalType: "string",
+        name: "slug",
+        type: "string",
+      },
+    ],
+    name: "updateChainWikiSlug",
+    outputs: [],
+    stateMutability: "nonpayable",
     type: "function",
   },
   {

@@ -4,6 +4,7 @@ export const NFTQuery = graphql(`
   query NFT($id: ID!) {
     nft(id: $id) {
       id
+      slug
       name
       symbol
       updatedAt

@@ -120,7 +120,7 @@ const _abi = [
     inputs: [
       {
         internalType: "uint256",
-        name: "id",
+        name: "tokenId",
         type: "uint256",
       },
     ],
@@ -144,6 +144,11 @@ const _abi = [
   },
   {
     inputs: [],
+    name: "OnlyFactory",
+    type: "error",
+  },
+  {
+    inputs: [],
     name: "OnlyOwnerOfRequest",
     type: "error",
   },
@@ -163,30 +168,18 @@ const _abi = [
     type: "error",
   },
   {
-    inputs: [
-      {
-        internalType: "string",
-        name: "slug",
-        type: "string",
-      },
-    ],
-    name: "SlugIsFulfilled",
+    inputs: [],
+    name: "SlugAlreadyExists",
     type: "error",
   },
   {
-    inputs: [
-      {
-        internalType: "string",
-        name: "slug",
-        type: "string",
-      },
-      {
-        internalType: "uint256",
-        name: "id",
-        type: "uint256",
-      },
-    ],
-    name: "SlugShouldBeUnique",
+    inputs: [],
+    name: "SlugFulfilled",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "SlugNotFulfilled",
     type: "error",
   },
   {
@@ -304,6 +297,19 @@ const _abi = [
       },
     ],
     name: "Commented",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "string",
+        name: "slug",
+        type: "string",
+      },
+    ],
+    name: "ContractSlugUpdated",
     type: "event",
   },
   {
@@ -549,25 +555,6 @@ const _abi = [
     anonymous: false,
     inputs: [
       {
-        indexed: true,
-        internalType: "uint256",
-        name: "id",
-        type: "uint256",
-      },
-      {
-        indexed: true,
-        internalType: "string",
-        name: "slug",
-        type: "string",
-      },
-    ],
-    name: "SlugUpdated",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
         indexed: false,
         internalType: "address",
         name: "from",
@@ -587,6 +574,25 @@ const _abi = [
       },
     ],
     name: "TokenKyaUpdated",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "uint256",
+        name: "slugId",
+        type: "uint256",
+      },
+      {
+        indexed: true,
+        internalType: "string",
+        name: "slug",
+        type: "string",
+      },
+    ],
+    name: "TokenSlugUpdated",
     type: "event",
   },
   {
@@ -798,12 +804,12 @@ const _abi = [
     inputs: [
       {
         internalType: "uint256",
-        name: "_id",
+        name: "tokenId",
         type: "uint256",
       },
       {
         internalType: "uint256",
-        name: "_quantity",
+        name: "quantity",
         type: "uint256",
       },
     ],
@@ -854,6 +860,19 @@ const _abi = [
     name: "completeOwnershipHandover",
     outputs: [],
     stateMutability: "payable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "contractSlug",
+    outputs: [
+      {
+        internalType: "string",
+        name: "",
+        type: "string",
+      },
+    ],
+    stateMutability: "view",
     type: "function",
   },
   {
@@ -914,6 +933,19 @@ const _abi = [
     type: "function",
   },
   {
+    inputs: [],
+    name: "factory",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
     inputs: [
       {
         internalType: "address",
@@ -945,17 +977,17 @@ const _abi = [
     inputs: [
       {
         internalType: "address[]",
-        name: "_accounts",
+        name: "accounts",
         type: "address[]",
       },
       {
         internalType: "uint256[]",
-        name: "_tokenIds",
+        name: "tokenIds",
         type: "uint256[]",
       },
       {
         internalType: "uint256[]",
-        name: "_quantities",
+        name: "quantities",
         type: "uint256[]",
       },
       {
@@ -1055,34 +1087,58 @@ const _abi = [
   {
     inputs: [
       {
-        internalType: "string",
-        name: "_name",
-        type: "string",
+        components: [
+          {
+            internalType: "string",
+            name: "name",
+            type: "string",
+          },
+          {
+            internalType: "string",
+            name: "symbol",
+            type: "string",
+          },
+          {
+            internalType: "string",
+            name: "kya",
+            type: "string",
+          },
+        ],
+        internalType: "struct ERC1155Data",
+        name: "_data",
+        type: "tuple",
       },
       {
         internalType: "string",
-        name: "_symbol",
+        name: "_slug",
         type: "string",
       },
       {
-        internalType: "string",
-        name: "_kya",
-        type: "string",
+        components: [
+          {
+            internalType: "address",
+            name: "owner",
+            type: "address",
+          },
+          {
+            internalType: "address[]",
+            name: "admins",
+            type: "address[]",
+          },
+          {
+            internalType: "address[]",
+            name: "editors",
+            type: "address[]",
+          },
+        ],
+        internalType: "struct Roles",
+        name: "_roles",
+        type: "tuple",
       },
       {
         internalType: "address",
-        name: "_owner",
+        name: "_factory",
         type: "address",
-      },
-      {
-        internalType: "address[]",
-        name: "_admins",
-        type: "address[]",
-      },
-      {
-        internalType: "address[]",
-        name: "_editors",
-        type: "address[]",
       },
     ],
     name: "initialize",
@@ -1162,22 +1218,22 @@ const _abi = [
     inputs: [
       {
         internalType: "address",
-        name: "_to",
+        name: "to",
         type: "address",
       },
       {
         internalType: "uint256",
-        name: "_quantity",
+        name: "quantity",
         type: "uint256",
       },
       {
         internalType: "string",
-        name: "_tokenURI",
+        name: "tokenURI",
         type: "string",
       },
       {
         internalType: "string",
-        name: "_slug",
+        name: "slug",
         type: "string",
       },
     ],
@@ -1190,22 +1246,22 @@ const _abi = [
     inputs: [
       {
         internalType: "address[]",
-        name: "_accounts",
+        name: "accounts",
         type: "address[]",
       },
       {
         internalType: "uint256[]",
-        name: "_quantities",
+        name: "quantities",
         type: "uint256[]",
       },
       {
         internalType: "string[]",
-        name: "_tokenURIs",
+        name: "tokenURIs",
         type: "string[]",
       },
       {
         internalType: "string[]",
-        name: "_slug",
+        name: "slug",
         type: "string[]",
       },
     ],
@@ -1480,11 +1536,24 @@ const _abi = [
     inputs: [
       {
         internalType: "string",
-        name: "_kya",
+        name: "Kya",
         type: "string",
       },
     ],
-    name: "setKya",
+    name: "setContractKya",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "string",
+        name: "slug",
+        type: "string",
+      },
+    ],
+    name: "setContractSlug",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -1529,23 +1598,37 @@ const _abi = [
     inputs: [
       {
         internalType: "uint256",
-        name: "_id",
+        name: "tokenId",
         type: "uint256",
       },
       {
         internalType: "string",
-        name: "_kya",
-        type: "string",
-      },
-      {
-        internalType: "string",
-        name: "_slug",
+        name: "Kya",
         type: "string",
       },
     ],
     name: "setTokenKya",
     outputs: [],
     stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "string",
+        name: "slug",
+        type: "string",
+      },
+    ],
+    name: "slugToTokenId",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
     type: "function",
   },
   {
@@ -1608,11 +1691,11 @@ const _abi = [
     inputs: [
       {
         internalType: "uint256",
-        name: "_id",
+        name: "tokenId",
         type: "uint256",
       },
     ],
-    name: "tokenKya",
+    name: "tokenIdToSlug",
     outputs: [
       {
         internalType: "string",
@@ -1631,7 +1714,7 @@ const _abi = [
         type: "uint256",
       },
     ],
-    name: "tokenUri",
+    name: "tokenKya",
     outputs: [
       {
         internalType: "string",
@@ -1664,25 +1747,6 @@ const _abi = [
   {
     inputs: [
       {
-        internalType: "uint256",
-        name: "_id",
-        type: "uint256",
-      },
-    ],
-    name: "totalTokenIdsSupply",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "supply",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
         internalType: "address",
         name: "newOwner",
         type: "address",
@@ -1691,6 +1755,24 @@ const _abi = [
     name: "transferOwnership",
     outputs: [],
     stateMutability: "payable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+      {
+        internalType: "string",
+        name: "slug",
+        type: "string",
+      },
+    ],
+    name: "updateTokenSlug",
+    outputs: [],
+    stateMutability: "nonpayable",
     type: "function",
   },
   {
