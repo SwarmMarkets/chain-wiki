@@ -11,6 +11,7 @@ import UploadFileButton from '../common/UploadFileButton'
 import Button from '../ui-kit/Button/Button'
 import TextField from '../ui-kit/TextField/TextField'
 import useSmartAccount from 'src/services/safe-protocol-kit/useSmartAccount'
+import { generateSlug } from '../Edit/utils'
 
 interface CreateNftFormProps {
   onSuccessSubmit(): void
@@ -36,6 +37,7 @@ const CreateNftForm: React.FC<CreateNftFormProps> = ({
     if (!account || !smartAccountInfo?.address) return
 
     const { name } = data
+    const slug = generateSlug(name)
     const symbol = generateSymbolFromString(name)
     const owner = account
     const admins = [account, smartAccountInfo.address]
@@ -46,12 +48,9 @@ const CreateNftForm: React.FC<CreateNftFormProps> = ({
 
     try {
       const response = await call('deployChainWiki', [
-        name,
-        symbol,
-        kya,
-        owner,
-        admins,
-        editors,
+        { name, symbol, kya },
+        slug,
+        { owner, admins, editors },
       ])
       if (!response) throw new Error('Failed to deploy NFT contract')
       onSuccessSubmit()
