@@ -1,16 +1,15 @@
 import { unified } from 'unified'
 import remarkParse from 'remark-parse'
 import { visit } from 'unist-util-visit'
+import { getUniqueId, IpfsIndexPage, joinTokenId } from 'src/shared/utils'
 
-type IpfsIndexPage = {
-  tokenId: string
-  title: string
-  parent: string | number
-  droppable?: boolean
-  type?: 'group' | 'page'
-}
+export function parseSummaryToFlatTree(
+  markdown: string,
+  nftId: string,
+  startFromTokenId: number
+): IpfsIndexPage[] {
+  let nextTokenId = startFromTokenId
 
-export function parseSummaryToFlatTree(markdown: string): IpfsIndexPage[] {
   const ast = unified().use(remarkParse).parse(markdown)
   const result: IpfsIndexPage[] = []
 
@@ -28,10 +27,12 @@ export function parseSummaryToFlatTree(markdown: string): IpfsIndexPage[] {
       const text = node.children?.find((c: any) => c.type === 'text')?.value
       if (text && text.trim().toLowerCase() !== 'table of contents') {
         const slug = text.trim().toLowerCase().replace(/\s+/g, '-')
-        const tokenId = slug
+
+        const tokenId = getUniqueId()
 
         result.push({
           tokenId,
+          slug,
           title: text.trim(),
           parent: '0',
           droppable: true,
@@ -61,17 +62,23 @@ export function parseSummaryToFlatTree(markdown: string): IpfsIndexPage[] {
             const url = linkNode.url
             if (!title || !url) continue
 
-            const tokenId = normalizePathToTokenId(url)
+            const tokenId = joinTokenId(nftId, nextTokenId)
             if (seen.has(tokenId)) continue
             seen.add(tokenId)
 
+            const slug = normalizePathToTokenId(url).split('/').pop()
+
+            if (!slug) continue
+
             result.push({
               tokenId,
+              slug,
               title,
               parent,
               droppable: false,
-              type: 'page',
             })
+
+            nextTokenId++
 
             // Вложенные элементы становятся дочерними ТОЛЬКО текущего элемента
             const nextList = item.children?.find((n: any) => n.type === 'list')
