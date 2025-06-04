@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import useYupValidationResolver from '../useYupValidationResolvber'
+import useYupValidationResolver from '../useYupValidationResolver'
 import yup from 'src/shared/validations/yup'
 import { useForm } from 'react-hook-form'
 import { Roles } from 'src/shared/enums'
