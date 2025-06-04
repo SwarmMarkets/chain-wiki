@@ -1,54 +1,18 @@
-import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import SidebarTree from 'src/components/common/Layout/ReadLayout/SidebarTree'
-import { ISidebarTreeNode } from 'src/components/common/Layout/ReadLayout/SidebarTreeNode'
 import Button from 'src/components/ui-kit/Button/Button'
 import TextField from 'src/components/ui-kit/TextField/TextField'
-import { IpfsIndexPage } from 'src/shared/utils'
 import useIntegrationForm from './useIntegrationForm'
 
-interface IntegrationFormProps {
-  onSuccessSubmit(): void
-  onErrorSubmit(e: Error): void
-}
-
-const buildTree = (
-  items: IpfsIndexPage[],
-  parentId?: number | string
-): ISidebarTreeNode[] => {
-  return items
-    .filter(item => item.parent === parentId)
-    .map(item => {
-      const to = ''
-      return {
-        ...item,
-        children: buildTree(items, item.tokenId),
-        to,
-      }
-    })
-}
-
-const IntegrationForm: React.FC<IntegrationFormProps> = ({
-  onSuccessSubmit,
-  onErrorSubmit,
-}) => {
+const IntegrationForm = () => {
   const { t } = useTranslation('nft', { keyPrefix: 'settings.import' })
-  const [parsedSummary, setParsedSummary] = useState<IpfsIndexPage[]>([])
 
   const {
     register,
     handleSubmit,
     formState: { errors },
     onSubmit,
-  } = useIntegrationForm({
-    onSuccessSubmit: pages => {
-      setParsedSummary(pages)
-      onSuccessSubmit()
-    },
-    onErrorSubmit,
-  })
-
-  const tree = buildTree(parsedSummary, '0')
+    loading,
+  } = useIntegrationForm()
 
   return (
     <form className='flex flex-col' onSubmit={handleSubmit(onSubmit)}>
@@ -83,8 +47,9 @@ const IntegrationForm: React.FC<IntegrationFormProps> = ({
         />
       </div>
 
-      <Button type='submit'>{t('form.submit')}</Button>
-      <SidebarTree data={tree} selectedId={''} />
+      <Button type='submit' loading={loading}>
+        {t('form.submit')}
+      </Button>
     </form>
   )
 }

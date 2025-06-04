@@ -98,6 +98,10 @@
         "branchName": {
           "required": "Branch name is required"
         }
+      },
+      "toasts": {
+        "pagesImported": "Pages imported successfully",
+        "pagesImportFailed": "Pages import failed"
       }
     },
     "linksColor": {

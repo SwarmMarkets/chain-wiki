@@ -1,40 +1,42 @@
 import { unified } from 'unified'
 import remarkParse from 'remark-parse'
-import { visit } from 'unist-util-visit'
 import { getUniqueId, IpfsIndexPage, joinTokenId } from 'src/shared/utils'
+
+interface IndexPageWithContent extends IpfsIndexPage {
+  content?: string
+}
 
 export function parseSummaryToFlatTree(
   markdown: string,
   nftId: string,
-  startFromTokenId: number
-): IpfsIndexPage[] {
+  startFromTokenId: number,
+  files: Record<string, string>
+): IndexPageWithContent[] {
   let nextTokenId = startFromTokenId
 
   const ast = unified().use(remarkParse).parse(markdown)
-  const result: IpfsIndexPage[] = []
+  const result: IndexPageWithContent[] = []
 
-  const parentStack: string[] = ['0'] // начальный родитель
-  let currentGroupId: string | null = null
   const seen = new Set<string>()
+  let currentGroupId: string | number | null = null
 
-  const normalizePathToTokenId = (path: string): string => {
-    return path.replace(/\.md$/, '').replace(/\/README$/i, '')
-  }
+  const normalizePathToTokenId = (path: string): string =>
+    path.replace(/\.md$/, '').replace(/\/README$/i, '')
 
-  visit(ast, node => {
+  // Проходим по всем top-level нодам AST
+  for (const node of ast.children) {
     // Заголовки как группы (кроме "Table of contents")
     if (node.type === 'heading') {
       const text = node.children?.find((c: any) => c.type === 'text')?.value
       if (text && text.trim().toLowerCase() !== 'table of contents') {
         const slug = text.trim().toLowerCase().replace(/\s+/g, '-')
-
         const tokenId = getUniqueId()
 
         result.push({
           tokenId,
           slug,
           title: text.trim(),
-          parent: '0',
+          parent: 0,
           droppable: true,
           type: 'group',
         })
@@ -48,50 +50,51 @@ export function parseSummaryToFlatTree(
       currentGroupId = null
     }
 
-    // Обработка списков
+    // Один раз обрабатываем список, начиная с верхнего уровня
     if (node.type === 'list') {
-      const walkList = (items: any[], parent: string | number) => {
-        for (const item of items) {
-          const linkNode = item.children?.[0]?.children?.find(
-            (n: any) => n.type === 'link'
-          )
-          if (linkNode) {
-            const title = linkNode.children
-              ?.find((n: any) => n.type === 'text')
-              ?.value?.trim()
-            const url = linkNode.url
-            if (!title || !url) continue
+      walkList(node.children, currentGroupId ?? 0)
+    }
+  }
 
-            const tokenId = joinTokenId(nftId, nextTokenId)
-            if (seen.has(tokenId)) continue
-            seen.add(tokenId)
+  function walkList(items: any[], parent: string | number) {
+    for (const item of items) {
+      const linkNode = item.children?.[0]?.children?.find(
+        (n: any) => n.type === 'link'
+      )
 
-            const slug = normalizePathToTokenId(url).split('/').pop()
+      if (linkNode) {
+        const title = linkNode.children
+          ?.find((n: any) => n.type === 'text')
+          ?.value?.trim()
+        const url = linkNode.url
+        if (!title || !url) continue
 
-            if (!slug) continue
+        const tokenId = joinTokenId(nftId, nextTokenId)
+        if (seen.has(tokenId)) continue
+        seen.add(tokenId)
 
-            result.push({
-              tokenId,
-              slug,
-              title,
-              parent,
-              droppable: false,
-            })
+        const slug = normalizePathToTokenId(url).split('/').pop()
+        if (!slug) continue
 
-            nextTokenId++
+        result.push({
+          tokenId,
+          slug,
+          title,
+          parent,
+          droppable: false,
+          content: files[url],
+        })
 
-            // Вложенные элементы становятся дочерними ТОЛЬКО текущего элемента
-            const nextList = item.children?.find((n: any) => n.type === 'list')
-            if (nextList) {
-              walkList(nextList.children, tokenId)
-            }
-          }
+        nextTokenId++
+
+        // Обрабатываем вложенный список, если он есть
+        const nextList = item.children?.find((n: any) => n.type === 'list')
+        if (nextList) {
+          walkList(nextList.children, tokenId)
         }
       }
-
-      walkList(node.children, currentGroupId ?? '0')
     }
-  })
+  }
 
   return result
 }

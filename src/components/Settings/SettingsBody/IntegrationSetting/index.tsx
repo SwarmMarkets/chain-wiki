@@ -11,7 +11,7 @@ const IntegrationSetting = () => {
       subtitle={t('import.subtitle')}
       description={t('import.description')}
     >
-      <IntegrationForm onSuccessSubmit={() => {}} onErrorSubmit={() => {}} />
+      <IntegrationForm />
     </SettingCard>
   )
 }
