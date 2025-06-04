@@ -118,7 +118,7 @@ const NftLayoutHeader: React.FC<NftLayoutHeaderProps> = ({ nft, loading }) => {
         </RadioButtonGroup>
       </div>
 
-      <div className='flex gap-2 items-center'>
+      <div className='flex items-center gap-2'>
         <Link to={generatePath(RoutePaths.EDIT, { nftId })}>
           {isEditMode ? (
             !smartAccountPermissions.canUpdateContent ? (
