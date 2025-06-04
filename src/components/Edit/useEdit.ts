@@ -165,7 +165,10 @@ const useEdit = (readonly?: boolean) => {
         transactions: await resolveAllThirdwebTransactions(txs),
       })
 
-      if (receipt?.status == SafeClientTxStatus.EXECUTED) {
+      if (
+        receipt?.status == SafeClientTxStatus.EXECUTED ||
+        receipt?.status == SafeClientTxStatus.DEPLOYED_AND_EXECUTED
+      ) {
         resetTokens()
       }
 
