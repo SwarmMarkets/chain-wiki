@@ -22,6 +22,9 @@
       },
       "ens": {
         "label": "ENS Domain"
+      },
+      "integration": {
+        "label": "Integration"
       }
     },
     "siteName": {
@@ -69,6 +72,37 @@
         "minLinks": "Please add at least one link"
       },
       "buttonAddLink": "Add link"
+    },
+    "import": {
+      "title": "Import from GitBook",
+      "subtitle": "Import your site from a public GitHub-synced GitBook project",
+      "description": "Use GitHub repository to import pages from your GitBook workspace. You can select a specific branch, and the imported pages will be added directly to your ChainWiki site.",
+      "form": {
+        "username": "GitHub username",
+        "repoName": "Repository name",
+        "branchName": "Branch name",
+        "submit": "Import"
+      },
+      "formPlaceholders": {
+        "username": "Enter username",
+        "repoName": "Enter repository name",
+        "branchName": "Enter branch name"
+      },
+      "formErrors": {
+        "username": {
+          "required": "Username is required"
+        },
+        "repoName": {
+          "required": "Repository name is required"
+        },
+        "branchName": {
+          "required": "Branch name is required"
+        }
+      },
+      "toasts": {
+        "pagesImported": "Pages imported successfully",
+        "pagesImportFailed": "Pages import failed"
+      }
     },
     "linksColor": {
       "title": "Links color",

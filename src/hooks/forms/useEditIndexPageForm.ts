@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import useYupValidationResolver from '../useYupValidationResolvber'
+import useYupValidationResolver from '../useYupValidationResolver'
 import yup from 'src/shared/validations/yup'
 import { useForm } from 'react-hook-form'
 import { useEffect, useRef } from 'react'
@@ -19,7 +19,9 @@ const generateSlug = (name: string): string => {
 }
 
 const useEditIndexPageForm = (defaultValues?: EditIndexPageFormInputs) => {
-  const { t } = useTranslation('edit', { keyPrefix: 'indexPages.editPage.form' })
+  const { t } = useTranslation('edit', {
+    keyPrefix: 'indexPages.editPage.form',
+  })
   const isSlugManuallyEdited = useRef(false)
 
   const resolver = useYupValidationResolver(
@@ -60,4 +62,4 @@ const useEditIndexPageForm = (defaultValues?: EditIndexPageFormInputs) => {
   }
 }
 
-export default useEditIndexPageForm 
+export default useEditIndexPageForm

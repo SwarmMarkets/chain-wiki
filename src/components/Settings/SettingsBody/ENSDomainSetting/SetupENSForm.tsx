@@ -39,7 +39,6 @@ const SetupENSForm = () => {
     e?.preventDefault()
     const { domain } = data
     const siteUrl = generateSiteLink(nftId)
-    console.log(siteUrl)
 
     const uploadHtmlToIpfs = async (html: string): Promise<string> => {
       const file = new File([html], 'index.html', { type: 'text/html' })
