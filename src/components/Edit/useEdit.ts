@@ -116,12 +116,19 @@ const useEdit = (readonly?: boolean) => {
                 JSON.stringify({ uri: firstUri, name: editedToken.name }),
               ]
             )
-            const tokenSlugUpdateTx = sx1555NFTContract.prepare(
-              'updateTokenSlug',
-              [tokenId, editedToken.slug]
-            )
             txs.push(tokenContentUpdateTx)
-            txs.push(tokenSlugUpdateTx)
+
+            const slugIsEdited =
+              fullTokens?.find(t => t.id === editedToken.id)?.slug !==
+              editedToken.slug
+
+            if (slugIsEdited) {
+              const tokenSlugUpdateTx = sx1555NFTContract.prepare(
+                'updateTokenSlug',
+                [tokenId, editedToken.slug]
+              )
+              txs.push(tokenSlugUpdateTx)
+            }
           }
         }
       }
@@ -165,7 +172,10 @@ const useEdit = (readonly?: boolean) => {
         transactions: await resolveAllThirdwebTransactions(txs),
       })
 
-      if (receipt?.status == SafeClientTxStatus.EXECUTED) {
+      if (
+        receipt?.status == SafeClientTxStatus.EXECUTED ||
+        receipt?.status == SafeClientTxStatus.DEPLOYED_AND_EXECUTED
+      ) {
         resetTokens()
       }
 
@@ -282,7 +292,7 @@ const useEdit = (readonly?: boolean) => {
       t => +t.id.split('-')[1]
     )
     if (!tokenIds) return
-    const tokenId = tokenIds.length.toString(16)
+    const tokenId = (tokenIds.length + 1).toString(16)
 
     const nextTokenId = `${nftId}-0x${tokenId}`
     return nextTokenId
