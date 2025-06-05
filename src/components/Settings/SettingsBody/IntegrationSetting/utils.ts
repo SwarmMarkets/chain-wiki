@@ -28,9 +28,9 @@ export function parseSummaryToFlatTree(
   const normalizePathToTokenId = (path: string): string =>
     path.replace(/\.md$/, '').replace(/\/README$/i, '')
 
-  // Проходим по всем top-level нодам AST
+  // Traverse all top-level AST nodes
   for (const node of ast.children) {
-    // Заголовки как группы (кроме "Table of contents")
+    // Headings as groups (except "Table of contents")
     if (node.type === 'heading') {
       const text = node.children?.find((c: any) => c.type === 'text')?.value
       if (text && text.trim().toLowerCase() !== 'table of contents') {
@@ -50,12 +50,12 @@ export function parseSummaryToFlatTree(
       }
     }
 
-    // *** — сброс текущей группы
+    // *** — reset current group
     if (node.type === 'thematicBreak') {
       currentGroupId = null
     }
 
-    // Один раз обрабатываем список, начиная с верхнего уровня
+    // Process the list once, starting from the top level
     if (node.type === 'list') {
       walkList(node.children, currentGroupId ?? 0)
     }
@@ -95,7 +95,7 @@ export function parseSummaryToFlatTree(
         })
         if (!existingToken) nextTokenIdToMint++
 
-        // Обрабатываем вложенный список, если он есть
+        // Process nested list, if present
         const nextList = item.children?.find((n: any) => n.type === 'list')
         if (nextList) {
           walkList(nextList.children, tokenId)
