@@ -187,9 +187,9 @@ const useIntegrationForm = () => {
       }
     } catch (error) {
       console.error('[Integration] Error during submission:', error)
-      addToast(
-        error.message || t('toasts.pagesImportFailed', { type: 'error' })
-      )
+      addToast(error.message || t('toasts.pagesImportFailed'), {
+        type: 'error',
+      })
     } finally {
       setSubmitLoading(false)
     }
