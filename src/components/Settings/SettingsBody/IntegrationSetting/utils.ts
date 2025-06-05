@@ -1,6 +1,11 @@
 import { unified } from 'unified'
 import remarkParse from 'remark-parse'
-import { getUniqueId, IpfsIndexPage, joinTokenId } from 'src/shared/utils'
+import {
+  getUniqueId,
+  IpfsIndexPage,
+  joinTokenId,
+  TokensQueryFullData,
+} from 'src/shared/utils'
 
 interface IndexPageWithContent extends IpfsIndexPage {
   content?: string
@@ -9,10 +14,10 @@ interface IndexPageWithContent extends IpfsIndexPage {
 export function parseSummaryToFlatTree(
   markdown: string,
   nftId: string,
-  startFromTokenId: number,
+  existingTokens: TokensQueryFullData[],
   files: Record<string, string>
 ): IndexPageWithContent[] {
-  let nextTokenId = startFromTokenId
+  let nextTokenIdToMint = existingTokens.length + 1
 
   const ast = unified().use(remarkParse).parse(markdown)
   const result: IndexPageWithContent[] = []
@@ -69,12 +74,16 @@ export function parseSummaryToFlatTree(
         const url = linkNode.url
         if (!title || !url) continue
 
-        const tokenId = joinTokenId(nftId, nextTokenId)
-        if (seen.has(tokenId)) continue
-        seen.add(tokenId)
-
         const slug = normalizePathToTokenId(url).split('/').pop()
         if (!slug) continue
+
+        const existingToken = existingTokens.find(t => t.slug === slug)
+
+        const tokenId = existingToken
+          ? existingToken.id
+          : joinTokenId(nftId, nextTokenIdToMint)
+        if (seen.has(tokenId)) continue
+        seen.add(tokenId)
 
         result.push({
           tokenId,
@@ -84,8 +93,7 @@ export function parseSummaryToFlatTree(
           droppable: false,
           content: files[url],
         })
-
-        nextTokenId++
+        if (!existingToken) nextTokenIdToMint++
 
         // Обрабатываем вложенный список, если он есть
         const nextList = item.children?.find((n: any) => n.type === 'list')

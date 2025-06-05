@@ -89,7 +89,7 @@ const useIntegrationForm = () => {
       const indexPagesWithContent = parseSummaryToFlatTree(
         summaryContent,
         nftId,
-        fullTokens.length + 1,
+        fullTokens,
         files
       )
       console.log(indexPagesWithContent, 'indexPagesWithContent')
