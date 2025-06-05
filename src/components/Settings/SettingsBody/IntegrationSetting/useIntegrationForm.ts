@@ -19,7 +19,6 @@ import { useSX1155NFT } from 'src/hooks/contracts/useSX1155NFT'
 import useSmartAccount from 'src/services/safe-protocol-kit/useSmartAccount'
 import { SafeClientTxStatus } from '@safe-global/sdk-starter-kit/dist/src/constants'
 import useNFT from 'src/hooks/subgraph/useNFT'
-import { title } from 'process'
 import { useToastManager } from 'src/hooks/useToastManager'
 
 export interface IntegrationToken {
@@ -90,18 +89,19 @@ const useIntegrationForm = () => {
       const indexPagesWithContent = parseSummaryToFlatTree(
         summaryContent,
         nftId,
-        fullTokens.length,
+        fullTokens.length + 1,
         files
       )
-
       console.log(indexPagesWithContent, 'indexPagesWithContent')
 
       const currentSlugs = new Set(fullTokens.map(t => t.slug))
 
       const toMint = indexPagesWithContent.filter(
-        p => !currentSlugs.has(p.slug)
+        p => !currentSlugs.has(p.slug) && p.type !== 'group'
       )
-      const toEdit = indexPagesWithContent.filter(p => currentSlugs.has(p.slug))
+      const toEdit = indexPagesWithContent.filter(
+        p => currentSlugs.has(p.slug) && p.type !== 'group'
+      )
 
       console.log('%c[Integration] Tokens to create:', 'color: green', toMint)
       console.log('%c[Integration] Tokens to edit:', 'color: orange', toEdit)
