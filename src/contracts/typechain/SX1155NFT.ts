@@ -1759,10 +1759,8 @@ export interface SX1155NFT extends BaseContract {
       commentId?: null
     ): CommentedEventFilter;
 
-    "ContractSlugUpdated(string)"(
-      slug?: string | null
-    ): ContractSlugUpdatedEventFilter;
-    ContractSlugUpdated(slug?: string | null): ContractSlugUpdatedEventFilter;
+    "ContractSlugUpdated(string)"(slug?: null): ContractSlugUpdatedEventFilter;
+    ContractSlugUpdated(slug?: null): ContractSlugUpdatedEventFilter;
 
     "ContractURISet(address,string)"(
       from?: null,
@@ -1874,11 +1872,11 @@ export interface SX1155NFT extends BaseContract {
 
     "TokenSlugUpdated(uint256,string)"(
       slugId?: BigNumberish | null,
-      slug?: string | null
+      slug?: null
     ): TokenSlugUpdatedEventFilter;
     TokenSlugUpdated(
       slugId?: BigNumberish | null,
-      slug?: string | null
+      slug?: null
     ): TokenSlugUpdatedEventFilter;
 
     "TokenURIUpdated(address,uint256,string)"(

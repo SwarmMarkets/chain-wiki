@@ -81,7 +81,7 @@ const _abi = [
         type: "address",
       },
       {
-        indexed: true,
+        indexed: false,
         internalType: "string",
         name: "slug",
         type: "string",
@@ -140,7 +140,7 @@ const _abi = [
     anonymous: false,
     inputs: [
       {
-        indexed: true,
+        indexed: false,
         internalType: "string",
         name: "slug",
         type: "string",
@@ -217,7 +217,7 @@ const _abi = [
         type: "uint256",
       },
       {
-        indexed: true,
+        indexed: false,
         internalType: "string",
         name: "slug",
         type: "string",
@@ -263,19 +263,6 @@ const _abi = [
     name: "completeOwnershipHandover",
     outputs: [],
     stateMutability: "payable",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "contractSlug",
-    outputs: [
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-    ],
-    stateMutability: "view",
     type: "function",
   },
   {

@@ -303,7 +303,7 @@ const _abi = [
     anonymous: false,
     inputs: [
       {
-        indexed: true,
+        indexed: false,
         internalType: "string",
         name: "slug",
         type: "string",
@@ -586,7 +586,7 @@ const _abi = [
         type: "uint256",
       },
       {
-        indexed: true,
+        indexed: false,
         internalType: "string",
         name: "slug",
         type: "string",

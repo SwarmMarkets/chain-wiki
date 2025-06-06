@@ -52,7 +52,6 @@ export interface SX1155NFTFactoryInterface extends utils.Interface {
     "cancelOwnershipHandover()": FunctionFragment;
     "chainWikiToSlug(address)": FunctionFragment;
     "completeOwnershipHandover(address)": FunctionFragment;
-    "contractSlug()": FunctionFragment;
     "currentImplementation()": FunctionFragment;
     "deployChainWiki((string,string,string),string,(address,address[],address[]))": FunctionFragment;
     "owner()": FunctionFragment;
@@ -70,7 +69,6 @@ export interface SX1155NFTFactoryInterface extends utils.Interface {
       | "cancelOwnershipHandover"
       | "chainWikiToSlug"
       | "completeOwnershipHandover"
-      | "contractSlug"
       | "currentImplementation"
       | "deployChainWiki"
       | "owner"
@@ -94,10 +92,6 @@ export interface SX1155NFTFactoryInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "completeOwnershipHandover",
     values: [string]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "contractSlug",
-    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "currentImplementation",
@@ -147,10 +141,6 @@ export interface SX1155NFTFactoryInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "completeOwnershipHandover",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "contractSlug",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -333,8 +323,6 @@ export interface SX1155NFTFactory extends BaseContract {
       overrides?: PayableOverrides & { from?: string }
     ): Promise<ContractTransaction>;
 
-    contractSlug(overrides?: CallOverrides): Promise<[string]>;
-
     currentImplementation(overrides?: CallOverrides): Promise<[string]>;
 
     deployChainWiki(
@@ -392,8 +380,6 @@ export interface SX1155NFTFactory extends BaseContract {
     overrides?: PayableOverrides & { from?: string }
   ): Promise<ContractTransaction>;
 
-  contractSlug(overrides?: CallOverrides): Promise<string>;
-
   currentImplementation(overrides?: CallOverrides): Promise<string>;
 
   deployChainWiki(
@@ -449,8 +435,6 @@ export interface SX1155NFTFactory extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    contractSlug(overrides?: CallOverrides): Promise<string>;
-
     currentImplementation(overrides?: CallOverrides): Promise<string>;
 
     deployChainWiki(
@@ -493,21 +477,19 @@ export interface SX1155NFTFactory extends BaseContract {
   filters: {
     "ChainWikiDeployed(address,string,(string,string,string),(address,address[],address[]))"(
       chainWiki?: string | null,
-      slug?: string | null,
+      slug?: null,
       data?: null,
       roles?: null
     ): ChainWikiDeployedEventFilter;
     ChainWikiDeployed(
       chainWiki?: string | null,
-      slug?: string | null,
+      slug?: null,
       data?: null,
       roles?: null
     ): ChainWikiDeployedEventFilter;
 
-    "ContractSlugUpdated(string)"(
-      slug?: string | null
-    ): ContractSlugUpdatedEventFilter;
-    ContractSlugUpdated(slug?: string | null): ContractSlugUpdatedEventFilter;
+    "ContractSlugUpdated(string)"(slug?: null): ContractSlugUpdatedEventFilter;
+    ContractSlugUpdated(slug?: null): ContractSlugUpdatedEventFilter;
 
     "ImplementationUpgraded(address)"(
       newImplementation?: null
@@ -541,11 +523,11 @@ export interface SX1155NFTFactory extends BaseContract {
 
     "TokenSlugUpdated(uint256,string)"(
       slugId?: BigNumberish | null,
-      slug?: string | null
+      slug?: null
     ): TokenSlugUpdatedEventFilter;
     TokenSlugUpdated(
       slugId?: BigNumberish | null,
-      slug?: string | null
+      slug?: null
     ): TokenSlugUpdatedEventFilter;
   };
 
@@ -563,8 +545,6 @@ export interface SX1155NFTFactory extends BaseContract {
       pendingOwner: string,
       overrides?: PayableOverrides & { from?: string }
     ): Promise<BigNumber>;
-
-    contractSlug(overrides?: CallOverrides): Promise<BigNumber>;
 
     currentImplementation(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -626,8 +606,6 @@ export interface SX1155NFTFactory extends BaseContract {
       pendingOwner: string,
       overrides?: PayableOverrides & { from?: string }
     ): Promise<PopulatedTransaction>;
-
-    contractSlug(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     currentImplementation(
       overrides?: CallOverrides
