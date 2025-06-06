@@ -80,7 +80,7 @@ export const DotMenu: React.FC<DotMenuProps> = ({
               exit='exit'
               variants={menuVariants}
               onClick={handleMenuClick}
-              className='fixed bg-paper border border-main w-40 rounded-lg overflow-hidden z-50 p-2 shadow-lg'
+              className='fixed bg-paper border border-main w-40 rounded-lg overflow-hidden z-50 p-2 shadow-lg typo-body2'
               style={{
                 top: menuPosition.top,
                 left: menuPosition.left,
