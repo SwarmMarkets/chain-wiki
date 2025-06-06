@@ -67,7 +67,12 @@ const Toast: React.FC<ToastComponentProps> = ({
             hoverBackground={`${type}-muted`}
             onClick={handleCloseButton}
           >
-            <Icon name='close' width={18} height={18} />
+            <Icon
+              className={`text-${type}-accent`}
+              name='close'
+              width={18}
+              height={18}
+            />
           </IconButton>
         </motion.div>
       )}
