@@ -59,12 +59,12 @@ const SideBar = () => {
         <ExpandableList
           title={
             <div className='flex justify-between items-center w-full'>
-              <p>{t('sites')}</p>
+              <p className='typo-body1'>{t('sites')}</p>
               <IconButton
                 onClick={handleOpenCreateNftModal}
                 hoverBackground='gray-100'
               >
-                <Icon name='plus' size={16} />
+                <Icon name='plus' size={14} />
               </IconButton>
             </div>
           }
