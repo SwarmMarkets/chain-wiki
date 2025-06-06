@@ -27,7 +27,7 @@ const ExpandableListItem: React.FC<ExpandableListItemProps> = ({
   const expandableItem = (
     <div
       className={clsx(
-        'group flex items-center px-1.5 py-1 gap-3 text-base rounded cursor-pointer transition-colors',
+        'group flex items-center px-1.5 py-1 gap-2 text-base rounded cursor-pointer transition-colors',
         item.active && (lighter ? 'bg-gray-100' : 'bg-gray-200'),
         lighter ? 'hover:bg-gray-100' : 'hover:bg-gray-200'
       )}
