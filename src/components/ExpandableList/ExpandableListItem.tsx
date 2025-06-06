@@ -44,7 +44,7 @@ const ExpandableListItem: React.FC<ExpandableListItemProps> = ({
           />
         )
       )}
-      <div className='typo-body1 w-full'>{item.label}</div>
+      <div className='w-full'>{item.label}</div>
     </div>
   )
 

@@ -27,7 +27,7 @@ const IndexPages: React.FC<IndexPagesProps> = ({ nft }) => {
   if (!nft) return null
 
   if (isEditMode) {
-    return <EditIndexPages nft={nft} />
+    return <EditIndexPages />
   }
 
   return (
