@@ -25,13 +25,13 @@ const ExpandableList: React.FC<ExpandableListProps> = ({
     <div className='flex flex-col'>
       <div
         className={clsx(
-          'group flex items-center px-2 py-1.5 gap-3 text-lg mb-1 rounded cursor-pointer transition-colors hover:bg-gray-200'
+          'group flex items-center px-1.5 py-0.5 gap-3 text-lg mb-1 rounded cursor-pointer transition-colors hover:bg-gray-200'
         )}
         onClick={() => setIsOpen(!isOpen)}
       >
         <Icon
           name='chevronRight'
-          size={12}
+          size={10}
           className={clsx(
             'text-main transition-transform group-hover:text-main-accent',
             isOpen ? 'rotate-90' : 'rotate-0'

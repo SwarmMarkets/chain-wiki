@@ -2,7 +2,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { useState } from 'react'
 import { createPortal } from 'react-dom'
 import Icon, { IconProps } from '../Icon/Icon'
-import IconButton from '../IconButton'
+import IconButton, { IconButtonProps } from '../IconButton'
 import useClickAway from '../hooks/useClickAway'
 
 const menuVariants = {
@@ -16,6 +16,7 @@ export type MenuPosition = 'left' | 'right'
 interface DotMenuProps {
   children: React.ReactNode
   iconProps?: Partial<IconProps>
+  iconButtonProps?: Partial<IconButtonProps>
   loading?: boolean
   position?: MenuPosition
 }
@@ -23,6 +24,7 @@ interface DotMenuProps {
 export const DotMenu: React.FC<DotMenuProps> = ({
   children,
   iconProps,
+  iconButtonProps,
   loading,
   position = 'left',
 }) => {
@@ -52,7 +54,11 @@ export const DotMenu: React.FC<DotMenuProps> = ({
   return (
     <>
       <div className='relative' ref={ref} onClick={handleMenuClick}>
-        <IconButton disabled={loading} onClick={handleToggle}>
+        <IconButton
+          disabled={loading}
+          onClick={handleToggle}
+          {...iconButtonProps}
+        >
           {loading ? (
             <div className='loader' />
           ) : (

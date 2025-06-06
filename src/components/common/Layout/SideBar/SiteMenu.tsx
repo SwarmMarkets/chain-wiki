@@ -24,7 +24,11 @@ const SiteMenu: React.FC<SiteMenuProps> = ({ nftId, tokenId }) => {
   }
 
   return (
-    <DotMenu position='right' iconProps={{ size: 14 }}>
+    <DotMenu
+      position='right'
+      iconProps={{ size: 14 }}
+      iconButtonProps={{ padding: 'p-1' }}
+    >
       <li
         className='px-4 py-2 hover:bg-gray-100 cursor-pointer rounded'
         onClick={handleVisitSite}

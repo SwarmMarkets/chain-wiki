@@ -50,7 +50,7 @@ const SideBar = () => {
             <ExpandableListItem
               item={{
                 id: 'my-nfts',
-                label: t('home'),
+                label: <div className='py-0.5'>{t('home')}</div>,
                 icon: 'four-squares',
                 active: isActive,
               }}
@@ -64,6 +64,7 @@ const SideBar = () => {
               <IconButton
                 onClick={handleOpenCreateNftModal}
                 hoverBackground='gray-100'
+                padding='p-1'
               >
                 <Icon name='plus' size={14} />
               </IconButton>
