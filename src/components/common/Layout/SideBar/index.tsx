@@ -12,6 +12,7 @@ import CreateNftModal from 'src/components/CreateNft/CreateNftModal'
 import useModalState from 'src/hooks/useModalState'
 import Icon from 'src/components/ui-kit/Icon/Icon'
 import IconButton from 'src/components/ui-kit/IconButton'
+import SiteMenu from './SiteMenu'
 
 const SideBar = () => {
   const { t } = useTranslation('layout', { keyPrefix: 'sidebar' })
@@ -70,7 +71,14 @@ const SideBar = () => {
           }
           items={nfts?.map(nft => ({
             id: nft.id,
-            label: nft.name,
+            label: (
+              <div className='flex justify-between items-center w-full'>
+                <span>{nft.name}</span>
+                <div className='opacity-0 group-hover:opacity-100 transition-opacity duration-200'>
+                  <SiteMenu nftId={nft.id} />
+                </div>
+              </div>
+            ),
             icon: 'internet',
             iconImageUrl: nft.iconLogoUrl,
             active: isSameEthereumAddress(nftId, nft.id),

@@ -6,6 +6,11 @@
     "home": "Home",
     "sites": "Sites"
   },
+  "siteMenu": {
+    "visitSite": "Visit site",
+    "copyUrl": "Copy URL",
+    "urlCopied": "URL copied to clipboard"
+  },
   "customization": {
     "basic": "Basic",
     "title": "Site customization",
