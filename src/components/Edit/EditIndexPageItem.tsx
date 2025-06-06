@@ -72,14 +72,14 @@ const EditIndexPagesItem: React.FC<EditIndexPagesItemProps> = ({
           active && 'bg-gray-100 text-main-accent',
           hasChild && 'mb-1',
           isGroup
-            ? 'uppercase font-bold text-main-accent'
+            ? 'uppercase font-semibold text-main-accent typo-body1'
             : 'hover:bg-gray-100 cursor-pointer',
           className
         )}
         onClick={handleClick}
       >
         <div className='flex-1 break-words min-w-0'>
-          <span className='block text-sm leading-snug break-words'>{name}</span>
+          <span className='block leading-snug break-words'>{name}</span>
         </div>
 
         <div className='flex items-center gap-2 flex-shrink-0'>
