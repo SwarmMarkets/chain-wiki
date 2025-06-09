@@ -31,7 +31,7 @@ export const DotMenu: React.FC<DotMenuProps> = ({
           <Icon
             name='three-dots'
             size={20}
-            className='text-primary'
+            className='text-main'
             {...iconProps}
           />
         )}
