@@ -68,7 +68,7 @@ const EditIndexPagesItem: React.FC<EditIndexPagesItemProps> = ({
         as={to ? Link : 'div'}
         to={to || ''}
         className={clsx(
-          'flex items-center justify-between w-full box-border rounded transition-colors overflow-hidden px-1.5 py-1 gap-2',
+          'flex items-center justify-between w-full box-border rounded transition-colors overflow-hidden px-1.5 py-1 gap-2 group',
           active && 'bg-gray-100 text-main-accent',
           hasChild && 'mb-1',
           isGroup
@@ -87,6 +87,7 @@ const EditIndexPagesItem: React.FC<EditIndexPagesItemProps> = ({
             <IconButton
               hoverBackground='gray-200'
               onClick={handleActionIconClick}
+              className='opacity-0 group-hover:opacity-100 transition-opacity'
             >
               <Icon size={16} name='edit' />
             </IconButton>
