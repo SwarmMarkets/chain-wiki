@@ -9,7 +9,12 @@ const IntegrationSetting = () => {
     <SettingCard
       title={t('import.title')}
       subtitle={t('import.subtitle')}
-      description={t('import.description')}
+      description={
+        <div>
+          <div>{t('import.description')}</div>
+          <div className='mt-1.5'>{t('import.descriptionNote')}</div>
+        </div>
+      }
     >
       <IntegrationForm />
     </SettingCard>
