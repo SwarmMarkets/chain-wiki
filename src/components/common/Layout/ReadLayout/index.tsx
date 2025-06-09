@@ -111,8 +111,8 @@ const ReadLayout: React.FC<PropsWithChildren<ReadLayoutProps>> = ({
           {!isMobile && !isHistoryPage && (
             <RightSidebar
               preview={preview}
+              isLoading={loading}
               firstTokenId={firstTokenId}
-              isLoading={loadingNft}
               className='w-full'
             />
           )}
