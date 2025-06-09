@@ -91,7 +91,6 @@ const ReadLayout: React.FC<PropsWithChildren<ReadLayoutProps>> = ({
                   firstTokenId={firstTokenId}
                   onClose={() => setLeftSidebarOpen(false)}
                   isMobile={isMobile}
-                  onNavigate={() => setLeftSidebarOpen(false)}
                   className='w-full px-2'
                 />
               </div>
@@ -112,9 +111,9 @@ const ReadLayout: React.FC<PropsWithChildren<ReadLayoutProps>> = ({
           {!isMobile && !isHistoryPage && (
             <RightSidebar
               preview={preview}
-              nft={nft}
-              tokenId={tokenId}
-              isHistoryPage={isHistoryPage}
+              firstTokenId={firstTokenId}
+              isLoading={loadingNft}
+              className='w-full'
             />
           )}
         </div>
