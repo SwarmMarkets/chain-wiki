@@ -2,12 +2,13 @@ import { useAddress } from '@thirdweb-dev/react'
 import { useTranslation } from 'react-i18next'
 import { generatePath, NavLink, useParams } from 'react-router-dom'
 import ExpandableList from 'src/components/ExpandableList'
-import ExpandableListItem from 'src/components/ExpandableList/ExpandableListItem'
+import ExpandableListItem, {
+  ExpandableListItem as IExpandableListItem,
+} from 'src/components/ExpandableList/ExpandableListItem'
 import useNFTs from 'src/hooks/subgraph/useNFTs'
 import { Nft_OrderBy, OrderDirection } from 'src/queries/gql/graphql'
 import RoutePaths from 'src/shared/enums/routes-paths'
 import { isSameEthereumAddress } from 'src/shared/utils'
-import PoweredByBadge from 'src/components/PoweredByBadge/PoweredByBadge'
 import CreateNftModal from 'src/components/CreateNft/CreateNftModal'
 import useModalState from 'src/hooks/useModalState'
 import Icon from 'src/components/ui-kit/Icon/Icon'
@@ -40,6 +41,18 @@ const SideBar = () => {
   const handleOpenCreateNftModal = (e: React.MouseEvent) => {
     e.stopPropagation()
     open()
+  }
+
+  const handleHelpItemClick = (item: IExpandableListItem) => {
+    const urls = {
+      github: 'https://github.com/SwarmMarkets/chain-wiki',
+      changelog: `${window.location.origin}/changelog`,
+      docs: `${window.location.origin}/docs`,
+    }
+    const url = urls[item.id as keyof typeof urls]
+    if (url) {
+      window.open(url, '_blank', 'noopener,noreferrer')
+    }
   }
 
   return (
@@ -88,7 +101,35 @@ const SideBar = () => {
           noMarginLeft
         />
       </nav>
-      <footer className='p-4'></footer>
+      <footer className='p-4 border-t border-gray-200'>
+        <ExpandableList
+          title={
+            <div className='flex items-center gap-2'>
+              <Icon name='info' size={16} />
+              <span className='typo-body1'>{t('help')}</span>
+            </div>
+          }
+          items={[
+            {
+              id: 'github',
+              label: t('helpItems.github'),
+              icon: 'external-link',
+            },
+            // {
+            //   id: 'changelog',
+            //   label: t('helpItems.changelog'),
+            //   icon: 'document',
+            // },
+            // {
+            //   id: 'docs',
+            //   label: t('helpItems.docs'),
+            //   icon: 'contentEditor',
+            // },
+          ]}
+          onClickItem={handleHelpItemClick}
+          noMarginLeft
+        />
+      </footer>
       <CreateNftModal isOpen={isOpen} onClose={close} />
     </aside>
   )
