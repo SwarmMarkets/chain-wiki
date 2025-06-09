@@ -205,14 +205,16 @@
       "uri": "IPFS hash",
       "editorAddress": "Editor address",
       "submit": "Create",
-      "uploadLogo": "Upload logo"
+      "uploadLogo": "Upload logo",
+      "slug": "Site URL"
     },
     "formPlaceholders": {
       "name": "Enter full name of the site",
       "symbol": "Enter site symbol (e.g., ABC)",
       "adminAddress": "Enter admin's Ethereum address",
       "uri": "Paste IPFS hash or URI",
-      "editorAddress": "Enter editor's Ethereum address"
+      "editorAddress": "Enter editor's Ethereum address",
+      "slug": "Enter site URL (auto-generated from name)"
     },
     "formErrors": {
       "name": {
@@ -228,6 +230,9 @@
       "editor": {
         "required": "Editor address is required",
         "invalid": "Editor address is invalid"
+      },
+      "slug": {
+        "required": "Site URL is required"
       }
     }
   },

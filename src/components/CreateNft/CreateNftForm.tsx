@@ -12,6 +12,7 @@ import Button from '../ui-kit/Button/Button'
 import TextField from '../ui-kit/TextField/TextField'
 import useSmartAccount from 'src/services/safe-protocol-kit/useSmartAccount'
 import { generateSlug } from '../Edit/utils'
+import { useEffect } from 'react'
 
 interface CreateNftFormProps {
   onSuccessSubmit(): void
@@ -27,17 +28,27 @@ const CreateNftForm: React.FC<CreateNftFormProps> = ({
     register,
     handleSubmit,
     formState: { errors },
+    watch,
+    setValue,
   } = useCreateNftForm()
   const { call, txLoading } = useSX1155NFTFactory()
   const account = useAddress()
   const { smartAccountInfo } = useSmartAccount()
   const [uploadedLogoUrl, setUploadedLogoUrl] = useState<string | null>(null)
+
+  const name = watch('name')
+
+  useEffect(() => {
+    if (name) {
+      setValue('slug', generateSlug(name))
+    }
+  }, [name, setValue])
+
   const onSubmit: SubmitHandler<CreateNftFormInputs> = async (data, e) => {
     e?.preventDefault()
     if (!account || !smartAccountInfo?.address) return
 
-    const { name } = data
-    const slug = generateSlug(name)
+    const { name, slug } = data
     const symbol = generateSymbolFromString(name)
     const owner = account
     const admins = [account, smartAccountInfo.address]
@@ -76,7 +87,15 @@ const CreateNftForm: React.FC<CreateNftFormProps> = ({
           }}
           errorMessage={errors.name?.message}
         />
-        <div className='mb-2'>
+        <p className='typo-body1 mt-4'>{t('form.slug')}</p>
+        <TextField
+          inputProps={{
+            placeholder: t('formPlaceholders.slug'),
+            ...register('slug'),
+          }}
+          errorMessage={errors.slug?.message}
+        />
+        <div className='mb-2 mt-2'>
           {uploadedLogoUrl && (
             <div className='p-5 flex justify-center bg-gray-100 rounded'>
               <img className='max-w-52 max-h-28' src={uploadedLogoUrl} />
