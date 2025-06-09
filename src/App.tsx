@@ -29,6 +29,7 @@ import NftReadHistory from './components/common/Layout/ReadLayout/NftReadHistory
 import ExplorePage from './pages/ExplorePage'
 import staticConfig from './config'
 import WalletConnectedProtect from './components/common/WalletConnectedProtect'
+import ToastManager from './components/ui-kit/Toast/ToastManager'
 
 const queryClient = new QueryClient()
 
@@ -95,6 +96,7 @@ function App() {
                 />
                 <Route path={RoutePaths.EXPLORE} element={<ExplorePage />} />
               </Routes>
+              <ToastManager />
             </Router>
             <GlobalStyle />
             <ToastContainer />

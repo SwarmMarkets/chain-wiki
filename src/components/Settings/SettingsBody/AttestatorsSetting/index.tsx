@@ -8,14 +8,16 @@ import useNFT from 'src/hooks/subgraph/useNFT'
 import useNFTUpdate from 'src/hooks/useNFTUpdate'
 import SettingCard from '../../SettingCard'
 import MakePreferredForm from './MakePreferredForm'
-import { AdditionalRoles, Roles } from 'src/shared/enums'
+import { AdditionalRoles } from 'src/shared/enums'
 import { isSameEthereumAddress } from 'src/shared/utils'
 import { useAddress } from '@thirdweb-dev/react'
 import { useAddressNameStore } from 'src/components/Nft/NftRoleManager/addressNameStore'
 
 const AttestatorsSetting = () => {
   const { nftId = '' } = useParams()
-  const { t } = useTranslation('nft', { keyPrefix: 'attestatorsManager' })
+  const { t } = useTranslation('nft', {
+    keyPrefix: 'settings.attestatorsManager',
+  })
   const { nft } = useNFT(nftId)
   const { signTransaction, tx } = useNFTUpdate(nftId)
 

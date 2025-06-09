@@ -1,7 +1,6 @@
 export enum SettingView {
   GENERAL = 'general',
   ROLES = 'roles',
-  CONTENT = 'content',
-  LAYOUT = 'layout',
   ATTESTATORS = 'attestators',
+  ENS_DOMAIN = "ems-domain"
 }

@@ -10,6 +10,7 @@
   "publish": "Publish",
   "settings": "Settings",
   "visit": "Visit",
+  "enableBatchEditing": "Enable batch editing",
   "setAttestator": "Set as preferred attestor",
   "unsetAttestator": "Remove as preferred attestor"
 }
