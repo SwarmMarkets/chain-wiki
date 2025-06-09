@@ -46,7 +46,8 @@ const SideBar = () => {
   const handleHelpItemClick = (item: IExpandableListItem) => {
     const urls = {
       github: 'https://github.com/SwarmMarkets/chain-wiki',
-      changelog: `${window.location.origin}/changelog`,
+      changelog:
+        'https://github.com/SwarmMarkets/nft-minter-contracts/commits/main/',
       docs: `${window.location.origin}/docs`,
     }
     const url = urls[item.id as keyof typeof urls]
@@ -115,11 +116,11 @@ const SideBar = () => {
               label: t('helpItems.github'),
               icon: 'external-link',
             },
-            // {
-            //   id: 'changelog',
-            //   label: t('helpItems.changelog'),
-            //   icon: 'document',
-            // },
+            {
+              id: 'changelog',
+              label: t('helpItems.changelog'),
+              icon: 'edit-paper',
+            },
             // {
             //   id: 'docs',
             //   label: t('helpItems.docs'),
