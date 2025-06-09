@@ -20,6 +20,7 @@ import useSmartAccount from 'src/services/safe-protocol-kit/useSmartAccount'
 import { SafeClientTxStatus } from '@safe-global/sdk-starter-kit/dist/src/constants'
 import useNFT from 'src/hooks/subgraph/useNFT'
 import { useToastManager } from 'src/hooks/useToastManager'
+import useNFTIdParam from 'src/hooks/useNftIdParam'
 
 export interface IntegrationToken {
   id: string
@@ -35,7 +36,8 @@ export interface IntegrationFormInputs {
 }
 
 const useIntegrationForm = () => {
-  const { nftId = '' } = useParams()
+  const { nftId } = useNFTIdParam()
+
   const { t } = useTranslation('nft', { keyPrefix: 'settings.import' })
   const [submitLoading, setSubmitLoading] = useState(false)
 

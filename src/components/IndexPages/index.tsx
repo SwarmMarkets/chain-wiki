@@ -1,6 +1,5 @@
 import React, { useMemo } from 'react'
 import { generatePath, useParams } from 'react-router-dom'
-import useFullTokenIdParam from 'src/hooks/useFullTokenIdParam'
 import RoutePaths from 'src/shared/enums/routes-paths'
 import { NFTWithMetadata } from 'src/shared/utils/ipfs/types'
 import EditIndexPages from '../Edit/EditIndexPages'
@@ -37,7 +36,7 @@ const IndexPages: React.FC<IndexPagesProps> = ({ nft }) => {
         to={node =>
           generatePath(RoutePaths.NFT + RoutePaths.TOKEN, {
             tokenIdOrSlug: node.data?.slug,
-            nftId: nft.id,
+            nftIdOrSlug: nft.slug,
           })
         }
         treeData={treeData}

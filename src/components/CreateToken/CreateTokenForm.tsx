@@ -1,15 +1,15 @@
+import { useAddress } from '@thirdweb-dev/react'
 import { SubmitHandler } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
+import { useSX1155NFT } from 'src/hooks/contracts/useSX1155NFT'
+import useCreateTokenForm, {
+  CreateTokenFormInputs,
+} from 'src/hooks/forms/useCreateTokenForm'
+import useNFTIdParam from 'src/hooks/useNftIdParam'
 import Box from '../ui/Box'
 import LoadingButton from '../ui/Button/LoadingButton'
 import Flex from '../ui/Flex'
 import Text from '../ui/Text'
-import { useAddress } from '@thirdweb-dev/react'
-import useCreateTokenForm, {
-  CreateTokenFormInputs,
-} from 'src/hooks/forms/useCreateTokenForm'
-import { useSX1155NFT } from 'src/hooks/contracts/useSX1155NFT'
-import { useParams } from 'react-router-dom'
 import TextField from '../ui/TextField/TextField'
 interface CreateTokenFormProps {
   onSuccessSubmit(): void
@@ -24,7 +24,7 @@ const CreateTokenForm: React.FC<CreateTokenFormProps> = ({
     handleSubmit,
     formState: { errors },
   } = useCreateTokenForm()
-  const { nftId = '' } = useParams()
+  const { nftId } = useNFTIdParam()
   const account = useAddress()
   const { call, txLoading } = useSX1155NFT(nftId)
   const onSubmit: SubmitHandler<CreateTokenFormInputs> = async (

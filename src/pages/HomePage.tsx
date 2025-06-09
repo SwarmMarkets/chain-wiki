@@ -74,7 +74,7 @@ const HomePage = () => {
           nfts={exploreNfts}
           skeletonLength={6}
           className='mt-7'
-          to={nft => generatePath(RoutePaths.NFT_READ, { nftId: nft.id })}
+          to={nft => generatePath(RoutePaths.NFT_READ, { nftIdOrSlug: nft.slug })}
         />
       </div>
     </div>

@@ -9,12 +9,14 @@ import UpdateNftContentButton from '../UpdateContent/UpdateNftContentButton'
 import { useCustomizationStore } from 'src/shared/store/customization-store'
 import { useTranslation } from 'react-i18next'
 import SettingsBody from './SettingsBody'
+import useNFTIdParam from 'src/hooks/useNftIdParam'
 
 const Settings = () => {
   const { setting = '' } = useParams()
   const [searchParams] = useSearchParams()
   const actilveLink = searchParams.get('setting') || RoutePathSetting.GENERAL
-  const { nftId = '' } = useParams()
+  const { nftId } = useNFTIdParam()
+
   const {
     headerBackground,
     headerLinks,

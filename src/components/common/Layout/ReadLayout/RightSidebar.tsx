@@ -29,7 +29,7 @@ const RightSidebar: React.FC<RightSidebarProps> = ({
   const historyPath =
     currentNftId && currentTokenId
       ? generatePath(RoutePaths.TOKEN_READ_HISTORY, {
-          nftId: currentNftId,
+          nftIdOrSlug: currentNftId,
           tokenIdOrSlug: currentTokenId || splitTokenId(firstTokenId).tokenId,
         })
       : ''

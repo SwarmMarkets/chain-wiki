@@ -1,6 +1,6 @@
 import { useAddress } from '@thirdweb-dev/react'
 import { useTranslation } from 'react-i18next'
-import { generatePath, NavLink, useParams } from 'react-router-dom'
+import { generatePath, NavLink } from 'react-router-dom'
 import ExpandableList from 'src/components/ExpandableList'
 import ExpandableListItem, {
   ExpandableListItem as IExpandableListItem,
@@ -14,11 +14,12 @@ import useModalState from 'src/hooks/useModalState'
 import Icon from 'src/components/ui-kit/Icon/Icon'
 import IconButton from 'src/components/ui-kit/IconButton'
 import SiteMenu from './SiteMenu'
+import useNFTIdParam from 'src/hooks/useNftIdParam'
 
 const SideBar = () => {
   const { t } = useTranslation('layout', { keyPrefix: 'sidebar' })
   const address = useAddress() || ''
-  const { nftId = '' } = useParams()
+  const { nftId } = useNFTIdParam()
 
   const { nfts } = useNFTs({
     variables: {
@@ -97,7 +98,7 @@ const SideBar = () => {
             icon: 'internet',
             iconImageUrl: nft.iconLogoUrl,
             active: isSameEthereumAddress(nftId, nft.id),
-            to: generatePath(RoutePaths.NFT, { nftId: nft.id }),
+            to: generatePath(RoutePaths.NFT, { nftIdOrSlug: nft.slug || '' }),
           }))}
           noMarginLeft
         />

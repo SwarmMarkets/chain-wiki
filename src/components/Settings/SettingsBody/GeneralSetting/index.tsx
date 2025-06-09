@@ -1,26 +1,26 @@
 import { useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import {
-  EmailShareButton,
   EmailIcon,
-  FacebookShareButton,
+  EmailShareButton,
   FacebookIcon,
-  TwitterShareButton,
-  TwitterIcon,
-  RedditShareButton,
+  FacebookShareButton,
   RedditIcon,
-  WhatsappShareButton,
+  RedditShareButton,
+  TwitterIcon,
+  TwitterShareButton,
   WhatsappIcon,
+  WhatsappShareButton,
 } from 'react-share'
 import ExplorerLink from 'src/components/common/ExplorerLink'
 import Icon from 'src/components/ui-kit/Icon/Icon'
+import useNFTIdParam from 'src/hooks/useNftIdParam'
 import { generateSiteLink } from 'src/shared/utils'
 import SettingCard from '../../SettingCard'
 import SiteNameSetting from './SiteNameSetting'
-import { useTranslation } from 'react-i18next'
 
 const GeneralSetting = () => {
-  const { nftId = '' } = useParams()
+  const { nftId } = useNFTIdParam()
 
   const { t } = useTranslation('nft', { keyPrefix: 'settings' })
 

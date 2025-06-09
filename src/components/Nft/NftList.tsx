@@ -33,7 +33,7 @@ const NftList: React.FC<NftListProps> = ({
       ) : (
         nfts?.map(nft => (
           <Link
-            to={to ? to(nft) : generatePath(RoutePaths.NFT, { nftId: nft.id })}
+            to={to ? to(nft) : generatePath(RoutePaths.NFT, { nftIdOrSlug: nft.slug })}
             key={nft.id}
           >
             <NftCard nft={nft} className='h-full' />

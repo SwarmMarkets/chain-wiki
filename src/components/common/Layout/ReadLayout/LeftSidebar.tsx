@@ -1,13 +1,13 @@
-import React from 'react'
 import clsx from 'clsx'
-import { generatePath, useNavigate } from 'react-router-dom'
+import React from 'react'
+import { useTranslation } from 'react-i18next'
+import { generatePath } from 'react-router-dom'
 import useFullTokenIdParam from 'src/hooks/useFullTokenIdParam'
 import RoutePaths from 'src/shared/enums/routes-paths'
-import { IpfsIndexPage, NFTWithMetadata, splitTokenId } from 'src/shared/utils'
+import { IpfsIndexPage, NFTWithMetadata } from 'src/shared/utils'
 import LeftSidebarSkeleton from './Content/LeftSidebarSkeleton'
 import SidebarTree from './SidebarTree'
 import { ISidebarTreeNode } from './SidebarTreeNode'
-import { useTranslation } from 'react-i18next'
 
 interface LeftSidebarProps {
   nft: NFTWithMetadata | null
@@ -17,23 +17,23 @@ interface LeftSidebarProps {
 
 const buildTree = (
   items: IpfsIndexPage[],
+  nftSlug: string,
   parentId?: number | string
 ): ISidebarTreeNode[] => {
   return items
     .filter(item => item.parent === parentId)
     .map(item => {
-      const [nftId] = item.tokenId.split('-')
       const to =
         item.type === 'group'
           ? undefined
           : generatePath(RoutePaths.TOKEN_READ, {
               tokenIdOrSlug: item.slug,
-              nftId,
+              nftIdOrSlug: nftSlug,
             })
 
       return {
         ...item,
-        children: buildTree(items, item.tokenId),
+        children: buildTree(items, nftSlug, item.tokenId),
         to,
       }
     })
@@ -53,6 +53,7 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
           ...ip,
           parent: ip.parent || 0,
         })),
+        nft.slug || '',
         0
       )
     : []

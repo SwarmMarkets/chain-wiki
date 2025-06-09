@@ -1,7 +1,6 @@
 import { Transaction, useAddress, useStorageUpload } from '@thirdweb-dev/react'
 import differenceWith from 'lodash/differenceWith'
 import React, { useEffect, useMemo, useState } from 'react'
-import { useParams } from 'react-router-dom'
 import { useSX1155NFT } from 'src/hooks/contracts/useSX1155NFT'
 import useNFT from 'src/hooks/subgraph/useNFT'
 import useTokens from 'src/hooks/subgraph/useTokens'
@@ -24,9 +23,10 @@ import { EditNodeModel } from './EditIndexPagesTree/types'
 import useTokenUpdate from 'src/hooks/useTokenUpdate'
 import { SafeClientTxStatus } from '@safe-global/sdk-starter-kit/dist/src/constants'
 import { findFirstNonGroupVisibleNode } from 'src/shared/utils/treeHelpers'
+import useNFTIdParam from 'src/hooks/useNftIdParam'
 
 const useEdit = (readonly?: boolean) => {
-  const { nftId = '' } = useParams()
+  const { nftId } = useNFTIdParam()
   const { nft, loadingNft, refetchingNft } = useNFT(nftId, {
     fetchFullData: true,
   })

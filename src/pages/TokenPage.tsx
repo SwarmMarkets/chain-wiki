@@ -11,11 +11,13 @@ import useFullTokenIdParam from 'src/hooks/useFullTokenIdParam'
 import useNFT from 'src/hooks/subgraph/useNFT'
 import { useMemo } from 'react'
 import { findFirstNonGroupVisibleNode } from 'src/shared/utils/treeHelpers'
+import useNFTIdParam from 'src/hooks/useNftIdParam'
 
 const TokenPage = () => {
   const { t } = useTranslation('token')
 
-  const { nftId = '', tokenIdOrSlug = '' } = useParams()
+  const { tokenIdOrSlug = '' } = useParams()
+  const { nftId } = useNFTIdParam()
   const fullTokenId = useFullTokenIdParam()
 
   const { changeTab } = useTabs<TokenTabs>({
@@ -58,7 +60,10 @@ const TokenPage = () => {
             <h1 className='typo-heading1 text-main-accent'>{token?.name}</h1>
             <DotMenu>
               <Link
-                to={generatePath(RoutePaths.HISTORY, { nftId, tokenIdOrSlug })}
+                to={generatePath(RoutePaths.HISTORY, {
+                  nftIdOrSlug: nft?.slug || '',
+                  tokenIdOrSlug,
+                })}
               >
                 <li className='px-4 py-2 hover:bg-gray-100 cursor-pointer rounded'>
                   {t('menu.history')}
