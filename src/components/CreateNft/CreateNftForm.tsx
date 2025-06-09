@@ -87,7 +87,7 @@ const CreateNftForm: React.FC<CreateNftFormProps> = ({
           }}
           errorMessage={errors.name?.message}
         />
-        <p className='typo-body1 mt-4'>{t('form.slug')}</p>
+        <p className='typo-body1 mt-1'>{t('form.slug')}</p>
         <TextField
           inputProps={{
             placeholder: t('formPlaceholders.slug'),
