@@ -234,7 +234,7 @@
     "outputs": [
       {
         "internalType": "string",
-        "name": "",
+        "name": "slug",
         "type": "string"
       }
     ],
@@ -388,7 +388,7 @@
     "outputs": [
       {
         "internalType": "address",
-        "name": "",
+        "name": "proxy",
         "type": "address"
       }
     ],
