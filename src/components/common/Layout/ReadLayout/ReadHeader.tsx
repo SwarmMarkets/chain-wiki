@@ -63,7 +63,7 @@ const ReadHeader: React.FC<ReadHeaderProps> = ({
             {firstLink.title}
           </a>
           {restLinks.length > 0 && (
-            <DotMenu>
+            <DotMenu iconProps={{ className: 'text-primary' }}>
               {restLinks.map(link => (
                 <li
                   key={link.id}
