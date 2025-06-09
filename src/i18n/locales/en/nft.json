@@ -87,7 +87,7 @@
       "formPlaceholders": {
         "username": "Enter username",
         "repoName": "Enter repository name",
-        "branchName": "Enter branch name"
+        "branchName": "Enter branch name (For example main, dev, etc...)"
       },
       "formErrors": {
         "username": {
