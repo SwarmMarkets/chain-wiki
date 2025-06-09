@@ -91,7 +91,7 @@ const SideBar = () => {
               <div className='flex justify-between items-center w-full'>
                 <span>{nft.name}</span>
                 <div className='opacity-0 group-hover:opacity-100 transition-opacity duration-200'>
-                  <SiteMenu nftId={nft.id} />
+                  <SiteMenu nftSlug={nft.slug} />
                 </div>
               </div>
             ),

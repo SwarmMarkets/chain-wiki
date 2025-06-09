@@ -4,15 +4,14 @@ import { generateSiteLink } from 'src/shared/utils'
 import { useToastManager } from 'src/hooks/useToastManager'
 
 interface SiteMenuProps {
-  nftId: string
-  tokenId?: string
+  nftSlug: string
 }
 
-const SiteMenu: React.FC<SiteMenuProps> = ({ nftId, tokenId }) => {
+const SiteMenu: React.FC<SiteMenuProps> = ({ nftSlug }) => {
   const { t } = useTranslation('layout', { keyPrefix: 'siteMenu' })
   const { addToast } = useToastManager()
 
-  const siteUrl = generateSiteLink(nftId, tokenId)
+  const siteUrl = generateSiteLink(nftSlug)
 
   const handleCopyUrl = () => {
     navigator.clipboard.writeText(siteUrl)

@@ -20,11 +20,11 @@ import SettingCard from '../../SettingCard'
 import SiteNameSetting from './SiteNameSetting'
 
 const GeneralSetting = () => {
-  const { nftId } = useNFTIdParam()
+  const { nftId, slug } = useNFTIdParam()
 
   const { t } = useTranslation('nft', { keyPrefix: 'settings' })
 
-  const shareUrl = generateSiteLink(nftId)
+  const shareUrl = generateSiteLink(slug || nftId)
 
   const [showCheckmark, setShowCheckmark] = useState(false)
 

@@ -25,7 +25,7 @@ const { supportedChains } = staticConfig
 const SetupENSForm = () => {
   const { mutateAsync: upload } = useStorageUpload()
   const switchChain = useSwitchChain()
-  const { nftId } = useNFTIdParam()
+  const { nftId, slug } = useNFTIdParam()
 
   const { t } = useTranslation('nft', { keyPrefix: 'settings.ens' })
   const {
@@ -40,7 +40,7 @@ const SetupENSForm = () => {
   const onSubmit: SubmitHandler<SetupENSFormInputs> = async (data, e) => {
     e?.preventDefault()
     const { domain } = data
-    const siteUrl = generateSiteLink(nftId)
+    const siteUrl = generateSiteLink(slug || nftId)
 
     const uploadHtmlToIpfs = async (html: string): Promise<string> => {
       const file = new File([html], 'index.html', { type: 'text/html' })
