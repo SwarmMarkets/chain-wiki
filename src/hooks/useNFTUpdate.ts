@@ -88,7 +88,7 @@ const useNFTUpdate = (nftAddress: string) => {
     (nftContentToUpdate: NFTContentToUpdate) => {
       const nftUpdateJson = JSON.stringify(nftContentToUpdate)
 
-      return call('setTokenKya', [nftUpdateJson])
+      return call('setContractKya', [nftUpdateJson])
     },
     [call]
   )
