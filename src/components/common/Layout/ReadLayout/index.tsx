@@ -101,8 +101,6 @@ const ReadLayout: React.FC<PropsWithChildren<ReadLayoutProps>> = ({
               nft={nft}
               preview={preview}
               firstTokenId={firstTokenId}
-              // eslint-disable-next-line @typescript-eslint/no-empty-function
-              onClose={() => {}}
               isMobile={isMobile}
             />
           )}
