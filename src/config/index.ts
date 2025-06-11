@@ -10,10 +10,11 @@ import { baseChainConfig } from 'src/environment/networks/base'
 const { isProdMode, isDevMode } = environment
 
 const lastChainId = localStorage.getItem('last-chain-id')
-const lastChain = mainNetworks.find(
-  chain =>
-    chain.chainId === Number(JSON.parse(lastChainId || '').state?.lastChainId)
-)
+  ? Number(
+      JSON.parse(localStorage.getItem('last-chain-id') || '').state?.lastChainId
+    )
+  : undefined
+const lastChain = mainNetworks.find(chain => chain.chainId === lastChainId)
 const prodDefaultChain = lastChain || baseChainConfig
 
 const defaultChain = isProdMode ? prodDefaultChain : arbitrumSepoliaChainConfig

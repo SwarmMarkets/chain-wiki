@@ -33,6 +33,7 @@ const NetworkSelector = () => {
   const activeChainId = useChainId()
   const switchChain = useSwitchChain()
   const { lastChainId, setLastChainId } = useConfigStore()
+  console.log(lastChainId)
 
   const { t } = useTranslation('common')
   const isLg = useBreakpoint('lg')
@@ -48,19 +49,21 @@ const NetworkSelector = () => {
     window.location.reload()
   }
 
+  const chainId = lastChainId || staticConfig.defaultChain.chainId
+
   return (
     <Select<number>
       variant='filled'
       renderedValue={
         isLg ? (
-          <Option value={lastChainId}>
+          <Option value={chainId}>
             <div className='flex items-center gap-2'>
-              <Icon name={networksIcons[lastChainId]} size={20} />
+              <Icon name={networksIcons[chainId]} size={20} />
             </div>
           </Option>
         ) : null
       }
-      value={lastChainId}
+      value={chainId}
       onChange={handleSwitchChain}
       className={clsx({
         'min-w-44': !isLg,

@@ -3,14 +3,14 @@ import { persist } from 'zustand/middleware'
 import staticConfig from 'src/config'
 
 interface ConfigStore {
-  lastChainId: number
+  lastChainId: number | null
   setLastChainId: (chainId: number) => void
 }
 
 export const useConfigStore = create<ConfigStore>()(
   persist(
     set => ({
-      lastChainId: staticConfig.defaultChain.chainId,
+      lastChainId: null,
       setLastChainId: chainId =>
         set(() => ({
           lastChainId: chainId,
