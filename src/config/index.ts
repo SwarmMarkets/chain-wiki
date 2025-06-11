@@ -9,8 +9,14 @@ import { baseChainConfig } from 'src/environment/networks/base'
 
 const { isProdMode, isDevMode } = environment
 
-const defaultChain = isProdMode ? baseChainConfig : arbitrumSepoliaChainConfig
+const lastChainId = localStorage.getItem('last-chain-id')
+const lastChain = mainNetworks.find(
+  chain =>
+    chain.chainId === Number(JSON.parse(lastChainId || '').state?.lastChainId)
+)
+const prodDefaultChain = lastChain || baseChainConfig
 
+const defaultChain = isProdMode ? prodDefaultChain : arbitrumSepoliaChainConfig
 const defaultNetworkEnv = networksEnvironments[defaultChain.chainId]
 
 const supportedChains = isProdMode ? mainNetworks : testNetworks
