@@ -3,6 +3,7 @@ import ConnectButton from 'src/components/common/ConnectButton'
 import Button from 'src/components/ui-kit/Button/Button'
 import useModalState from 'src/hooks/useModalState'
 import CreateNftModal from 'src/components/CreateNft/CreateNftModal'
+import NetworkSelector from 'src/components/NetworkSelector'
 
 const TopNavBar = () => {
   const { isOpen, open, close } = useModalState()
@@ -19,6 +20,7 @@ const TopNavBar = () => {
         <Button onClick={open} variant='outlined' size='sm' color='primary'>
           + New
         </Button>
+        <NetworkSelector />
         <ConnectButton
           style={{
             border: 0,
