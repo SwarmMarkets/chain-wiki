@@ -12,7 +12,7 @@ export enum SupportedChainId {
   Polygon = polygonChainConfig.chainId,
 }
 
-export const mainNetworks: Chain[] = [baseChainConfig, polygonChainConfig]
+export const mainNetworks: Chain[] = [baseChainConfig]
 
 export const testNetworks: Chain[] = [arbitrumSepoliaChainConfig]
 
