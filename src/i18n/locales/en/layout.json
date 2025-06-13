@@ -4,7 +4,18 @@
   },
   "sidebar": {
     "home": "Home",
-    "sites": "Sites"
+    "sites": "Sites",
+    "help": "Help",
+    "helpItems": {
+      "github": "GitHub Repository",
+      "changelog": "Smart Contract Changelog",
+      "docs": "Documentation"
+    }
+  },
+  "siteMenu": {
+    "visitSite": "Visit site",
+    "copyUrl": "Copy URL",
+    "urlCopied": "URL copied to clipboard"
   },
   "customization": {
     "basic": "Basic",

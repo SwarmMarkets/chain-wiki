@@ -4,10 +4,12 @@
 import type {
   BaseContract,
   BigNumber,
+  BigNumberish,
   BytesLike,
   CallOverrides,
   ContractTransaction,
   Overrides,
+  PayableOverrides,
   PopulatedTransaction,
   Signer,
   utils,
@@ -33,43 +35,252 @@ export type ERC1155DataStructOutput = [string, string, string] & {
   kya: string;
 };
 
+export type RolesStruct = {
+  owner: string;
+  admins: string[];
+  editors: string[];
+};
+
+export type RolesStructOutput = [string, string[], string[]] & {
+  owner: string;
+  admins: string[];
+  editors: string[];
+};
+
 export interface SX1155NFTFactoryInterface extends utils.Interface {
   functions: {
-    "deployChainWiki((string,string,string),address,address)": FunctionFragment;
+    "cancelOwnershipHandover()": FunctionFragment;
+    "chainWikiToSlug(address)": FunctionFragment;
+    "completeOwnershipHandover(address)": FunctionFragment;
+    "currentImplementation()": FunctionFragment;
+    "deployChainWiki((string,string,string),string,(address,address[],address[]))": FunctionFragment;
+    "owner()": FunctionFragment;
+    "ownershipHandoverExpiresAt(address)": FunctionFragment;
+    "renounceOwnership()": FunctionFragment;
+    "requestOwnershipHandover()": FunctionFragment;
+    "slugToChainWiki(string)": FunctionFragment;
+    "transferOwnership(address)": FunctionFragment;
+    "updateChainWikiSlug(address,string)": FunctionFragment;
+    "upgradeImplementation(address)": FunctionFragment;
   };
 
-  getFunction(nameOrSignatureOrTopic: "deployChainWiki"): FunctionFragment;
+  getFunction(
+    nameOrSignatureOrTopic:
+      | "cancelOwnershipHandover"
+      | "chainWikiToSlug"
+      | "completeOwnershipHandover"
+      | "currentImplementation"
+      | "deployChainWiki"
+      | "owner"
+      | "ownershipHandoverExpiresAt"
+      | "renounceOwnership"
+      | "requestOwnershipHandover"
+      | "slugToChainWiki"
+      | "transferOwnership"
+      | "updateChainWikiSlug"
+      | "upgradeImplementation"
+  ): FunctionFragment;
 
   encodeFunctionData(
+    functionFragment: "cancelOwnershipHandover",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "chainWikiToSlug",
+    values: [string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "completeOwnershipHandover",
+    values: [string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "currentImplementation",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
     functionFragment: "deployChainWiki",
-    values: [ERC1155DataStruct, string, string]
+    values: [ERC1155DataStruct, string, RolesStruct]
+  ): string;
+  encodeFunctionData(functionFragment: "owner", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "ownershipHandoverExpiresAt",
+    values: [string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "renounceOwnership",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "requestOwnershipHandover",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "slugToChainWiki",
+    values: [string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "transferOwnership",
+    values: [string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "updateChainWikiSlug",
+    values: [string, string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "upgradeImplementation",
+    values: [string]
   ): string;
 
+  decodeFunctionResult(
+    functionFragment: "cancelOwnershipHandover",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "chainWikiToSlug",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "completeOwnershipHandover",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "currentImplementation",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "deployChainWiki",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "ownershipHandoverExpiresAt",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "renounceOwnership",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "requestOwnershipHandover",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "slugToChainWiki",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "transferOwnership",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "updateChainWikiSlug",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "upgradeImplementation",
+    data: BytesLike
+  ): Result;
 
   events: {
-    "ChainWikiDeployed(address,(string,string,string),address,address)": EventFragment;
+    "ChainWikiDeployed(address,string,(string,string,string),(address,address[],address[]))": EventFragment;
+    "ContractSlugUpdated(string)": EventFragment;
+    "ImplementationUpgraded(address)": EventFragment;
+    "OwnershipHandoverCanceled(address)": EventFragment;
+    "OwnershipHandoverRequested(address)": EventFragment;
+    "OwnershipTransferred(address,address)": EventFragment;
+    "TokenSlugUpdated(uint256,string)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "ChainWikiDeployed"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "ContractSlugUpdated"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "ImplementationUpgraded"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "OwnershipHandoverCanceled"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "OwnershipHandoverRequested"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "TokenSlugUpdated"): EventFragment;
 }
 
 export interface ChainWikiDeployedEventObject {
-  deployedAddress: string;
-  tokenParams: ERC1155DataStructOutput;
-  admin: string;
-  editor: string;
+  chainWiki: string;
+  slug: string;
+  data: ERC1155DataStructOutput;
+  roles: RolesStructOutput;
 }
 export type ChainWikiDeployedEvent = TypedEvent<
-  [string, ERC1155DataStructOutput, string, string],
+  [string, string, ERC1155DataStructOutput, RolesStructOutput],
   ChainWikiDeployedEventObject
 >;
 
 export type ChainWikiDeployedEventFilter =
   TypedEventFilter<ChainWikiDeployedEvent>;
+
+export interface ContractSlugUpdatedEventObject {
+  slug: string;
+}
+export type ContractSlugUpdatedEvent = TypedEvent<
+  [string],
+  ContractSlugUpdatedEventObject
+>;
+
+export type ContractSlugUpdatedEventFilter =
+  TypedEventFilter<ContractSlugUpdatedEvent>;
+
+export interface ImplementationUpgradedEventObject {
+  newImplementation: string;
+}
+export type ImplementationUpgradedEvent = TypedEvent<
+  [string],
+  ImplementationUpgradedEventObject
+>;
+
+export type ImplementationUpgradedEventFilter =
+  TypedEventFilter<ImplementationUpgradedEvent>;
+
+export interface OwnershipHandoverCanceledEventObject {
+  pendingOwner: string;
+}
+export type OwnershipHandoverCanceledEvent = TypedEvent<
+  [string],
+  OwnershipHandoverCanceledEventObject
+>;
+
+export type OwnershipHandoverCanceledEventFilter =
+  TypedEventFilter<OwnershipHandoverCanceledEvent>;
+
+export interface OwnershipHandoverRequestedEventObject {
+  pendingOwner: string;
+}
+export type OwnershipHandoverRequestedEvent = TypedEvent<
+  [string],
+  OwnershipHandoverRequestedEventObject
+>;
+
+export type OwnershipHandoverRequestedEventFilter =
+  TypedEventFilter<OwnershipHandoverRequestedEvent>;
+
+export interface OwnershipTransferredEventObject {
+  oldOwner: string;
+  newOwner: string;
+}
+export type OwnershipTransferredEvent = TypedEvent<
+  [string, string],
+  OwnershipTransferredEventObject
+>;
+
+export type OwnershipTransferredEventFilter =
+  TypedEventFilter<OwnershipTransferredEvent>;
+
+export interface TokenSlugUpdatedEventObject {
+  slugId: BigNumber;
+  slug: string;
+}
+export type TokenSlugUpdatedEvent = TypedEvent<
+  [BigNumber, string],
+  TokenSlugUpdatedEventObject
+>;
+
+export type TokenSlugUpdatedEventFilter =
+  TypedEventFilter<TokenSlugUpdatedEvent>;
 
 export interface SX1155NFTFactory extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
@@ -98,59 +309,348 @@ export interface SX1155NFTFactory extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
+    cancelOwnershipHandover(
+      overrides?: PayableOverrides & { from?: string }
+    ): Promise<ContractTransaction>;
+
+    chainWikiToSlug(
+      chainWiki: string,
+      overrides?: CallOverrides
+    ): Promise<[string]>;
+
+    completeOwnershipHandover(
+      pendingOwner: string,
+      overrides?: PayableOverrides & { from?: string }
+    ): Promise<ContractTransaction>;
+
+    currentImplementation(overrides?: CallOverrides): Promise<[string]>;
+
     deployChainWiki(
-      tokenParams: ERC1155DataStruct,
-      _admin: string,
-      _editor: string,
+      data: ERC1155DataStruct,
+      slug: string,
+      roles: RolesStruct,
+      overrides?: Overrides & { from?: string }
+    ): Promise<ContractTransaction>;
+
+    owner(overrides?: CallOverrides): Promise<[string] & { result: string }>;
+
+    ownershipHandoverExpiresAt(
+      pendingOwner: string,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber] & { result: BigNumber }>;
+
+    renounceOwnership(
+      overrides?: PayableOverrides & { from?: string }
+    ): Promise<ContractTransaction>;
+
+    requestOwnershipHandover(
+      overrides?: PayableOverrides & { from?: string }
+    ): Promise<ContractTransaction>;
+
+    slugToChainWiki(slug: string, overrides?: CallOverrides): Promise<[string]>;
+
+    transferOwnership(
+      newOwner: string,
+      overrides?: PayableOverrides & { from?: string }
+    ): Promise<ContractTransaction>;
+
+    updateChainWikiSlug(
+      chainWiki: string,
+      slug: string,
+      overrides?: Overrides & { from?: string }
+    ): Promise<ContractTransaction>;
+
+    upgradeImplementation(
+      newImplementation: string,
       overrides?: Overrides & { from?: string }
     ): Promise<ContractTransaction>;
   };
 
+  cancelOwnershipHandover(
+    overrides?: PayableOverrides & { from?: string }
+  ): Promise<ContractTransaction>;
+
+  chainWikiToSlug(
+    chainWiki: string,
+    overrides?: CallOverrides
+  ): Promise<string>;
+
+  completeOwnershipHandover(
+    pendingOwner: string,
+    overrides?: PayableOverrides & { from?: string }
+  ): Promise<ContractTransaction>;
+
+  currentImplementation(overrides?: CallOverrides): Promise<string>;
+
   deployChainWiki(
-    tokenParams: ERC1155DataStruct,
-    _admin: string,
-    _editor: string,
+    data: ERC1155DataStruct,
+    slug: string,
+    roles: RolesStruct,
+    overrides?: Overrides & { from?: string }
+  ): Promise<ContractTransaction>;
+
+  owner(overrides?: CallOverrides): Promise<string>;
+
+  ownershipHandoverExpiresAt(
+    pendingOwner: string,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
+
+  renounceOwnership(
+    overrides?: PayableOverrides & { from?: string }
+  ): Promise<ContractTransaction>;
+
+  requestOwnershipHandover(
+    overrides?: PayableOverrides & { from?: string }
+  ): Promise<ContractTransaction>;
+
+  slugToChainWiki(slug: string, overrides?: CallOverrides): Promise<string>;
+
+  transferOwnership(
+    newOwner: string,
+    overrides?: PayableOverrides & { from?: string }
+  ): Promise<ContractTransaction>;
+
+  updateChainWikiSlug(
+    chainWiki: string,
+    slug: string,
+    overrides?: Overrides & { from?: string }
+  ): Promise<ContractTransaction>;
+
+  upgradeImplementation(
+    newImplementation: string,
     overrides?: Overrides & { from?: string }
   ): Promise<ContractTransaction>;
 
   callStatic: {
-    deployChainWiki(
-      tokenParams: ERC1155DataStruct,
-      _admin: string,
-      _editor: string,
+    cancelOwnershipHandover(overrides?: CallOverrides): Promise<void>;
+
+    chainWikiToSlug(
+      chainWiki: string,
       overrides?: CallOverrides
     ): Promise<string>;
+
+    completeOwnershipHandover(
+      pendingOwner: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    currentImplementation(overrides?: CallOverrides): Promise<string>;
+
+    deployChainWiki(
+      data: ERC1155DataStruct,
+      slug: string,
+      roles: RolesStruct,
+      overrides?: CallOverrides
+    ): Promise<string>;
+
+    owner(overrides?: CallOverrides): Promise<string>;
+
+    ownershipHandoverExpiresAt(
+      pendingOwner: string,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    renounceOwnership(overrides?: CallOverrides): Promise<void>;
+
+    requestOwnershipHandover(overrides?: CallOverrides): Promise<void>;
+
+    slugToChainWiki(slug: string, overrides?: CallOverrides): Promise<string>;
+
+    transferOwnership(
+      newOwner: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    updateChainWikiSlug(
+      chainWiki: string,
+      slug: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    upgradeImplementation(
+      newImplementation: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
   };
 
   filters: {
-    "ChainWikiDeployed(address,(string,string,string),address,address)"(
-      deployedAddress?: null,
-      tokenParams?: null,
-      admin?: null,
-      editor?: null
+    "ChainWikiDeployed(address,string,(string,string,string),(address,address[],address[]))"(
+      chainWiki?: string | null,
+      slug?: null,
+      data?: null,
+      roles?: null
     ): ChainWikiDeployedEventFilter;
     ChainWikiDeployed(
-      deployedAddress?: null,
-      tokenParams?: null,
-      admin?: null,
-      editor?: null
+      chainWiki?: string | null,
+      slug?: null,
+      data?: null,
+      roles?: null
     ): ChainWikiDeployedEventFilter;
+
+    "ContractSlugUpdated(string)"(slug?: null): ContractSlugUpdatedEventFilter;
+    ContractSlugUpdated(slug?: null): ContractSlugUpdatedEventFilter;
+
+    "ImplementationUpgraded(address)"(
+      newImplementation?: null
+    ): ImplementationUpgradedEventFilter;
+    ImplementationUpgraded(
+      newImplementation?: null
+    ): ImplementationUpgradedEventFilter;
+
+    "OwnershipHandoverCanceled(address)"(
+      pendingOwner?: string | null
+    ): OwnershipHandoverCanceledEventFilter;
+    OwnershipHandoverCanceled(
+      pendingOwner?: string | null
+    ): OwnershipHandoverCanceledEventFilter;
+
+    "OwnershipHandoverRequested(address)"(
+      pendingOwner?: string | null
+    ): OwnershipHandoverRequestedEventFilter;
+    OwnershipHandoverRequested(
+      pendingOwner?: string | null
+    ): OwnershipHandoverRequestedEventFilter;
+
+    "OwnershipTransferred(address,address)"(
+      oldOwner?: string | null,
+      newOwner?: string | null
+    ): OwnershipTransferredEventFilter;
+    OwnershipTransferred(
+      oldOwner?: string | null,
+      newOwner?: string | null
+    ): OwnershipTransferredEventFilter;
+
+    "TokenSlugUpdated(uint256,string)"(
+      slugId?: BigNumberish | null,
+      slug?: null
+    ): TokenSlugUpdatedEventFilter;
+    TokenSlugUpdated(
+      slugId?: BigNumberish | null,
+      slug?: null
+    ): TokenSlugUpdatedEventFilter;
   };
 
   estimateGas: {
+    cancelOwnershipHandover(
+      overrides?: PayableOverrides & { from?: string }
+    ): Promise<BigNumber>;
+
+    chainWikiToSlug(
+      chainWiki: string,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    completeOwnershipHandover(
+      pendingOwner: string,
+      overrides?: PayableOverrides & { from?: string }
+    ): Promise<BigNumber>;
+
+    currentImplementation(overrides?: CallOverrides): Promise<BigNumber>;
+
     deployChainWiki(
-      tokenParams: ERC1155DataStruct,
-      _admin: string,
-      _editor: string,
+      data: ERC1155DataStruct,
+      slug: string,
+      roles: RolesStruct,
+      overrides?: Overrides & { from?: string }
+    ): Promise<BigNumber>;
+
+    owner(overrides?: CallOverrides): Promise<BigNumber>;
+
+    ownershipHandoverExpiresAt(
+      pendingOwner: string,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    renounceOwnership(
+      overrides?: PayableOverrides & { from?: string }
+    ): Promise<BigNumber>;
+
+    requestOwnershipHandover(
+      overrides?: PayableOverrides & { from?: string }
+    ): Promise<BigNumber>;
+
+    slugToChainWiki(
+      slug: string,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    transferOwnership(
+      newOwner: string,
+      overrides?: PayableOverrides & { from?: string }
+    ): Promise<BigNumber>;
+
+    updateChainWikiSlug(
+      chainWiki: string,
+      slug: string,
+      overrides?: Overrides & { from?: string }
+    ): Promise<BigNumber>;
+
+    upgradeImplementation(
+      newImplementation: string,
       overrides?: Overrides & { from?: string }
     ): Promise<BigNumber>;
   };
 
   populateTransaction: {
+    cancelOwnershipHandover(
+      overrides?: PayableOverrides & { from?: string }
+    ): Promise<PopulatedTransaction>;
+
+    chainWikiToSlug(
+      chainWiki: string,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    completeOwnershipHandover(
+      pendingOwner: string,
+      overrides?: PayableOverrides & { from?: string }
+    ): Promise<PopulatedTransaction>;
+
+    currentImplementation(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     deployChainWiki(
-      tokenParams: ERC1155DataStruct,
-      _admin: string,
-      _editor: string,
+      data: ERC1155DataStruct,
+      slug: string,
+      roles: RolesStruct,
+      overrides?: Overrides & { from?: string }
+    ): Promise<PopulatedTransaction>;
+
+    owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    ownershipHandoverExpiresAt(
+      pendingOwner: string,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    renounceOwnership(
+      overrides?: PayableOverrides & { from?: string }
+    ): Promise<PopulatedTransaction>;
+
+    requestOwnershipHandover(
+      overrides?: PayableOverrides & { from?: string }
+    ): Promise<PopulatedTransaction>;
+
+    slugToChainWiki(
+      slug: string,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    transferOwnership(
+      newOwner: string,
+      overrides?: PayableOverrides & { from?: string }
+    ): Promise<PopulatedTransaction>;
+
+    updateChainWikiSlug(
+      chainWiki: string,
+      slug: string,
+      overrides?: Overrides & { from?: string }
+    ): Promise<PopulatedTransaction>;
+
+    upgradeImplementation(
+      newImplementation: string,
       overrides?: Overrides & { from?: string }
     ): Promise<PopulatedTransaction>;
   };

@@ -5,7 +5,7 @@ import { IpfsHeaderLink } from 'src/shared/utils'
 import { TFunction } from 'i18next'
 import { useCustomizationStore } from 'src/shared/store/customization-store'
 import { useEffect, useCallback } from 'react'
-import useYupValidationResolver from '../useYupValidationResolvber'
+import useYupValidationResolver from '../useYupValidationResolver'
 
 export interface EditHeaderLinksInputs {
   title: string

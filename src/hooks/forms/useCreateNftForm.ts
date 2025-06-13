@@ -1,11 +1,11 @@
 import { useTranslation } from 'react-i18next'
-import useYupValidationResolver from '../useYupValidationResolvber'
+import useYupValidationResolver from '../useYupValidationResolver'
 import yup from 'src/shared/validations/yup'
 import { useForm } from 'react-hook-form'
 
 export interface CreateNftFormInputs {
   name: string
-  uri: string
+  slug: string
 }
 
 const useCreateNftForm = () => {
@@ -13,6 +13,7 @@ const useCreateNftForm = () => {
   const resolver = useYupValidationResolver(
     yup.object({
       name: yup.string().required(t('formErrors.name.required')),
+      slug: yup.string().required(t('formErrors.slug.required')),
     })
   )
 

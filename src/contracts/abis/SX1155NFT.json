@@ -1,67 +1,12 @@
 [
   {
-    "inputs": [
-      {
-        "components": [
-          {
-            "internalType": "string",
-            "name": "name",
-            "type": "string"
-          },
-          {
-            "internalType": "string",
-            "name": "symbol",
-            "type": "string"
-          },
-          {
-            "internalType": "string",
-            "name": "kya",
-            "type": "string"
-          }
-        ],
-        "internalType": "struct ERC1155Data",
-        "name": "tokenParams",
-        "type": "tuple"
-      },
-      {
-        "internalType": "address",
-        "name": "_admin",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "_editor",
-        "type": "address"
-      }
-    ],
+    "inputs": [],
     "stateMutability": "nonpayable",
     "type": "constructor"
   },
   {
     "inputs": [],
     "name": "AccountBalanceOverflow",
-    "type": "error"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "account",
-        "type": "address"
-      }
-    ],
-    "name": "AccountIsFrozen",
-    "type": "error"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "account",
-        "type": "address"
-      }
-    ],
-    "name": "AccountNotAuthorized",
     "type": "error"
   },
   {
@@ -87,7 +32,7 @@
         "type": "uint256"
       }
     ],
-    "name": "ComentNotExists",
+    "name": "CommentNotExists",
     "type": "error"
   },
   {
@@ -118,7 +63,7 @@
   },
   {
     "inputs": [],
-    "name": "InvalidRequestId",
+    "name": "InvalidInitialization",
     "type": "error"
   },
   {
@@ -140,11 +85,16 @@
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "id",
+        "name": "tokenId",
         "type": "uint256"
       }
     ],
     "name": "NotExists",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "NotInitializing",
     "type": "error"
   },
   {
@@ -159,7 +109,7 @@
   },
   {
     "inputs": [],
-    "name": "OnlyOwnerOfRequest",
+    "name": "OnlyFactory",
     "type": "error"
   },
   {
@@ -179,6 +129,21 @@
   },
   {
     "inputs": [],
+    "name": "SlugAlreadyExists",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "SlugFulfilled",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "SlugNotFulfilled",
+    "type": "error"
+  },
+  {
+    "inputs": [],
     "name": "TransferToNonERC1155ReceiverImplementer",
     "type": "error"
   },
@@ -190,6 +155,16 @@
   {
     "inputs": [],
     "name": "Unauthorized",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "UnauthorizedCallContext",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "UpgradeFailed",
     "type": "error"
   },
   {
@@ -226,13 +201,13 @@
     "anonymous": false,
     "inputs": [
       {
-        "indexed": false,
+        "indexed": true,
         "internalType": "address",
         "name": "removedBy",
         "type": "address"
       },
       {
-        "indexed": false,
+        "indexed": true,
         "internalType": "uint256",
         "name": "tokenId",
         "type": "uint256"
@@ -257,13 +232,13 @@
     "anonymous": false,
     "inputs": [
       {
-        "indexed": false,
+        "indexed": true,
         "internalType": "address",
         "name": "commentator",
         "type": "address"
       },
       {
-        "indexed": false,
+        "indexed": true,
         "internalType": "uint256",
         "name": "tokenId",
         "type": "uint256"
@@ -282,6 +257,19 @@
       }
     ],
     "name": "Commented",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "slug",
+        "type": "string"
+      }
+    ],
+    "name": "ContractSlugUpdated",
     "type": "event"
   },
   {
@@ -370,6 +358,19 @@
     "inputs": [
       {
         "indexed": false,
+        "internalType": "uint64",
+        "name": "version",
+        "type": "uint64"
+      }
+    ],
+    "name": "Initialized",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
         "internalType": "address",
         "name": "from",
         "type": "address"
@@ -388,13 +389,13 @@
     "anonymous": false,
     "inputs": [
       {
-        "indexed": false,
+        "indexed": true,
         "internalType": "address",
         "name": "minter",
         "type": "address"
       },
       {
-        "indexed": false,
+        "indexed": true,
         "internalType": "address",
         "name": "receiver",
         "type": "address"
@@ -415,6 +416,12 @@
         "indexed": false,
         "internalType": "string",
         "name": "uri",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "slug",
         "type": "string"
       }
     ],
@@ -508,7 +515,7 @@
     "anonymous": false,
     "inputs": [
       {
-        "indexed": false,
+        "indexed": true,
         "internalType": "address",
         "name": "from",
         "type": "address"
@@ -527,6 +534,25 @@
       }
     ],
     "name": "TokenKyaUpdated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "slugId",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "slug",
+        "type": "string"
+      }
+    ],
+    "name": "TokenSlugUpdated",
     "type": "event"
   },
   {
@@ -648,6 +674,19 @@
     "type": "event"
   },
   {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "implementation",
+        "type": "address"
+      }
+    ],
+    "name": "Upgraded",
+    "type": "event"
+  },
+  {
     "inputs": [],
     "name": "DEFAULT_ADMIN_ROLE",
     "outputs": [
@@ -725,12 +764,12 @@
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "_id",
+        "name": "tokenId",
         "type": "uint256"
       },
       {
         "internalType": "uint256",
-        "name": "_quantity",
+        "name": "quantity",
         "type": "uint256"
       }
     ],
@@ -781,6 +820,19 @@
     "name": "completeOwnershipHandover",
     "outputs": [],
     "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "contractSlug",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "slug",
+        "type": "string"
+      }
+    ],
+    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -841,6 +893,19 @@
     "type": "function"
   },
   {
+    "inputs": [],
+    "name": "factory",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [
       {
         "internalType": "address",
@@ -872,17 +937,17 @@
     "inputs": [
       {
         "internalType": "address[]",
-        "name": "_accounts",
+        "name": "accounts",
         "type": "address[]"
       },
       {
         "internalType": "uint256[]",
-        "name": "_tokenIds",
+        "name": "tokenIds",
         "type": "uint256[]"
       },
       {
         "internalType": "uint256[]",
-        "name": "_quantities",
+        "name": "quantities",
         "type": "uint256[]"
       },
       {
@@ -982,6 +1047,68 @@
   {
     "inputs": [
       {
+        "components": [
+          {
+            "internalType": "string",
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "symbol",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "kya",
+            "type": "string"
+          }
+        ],
+        "internalType": "struct ERC1155Data",
+        "name": "_data",
+        "type": "tuple"
+      },
+      {
+        "internalType": "string",
+        "name": "_slug",
+        "type": "string"
+      },
+      {
+        "components": [
+          {
+            "internalType": "address",
+            "name": "owner",
+            "type": "address"
+          },
+          {
+            "internalType": "address[]",
+            "name": "admins",
+            "type": "address[]"
+          },
+          {
+            "internalType": "address[]",
+            "name": "editors",
+            "type": "address[]"
+          }
+        ],
+        "internalType": "struct Roles",
+        "name": "_roles",
+        "type": "tuple"
+      },
+      {
+        "internalType": "address",
+        "name": "_factory",
+        "type": "address"
+      }
+    ],
+    "name": "initialize",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
         "internalType": "address",
         "name": "owner",
         "type": "address"
@@ -1051,17 +1178,22 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "_to",
+        "name": "to",
         "type": "address"
       },
       {
         "internalType": "uint256",
-        "name": "_quantity",
+        "name": "quantity",
         "type": "uint256"
       },
       {
         "internalType": "string",
-        "name": "_tokenURI",
+        "name": "tokenURI",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "slug",
         "type": "string"
       }
     ],
@@ -1074,17 +1206,22 @@
     "inputs": [
       {
         "internalType": "address[]",
-        "name": "_accounts",
+        "name": "accounts",
         "type": "address[]"
       },
       {
         "internalType": "uint256[]",
-        "name": "_quantities",
+        "name": "quantities",
         "type": "uint256[]"
       },
       {
         "internalType": "string[]",
-        "name": "_tokenURIs",
+        "name": "tokenURIs",
+        "type": "string[]"
+      },
+      {
+        "internalType": "string[]",
+        "name": "slugs",
         "type": "string[]"
       }
     ],
@@ -1133,6 +1270,19 @@
         "internalType": "uint256",
         "name": "result",
         "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "proxiableUUID",
+    "outputs": [
+      {
+        "internalType": "bytes32",
+        "name": "",
+        "type": "bytes32"
       }
     ],
     "stateMutability": "view",
@@ -1312,6 +1462,19 @@
     "type": "function"
   },
   {
+    "inputs": [],
+    "name": "selfImplementation",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [
       {
         "internalType": "address",
@@ -1333,11 +1496,24 @@
     "inputs": [
       {
         "internalType": "string",
-        "name": "_contractUri",
+        "name": "Kya",
         "type": "string"
       }
     ],
-    "name": "setContractUri",
+    "name": "setContractKya",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "slug",
+        "type": "string"
+      }
+    ],
+    "name": "setContractSlug",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -1346,7 +1522,7 @@
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "_maxArraySize",
+        "name": "maxSize",
         "type": "uint256"
       }
     ],
@@ -1382,18 +1558,37 @@
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "_id",
+        "name": "tokenId",
         "type": "uint256"
       },
       {
         "internalType": "string",
-        "name": "_uri",
+        "name": "Kya",
         "type": "string"
       }
     ],
-    "name": "setTokenUri",
+    "name": "setTokenKya",
     "outputs": [],
     "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "slug",
+        "type": "string"
+      }
+    ],
+    "name": "slugToTokenId",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -1456,15 +1651,15 @@
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "_id",
+        "name": "tokenId",
         "type": "uint256"
       }
     ],
-    "name": "tokenKya",
+    "name": "tokenIdToSlug",
     "outputs": [
       {
         "internalType": "string",
-        "name": "",
+        "name": "slug",
         "type": "string"
       }
     ],
@@ -1479,7 +1674,7 @@
         "type": "uint256"
       }
     ],
-    "name": "tokenUri",
+    "name": "tokenKya",
     "outputs": [
       {
         "internalType": "string",
@@ -1512,31 +1707,48 @@
   {
     "inputs": [
       {
-        "internalType": "uint256",
-        "name": "_id",
-        "type": "uint256"
-      }
-    ],
-    "name": "totalTokenIdsSupply",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "supply",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
         "internalType": "address",
         "name": "newOwner",
         "type": "address"
       }
     ],
     "name": "transferOwnership",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "string",
+        "name": "slug",
+        "type": "string"
+      }
+    ],
+    "name": "updateTokenSlug",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "newImplementation",
+        "type": "address"
+      },
+      {
+        "internalType": "bytes",
+        "name": "data",
+        "type": "bytes"
+      }
+    ],
+    "name": "upgradeToAndCall",
     "outputs": [],
     "stateMutability": "payable",
     "type": "function"

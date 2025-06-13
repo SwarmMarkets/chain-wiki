@@ -8,18 +8,22 @@ import {
 } from '@thirdweb-dev/react'
 import { useTranslation } from 'react-i18next'
 import { AlertWrap, StyledButton } from './styled-components'
+import { useConfigStore } from 'src/shared/store/config-store'
 
 const SwitchNetworkAlert: React.FC = () => {
   const chainId = useChainId()
   const { t } = useTranslation('common', { keyPrefix: 'switchNetwork' })
   const supportedChains = useSupportedChains()
   const connected = useConnectionStatus()
+  const { setLastChainId } = useConfigStore()
 
   const switchChain = useSwitchChain()
   const supportedNetwork = supportedChains[0]
 
   const handleSwitchNetwork = () => {
     switchChain(supportedNetwork.chainId)
+    setLastChainId(supportedNetwork.chainId)
+    window.location.reload()
   }
 
   const isNetworkSupported = checkNetworkSupported(chainId)

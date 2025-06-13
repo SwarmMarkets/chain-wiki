@@ -30,12 +30,22 @@ import ExplorePage from './pages/ExplorePage'
 import staticConfig from './config'
 import WalletConnectedProtect from './components/common/WalletConnectedProtect'
 import ToastManager from './components/ui-kit/Toast/ToastManager'
+import { useConfigStore } from './shared/store/config-store'
+import { useEffect } from 'react'
 
 const queryClient = new QueryClient()
 
 const { defaultChain, supportedChains } = staticConfig
 
 function App() {
+  const { lastChainId, setLastChainId } = useConfigStore()
+
+  useEffect(() => {
+    if (!lastChainId) {
+      setLastChainId(defaultChain.chainId)
+    }
+  }, [])
+
   return (
     <QueryClientProvider client={queryClient}>
       <ApolloProvider client={client}>

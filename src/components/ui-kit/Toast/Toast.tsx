@@ -43,13 +43,15 @@ const Toast: React.FC<ToastComponentProps> = ({
           exit={{ opacity: 0, x: -100 }}
           transition={{ duration: 0.3 }}
           onAnimationComplete={handleAnimationComplete}
-          className={`flex max-w-80 items-center p-2 rounded-lg text-main-accent bg-${type}-lightAccent`}
+          className={`flex max-w-80 items-center p-2 rounded-lg text-${type} bg-${type}-lightAccent`}
           style={{ zIndex: 100 }}
         >
           <div>
-            <Icon width={20} height={20} name={iconMap[type]} color={type} />
+            <Icon width={20} height={20} name={iconMap[type]} />
           </div>
-          <span className='ml-2 max-h-24 typo-label1 overflow-ellipsis overflow-hidden'>
+          <span
+            className={`ml-2 max-h-24 typo-label1 overflow-ellipsis overflow-hidden text-${type}-accent`}
+          >
             {toast.message}
           </span>
           {isAction && (
@@ -65,7 +67,12 @@ const Toast: React.FC<ToastComponentProps> = ({
             hoverBackground={`${type}-muted`}
             onClick={handleCloseButton}
           >
-            <Icon name='close' color={type} width={18} height={18} />
+            <Icon
+              className={`text-${type}-accent`}
+              name='close'
+              width={18}
+              height={18}
+            />
           </IconButton>
         </motion.div>
       )}

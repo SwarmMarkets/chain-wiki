@@ -12,39 +12,19 @@
     "layout": "Layout",
     "navigation": {
       "general": {
-        "title": "General settings",
-        "links": {
-          "general": {
-            "label": "General"
-          }
-        }
+        "label": "General"
       },
-      "accessControl": {
-        "title": "Access control",
-        "links": {
-          "roles": {
-            "label": "Roles"
-          }
-        }
-      },
-      "layoutPreferences": {
-        "title": "Preferences and layout",
-        "links": {
-          "contentEditor": {
-            "label": "Content editor"
-          },
-          "layout": {
-            "label": "Layout"
-          }
-        }
+      "roles": {
+        "label": "Roles"
       },
       "attestators": {
-        "title": "Preferred attestors",
-        "links": {
-          "attestators": {
-            "label": "Attestors"
-          }
-        }
+        "label": "Attestors"
+      },
+      "ens": {
+        "label": "ENS Domain"
+      },
+      "integration": {
+        "label": "Integrations"
       }
     },
     "siteName": {
@@ -60,11 +40,6 @@
       "title": "Smart contract",
       "description": "The link to the smart contract which represents your site."
     },
-    "roleManager": {
-      "title": "Site roles",
-      "subtitle": "Manage site roles",
-      "description": "This page is dedicated to managing user roles within the site. It allows for the assignment and adjustment of roles to ensure proper access control and responsibility distribution across the team."
-    },
     "icon": {
       "title": "Icon",
       "description": "A small image that represents your brand or app.",
@@ -77,10 +52,6 @@
     "headerColor": {
       "title": "Header color",
       "description": "Select a new color for the header using the color picker"
-    },
-    "editPageContent": {
-      "title": "Edit page content",
-      "description": "Update the content of your page when published."
     },
     "editHeaderLinks": {
       "title": "Header",
@@ -102,9 +73,133 @@
       },
       "buttonAddLink": "Add link"
     },
+    "import": {
+      "title": "Import from GitBook",
+      "subtitle": "Import your site from a public GitHub-synced GitBook project",
+      "description": "Use GitHub repository to import pages from your GitBook workspace. You can select a specific branch, and the imported pages will be added directly to your ChainWiki site.",
+      "instructions": {
+        "title": "To prepare your Github repo for importing:",
+        "steps": {
+          "sync": "Sync Gitbook to Github: Follow instructions here: ",
+          "public": "Ensure your Github repo is Public"
+        }
+      },
+      "form": {
+        "username": "GitHub username",
+        "repoName": "Repository name",
+        "branchName": "Branch name",
+        "submit": "Import"
+      },
+      "formPlaceholders": {
+        "username": "Enter username",
+        "repoName": "Enter repository name",
+        "branchName": "Enter branch name (For example main, dev, etc...)"
+      },
+      "formErrors": {
+        "username": {
+          "required": "Username is required"
+        },
+        "repoName": {
+          "required": "Repository name is required"
+        },
+        "branchName": {
+          "required": "Branch name is required"
+        }
+      },
+      "toasts": {
+        "pagesImported": "Pages imported successfully",
+        "pagesImportFailed": "Pages import failed"
+      }
+    },
     "linksColor": {
       "title": "Links color",
       "description": "Sets the color of the title links in the header"
+    },
+    "roleManager": {
+      "title": "Site roles",
+      "subtitle": "Manage site roles",
+      "description": "This page is dedicated to managing user roles within the site. It allows for the assignment and adjustment of roles to ensure proper access control and responsibility distribution across the team.",
+      "tableHead": {
+        "address": "Address",
+        "role": "Role"
+      },
+      "actions": {
+        "grantRole": "Grant role",
+        "revokeRole": "Revoke role"
+      },
+      "form": {
+        "grantRole": "Enter the user's Ethereum address to assign a role",
+        "role": "Role"
+      },
+      "formPlaceholders": {
+        "role": "Select role",
+        "name": "Enter username"
+      },
+      "formErrors": {
+        "to": {
+          "required": "User address is required",
+          "invalid": "User address is invalid"
+        },
+        "role": {
+          "required": "Role is required"
+        }
+      },
+      "messages": {
+        "editNft": "Edit site",
+        "you": "You"
+      },
+      "roles": {
+        "admin": "Admin",
+        "editor": "Editor",
+        "issuer": "Issuer"
+      }
+    },
+    "attestatorsManager": {
+      "title": "Manage preferred attestors",
+      "subtitle": "Highlight trusted voices across your site",
+      "description": "Select and manage preferred users whose attestations will appear at the top of relevant content and be marked with a checkmark icon. This feature helps surface trusted opinions and enhances credibility for your readers.",
+      "tableHead": {
+        "address": "Address"
+      },
+      "actions": {
+        "makePreferred": "Make preferred",
+        "removePreferred": "Remove preferred"
+      },
+      "formPlaceholders": {
+        "makePreferred": "Enter the user's Ethereum address",
+        "name": "Enter name (only visible to you)"
+      },
+      "formErrors": {
+        "address": {
+          "required": "User address is required",
+          "invalid": "User address is invalid"
+        }
+      },
+      "messages": {
+        "you": "You"
+      }
+    },
+    "ens": {
+      "title": "Connect ENS Domain",
+      "subtitle": "Link your ENS domain to your ChainWiki site",
+      "description": "Connect with the wallet that owns your ENS domain to link it to your ChainWiki site. Once configured, visiting your ENS domain will automatically redirect to your ChainWiki site.",
+      "actions": {
+        "set": "Set ENS"
+      },
+      "formPlaceholders": {
+        "domain": "Enter your ENS domain"
+      },
+      "formErrors": {
+        "domain": {
+          "required": "User address is required",
+          "invalid": "Please enter a valid ENS domain (e.g., myname.eth)"
+        }
+      },
+      "messages": {
+        "notOwned": "You don't own this ENS domain",
+        "failed": "Failed to set ENS domain",
+        "success": "Successfully set ENS domain"
+      }
     }
   },
   "createNft": {
@@ -116,14 +211,16 @@
       "uri": "IPFS hash",
       "editorAddress": "Editor address",
       "submit": "Create",
-      "uploadLogo": "Upload logo"
+      "uploadLogo": "Upload logo",
+      "slug": "Site URL"
     },
     "formPlaceholders": {
       "name": "Enter full name of the site",
       "symbol": "Enter site symbol (e.g., ABC)",
       "adminAddress": "Enter admin's Ethereum address",
       "uri": "Paste IPFS hash or URI",
-      "editorAddress": "Enter editor's Ethereum address"
+      "editorAddress": "Enter editor's Ethereum address",
+      "slug": "Enter site URL (auto-generated from name)"
     },
     "formErrors": {
       "name": {
@@ -139,69 +236,15 @@
       "editor": {
         "required": "Editor address is required",
         "invalid": "Editor address is invalid"
+      },
+      "slug": {
+        "required": "Site URL is required"
       }
     }
   },
   "successCreateNft": {
     "title": "Site created",
     "description": "Your site is visible on \"My sites\" page."
-  },
-  "roleManager": {
-    "tableHead": {
-      "address": "Address",
-      "role": "Role"
-    },
-    "actions": {
-      "grantRole": "Grant role",
-      "revokeRole": "Revoke role"
-    },
-    "form": {
-      "grantRole": "Enter the user's Ethereum address to assign a role",
-      "role": "Role"
-    },
-    "formPlaceholders": {
-      "role": "Select role",
-      "name": "Enter username"
-    },
-    "formErrors": {
-      "to": {
-        "required": "User address is required",
-        "invalid": "User address is invalid"
-      },
-      "role": {
-        "required": "Role is required"
-      }
-    }
-  },
-  "attestatorsManager": {
-    "title": "Manage preferred attestors",
-    "subtitle": "Highlight trusted voices across your site",
-    "description": "Select and manage preferred users whose attestations will appear at the top of relevant content and be marked with a checkmark icon. This feature helps surface trusted opinions and enhances credibility for your readers.",
-    "tableHead": {
-      "address": "Address"
-    },
-    "actions": {
-      "makePreferred": "Make preferred",
-      "removePreferred": "Remove preferred"
-    },
-    "formPlaceholders": {
-      "makePreferred": "Enter the user's Ethereum address",
-      "name": "Enter name (only visible to you)"
-    },
-    "formErrors": {
-      "address": {
-        "required": "User address is required",
-        "invalid": "User address is invalid"
-      }
-    },
-    "messages": {
-      "you": "You"
-    }
-  },
-  "roles": {
-    "admin": "Admin",
-    "editor": "Editor",
-    "issuer": "Issuer"
   },
   "indexPages": {
     "noIndexPages": "No index pages yet",
@@ -210,13 +253,10 @@
     "noPagesInActiveList": "Move the pages you want to show here",
     "noPagesInHiddenList": "Move the pages you want to hide here"
   },
-  "messages": {
-    "editNft": "Edit site",
-    "addLogo": "Add logo",
-    "noContent": "No content yet",
-    "you": "You"
-  },
   "card": {
     "lastEdited": "Last edited {{date}}"
+  },
+  "messages": {
+    "noContent": "No content yet"
   }
 }

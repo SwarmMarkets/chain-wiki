@@ -7,6 +7,7 @@ export interface IconButtonProps
   className?: string
   disabled?: boolean
   hoverBackground?: string
+  padding?: string
 }
 
 const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
@@ -16,6 +17,7 @@ const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
       className,
       disabled = false,
       hoverBackground = 'main',
+      padding = 'p-1.5',
       ...props
     },
     ref
@@ -24,9 +26,10 @@ const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
       <button
         ref={ref}
         className={clsx(
-          `flex items-center justify-center p-1.5 rounded-full 
+          `flex items-center justify-center rounded-full 
           transition-all hover:bg-${hoverBackground} disabled:pointer-events-none
           disabled:opacity-50 disabled:cursor-auto`,
+          padding,
           className
         )}
         disabled={disabled}

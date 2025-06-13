@@ -17,7 +17,7 @@ interface MakePreferredFormProps {
 const MakePreferredForm: React.FC<MakePreferredFormProps> = ({
   nftAddress,
 }) => {
-  const { t } = useTranslation('nft', { keyPrefix: 'attestatorsManager' })
+  const { t } = useTranslation('nft', { keyPrefix: 'settings.attestatorsManager' })
   const {
     register,
     handleSubmit,

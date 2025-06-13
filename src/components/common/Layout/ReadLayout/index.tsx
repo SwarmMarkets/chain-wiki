@@ -1,14 +1,14 @@
-import { Outlet, useParams, useLocation, generatePath } from 'react-router-dom'
+import clsx from 'clsx'
+import React, { PropsWithChildren, useEffect, useMemo } from 'react'
+import { generatePath, Outlet, useLocation, useParams } from 'react-router-dom'
 import useNFT from 'src/hooks/subgraph/useNFT'
+import RoutePaths from 'src/shared/enums/routes-paths'
+import { findFirstNonGroupVisibleNode } from 'src/shared/utils/treeHelpers'
+import ContentContext from './ContentContext'
 import LeftSidebar from './LeftSidebar'
 import ReadHeader from './ReadHeader'
 import RightSidebar from './RightSidebar'
-import RoutePaths from 'src/shared/enums/routes-paths'
-import clsx from 'clsx'
-import React, { PropsWithChildren, useEffect, useMemo } from 'react'
-import ContentContext, { useContentRef } from './ContentContext'
-import { useTranslation } from 'react-i18next'
-import { findFirstNonGroupVisibleNode } from 'src/shared/utils/treeHelpers'
+import useNFTIdParam from 'src/hooks/useNftIdParam'
 
 interface ReadLayoutProps {
   preview?: boolean
@@ -18,20 +18,20 @@ const ReadLayout: React.FC<PropsWithChildren<ReadLayoutProps>> = ({
   children,
   preview,
 }) => {
-  const { nftId = '', tokenId = '' } = useParams()
+  const { nftId } = useNFTIdParam()
+  const { tokenIdOrSlug = '' } = useParams()
   const { nft, loadingNft, refetchingNft } = useNFT(nftId, {
     fetchFullData: true,
   })
   const location = useLocation()
-  const { t } = useTranslation('layout')
 
   const loading = loadingNft && !refetchingNft
 
   const isHistoryPage =
     location.pathname ===
     generatePath(RoutePaths.TOKEN_READ_HISTORY, {
-      nftId: nftId,
-      tokenId: tokenId,
+      nftIdOrSlug: nft?.slug || '',
+      tokenIdOrSlug: tokenIdOrSlug,
     })
 
   useEffect(() => {

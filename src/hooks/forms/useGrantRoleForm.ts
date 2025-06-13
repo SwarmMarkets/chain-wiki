@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import useYupValidationResolver from '../useYupValidationResolvber'
+import useYupValidationResolver from '../useYupValidationResolver'
 import yup from 'src/shared/validations/yup'
 import { useForm } from 'react-hook-form'
 import { Roles } from 'src/shared/enums'
@@ -12,7 +12,7 @@ export interface GrantRoleFormInputs {
 
 const useGrantRoleForm = () => {
   const { t } = useTranslation('nft', {
-    keyPrefix: 'roleManager.formErrors',
+    keyPrefix: 'settings.roleManager.formErrors',
   })
   const resolver = useYupValidationResolver(
     yup.object({

@@ -1,23 +1,25 @@
 import { useAddress } from '@thirdweb-dev/react'
 import { useTranslation } from 'react-i18next'
-import { generatePath, NavLink, useParams } from 'react-router-dom'
+import { generatePath, NavLink } from 'react-router-dom'
 import ExpandableList from 'src/components/ExpandableList'
-import ExpandableListItem from 'src/components/ExpandableList/ExpandableListItem'
+import ExpandableListItem, {
+  ExpandableListItem as IExpandableListItem,
+} from 'src/components/ExpandableList/ExpandableListItem'
 import useNFTs from 'src/hooks/subgraph/useNFTs'
 import { Nft_OrderBy, OrderDirection } from 'src/queries/gql/graphql'
 import RoutePaths from 'src/shared/enums/routes-paths'
 import { isSameEthereumAddress } from 'src/shared/utils'
-import ConnectButton from '../ConnectButton'
-import PoweredByBadge from 'src/components/PoweredByBadge/PoweredByBadge'
 import CreateNftModal from 'src/components/CreateNft/CreateNftModal'
 import useModalState from 'src/hooks/useModalState'
 import Icon from 'src/components/ui-kit/Icon/Icon'
 import IconButton from 'src/components/ui-kit/IconButton'
+import SiteMenu from './SiteMenu'
+import useNFTIdParam from 'src/hooks/useNftIdParam'
 
 const SideBar = () => {
   const { t } = useTranslation('layout', { keyPrefix: 'sidebar' })
   const address = useAddress() || ''
-  const { nftId = '' } = useParams()
+  const { nftId } = useNFTIdParam()
 
   const { nfts } = useNFTs({
     variables: {
@@ -42,26 +44,28 @@ const SideBar = () => {
     open()
   }
 
+  const handleHelpItemClick = (item: IExpandableListItem) => {
+    const urls = {
+      github: 'https://github.com/SwarmMarkets/chain-wiki',
+      changelog:
+        'https://github.com/SwarmMarkets/nft-minter-contracts/commits/main/',
+      docs: `${window.location.origin}/docs`,
+    }
+    const url = urls[item.id as keyof typeof urls]
+    if (url) {
+      window.open(url, '_blank', 'noopener,noreferrer')
+    }
+  }
+
   return (
     <aside className='w-64 bg-gray-100 flex flex-col h-full border-r-gray-200 border-r'>
-      <header className='px-4 py-2'>
-        <ConnectButton
-          style={{
-            width: '100%',
-            border: 0,
-            background: 'transparent',
-            padding: 0,
-            height: '40px',
-          }}
-        />
-      </header>
-      <nav className='flex-1 overflow-y-auto p-4 flex flex-col gap-1'>
+      <nav className='flex flex-col gap-1 flex-1 overflow-y-auto p-4'>
         <NavLink to={RoutePaths.HOME}>
           {({ isActive }) => (
             <ExpandableListItem
               item={{
                 id: 'my-nfts',
-                label: t('home'),
+                label: <div className='py-0.5'>{t('home')}</div>,
                 icon: 'four-squares',
                 active: isActive,
               }}
@@ -71,28 +75,62 @@ const SideBar = () => {
         <ExpandableList
           title={
             <div className='flex justify-between items-center w-full'>
-              <p>{t('sites')}</p>
+              <p className='typo-body1'>{t('sites')}</p>
               <IconButton
                 onClick={handleOpenCreateNftModal}
                 hoverBackground='gray-100'
+                padding='p-1'
               >
-                <Icon name='plus' size={16} />
+                <Icon name='plus' size={14} />
               </IconButton>
             </div>
           }
           items={nfts?.map(nft => ({
             id: nft.id,
-            label: nft.name,
+            label: (
+              <div className='flex justify-between items-center w-full'>
+                <span>{nft.name}</span>
+                <div className='opacity-0 group-hover:opacity-100 transition-opacity duration-200'>
+                  <SiteMenu nftSlug={nft.slug} />
+                </div>
+              </div>
+            ),
             icon: 'internet',
             iconImageUrl: nft.iconLogoUrl,
             active: isSameEthereumAddress(nftId, nft.id),
-            to: generatePath(RoutePaths.NFT, { nftId: nft.id }),
+            to: generatePath(RoutePaths.NFT, { nftIdOrSlug: nft.slug || '' }),
           }))}
           noMarginLeft
         />
       </nav>
-      <footer className='p-4'>
-        <PoweredByBadge />
+      <footer className='p-4 border-t border-gray-200'>
+        <ExpandableList
+          title={
+            <div className='flex items-center gap-2'>
+              <Icon name='info' size={16} />
+              <span className='typo-body1'>{t('help')}</span>
+            </div>
+          }
+          items={[
+            {
+              id: 'github',
+              label: t('helpItems.github'),
+              icon: 'external-link',
+            },
+            {
+              id: 'changelog',
+              label: t('helpItems.changelog'),
+              icon: 'edit-paper',
+            },
+            // {
+            //   id: 'docs',
+            //   label: t('helpItems.docs'),
+            //   icon: 'contentEditor',
+            // },
+          ]}
+          onClickItem={handleHelpItemClick}
+          noMarginLeft
+        />
       </footer>
       <CreateNftModal isOpen={isOpen} onClose={close} />
     </aside>

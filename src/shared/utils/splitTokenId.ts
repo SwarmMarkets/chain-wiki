@@ -18,3 +18,6 @@ export const splitTokenId = (tokenId: string) => {
   }
   return { nftId: parts[0], tokenId: parts[1] }
 }
+
+export const joinTokenId = (nftId: string, tokenId: number) =>
+  `${nftId}-0x${tokenId.toString(16)}`

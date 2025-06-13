@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import useYupValidationResolver from 'src/hooks/useYupValidationResolvber'
+import useYupValidationResolver from 'src/hooks/useYupValidationResolver'
 import yup from 'src/shared/validations/yup'
 
 export interface MakePreferredFormInputs {

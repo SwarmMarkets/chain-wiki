@@ -13,19 +13,29 @@ const useSettingsLinks = (): SettingsLink[] => {
 
   return [
     {
-      label: t('navigation.general.links.general.label'),
+      label: t('navigation.general.label'),
       link: SettingView.GENERAL,
       icon: 'settings',
     },
     {
-      label: t('navigation.accessControl.links.roles.label'),
+      label: t('navigation.roles.label'),
       link: SettingView.ROLES,
       icon: 'roles',
     },
     {
-      label: t('navigation.attestators.links.attestators.label'),
+      label: t('navigation.attestators.label'),
       link: SettingView.ATTESTATORS,
       icon: 'checkmark-circle',
+    },
+    {
+      label: t('navigation.ens.label'),
+      link: SettingView.ENS_DOMAIN,
+      icon: 'ens-mark',
+    },
+    {
+      label: t('navigation.integration.label'),
+      link: SettingView.INTEGRATION,
+      icon: 'gear',
     },
   ]
 }

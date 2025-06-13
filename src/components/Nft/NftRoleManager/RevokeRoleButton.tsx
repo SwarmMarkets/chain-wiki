@@ -16,7 +16,7 @@ const RevokeRoleButton: React.FC<RevokeRoleButtonProps> = ({
   role,
   nftAddress,
 }) => {
-  const { t } = useTranslation('nft', { keyPrefix: 'roleManager.actions' })
+  const { t } = useTranslation('nft', { keyPrefix: 'settings.roleManager.actions' })
   const { revokeRole, txLoading } = useNFTRoleManager(nftAddress)
   const account = useAddress()
 

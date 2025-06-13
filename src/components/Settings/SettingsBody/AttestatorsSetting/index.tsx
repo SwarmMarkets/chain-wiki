@@ -1,6 +1,5 @@
 import { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useParams } from 'react-router-dom'
 import ExplorerLink from 'src/components/common/ExplorerLink'
 import Button from 'src/components/ui-kit/Button/Button'
 import Table from 'src/components/ui-kit/Table'
@@ -8,14 +7,18 @@ import useNFT from 'src/hooks/subgraph/useNFT'
 import useNFTUpdate from 'src/hooks/useNFTUpdate'
 import SettingCard from '../../SettingCard'
 import MakePreferredForm from './MakePreferredForm'
-import { AdditionalRoles, Roles } from 'src/shared/enums'
+import { AdditionalRoles } from 'src/shared/enums'
 import { isSameEthereumAddress } from 'src/shared/utils'
 import { useAddress } from '@thirdweb-dev/react'
 import { useAddressNameStore } from 'src/components/Nft/NftRoleManager/addressNameStore'
+import useNFTIdParam from 'src/hooks/useNftIdParam'
 
 const AttestatorsSetting = () => {
-  const { nftId = '' } = useParams()
-  const { t } = useTranslation('nft', { keyPrefix: 'attestatorsManager' })
+  const { nftId } = useNFTIdParam()
+
+  const { t } = useTranslation('nft', {
+    keyPrefix: 'settings.attestatorsManager',
+  })
   const { nft } = useNFT(nftId)
   const { signTransaction, tx } = useNFTUpdate(nftId)
 
