@@ -5,7 +5,6 @@ import {
 } from './arbitrum-sepolia'
 import { baseChainConfig, baseEnvironment } from './base'
 import { polygonChainConfig, polygonEnvironment } from './polygon'
-import { environment } from '..'
 
 export enum SupportedChainId {
   Base = baseChainConfig.chainId,
@@ -13,9 +12,7 @@ export enum SupportedChainId {
   Polygon = polygonChainConfig.chainId,
 }
 
-const polygonConfig = environment.polygonSubgraphUrl ? [polygonChainConfig] : []
-
-export const mainNetworks: Chain[] = [baseChainConfig, ...polygonConfig]
+export const mainNetworks: Chain[] = [baseChainConfig, polygonChainConfig]
 
 export const testNetworks: Chain[] = [arbitrumSepoliaChainConfig]
 
