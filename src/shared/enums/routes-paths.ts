@@ -1,8 +1,8 @@
 enum RoutePaths {
-  CONNECT_WALLET = '/',
+  CONNECT_WALLET = '/connect',
   TOKEN = '/page/:tokenIdOrSlug',
   NFT = '/m/site/:nftIdOrSlug',
-  HOME = '/home',
+  HOME = '/',
   EXPLORE = '/explore',
   EDIT = '/m/edit/:nftIdOrSlug',
   NFT_READ = '/site/:nftIdOrSlug',

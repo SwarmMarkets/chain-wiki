@@ -94,7 +94,26 @@ const useIntegrationForm = () => {
         fullTokens,
         files
       )
-      console.log(indexPagesWithContent, 'indexPagesWithContent')
+
+      const seen = new Map<string, number>()
+      for (const page of indexPagesWithContent) {
+        if (page.type === 'group') continue
+
+        const baseSlug = page.slug
+        let uniqueSlug = baseSlug
+        let counter = seen.get(baseSlug) ?? 0
+
+        while (
+          seen.has(uniqueSlug) ||
+          fullTokens.some(token => token.slug === uniqueSlug)
+        ) {
+          counter += 1
+          uniqueSlug = `${baseSlug}-${counter}`
+        }
+
+        seen.set(uniqueSlug, counter)
+        page.slug = uniqueSlug
+      }
 
       const currentSlugs = new Set(fullTokens.map(t => t.slug))
 
@@ -174,8 +193,6 @@ const useIntegrationForm = () => {
       }
 
       const safeTxs = await resolveAllThirdwebTransactions(txs)
-
-      console.log(safeTxs)
 
       const receipt = await smartAccount?.send({ transactions: safeTxs })
 

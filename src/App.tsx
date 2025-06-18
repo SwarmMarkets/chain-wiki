@@ -28,7 +28,6 @@ import HistoryPage from './pages/HistoryPage'
 import NftReadHistory from './components/common/Layout/ReadLayout/NftReadHistory'
 import ExplorePage from './pages/ExplorePage'
 import staticConfig from './config'
-import WalletConnectedProtect from './components/common/WalletConnectedProtect'
 import ToastManager from './components/ui-kit/Toast/ToastManager'
 import { useConfigStore } from './shared/store/config-store'
 import { useEffect } from 'react'
@@ -63,13 +62,7 @@ function App() {
           <ThemeProvider theme={theme}>
             <Router>
               <Routes>
-                <Route
-                  element={
-                    <WalletConnectedProtect>
-                      <Layout />
-                    </WalletConnectedProtect>
-                  }
-                >
+                <Route element={<Layout />}>
                   <Route element={<NftLayout />}>
                     <Route path={RoutePaths.NFT} element={<TokenPage />} />
                     <Route
