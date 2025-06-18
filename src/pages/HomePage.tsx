@@ -42,7 +42,7 @@ const HomePage = () => {
     },
   })
 
-  const loadingUser = !address || (loadingUserNfts && !refetchingUserNfts)
+  const loadingUser = loadingUserNfts && !refetchingUserNfts
   const loadingExplore = loadingExploreNfts && !refetchingExploreNfts
 
   const hasUserNfts = !loadingUser && userNfts && userNfts.length > 0
@@ -74,7 +74,9 @@ const HomePage = () => {
           nfts={exploreNfts}
           skeletonLength={6}
           className='mt-7'
-          to={nft => generatePath(RoutePaths.NFT_READ, { nftIdOrSlug: nft.slug })}
+          to={nft =>
+            generatePath(RoutePaths.NFT_READ, { nftIdOrSlug: nft.slug })
+          }
         />
       </div>
     </div>
