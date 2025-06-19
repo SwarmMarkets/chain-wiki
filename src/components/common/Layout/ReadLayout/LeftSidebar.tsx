@@ -70,9 +70,9 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
     <aside
       className={clsx(
         'self-start text-main z-10 flex flex-col xs:w-full md:w-1/3 xl:w-1/5 sticky top-28',
-        !preview && 'max-h-[calc(100vh-9rem)]',
         className
       )}
+      style={{ height: `calc(100vh - ${preview ? 20 : 9}rem)` }}
     >
       <div className={clsx('flex-grow overflow-y-auto pr-2')}>
         {treeData.length > 0 ? (
