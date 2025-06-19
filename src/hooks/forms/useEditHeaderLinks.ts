@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import yup from 'src/shared/validations/yup'
 import { useFieldArray, useForm } from 'react-hook-form'
-import { IpfsHeaderLink } from 'src/shared/utils'
+import { getUniqueId, IpfsHeaderLink } from 'src/shared/utils'
 import { TFunction } from 'i18next'
 import { useCustomizationStore } from 'src/shared/store/customization-store'
 import { useEffect, useCallback } from 'react'
@@ -46,7 +46,6 @@ const useEditHeaderLinks = () => {
 
   const fieldArray = useFieldArray({ control, name: 'headerLinks' })
 
-  // Обновление Zustand сразу при каждом изменении формы
   const handleUpdate = useCallback(
     (newLinks: IpfsHeaderLink[]) => {
       setHeaderLinks(newLinks)
@@ -57,7 +56,16 @@ const useEditHeaderLinks = () => {
   useEffect(() => {
     const subscription = watch(value => {
       return (
-        value.headerLinks && handleUpdate(value.headerLinks as IpfsHeaderLink[])
+        value.headerLinks &&
+        handleUpdate(
+          value.headerLinks.map(
+            link =>
+              ({
+                ...link,
+                id: link?.id || getUniqueId(),
+              } as IpfsHeaderLink)
+          )
+        )
       )
     })
     return () => subscription.unsubscribe()

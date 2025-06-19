@@ -13,9 +13,11 @@ interface LeftSidebarProps {
   nft: NFTWithMetadata | null
   preview?: boolean
   firstTokenId: string
+  onSelect?: (node: ISidebarTreeNode) => void
+  className?: string
 }
 
-const buildTree = (
+export const buildTree = (
   items: IpfsIndexPage[],
   nftSlug: string,
   parentId?: number | string
@@ -43,6 +45,8 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
   nft,
   preview,
   firstTokenId,
+  className,
+  onSelect,
 }) => {
   const { t } = useTranslation('layout')
   const fullTokenId = useFullTokenIdParam()
@@ -65,16 +69,17 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
   return (
     <aside
       className={clsx(
-        'w-1/5 sticky top-28 self-start text-main z-10 flex flex-col',
-        !preview && 'max-h-[calc(100vh-9rem)]'
+        'self-start text-main z-10 flex flex-col xs:w-full md:w-1/3 xl:w-1/5 sticky top-28',
+        !preview && 'max-h-[calc(100vh-9rem)]',
+        className
       )}
-      style={{ height: 'calc(100vh - 6rem)' }}
     >
       <div className={clsx('flex-grow overflow-y-auto pr-2')}>
         {treeData.length > 0 ? (
           <SidebarTree
-            data={treeData}
+            data={[...treeData, ...treeData, ...treeData, ...treeData]}
             selectedId={fullTokenId || firstTokenId}
+            onSelect={onSelect}
           />
         ) : (
           <p className='text-body2 px-4 py-2'>{t('noDataAvailable')}</p>
