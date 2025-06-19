@@ -62,6 +62,12 @@ const EditIndexPages = () => {
         slug: initialSlug,
         content: '',
       })
+      updateCurrEditableToken({
+        id: nextTokenId,
+        name: initialName,
+        slug: initialSlug,
+        content: '',
+      })
     }
   }
 
