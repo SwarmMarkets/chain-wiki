@@ -25,12 +25,10 @@ const NftLayout = () => {
   return (
     <div className='h-full flex flex-col'>
       <NftLayoutHeader nft={nft} loading={loading} />
-      <div className='flex flex-1'>
+      <div className='flex flex-1 overflow-hidden'>
         <NftLayoutSideBar nft={nft} loading={loading} />
-        <div className='flex-1 relative'>
-          <div className='absolute inset-0 overflow-auto p-4'>
-            <Outlet />
-          </div>
+        <div className='flex-1 overflow-auto p-4'>
+          <Outlet />
         </div>
       </div>
     </div>

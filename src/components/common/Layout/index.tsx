@@ -12,11 +12,11 @@ const Layout = () => {
     <DndProvider backend={MultiBackend} options={getBackendOptions()}>
       <div className='fixed inset-0 flex flex-col'>
         <TopNavBar />
-        <div className='flex flex-1'>
+        <div className='flex flex-1 overflow-hidden'>
           <SideBar />
-          <div className='flex-1'>
+          <div className='flex-1 flex flex-col overflow-hidden'>
             <SwitchNetworkAlert />
-            <main className='h-full'>
+            <main className='flex-1 overflow-y-auto'>
               <Outlet />
             </main>
           </div>
