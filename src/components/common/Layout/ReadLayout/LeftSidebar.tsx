@@ -77,7 +77,7 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
       <div className={clsx('flex-grow overflow-y-auto pr-2')}>
         {treeData.length > 0 ? (
           <SidebarTree
-            data={[...treeData, ...treeData, ...treeData, ...treeData]}
+            data={treeData}
             selectedId={fullTokenId || firstTokenId}
             onSelect={onSelect}
           />
