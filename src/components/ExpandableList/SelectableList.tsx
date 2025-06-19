@@ -28,7 +28,7 @@ const SelectableList: React.FC<SelectableListProps> = ({
           />
         ))
       ) : (
-        <div className='text-sm text-gray-500 p-3'>No elements</div>
+        <div className='p-3'>No elements</div>
       )}
     </div>
   )

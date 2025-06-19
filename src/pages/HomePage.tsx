@@ -1,17 +1,22 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { useAddress } from '@thirdweb-dev/react'
+import clsx from 'clsx'
 import { useTranslation } from 'react-i18next'
-import CreateNftModal from 'src/components/CreateNft/CreateNftModal'
+import { generatePath } from 'react-router-dom'
 import NftList from 'src/components/Nft/NftList'
-import Button from 'src/components/ui-kit/Button/Button'
 import useNFTs from 'src/hooks/subgraph/useNFTs'
-import useModalState from 'src/hooks/useModalState'
 import { Nft_OrderBy, OrderDirection } from 'src/queries/gql/graphql'
+import RoutePaths from 'src/shared/enums/routes-paths'
 
 const HomePage = () => {
-  const { t } = useTranslation('nfts')
+  const { t } = useTranslation(['nfts', 'explore'])
   const address = useAddress()
-  const { nfts, loadingNfts, refetchingNfts } = useNFTs({
+
+  const {
+    nfts: userNfts,
+    loadingNfts: loadingUserNfts,
+    refetchingNfts: refetchingUserNfts,
+  } = useNFTs({
     variables: {
       orderBy: Nft_OrderBy.UpdatedAt,
       orderDirection: OrderDirection.Desc,
@@ -25,33 +30,55 @@ const HomePage = () => {
     skip: !address,
   })
 
-  const loading = !address || (loadingNfts && !refetchingNfts)
+  const {
+    nfts: exploreNfts,
+    loadingNfts: loadingExploreNfts,
+    refetchingNfts: refetchingExploreNfts,
+  } = useNFTs({
+    variables: {
+      orderBy: Nft_OrderBy.UpdatedAt,
+      orderDirection: OrderDirection.Desc,
+      limit: 6,
+    },
+  })
 
-  const { isOpen, open, close } = useModalState()
+  const loadingUser = loadingUserNfts && !refetchingUserNfts
+  const loadingExplore = loadingExploreNfts && !refetchingExploreNfts
 
-  const noNfts = !loading && (!nfts || nfts?.length === 0)
+  const hasUserNfts = !loadingUser && userNfts && userNfts.length > 0
 
   return (
     <div className='p-20 h-full'>
-      <h1 className='typo-heading1 text-main-accent font-medium'>
-        {t('title')}
-      </h1>
-      <h3 className='heading-md'>{t('subtitle')}</h3>
-      {noNfts ? (
-        <div className='flex justify-center items-center h-full typo-title3'>
-          <Button variant='text' onClick={open}>
-            {t('noNfts')}
-          </Button>
-          <CreateNftModal isOpen={isOpen} onClose={close} />
-        </div>
-      ) : (
-        <NftList
-          loading={loading}
-          nfts={nfts}
-          skeletonLength={10}
-          className='mt-7'
-        />
+      {(hasUserNfts || loadingUser) && (
+        <>
+          <h1 className='typo-heading1 text-main-accent font-medium'>
+            {t('title')}
+          </h1>
+          <h3 className='heading-md'>{t('subtitle')}</h3>
+          <NftList
+            loading={loadingUser}
+            nfts={userNfts}
+            skeletonLength={6}
+            className='mt-7'
+          />
+        </>
       )}
+
+      <div className={clsx(hasUserNfts && 'mt-14')}>
+        <h1 className='typo-heading1 text-main-accent font-medium'>
+          {t('explore:title')}
+        </h1>
+        <h3 className='heading-md'>{t('explore:subtitle')}</h3>
+        <NftList
+          loading={loadingExplore}
+          nfts={exploreNfts}
+          skeletonLength={6}
+          className='mt-7'
+          to={nft =>
+            generatePath(RoutePaths.NFT_READ, { nftIdOrSlug: nft.slug })
+          }
+        />
+      </div>
     </div>
   )
 }

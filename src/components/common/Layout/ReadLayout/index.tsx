@@ -1,16 +1,16 @@
-import React, { PropsWithChildren, useEffect, useMemo, useState } from 'react'
-import { Outlet, useParams, useLocation, generatePath } from 'react-router-dom'
 import clsx from 'clsx'
+import React, { PropsWithChildren, useEffect, useMemo, useState } from 'react'
+import { generatePath, Outlet, useLocation, useParams } from 'react-router-dom'
 import useNFT from 'src/hooks/subgraph/useNFT'
+import RoutePaths from 'src/shared/enums/routes-paths'
+import { findFirstNonGroupVisibleNode } from 'src/shared/utils/treeHelpers'
+import ContentContext from './ContentContext'
 import LeftSidebar from './LeftSidebar'
 import RightSidebar from './RightSidebar'
-import ReadHeader from './ReadHeader'
-import RoutePaths from 'src/shared/enums/routes-paths'
-import ContentContext from './ContentContext'
-import { useTranslation } from 'react-i18next'
-import { findFirstNonGroupVisibleNode } from 'src/shared/utils/treeHelpers'
-import useBreakpoint from 'src/hooks/ui/useBreakpoint'
+import useNFTIdParam from 'src/hooks/useNftIdParam'
 import Drawer from 'src/components/ui-kit/Drawer'
+import ReadHeader from './ReadHeader'
+import useBreakpoint from 'src/hooks/ui/useBreakpoint'
 
 interface ReadLayoutProps {
   preview?: boolean
@@ -20,9 +20,9 @@ const ReadLayout: React.FC<PropsWithChildren<ReadLayoutProps>> = ({
   children,
   preview,
 }) => {
-  const { nftId = '', tokenId = '' } = useParams()
+  const { nftId } = useNFTIdParam()
+  const { tokenIdOrSlug = '' } = useParams()
   const location = useLocation()
-  const { t } = useTranslation('layout')
   const [isLeftSidebarOpen, setLeftSidebarOpen] = useState(false)
   const isXs = useBreakpoint('xs')
   const isSm = useBreakpoint('sm')
@@ -38,8 +38,8 @@ const ReadLayout: React.FC<PropsWithChildren<ReadLayoutProps>> = ({
   const isHistoryPage =
     location.pathname ===
     generatePath(RoutePaths.TOKEN_READ_HISTORY, {
-      nftId,
-      tokenId,
+      nftIdOrSlug: nft?.slug || '',
+      tokenIdOrSlug: tokenIdOrSlug,
     })
 
   const firstTokenId = useMemo(() => {

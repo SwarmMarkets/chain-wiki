@@ -1,11 +1,20 @@
 import { useParams } from 'react-router-dom'
+import { useTokenBySlug } from './subgraph/useTokenBySlug'
+import useNFTIdParam from './useNftIdParam'
 
 const useFullTokenIdParam = () => {
-  const { nftId = '', tokenId = '' } = useParams()
+  const { tokenIdOrSlug = '' } = useParams()
+  const { nftId } = useNFTIdParam()
 
-  if (!nftId || !tokenId) return ''
+  const { token } = useTokenBySlug(nftId, tokenIdOrSlug)
 
-  return `${nftId}-${tokenId}`
+  if (!nftId || !tokenIdOrSlug) return ''
+
+  if (token) {
+    return token.id
+  }
+
+  return `${nftId}-${tokenIdOrSlug}`
 }
 
 export default useFullTokenIdParam

@@ -18,13 +18,15 @@ import {
   getENSResolverInterface,
 } from 'src/hooks/contracts/getENSResolver'
 import { useToastManager } from 'src/hooks/useToastManager'
+import useNFTIdParam from 'src/hooks/useNftIdParam'
 
 const { supportedChains } = staticConfig
 
 const SetupENSForm = () => {
   const { mutateAsync: upload } = useStorageUpload()
   const switchChain = useSwitchChain()
-  const { nftId = '' } = useParams()
+  const { nftId, slug } = useNFTIdParam()
+
   const { t } = useTranslation('nft', { keyPrefix: 'settings.ens' })
   const {
     register,
@@ -38,8 +40,7 @@ const SetupENSForm = () => {
   const onSubmit: SubmitHandler<SetupENSFormInputs> = async (data, e) => {
     e?.preventDefault()
     const { domain } = data
-    const siteUrl = generateSiteLink(nftId)
-    console.log(siteUrl)
+    const siteUrl = generateSiteLink(slug || nftId)
 
     const uploadHtmlToIpfs = async (html: string): Promise<string> => {
       const file = new File([html], 'index.html', { type: 'text/html' })

@@ -32,6 +32,11 @@ const useSettingsLinks = (): SettingsLink[] => {
       link: SettingView.ENS_DOMAIN,
       icon: 'ens-mark',
     },
+    {
+      label: t('navigation.integration.label'),
+      link: SettingView.INTEGRATION,
+      icon: 'gear',
+    },
   ]
 }
 

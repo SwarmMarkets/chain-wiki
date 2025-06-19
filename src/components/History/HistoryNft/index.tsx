@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react'
-import { Link, useLocation, useParams } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import queryString from 'query-string'
 import HistoryProjcetDifference from './HistoryNftDifference'
 import HistoryNftList from './HistoryNftList'
@@ -15,12 +15,14 @@ import { useTranslation } from 'react-i18next'
 import useNFTURIUpdates from 'src/hooks/subgraph/useNFTURIUpdates'
 import HistoryCardSkeleton from '../HistoryCardSkeleton'
 import { useTheme } from 'styled-components'
+import useNFTIdParam from 'src/hooks/useNftIdParam'
 
 const HistoryNft = () => {
   const theme = useTheme()
   const { t } = useTranslation(['buttons', 'history'])
   const location = useLocation()
-  const { nftId = '' } = useParams()
+  const { nftId } = useNFTIdParam()
+
   const { nftUriUpdates, loading, refetching } = useNFTURIUpdates(nftId, {
     variables: {
       orderBy: NfturiUpdate_OrderBy.UpdatedAt,

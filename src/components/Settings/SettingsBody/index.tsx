@@ -1,5 +1,4 @@
 import { useTranslation } from 'react-i18next'
-import { useParams } from 'react-router-dom'
 import { SettingView } from 'src/components/Settings/enums'
 
 import {
@@ -11,13 +10,16 @@ import SettingCard from '../SettingCard'
 import AttestatorsSetting from './AttestatorsSetting'
 import ENSDomainSetting from './ENSDomainSetting'
 import GeneralSetting from './GeneralSetting'
+import IntegrationSetting from './IntegrationSetting'
+import useNFTIdParam from 'src/hooks/useNftIdParam'
 
 interface Props {
   activeLink: string
 }
 
 const SettingsBody = ({ activeLink }: Props) => {
-  const { nftId = '' } = useParams()
+  const { nftId } = useNFTIdParam()
+
   const { t } = useTranslation('nft', { keyPrefix: 'settings' })
 
   return (
@@ -37,6 +39,9 @@ const SettingsBody = ({ activeLink }: Props) => {
         >
           <NftRoleManager nftAddress={nftId} />
         </SettingCard>
+      </ConditionalItem>
+      <ConditionalItem case={SettingView.INTEGRATION}>
+        <IntegrationSetting />
       </ConditionalItem>
       <ConditionalItem case={SettingView.ATTESTATORS}>
         <AttestatorsSetting />

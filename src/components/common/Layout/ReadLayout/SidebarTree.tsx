@@ -4,7 +4,7 @@ import SidebarTreeNode, { ISidebarTreeNode } from './SidebarTreeNode'
 interface SidebarTreeProps {
   data: ISidebarTreeNode[]
   selectedId: string
-  onSelect?: (id: string) => void
+  onSelect?: (node: ISidebarTreeNode) => void
 }
 
 const SidebarTree: React.FC<SidebarTreeProps> = ({

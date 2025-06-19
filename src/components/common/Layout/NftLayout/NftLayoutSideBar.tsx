@@ -77,7 +77,7 @@ const NftLayoutSideBar: React.FC<NftLayoutSideBarProps> = ({
             </>
           ) : (
             <>
-              <nav className='flex-1 overflow-y-auto p-4 w-64'>
+              <nav className='flex-1 overflow-y-auto p-4 w-[300px]'>
                 <IndexPages nft={nft} />
               </nav>
               <footer></footer>

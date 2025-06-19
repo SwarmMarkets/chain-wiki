@@ -22,6 +22,9 @@
       },
       "ens": {
         "label": "ENS Domain"
+      },
+      "integration": {
+        "label": "Integrations"
       }
     },
     "siteName": {
@@ -70,6 +73,44 @@
       },
       "buttonAddLink": "Add link"
     },
+    "import": {
+      "title": "Import from GitBook",
+      "subtitle": "Import your site from a public GitHub-synced GitBook project",
+      "description": "Use GitHub repository to import pages from your GitBook workspace. You can select a specific branch, and the imported pages will be added directly to your ChainWiki site.",
+      "instructions": {
+        "title": "To prepare your Github repo for importing:",
+        "steps": {
+          "sync": "Sync Gitbook to Github: Follow instructions here: ",
+          "public": "Ensure your Github repo is Public"
+        }
+      },
+      "form": {
+        "username": "GitHub username",
+        "repoName": "Repository name",
+        "branchName": "Branch name",
+        "submit": "Import"
+      },
+      "formPlaceholders": {
+        "username": "Enter username",
+        "repoName": "Enter repository name",
+        "branchName": "Enter branch name (For example main, dev, etc...)"
+      },
+      "formErrors": {
+        "username": {
+          "required": "Username is required"
+        },
+        "repoName": {
+          "required": "Repository name is required"
+        },
+        "branchName": {
+          "required": "Branch name is required"
+        }
+      },
+      "toasts": {
+        "pagesImported": "Pages imported successfully",
+        "pagesImportFailed": "Pages import failed"
+      }
+    },
     "linksColor": {
       "title": "Links color",
       "description": "Sets the color of the title links in the header"
@@ -105,8 +146,6 @@
       },
       "messages": {
         "editNft": "Edit site",
-        "addLogo": "Add logo",
-        "noContent": "No content yet",
         "you": "You"
       },
       "roles": {
@@ -172,14 +211,16 @@
       "uri": "IPFS hash",
       "editorAddress": "Editor address",
       "submit": "Create",
-      "uploadLogo": "Upload logo"
+      "uploadLogo": "Upload logo",
+      "slug": "Site URL"
     },
     "formPlaceholders": {
       "name": "Enter full name of the site",
       "symbol": "Enter site symbol (e.g., ABC)",
       "adminAddress": "Enter admin's Ethereum address",
       "uri": "Paste IPFS hash or URI",
-      "editorAddress": "Enter editor's Ethereum address"
+      "editorAddress": "Enter editor's Ethereum address",
+      "slug": "Enter site URL (auto-generated from name)"
     },
     "formErrors": {
       "name": {
@@ -195,6 +236,9 @@
       "editor": {
         "required": "Editor address is required",
         "invalid": "Editor address is invalid"
+      },
+      "slug": {
+        "required": "Site URL is required"
       }
     }
   },
@@ -211,5 +255,8 @@
   },
   "card": {
     "lastEdited": "Last edited {{date}}"
+  },
+  "messages": {
+    "noContent": "No content yet"
   }
 }

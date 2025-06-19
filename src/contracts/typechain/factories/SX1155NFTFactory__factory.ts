@@ -11,13 +11,80 @@ import type {
 
 const _abi = [
   {
+    inputs: [
+      {
+        internalType: "address",
+        name: "newImplementation",
+        type: "address",
+      },
+    ],
+    stateMutability: "nonpayable",
+    type: "constructor",
+  },
+  {
+    inputs: [],
+    name: "AlreadyInitialized",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "DeploymentFailed",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "EmptySlugPassed",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "NewOwnerIsZeroAddress",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "NoHandoverRequest",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "SlugAlreadyExists",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "SlugFulfilled",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "SlugNotFulfilled",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "Unauthorized",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "ZeroAddressPassed",
+    type: "error",
+  },
+  {
     anonymous: false,
     inputs: [
       {
-        indexed: false,
-        internalType: "contract ChainWiki",
-        name: "deployedAddress",
+        indexed: true,
+        internalType: "address",
+        name: "chainWiki",
         type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "string",
+        name: "slug",
+        type: "string",
       },
       {
         components: [
@@ -39,24 +106,177 @@ const _abi = [
         ],
         indexed: false,
         internalType: "struct ERC1155Data",
-        name: "tokenParams",
+        name: "data",
         type: "tuple",
       },
       {
+        components: [
+          {
+            internalType: "address",
+            name: "owner",
+            type: "address",
+          },
+          {
+            internalType: "address[]",
+            name: "admins",
+            type: "address[]",
+          },
+          {
+            internalType: "address[]",
+            name: "editors",
+            type: "address[]",
+          },
+        ],
         indexed: false,
-        internalType: "address",
-        name: "admin",
-        type: "address",
-      },
-      {
-        indexed: false,
-        internalType: "address",
-        name: "editor",
-        type: "address",
+        internalType: "struct Roles",
+        name: "roles",
+        type: "tuple",
       },
     ],
     name: "ChainWikiDeployed",
     type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "string",
+        name: "slug",
+        type: "string",
+      },
+    ],
+    name: "ContractSlugUpdated",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "address",
+        name: "newImplementation",
+        type: "address",
+      },
+    ],
+    name: "ImplementationUpgraded",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "pendingOwner",
+        type: "address",
+      },
+    ],
+    name: "OwnershipHandoverCanceled",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "pendingOwner",
+        type: "address",
+      },
+    ],
+    name: "OwnershipHandoverRequested",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "oldOwner",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "newOwner",
+        type: "address",
+      },
+    ],
+    name: "OwnershipTransferred",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "uint256",
+        name: "slugId",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "string",
+        name: "slug",
+        type: "string",
+      },
+    ],
+    name: "TokenSlugUpdated",
+    type: "event",
+  },
+  {
+    inputs: [],
+    name: "cancelOwnershipHandover",
+    outputs: [],
+    stateMutability: "payable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "chainWiki",
+        type: "address",
+      },
+    ],
+    name: "chainWikiToSlug",
+    outputs: [
+      {
+        internalType: "string",
+        name: "",
+        type: "string",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "pendingOwner",
+        type: "address",
+      },
+    ],
+    name: "completeOwnershipHandover",
+    outputs: [],
+    stateMutability: "payable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "currentImplementation",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
   },
   {
     inputs: [
@@ -79,28 +299,154 @@ const _abi = [
           },
         ],
         internalType: "struct ERC1155Data",
-        name: "tokenParams",
+        name: "data",
         type: "tuple",
       },
       {
-        internalType: "address",
-        name: "_admin",
-        type: "address",
+        internalType: "string",
+        name: "slug",
+        type: "string",
       },
       {
-        internalType: "address",
-        name: "_editor",
-        type: "address",
+        components: [
+          {
+            internalType: "address",
+            name: "owner",
+            type: "address",
+          },
+          {
+            internalType: "address[]",
+            name: "admins",
+            type: "address[]",
+          },
+          {
+            internalType: "address[]",
+            name: "editors",
+            type: "address[]",
+          },
+        ],
+        internalType: "struct Roles",
+        name: "roles",
+        type: "tuple",
       },
     ],
     name: "deployChainWiki",
     outputs: [
       {
-        internalType: "contract ChainWiki",
-        name: "newSx1155",
+        internalType: "address",
+        name: "newProxy",
         type: "address",
       },
     ],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "owner",
+    outputs: [
+      {
+        internalType: "address",
+        name: "result",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "pendingOwner",
+        type: "address",
+      },
+    ],
+    name: "ownershipHandoverExpiresAt",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "result",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "renounceOwnership",
+    outputs: [],
+    stateMutability: "payable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "requestOwnershipHandover",
+    outputs: [],
+    stateMutability: "payable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "string",
+        name: "slug",
+        type: "string",
+      },
+    ],
+    name: "slugToChainWiki",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "newOwner",
+        type: "address",
+      },
+    ],
+    name: "transferOwnership",
+    outputs: [],
+    stateMutability: "payable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "chainWiki",
+        type: "address",
+      },
+      {
+        internalType: "string",
+        name: "slug",
+        type: "string",
+      },
+    ],
+    name: "updateChainWikiSlug",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "newImplementation",
+        type: "address",
+      },
+    ],
+    name: "upgradeImplementation",
+    outputs: [],
     stateMutability: "nonpayable",
     type: "function",
   },
