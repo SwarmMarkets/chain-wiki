@@ -69,7 +69,7 @@ const ReadHeader: React.FC<ReadHeaderProps> = ({
             >
               {restLinks.map(link => (
                 <li
-                  key={link.id}
+                  key={link.id || link.link}
                   className='px-2 py-1.5 hover:bg-gray-100 cursor-pointer rounded'
                 >
                   <a
@@ -92,7 +92,7 @@ const ReadHeader: React.FC<ReadHeaderProps> = ({
 
     return headerLinks.map(link => (
       <a
-        key={link.id}
+        key={link.id || link.link}
         href={link.link}
         className='text-primary-contrast hover:opacity-85'
         target='_blank'
