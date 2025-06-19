@@ -105,7 +105,7 @@ const ReadLayout: React.FC<PropsWithChildren<ReadLayoutProps>> = ({
             />
           )}
 
-          <main className='flex-1 px-0 sm:px-8 md:px-12'>
+          <main className='flex-1 min-w-0 px-0 sm:px-8 md:px-12'>
             {children || <Outlet />}
           </main>
 
@@ -114,7 +114,6 @@ const ReadLayout: React.FC<PropsWithChildren<ReadLayoutProps>> = ({
               preview={preview}
               isLoading={loading}
               firstTokenId={firstTokenId}
-              className='w-full'
             />
           )}
         </div>
