@@ -73,7 +73,6 @@ const Drawer: React.FC<DrawerProps> = ({
           </div>
         )}
       </AnimatePresence>
-      ,
     </ReactPortal>
   )
 }
