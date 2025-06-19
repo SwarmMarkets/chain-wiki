@@ -63,7 +63,10 @@ const ReadHeader: React.FC<ReadHeaderProps> = ({
             {firstLink.title}
           </a>
           {restLinks.length > 0 && (
-            <DotMenu iconProps={{ className: 'text-primary' }}>
+            <DotMenu
+              iconProps={{ style: { color: headerLinksColor } }}
+              iconButtonProps={{ hoverBackground: 'primary-contrast/10' }}
+            >
               {restLinks.map(link => (
                 <li
                   key={link.id}
@@ -84,6 +87,8 @@ const ReadHeader: React.FC<ReadHeaderProps> = ({
         </>
       )
     }
+
+    console.log(headerLinks)
 
     return headerLinks.map(link => (
       <a
@@ -110,8 +115,11 @@ const ReadHeader: React.FC<ReadHeaderProps> = ({
       <div className='max-w-screen-2xl mx-auto px-4 sm:px-6 md:px-8 flex items-center justify-between'>
         <div className='flex items-center gap-3'>
           {isMobile && toggleSidebar && (
-            <IconButton onClick={toggleSidebar}>
-              <Icon name='hamburger' className='w-6 h-6 text-primary' />
+            <IconButton
+              onClick={toggleSidebar}
+              hoverBackground='primary-contrast/10'
+            >
+              <Icon name='hamburger' className='w-6 h-6' color='#fff' />
             </IconButton>
           )}
           <img src={logoUrl} alt='Logo' className='max-w-80 max-h-12' />

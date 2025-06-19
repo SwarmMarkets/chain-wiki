@@ -5,12 +5,14 @@ import useNFT from 'src/hooks/subgraph/useNFT'
 import RoutePaths from 'src/shared/enums/routes-paths'
 import { findFirstNonGroupVisibleNode } from 'src/shared/utils/treeHelpers'
 import ContentContext from './ContentContext'
-import LeftSidebar from './LeftSidebar'
+import LeftSidebar, { buildTree } from './LeftSidebar'
 import RightSidebar from './RightSidebar'
 import useNFTIdParam from 'src/hooks/useNftIdParam'
 import Drawer from 'src/components/ui-kit/Drawer'
 import ReadHeader from './ReadHeader'
 import useBreakpoint from 'src/hooks/ui/useBreakpoint'
+import SidebarTree from './SidebarTree'
+import useFullTokenIdParam from 'src/hooks/useFullTokenIdParam'
 
 interface ReadLayoutProps {
   preview?: boolean
@@ -22,12 +24,11 @@ const ReadLayout: React.FC<PropsWithChildren<ReadLayoutProps>> = ({
 }) => {
   const { nftId } = useNFTIdParam()
   const { tokenIdOrSlug = '' } = useParams()
+  const fullTokenid = useFullTokenIdParam()
   const location = useLocation()
   const [isLeftSidebarOpen, setLeftSidebarOpen] = useState(false)
-  const isXs = useBreakpoint('xs')
-  const isSm = useBreakpoint('sm')
   const isMd = useBreakpoint('md')
-  const isMobile = isXs || isSm || isMd
+  const isXl = useBreakpoint('xl')
 
   const { nft, loadingNft, refetchingNft } = useNFT(nftId, {
     fetchFullData: true,
@@ -61,13 +62,19 @@ const ReadLayout: React.FC<PropsWithChildren<ReadLayoutProps>> = ({
     }
   }, [nft?.name, nft?.iconLogoUrl, preview])
 
+  const treeData = useMemo(() => {
+    if (!nft?.indexPagesContent?.indexPages) return []
+
+    return buildTree(nft?.indexPagesContent?.indexPages, nft.slug, 0)
+  }, [nft?.indexPagesContent?.indexPages, nft?.slug])
+
   return (
     <ContentContext>
-      <div className='flex flex-col w-full'>
+      <div className='flex flex-col w-full h-screen'>
         <ReadHeader
           nft={nft}
           preview={preview}
-          isMobile={isMobile}
+          isMobile={isMd}
           toggleSidebar={() => setLeftSidebarOpen(prev => !prev)}
         />
         <div
@@ -77,30 +84,24 @@ const ReadLayout: React.FC<PropsWithChildren<ReadLayoutProps>> = ({
             preview ? 'pt-8' : 'pt-28'
           )}
         >
-          {isMobile ? (
+          {isMd ? (
             <Drawer
               open={isLeftSidebarOpen}
               onClose={() => setLeftSidebarOpen(false)}
               position='left'
-              className='!w-[240px] [&>button]:!left-[210px]'
+              className='w-full flex flex-col'
             >
-              <div className='flex flex-col overflow-y-auto pt-0'>
-                <LeftSidebar
-                  nft={nft}
-                  preview={preview}
-                  firstTokenId={firstTokenId}
-                  onClose={() => setLeftSidebarOpen(false)}
-                  isMobile={isMobile}
-                  className='w-full px-2'
-                />
-              </div>
+              <SidebarTree
+                data={treeData}
+                selectedId={fullTokenid || firstTokenId}
+                onSelect={() => setLeftSidebarOpen(false)}
+              />
             </Drawer>
           ) : (
             <LeftSidebar
               nft={nft}
               preview={preview}
               firstTokenId={firstTokenId}
-              isMobile={isMobile}
             />
           )}
 
@@ -108,7 +109,7 @@ const ReadLayout: React.FC<PropsWithChildren<ReadLayoutProps>> = ({
             {children || <Outlet />}
           </main>
 
-          {!isMobile && !isHistoryPage && (
+          {!isXl && !isHistoryPage && (
             <RightSidebar
               preview={preview}
               isLoading={loading}
