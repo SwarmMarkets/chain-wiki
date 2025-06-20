@@ -2,18 +2,12 @@ import { useTranslation } from 'react-i18next'
 import { generatePath, Link } from 'react-router-dom'
 import NftList from 'src/components/Nft/NftList'
 import Button from 'src/components/ui-kit/Button/Button'
-import useNFTs from 'src/hooks/subgraph/useNFTs'
-import { Nft_OrderBy, OrderDirection } from 'src/queries/gql/graphql'
+import useNFTExamples from 'src/hooks/subgraph/useNFTExamples'
 import RoutePaths from 'src/shared/enums/routes-paths'
 
 const ExplorePage = () => {
   const { t } = useTranslation('explore')
-  const { nfts, loadingNfts, refetchingNfts } = useNFTs({
-    variables: {
-      orderBy: Nft_OrderBy.UpdatedAt,
-      orderDirection: OrderDirection.Desc,
-    },
-  })
+  const { nfts, loadingNfts, refetchingNfts } = useNFTExamples()
 
   const loading = loadingNfts && !refetchingNfts
 

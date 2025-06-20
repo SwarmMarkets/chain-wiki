@@ -3,13 +3,23 @@ import React from 'react'
 import { useCustomizationStore } from 'src/shared/store/customization-store'
 import { NFTWithMetadata } from 'src/shared/utils'
 import ReadHeaderSkeleton from './ReadHeaderSkeleton'
+import IconButton from 'src/components/ui-kit/IconButton'
+import Icon from 'src/components/ui-kit/Icon/Icon'
+import DotMenu from 'src/components/ui-kit/DotMenu/DotMenu'
 
 interface ReadHeaderProps {
   nft: NFTWithMetadata | null
   preview?: boolean
+  isMobile?: boolean
+  toggleSidebar?: () => void
 }
 
-const ReadHeader: React.FC<ReadHeaderProps> = ({ nft, preview }) => {
+const ReadHeader: React.FC<ReadHeaderProps> = ({
+  nft,
+  preview,
+  isMobile,
+  toggleSidebar,
+}) => {
   const customization = useCustomizationStore()
   const headerLinks = preview
     ? customization.headerLinks
@@ -36,6 +46,64 @@ const ReadHeader: React.FC<ReadHeaderProps> = ({ nft, preview }) => {
     return <ReadHeaderSkeleton />
   }
 
+  const renderLinks = () => {
+    if (!headerLinks?.length) return null
+
+    if (isMobile) {
+      const [firstLink, ...restLinks] = headerLinks
+      return (
+        <>
+          <a
+            href={firstLink.link}
+            className='text-primary-contrast hover:opacity-85'
+            target='_blank'
+            rel='noopener noreferrer'
+            style={linkStyle}
+          >
+            {firstLink.title}
+          </a>
+          {restLinks.length > 0 && (
+            <DotMenu
+              iconProps={{ style: { color: headerLinksColor } }}
+              iconButtonProps={{ hoverBackground: 'primary-contrast/10' }}
+            >
+              {restLinks.map(link => (
+                <li
+                  key={link.id || link.link}
+                  className='px-2 py-1.5 hover:bg-gray-100 cursor-pointer rounded'
+                >
+                  <a
+                    href={link.link}
+                    className='text-gray-900 block w-full'
+                    target='_blank'
+                    rel='noopener noreferrer'
+                  >
+                    {link.title}
+                  </a>
+                </li>
+              ))}
+            </DotMenu>
+          )}
+        </>
+      )
+    }
+
+    console.log(headerLinks)
+
+    return headerLinks.map(link => (
+      <a
+        key={link.id || link.link}
+        href={link.link}
+        className='text-primary-contrast hover:opacity-85'
+        target='_blank'
+        rel='noopener noreferrer'
+        style={linkStyle}
+      >
+        {link.title}
+      </a>
+    ))
+  }
+
   return (
     <header
       className={clsx(
@@ -45,21 +113,19 @@ const ReadHeader: React.FC<ReadHeaderProps> = ({ nft, preview }) => {
       style={headerStyle}
     >
       <div className='max-w-screen-2xl mx-auto px-4 sm:px-6 md:px-8 flex items-center justify-between'>
-        <img src={logoUrl} alt='Logo' className='max-w-80 max-h-12' />
-        <div className='flex items-center gap-6'>
-          {headerLinks?.map(link => (
-            <a
-              key={link.id}
-              href={link.link}
-              className='text-primary-contrast hover:opacity-85'
-              target='_blank'
-              rel='noopener noreferrer'
-              style={linkStyle}
+        <div className='flex items-center gap-3'>
+          {isMobile && toggleSidebar && (
+            <IconButton
+              onClick={toggleSidebar}
+              hoverBackground='primary-contrast/10'
             >
-              {link.title}
-            </a>
-          ))}
+              <Icon name='hamburger' className='w-6 h-6' color='#fff' />
+            </IconButton>
+          )}
+          <img src={logoUrl} alt='Logo' className='max-w-80 max-h-12' />
         </div>
+
+        <div className='flex items-center gap-6'>{renderLinks()}</div>
       </div>
     </header>
   )

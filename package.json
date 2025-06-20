@@ -1,6 +1,6 @@
 {
-  "name": "chain-wiki-craco-2",
-  "version": "1.0.26",
+  "name": "chain-wiki",
+  "version": "1.0.27",
   "private": true,
   "dependencies": {
     "@apollo/client": "^3.9.2",

@@ -1,8 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { useEditingStore } from 'src/shared/store/editing-store'
-import {
-  getUniqueId,
-} from 'src/shared/utils'
+import { getUniqueId } from 'src/shared/utils'
 import Button from '../ui-kit/Button/Button'
 import EditIndexPagesTree from './EditIndexPagesTree/EditIndexPagesTree'
 import useEdit from './useEdit'
@@ -62,6 +60,12 @@ const EditIndexPages = () => {
         slug: initialSlug,
         content: '',
       })
+      updateCurrEditableToken({
+        id: nextTokenId,
+        name: initialName,
+        slug: initialSlug,
+        content: '',
+      })
     }
   }
 
@@ -80,22 +84,26 @@ const EditIndexPages = () => {
   }
 
   return (
-    <div>
-      <EditIndexPagesTree
-        activeTokenIdOrSlug={currEditableToken?.id}
-        activeSlug={currEditableToken?.slug}
-        onClick={handleIndexPageClick}
-        treeData={treeData}
-        onDrop={updateIndexPagesByTreeNodes}
-        onUpdateName={updateTokenName}
-      />
+    <div className='flex flex-col h-full'>
+      <div className='flex-1 overflow-auto'>
+        <EditIndexPagesTree
+          activeTokenIdOrSlug={currEditableToken?.id}
+          activeSlug={currEditableToken?.slug}
+          onClick={handleIndexPageClick}
+          treeData={treeData}
+          onDrop={updateIndexPagesByTreeNodes}
+          onUpdateName={updateTokenName}
+        />
+      </div>
 
-      <Button className='mt-2 w-full' onClick={handleAddPage}>
-        {t('addToken')}
-      </Button>
-      <Button className='mt-2 w-full' onClick={handleAddGroup}>
-        {t('addGroup')}
-      </Button>
+      <div className='pt-2'>
+        <Button className='w-full' onClick={handleAddPage}>
+          {t('addToken')}
+        </Button>
+        <Button className='mt-2 w-full' onClick={handleAddGroup}>
+          {t('addGroup')}
+        </Button>
+      </div>
     </div>
   )
 }

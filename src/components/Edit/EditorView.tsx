@@ -23,6 +23,7 @@ const EditorView: React.FC<EditorViewProps> = ({ content }) => {
   useEffectCompare(() => {
     if (!currEditableToken) return
     mdxRef.current?.setMarkdown(content)
+    mdxRef.current?.focus()
   }, [currEditableToken])
 
   const updateContent = (content: string) => {
