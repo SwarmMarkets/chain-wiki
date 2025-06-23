@@ -1,15 +1,8 @@
 import { ApolloProvider } from '@apollo/client'
-import {
-  ThirdwebProvider,
-  coinbaseWallet,
-  en,
-  metamaskWallet,
-  walletConnect,
-} from '@thirdweb-dev/react'
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
+import { ThirdwebProvider } from 'thirdweb/react'
 import { ToastContainer } from 'react-toastify'
 import { ThemeProvider } from 'styled-components'
-import { environment } from './environment'
 import TokenPage from './pages/TokenPage'
 import client from './services/apollo'
 import RoutePaths from './shared/enums/routes-paths'
@@ -30,35 +23,25 @@ import ExplorePage from './pages/ExplorePage'
 import staticConfig from './config'
 import ToastManager from './components/ui-kit/Toast/ToastManager'
 import { useConfigStore } from './shared/store/config-store'
-import { useEffect } from 'react'
+import useOnFirstMount from './components/ui-kit/hooks/useOnFirstMount'
 
 const queryClient = new QueryClient()
 
-const { defaultChain, supportedChains } = staticConfig
+const { defaultChain } = staticConfig
 
 function App() {
   const { lastChainId, setLastChainId } = useConfigStore()
 
-  useEffect(() => {
+  useOnFirstMount(() => {
     if (!lastChainId) {
       setLastChainId(defaultChain.chainId)
     }
-  }, [])
+  })
 
   return (
     <QueryClientProvider client={queryClient}>
       <ApolloProvider client={client}>
-        <ThirdwebProvider
-          supportedChains={supportedChains}
-          activeChain={defaultChain.chainId}
-          clientId={environment.thirdWebClientId}
-          locale={en()}
-          supportedWallets={[
-            metamaskWallet(),
-            coinbaseWallet({ recommended: true }),
-            walletConnect(),
-          ]}
-        >
+        <ThirdwebProvider>
           <ThemeProvider theme={theme}>
             <Router>
               <Routes>
