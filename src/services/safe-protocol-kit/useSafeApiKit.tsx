@@ -8,7 +8,7 @@ const useSafeApiKit = () => {
 
   const apiKit = useMemo(() => {
     return new SafeApiKit({
-      chainId: BigInt(chain.id || arbitrumSepoliaChainConfig.chainId),
+      chainId: BigInt(chain.id || arbitrumSepoliaChainConfig.id),
       txServiceUrl: safeTxServiceUrl,
     })
   }, [chain.id])

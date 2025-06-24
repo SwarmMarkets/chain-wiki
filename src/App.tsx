@@ -34,7 +34,7 @@ function App() {
 
   useOnFirstMount(() => {
     if (!lastChainId) {
-      setLastChainId(defaultChain.chainId)
+      setLastChainId(defaultChain.id)
     }
   })
 
