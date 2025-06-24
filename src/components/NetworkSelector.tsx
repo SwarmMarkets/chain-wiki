@@ -6,7 +6,6 @@ import { SupportedChainId } from 'src/environment/networks'
 import useBreakpoint from 'src/hooks/ui/useBreakpoint'
 import { useConfigStore } from 'src/shared/store/config-store'
 
-import { useChainId, useSwitchChain } from '@thirdweb-dev/react'
 import Icon from './ui-kit/Icon/Icon'
 import OptionSubheader from './ui-kit/Select/OptionSubheader'
 import { IconName } from 'src/shared/types/iconNames'
@@ -15,6 +14,9 @@ const { supportedChains } = staticConfig
 
 import Select from './ui-kit/Select/Select'
 import Option from './ui-kit/Select/Option'
+import useActiveOrDefaultChain from 'src/hooks/web3/useActiveOrDefaultChain'
+import { useSwitchActiveWalletChain } from 'thirdweb/react'
+import { getActiveOrDefaultChain } from 'src/shared/utils'
 
 const networksIcons: Record<SupportedChainId, IconName> = {
   [SupportedChainId.Base]: 'base',
@@ -22,18 +24,17 @@ const networksIcons: Record<SupportedChainId, IconName> = {
 }
 
 const getNetworkOptions = () => {
-  return supportedChains.map(({ chainId, name }) => ({
-    id: chainId,
-    icon: networksIcons[chainId],
+  return supportedChains.map(({ id, name }) => ({
+    id,
+    icon: networksIcons[id],
     slug: name,
   }))
 }
 
 const NetworkSelector = () => {
-  const activeChainId = useChainId()
-  const switchChain = useSwitchChain()
+  const activeChainId = useActiveOrDefaultChain()
+  const switchChain = useSwitchActiveWalletChain()
   const { lastChainId, setLastChainId } = useConfigStore()
-  console.log(lastChainId)
 
   const { t } = useTranslation('common')
   const isLg = useBreakpoint('lg')
@@ -44,7 +45,7 @@ const NetworkSelector = () => {
     }
 
     if (newChainId === activeChainId || !activeChainId) return
-    await switchChain(newChainId)
+    await switchChain(getActiveOrDefaultChain(newChainId))
     setLastChainId(newChainId)
     window.location.reload()
   }
