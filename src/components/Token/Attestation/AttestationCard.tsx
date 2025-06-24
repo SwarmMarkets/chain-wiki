@@ -1,4 +1,5 @@
-import { shortenAddress, useAddress } from '@thirdweb-dev/react'
+import { shortenAddress } from '@thirdweb-dev/react'
+import { useActiveAccount } from 'thirdweb/react'
 import dayjs from 'dayjs'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -29,7 +30,7 @@ const AttestationCard: React.FC<AttestationCardProps> = ({
   const {
     permissions: { canManageRoles },
   } = useNftPermissions(nftAddress)
-  const account = useAddress()
+  const account = useActiveAccount()
 
   const { call, txLoading: deleteTxLoading } = useSX1155NFT(nftAddress)
   const {
@@ -63,7 +64,7 @@ const AttestationCard: React.FC<AttestationCardProps> = ({
     })
   }
 
-  const canDeleteAtestation = isSameEthereumAddress(attestatorAddress, account)
+  const canDeleteAtestation = isSameEthereumAddress(attestatorAddress, account?.address)
   const showDotMenu = canManageRoles || canDeleteAtestation
 
   return (

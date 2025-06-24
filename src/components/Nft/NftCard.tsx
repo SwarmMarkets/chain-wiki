@@ -1,4 +1,4 @@
-import { useAddress } from '@thirdweb-dev/react'
+import { useActiveAccount } from 'thirdweb/react'
 import clsx from 'clsx'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -21,21 +21,21 @@ interface NftCardProps {
 
 const NftCard: React.FC<NftCardProps> = ({ nft, className }) => {
   const { t } = useTranslation(['nft', 'nfts', 'buttons'])
-  const account = useAddress()
+  const account = useActiveAccount()
   const { signTransaction, tx } = useNFTUpdate(nft.id)
 
   const roles = useMemo(() => {
     const isAdmin = nft.admins.some(address =>
-      isSameEthereumAddress(address, account)
+      isSameEthereumAddress(address, account?.address)
     )
     const isEditor = nft.editors.some(address =>
-      isSameEthereumAddress(address, account)
+      isSameEthereumAddress(address, account?.address)
     )
     const roles = []
     if (isAdmin) roles.push(t('filter.admin', { ns: 'nfts' }))
     if (isEditor) roles.push(t('filter.editor', { ns: 'nfts' }))
     return roles
-  }, [account, nft.admins, nft.editors, t])
+  }, [account?.address, nft.admins, nft.editors, t])
 
   const handleUploadLogo = async (url: string) => {
     await signTransaction({ logoUrl: url })

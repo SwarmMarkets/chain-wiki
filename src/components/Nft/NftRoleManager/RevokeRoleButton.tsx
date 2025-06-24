@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import useNFTRoleManager from './useNFTRoleManager'
 import { Roles } from 'src/shared/enums/roles'
-import { useAddress } from '@thirdweb-dev/react'
+import { useActiveAccount } from 'thirdweb/react'
 import { isSameEthereumAddress } from 'src/shared/utils'
 import Button from 'src/components/ui-kit/Button/Button'
 
@@ -18,9 +18,9 @@ const RevokeRoleButton: React.FC<RevokeRoleButtonProps> = ({
 }) => {
   const { t } = useTranslation('nft', { keyPrefix: 'settings.roleManager.actions' })
   const { revokeRole, txLoading } = useNFTRoleManager(nftAddress)
-  const account = useAddress()
+  const account = useActiveAccount()
 
-  if (role === Roles.ADMIN && isSameEthereumAddress(account, from)) return null
+  if (role === Roles.ADMIN && isSameEthereumAddress(account?.address, from)) return null
 
   return (
     <Button

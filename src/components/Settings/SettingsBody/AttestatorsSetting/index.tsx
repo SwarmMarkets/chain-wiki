@@ -9,7 +9,7 @@ import SettingCard from '../../SettingCard'
 import MakePreferredForm from './MakePreferredForm'
 import { AdditionalRoles } from 'src/shared/enums'
 import { isSameEthereumAddress } from 'src/shared/utils'
-import { useAddress } from '@thirdweb-dev/react'
+import { useActiveAccount } from 'thirdweb/react'
 import { useAddressNameStore } from 'src/components/Nft/NftRoleManager/addressNameStore'
 import useNFTIdParam from 'src/hooks/useNftIdParam'
 
@@ -24,7 +24,8 @@ const AttestatorsSetting = () => {
 
   const [latestRemovePreferred, setLatestRemovePreferred] = useState('')
   const { addressNames } = useAddressNameStore()
-  const currentAddress = useAddress()
+  const currentAccount = useActiveAccount()
+  const currentAddress = currentAccount?.address
 
   const formatAttestator = useCallback(
     (address: string) => {

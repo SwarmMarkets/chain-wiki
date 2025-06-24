@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next'
 import yup from 'src/shared/validations/yup'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import useYupValidationResolver from 'src/hooks/useYupValidationResolver'
-import { Transaction, useAddress, useStorageUpload } from '@thirdweb-dev/react'
+import { Transaction, useActiveAccount, useStorageUpload } from 'thirdweb/react'
 import { parseSummaryToFlatTree } from './utils'
 import { useParams } from 'react-router-dom'
 import {
@@ -57,7 +57,7 @@ const useIntegrationForm = () => {
   const { uploadContent } = useTokenUpdate(nftId)
   const { contract } = useSX1155NFT(nftId)
 
-  const account = useAddress()
+  const account = useActiveAccount()
   const { smartAccount, isLoading: smartAccountLoading } = useSmartAccount()
 
   const { addToast } = useToastManager()
@@ -181,9 +181,9 @@ const useIntegrationForm = () => {
           address: nftId,
           tokenId,
         })
-        if (firstUri && account) {
+        if (firstUri && account?.address) {
           const tokenContentMintTx = contract.prepare('mint', [
-            account,
+            account.address,
             1,
             JSON.stringify({ uri: firstUri, name: tokenToMint.title }),
             tokenToMint.slug,

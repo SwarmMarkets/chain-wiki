@@ -1,12 +1,12 @@
 import { SafeClient } from '@safe-global/sdk-starter-kit'
 import { useQuery } from '@tanstack/react-query'
-import { useAddress, useChainId } from '@thirdweb-dev/react'
+import { useActiveAccount, useChainId } from 'thirdweb/react'
 import { initSafeClient } from './safe-client'
 
 let safeClientInstance: SafeClient | null = null
 
 const useSmartAccount = () => {
-  const account = useAddress()
+  const account = useActiveAccount()
   const chainId = useChainId()
 
   const { data: smartAccount, ...accountState } = useQuery({
@@ -15,14 +15,14 @@ const useSmartAccount = () => {
       if (!account || !chainId) return null
 
       if (safeClientInstance) {
-        const isOwner = await safeClientInstance.isOwner(account)
+        const isOwner = await safeClientInstance.isOwner(account.address)
         const clientChainId = await safeClientInstance.protocolKit.getChainId()
         if (isOwner && clientChainId === BigInt(chainId)) {
           return safeClientInstance
         }
       }
 
-      const newClient = await initSafeClient(account, chainId)
+      const newClient = await initSafeClient(account.address, chainId)
       safeClientInstance = newClient
       return newClient
     },

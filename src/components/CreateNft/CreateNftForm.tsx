@@ -1,4 +1,4 @@
-import { useAddress } from '@thirdweb-dev/react'
+import { useActiveAccount } from 'thirdweb/react'
 import { useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
@@ -32,7 +32,7 @@ const CreateNftForm: React.FC<CreateNftFormProps> = ({
     setValue,
   } = useCreateNftForm()
   const { call, txLoading } = useSX1155NFTFactory()
-  const account = useAddress()
+  const account = useActiveAccount()
   const { smartAccountInfo } = useSmartAccount()
   const [uploadedLogoUrl, setUploadedLogoUrl] = useState<string | null>(null)
 
@@ -46,13 +46,13 @@ const CreateNftForm: React.FC<CreateNftFormProps> = ({
 
   const onSubmit: SubmitHandler<CreateNftFormInputs> = async (data, e) => {
     e?.preventDefault()
-    if (!account || !smartAccountInfo?.address) return
+    if (!account?.address || !smartAccountInfo?.address) return
 
     const { name, slug } = data
     const symbol = generateSymbolFromString(name)
-    const owner = account
-    const admins = [account, smartAccountInfo.address]
-    const editors = [account, smartAccountInfo.address]
+    const owner = account.address
+    const admins = [account.address, smartAccountInfo.address]
+    const editors = [account.address, smartAccountInfo.address]
     const kya = JSON.stringify({
       logoUrl: uploadedLogoUrl,
     })

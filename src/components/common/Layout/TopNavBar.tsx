@@ -1,14 +1,14 @@
 import { Link } from 'react-router-dom'
-import ConnectButton from 'src/components/common/ConnectButton'
 import Button from 'src/components/ui-kit/Button/Button'
 import useModalState from 'src/hooks/useModalState'
 import CreateNftModal from 'src/components/CreateNft/CreateNftModal'
 import NetworkSelector from 'src/components/NetworkSelector'
-import { useAddress } from '@thirdweb-dev/react'
+import { useActiveAccount } from 'thirdweb/react'
+import ConnectWallet from '../ConnectWallet/ConnectWallet'
 
 const TopNavBar = () => {
   const { isOpen, open, close } = useModalState()
-  const account = useAddress()
+  const account = useActiveAccount()
 
   return (
     <div className='bg-white border-b border-gray-200 flex items-center justify-between px-4 py-2 w-full'>
@@ -25,13 +25,13 @@ const TopNavBar = () => {
           </Button>
         )}
         <NetworkSelector />
-        <ConnectButton
-          style={{
-            border: 0,
-            padding: 0,
-            height: '40px',
-            ...(account && { marginRight: '-40px' }),
-          }}
+        <ConnectWallet
+        // style={{
+        //   border: 0,
+        //   padding: 0,
+        //   height: '40px',
+        //   ...(account && { marginRight: '-40px' }),
+        // }}
         />
       </div>
 

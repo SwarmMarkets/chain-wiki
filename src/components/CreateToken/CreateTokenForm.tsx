@@ -1,4 +1,4 @@
-import { useAddress } from '@thirdweb-dev/react'
+import { useActiveAccount } from 'thirdweb/react'
 import { SubmitHandler } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { useSX1155NFT } from 'src/hooks/contracts/useSX1155NFT'
@@ -25,16 +25,16 @@ const CreateTokenForm: React.FC<CreateTokenFormProps> = ({
     formState: { errors },
   } = useCreateTokenForm()
   const { nftId } = useNFTIdParam()
-  const account = useAddress()
+  const account = useActiveAccount()
   const { call, txLoading } = useSX1155NFT(nftId)
   const onSubmit: SubmitHandler<CreateTokenFormInputs> = async (
     { name },
     e
   ) => {
     e?.preventDefault()
-    if (!account) return
+    if (!account?.address) return
 
-    const to = account
+    const to = account.address
     const amount = 1
     const tokenURI = JSON.stringify({ name })
     const data = '0x'

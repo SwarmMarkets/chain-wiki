@@ -1,4 +1,4 @@
-import { Transaction, useAddress, useStorageUpload } from '@thirdweb-dev/react'
+import { Transaction, useActiveAccount, useStorageUpload } from '@thirdweb-dev/react'
 import differenceWith from 'lodash/differenceWith'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useSX1155NFT } from 'src/hooks/contracts/useSX1155NFT'
@@ -30,7 +30,7 @@ const useEdit = (readonly?: boolean) => {
   const { nft, loadingNft, refetchingNft } = useNFT(nftId, {
     fetchFullData: true,
   })
-  const account = useAddress()
+  const account = useActiveAccount()
 
   const {
     editedTokens,
@@ -140,9 +140,9 @@ const useEdit = (readonly?: boolean) => {
             address: nftId,
             tokenId,
           })
-          if (firstUri && account) {
+          if (firstUri && account?.address) {
             const tokenContentMintTx = sx1555NFTContract.prepare('mint', [
-              account,
+              account.address,
               1,
               JSON.stringify({ uri: firstUri, name: addedToken.name }),
               addedToken.slug,
