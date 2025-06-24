@@ -1,4 +1,3 @@
-import { Chain } from '@thirdweb-dev/chains'
 import {
   arbitrumSepoliaChainConfig,
   arbitrumSepoliaEnvironment,
@@ -6,6 +5,7 @@ import {
 import { baseChainConfig, baseEnvironment } from './base'
 import { polygonChainConfig, polygonEnvironment } from './polygon'
 import { environment } from '..'
+import { Chain } from 'thirdweb'
 
 export enum SupportedChainId {
   Base = baseChainConfig.chainId,
@@ -13,7 +13,7 @@ export enum SupportedChainId {
   Polygon = polygonChainConfig.chainId,
 }
 
-const polygonConfig = environment.polygonSubgraphUrl ? [polygonChainConfig] : []
+const polygonConfig = environment.subgraphApiKey ? [polygonChainConfig] : []
 
 export const mainNetworks: Chain[] = [baseChainConfig, ...polygonConfig]
 
