@@ -1,13 +1,14 @@
 import { SafeClient } from '@safe-global/sdk-starter-kit'
 import { useQuery } from '@tanstack/react-query'
-import { useActiveAccount, useChainId } from 'thirdweb/react'
+import { useActiveAccount } from 'thirdweb/react'
 import { initSafeClient } from './safe-client'
+import useActiveOrDefaultChain from 'src/hooks/web3/useActiveOrDefaultChain'
 
 let safeClientInstance: SafeClient | null = null
 
 const useSmartAccount = () => {
   const account = useActiveAccount()
-  const chainId = useChainId()
+  const { id: chainId } = useActiveOrDefaultChain()
 
   const { data: smartAccount, ...accountState } = useQuery({
     queryKey: ['safeClient', account, chainId],

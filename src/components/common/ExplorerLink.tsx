@@ -1,9 +1,9 @@
 import { ChildrenProp } from 'src/shared/types/common-props'
 import { ExplorerLinkType, getExplorerUrl } from 'src/shared/utils'
-import { useChainId } from '@thirdweb-dev/react'
 import { useState, MouseEvent } from 'react'
 import Icon from '../ui-kit/Icon/Icon'
 import clsx from 'clsx'
+import useActiveOrDefaultChain from 'src/hooks/web3/useActiveOrDefaultChain'
 
 interface ExplorerLinkProps extends ChildrenProp {
   type: ExplorerLinkType
@@ -20,7 +20,7 @@ const ExplorerLink: React.FC<ExplorerLinkProps> = ({
   children,
 }) => {
   const [showCheckmark, setShowCheckmark] = useState(false)
-  const chainId = useChainId()
+  const { id: chainId } = useActiveOrDefaultChain()
 
   const iconSizeWithDefault = iconSize || 16
   const explorerUrl = getExplorerUrl({ type, chainId, hash })
