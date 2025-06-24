@@ -32,7 +32,7 @@ const getNetworkOptions = () => {
 }
 
 const NetworkSelector = () => {
-  const activeChainId = useActiveOrDefaultChain()
+  const activeChain = useActiveOrDefaultChain()
   const switchChain = useSwitchActiveWalletChain()
   const { lastChainId, setLastChainId } = useConfigStore()
 
@@ -40,17 +40,17 @@ const NetworkSelector = () => {
   const isLg = useBreakpoint('lg')
 
   const handleSwitchChain = async (newChainId: number) => {
-    if (!activeChainId && newChainId !== lastChainId) {
+    if (!activeChain && newChainId !== lastChainId) {
       setLastChainId(newChainId)
     }
 
-    if (newChainId === activeChainId || !activeChainId) return
+    if (newChainId === activeChain.id || !activeChain) return
     await switchChain(getActiveOrDefaultChain(newChainId))
     setLastChainId(newChainId)
     window.location.reload()
   }
 
-  const chainId = lastChainId || staticConfig.defaultChain.chainId
+  const chainId = lastChainId || staticConfig.defaultChain.id
 
   return (
     <Select<number>
