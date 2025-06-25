@@ -1,4 +1,3 @@
-import { useStorageUpload } from '@thirdweb-dev/react'
 import { useCallback } from 'react'
 import {
   generateIpfsTokenContent,
@@ -6,6 +5,7 @@ import {
   IpfsVoteProposal,
 } from 'src/shared/utils'
 import { useSX1155NFT } from './contracts/useSX1155NFT'
+import { useIpfsUpload } from './web3/useIpfsUpload'
 
 export interface TokenContentToUpdate {
   name?: string | null
@@ -27,7 +27,7 @@ const useTokenUpdate = (nftAddress: string) => {
     isLoading,
     isSuccess,
     reset: resetStorageState,
-  } = useStorageUpload()
+  } = useIpfsUpload()
 
   const uploadContent = async (
     tokenId: number,
@@ -41,14 +41,14 @@ const useTokenUpdate = (nftAddress: string) => {
 
     const ipfsContent = generateIpfsTokenContent(contentToGenerate)
     const filesToUpload = [ipfsContent]
-    const uris = await upload({ data: filesToUpload })
+    const uris = await upload(filesToUpload)
     const firstUri = uris[0]
 
     return firstUri
   }
   const uploadVoteProposal = async (voreProposal: IpfsVoteProposal) => {
     const filesToUpload = [JSON.stringify(voreProposal)]
-    const uris = await upload({ data: filesToUpload })
+    const uris = await upload(filesToUpload)
     const firstUri = uris[0]
     return firstUri
   }

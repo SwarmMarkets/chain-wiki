@@ -32,10 +32,10 @@ import {
 } from '@mdxeditor/editor'
 
 import '@mdxeditor/editor/style.css'
-import { useStorageUpload } from '@thirdweb-dev/react'
 import { forwardRef, useRef } from 'react'
 import { ipfsToHttp } from 'src/shared/utils'
 import CustomInsertImageDialog from './CustomInsertImageDialog'
+import { useIpfsUpload } from 'src/hooks/web3/useIpfsUpload'
 
 interface EditorProps {
   initialContent?: string
@@ -48,7 +48,7 @@ const Editor = forwardRef<MDXEditorMethods, EditorProps>(
   ({ content = '', onChange }, ref) => {
     const initialContent = useRef(content)
 
-    const { mutateAsync: upload } = useStorageUpload()
+    const { mutateAsync: upload } = useIpfsUpload()
 
     const onEditorChange = (content: string) => {
       onChange && onChange(content)
@@ -56,7 +56,7 @@ const Editor = forwardRef<MDXEditorMethods, EditorProps>(
 
     const handleImageUpload = async (image: File): Promise<string> => {
       try {
-        const uris = await upload({ data: [image] })
+        const uris = await upload([image])
         const ipfsUri = uris[0]
 
         return ipfsToHttp(ipfsUri)

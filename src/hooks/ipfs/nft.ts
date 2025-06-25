@@ -1,24 +1,7 @@
-import {
-  parseIpfsHeaderLinksContent,
-  parseIpfsIndexPagesContent,
-  parseIpfsNftContent,
-} from 'src/shared/utils'
-import { useQuery } from '@tanstack/react-query'
-import { useStorage } from '@thirdweb-dev/react'
+import { useIpfsDownload } from '../web3/useIpfsDownload'
 
 export const useIpfsNftContent = (ipfsUri?: string) => {
-  const storage = useStorage()
-
-  const { data, isLoading, ...rest } = useQuery({
-    queryKey: ['ipfsNftContent', ipfsUri],
-    queryFn: async () => {
-      const res = await storage?.downloadJSON(ipfsUri!)
-      return parseIpfsNftContent(res)
-    },
-    staleTime: 300000, // 5 minutes
-    refetchOnWindowFocus: false,
-    enabled: Boolean(ipfsUri),
-  })
+  const { data, isLoading, ...rest } = useIpfsDownload({ uri: ipfsUri || '' })
 
   return {
     ipfsContent: data,
@@ -28,18 +11,7 @@ export const useIpfsNftContent = (ipfsUri?: string) => {
 }
 
 export const useIpfsHeaderLinks = (ipfsUri?: string) => {
-  const storage = useStorage()
-
-  const { data, isLoading, ...rest } = useQuery({
-    queryKey: ['ipfsHeaderLinks', ipfsUri],
-    queryFn: async () => {
-      const res = await storage?.downloadJSON(ipfsUri!)
-      return parseIpfsHeaderLinksContent(res)
-    },
-    staleTime: 300000, // 5 minutes
-    refetchOnWindowFocus: false,
-    enabled: Boolean(ipfsUri),
-  })
+  const { data, isLoading, ...rest } = useIpfsDownload({ uri: ipfsUri || '' })
 
   return {
     headerLinksContent: data,
@@ -49,18 +21,7 @@ export const useIpfsHeaderLinks = (ipfsUri?: string) => {
 }
 
 export const useIpfsIndexPages = (ipfsUri?: string) => {
-  const storage = useStorage()
-
-  const { data, isLoading, ...rest } = useQuery({
-    queryKey: ['ipfsIndexPages', ipfsUri],
-    queryFn: async () => {
-      if (!ipfsUri) return
-      const res = await storage?.downloadJSON(ipfsUri)
-      return parseIpfsIndexPagesContent(res)
-    },
-    staleTime: 300000, // 5 minutes
-    refetchOnWindowFocus: false,
-  })
+  const { data, isLoading, ...rest } = useIpfsDownload({ uri: ipfsUri || '' })
 
   return {
     indexPagesContent: data,

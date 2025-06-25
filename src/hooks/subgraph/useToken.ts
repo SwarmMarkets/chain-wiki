@@ -4,7 +4,6 @@ import { useMemo, useState } from 'react'
 import { TokenQuery } from 'src/queries'
 import { QueryTokenArgs } from 'src/queries/gql/graphql'
 import { TokenQueryFullData } from 'src/shared/utils/ipfs/types'
-import { useStorage } from '@thirdweb-dev/react'
 
 const POLL_INTERVAL = 15000
 
@@ -14,7 +13,6 @@ const useToken = (
     disableRefetch?: boolean
   }
 ) => {
-  const storage = useStorage()
   const [tokenData, setTokenData] = useState<TokenQueryFullData | null>(null)
 
   const { loading, error, networkStatus, refetch } = useQuery(TokenQuery, {

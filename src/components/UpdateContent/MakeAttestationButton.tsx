@@ -1,4 +1,3 @@
-import { useStorageUpload } from '@thirdweb-dev/react'
 import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useSX1155NFT } from 'src/hooks/contracts/useSX1155NFT'
@@ -6,6 +5,7 @@ import { ChildrenProp } from 'src/shared/types/common-props'
 import { generateIpfsAttestationContent } from 'src/shared/utils'
 import SmartButton from '../SmartButton'
 import { ButtonProps } from '../ui-kit/Button/Button'
+import { useIpfsUpload } from 'src/hooks/web3/useIpfsUpload'
 
 interface MakeAttestationButtonProps extends ButtonProps, ChildrenProp {
   nftAddress: string
@@ -31,7 +31,7 @@ const MakeAttestationButton: React.FC<MakeAttestationButtonProps> = ({
     mutateAsync: upload,
     isLoading,
     reset: resetStorageState,
-  } = useStorageUpload()
+  } = useIpfsUpload()
   const shortTokenId = Number(tokenId.split('-')[1])
 
   const uploadContent = async () => {
@@ -41,7 +41,7 @@ const MakeAttestationButton: React.FC<MakeAttestationButtonProps> = ({
       htmlContent: attestationContent,
     })
     const filesToUpload = [ipfsContent]
-    const uris = await upload({ data: filesToUpload })
+    const uris = await upload(filesToUpload)
     const firstUri = uris[0]
     return firstUri
   }

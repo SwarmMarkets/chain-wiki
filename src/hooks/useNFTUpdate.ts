@@ -1,4 +1,3 @@
-import { useStorageUpload } from '@thirdweb-dev/react'
 import { useCallback } from 'react'
 import { useSX1155NFT } from './contracts/useSX1155NFT'
 import {
@@ -12,6 +11,7 @@ import {
   IpfsIndexPage,
   IpfsNftContent,
 } from 'src/shared/utils/ipfs/types'
+import { useIpfsUpload } from './web3/useIpfsUpload'
 
 export interface NFTContentToUpdate {
   logoUrl?: string | null
@@ -39,7 +39,7 @@ const useNFTUpdate = (nftAddress: string) => {
     isSuccess,
     isError,
     reset: resetStorageState,
-  } = useStorageUpload()
+  } = useIpfsUpload()
   // const { nft } = useNFT(nftAddress)
 
   const uploadContent = async (content: Partial<IpfsNftContent>) => {
@@ -49,7 +49,7 @@ const useNFTUpdate = (nftAddress: string) => {
       address: unifyAddressToId(nftAddress),
     })
     const filesToUpload = [ipfsContent]
-    const uris = await upload({ data: filesToUpload })
+    const uris = await upload(filesToUpload)
     const firstUri = uris[0]
     return firstUri
   }
@@ -61,7 +61,7 @@ const useNFTUpdate = (nftAddress: string) => {
       address: unifyAddressToId(nftAddress),
     })
     const filesToUpload = [ipfsIndexPagesContent]
-    const uris = await upload({ data: filesToUpload })
+    const uris = await upload(filesToUpload)
     const firstUri = uris[0]
     return firstUri
   }
@@ -79,7 +79,7 @@ const useNFTUpdate = (nftAddress: string) => {
       color: headerLinksContent.color || '#000000',
     })
     const filesToUpload = [ipfsHeaderLinksContent]
-    const uris = await upload({ data: filesToUpload })
+    const uris = await upload(filesToUpload)
     const firstUri = uris[0]
     return firstUri
   }

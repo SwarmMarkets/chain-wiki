@@ -8,7 +8,6 @@ import {
   NfturiUpdatesQueryVariables,
 } from 'src/queries/gql/graphql'
 import { unifyAddressToId } from 'src/shared/utils'
-import { useStorage } from '@thirdweb-dev/react'
 import { NftUriUpdatesQueryFullData } from 'src/shared/utils/ipfs/types'
 
 const PAGE_LIMIT = 10
@@ -29,7 +28,6 @@ const useNFTURIUpdates = (
   const [fullData, setFullData] = useState<NftUriUpdatesQueryFullData[] | null>(
     null
   )
-  const storage = useStorage()
 
   const { data, loading, error, networkStatus, refetch, fetchMore } = useQuery(
     NFTURIUpdatesQuery,
