@@ -14,11 +14,11 @@ const connectWalletProps: ConnectButtonProps = {
   ...thirdwebCommonConnectConfig,
 }
 
-const ConnectWallet: React.FC = () => {
+const ConnectWallet: React.FC<Omit<ConnectButtonProps, 'client'>> = props => {
   const isSm = useBreakpoint('xs')
 
-  if (isSm) return <ConnectWalletMobile {...connectWalletProps} />
-  return <ConnectWalletDesktop {...connectWalletProps} />
+  if (isSm) return <ConnectWalletMobile {...connectWalletProps} {...props} />
+  return <ConnectWalletDesktop {...connectWalletProps} {...props} />
 }
 
 export default ConnectWallet
