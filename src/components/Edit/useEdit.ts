@@ -1,4 +1,3 @@
-import { Transaction, useActiveAccount, useStorageUpload } from '@thirdweb-dev/react'
 import differenceWith from 'lodash/differenceWith'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useSX1155NFT } from 'src/hooks/contracts/useSX1155NFT'
@@ -24,6 +23,9 @@ import useTokenUpdate from 'src/hooks/useTokenUpdate'
 import { SafeClientTxStatus } from '@safe-global/sdk-starter-kit/dist/src/constants'
 import { findFirstNonGroupVisibleNode } from 'src/shared/utils/treeHelpers'
 import useNFTIdParam from 'src/hooks/useNftIdParam'
+import { useActiveAccount } from 'thirdweb/react'
+import { PreparedTransaction } from 'thirdweb'
+import { useIpfsUpload } from 'src/hooks/web3/useIpfsUpload'
 
 const useEdit = (readonly?: boolean) => {
   const { nftId } = useNFTIdParam()
@@ -63,6 +65,8 @@ const useEdit = (readonly?: boolean) => {
     { fetchFullData: true }
   )
 
+  const { mutateAsync: upload } = useIpfsUpload()
+
   // Init the first editable token
   useEffect(() => {
     if (!fullTokens || currEditableToken) return
@@ -90,7 +94,6 @@ const useEdit = (readonly?: boolean) => {
   ])
 
   const { smartAccount } = useSmartAccount()
-  const { mutateAsync: upload } = useStorageUpload()
   const [mergeLoading, setMergeLoading] = useState(false)
 
   const { contract: sx1555NFTContract } = useSX1155NFT(nftId)
@@ -98,7 +101,7 @@ const useEdit = (readonly?: boolean) => {
 
   const merge = async () => {
     setMergeLoading(true)
-    const txs: Transaction[] = []
+    const txs: PreparedTransaction[] = []
     try {
       if (editedTokens.length > 0) {
         for (const editedToken of editedTokens) {
@@ -157,7 +160,7 @@ const useEdit = (readonly?: boolean) => {
           address: nftId,
         })
         const filesToUpload = [indexPagesIpfsContent]
-        const uris = await upload({ data: filesToUpload })
+        const uris = await upload(filesToUpload)
         const firstUri = uris[0]
         if (firstUri) {
           const tokenContentUpdateTx = sx1555NFTContract.prepare(
