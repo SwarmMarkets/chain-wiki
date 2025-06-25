@@ -1,4 +1,3 @@
-import { shortenAddress } from '@thirdweb-dev/react'
 import { useActiveAccount } from 'thirdweb/react'
 import dayjs from 'dayjs'
 import React from 'react'
@@ -7,11 +6,11 @@ import MarkdownRenderer from 'src/components/Editor/MarkdownRenderer'
 import ExplorerLink from 'src/components/common/ExplorerLink'
 import DotMenu from 'src/components/ui-kit/DotMenu/DotMenu'
 import Icon from 'src/components/ui-kit/Icon/Icon'
-import Card from 'src/components/ui/Card'
 import { useSX1155NFT } from 'src/hooks/contracts/useSX1155NFT'
 import useNftPermissions from 'src/hooks/permissions/useNftPermissions'
 import useNFTUpdate from 'src/hooks/useNFTUpdate'
 import { CommentsQueryFullData, isSameEthereumAddress } from 'src/shared/utils'
+import { shortenAddress } from 'thirdweb/utils'
 
 interface AttestationCardProps {
   nftAddress: string
@@ -79,7 +78,7 @@ const AttestationCard: React.FC<AttestationCardProps> = ({
             type={'address'}
             hash={attestatorAddress}
           >
-            {shortenAddress(attestatorAddress, true)}
+            {shortenAddress(attestatorAddress, 6)}
           </ExplorerLink>
           {isPreferredAttestator && (
             <Icon name='checkmark-circle' size={20} className='text-primary' />
