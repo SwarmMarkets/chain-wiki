@@ -19,7 +19,12 @@ const useSendTx = () => {
   const chain = useActiveWalletChain()
 
   const sendTx = useCallback(
-    async (variables: PreparedTransaction, options: SendTxOptions = {}) => {
+    async (
+      variables: PreparedTransaction | null,
+      options: SendTxOptions = {}
+    ) => {
+      if (!variables) return null
+
       const actionText = 'View'
 
       const {

@@ -121,7 +121,9 @@ const useEdit = (readonly?: boolean) => {
               tokenId: BigInt(tokenId),
               Kya: JSON.stringify({ uri: firstUri, name: editedToken.name }),
             })
-            txs.push(tokenContentUpdateTx)
+            if (tokenContentUpdateTx) {
+              txs.push(tokenContentUpdateTx)
+            }
 
             const slugIsEdited =
               fullTokens?.find(t => t.id === editedToken.id)?.slug !==
@@ -132,7 +134,9 @@ const useEdit = (readonly?: boolean) => {
                 tokenId: BigInt(tokenId),
                 slug: editedToken.slug,
               })
-              txs.push(tokenSlugUpdateTx)
+              if (tokenSlugUpdateTx) {
+                txs.push(tokenSlugUpdateTx)
+              }
             }
           }
         }
@@ -155,7 +159,9 @@ const useEdit = (readonly?: boolean) => {
               }),
               slug: addedToken.slug,
             })
-            txs.push(tokenContentMintTx)
+            if (tokenContentMintTx) {
+              txs.push(tokenContentMintTx)
+            }
           }
         }
       }
@@ -171,7 +177,9 @@ const useEdit = (readonly?: boolean) => {
           const tokenContentUpdateTx = prepareSetContractKyaTx({
             Kya: JSON.stringify({ indexPagesUri: firstUri }),
           })
-          txs.push(tokenContentUpdateTx)
+          if (tokenContentUpdateTx) {
+            txs.push(tokenContentUpdateTx)
+          }
         }
       }
 

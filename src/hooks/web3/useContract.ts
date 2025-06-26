@@ -23,7 +23,9 @@ const useContract = (contractAddress: string, abi?: Abi) => {
   const chain = useActiveOrDefaultChain()
 
   const contract = useMemo(() => {
-    return _getThirdwebContract(contractAddress, chain, abi)
+    return contractAddress
+      ? _getThirdwebContract(contractAddress, chain, abi)
+      : null
   }, [contractAddress, chain, abi])
 
   return {

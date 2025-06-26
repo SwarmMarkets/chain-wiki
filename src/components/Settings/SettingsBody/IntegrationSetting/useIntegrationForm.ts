@@ -159,7 +159,9 @@ const useIntegrationForm = () => {
         const updateIndexPagesTx = prepareSetContractKyaTx({
           Kya: JSON.stringify({ indexPagesUri: firstUri }),
         })
-        txs.push(updateIndexPagesTx)
+        if (updateIndexPagesTx) {
+          txs.push(updateIndexPagesTx)
+        }
       }
 
       for (const tokenToEdit of toEdit) {
@@ -174,7 +176,9 @@ const useIntegrationForm = () => {
             tokenId: BigInt(tokenId),
             Kya: JSON.stringify({ uri: firstUri, name: tokenToEdit.title }),
           })
-          txs.push(tokenContentUpdateTx)
+          if (tokenContentUpdateTx) {
+            txs.push(tokenContentUpdateTx)
+          }
         }
       }
       for (const tokenToMint of toMint) {
@@ -194,7 +198,9 @@ const useIntegrationForm = () => {
             }),
             slug: tokenToMint.slug,
           })
-          txs.push(tokenContentMintTx)
+          if (tokenContentMintTx) {
+            txs.push(tokenContentMintTx)
+          }
         }
       }
 

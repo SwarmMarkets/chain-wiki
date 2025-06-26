@@ -9,7 +9,10 @@ const useSX1155NFTFactory = () => {
     staticConfig.defaultNetworkEnv.contracts.sx1155NFTFactoryAddress,
     SX1155NFTFactoryABI as Abi
   )
+
   const prepareDeployChainWikiTx = (params: DeployChainWikiParams) => {
+    if (!contract) return null
+
     const deployChainWikiTx = deployChainWiki({
       contract,
       ...params,
