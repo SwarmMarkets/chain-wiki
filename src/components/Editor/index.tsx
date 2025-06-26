@@ -56,10 +56,8 @@ const Editor = forwardRef<MDXEditorMethods, EditorProps>(
 
     const handleImageUpload = async (image: File): Promise<string> => {
       try {
-        const uris = await upload([image])
-        const ipfsUri = uris[0]
-
-        return ipfsToHttp(ipfsUri)
+        const uri = (await upload([image])) as string
+        return ipfsToHttp(uri)
       } catch (err) {
         console.error('Failed to upload image with useStorageUpload', err)
         throw err

@@ -174,12 +174,11 @@ const useEdit = (readonly?: boolean) => {
           indexPages: editedIndexPages.items,
           address: nftId,
         })
-        const filesToUpload = [indexPagesIpfsContent]
-        const uris = await upload(filesToUpload)
-        const firstUri = uris[0]
-        if (firstUri) {
+        const uri = (await upload([indexPagesIpfsContent])) as string
+
+        if (uri) {
           const tokenContentUpdateTx = prepareSetContractKyaTx({
-            Kya: JSON.stringify({ indexPagesUri: firstUri }),
+            Kya: JSON.stringify({ indexPagesUri: uri }),
           })
           if (tokenContentUpdateTx) {
             txs.push(tokenContentUpdateTx)

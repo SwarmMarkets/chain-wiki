@@ -152,12 +152,11 @@ const useIntegrationForm = () => {
         address: nftId,
       })
       const filesToUpload = [indexPagesIpfsContent]
-      const uris = await upload(filesToUpload)
-      const firstUri = uris[0]
-      console.log(firstUri)
-      if (firstUri) {
+      const uri = (await upload(filesToUpload)) as string
+      console.log(uri)
+      if (uri) {
         const updateIndexPagesTx = prepareSetContractKyaTx({
-          Kya: JSON.stringify({ indexPagesUri: firstUri }),
+          Kya: JSON.stringify({ indexPagesUri: uri }),
         })
         if (updateIndexPagesTx) {
           txs.push(updateIndexPagesTx)

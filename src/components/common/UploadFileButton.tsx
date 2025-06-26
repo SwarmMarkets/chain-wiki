@@ -30,8 +30,9 @@ const UploadFileButton: React.FC<UploadFileButtonProps> = ({
     if (!imageBlob) return
     const uri = await upload([imageBlob])
     resetStorageState()
-
-    onUpload(ipfsToHttp(uri[0]))
+    if (typeof uri === 'string') {
+      onUpload(ipfsToHttp(uri))
+    }
   }
 
   return (

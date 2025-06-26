@@ -24,7 +24,6 @@ const useSendBatchTxs = () => {
   const chain = useActiveWalletChain()
   const [data, setData] = useState<SafeClientResult>()
   const [status, setStatus] = useState<BatchTxsStatus>('idle')
-  console.log(smartAccount, smartAccountInfo)
 
   const sendBatchTxs = async (
     txs: PreparedTransaction[],

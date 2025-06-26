@@ -37,16 +37,15 @@ const useTokenUpdate = (nftAddress: string) => {
 
     const ipfsContent = generateIpfsTokenContent(contentToGenerate)
     const filesToUpload = [ipfsContent]
-    const uris = await upload(filesToUpload)
-    const firstUri = uris[0]
+    const uri = (await upload(filesToUpload)) as string
 
-    return firstUri
+    return uri
   }
   const uploadVoteProposal = async (voreProposal: IpfsVoteProposal) => {
     const filesToUpload = [JSON.stringify(voreProposal)]
-    const uris = await upload(filesToUpload)
-    const firstUri = uris[0]
-    return firstUri
+    const uri = (await upload(filesToUpload)) as string
+
+    return uri
   }
 
   const signTransaction = useCallback(

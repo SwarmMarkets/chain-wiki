@@ -43,9 +43,9 @@ const MakeAttestationButton: React.FC<MakeAttestationButtonProps> = ({
       htmlContent: attestationContent,
     })
     const filesToUpload = [ipfsContent]
-    const uris = await upload(filesToUpload)
-    const firstUri = uris[0]
-    return firstUri
+    const uri = (await upload(filesToUpload)) as string
+
+    return uri
   }
   const signTransaction = useCallback(
     (uri: string) => {

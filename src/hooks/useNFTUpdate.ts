@@ -44,9 +44,8 @@ const useNFTUpdate = (nftAddress: string) => {
       address: unifyAddressToId(nftAddress),
     })
     const filesToUpload = [ipfsContent]
-    const uris = await upload(filesToUpload)
-    const firstUri = uris[0]
-    return firstUri
+    const uri = (await upload(filesToUpload)) as string
+    return uri
   }
 
   const uploadIndexPagesContent = async (indexPages: IpfsIndexPage[]) => {
@@ -55,9 +54,9 @@ const useNFTUpdate = (nftAddress: string) => {
       address: unifyAddressToId(nftAddress),
     })
     const filesToUpload = [ipfsIndexPagesContent]
-    const uris = await upload(filesToUpload)
-    const firstUri = uris[0]
-    return firstUri
+    const uri = (await upload(filesToUpload)) as string
+
+    return uri
   }
 
   const uploadHeaderLinksContent = async (
@@ -69,9 +68,9 @@ const useNFTUpdate = (nftAddress: string) => {
       color: headerLinksContent.color || '#000000',
     })
     const filesToUpload = [ipfsHeaderLinksContent]
-    const uris = await upload(filesToUpload)
-    const firstUri = uris[0]
-    return firstUri
+    const uri = (await upload(filesToUpload)) as string
+
+    return uri
   }
 
   const signTransaction = useCallback(
