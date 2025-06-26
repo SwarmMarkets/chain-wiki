@@ -13,7 +13,7 @@ const ConnectWalletDesktop: React.FC<ConnectButtonProps> = ({ ...props }) => {
   return (
     <ConnectButton
       connectButton={{
-        style: { height: 40 },
+        style: { height: 40, lineHeight: '12px' },
       }}
       detailsButton={{
         render() {
