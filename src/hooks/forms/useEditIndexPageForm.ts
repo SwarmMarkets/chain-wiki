@@ -45,9 +45,12 @@ const useEditIndexPageForm = (defaultValues?: EditIndexPageFormInputs) => {
   useEffect(() => {
     const subscription = methods.watch((value, { name, type }) => {
       if (name === 'name' && !isSlugManuallyEdited.current) {
-        methods.setValue('slug', generateSlug(value.name || ''), {
-          shouldValidate: true,
-        })
+        const newSlug = generateSlug(value.name || '')
+        if (methods.getValues('slug') !== newSlug) {
+          methods.setValue('slug', newSlug, {
+            shouldValidate: true,
+          })
+        }
       } else if (name === 'slug' && type === 'change') {
         isSlugManuallyEdited.current = true
       }

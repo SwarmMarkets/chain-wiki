@@ -1,28 +1,32 @@
 import Text from 'src/components/ui/Text'
-import { checkNetworkSupported } from 'src/shared/utils'
 import {
-  useChainId,
-  useConnectionStatus,
-  useSupportedChains,
-  useSwitchChain,
-} from '@thirdweb-dev/react'
+  checkNetworkSupported,
+  getActiveOrDefaultChain,
+} from 'src/shared/utils'
+
 import { useTranslation } from 'react-i18next'
 import { AlertWrap, StyledButton } from './styled-components'
 import { useConfigStore } from 'src/shared/store/config-store'
+import useActiveOrDefaultChain from 'src/hooks/web3/useActiveOrDefaultChain'
+import staticConfig from 'src/config'
+import {
+  useActiveWalletConnectionStatus,
+  useSwitchActiveWalletChain,
+} from 'thirdweb/react'
 
 const SwitchNetworkAlert: React.FC = () => {
-  const chainId = useChainId()
+  const { id: chainId } = useActiveOrDefaultChain()
   const { t } = useTranslation('common', { keyPrefix: 'switchNetwork' })
-  const supportedChains = useSupportedChains()
-  const connected = useConnectionStatus()
+  const supportedChains = staticConfig.supportedChains
+  const connected = useActiveWalletConnectionStatus()
   const { setLastChainId } = useConfigStore()
 
-  const switchChain = useSwitchChain()
+  const switchChain = useSwitchActiveWalletChain()
   const supportedNetwork = supportedChains[0]
 
   const handleSwitchNetwork = () => {
-    switchChain(supportedNetwork.chainId)
-    setLastChainId(supportedNetwork.chainId)
+    switchChain(getActiveOrDefaultChain(supportedNetwork.id))
+    setLastChainId(supportedNetwork.id)
     window.location.reload()
   }
 

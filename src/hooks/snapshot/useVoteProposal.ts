@@ -1,23 +1,21 @@
 import { VoteProposal } from 'src/shared/types/vote-proposal'
 import { verifyVoteProposalValid } from 'src/shared/utils'
-import { useStorage } from '@thirdweb-dev/react'
 import { useState } from 'react'
+import { useIpfsDownload } from '../web3/useIpfsDownload'
 
 const useVoteProposal = () => {
   const [result, setResult] = useState<VoteProposal>()
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
 
-  const storage = useStorage()
+  const { download } = useIpfsDownload()
 
   const getProposal = async (proposalHash: string) => {
     try {
       setError(null)
       setLoading(true)
 
-      const res: VoteProposal | undefined = await storage?.downloadJSON(
-        proposalHash
-      )
+      const res = await download<VoteProposal>(proposalHash)
       if (!res) {
         throw Error('Proposal not find')
       }

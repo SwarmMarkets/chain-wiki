@@ -1,15 +1,11 @@
-import { Transaction, useAddress, useStorageUpload } from '@thirdweb-dev/react'
 import differenceWith from 'lodash/differenceWith'
 import React, { useEffect, useMemo, useState } from 'react'
-import { useSX1155NFT } from 'src/hooks/contracts/useSX1155NFT'
 import useNFT from 'src/hooks/subgraph/useNFT'
 import useTokens from 'src/hooks/subgraph/useTokens'
-import useSmartAccount from 'src/services/safe-protocol-kit/useSmartAccount'
 import { useEditingStore } from 'src/shared/store/editing-store'
 import {
   generateIpfsIndexPagesContent,
   isSameEthereumAddress,
-  resolveAllThirdwebTransactions,
   unifyAddressToId,
 } from 'src/shared/utils'
 import {
@@ -24,13 +20,22 @@ import useTokenUpdate from 'src/hooks/useTokenUpdate'
 import { SafeClientTxStatus } from '@safe-global/sdk-starter-kit/dist/src/constants'
 import { findFirstNonGroupVisibleNode } from 'src/shared/utils/treeHelpers'
 import useNFTIdParam from 'src/hooks/useNftIdParam'
+import { useActiveAccount } from 'thirdweb/react'
+import { PreparedTransaction } from 'thirdweb'
+import { useIpfsUpload } from 'src/hooks/web3/useIpfsUpload'
+import useSX1155NFT from 'src/hooks/contracts/nft/useSX1155NFT'
+import useSendBatchTxs from 'src/hooks/web3/useSendBatchTxs'
+import { generatePath, Link } from 'react-router-dom'
+import RoutePaths from 'src/shared/enums/routes-paths'
+import { useTranslation } from 'react-i18next'
 
 const useEdit = (readonly?: boolean) => {
+  const { t } = useTranslation('common')
   const { nftId } = useNFTIdParam()
   const { nft, loadingNft, refetchingNft } = useNFT(nftId, {
     fetchFullData: true,
   })
-  const account = useAddress()
+  const account = useActiveAccount()
 
   const {
     editedTokens,
@@ -63,6 +68,8 @@ const useEdit = (readonly?: boolean) => {
     { fetchFullData: true }
   )
 
+  const { mutateAsync: upload } = useIpfsUpload()
+
   // Init the first editable token
   useEffect(() => {
     if (!fullTokens || currEditableToken) return
@@ -89,16 +96,21 @@ const useEdit = (readonly?: boolean) => {
     updateCurrEditableToken,
   ])
 
-  const { smartAccount } = useSmartAccount()
-  const { mutateAsync: upload } = useStorageUpload()
+  const { sendBatchTxs } = useSendBatchTxs()
+
   const [mergeLoading, setMergeLoading] = useState(false)
 
-  const { contract: sx1555NFTContract } = useSX1155NFT(nftId)
+  const {
+    prepareMintTx,
+    prepareSetTokenKyaTx,
+    prepareUpdateTokenSlugTx,
+    prepareSetContractKyaTx,
+  } = useSX1155NFT(nftId)
   const { uploadContent: uploadTokenContent } = useTokenUpdate(nftId)
 
   const merge = async () => {
     setMergeLoading(true)
-    const txs: Transaction[] = []
+    const txs: PreparedTransaction[] = []
     try {
       if (editedTokens.length > 0) {
         for (const editedToken of editedTokens) {
@@ -109,25 +121,26 @@ const useEdit = (readonly?: boolean) => {
             tokenId,
           })
           if (firstUri) {
-            const tokenContentUpdateTx = sx1555NFTContract.prepare(
-              'setTokenKya',
-              [
-                tokenId,
-                JSON.stringify({ uri: firstUri, name: editedToken.name }),
-              ]
-            )
-            txs.push(tokenContentUpdateTx)
+            const tokenContentUpdateTx = prepareSetTokenKyaTx({
+              tokenId: BigInt(tokenId),
+              Kya: JSON.stringify({ uri: firstUri, name: editedToken.name }),
+            })
+            if (tokenContentUpdateTx) {
+              txs.push(tokenContentUpdateTx)
+            }
 
             const slugIsEdited =
               fullTokens?.find(t => t.id === editedToken.id)?.slug !==
               editedToken.slug
 
             if (slugIsEdited) {
-              const tokenSlugUpdateTx = sx1555NFTContract.prepare(
-                'updateTokenSlug',
-                [tokenId, editedToken.slug]
-              )
-              txs.push(tokenSlugUpdateTx)
+              const tokenSlugUpdateTx = prepareUpdateTokenSlugTx({
+                tokenId: BigInt(tokenId),
+                slug: editedToken.slug,
+              })
+              if (tokenSlugUpdateTx) {
+                txs.push(tokenSlugUpdateTx)
+              }
             }
           }
         }
@@ -140,14 +153,19 @@ const useEdit = (readonly?: boolean) => {
             address: nftId,
             tokenId,
           })
-          if (firstUri && account) {
-            const tokenContentMintTx = sx1555NFTContract.prepare('mint', [
-              account,
-              1,
-              JSON.stringify({ uri: firstUri, name: addedToken.name }),
-              addedToken.slug,
-            ])
-            txs.push(tokenContentMintTx)
+          if (firstUri && account?.address) {
+            const tokenContentMintTx = prepareMintTx({
+              to: account.address,
+              quantity: 1n,
+              tokenURI: JSON.stringify({
+                uri: firstUri,
+                name: addedToken.name,
+              }),
+              slug: addedToken.slug,
+            })
+            if (tokenContentMintTx) {
+              txs.push(tokenContentMintTx)
+            }
           }
         }
       }
@@ -156,20 +174,36 @@ const useEdit = (readonly?: boolean) => {
           indexPages: editedIndexPages.items,
           address: nftId,
         })
-        const filesToUpload = [indexPagesIpfsContent]
-        const uris = await upload({ data: filesToUpload })
-        const firstUri = uris[0]
-        if (firstUri) {
-          const tokenContentUpdateTx = sx1555NFTContract.prepare(
-            'setContractKya',
-            [JSON.stringify({ indexPagesUri: firstUri })]
-          )
-          txs.push(tokenContentUpdateTx)
+        const uri = (await upload([indexPagesIpfsContent])) as string
+
+        if (uri) {
+          const tokenContentUpdateTx = prepareSetContractKyaTx({
+            Kya: JSON.stringify({ indexPagesUri: uri }),
+          })
+          if (tokenContentUpdateTx) {
+            txs.push(tokenContentUpdateTx)
+          }
         }
       }
 
-      const receipt = await smartAccount?.send({
-        transactions: await resolveAllThirdwebTransactions(txs),
+      const siteUrl = generatePath(RoutePaths.NFT_READ, {
+        nftIdOrSlug: nft?.slug || '',
+      })
+
+      const receipt = await sendBatchTxs(txs, {
+        successMessage: (
+          <>
+            {t('toasts.siteUpdated', { ns: 'common' })}{' '}
+            <Link
+              to={siteUrl}
+              target='_blank'
+              className='underline text-main-accent hover:text-main'
+            >
+              {t('toasts.viewSite', { ns: 'common' })}
+            </Link>
+          </>
+        ),
+        errorMessage: t('toasts.merge_error'),
       })
 
       if (

@@ -14,11 +14,11 @@ const lastChainId = localStorage.getItem('last-chain-id')
       JSON.parse(localStorage.getItem('last-chain-id') || '').state?.lastChainId
     )
   : undefined
-const lastChain = mainNetworks.find(chain => chain.chainId === lastChainId)
+const lastChain = mainNetworks.find(chain => chain.id === lastChainId)
 const prodDefaultChain = lastChain || baseChainConfig
 
 const defaultChain = isProdMode ? prodDefaultChain : arbitrumSepoliaChainConfig
-const defaultNetworkEnv = networksEnvironments[defaultChain.chainId]
+const defaultNetworkEnv = networksEnvironments[defaultChain.id]
 
 const supportedChains = isProdMode ? mainNetworks : testNetworks
 

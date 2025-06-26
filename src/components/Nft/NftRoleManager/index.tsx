@@ -1,6 +1,6 @@
 import { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useAddress } from '@thirdweb-dev/react'
+import { useActiveAccount } from 'thirdweb/react'
 import useNFTRoles from 'src/hooks/subgraph/useNFTRoles'
 import useSmartAccount from 'src/services/safe-protocol-kit/useSmartAccount'
 import { useAddressNameStore } from './addressNameStore'
@@ -20,7 +20,8 @@ const NftRoleManager: React.FC<NftRoleManagerProps> = ({ nftAddress }) => {
   const { nft } = useNFTRoles(nftAddress)
   const { smartAccountInfo } = useSmartAccount()
   const { addressNames } = useAddressNameStore()
-  const currentAddress = useAddress()
+  const currentAccount = useActiveAccount()
+  const currentAddress = currentAccount?.address
 
   const formatUser = useCallback(
     (address: string, role: string, roleType: Roles) => {

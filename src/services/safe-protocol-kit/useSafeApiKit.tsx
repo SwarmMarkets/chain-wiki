@@ -1,18 +1,17 @@
 import SafeApiKit from '@safe-global/api-kit'
 import { useMemo } from 'react'
 import { safeTxServiceUrl } from './safe-client'
-import { useChainId } from '@thirdweb-dev/react'
-import { arbitrumSepoliaChainConfig } from 'src/environment/networks'
-
+import { arbitrumSepoliaChainConfig } from 'src/environment/networks/arbitrum-sepolia'
+import useActiveOrDefaultChain from 'src/hooks/web3/useActiveOrDefaultChain'
 const useSafeApiKit = () => {
-  const chainId = useChainId()
+  const chain = useActiveOrDefaultChain()
 
   const apiKit = useMemo(() => {
     return new SafeApiKit({
-      chainId: BigInt(chainId || arbitrumSepoliaChainConfig.chainId),
+      chainId: BigInt(chain.id || arbitrumSepoliaChainConfig.id),
       txServiceUrl: safeTxServiceUrl,
     })
-  }, [chainId])
+  }, [chain.id])
 
   return apiKit
 }

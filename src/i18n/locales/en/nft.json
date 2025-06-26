@@ -240,11 +240,8 @@
       "slug": {
         "required": "Site URL is required"
       }
-    }
-  },
-  "successCreateNft": {
-    "title": "Site created",
-    "description": "Your site is visible on \"My sites\" page."
+    },
+    "successMessage": "Site created."
   },
   "indexPages": {
     "noIndexPages": "No index pages yet",

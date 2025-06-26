@@ -3,8 +3,12 @@ import { useMemo, useState } from 'react'
 
 import { TokenQuery } from 'src/queries'
 import { QueryTokenArgs } from 'src/queries/gql/graphql'
-import { TokenQueryFullData } from 'src/shared/utils/ipfs/types'
-import { useStorage } from '@thirdweb-dev/react'
+import {
+  IpfsTokenContent,
+  IpfsVoteProposal,
+  TokenQueryFullData,
+} from 'src/shared/utils/ipfs/types'
+import { useIpfsDownload } from '../web3/useIpfsDownload'
 
 const POLL_INTERVAL = 15000
 
@@ -14,7 +18,8 @@ const useToken = (
     disableRefetch?: boolean
   }
 ) => {
-  const storage = useStorage()
+  const { download } = useIpfsDownload()
+
   const [tokenData, setTokenData] = useState<TokenQueryFullData | null>(null)
 
   const { loading, error, networkStatus, refetch } = useQuery(TokenQuery, {
@@ -26,11 +31,13 @@ const useToken = (
     },
     async onCompleted(data) {
       if (data.token?.uri || data.token?.voteProposalUri) {
-        const ipfsContent =
-          data.token.uri && (await storage?.downloadJSON(data.token.uri))
-        const voteProposal =
-          data.token.voteProposalUri &&
-          (await storage?.downloadJSON(data.token.voteProposalUri))
+        const ipfsContent = data.token.uri
+          ? await download<IpfsTokenContent>(data.token.uri)
+          : undefined
+        const voteProposal = data.token.voteProposalUri
+          ? await download<IpfsVoteProposal>(data.token.voteProposalUri)
+          : undefined
+
         setTokenData({ ...data.token, ipfsContent, voteProposal })
         return
       }

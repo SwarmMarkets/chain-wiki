@@ -88,8 +88,6 @@ const ReadHeader: React.FC<ReadHeaderProps> = ({
       )
     }
 
-    console.log(headerLinks)
-
     return headerLinks.map(link => (
       <a
         key={link.id || link.link}

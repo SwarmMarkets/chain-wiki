@@ -36,7 +36,7 @@ export const isSameEthereumAddress = (
 }
 
 export const checkNetworkSupported = (chainId?: number) => {
-  return staticConfig.supportedChains.some(chain => chain.chainId === chainId)
+  return staticConfig.supportedChains.some(chain => chain.id === chainId)
 }
 
 // Function to convert a string to a byte array and then hash it using keccak256
@@ -52,24 +52,24 @@ export const stringToByteArray = (str: string) => {
 }
 
 import { TransactionBase } from '@safe-global/types-kit'
-import { Transaction } from '@thirdweb-dev/sdk'
 import staticConfig from 'src/config'
+import { PreparedTransaction } from 'thirdweb'
+import { resolvePromisedValue } from 'thirdweb/utils'
 
 export const resolveThirdwebTransaction = async (
-  thirdwebTx?: Transaction
+  thirdwebTx?: PreparedTransaction
 ): Promise<TransactionBase | null> => {
   if (!thirdwebTx) return null
-  const populatedTx = await thirdwebTx.populateTransaction()
 
-  const to = populatedTx.to
-  const value = populatedTx.value?.toString() ?? ''
-  const data = populatedTx.data?.toString()
+  const to = await resolvePromisedValue(thirdwebTx.to)
+  const data = await resolvePromisedValue(thirdwebTx.data)
+  const value = await resolvePromisedValue(thirdwebTx.value)
 
   if (to && data) {
     return {
       to,
-      value,
       data,
+      value: value?.toString() || '',
     }
   }
 
@@ -77,7 +77,7 @@ export const resolveThirdwebTransaction = async (
 }
 
 export const resolveAllThirdwebTransactions = async (
-  thirdwebTxs?: Transaction[]
+  thirdwebTxs?: PreparedTransaction[]
 ): Promise<TransactionBase[]> => {
   if (!thirdwebTxs) return []
   const resolvedTxs = await Promise.all(
@@ -87,6 +87,7 @@ export const resolveAllThirdwebTransactions = async (
     (tx): tx is TransactionBase => tx !== null && tx !== undefined
   )
 }
+
 export const resolveEthersPopulatedTransaction = async (
   ethersTx?: PopulatedTransaction
 ): Promise<TransactionBase | null> => {
@@ -118,3 +119,18 @@ export const resolveAllEthersPopulatedTransactions = async (
     (tx): tx is TransactionBase => tx !== null && tx !== undefined
   )
 }
+
+const { supportedChains } = staticConfig
+
+export const checkChainSupported = (chainId?: number) =>
+  supportedChains.some(chain => chainId === chain.id)
+
+export const getActiveOrDefaultChain = (chainId?: number) =>
+  supportedChains.find(chain => chainId === chain.id) ||
+  staticConfig.defaultChain
+
+export const getChainByName = (name: string) =>
+  supportedChains.find(chain => chain.name === name)
+
+export const getChainById = (id: number) =>
+  supportedChains.find(chain => chain.id === id)

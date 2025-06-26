@@ -1,4 +1,4 @@
-import { shortenAddress, useAddress } from '@thirdweb-dev/react'
+import { useActiveAccount } from 'thirdweb/react'
 import dayjs from 'dayjs'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -6,11 +6,12 @@ import MarkdownRenderer from 'src/components/Editor/MarkdownRenderer'
 import ExplorerLink from 'src/components/common/ExplorerLink'
 import DotMenu from 'src/components/ui-kit/DotMenu/DotMenu'
 import Icon from 'src/components/ui-kit/Icon/Icon'
-import Card from 'src/components/ui/Card'
-import { useSX1155NFT } from 'src/hooks/contracts/useSX1155NFT'
 import useNftPermissions from 'src/hooks/permissions/useNftPermissions'
 import useNFTUpdate from 'src/hooks/useNFTUpdate'
 import { CommentsQueryFullData, isSameEthereumAddress } from 'src/shared/utils'
+import { shortenAddress } from 'thirdweb/utils'
+import useSX1155NFT from 'src/hooks/contracts/nft/useSX1155NFT'
+import useSendTx from 'src/hooks/web3/useSendTx'
 
 interface AttestationCardProps {
   nftAddress: string
@@ -29,12 +30,13 @@ const AttestationCard: React.FC<AttestationCardProps> = ({
   const {
     permissions: { canManageRoles },
   } = useNftPermissions(nftAddress)
-  const account = useAddress()
+  const account = useActiveAccount()
 
-  const { call, txLoading: deleteTxLoading } = useSX1155NFT(nftAddress)
+  const { prepareDeletteAttestationTx } = useSX1155NFT(nftAddress)
+  const { sendTx, isPending: deleteTxLoading } = useSendTx()
   const {
     signTransaction,
-    tx: { txLoading: nftUpdateTxLoading },
+    tx: { isPending: nftUpdateTxLoading },
   } = useNFTUpdate(nftAddress)
 
   const attestatorAddress = attestation.commentator
@@ -48,7 +50,12 @@ const AttestationCard: React.FC<AttestationCardProps> = ({
     const tokenId = Number(tokenAddress.split('-')[1])
     const commentId = Number(attestation.id.split('-')[2])
 
-    return call('deleteAttestation', [tokenId, commentId])
+    const tx = prepareDeletteAttestationTx({
+      tokenId: BigInt(tokenId),
+      commentId: BigInt(commentId),
+    })
+
+    return sendTx(tx)
   }
 
   const handleSetPreferredAttestator = () => {
@@ -63,7 +70,10 @@ const AttestationCard: React.FC<AttestationCardProps> = ({
     })
   }
 
-  const canDeleteAtestation = isSameEthereumAddress(attestatorAddress, account)
+  const canDeleteAtestation = isSameEthereumAddress(
+    attestatorAddress,
+    account?.address
+  )
   const showDotMenu = canManageRoles || canDeleteAtestation
 
   return (
@@ -78,7 +88,7 @@ const AttestationCard: React.FC<AttestationCardProps> = ({
             type={'address'}
             hash={attestatorAddress}
           >
-            {shortenAddress(attestatorAddress, true)}
+            {shortenAddress(attestatorAddress, 6)}
           </ExplorerLink>
           {isPreferredAttestator && (
             <Icon name='checkmark-circle' size={20} className='text-primary' />

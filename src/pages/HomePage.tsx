@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { useAddress } from '@thirdweb-dev/react'
+import { useActiveAccount } from 'thirdweb/react'
 import clsx from 'clsx'
 import { useTranslation } from 'react-i18next'
 import { generatePath } from 'react-router-dom'
@@ -11,7 +11,8 @@ import RoutePaths from 'src/shared/enums/routes-paths'
 
 const HomePage = () => {
   const { t } = useTranslation(['nfts', 'explore'])
-  const address = useAddress()
+  const account = useActiveAccount()
+  const address = account?.address
 
   const {
     nfts: userNfts,
