@@ -17,8 +17,12 @@ export function useIpfsDownload<T>({
     queryKey: uri ? ['ipfs-download', uri] : [],
     queryFn: uri
       ? async () => {
-          const result = await storageDownload({ client: thirdwebClient, uri })
-          return result as T
+          const response = await storageDownload({
+            client: thirdwebClient,
+            uri,
+          })
+          const parsedData = response.json()
+          return parsedData as T
         }
       : undefined,
     enabled: !!uri && enabled,
@@ -30,12 +34,15 @@ export function useIpfsDownload<T>({
     const cached = queryClient.getQueryData<U>(['ipfs-download', targetUri])
     if (cached) return cached
 
-    const result = (await storageDownload({
+    const response = await storageDownload({
       client: thirdwebClient,
       uri: targetUri,
-    })) as U
-    queryClient.setQueryData(['ipfs-download', targetUri], result)
-    return result
+    })
+    const parsedData = response.json()
+
+    queryClient.setQueryData(['ipfs-download', targetUri], parsedData)
+
+    return parsedData as U
   }
 
   return {
