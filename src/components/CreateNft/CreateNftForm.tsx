@@ -17,13 +17,9 @@ import useSendTx from 'src/hooks/web3/useSendTx'
 
 interface CreateNftFormProps {
   onSuccessSubmit(): void
-  onErrorSubmit(e: Error): void
 }
 
-const CreateNftForm: React.FC<CreateNftFormProps> = ({
-  onSuccessSubmit,
-  onErrorSubmit,
-}) => {
+const CreateNftForm: React.FC<CreateNftFormProps> = ({ onSuccessSubmit }) => {
   const { t } = useTranslation('nft', { keyPrefix: 'createNft' })
   const {
     register,
@@ -59,28 +55,21 @@ const CreateNftForm: React.FC<CreateNftFormProps> = ({
       logoUrl: uploadedLogoUrl,
     })
 
-    try {
-      const tx = prepareDeployChainWikiTx({
-        data: {
-          name,
-          symbol,
-          kya,
-        },
-        slug,
-        roles: {
-          owner,
-          admins,
-          editors,
-        },
-      })
-      const response = await sendTx(tx)
-      if (response?.status === 'reverted')
-        throw new Error('Failed to deploy NFT contract')
-      onSuccessSubmit()
-    } catch (e) {
-      onErrorSubmit(e)
-      // TODO: Add error handler
-    }
+    const tx = prepareDeployChainWikiTx({
+      data: {
+        name,
+        symbol,
+        kya,
+      },
+      slug,
+      roles: {
+        owner,
+        admins,
+        editors,
+      },
+    })
+    await sendTx(tx, { successMessage: t('successMessage') })
+    onSuccessSubmit()
   }
 
   const handleUploadLogo = (url: string) => {

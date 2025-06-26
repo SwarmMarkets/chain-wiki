@@ -1,7 +1,6 @@
 import { ApolloProvider } from '@apollo/client'
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
 import { ThirdwebProvider } from 'thirdweb/react'
-import { ToastContainer } from 'react-toastify'
 import { ThemeProvider } from 'styled-components'
 import TokenPage from './pages/TokenPage'
 import client from './services/apollo'
@@ -85,7 +84,6 @@ function App() {
               <ToastManager />
             </Router>
             <GlobalStyle />
-            <ToastContainer />
             <div id='drawers' />
             <div id='modals' />
           </ThemeProvider>
