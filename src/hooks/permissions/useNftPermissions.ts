@@ -1,4 +1,7 @@
-import { useActiveAccount, useConnectionStatus } from 'thirdweb/react'
+import {
+  useActiveAccount,
+  useActiveWalletConnectionStatus,
+} from 'thirdweb/react'
 import { useCallback, useMemo } from 'react'
 import useNFTRoles from '../subgraph/useNFTRoles'
 import { isSameEthereumAddress, unifyAddressToId } from 'src/shared/utils/web3'
@@ -33,7 +36,7 @@ const useNftPermissions = (nftAddress?: string) => {
   const account = useActiveAccount()
   const { smartAccountInfo, isLoading: isSmartAccountLoading } =
     useSmartAccount()
-  const connected = useConnectionStatus()
+  const connected = useActiveWalletConnectionStatus()
 
   const getPermissionsByAddress = useCallback(
     (accountAddress?: string) => {

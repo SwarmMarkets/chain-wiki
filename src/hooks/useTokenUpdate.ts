@@ -4,8 +4,9 @@ import {
   IpfsTokenContent,
   IpfsVoteProposal,
 } from 'src/shared/utils'
-import { useSX1155NFT } from './contracts/useSX1155NFT'
 import { useIpfsUpload } from './web3/useIpfsUpload'
+import useSX1155NFT from './contracts/nft/useSX1155NFT'
+import useSendTx from './web3/useSendTx'
 
 export interface TokenContentToUpdate {
   name?: string | null
@@ -15,13 +16,8 @@ export interface TokenContentToUpdate {
   voteProposalUri?: string
 }
 const useTokenUpdate = (nftAddress: string) => {
-  const {
-    call,
-    txLoading,
-    result,
-    isTxError,
-    reset: resetCallState,
-  } = useSX1155NFT(nftAddress)
+  const { sendTx, ...txParams } = useSendTx()
+  const { prepareSetTokenKyaTx } = useSX1155NFT(nftAddress)
   const {
     mutateAsync: upload,
     isLoading,
@@ -64,9 +60,14 @@ const useTokenUpdate = (nftAddress: string) => {
 
       const tokenUpdateJson = JSON.stringify(tokenUpdate)
 
-      return call('setTokenKya', [tokenId, tokenUpdateJson])
+      const tx = prepareSetTokenKyaTx({
+        tokenId: BigInt(tokenId),
+        Kya: tokenUpdateJson,
+      })
+
+      return sendTx(tx)
     },
-    [call]
+    [prepareSetTokenKyaTx, sendTx]
   )
 
   return {
@@ -74,7 +75,7 @@ const useTokenUpdate = (nftAddress: string) => {
     uploadVoteProposal,
     signTransaction,
     storageUpload: { isLoading, isSuccess, resetStorageState },
-    tx: { txLoading, isTxError, isSuccess: !!result, resetCallState },
+    tx: txParams,
   }
 }
 

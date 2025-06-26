@@ -1,5 +1,4 @@
 import { useCallback } from 'react'
-import { useSX1155NFT } from './contracts/useSX1155NFT'
 import {
   generateIpfsHeaderLinksContent,
   generateIpfsIndexPagesContent,
@@ -12,6 +11,8 @@ import {
   IpfsNftContent,
 } from 'src/shared/utils/ipfs/types'
 import { useIpfsUpload } from './web3/useIpfsUpload'
+import useSX1155NFT from './contracts/nft/useSX1155NFT'
+import useSendTx from './web3/useSendTx'
 
 export interface NFTContentToUpdate {
   logoUrl?: string | null
@@ -26,13 +27,7 @@ export interface NFTContentToUpdate {
 }
 
 const useNFTUpdate = (nftAddress: string) => {
-  const {
-    call,
-    txLoading,
-    result,
-    isTxError,
-    reset: resetCallState,
-  } = useSX1155NFT(nftAddress)
+  const { prepareSetContractKyaTx } = useSX1155NFT(nftAddress)
   const {
     mutateAsync: upload,
     isLoading,
@@ -40,7 +35,7 @@ const useNFTUpdate = (nftAddress: string) => {
     isError,
     reset: resetStorageState,
   } = useIpfsUpload()
-  // const { nft } = useNFT(nftAddress)
+  const { sendTx, ...txParams } = useSendTx()
 
   const uploadContent = async (content: Partial<IpfsNftContent>) => {
     if (content.htmlContent === undefined) return
@@ -55,7 +50,6 @@ const useNFTUpdate = (nftAddress: string) => {
   }
 
   const uploadIndexPagesContent = async (indexPages: IpfsIndexPage[]) => {
-    // if (!nft.id) return
     const ipfsIndexPagesContent = generateIpfsIndexPagesContent({
       indexPages: indexPages,
       address: unifyAddressToId(nftAddress),
@@ -69,12 +63,8 @@ const useNFTUpdate = (nftAddress: string) => {
   const uploadHeaderLinksContent = async (
     headerLinksContent: Partial<IpfsHeaderLinksContent>
   ) => {
-    // if (!nft.id) return
     const ipfsHeaderLinksContent = generateIpfsHeaderLinksContent({
-      headerLinks:
-        headerLinksContent.headerLinks ||
-        // nft.headerLinksContent?.headerLinks ||
-        [],
+      headerLinks: headerLinksContent.headerLinks || [],
       address: nftAddress,
       color: headerLinksContent.color || '#000000',
     })
@@ -88,9 +78,11 @@ const useNFTUpdate = (nftAddress: string) => {
     (nftContentToUpdate: NFTContentToUpdate) => {
       const nftUpdateJson = JSON.stringify(nftContentToUpdate)
 
-      return call('setContractKya', [nftUpdateJson])
+      const tx = prepareSetContractKyaTx({ Kya: nftUpdateJson })
+
+      return sendTx(tx)
     },
-    [call]
+    [prepareSetContractKyaTx, sendTx]
   )
 
   return {
@@ -99,7 +91,7 @@ const useNFTUpdate = (nftAddress: string) => {
     uploadHeaderLinksContent,
     signTransaction,
     storageUpload: { isLoading, isSuccess, isError, resetStorageState },
-    tx: { txLoading, isTxError, isSuccess: !!result, resetCallState },
+    tx: txParams,
   }
 }
 

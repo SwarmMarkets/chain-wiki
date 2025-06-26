@@ -2,7 +2,6 @@ import { useActiveAccount } from 'thirdweb/react'
 import { useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { useSX1155NFTFactory } from 'src/hooks/contracts/useSX1155NFTFactory'
 import useCreateNftForm, {
   CreateNftFormInputs,
 } from 'src/hooks/forms/useCreateNftForm'
@@ -13,6 +12,8 @@ import TextField from '../ui-kit/TextField/TextField'
 import useSmartAccount from 'src/services/safe-protocol-kit/useSmartAccount'
 import { generateSlug } from '../Edit/utils'
 import { useEffect } from 'react'
+import useSX1155NFTFactory from 'src/hooks/contracts/factory/useSX1155NFTFactory'
+import useSendTx from 'src/hooks/web3/useSendTx'
 
 interface CreateNftFormProps {
   onSuccessSubmit(): void
@@ -31,7 +32,8 @@ const CreateNftForm: React.FC<CreateNftFormProps> = ({
     watch,
     setValue,
   } = useCreateNftForm()
-  const { call, txLoading } = useSX1155NFTFactory()
+  const { prepareDeployChainWikiTx } = useSX1155NFTFactory()
+  const { sendTx, isPending } = useSendTx()
   const account = useActiveAccount()
   const { smartAccountInfo } = useSmartAccount()
   const [uploadedLogoUrl, setUploadedLogoUrl] = useState<string | null>(null)
@@ -58,12 +60,22 @@ const CreateNftForm: React.FC<CreateNftFormProps> = ({
     })
 
     try {
-      const response = await call('deployChainWiki', [
-        { name, symbol, kya },
+      const tx = prepareDeployChainWikiTx({
+        data: {
+          name,
+          symbol,
+          kya,
+        },
         slug,
-        { owner, admins, editors },
-      ])
-      if (!response) throw new Error('Failed to deploy NFT contract')
+        roles: {
+          owner,
+          admins,
+          editors,
+        },
+      })
+      const response = await sendTx(tx)
+      if (response?.status === 'reverted')
+        throw new Error('Failed to deploy NFT contract')
       onSuccessSubmit()
     } catch (e) {
       onErrorSubmit(e)
@@ -105,7 +117,7 @@ const CreateNftForm: React.FC<CreateNftFormProps> = ({
             {t('form.uploadLogo')}
           </UploadFileButton>
         </div>
-        <Button type='submit' loading={txLoading}>
+        <Button type='submit' loading={isPending}>
           {t('form.submit')}
         </Button>
       </form>

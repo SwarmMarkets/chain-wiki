@@ -1,7 +1,7 @@
 import { useActiveAccount } from 'thirdweb/react'
 import { SubmitHandler } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { useSX1155NFT } from 'src/hooks/contracts/useSX1155NFT'
+import { useSX1155NFT } from 'src/hooks/contracts/nft/useSX1155NFT'
 import useCreateTokenForm, {
   CreateTokenFormInputs,
 } from 'src/hooks/forms/useCreateTokenForm'

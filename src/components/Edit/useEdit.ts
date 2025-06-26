@@ -1,14 +1,11 @@
 import differenceWith from 'lodash/differenceWith'
 import React, { useEffect, useMemo, useState } from 'react'
-import { useSX1155NFT } from 'src/hooks/contracts/useSX1155NFT'
 import useNFT from 'src/hooks/subgraph/useNFT'
 import useTokens from 'src/hooks/subgraph/useTokens'
-import useSmartAccount from 'src/services/safe-protocol-kit/useSmartAccount'
 import { useEditingStore } from 'src/shared/store/editing-store'
 import {
   generateIpfsIndexPagesContent,
   isSameEthereumAddress,
-  resolveAllThirdwebTransactions,
   unifyAddressToId,
 } from 'src/shared/utils'
 import {
@@ -26,6 +23,8 @@ import useNFTIdParam from 'src/hooks/useNftIdParam'
 import { useActiveAccount } from 'thirdweb/react'
 import { PreparedTransaction } from 'thirdweb'
 import { useIpfsUpload } from 'src/hooks/web3/useIpfsUpload'
+import useSX1155NFT from 'src/hooks/contracts/nft/useSX1155NFT'
+import useSendBatchTxs from 'src/hooks/web3/useSendBatchTxs'
 
 const useEdit = (readonly?: boolean) => {
   const { nftId } = useNFTIdParam()
@@ -93,10 +92,16 @@ const useEdit = (readonly?: boolean) => {
     updateCurrEditableToken,
   ])
 
-  const { smartAccount } = useSmartAccount()
+  const { sendBatchTxs } = useSendBatchTxs()
+
   const [mergeLoading, setMergeLoading] = useState(false)
 
-  const { contract: sx1555NFTContract } = useSX1155NFT(nftId)
+  const {
+    prepareMintTx,
+    prepareSetTokenKyaTx,
+    prepareUpdateTokenSlugTx,
+    prepareSetContractKyaTx,
+  } = useSX1155NFT(nftId)
   const { uploadContent: uploadTokenContent } = useTokenUpdate(nftId)
 
   const merge = async () => {
@@ -112,13 +117,10 @@ const useEdit = (readonly?: boolean) => {
             tokenId,
           })
           if (firstUri) {
-            const tokenContentUpdateTx = sx1555NFTContract.prepare(
-              'setTokenKya',
-              [
-                tokenId,
-                JSON.stringify({ uri: firstUri, name: editedToken.name }),
-              ]
-            )
+            const tokenContentUpdateTx = prepareSetTokenKyaTx({
+              tokenId: BigInt(tokenId),
+              Kya: JSON.stringify({ uri: firstUri, name: editedToken.name }),
+            })
             txs.push(tokenContentUpdateTx)
 
             const slugIsEdited =
@@ -126,10 +128,10 @@ const useEdit = (readonly?: boolean) => {
               editedToken.slug
 
             if (slugIsEdited) {
-              const tokenSlugUpdateTx = sx1555NFTContract.prepare(
-                'updateTokenSlug',
-                [tokenId, editedToken.slug]
-              )
+              const tokenSlugUpdateTx = prepareUpdateTokenSlugTx({
+                tokenId: BigInt(tokenId),
+                slug: editedToken.slug,
+              })
               txs.push(tokenSlugUpdateTx)
             }
           }
@@ -144,12 +146,15 @@ const useEdit = (readonly?: boolean) => {
             tokenId,
           })
           if (firstUri && account?.address) {
-            const tokenContentMintTx = sx1555NFTContract.prepare('mint', [
-              account.address,
-              1,
-              JSON.stringify({ uri: firstUri, name: addedToken.name }),
-              addedToken.slug,
-            ])
+            const tokenContentMintTx = prepareMintTx({
+              to: account.address,
+              quantity: 1n,
+              tokenURI: JSON.stringify({
+                uri: firstUri,
+                name: addedToken.name,
+              }),
+              slug: addedToken.slug,
+            })
             txs.push(tokenContentMintTx)
           }
         }
@@ -163,17 +168,14 @@ const useEdit = (readonly?: boolean) => {
         const uris = await upload(filesToUpload)
         const firstUri = uris[0]
         if (firstUri) {
-          const tokenContentUpdateTx = sx1555NFTContract.prepare(
-            'setContractKya',
-            [JSON.stringify({ indexPagesUri: firstUri })]
-          )
+          const tokenContentUpdateTx = prepareSetContractKyaTx({
+            Kya: JSON.stringify({ indexPagesUri: firstUri }),
+          })
           txs.push(tokenContentUpdateTx)
         }
       }
 
-      const receipt = await smartAccount?.send({
-        transactions: await resolveAllThirdwebTransactions(txs),
-      })
+      const receipt = await sendBatchTxs(txs)
 
       if (
         receipt?.status == SafeClientTxStatus.EXECUTED ||

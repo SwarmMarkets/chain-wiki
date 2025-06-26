@@ -2,25 +2,26 @@ import { useTranslation } from 'react-i18next'
 import yup from 'src/shared/validations/yup'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import useYupValidationResolver from 'src/hooks/useYupValidationResolver'
-import { Transaction, useActiveAccount, useStorageUpload } from 'thirdweb/react'
+import { useActiveAccount } from 'thirdweb/react'
 import { parseSummaryToFlatTree } from './utils'
-import { useParams } from 'react-router-dom'
 import {
   generateIpfsIndexPagesContent,
   IpfsIndexPage,
-  resolveAllThirdwebTransactions,
   unifyAddressToId,
 } from 'src/shared/utils'
 import { fetchRepoFiles, fetchRepoTree } from 'src/services/github'
 import useTokens from 'src/hooks/subgraph/useTokens'
 import { useState } from 'react'
 import useTokenUpdate from 'src/hooks/useTokenUpdate'
-import { useSX1155NFT } from 'src/hooks/contracts/useSX1155NFT'
 import useSmartAccount from 'src/services/safe-protocol-kit/useSmartAccount'
 import { SafeClientTxStatus } from '@safe-global/sdk-starter-kit/dist/src/constants'
 import useNFT from 'src/hooks/subgraph/useNFT'
 import { useToastManager } from 'src/hooks/useToastManager'
 import useNFTIdParam from 'src/hooks/useNftIdParam'
+import { useIpfsUpload } from 'src/hooks/web3/useIpfsUpload'
+import { PreparedTransaction } from 'thirdweb'
+import useSX1155NFT from 'src/hooks/contracts/nft/useSX1155NFT'
+import useSendBatchTxs from 'src/hooks/web3/useSendBatchTxs'
 
 export interface IntegrationToken {
   id: string
@@ -53,12 +54,14 @@ const useIntegrationForm = () => {
     },
     { fetchFullData: true }
   )
-  const { mutateAsync: upload } = useStorageUpload()
+  const { mutateAsync: upload } = useIpfsUpload()
   const { uploadContent } = useTokenUpdate(nftId)
-  const { contract } = useSX1155NFT(nftId)
+  const { prepareMintTx, prepareSetTokenKyaTx, prepareSetContractKyaTx } =
+    useSX1155NFT(nftId)
+  const { sendBatchTxs } = useSendBatchTxs()
 
   const account = useActiveAccount()
-  const { smartAccount, isLoading: smartAccountLoading } = useSmartAccount()
+  const { isLoading: smartAccountLoading } = useSmartAccount()
 
   const { addToast } = useToastManager()
 
@@ -127,7 +130,7 @@ const useIntegrationForm = () => {
       console.log('%c[Integration] Tokens to create:', 'color: green', toMint)
       console.log('%c[Integration] Tokens to edit:', 'color: orange', toEdit)
 
-      const txs: Transaction[] = []
+      const txs: PreparedTransaction[] = []
 
       const editedCurrentIndexPages =
         nft?.indexPagesContent?.indexPages.map(ip => ({
@@ -149,13 +152,13 @@ const useIntegrationForm = () => {
         address: nftId,
       })
       const filesToUpload = [indexPagesIpfsContent]
-      const uris = await upload({ data: filesToUpload })
+      const uris = await upload(filesToUpload)
       const firstUri = uris[0]
       console.log(firstUri)
       if (firstUri) {
-        const updateIndexPagesTx = contract.prepare('setContractKya', [
-          JSON.stringify({ indexPagesUri: firstUri }),
-        ])
+        const updateIndexPagesTx = prepareSetContractKyaTx({
+          Kya: JSON.stringify({ indexPagesUri: firstUri }),
+        })
         txs.push(updateIndexPagesTx)
       }
 
@@ -167,10 +170,10 @@ const useIntegrationForm = () => {
           tokenId,
         })
         if (firstUri) {
-          const tokenContentUpdateTx = contract.prepare('setTokenKya', [
-            tokenId,
-            JSON.stringify({ uri: firstUri, name: tokenToEdit.title }),
-          ])
+          const tokenContentUpdateTx = prepareSetTokenKyaTx({
+            tokenId: BigInt(tokenId),
+            Kya: JSON.stringify({ uri: firstUri, name: tokenToEdit.title }),
+          })
           txs.push(tokenContentUpdateTx)
         }
       }
@@ -182,19 +185,20 @@ const useIntegrationForm = () => {
           tokenId,
         })
         if (firstUri && account?.address) {
-          const tokenContentMintTx = contract.prepare('mint', [
-            account.address,
-            1,
-            JSON.stringify({ uri: firstUri, name: tokenToMint.title }),
-            tokenToMint.slug,
-          ])
+          const tokenContentMintTx = prepareMintTx({
+            to: account.address,
+            quantity: 1n,
+            tokenURI: JSON.stringify({
+              uri: firstUri,
+              name: tokenToMint.title,
+            }),
+            slug: tokenToMint.slug,
+          })
           txs.push(tokenContentMintTx)
         }
       }
 
-      const safeTxs = await resolveAllThirdwebTransactions(txs)
-
-      const receipt = await smartAccount?.send({ transactions: safeTxs })
+      const receipt = await sendBatchTxs(txs)
 
       if (
         receipt?.status === SafeClientTxStatus.DEPLOYED_AND_EXECUTED ||

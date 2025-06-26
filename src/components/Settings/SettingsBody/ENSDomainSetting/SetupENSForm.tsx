@@ -15,12 +15,15 @@ import staticConfig from 'src/config'
 import {
   getENSResolver,
   getENSResolverInterface,
-} from 'src/hooks/contracts/getENSResolver'
+} from 'src/hooks/contracts/ens/getENSResolver'
 import { useToastManager } from 'src/hooks/useToastManager'
 import useNFTIdParam from 'src/hooks/useNftIdParam'
 import { ethereum } from 'thirdweb/chains'
 import { useSwitchActiveWalletChain } from 'thirdweb/react'
 import { thirdwebClient } from 'src/shared/api-clients/thirdweb'
+import { multicall } from 'src/thirdweb/ens-resolver'
+import { Address } from 'thirdweb'
+import useSendTx from 'src/hooks/web3/useSendTx'
 
 const { supportedChains } = staticConfig
 
@@ -37,6 +40,7 @@ const SetupENSForm = () => {
   } = useSetupENSForm()
   const { addToast } = useToastManager()
   const [submitLoading, setSubmitLoading] = useState(false)
+  const { sendTx } = useSendTx()
 
   const onSubmit: SubmitHandler<SetupENSFormInputs> = async (data, e) => {
     e?.preventDefault()
@@ -62,13 +66,12 @@ const SetupENSForm = () => {
       if (!window.ethereum) throw new Error()
 
       const provider = new ethers.providers.Web3Provider(window.ethereum)
-      const signer = provider.getSigner()
 
       const node = namehash(domain)
       const resolverAddress = await provider.getResolver(domain)
       if (!resolverAddress) throw new Error(t('messages.notOwned'))
 
-      const resolver = getENSResolver(resolverAddress?.address, signer)
+      const resolver = getENSResolver(resolverAddress?.address)
       const resolverInterface = getENSResolverInterface()
       const txData = resolverInterface.encodeFunctionData('setContenthash', [
         node,
@@ -81,9 +84,12 @@ const SetupENSForm = () => {
         siteUrl,
       ])
 
-      const multicallTx = await resolver.multicall([txData, txTextData])
+      const multicallTx = multicall({
+        data: [txData as Address, txTextData as Address],
+        contract: resolver,
+      })
 
-      await multicallTx.wait()
+      await sendTx(multicallTx)
 
       reset()
       switchChain(supportedChains[0])

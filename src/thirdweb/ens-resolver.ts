@@ -4,19 +4,29 @@ import {
   readContract,
   type BaseTransactionOptions,
   type AbiParameterToPrimitiveType,
-} from "thirdweb";
+} from 'thirdweb'
 
 /**
-* Contract events
-*/
+ * Contract events
+ */
 
 /**
  * Represents the filters for the "ABIChanged" event.
  */
 export type ABIChangedEventFilters = Partial<{
-  node: AbiParameterToPrimitiveType<{"indexed":true,"internalType":"bytes32","name":"node","type":"bytes32"}>
-contentType: AbiParameterToPrimitiveType<{"indexed":true,"internalType":"uint256","name":"contentType","type":"uint256"}>
-}>;
+  node: AbiParameterToPrimitiveType<{
+    indexed: true
+    internalType: 'bytes32'
+    name: 'node'
+    type: 'bytes32'
+  }>
+  contentType: AbiParameterToPrimitiveType<{
+    indexed: true
+    internalType: 'uint256'
+    name: 'contentType'
+    type: 'uint256'
+  }>
+}>
 
 /**
  * Creates an event object for the ABIChanged event.
@@ -40,18 +50,23 @@ contentType: AbiParameterToPrimitiveType<{"indexed":true,"internalType":"uint256
  */
 export function aBIChangedEvent(filters: ABIChangedEventFilters = {}) {
   return prepareEvent({
-    signature: "event ABIChanged(bytes32 indexed node, uint256 indexed contentType)",
+    signature:
+      'event ABIChanged(bytes32 indexed node, uint256 indexed contentType)',
     filters,
-  });
-};
-  
+  })
+}
 
 /**
  * Represents the filters for the "AddrChanged" event.
  */
 export type AddrChangedEventFilters = Partial<{
-  node: AbiParameterToPrimitiveType<{"indexed":true,"internalType":"bytes32","name":"node","type":"bytes32"}>
-}>;
+  node: AbiParameterToPrimitiveType<{
+    indexed: true
+    internalType: 'bytes32'
+    name: 'node'
+    type: 'bytes32'
+  }>
+}>
 
 /**
  * Creates an event object for the AddrChanged event.
@@ -74,18 +89,22 @@ export type AddrChangedEventFilters = Partial<{
  */
 export function addrChangedEvent(filters: AddrChangedEventFilters = {}) {
   return prepareEvent({
-    signature: "event AddrChanged(bytes32 indexed node, address a)",
+    signature: 'event AddrChanged(bytes32 indexed node, address a)',
     filters,
-  });
-};
-  
+  })
+}
 
 /**
  * Represents the filters for the "AddressChanged" event.
  */
 export type AddressChangedEventFilters = Partial<{
-  node: AbiParameterToPrimitiveType<{"indexed":true,"internalType":"bytes32","name":"node","type":"bytes32"}>
-}>;
+  node: AbiParameterToPrimitiveType<{
+    indexed: true
+    internalType: 'bytes32'
+    name: 'node'
+    type: 'bytes32'
+  }>
+}>
 
 /**
  * Creates an event object for the AddressChanged event.
@@ -108,19 +127,29 @@ export type AddressChangedEventFilters = Partial<{
  */
 export function addressChangedEvent(filters: AddressChangedEventFilters = {}) {
   return prepareEvent({
-    signature: "event AddressChanged(bytes32 indexed node, uint256 coinType, bytes newAddress)",
+    signature:
+      'event AddressChanged(bytes32 indexed node, uint256 coinType, bytes newAddress)',
     filters,
-  });
-};
-  
+  })
+}
 
 /**
  * Represents the filters for the "ApprovalForAll" event.
  */
 export type ApprovalForAllEventFilters = Partial<{
-  owner: AbiParameterToPrimitiveType<{"indexed":true,"internalType":"address","name":"owner","type":"address"}>
-operator: AbiParameterToPrimitiveType<{"indexed":true,"internalType":"address","name":"operator","type":"address"}>
-}>;
+  owner: AbiParameterToPrimitiveType<{
+    indexed: true
+    internalType: 'address'
+    name: 'owner'
+    type: 'address'
+  }>
+  operator: AbiParameterToPrimitiveType<{
+    indexed: true
+    internalType: 'address'
+    name: 'operator'
+    type: 'address'
+  }>
+}>
 
 /**
  * Creates an event object for the ApprovalForAll event.
@@ -144,20 +173,35 @@ operator: AbiParameterToPrimitiveType<{"indexed":true,"internalType":"address","
  */
 export function approvalForAllEvent(filters: ApprovalForAllEventFilters = {}) {
   return prepareEvent({
-    signature: "event ApprovalForAll(address indexed owner, address indexed operator, bool approved)",
+    signature:
+      'event ApprovalForAll(address indexed owner, address indexed operator, bool approved)',
     filters,
-  });
-};
-  
+  })
+}
 
 /**
  * Represents the filters for the "Approved" event.
  */
 export type ApprovedEventFilters = Partial<{
-  node: AbiParameterToPrimitiveType<{"indexed":true,"internalType":"bytes32","name":"node","type":"bytes32"}>
-delegate: AbiParameterToPrimitiveType<{"indexed":true,"internalType":"address","name":"delegate","type":"address"}>
-approved: AbiParameterToPrimitiveType<{"indexed":true,"internalType":"bool","name":"approved","type":"bool"}>
-}>;
+  node: AbiParameterToPrimitiveType<{
+    indexed: true
+    internalType: 'bytes32'
+    name: 'node'
+    type: 'bytes32'
+  }>
+  delegate: AbiParameterToPrimitiveType<{
+    indexed: true
+    internalType: 'address'
+    name: 'delegate'
+    type: 'address'
+  }>
+  approved: AbiParameterToPrimitiveType<{
+    indexed: true
+    internalType: 'bool'
+    name: 'approved'
+    type: 'bool'
+  }>
+}>
 
 /**
  * Creates an event object for the Approved event.
@@ -182,18 +226,23 @@ approved: AbiParameterToPrimitiveType<{"indexed":true,"internalType":"bool","nam
  */
 export function approvedEvent(filters: ApprovedEventFilters = {}) {
   return prepareEvent({
-    signature: "event Approved(address owner, bytes32 indexed node, address indexed delegate, bool indexed approved)",
+    signature:
+      'event Approved(address owner, bytes32 indexed node, address indexed delegate, bool indexed approved)',
     filters,
-  });
-};
-  
+  })
+}
 
 /**
  * Represents the filters for the "ContenthashChanged" event.
  */
 export type ContenthashChangedEventFilters = Partial<{
-  node: AbiParameterToPrimitiveType<{"indexed":true,"internalType":"bytes32","name":"node","type":"bytes32"}>
-}>;
+  node: AbiParameterToPrimitiveType<{
+    indexed: true
+    internalType: 'bytes32'
+    name: 'node'
+    type: 'bytes32'
+  }>
+}>
 
 /**
  * Creates an event object for the ContenthashChanged event.
@@ -214,20 +263,26 @@ export type ContenthashChangedEventFilters = Partial<{
  * });
  * ```
  */
-export function contenthashChangedEvent(filters: ContenthashChangedEventFilters = {}) {
+export function contenthashChangedEvent(
+  filters: ContenthashChangedEventFilters = {}
+) {
   return prepareEvent({
-    signature: "event ContenthashChanged(bytes32 indexed node, bytes hash)",
+    signature: 'event ContenthashChanged(bytes32 indexed node, bytes hash)',
     filters,
-  });
-};
-  
+  })
+}
 
 /**
  * Represents the filters for the "DNSRecordChanged" event.
  */
 export type DNSRecordChangedEventFilters = Partial<{
-  node: AbiParameterToPrimitiveType<{"indexed":true,"internalType":"bytes32","name":"node","type":"bytes32"}>
-}>;
+  node: AbiParameterToPrimitiveType<{
+    indexed: true
+    internalType: 'bytes32'
+    name: 'node'
+    type: 'bytes32'
+  }>
+}>
 
 /**
  * Creates an event object for the DNSRecordChanged event.
@@ -248,20 +303,27 @@ export type DNSRecordChangedEventFilters = Partial<{
  * });
  * ```
  */
-export function dNSRecordChangedEvent(filters: DNSRecordChangedEventFilters = {}) {
+export function dNSRecordChangedEvent(
+  filters: DNSRecordChangedEventFilters = {}
+) {
   return prepareEvent({
-    signature: "event DNSRecordChanged(bytes32 indexed node, bytes name, uint16 resource, bytes record)",
+    signature:
+      'event DNSRecordChanged(bytes32 indexed node, bytes name, uint16 resource, bytes record)',
     filters,
-  });
-};
-  
+  })
+}
 
 /**
  * Represents the filters for the "DNSRecordDeleted" event.
  */
 export type DNSRecordDeletedEventFilters = Partial<{
-  node: AbiParameterToPrimitiveType<{"indexed":true,"internalType":"bytes32","name":"node","type":"bytes32"}>
-}>;
+  node: AbiParameterToPrimitiveType<{
+    indexed: true
+    internalType: 'bytes32'
+    name: 'node'
+    type: 'bytes32'
+  }>
+}>
 
 /**
  * Creates an event object for the DNSRecordDeleted event.
@@ -282,20 +344,27 @@ export type DNSRecordDeletedEventFilters = Partial<{
  * });
  * ```
  */
-export function dNSRecordDeletedEvent(filters: DNSRecordDeletedEventFilters = {}) {
+export function dNSRecordDeletedEvent(
+  filters: DNSRecordDeletedEventFilters = {}
+) {
   return prepareEvent({
-    signature: "event DNSRecordDeleted(bytes32 indexed node, bytes name, uint16 resource)",
+    signature:
+      'event DNSRecordDeleted(bytes32 indexed node, bytes name, uint16 resource)',
     filters,
-  });
-};
-  
+  })
+}
 
 /**
  * Represents the filters for the "DNSZonehashChanged" event.
  */
 export type DNSZonehashChangedEventFilters = Partial<{
-  node: AbiParameterToPrimitiveType<{"indexed":true,"internalType":"bytes32","name":"node","type":"bytes32"}>
-}>;
+  node: AbiParameterToPrimitiveType<{
+    indexed: true
+    internalType: 'bytes32'
+    name: 'node'
+    type: 'bytes32'
+  }>
+}>
 
 /**
  * Creates an event object for the DNSZonehashChanged event.
@@ -316,21 +385,33 @@ export type DNSZonehashChangedEventFilters = Partial<{
  * });
  * ```
  */
-export function dNSZonehashChangedEvent(filters: DNSZonehashChangedEventFilters = {}) {
+export function dNSZonehashChangedEvent(
+  filters: DNSZonehashChangedEventFilters = {}
+) {
   return prepareEvent({
-    signature: "event DNSZonehashChanged(bytes32 indexed node, bytes lastzonehash, bytes zonehash)",
+    signature:
+      'event DNSZonehashChanged(bytes32 indexed node, bytes lastzonehash, bytes zonehash)',
     filters,
-  });
-};
-  
+  })
+}
 
 /**
  * Represents the filters for the "InterfaceChanged" event.
  */
 export type InterfaceChangedEventFilters = Partial<{
-  node: AbiParameterToPrimitiveType<{"indexed":true,"internalType":"bytes32","name":"node","type":"bytes32"}>
-interfaceID: AbiParameterToPrimitiveType<{"indexed":true,"internalType":"bytes4","name":"interfaceID","type":"bytes4"}>
-}>;
+  node: AbiParameterToPrimitiveType<{
+    indexed: true
+    internalType: 'bytes32'
+    name: 'node'
+    type: 'bytes32'
+  }>
+  interfaceID: AbiParameterToPrimitiveType<{
+    indexed: true
+    internalType: 'bytes4'
+    name: 'interfaceID'
+    type: 'bytes4'
+  }>
+}>
 
 /**
  * Creates an event object for the InterfaceChanged event.
@@ -352,20 +433,27 @@ interfaceID: AbiParameterToPrimitiveType<{"indexed":true,"internalType":"bytes4"
  * });
  * ```
  */
-export function interfaceChangedEvent(filters: InterfaceChangedEventFilters = {}) {
+export function interfaceChangedEvent(
+  filters: InterfaceChangedEventFilters = {}
+) {
   return prepareEvent({
-    signature: "event InterfaceChanged(bytes32 indexed node, bytes4 indexed interfaceID, address implementer)",
+    signature:
+      'event InterfaceChanged(bytes32 indexed node, bytes4 indexed interfaceID, address implementer)',
     filters,
-  });
-};
-  
+  })
+}
 
 /**
  * Represents the filters for the "NameChanged" event.
  */
 export type NameChangedEventFilters = Partial<{
-  node: AbiParameterToPrimitiveType<{"indexed":true,"internalType":"bytes32","name":"node","type":"bytes32"}>
-}>;
+  node: AbiParameterToPrimitiveType<{
+    indexed: true
+    internalType: 'bytes32'
+    name: 'node'
+    type: 'bytes32'
+  }>
+}>
 
 /**
  * Creates an event object for the NameChanged event.
@@ -388,18 +476,22 @@ export type NameChangedEventFilters = Partial<{
  */
 export function nameChangedEvent(filters: NameChangedEventFilters = {}) {
   return prepareEvent({
-    signature: "event NameChanged(bytes32 indexed node, string name)",
+    signature: 'event NameChanged(bytes32 indexed node, string name)',
     filters,
-  });
-};
-  
+  })
+}
 
 /**
  * Represents the filters for the "PubkeyChanged" event.
  */
 export type PubkeyChangedEventFilters = Partial<{
-  node: AbiParameterToPrimitiveType<{"indexed":true,"internalType":"bytes32","name":"node","type":"bytes32"}>
-}>;
+  node: AbiParameterToPrimitiveType<{
+    indexed: true
+    internalType: 'bytes32'
+    name: 'node'
+    type: 'bytes32'
+  }>
+}>
 
 /**
  * Creates an event object for the PubkeyChanged event.
@@ -422,19 +514,29 @@ export type PubkeyChangedEventFilters = Partial<{
  */
 export function pubkeyChangedEvent(filters: PubkeyChangedEventFilters = {}) {
   return prepareEvent({
-    signature: "event PubkeyChanged(bytes32 indexed node, bytes32 x, bytes32 y)",
+    signature:
+      'event PubkeyChanged(bytes32 indexed node, bytes32 x, bytes32 y)',
     filters,
-  });
-};
-  
+  })
+}
 
 /**
  * Represents the filters for the "TextChanged" event.
  */
 export type TextChangedEventFilters = Partial<{
-  node: AbiParameterToPrimitiveType<{"indexed":true,"internalType":"bytes32","name":"node","type":"bytes32"}>
-indexedKey: AbiParameterToPrimitiveType<{"indexed":true,"internalType":"string","name":"indexedKey","type":"string"}>
-}>;
+  node: AbiParameterToPrimitiveType<{
+    indexed: true
+    internalType: 'bytes32'
+    name: 'node'
+    type: 'bytes32'
+  }>
+  indexedKey: AbiParameterToPrimitiveType<{
+    indexed: true
+    internalType: 'string'
+    name: 'indexedKey'
+    type: 'string'
+  }>
+}>
 
 /**
  * Creates an event object for the TextChanged event.
@@ -458,18 +560,23 @@ indexedKey: AbiParameterToPrimitiveType<{"indexed":true,"internalType":"string",
  */
 export function textChangedEvent(filters: TextChangedEventFilters = {}) {
   return prepareEvent({
-    signature: "event TextChanged(bytes32 indexed node, string indexed indexedKey, string key, string value)",
+    signature:
+      'event TextChanged(bytes32 indexed node, string indexed indexedKey, string key, string value)',
     filters,
-  });
-};
-  
+  })
+}
 
 /**
  * Represents the filters for the "VersionChanged" event.
  */
 export type VersionChangedEventFilters = Partial<{
-  node: AbiParameterToPrimitiveType<{"indexed":true,"internalType":"bytes32","name":"node","type":"bytes32"}>
-}>;
+  node: AbiParameterToPrimitiveType<{
+    indexed: true
+    internalType: 'bytes32'
+    name: 'node'
+    type: 'bytes32'
+  }>
+}>
 
 /**
  * Creates an event object for the VersionChanged event.
@@ -492,23 +599,30 @@ export type VersionChangedEventFilters = Partial<{
  */
 export function versionChangedEvent(filters: VersionChangedEventFilters = {}) {
   return prepareEvent({
-    signature: "event VersionChanged(bytes32 indexed node, uint64 newVersion)",
+    signature: 'event VersionChanged(bytes32 indexed node, uint64 newVersion)',
     filters,
-  });
-};
-  
+  })
+}
 
 /**
-* Contract read functions
-*/
+ * Contract read functions
+ */
 
 /**
  * Represents the parameters for the "ABI" function.
  */
 export type ABIParams = {
-  node: AbiParameterToPrimitiveType<{"internalType":"bytes32","name":"node","type":"bytes32"}>
-contentTypes: AbiParameterToPrimitiveType<{"internalType":"uint256","name":"contentTypes","type":"uint256"}>
-};
+  node: AbiParameterToPrimitiveType<{
+    internalType: 'bytes32'
+    name: 'node'
+    type: 'bytes32'
+  }>
+  contentTypes: AbiParameterToPrimitiveType<{
+    internalType: 'uint256'
+    name: 'contentTypes'
+    type: 'uint256'
+  }>
+}
 
 /**
  * Calls the "ABI" function on the contract.
@@ -525,49 +639,50 @@ contentTypes: AbiParameterToPrimitiveType<{"internalType":"uint256","name":"cont
  *
  * ```
  */
-export async function ABI(
-  options: BaseTransactionOptions<ABIParams>
-) {
+export async function ABI(options: BaseTransactionOptions<ABIParams>) {
   return readContract({
     contract: options.contract,
     method: [
-  "0x2203ab56",
-  [
-    {
-      "internalType": "bytes32",
-      "name": "node",
-      "type": "bytes32"
-    },
-    {
-      "internalType": "uint256",
-      "name": "contentTypes",
-      "type": "uint256"
-    }
-  ],
-  [
-    {
-      "internalType": "uint256",
-      "name": "",
-      "type": "uint256"
-    },
-    {
-      "internalType": "bytes",
-      "name": "",
-      "type": "bytes"
-    }
-  ]
-],
-    params: [options.node, options.contentTypes]
-  });
-};
-
+      '0x2203ab56',
+      [
+        {
+          internalType: 'bytes32',
+          name: 'node',
+          type: 'bytes32',
+        },
+        {
+          internalType: 'uint256',
+          name: 'contentTypes',
+          type: 'uint256',
+        },
+      ],
+      [
+        {
+          internalType: 'uint256',
+          name: '',
+          type: 'uint256',
+        },
+        {
+          internalType: 'bytes',
+          name: '',
+          type: 'bytes',
+        },
+      ],
+    ],
+    params: [options.node, options.contentTypes],
+  })
+}
 
 /**
  * Represents the parameters for the "addr" function.
  */
 export type AddrParams = {
-  node: AbiParameterToPrimitiveType<{"internalType":"bytes32","name":"node","type":"bytes32"}>
-};
+  node: AbiParameterToPrimitiveType<{
+    internalType: 'bytes32'
+    name: 'node'
+    type: 'bytes32'
+  }>
+}
 
 /**
  * Calls the "addr" function on the contract.
@@ -583,39 +698,40 @@ export type AddrParams = {
  *
  * ```
  */
-export async function addr(
-  options: BaseTransactionOptions<AddrParams>
-) {
+export async function addr(options: BaseTransactionOptions<AddrParams>) {
   return readContract({
     contract: options.contract,
     method: [
-  "0x3b3b57de",
-  [
-    {
-      "internalType": "bytes32",
-      "name": "node",
-      "type": "bytes32"
-    }
-  ],
-  [
-    {
-      "internalType": "address payable",
-      "name": "",
-      "type": "address"
-    }
-  ]
-],
-    params: [options.node]
-  });
-};
-
+      '0x3b3b57de',
+      [
+        {
+          internalType: 'bytes32',
+          name: 'node',
+          type: 'bytes32',
+        },
+      ],
+      [
+        {
+          internalType: 'address payable',
+          name: '',
+          type: 'address',
+        },
+      ],
+    ],
+    params: [options.node],
+  })
+}
 
 /**
  * Represents the parameters for the "contenthash" function.
  */
 export type ContenthashParams = {
-  node: AbiParameterToPrimitiveType<{"internalType":"bytes32","name":"node","type":"bytes32"}>
-};
+  node: AbiParameterToPrimitiveType<{
+    internalType: 'bytes32'
+    name: 'node'
+    type: 'bytes32'
+  }>
+}
 
 /**
  * Calls the "contenthash" function on the contract.
@@ -637,35 +753,46 @@ export async function contenthash(
   return readContract({
     contract: options.contract,
     method: [
-  "0xbc1c58d1",
-  [
-    {
-      "internalType": "bytes32",
-      "name": "node",
-      "type": "bytes32"
-    }
-  ],
-  [
-    {
-      "internalType": "bytes",
-      "name": "",
-      "type": "bytes"
-    }
-  ]
-],
-    params: [options.node]
-  });
-};
-
+      '0xbc1c58d1',
+      [
+        {
+          internalType: 'bytes32',
+          name: 'node',
+          type: 'bytes32',
+        },
+      ],
+      [
+        {
+          internalType: 'bytes',
+          name: '',
+          type: 'bytes',
+        },
+      ],
+    ],
+    params: [options.node],
+  })
+}
 
 /**
  * Represents the parameters for the "dnsRecord" function.
  */
 export type DnsRecordParams = {
-  node: AbiParameterToPrimitiveType<{"internalType":"bytes32","name":"node","type":"bytes32"}>
-name: AbiParameterToPrimitiveType<{"internalType":"bytes32","name":"name","type":"bytes32"}>
-resource: AbiParameterToPrimitiveType<{"internalType":"uint16","name":"resource","type":"uint16"}>
-};
+  node: AbiParameterToPrimitiveType<{
+    internalType: 'bytes32'
+    name: 'node'
+    type: 'bytes32'
+  }>
+  name: AbiParameterToPrimitiveType<{
+    internalType: 'bytes32'
+    name: 'name'
+    type: 'bytes32'
+  }>
+  resource: AbiParameterToPrimitiveType<{
+    internalType: 'uint16'
+    name: 'resource'
+    type: 'uint16'
+  }>
+}
 
 /**
  * Calls the "dnsRecord" function on the contract.
@@ -689,44 +816,51 @@ export async function dnsRecord(
   return readContract({
     contract: options.contract,
     method: [
-  "0xa8fa5682",
-  [
-    {
-      "internalType": "bytes32",
-      "name": "node",
-      "type": "bytes32"
-    },
-    {
-      "internalType": "bytes32",
-      "name": "name",
-      "type": "bytes32"
-    },
-    {
-      "internalType": "uint16",
-      "name": "resource",
-      "type": "uint16"
-    }
-  ],
-  [
-    {
-      "internalType": "bytes",
-      "name": "",
-      "type": "bytes"
-    }
-  ]
-],
-    params: [options.node, options.name, options.resource]
-  });
-};
-
+      '0xa8fa5682',
+      [
+        {
+          internalType: 'bytes32',
+          name: 'node',
+          type: 'bytes32',
+        },
+        {
+          internalType: 'bytes32',
+          name: 'name',
+          type: 'bytes32',
+        },
+        {
+          internalType: 'uint16',
+          name: 'resource',
+          type: 'uint16',
+        },
+      ],
+      [
+        {
+          internalType: 'bytes',
+          name: '',
+          type: 'bytes',
+        },
+      ],
+    ],
+    params: [options.node, options.name, options.resource],
+  })
+}
 
 /**
  * Represents the parameters for the "hasDNSRecords" function.
  */
 export type HasDNSRecordsParams = {
-  node: AbiParameterToPrimitiveType<{"internalType":"bytes32","name":"node","type":"bytes32"}>
-name: AbiParameterToPrimitiveType<{"internalType":"bytes32","name":"name","type":"bytes32"}>
-};
+  node: AbiParameterToPrimitiveType<{
+    internalType: 'bytes32'
+    name: 'node'
+    type: 'bytes32'
+  }>
+  name: AbiParameterToPrimitiveType<{
+    internalType: 'bytes32'
+    name: 'name'
+    type: 'bytes32'
+  }>
+}
 
 /**
  * Calls the "hasDNSRecords" function on the contract.
@@ -749,39 +883,46 @@ export async function hasDNSRecords(
   return readContract({
     contract: options.contract,
     method: [
-  "0x4cbf6ba4",
-  [
-    {
-      "internalType": "bytes32",
-      "name": "node",
-      "type": "bytes32"
-    },
-    {
-      "internalType": "bytes32",
-      "name": "name",
-      "type": "bytes32"
-    }
-  ],
-  [
-    {
-      "internalType": "bool",
-      "name": "",
-      "type": "bool"
-    }
-  ]
-],
-    params: [options.node, options.name]
-  });
-};
-
+      '0x4cbf6ba4',
+      [
+        {
+          internalType: 'bytes32',
+          name: 'node',
+          type: 'bytes32',
+        },
+        {
+          internalType: 'bytes32',
+          name: 'name',
+          type: 'bytes32',
+        },
+      ],
+      [
+        {
+          internalType: 'bool',
+          name: '',
+          type: 'bool',
+        },
+      ],
+    ],
+    params: [options.node, options.name],
+  })
+}
 
 /**
  * Represents the parameters for the "interfaceImplementer" function.
  */
 export type InterfaceImplementerParams = {
-  node: AbiParameterToPrimitiveType<{"internalType":"bytes32","name":"node","type":"bytes32"}>
-interfaceID: AbiParameterToPrimitiveType<{"internalType":"bytes4","name":"interfaceID","type":"bytes4"}>
-};
+  node: AbiParameterToPrimitiveType<{
+    internalType: 'bytes32'
+    name: 'node'
+    type: 'bytes32'
+  }>
+  interfaceID: AbiParameterToPrimitiveType<{
+    internalType: 'bytes4'
+    name: 'interfaceID'
+    type: 'bytes4'
+  }>
+}
 
 /**
  * Calls the "interfaceImplementer" function on the contract.
@@ -804,40 +945,51 @@ export async function interfaceImplementer(
   return readContract({
     contract: options.contract,
     method: [
-  "0x124a319c",
-  [
-    {
-      "internalType": "bytes32",
-      "name": "node",
-      "type": "bytes32"
-    },
-    {
-      "internalType": "bytes4",
-      "name": "interfaceID",
-      "type": "bytes4"
-    }
-  ],
-  [
-    {
-      "internalType": "address",
-      "name": "",
-      "type": "address"
-    }
-  ]
-],
-    params: [options.node, options.interfaceID]
-  });
-};
-
+      '0x124a319c',
+      [
+        {
+          internalType: 'bytes32',
+          name: 'node',
+          type: 'bytes32',
+        },
+        {
+          internalType: 'bytes4',
+          name: 'interfaceID',
+          type: 'bytes4',
+        },
+      ],
+      [
+        {
+          internalType: 'address',
+          name: '',
+          type: 'address',
+        },
+      ],
+    ],
+    params: [options.node, options.interfaceID],
+  })
+}
 
 /**
  * Represents the parameters for the "isApprovedFor" function.
  */
 export type IsApprovedForParams = {
-  owner: AbiParameterToPrimitiveType<{"internalType":"address","name":"owner","type":"address"}>
-node: AbiParameterToPrimitiveType<{"internalType":"bytes32","name":"node","type":"bytes32"}>
-delegate: AbiParameterToPrimitiveType<{"internalType":"address","name":"delegate","type":"address"}>
-};
+  owner: AbiParameterToPrimitiveType<{
+    internalType: 'address'
+    name: 'owner'
+    type: 'address'
+  }>
+  node: AbiParameterToPrimitiveType<{
+    internalType: 'bytes32'
+    name: 'node'
+    type: 'bytes32'
+  }>
+  delegate: AbiParameterToPrimitiveType<{
+    internalType: 'address'
+    name: 'delegate'
+    type: 'address'
+  }>
+}
 
 /**
  * Calls the "isApprovedFor" function on the contract.
@@ -861,44 +1013,51 @@ export async function isApprovedFor(
   return readContract({
     contract: options.contract,
     method: [
-  "0xa9784b3e",
-  [
-    {
-      "internalType": "address",
-      "name": "owner",
-      "type": "address"
-    },
-    {
-      "internalType": "bytes32",
-      "name": "node",
-      "type": "bytes32"
-    },
-    {
-      "internalType": "address",
-      "name": "delegate",
-      "type": "address"
-    }
-  ],
-  [
-    {
-      "internalType": "bool",
-      "name": "",
-      "type": "bool"
-    }
-  ]
-],
-    params: [options.owner, options.node, options.delegate]
-  });
-};
-
+      '0xa9784b3e',
+      [
+        {
+          internalType: 'address',
+          name: 'owner',
+          type: 'address',
+        },
+        {
+          internalType: 'bytes32',
+          name: 'node',
+          type: 'bytes32',
+        },
+        {
+          internalType: 'address',
+          name: 'delegate',
+          type: 'address',
+        },
+      ],
+      [
+        {
+          internalType: 'bool',
+          name: '',
+          type: 'bool',
+        },
+      ],
+    ],
+    params: [options.owner, options.node, options.delegate],
+  })
+}
 
 /**
  * Represents the parameters for the "isApprovedForAll" function.
  */
 export type IsApprovedForAllParams = {
-  account: AbiParameterToPrimitiveType<{"internalType":"address","name":"account","type":"address"}>
-operator: AbiParameterToPrimitiveType<{"internalType":"address","name":"operator","type":"address"}>
-};
+  account: AbiParameterToPrimitiveType<{
+    internalType: 'address'
+    name: 'account'
+    type: 'address'
+  }>
+  operator: AbiParameterToPrimitiveType<{
+    internalType: 'address'
+    name: 'operator'
+    type: 'address'
+  }>
+}
 
 /**
  * Calls the "isApprovedForAll" function on the contract.
@@ -921,38 +1080,41 @@ export async function isApprovedForAll(
   return readContract({
     contract: options.contract,
     method: [
-  "0xe985e9c5",
-  [
-    {
-      "internalType": "address",
-      "name": "account",
-      "type": "address"
-    },
-    {
-      "internalType": "address",
-      "name": "operator",
-      "type": "address"
-    }
-  ],
-  [
-    {
-      "internalType": "bool",
-      "name": "",
-      "type": "bool"
-    }
-  ]
-],
-    params: [options.account, options.operator]
-  });
-};
-
+      '0xe985e9c5',
+      [
+        {
+          internalType: 'address',
+          name: 'account',
+          type: 'address',
+        },
+        {
+          internalType: 'address',
+          name: 'operator',
+          type: 'address',
+        },
+      ],
+      [
+        {
+          internalType: 'bool',
+          name: '',
+          type: 'bool',
+        },
+      ],
+    ],
+    params: [options.account, options.operator],
+  })
+}
 
 /**
  * Represents the parameters for the "name" function.
  */
 export type NameParams = {
-  node: AbiParameterToPrimitiveType<{"internalType":"bytes32","name":"node","type":"bytes32"}>
-};
+  node: AbiParameterToPrimitiveType<{
+    internalType: 'bytes32'
+    name: 'node'
+    type: 'bytes32'
+  }>
+}
 
 /**
  * Calls the "name" function on the contract.
@@ -968,39 +1130,40 @@ export type NameParams = {
  *
  * ```
  */
-export async function name(
-  options: BaseTransactionOptions<NameParams>
-) {
+export async function name(options: BaseTransactionOptions<NameParams>) {
   return readContract({
     contract: options.contract,
     method: [
-  "0x691f3431",
-  [
-    {
-      "internalType": "bytes32",
-      "name": "node",
-      "type": "bytes32"
-    }
-  ],
-  [
-    {
-      "internalType": "string",
-      "name": "",
-      "type": "string"
-    }
-  ]
-],
-    params: [options.node]
-  });
-};
-
+      '0x691f3431',
+      [
+        {
+          internalType: 'bytes32',
+          name: 'node',
+          type: 'bytes32',
+        },
+      ],
+      [
+        {
+          internalType: 'string',
+          name: '',
+          type: 'string',
+        },
+      ],
+    ],
+    params: [options.node],
+  })
+}
 
 /**
  * Represents the parameters for the "pubkey" function.
  */
 export type PubkeyParams = {
-  node: AbiParameterToPrimitiveType<{"internalType":"bytes32","name":"node","type":"bytes32"}>
-};
+  node: AbiParameterToPrimitiveType<{
+    internalType: 'bytes32'
+    name: 'node'
+    type: 'bytes32'
+  }>
+}
 
 /**
  * Calls the "pubkey" function on the contract.
@@ -1016,44 +1179,45 @@ export type PubkeyParams = {
  *
  * ```
  */
-export async function pubkey(
-  options: BaseTransactionOptions<PubkeyParams>
-) {
+export async function pubkey(options: BaseTransactionOptions<PubkeyParams>) {
   return readContract({
     contract: options.contract,
     method: [
-  "0xc8690233",
-  [
-    {
-      "internalType": "bytes32",
-      "name": "node",
-      "type": "bytes32"
-    }
-  ],
-  [
-    {
-      "internalType": "bytes32",
-      "name": "x",
-      "type": "bytes32"
-    },
-    {
-      "internalType": "bytes32",
-      "name": "y",
-      "type": "bytes32"
-    }
-  ]
-],
-    params: [options.node]
-  });
-};
-
+      '0xc8690233',
+      [
+        {
+          internalType: 'bytes32',
+          name: 'node',
+          type: 'bytes32',
+        },
+      ],
+      [
+        {
+          internalType: 'bytes32',
+          name: 'x',
+          type: 'bytes32',
+        },
+        {
+          internalType: 'bytes32',
+          name: 'y',
+          type: 'bytes32',
+        },
+      ],
+    ],
+    params: [options.node],
+  })
+}
 
 /**
  * Represents the parameters for the "recordVersions" function.
  */
 export type RecordVersionsParams = {
-  arg_0: AbiParameterToPrimitiveType<{"internalType":"bytes32","name":"","type":"bytes32"}>
-};
+  arg_0: AbiParameterToPrimitiveType<{
+    internalType: 'bytes32'
+    name: ''
+    type: 'bytes32'
+  }>
+}
 
 /**
  * Calls the "recordVersions" function on the contract.
@@ -1075,33 +1239,36 @@ export async function recordVersions(
   return readContract({
     contract: options.contract,
     method: [
-  "0xd700ff33",
-  [
-    {
-      "internalType": "bytes32",
-      "name": "",
-      "type": "bytes32"
-    }
-  ],
-  [
-    {
-      "internalType": "uint64",
-      "name": "",
-      "type": "uint64"
-    }
-  ]
-],
-    params: [options.arg_0]
-  });
-};
-
+      '0xd700ff33',
+      [
+        {
+          internalType: 'bytes32',
+          name: '',
+          type: 'bytes32',
+        },
+      ],
+      [
+        {
+          internalType: 'uint64',
+          name: '',
+          type: 'uint64',
+        },
+      ],
+    ],
+    params: [options.arg_0],
+  })
+}
 
 /**
  * Represents the parameters for the "supportsInterface" function.
  */
 export type SupportsInterfaceParams = {
-  interfaceID: AbiParameterToPrimitiveType<{"internalType":"bytes4","name":"interfaceID","type":"bytes4"}>
-};
+  interfaceID: AbiParameterToPrimitiveType<{
+    internalType: 'bytes4'
+    name: 'interfaceID'
+    type: 'bytes4'
+  }>
+}
 
 /**
  * Calls the "supportsInterface" function on the contract.
@@ -1123,34 +1290,41 @@ export async function supportsInterface(
   return readContract({
     contract: options.contract,
     method: [
-  "0x01ffc9a7",
-  [
-    {
-      "internalType": "bytes4",
-      "name": "interfaceID",
-      "type": "bytes4"
-    }
-  ],
-  [
-    {
-      "internalType": "bool",
-      "name": "",
-      "type": "bool"
-    }
-  ]
-],
-    params: [options.interfaceID]
-  });
-};
-
+      '0x01ffc9a7',
+      [
+        {
+          internalType: 'bytes4',
+          name: 'interfaceID',
+          type: 'bytes4',
+        },
+      ],
+      [
+        {
+          internalType: 'bool',
+          name: '',
+          type: 'bool',
+        },
+      ],
+    ],
+    params: [options.interfaceID],
+  })
+}
 
 /**
  * Represents the parameters for the "text" function.
  */
 export type TextParams = {
-  node: AbiParameterToPrimitiveType<{"internalType":"bytes32","name":"node","type":"bytes32"}>
-key: AbiParameterToPrimitiveType<{"internalType":"string","name":"key","type":"string"}>
-};
+  node: AbiParameterToPrimitiveType<{
+    internalType: 'bytes32'
+    name: 'node'
+    type: 'bytes32'
+  }>
+  key: AbiParameterToPrimitiveType<{
+    internalType: 'string'
+    name: 'key'
+    type: 'string'
+  }>
+}
 
 /**
  * Calls the "text" function on the contract.
@@ -1167,44 +1341,45 @@ key: AbiParameterToPrimitiveType<{"internalType":"string","name":"key","type":"s
  *
  * ```
  */
-export async function text(
-  options: BaseTransactionOptions<TextParams>
-) {
+export async function text(options: BaseTransactionOptions<TextParams>) {
   return readContract({
     contract: options.contract,
     method: [
-  "0x59d1d43c",
-  [
-    {
-      "internalType": "bytes32",
-      "name": "node",
-      "type": "bytes32"
-    },
-    {
-      "internalType": "string",
-      "name": "key",
-      "type": "string"
-    }
-  ],
-  [
-    {
-      "internalType": "string",
-      "name": "",
-      "type": "string"
-    }
-  ]
-],
-    params: [options.node, options.key]
-  });
-};
-
+      '0x59d1d43c',
+      [
+        {
+          internalType: 'bytes32',
+          name: 'node',
+          type: 'bytes32',
+        },
+        {
+          internalType: 'string',
+          name: 'key',
+          type: 'string',
+        },
+      ],
+      [
+        {
+          internalType: 'string',
+          name: '',
+          type: 'string',
+        },
+      ],
+    ],
+    params: [options.node, options.key],
+  })
+}
 
 /**
  * Represents the parameters for the "zonehash" function.
  */
 export type ZonehashParams = {
-  node: AbiParameterToPrimitiveType<{"internalType":"bytes32","name":"node","type":"bytes32"}>
-};
+  node: AbiParameterToPrimitiveType<{
+    internalType: 'bytes32'
+    name: 'node'
+    type: 'bytes32'
+  }>
+}
 
 /**
  * Calls the "zonehash" function on the contract.
@@ -1226,39 +1401,50 @@ export async function zonehash(
   return readContract({
     contract: options.contract,
     method: [
-  "0x5c98042b",
-  [
-    {
-      "internalType": "bytes32",
-      "name": "node",
-      "type": "bytes32"
-    }
-  ],
-  [
-    {
-      "internalType": "bytes",
-      "name": "",
-      "type": "bytes"
-    }
-  ]
-],
-    params: [options.node]
-  });
-};
-
+      '0x5c98042b',
+      [
+        {
+          internalType: 'bytes32',
+          name: 'node',
+          type: 'bytes32',
+        },
+      ],
+      [
+        {
+          internalType: 'bytes',
+          name: '',
+          type: 'bytes',
+        },
+      ],
+    ],
+    params: [options.node],
+  })
+}
 
 /**
-* Contract write functions
-*/
+ * Contract write functions
+ */
 
 /**
  * Represents the parameters for the "approve" function.
  */
 export type ApproveParams = {
-  node: AbiParameterToPrimitiveType<{"internalType":"bytes32","name":"node","type":"bytes32"}>
-delegate: AbiParameterToPrimitiveType<{"internalType":"address","name":"delegate","type":"address"}>
-approved: AbiParameterToPrimitiveType<{"internalType":"bool","name":"approved","type":"bool"}>
-};
+  node: AbiParameterToPrimitiveType<{
+    internalType: 'bytes32'
+    name: 'node'
+    type: 'bytes32'
+  }>
+  delegate: AbiParameterToPrimitiveType<{
+    internalType: 'address'
+    name: 'delegate'
+    type: 'address'
+  }>
+  approved: AbiParameterToPrimitiveType<{
+    internalType: 'bool'
+    name: 'approved'
+    type: 'bool'
+  }>
+}
 
 /**
  * Calls the "approve" function on the contract.
@@ -1279,43 +1465,44 @@ approved: AbiParameterToPrimitiveType<{"internalType":"bool","name":"approved","
  *
  * ```
  */
-export function approve(
-  options: BaseTransactionOptions<ApproveParams>
-) {
+export function approve(options: BaseTransactionOptions<ApproveParams>) {
   return prepareContractCall({
     contract: options.contract,
     method: [
-  "0xa4b91a01",
-  [
-    {
-      "internalType": "bytes32",
-      "name": "node",
-      "type": "bytes32"
-    },
-    {
-      "internalType": "address",
-      "name": "delegate",
-      "type": "address"
-    },
-    {
-      "internalType": "bool",
-      "name": "approved",
-      "type": "bool"
-    }
-  ],
-  []
-],
-    params: [options.node, options.delegate, options.approved]
-  });
-};
-
+      '0xa4b91a01',
+      [
+        {
+          internalType: 'bytes32',
+          name: 'node',
+          type: 'bytes32',
+        },
+        {
+          internalType: 'address',
+          name: 'delegate',
+          type: 'address',
+        },
+        {
+          internalType: 'bool',
+          name: 'approved',
+          type: 'bool',
+        },
+      ],
+      [],
+    ],
+    params: [options.node, options.delegate, options.approved],
+  })
+}
 
 /**
  * Represents the parameters for the "clearRecords" function.
  */
 export type ClearRecordsParams = {
-  node: AbiParameterToPrimitiveType<{"internalType":"bytes32","name":"node","type":"bytes32"}>
-};
+  node: AbiParameterToPrimitiveType<{
+    internalType: 'bytes32'
+    name: 'node'
+    type: 'bytes32'
+  }>
+}
 
 /**
  * Calls the "clearRecords" function on the contract.
@@ -1340,27 +1527,30 @@ export function clearRecords(
   return prepareContractCall({
     contract: options.contract,
     method: [
-  "0x3603d758",
-  [
-    {
-      "internalType": "bytes32",
-      "name": "node",
-      "type": "bytes32"
-    }
-  ],
-  []
-],
-    params: [options.node]
-  });
-};
-
+      '0x3603d758',
+      [
+        {
+          internalType: 'bytes32',
+          name: 'node',
+          type: 'bytes32',
+        },
+      ],
+      [],
+    ],
+    params: [options.node],
+  })
+}
 
 /**
  * Represents the parameters for the "multicall" function.
  */
 export type MulticallParams = {
-  data: AbiParameterToPrimitiveType<{"internalType":"bytes[]","name":"data","type":"bytes[]"}>
-};
+  data: AbiParameterToPrimitiveType<{
+    internalType: 'bytes[]'
+    name: 'data'
+    type: 'bytes[]'
+  }>
+}
 
 /**
  * Calls the "multicall" function on the contract.
@@ -1379,40 +1569,45 @@ export type MulticallParams = {
  *
  * ```
  */
-export function multicall(
-  options: BaseTransactionOptions<MulticallParams>
-) {
+export function multicall(options: BaseTransactionOptions<MulticallParams>) {
   return prepareContractCall({
     contract: options.contract,
     method: [
-  "0xac9650d8",
-  [
-    {
-      "internalType": "bytes[]",
-      "name": "data",
-      "type": "bytes[]"
-    }
-  ],
-  [
-    {
-      "internalType": "bytes[]",
-      "name": "results",
-      "type": "bytes[]"
-    }
-  ]
-],
-    params: [options.data]
-  });
-};
-
+      '0xac9650d8',
+      [
+        {
+          internalType: 'bytes[]',
+          name: 'data',
+          type: 'bytes[]',
+        },
+      ],
+      [
+        {
+          internalType: 'bytes[]',
+          name: 'results',
+          type: 'bytes[]',
+        },
+      ],
+    ],
+    params: [options.data],
+  })
+}
 
 /**
  * Represents the parameters for the "multicallWithNodeCheck" function.
  */
 export type MulticallWithNodeCheckParams = {
-  nodehash: AbiParameterToPrimitiveType<{"internalType":"bytes32","name":"nodehash","type":"bytes32"}>
-data: AbiParameterToPrimitiveType<{"internalType":"bytes[]","name":"data","type":"bytes[]"}>
-};
+  nodehash: AbiParameterToPrimitiveType<{
+    internalType: 'bytes32'
+    name: 'nodehash'
+    type: 'bytes32'
+  }>
+  data: AbiParameterToPrimitiveType<{
+    internalType: 'bytes[]'
+    name: 'data'
+    type: 'bytes[]'
+  }>
+}
 
 /**
  * Calls the "multicallWithNodeCheck" function on the contract.
@@ -1438,40 +1633,51 @@ export function multicallWithNodeCheck(
   return prepareContractCall({
     contract: options.contract,
     method: [
-  "0xe32954eb",
-  [
-    {
-      "internalType": "bytes32",
-      "name": "nodehash",
-      "type": "bytes32"
-    },
-    {
-      "internalType": "bytes[]",
-      "name": "data",
-      "type": "bytes[]"
-    }
-  ],
-  [
-    {
-      "internalType": "bytes[]",
-      "name": "results",
-      "type": "bytes[]"
-    }
-  ]
-],
-    params: [options.nodehash, options.data]
-  });
-};
-
+      '0xe32954eb',
+      [
+        {
+          internalType: 'bytes32',
+          name: 'nodehash',
+          type: 'bytes32',
+        },
+        {
+          internalType: 'bytes[]',
+          name: 'data',
+          type: 'bytes[]',
+        },
+      ],
+      [
+        {
+          internalType: 'bytes[]',
+          name: 'results',
+          type: 'bytes[]',
+        },
+      ],
+    ],
+    params: [options.nodehash, options.data],
+  })
+}
 
 /**
  * Represents the parameters for the "setABI" function.
  */
 export type SetABIParams = {
-  node: AbiParameterToPrimitiveType<{"internalType":"bytes32","name":"node","type":"bytes32"}>
-contentType: AbiParameterToPrimitiveType<{"internalType":"uint256","name":"contentType","type":"uint256"}>
-data: AbiParameterToPrimitiveType<{"internalType":"bytes","name":"data","type":"bytes"}>
-};
+  node: AbiParameterToPrimitiveType<{
+    internalType: 'bytes32'
+    name: 'node'
+    type: 'bytes32'
+  }>
+  contentType: AbiParameterToPrimitiveType<{
+    internalType: 'uint256'
+    name: 'contentType'
+    type: 'uint256'
+  }>
+  data: AbiParameterToPrimitiveType<{
+    internalType: 'bytes'
+    name: 'data'
+    type: 'bytes'
+  }>
+}
 
 /**
  * Calls the "setABI" function on the contract.
@@ -1492,45 +1698,54 @@ data: AbiParameterToPrimitiveType<{"internalType":"bytes","name":"data","type":"
  *
  * ```
  */
-export function setABI(
-  options: BaseTransactionOptions<SetABIParams>
-) {
+export function setABI(options: BaseTransactionOptions<SetABIParams>) {
   return prepareContractCall({
     contract: options.contract,
     method: [
-  "0x623195b0",
-  [
-    {
-      "internalType": "bytes32",
-      "name": "node",
-      "type": "bytes32"
-    },
-    {
-      "internalType": "uint256",
-      "name": "contentType",
-      "type": "uint256"
-    },
-    {
-      "internalType": "bytes",
-      "name": "data",
-      "type": "bytes"
-    }
-  ],
-  []
-],
-    params: [options.node, options.contentType, options.data]
-  });
-};
-
+      '0x623195b0',
+      [
+        {
+          internalType: 'bytes32',
+          name: 'node',
+          type: 'bytes32',
+        },
+        {
+          internalType: 'uint256',
+          name: 'contentType',
+          type: 'uint256',
+        },
+        {
+          internalType: 'bytes',
+          name: 'data',
+          type: 'bytes',
+        },
+      ],
+      [],
+    ],
+    params: [options.node, options.contentType, options.data],
+  })
+}
 
 /**
  * Represents the parameters for the "setAddr" function.
  */
 export type SetAddrParams = {
-  node: AbiParameterToPrimitiveType<{"internalType":"bytes32","name":"node","type":"bytes32"}>
-coinType: AbiParameterToPrimitiveType<{"internalType":"uint256","name":"coinType","type":"uint256"}>
-a: AbiParameterToPrimitiveType<{"internalType":"bytes","name":"a","type":"bytes"}>
-};
+  node: AbiParameterToPrimitiveType<{
+    internalType: 'bytes32'
+    name: 'node'
+    type: 'bytes32'
+  }>
+  coinType: AbiParameterToPrimitiveType<{
+    internalType: 'uint256'
+    name: 'coinType'
+    type: 'uint256'
+  }>
+  a: AbiParameterToPrimitiveType<{
+    internalType: 'bytes'
+    name: 'a'
+    type: 'bytes'
+  }>
+}
 
 /**
  * Calls the "setAddr" function on the contract.
@@ -1551,44 +1766,49 @@ a: AbiParameterToPrimitiveType<{"internalType":"bytes","name":"a","type":"bytes"
  *
  * ```
  */
-export function setAddr(
-  options: BaseTransactionOptions<SetAddrParams>
-) {
+export function setAddr(options: BaseTransactionOptions<SetAddrParams>) {
   return prepareContractCall({
     contract: options.contract,
     method: [
-  "0x8b95dd71",
-  [
-    {
-      "internalType": "bytes32",
-      "name": "node",
-      "type": "bytes32"
-    },
-    {
-      "internalType": "uint256",
-      "name": "coinType",
-      "type": "uint256"
-    },
-    {
-      "internalType": "bytes",
-      "name": "a",
-      "type": "bytes"
-    }
-  ],
-  []
-],
-    params: [options.node, options.coinType, options.a]
-  });
-};
-
+      '0x8b95dd71',
+      [
+        {
+          internalType: 'bytes32',
+          name: 'node',
+          type: 'bytes32',
+        },
+        {
+          internalType: 'uint256',
+          name: 'coinType',
+          type: 'uint256',
+        },
+        {
+          internalType: 'bytes',
+          name: 'a',
+          type: 'bytes',
+        },
+      ],
+      [],
+    ],
+    params: [options.node, options.coinType, options.a],
+  })
+}
 
 /**
  * Represents the parameters for the "setApprovalForAll" function.
  */
 export type SetApprovalForAllParams = {
-  operator: AbiParameterToPrimitiveType<{"internalType":"address","name":"operator","type":"address"}>
-approved: AbiParameterToPrimitiveType<{"internalType":"bool","name":"approved","type":"bool"}>
-};
+  operator: AbiParameterToPrimitiveType<{
+    internalType: 'address'
+    name: 'operator'
+    type: 'address'
+  }>
+  approved: AbiParameterToPrimitiveType<{
+    internalType: 'bool'
+    name: 'approved'
+    type: 'bool'
+  }>
+}
 
 /**
  * Calls the "setApprovalForAll" function on the contract.
@@ -1614,33 +1834,40 @@ export function setApprovalForAll(
   return prepareContractCall({
     contract: options.contract,
     method: [
-  "0xa22cb465",
-  [
-    {
-      "internalType": "address",
-      "name": "operator",
-      "type": "address"
-    },
-    {
-      "internalType": "bool",
-      "name": "approved",
-      "type": "bool"
-    }
-  ],
-  []
-],
-    params: [options.operator, options.approved]
-  });
-};
-
+      '0xa22cb465',
+      [
+        {
+          internalType: 'address',
+          name: 'operator',
+          type: 'address',
+        },
+        {
+          internalType: 'bool',
+          name: 'approved',
+          type: 'bool',
+        },
+      ],
+      [],
+    ],
+    params: [options.operator, options.approved],
+  })
+}
 
 /**
  * Represents the parameters for the "setContenthash" function.
  */
 export type SetContenthashParams = {
-  node: AbiParameterToPrimitiveType<{"internalType":"bytes32","name":"node","type":"bytes32"}>
-hash: AbiParameterToPrimitiveType<{"internalType":"bytes","name":"hash","type":"bytes"}>
-};
+  node: AbiParameterToPrimitiveType<{
+    internalType: 'bytes32'
+    name: 'node'
+    type: 'bytes32'
+  }>
+  hash: AbiParameterToPrimitiveType<{
+    internalType: 'bytes'
+    name: 'hash'
+    type: 'bytes'
+  }>
+}
 
 /**
  * Calls the "setContenthash" function on the contract.
@@ -1666,33 +1893,40 @@ export function setContenthash(
   return prepareContractCall({
     contract: options.contract,
     method: [
-  "0x304e6ade",
-  [
-    {
-      "internalType": "bytes32",
-      "name": "node",
-      "type": "bytes32"
-    },
-    {
-      "internalType": "bytes",
-      "name": "hash",
-      "type": "bytes"
-    }
-  ],
-  []
-],
-    params: [options.node, options.hash]
-  });
-};
-
+      '0x304e6ade',
+      [
+        {
+          internalType: 'bytes32',
+          name: 'node',
+          type: 'bytes32',
+        },
+        {
+          internalType: 'bytes',
+          name: 'hash',
+          type: 'bytes',
+        },
+      ],
+      [],
+    ],
+    params: [options.node, options.hash],
+  })
+}
 
 /**
  * Represents the parameters for the "setDNSRecords" function.
  */
 export type SetDNSRecordsParams = {
-  node: AbiParameterToPrimitiveType<{"internalType":"bytes32","name":"node","type":"bytes32"}>
-data: AbiParameterToPrimitiveType<{"internalType":"bytes","name":"data","type":"bytes"}>
-};
+  node: AbiParameterToPrimitiveType<{
+    internalType: 'bytes32'
+    name: 'node'
+    type: 'bytes32'
+  }>
+  data: AbiParameterToPrimitiveType<{
+    internalType: 'bytes'
+    name: 'data'
+    type: 'bytes'
+  }>
+}
 
 /**
  * Calls the "setDNSRecords" function on the contract.
@@ -1718,34 +1952,45 @@ export function setDNSRecords(
   return prepareContractCall({
     contract: options.contract,
     method: [
-  "0x0af179d7",
-  [
-    {
-      "internalType": "bytes32",
-      "name": "node",
-      "type": "bytes32"
-    },
-    {
-      "internalType": "bytes",
-      "name": "data",
-      "type": "bytes"
-    }
-  ],
-  []
-],
-    params: [options.node, options.data]
-  });
-};
-
+      '0x0af179d7',
+      [
+        {
+          internalType: 'bytes32',
+          name: 'node',
+          type: 'bytes32',
+        },
+        {
+          internalType: 'bytes',
+          name: 'data',
+          type: 'bytes',
+        },
+      ],
+      [],
+    ],
+    params: [options.node, options.data],
+  })
+}
 
 /**
  * Represents the parameters for the "setInterface" function.
  */
 export type SetInterfaceParams = {
-  node: AbiParameterToPrimitiveType<{"internalType":"bytes32","name":"node","type":"bytes32"}>
-interfaceID: AbiParameterToPrimitiveType<{"internalType":"bytes4","name":"interfaceID","type":"bytes4"}>
-implementer: AbiParameterToPrimitiveType<{"internalType":"address","name":"implementer","type":"address"}>
-};
+  node: AbiParameterToPrimitiveType<{
+    internalType: 'bytes32'
+    name: 'node'
+    type: 'bytes32'
+  }>
+  interfaceID: AbiParameterToPrimitiveType<{
+    internalType: 'bytes4'
+    name: 'interfaceID'
+    type: 'bytes4'
+  }>
+  implementer: AbiParameterToPrimitiveType<{
+    internalType: 'address'
+    name: 'implementer'
+    type: 'address'
+  }>
+}
 
 /**
  * Calls the "setInterface" function on the contract.
@@ -1772,38 +2017,45 @@ export function setInterface(
   return prepareContractCall({
     contract: options.contract,
     method: [
-  "0xe59d895d",
-  [
-    {
-      "internalType": "bytes32",
-      "name": "node",
-      "type": "bytes32"
-    },
-    {
-      "internalType": "bytes4",
-      "name": "interfaceID",
-      "type": "bytes4"
-    },
-    {
-      "internalType": "address",
-      "name": "implementer",
-      "type": "address"
-    }
-  ],
-  []
-],
-    params: [options.node, options.interfaceID, options.implementer]
-  });
-};
-
+      '0xe59d895d',
+      [
+        {
+          internalType: 'bytes32',
+          name: 'node',
+          type: 'bytes32',
+        },
+        {
+          internalType: 'bytes4',
+          name: 'interfaceID',
+          type: 'bytes4',
+        },
+        {
+          internalType: 'address',
+          name: 'implementer',
+          type: 'address',
+        },
+      ],
+      [],
+    ],
+    params: [options.node, options.interfaceID, options.implementer],
+  })
+}
 
 /**
  * Represents the parameters for the "setName" function.
  */
 export type SetNameParams = {
-  node: AbiParameterToPrimitiveType<{"internalType":"bytes32","name":"node","type":"bytes32"}>
-newName: AbiParameterToPrimitiveType<{"internalType":"string","name":"newName","type":"string"}>
-};
+  node: AbiParameterToPrimitiveType<{
+    internalType: 'bytes32'
+    name: 'node'
+    type: 'bytes32'
+  }>
+  newName: AbiParameterToPrimitiveType<{
+    internalType: 'string'
+    name: 'newName'
+    type: 'string'
+  }>
+}
 
 /**
  * Calls the "setName" function on the contract.
@@ -1823,40 +2075,49 @@ newName: AbiParameterToPrimitiveType<{"internalType":"string","name":"newName","
  *
  * ```
  */
-export function setName(
-  options: BaseTransactionOptions<SetNameParams>
-) {
+export function setName(options: BaseTransactionOptions<SetNameParams>) {
   return prepareContractCall({
     contract: options.contract,
     method: [
-  "0x77372213",
-  [
-    {
-      "internalType": "bytes32",
-      "name": "node",
-      "type": "bytes32"
-    },
-    {
-      "internalType": "string",
-      "name": "newName",
-      "type": "string"
-    }
-  ],
-  []
-],
-    params: [options.node, options.newName]
-  });
-};
-
+      '0x77372213',
+      [
+        {
+          internalType: 'bytes32',
+          name: 'node',
+          type: 'bytes32',
+        },
+        {
+          internalType: 'string',
+          name: 'newName',
+          type: 'string',
+        },
+      ],
+      [],
+    ],
+    params: [options.node, options.newName],
+  })
+}
 
 /**
  * Represents the parameters for the "setPubkey" function.
  */
 export type SetPubkeyParams = {
-  node: AbiParameterToPrimitiveType<{"internalType":"bytes32","name":"node","type":"bytes32"}>
-x: AbiParameterToPrimitiveType<{"internalType":"bytes32","name":"x","type":"bytes32"}>
-y: AbiParameterToPrimitiveType<{"internalType":"bytes32","name":"y","type":"bytes32"}>
-};
+  node: AbiParameterToPrimitiveType<{
+    internalType: 'bytes32'
+    name: 'node'
+    type: 'bytes32'
+  }>
+  x: AbiParameterToPrimitiveType<{
+    internalType: 'bytes32'
+    name: 'x'
+    type: 'bytes32'
+  }>
+  y: AbiParameterToPrimitiveType<{
+    internalType: 'bytes32'
+    name: 'y'
+    type: 'bytes32'
+  }>
+}
 
 /**
  * Calls the "setPubkey" function on the contract.
@@ -1877,45 +2138,54 @@ y: AbiParameterToPrimitiveType<{"internalType":"bytes32","name":"y","type":"byte
  *
  * ```
  */
-export function setPubkey(
-  options: BaseTransactionOptions<SetPubkeyParams>
-) {
+export function setPubkey(options: BaseTransactionOptions<SetPubkeyParams>) {
   return prepareContractCall({
     contract: options.contract,
     method: [
-  "0x29cd62ea",
-  [
-    {
-      "internalType": "bytes32",
-      "name": "node",
-      "type": "bytes32"
-    },
-    {
-      "internalType": "bytes32",
-      "name": "x",
-      "type": "bytes32"
-    },
-    {
-      "internalType": "bytes32",
-      "name": "y",
-      "type": "bytes32"
-    }
-  ],
-  []
-],
-    params: [options.node, options.x, options.y]
-  });
-};
-
+      '0x29cd62ea',
+      [
+        {
+          internalType: 'bytes32',
+          name: 'node',
+          type: 'bytes32',
+        },
+        {
+          internalType: 'bytes32',
+          name: 'x',
+          type: 'bytes32',
+        },
+        {
+          internalType: 'bytes32',
+          name: 'y',
+          type: 'bytes32',
+        },
+      ],
+      [],
+    ],
+    params: [options.node, options.x, options.y],
+  })
+}
 
 /**
  * Represents the parameters for the "setText" function.
  */
 export type SetTextParams = {
-  node: AbiParameterToPrimitiveType<{"internalType":"bytes32","name":"node","type":"bytes32"}>
-key: AbiParameterToPrimitiveType<{"internalType":"string","name":"key","type":"string"}>
-value: AbiParameterToPrimitiveType<{"internalType":"string","name":"value","type":"string"}>
-};
+  node: AbiParameterToPrimitiveType<{
+    internalType: 'bytes32'
+    name: 'node'
+    type: 'bytes32'
+  }>
+  key: AbiParameterToPrimitiveType<{
+    internalType: 'string'
+    name: 'key'
+    type: 'string'
+  }>
+  value: AbiParameterToPrimitiveType<{
+    internalType: 'string'
+    name: 'value'
+    type: 'string'
+  }>
+}
 
 /**
  * Calls the "setText" function on the contract.
@@ -1936,44 +2206,49 @@ value: AbiParameterToPrimitiveType<{"internalType":"string","name":"value","type
  *
  * ```
  */
-export function setText(
-  options: BaseTransactionOptions<SetTextParams>
-) {
+export function setText(options: BaseTransactionOptions<SetTextParams>) {
   return prepareContractCall({
     contract: options.contract,
     method: [
-  "0x10f13a8c",
-  [
-    {
-      "internalType": "bytes32",
-      "name": "node",
-      "type": "bytes32"
-    },
-    {
-      "internalType": "string",
-      "name": "key",
-      "type": "string"
-    },
-    {
-      "internalType": "string",
-      "name": "value",
-      "type": "string"
-    }
-  ],
-  []
-],
-    params: [options.node, options.key, options.value]
-  });
-};
-
+      '0x10f13a8c',
+      [
+        {
+          internalType: 'bytes32',
+          name: 'node',
+          type: 'bytes32',
+        },
+        {
+          internalType: 'string',
+          name: 'key',
+          type: 'string',
+        },
+        {
+          internalType: 'string',
+          name: 'value',
+          type: 'string',
+        },
+      ],
+      [],
+    ],
+    params: [options.node, options.key, options.value],
+  })
+}
 
 /**
  * Represents the parameters for the "setZonehash" function.
  */
 export type SetZonehashParams = {
-  node: AbiParameterToPrimitiveType<{"internalType":"bytes32","name":"node","type":"bytes32"}>
-hash: AbiParameterToPrimitiveType<{"internalType":"bytes","name":"hash","type":"bytes"}>
-};
+  node: AbiParameterToPrimitiveType<{
+    internalType: 'bytes32'
+    name: 'node'
+    type: 'bytes32'
+  }>
+  hash: AbiParameterToPrimitiveType<{
+    internalType: 'bytes'
+    name: 'hash'
+    type: 'bytes'
+  }>
+}
 
 /**
  * Calls the "setZonehash" function on the contract.
@@ -1999,23 +2274,21 @@ export function setZonehash(
   return prepareContractCall({
     contract: options.contract,
     method: [
-  "0xce3decdc",
-  [
-    {
-      "internalType": "bytes32",
-      "name": "node",
-      "type": "bytes32"
-    },
-    {
-      "internalType": "bytes",
-      "name": "hash",
-      "type": "bytes"
-    }
-  ],
-  []
-],
-    params: [options.node, options.hash]
-  });
-};
-
-
+      '0xce3decdc',
+      [
+        {
+          internalType: 'bytes32',
+          name: 'node',
+          type: 'bytes32',
+        },
+        {
+          internalType: 'bytes',
+          name: 'hash',
+          type: 'bytes',
+        },
+      ],
+      [],
+    ],
+    params: [options.node, options.hash],
+  })
+}
