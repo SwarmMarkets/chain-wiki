@@ -90,6 +90,9 @@
     "stream-http": "^3.2.0",
     "typechain": "^8.3.2"
   },
+  "resolutions": {
+    "strip-ansi": "^5.2.0"
+  },
   "scripts": {
     "start": "craco start",
     "build": "craco build",
