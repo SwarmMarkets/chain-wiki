@@ -25,8 +25,12 @@ import { PreparedTransaction } from 'thirdweb'
 import { useIpfsUpload } from 'src/hooks/web3/useIpfsUpload'
 import useSX1155NFT from 'src/hooks/contracts/nft/useSX1155NFT'
 import useSendBatchTxs from 'src/hooks/web3/useSendBatchTxs'
+import { generatePath, Link } from 'react-router-dom'
+import RoutePaths from 'src/shared/enums/routes-paths'
+import { useTranslation } from 'react-i18next'
 
 const useEdit = (readonly?: boolean) => {
+  const { t } = useTranslation('common')
   const { nftId } = useNFTIdParam()
   const { nft, loadingNft, refetchingNft } = useNFT(nftId, {
     fetchFullData: true,
@@ -183,7 +187,25 @@ const useEdit = (readonly?: boolean) => {
         }
       }
 
-      const receipt = await sendBatchTxs(txs)
+      const siteUrl = generatePath(RoutePaths.NFT_READ, {
+        nftIdOrSlug: nft?.slug || '',
+      })
+
+      const receipt = await sendBatchTxs(txs, {
+        successMessage: (
+          <>
+            {t('toasts.siteUpdated', { ns: 'common' })}{' '}
+            <Link
+              to={siteUrl}
+              target='_blank'
+              className='underline text-main-accent hover:text-main'
+            >
+              {t('toasts.viewSite', { ns: 'common' })}
+            </Link>
+          </>
+        ),
+        errorMessage: t('toasts.merge_error'),
+      })
 
       if (
         receipt?.status == SafeClientTxStatus.EXECUTED ||
