@@ -3,9 +3,8 @@ import clsx from 'clsx'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import useNFTUpdate from 'src/hooks/useNFTUpdate'
-import { isSameEthereumAddress } from 'src/shared/utils'
+import { isSameEthereumAddress, NFTsQueryFullData } from 'src/shared/utils'
 import dayjs from 'src/shared/utils/dayjsConfig'
-import { NFTsQueryFullData } from 'src/shared/utils/ipfs/types'
 import RequirePermissions from '../common/RequirePermissions'
 import UploadFileButton from '../common/UploadFileButton'
 import Icon from '../ui-kit/Icon/Icon'
@@ -48,7 +47,10 @@ const NftCard: React.FC<NftCardProps> = ({ nft, className }) => {
         className
       )}
     >
-      <div className='flex justify-center items-center h-16 bg-gray-100 rounded-lg'>
+      <div
+        className='flex justify-center items-center h-16 rounded-lg bg-gray-100'
+        style={{ backgroundColor: nft.logoUrl && nft.headerBackground }}
+      >
         {nft.logoUrl ? (
           <img
             src={nft.logoUrl}
@@ -59,7 +61,7 @@ const NftCard: React.FC<NftCardProps> = ({ nft, className }) => {
           <RequirePermissions nftAddress={nft.id} canUpdateContent>
             <UploadFileButton
               size='sm'
-              isLoading={tx.txLoading}
+              isLoading={tx.isPending}
               onUpload={handleUploadLogo}
               variant='outlined'
             >
