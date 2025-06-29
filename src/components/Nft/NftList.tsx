@@ -24,7 +24,7 @@ const NftList: React.FC<NftListProps> = ({
   return (
     <div
       className={clsx(
-        'grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-4',
+        'grid grid-cols-[repeat(auto-fit,minmax(250px,400px))] gap-4',
         className
       )}
     >
@@ -33,7 +33,11 @@ const NftList: React.FC<NftListProps> = ({
       ) : (
         nfts?.map(nft => (
           <Link
-            to={to ? to(nft) : generatePath(RoutePaths.NFT, { nftIdOrSlug: nft.slug })}
+            to={
+              to
+                ? to(nft)
+                : generatePath(RoutePaths.NFT, { nftIdOrSlug: nft.slug })
+            }
             key={nft.id}
           >
             <NftCard nft={nft} className='h-full' />
