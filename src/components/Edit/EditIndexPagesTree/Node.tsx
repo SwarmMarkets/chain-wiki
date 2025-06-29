@@ -2,7 +2,7 @@ import React from 'react'
 import EditIndexPagesItem from '../EditIndexPageItem'
 import { EditNodeModel } from './types'
 
-const TREE_X_OFFSET = 22
+const TREE_X_OFFSET = 10
 
 const Node: React.FC<{
   to?: string
@@ -33,6 +33,7 @@ const Node: React.FC<{
   active = false,
   editable = true,
   readonly = false,
+  treeData,
 }) => {
   const indent = depth * TREE_X_OFFSET
 
@@ -40,6 +41,12 @@ const Node: React.FC<{
     e.stopPropagation()
     onToggle?.(node.id)
   }
+
+  const firstGroupIndex = treeData.findIndex(n => n.data?.type === 'group')
+  const isFirstGroup =
+    isGroup &&
+    firstGroupIndex === 0 &&
+    treeData[firstGroupIndex]?.id === node.id
 
   return (
     <div
@@ -61,6 +68,9 @@ const Node: React.FC<{
         onToggle={handleToggle}
         hasChild={hasChild}
         editable={editable}
+        depth={depth}
+        parent={parent}
+        isFirstGroup={isFirstGroup}
       />
     </div>
   )
