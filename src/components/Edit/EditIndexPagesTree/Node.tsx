@@ -50,9 +50,6 @@ const Node: React.FC<{
 
   return (
     <div
-      // className={`${styles.nodeWrapper} tree-node ${
-      //   node.droppable && isDropTarget ? styles.dropTarget : ''
-      // }`}
       style={{ marginInlineStart: parent?.data?.type === 'group' ? 0 : indent }}
     >
       <EditIndexPagesItem
