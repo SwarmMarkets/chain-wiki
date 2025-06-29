@@ -283,7 +283,7 @@ const useEdit = (readonly?: boolean) => {
     const hiddenIndexPagesList: EditNodeModel = {
       id: HIDDEN_INDEX_PAGES_ID,
       droppable: true,
-      text: 'Hidden index pages',
+      text: 'Hidden pages',
       parent: 0,
     }
     const hiddenIndexPagesNodes = hiddenIndexPages.map<EditNodeModel>(ip => {
