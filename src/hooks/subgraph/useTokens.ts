@@ -5,9 +5,12 @@ import {
   TokensQuery as TokensQueryGQL,
   TokensQueryVariables,
 } from 'src/queries/gql/graphql'
-import { TokensQueryFullData } from 'src/shared/utils/ipfs/types'
-import { useStorage } from '@thirdweb-dev/react'
+import {
+  IpfsTokenContent,
+  TokensQueryFullData,
+} from 'src/shared/utils/ipfs/types'
 import { TokensQuery } from 'src/queries'
+import { useIpfsDownload } from '../web3/useIpfsDownload'
 
 const PAGE_LIMIT = 10
 const POLL_INTERVAL = 15000
@@ -20,7 +23,7 @@ const useTokens = (
   options?: QueryHookOptions<TokensQueryGQL, TokensQueryVariables>,
   config?: UseTokensConfig
 ) => {
-  const storage = useStorage()
+  const { download } = useIpfsDownload()
   const [fullData, setFullData] = useState<TokensQueryFullData[] | null>(null)
 
   const { data, loading, error, fetchMore, networkStatus, refetch } = useQuery(
@@ -40,17 +43,13 @@ const useTokens = (
           return
         }
 
-        const promises = data.tokens.map(
-          item => item.uri && storage?.downloadJSON(item.uri)
+        const promises = data.tokens.map(item =>
+          download<IpfsTokenContent>(item.uri)
         )
 
         const additionalData = await Promise.all(promises)
 
         const fullData = data.tokens.map((item, index) => {
-          if (additionalData[index].error) {
-            return item
-          }
-
           return {
             ...item,
             ipfsContent: additionalData[index],

@@ -8,8 +8,11 @@ import {
   TokenUriUpdatesQueryVariables,
 } from 'src/queries/gql/graphql'
 import { unifyAddressToId } from 'src/shared/utils'
-import { useStorage } from '@thirdweb-dev/react'
-import { TokenUriUpdatesQueryFullData } from 'src/shared/utils/ipfs/types'
+import {
+  IpfsTokenContent,
+  TokenUriUpdatesQueryFullData,
+} from 'src/shared/utils/ipfs/types'
+import { useIpfsDownload } from '../web3/useIpfsDownload'
 
 const PAGE_LIMIT = 10
 const POLL_INTERVAL = 15000
@@ -29,7 +32,8 @@ const useTokenURIUpdates = (
   const [fullData, setFullData] = useState<
     TokenUriUpdatesQueryFullData[] | null
   >(null)
-  const storage = useStorage()
+
+  const { download } = useIpfsDownload()
 
   const { data, loading, error, networkStatus, refetch, fetchMore } = useQuery(
     TokenURIUpdatesQuery,
@@ -53,19 +57,15 @@ const useTokenURIUpdates = (
         }
 
         const newUriPromises = data.tokenURIUpdates.map(item =>
-          storage?.downloadJSON(item.newURI)
+          download<IpfsTokenContent>(item.newURI)
         )
         const prevUriPromises = data.tokenURIUpdates.map(item =>
-          storage?.downloadJSON(item.previousURI)
+          download<IpfsTokenContent>(item.previousURI)
         )
         const newUriData = await Promise.all(newUriPromises)
         const prevUriData = await Promise.all(prevUriPromises)
 
         const fullData = data.tokenURIUpdates.map((item, index) => {
-          if (newUriData[index].error || prevUriData[index].error) {
-            return item
-          }
-
           return {
             ...item,
             ipfsNewUriContent: newUriData[index],

@@ -11,7 +11,6 @@ import { Roles } from 'src/shared/enums'
 import RoutePaths, { RoutePathSetting } from 'src/shared/enums/routes-paths'
 import { NFTWithMetadata } from 'src/shared/utils'
 import NftHeaderSkeleton from './NftHeaderSkeleton'
-import { useToastManager } from 'src/hooks/useToastManager'
 import { useTranslation } from 'react-i18next'
 import Icon from 'src/components/ui-kit/Icon/Icon'
 import useNFTIdParam from 'src/hooks/useNftIdParam'
@@ -31,38 +30,12 @@ const NftLayoutHeader: React.FC<NftLayoutHeaderProps> = ({ nft, loading }) => {
   const { smartAccountPermissions } = useNftPermissions(nftId)
   const { grantRole, txLoading } = useNFTRoleManager(nftId)
   const { merge, mergeLoading } = useEdit()
-  const { addToast } = useToastManager()
 
   const isEditMode = window.location.pathname.includes('edit')
 
   const grantRoleForSmartAccount = async () => {
     if (smartAccountInfo?.address) {
       grantRole(smartAccountInfo?.address, Roles.EDITOR)
-    }
-  }
-
-  const handleMerge = async () => {
-    try {
-      await merge()
-      const siteUrl = generatePath(RoutePaths.NFT_READ, {
-        nftIdOrSlug: nft?.slug || '',
-      })
-
-      addToast(
-        <>
-          {t('toasts.siteUpdated', { ns: 'common' })}{' '}
-          <Link
-            to={siteUrl}
-            target='_blank'
-            className='underline text-main-accent hover:text-main'
-          >
-            {t('toasts.viewSite', { ns: 'common' })}
-          </Link>
-        </>,
-        { type: 'success' }
-      )
-    } catch (error) {
-      addToast(t('toasts.merge_error', { ns: 'common' }), { type: 'error' })
     }
   }
 
@@ -140,7 +113,7 @@ const NftLayoutHeader: React.FC<NftLayoutHeaderProps> = ({ nft, loading }) => {
               <Button
                 size='sm'
                 loading={mergeLoading}
-                onClick={handleMerge}
+                onClick={merge}
                 disabled={!smartAccountPermissions.canUpdateContent}
               >
                 {t('publish', { ns: 'buttons' })}

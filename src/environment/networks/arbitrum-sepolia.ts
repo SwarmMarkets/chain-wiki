@@ -1,6 +1,6 @@
 import { NetworkConfiguration } from 'src/shared/types/network-configuration'
-import { ArbitrumSepolia, Chain } from '@thirdweb-dev/chains'
 import { environment } from 'src/environment'
+import { arbitrumSepolia, Chain } from 'thirdweb/chains'
 
 export const arbitrumSepoliaEnvironment: NetworkConfiguration = Object.freeze({
   subgraphURL: `https://gateway.thegraph.com/api/${environment.subgraphApiKey}/subgraphs/id/5e8ucLJSGPd2fy54u8GuaLctKHSWPctUPLYqtTHpL1JX`,
@@ -9,10 +9,4 @@ export const arbitrumSepoliaEnvironment: NetworkConfiguration = Object.freeze({
   },
 })
 
-export const arbitrumSepoliaChainConfig: Chain = {
-  ...ArbitrumSepolia,
-  // override because explorer url is not correct in thirdweb
-  explorers: [
-    { ...ArbitrumSepolia.explorers[0], url: 'https://sepolia.arbiscan.io' },
-  ],
-}
+export const arbitrumSepoliaChainConfig: Chain = arbitrumSepolia

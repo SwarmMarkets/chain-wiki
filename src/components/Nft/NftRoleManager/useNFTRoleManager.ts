@@ -1,4 +1,5 @@
-import { useSX1155NFT } from 'src/hooks/contracts/useSX1155NFT'
+import useSX1155NFT from 'src/hooks/contracts/nft/useSX1155NFT'
+import useSendTx from 'src/hooks/web3/useSendTx'
 import { Roles } from 'src/shared/enums/roles'
 
 const DEFAULT_ADMIN_ROLE = BigInt(
@@ -15,14 +16,24 @@ const rolesMapping = {
 }
 
 const useNFTRoleManager = (nftAddress: string) => {
-  const { call, txLoading } = useSX1155NFT(nftAddress)
+  const { prepareGrantRoleTx, prepareRevokeRoleTx } = useSX1155NFT(nftAddress)
+  const { sendTx, isPending } = useSendTx()
 
   const grantRole = async (to: string, role: Roles): Promise<boolean> => {
     const roleToGrant = rolesMapping[role]
 
     try {
-      await call('grantRole', [roleToGrant, to])
-      return true
+      const tx = prepareGrantRoleTx({
+        account: to,
+        role: roleToGrant,
+      })
+      const result = await sendTx(tx)
+
+      if (result?.status === 'success') {
+        return true
+      } else {
+        throw new Error('Failed to grant role')
+      }
     } catch (err) {
       console.error('Failed to grant role:', err)
       return false
@@ -33,8 +44,17 @@ const useNFTRoleManager = (nftAddress: string) => {
     const roleToRevoke = rolesMapping[role]
 
     try {
-      await call('revokeRole', [roleToRevoke, from])
-      return true
+      const tx = prepareRevokeRoleTx({
+        account: from,
+        role: roleToRevoke,
+      })
+      const result = await sendTx(tx)
+
+      if (result?.status === 'success') {
+        return true
+      } else {
+        throw new Error('Failed to revoke role')
+      }
     } catch (err) {
       console.error('Failed to revoke role:', err)
       return false
@@ -44,7 +64,7 @@ const useNFTRoleManager = (nftAddress: string) => {
   return {
     grantRole,
     revokeRole,
-    txLoading,
+    txLoading: isPending,
   }
 }
 

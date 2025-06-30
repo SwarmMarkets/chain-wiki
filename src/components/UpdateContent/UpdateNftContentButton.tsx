@@ -36,7 +36,6 @@ const UpdateNftContentButton: React.FC<UpdateNftContentButtonProps> = ({
     uploadIndexPagesContent,
     uploadHeaderLinksContent,
     signTransaction,
-    tx,
     storageUpload,
   } = useNFTUpdate(nftAddress)
 
@@ -71,7 +70,6 @@ const UpdateNftContentButton: React.FC<UpdateNftContentButtonProps> = ({
 
     if (res) {
       onSuccess?.()
-      tx.resetCallState()
       storageUpload.resetStorageState()
     }
   }

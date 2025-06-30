@@ -1,11 +1,10 @@
-import { useAddress } from '@thirdweb-dev/react'
+import { useActiveAccount } from 'thirdweb/react'
 import clsx from 'clsx'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import useNFTUpdate from 'src/hooks/useNFTUpdate'
-import { isSameEthereumAddress } from 'src/shared/utils'
+import { isSameEthereumAddress, NFTsQueryFullData } from 'src/shared/utils'
 import dayjs from 'src/shared/utils/dayjsConfig'
-import { NFTsQueryFullData } from 'src/shared/utils/ipfs/types'
 import RequirePermissions from '../common/RequirePermissions'
 import UploadFileButton from '../common/UploadFileButton'
 import Icon from '../ui-kit/Icon/Icon'
@@ -21,21 +20,21 @@ interface NftCardProps {
 
 const NftCard: React.FC<NftCardProps> = ({ nft, className }) => {
   const { t } = useTranslation(['nft', 'nfts', 'buttons'])
-  const account = useAddress()
+  const account = useActiveAccount()
   const { signTransaction, tx } = useNFTUpdate(nft.id)
 
   const roles = useMemo(() => {
     const isAdmin = nft.admins.some(address =>
-      isSameEthereumAddress(address, account)
+      isSameEthereumAddress(address, account?.address)
     )
     const isEditor = nft.editors.some(address =>
-      isSameEthereumAddress(address, account)
+      isSameEthereumAddress(address, account?.address)
     )
     const roles = []
     if (isAdmin) roles.push(t('filter.admin', { ns: 'nfts' }))
     if (isEditor) roles.push(t('filter.editor', { ns: 'nfts' }))
     return roles
-  }, [account, nft.admins, nft.editors, t])
+  }, [account?.address, nft.admins, nft.editors, t])
 
   const handleUploadLogo = async (url: string) => {
     await signTransaction({ logoUrl: url })
@@ -48,7 +47,10 @@ const NftCard: React.FC<NftCardProps> = ({ nft, className }) => {
         className
       )}
     >
-      <div className='flex justify-center items-center h-16 bg-gray-100 rounded-lg'>
+      <div
+        className='flex justify-center items-center h-16 rounded-lg bg-gray-100'
+        style={{ backgroundColor: nft.logoUrl && nft.headerBackground }}
+      >
         {nft.logoUrl ? (
           <img
             src={nft.logoUrl}
@@ -59,7 +61,7 @@ const NftCard: React.FC<NftCardProps> = ({ nft, className }) => {
           <RequirePermissions nftAddress={nft.id} canUpdateContent>
             <UploadFileButton
               size='sm'
-              isLoading={tx.txLoading}
+              isLoading={tx.isPending}
               onUpload={handleUploadLogo}
               variant='outlined'
             >

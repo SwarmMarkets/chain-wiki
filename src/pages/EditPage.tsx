@@ -7,10 +7,6 @@ import { useEditingStore } from 'src/shared/store/editing-store'
 
 const EditPage = () => {
   const { nft, loading, fullTokens } = useEdit()
-  console.log(
-    nft?.indexPagesContent?.indexPages,
-    'nft?.indexPagesContent?.indexPages'
-  )
 
   const showSkeleton = loading
   const allLoaded = !loading

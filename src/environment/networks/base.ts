@@ -1,5 +1,5 @@
 import { NetworkConfiguration } from 'src/shared/types/network-configuration'
-import { Base, Chain } from '@thirdweb-dev/chains'
+import { base, Chain } from 'thirdweb/chains'
 import { environment } from '..'
 
 export const baseEnvironment: NetworkConfiguration = Object.freeze({
@@ -9,4 +9,4 @@ export const baseEnvironment: NetworkConfiguration = Object.freeze({
   },
 })
 
-export const baseChainConfig: Chain = Base
+export const baseChainConfig: Chain = base

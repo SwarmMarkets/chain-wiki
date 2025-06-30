@@ -61,9 +61,6 @@ const NftReadPage = () => {
 
   return (
     <div>
-      <div className='typo-heading2 text-main-accent mb-3 font-bold'>
-        {token?.name}
-      </div>
       <MarkdownRenderer
         markdown={markdown}
         showComments

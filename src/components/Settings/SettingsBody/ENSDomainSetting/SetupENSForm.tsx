@@ -1,13 +1,10 @@
 import { SubmitHandler } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { useParams } from 'react-router-dom'
 import TextField from 'src/components/ui-kit/TextField/TextField'
 import { generateSiteLink } from 'src/shared/utils'
 import useSetupENSForm, { SetupENSFormInputs } from './useSetupENSForm'
 import { generateRedirectHtml } from './utils'
-
 import { encode } from '@ensdomains/content-hash'
-import { useStorageUpload, useSwitchChain } from '@thirdweb-dev/react'
 import { ethers } from 'ethers'
 import { namehash } from 'ethers/lib/utils'
 import { useState } from 'react'
@@ -16,15 +13,19 @@ import staticConfig from 'src/config'
 import {
   getENSResolver,
   getENSResolverInterface,
-} from 'src/hooks/contracts/getENSResolver'
-import { useToastManager } from 'src/hooks/useToastManager'
+} from 'src/hooks/contracts/ens/getENSResolver'
 import useNFTIdParam from 'src/hooks/useNftIdParam'
+import { ethereum } from 'thirdweb/chains'
+import { useSwitchActiveWalletChain } from 'thirdweb/react'
+import { multicall } from 'src/thirdweb/ens-resolver'
+import { Address } from 'thirdweb'
+import { useIpfsUpload } from 'src/hooks/web3/useIpfsUpload'
+import useSendTx from 'src/hooks/web3/useSendTx'
 
 const { supportedChains } = staticConfig
 
 const SetupENSForm = () => {
-  const { mutateAsync: upload } = useStorageUpload()
-  const switchChain = useSwitchChain()
+  const switchChain = useSwitchActiveWalletChain()
   const { nftId, slug } = useNFTIdParam()
 
   const { t } = useTranslation('nft', { keyPrefix: 'settings.ens' })
@@ -34,8 +35,9 @@ const SetupENSForm = () => {
     formState: { errors },
     reset,
   } = useSetupENSForm()
-  const { addToast } = useToastManager()
+  const { mutateAsync: upload } = useIpfsUpload()
   const [submitLoading, setSubmitLoading] = useState(false)
+  const { sendTx } = useSendTx()
 
   const onSubmit: SubmitHandler<SetupENSFormInputs> = async (data, e) => {
     e?.preventDefault()
@@ -44,7 +46,7 @@ const SetupENSForm = () => {
 
     const uploadHtmlToIpfs = async (html: string): Promise<string> => {
       const file = new File([html], 'index.html', { type: 'text/html' })
-      const [ipfsUrl] = await upload({ data: [file] })
+      const ipfsUrl = (await upload([file])) as string
       return ipfsUrl
     }
 
@@ -55,14 +57,15 @@ const SetupENSForm = () => {
       const ipfsCid = ipfsUrl.replace('ipfs://', '').split('/')[0]
       const encodedHash = '0x' + encode('ipfs', ipfsCid)
 
+      if (!window.ethereum) throw new Error()
+
       const provider = new ethers.providers.Web3Provider(window.ethereum)
-      const signer = provider.getSigner()
 
       const node = namehash(domain)
       const resolverAddress = await provider.getResolver(domain)
       if (!resolverAddress) throw new Error(t('messages.notOwned'))
 
-      const resolver = getENSResolver(resolverAddress?.address, signer)
+      const resolver = getENSResolver(resolverAddress?.address)
       const resolverInterface = getENSResolverInterface()
       const txData = resolverInterface.encodeFunctionData('setContenthash', [
         node,
@@ -75,20 +78,18 @@ const SetupENSForm = () => {
         siteUrl,
       ])
 
-      const multicallTx = await resolver.multicall([txData, txTextData])
+      const multicallTx = multicall({
+        data: [txData as Address, txTextData as Address],
+        contract: resolver,
+      })
 
-      await multicallTx.wait()
+      await sendTx(multicallTx, {
+        successMessage: t('messages.success'),
+        errorMessage: t('messages.failed'),
+      })
 
       reset()
-      switchChain(supportedChains[0].chainId)
-      addToast(t('messages.success'), {
-        type: 'success',
-      })
-    } catch (err) {
-      addToast(err.message || t('messages.failed'), {
-        type: 'error',
-      })
-      console.error(err)
+      switchChain(supportedChains[0])
     } finally {
       setSubmitLoading(false)
     }
@@ -108,7 +109,7 @@ const SetupENSForm = () => {
         errorMessage={errors.domain?.message}
       />
       <SmartButton
-        desiredChainId={1}
+        desiredChain={ethereum}
         type='submit'
         loading={submitLoading}
         className='w-4/12'

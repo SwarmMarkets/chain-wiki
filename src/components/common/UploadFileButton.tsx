@@ -2,8 +2,8 @@ import { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ChildrenProp } from 'src/shared/types/common-props'
 import Button, { ButtonProps } from '../ui-kit/Button/Button'
-import { useStorageUpload } from '@thirdweb-dev/react'
 import { ipfsToHttp } from 'src/shared/utils'
+import { useIpfsUpload } from 'src/hooks/web3/useIpfsUpload'
 
 interface UploadFileButtonProps extends ButtonProps, ChildrenProp {
   onUpload: (url: string) => void
@@ -23,15 +23,16 @@ const UploadFileButton: React.FC<UploadFileButtonProps> = ({
     mutateAsync: upload,
     isLoading: isLoadingStorage,
     reset: resetStorageState,
-  } = useStorageUpload()
+  } = useIpfsUpload()
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const imageBlob = e.target.files?.[0]
     if (!imageBlob) return
-    const uri = await upload({ data: [imageBlob] })
+    const uri = await upload([imageBlob])
     resetStorageState()
-
-    onUpload(ipfsToHttp(uri[0]))
+    if (typeof uri === 'string') {
+      onUpload(ipfsToHttp(uri))
+    }
   }
 
   return (

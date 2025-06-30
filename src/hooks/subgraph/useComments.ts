@@ -3,12 +3,9 @@ import { useMemo, useState } from 'react'
 
 import { CommentsQuery as CommentsQueryGQL } from 'src/queries'
 import { CommentsQuery, CommentsQueryVariables } from 'src/queries/gql/graphql'
-import {
-  CommentsQueryFullData,
-  IpfsAttestationContent,
-} from 'src/shared/utils/ipfs/types'
+import { CommentsQueryFullData } from 'src/shared/utils/ipfs/types'
 import { verifyAttestationValid } from 'src/shared/utils'
-import { useStorage } from '@thirdweb-dev/react'
+import useIpfsData from '../web3/useIpfsData'
 
 const PAGE_LIMIT = 10
 const POLL_INTERVAL = 15000
@@ -21,26 +18,13 @@ const useComments = (
   options?: QueryHookOptions<CommentsQuery, CommentsQueryVariables>,
   config?: UseAttestationsConfig
 ) => {
-  const storage = useStorage()
   const [fullData, setFullData] = useState<CommentsQueryFullData[] | null>(null)
   const [fullDataLoading, setFullDataLoading] = useState(false)
 
-  const getBatchIpfsData = async (comments: CommentsQuery['comments']) => {
-    const results = new Map<string, IpfsAttestationContent>()
-
-    const promises = comments.map(item =>
-      storage
-        ?.downloadJSON(item.uri)
-        .then(res => {
-          verifyAttestationValid(res)
-          results.set(item.id, res)
-        })
-        .catch(e => e)
-    )
-
-    await Promise.all(promises)
-    return results
-  }
+  const { fetch: getBatchIpfsData } = useIpfsData({
+    ipfsUris: [],
+    validator: verifyAttestationValid,
+  })
 
   const { data, loading, error, fetchMore, networkStatus, refetch } = useQuery(
     CommentsQueryGQL,
@@ -58,12 +42,14 @@ const useComments = (
         if (!config?.fetchFullData) return
         setFullDataLoading(true)
 
-        const commentsIpfsData = await getBatchIpfsData(data.comments)
+        const commentsIpfsData = await getBatchIpfsData(
+          data.comments.map(item => item.uri)
+        )
 
         setFullDataLoading(false)
 
         const fullData = data.comments.map(item => {
-          const ipfsData = commentsIpfsData.get(item.id)
+          const ipfsData = commentsIpfsData.mappedResults.get(item.id)
           if (!ipfsData) return item
 
           return {

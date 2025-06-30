@@ -1,8 +1,7 @@
-import { useAddress } from '@thirdweb-dev/react'
+import { useActiveAccount } from 'thirdweb/react'
 import { useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { useSX1155NFTFactory } from 'src/hooks/contracts/useSX1155NFTFactory'
 import useCreateNftForm, {
   CreateNftFormInputs,
 } from 'src/hooks/forms/useCreateNftForm'
@@ -13,16 +12,14 @@ import TextField from '../ui-kit/TextField/TextField'
 import useSmartAccount from 'src/services/safe-protocol-kit/useSmartAccount'
 import { generateSlug } from '../Edit/utils'
 import { useEffect } from 'react'
+import useSX1155NFTFactory from 'src/hooks/contracts/factory/useSX1155NFTFactory'
+import useSendTx from 'src/hooks/web3/useSendTx'
 
 interface CreateNftFormProps {
   onSuccessSubmit(): void
-  onErrorSubmit(e: Error): void
 }
 
-const CreateNftForm: React.FC<CreateNftFormProps> = ({
-  onSuccessSubmit,
-  onErrorSubmit,
-}) => {
+const CreateNftForm: React.FC<CreateNftFormProps> = ({ onSuccessSubmit }) => {
   const { t } = useTranslation('nft', { keyPrefix: 'createNft' })
   const {
     register,
@@ -31,8 +28,9 @@ const CreateNftForm: React.FC<CreateNftFormProps> = ({
     watch,
     setValue,
   } = useCreateNftForm()
-  const { call, txLoading } = useSX1155NFTFactory()
-  const account = useAddress()
+  const { prepareDeployChainWikiTx } = useSX1155NFTFactory()
+  const { sendTx, isPending } = useSendTx()
+  const account = useActiveAccount()
   const { smartAccountInfo } = useSmartAccount()
   const [uploadedLogoUrl, setUploadedLogoUrl] = useState<string | null>(null)
 
@@ -46,29 +44,32 @@ const CreateNftForm: React.FC<CreateNftFormProps> = ({
 
   const onSubmit: SubmitHandler<CreateNftFormInputs> = async (data, e) => {
     e?.preventDefault()
-    if (!account || !smartAccountInfo?.address) return
+    if (!account?.address || !smartAccountInfo?.address) return
 
     const { name, slug } = data
     const symbol = generateSymbolFromString(name)
-    const owner = account
-    const admins = [account, smartAccountInfo.address]
-    const editors = [account, smartAccountInfo.address]
+    const owner = account.address
+    const admins = [account.address, smartAccountInfo.address]
+    const editors = [account.address, smartAccountInfo.address]
     const kya = JSON.stringify({
       logoUrl: uploadedLogoUrl,
     })
 
-    try {
-      const response = await call('deployChainWiki', [
-        { name, symbol, kya },
-        slug,
-        { owner, admins, editors },
-      ])
-      if (!response) throw new Error('Failed to deploy NFT contract')
-      onSuccessSubmit()
-    } catch (e) {
-      onErrorSubmit(e)
-      // TODO: Add error handler
-    }
+    const tx = prepareDeployChainWikiTx({
+      data: {
+        name,
+        symbol,
+        kya,
+      },
+      slug,
+      roles: {
+        owner,
+        admins,
+        editors,
+      },
+    })
+    await sendTx(tx, { successMessage: t('successMessage') })
+    onSuccessSubmit()
   }
 
   const handleUploadLogo = (url: string) => {
@@ -105,7 +106,7 @@ const CreateNftForm: React.FC<CreateNftFormProps> = ({
             {t('form.uploadLogo')}
           </UploadFileButton>
         </div>
-        <Button type='submit' loading={txLoading}>
+        <Button type='submit' loading={isPending}>
           {t('form.submit')}
         </Button>
       </form>

@@ -65,7 +65,6 @@ const UpdateTokenContentButton: React.FC<UpdateTokenContentButtonProps> = ({
     if (res) {
       onSuccess?.()
       close()
-      tx.resetCallState()
       storageUpload.resetStorageState()
     }
   }
@@ -79,8 +78,8 @@ const UpdateTokenContentButton: React.FC<UpdateTokenContentButtonProps> = ({
       },
       [Steps.SignTransaction]: {
         success: tx.isSuccess,
-        loading: tx.txLoading,
-        error: tx.isTxError,
+        loading: tx.isPending,
+        error: tx.isError,
         retry: () =>
           signTransaction(tokenId, {
             ...tokenContentToUpdate,
@@ -96,9 +95,9 @@ const UpdateTokenContentButton: React.FC<UpdateTokenContentButtonProps> = ({
     storageUpload.isSuccess,
     tokenContentToUpdate,
     tokenId,
+    tx.isError,
+    tx.isPending,
     tx.isSuccess,
-    tx.isTxError,
-    tx.txLoading,
     voteProposalUri,
   ])
 

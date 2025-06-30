@@ -21,6 +21,9 @@ interface EditIndexPagesItemProps {
   onEdit?: (data: { name: string; slug: string }) => void
   onToggle?: (e: React.MouseEvent) => void
   className?: string
+  depth?: number
+  parent?: any
+  isFirstGroup?: boolean
 }
 
 const EditIndexPagesItem: React.FC<EditIndexPagesItemProps> = ({
@@ -37,6 +40,9 @@ const EditIndexPagesItem: React.FC<EditIndexPagesItemProps> = ({
   onEdit,
   onToggle,
   className,
+  depth,
+  parent,
+  isFirstGroup,
 }) => {
   const { toggle: toggleModal, isOn: isModalOpen } = useToggle(false)
 
@@ -72,8 +78,17 @@ const EditIndexPagesItem: React.FC<EditIndexPagesItemProps> = ({
           active && 'bg-gray-100 text-main-accent',
           hasChild && 'mb-1',
           isGroup
-            ? 'uppercase font-semibold text-main-accent typo-body1'
+            ? [
+                'uppercase font-semibold text-main-accent typo-body1',
+                !isFirstGroup && 'mt-6',
+              ]
             : 'hover:bg-gray-100 cursor-pointer',
+          !isGroup && depth && depth > 0 && parent?.data?.type !== 'group' &&
+            [
+              active ? 'border-l-2 border-primary' : 'border-l-2 border-gray-200',
+              'rounded-tl-none rounded-bl-none',
+              'transition-all duration-200'
+            ],
           className
         )}
         onClick={handleClick}

@@ -1,11 +1,12 @@
-import { useStorageUpload } from '@thirdweb-dev/react'
 import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useSX1155NFT } from 'src/hooks/contracts/useSX1155NFT'
 import { ChildrenProp } from 'src/shared/types/common-props'
 import { generateIpfsAttestationContent } from 'src/shared/utils'
 import SmartButton from '../SmartButton'
 import { ButtonProps } from '../ui-kit/Button/Button'
+import { useIpfsUpload } from 'src/hooks/web3/useIpfsUpload'
+import useSX1155NFT from 'src/hooks/contracts/nft/useSX1155NFT'
+import useSendTx from 'src/hooks/web3/useSendTx'
 
 interface MakeAttestationButtonProps extends ButtonProps, ChildrenProp {
   nftAddress: string
@@ -26,12 +27,13 @@ const MakeAttestationButton: React.FC<MakeAttestationButtonProps> = ({
 }) => {
   const { t } = useTranslation('buttons')
 
-  const { call, txLoading, reset: resetCallState } = useSX1155NFT(nftAddress)
+  const { sendTx, isPending } = useSendTx()
+  const { prepareMakeAttestationTx } = useSX1155NFT(nftAddress)
   const {
     mutateAsync: upload,
     isLoading,
     reset: resetStorageState,
-  } = useStorageUpload()
+  } = useIpfsUpload()
   const shortTokenId = Number(tokenId.split('-')[1])
 
   const uploadContent = async () => {
@@ -41,18 +43,20 @@ const MakeAttestationButton: React.FC<MakeAttestationButtonProps> = ({
       htmlContent: attestationContent,
     })
     const filesToUpload = [ipfsContent]
-    const uris = await upload({ data: filesToUpload })
-    const firstUri = uris[0]
-    return firstUri
+    const uri = (await upload(filesToUpload)) as string
+
+    return uri
   }
   const signTransaction = useCallback(
     (uri: string) => {
-      return call('makeAttestation', [
-        shortTokenId,
-        JSON.stringify({ sectionId, uri }),
-      ])
+      const tx = prepareMakeAttestationTx({
+        tokenId: BigInt(shortTokenId),
+        comment: JSON.stringify({ sectionId, uri }),
+      })
+
+      return sendTx(tx)
     },
-    [call, shortTokenId, sectionId]
+    [prepareMakeAttestationTx, shortTokenId, sectionId, sendTx]
   )
 
   const startContentUpdate = async () => {
@@ -62,7 +66,6 @@ const MakeAttestationButton: React.FC<MakeAttestationButtonProps> = ({
     const res = await signTransaction(uri)
     if (res) {
       onSuccess?.()
-      resetCallState()
       resetStorageState()
     }
   }
@@ -72,7 +75,7 @@ const MakeAttestationButton: React.FC<MakeAttestationButtonProps> = ({
   return (
     <>
       <SmartButton
-        loading={txLoading || isLoading}
+        loading={isPending || isLoading}
         className='mt-4'
         onClick={startContentUpdate}
         {...buttonProps}

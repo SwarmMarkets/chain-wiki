@@ -1,4 +1,4 @@
-import { useAddress } from '@thirdweb-dev/react'
+import { useActiveAccount } from 'thirdweb/react'
 import { useTranslation } from 'react-i18next'
 import { generatePath, NavLink } from 'react-router-dom'
 import ExpandableList from 'src/components/ExpandableList'
@@ -18,7 +18,8 @@ import useNFTIdParam from 'src/hooks/useNftIdParam'
 
 const SideBar = () => {
   const { t } = useTranslation('layout', { keyPrefix: 'sidebar' })
-  const address = useAddress() || ''
+  const account = useActiveAccount()
+  const address = account?.address || ''
   const { nftId } = useNFTIdParam()
 
   const { nfts } = useNFTs({
