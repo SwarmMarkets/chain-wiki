@@ -19,7 +19,7 @@ type SendBatchTxOptions = {
 }
 
 const useSendBatchTxs = () => {
-  const { smartAccount, smartAccountInfo } = useSmartAccount()
+  const { smartAccount } = useSmartAccount()
   const { addToast } = useToastManager()
   const chain = useActiveWalletChain()
   const [data, setData] = useState<SafeClientResult>()

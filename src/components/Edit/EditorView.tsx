@@ -3,7 +3,6 @@ import React, { useRef } from 'react'
 import Editor from 'src/components/Editor'
 import useEffectCompare from 'src/hooks/useEffectCompare'
 import { useEditingStore } from 'src/shared/store/editing-store'
-import { generateSlug } from './utils'
 
 interface EditorViewProps {
   content: string
@@ -12,7 +11,6 @@ interface EditorViewProps {
 const EditorView: React.FC<EditorViewProps> = ({ content }) => {
   const {
     currEditableToken,
-    getEditedTokenById,
     getAddedTokenById,
     updateOrCreateEditedToken,
     updateOrCreateAddedToken,
