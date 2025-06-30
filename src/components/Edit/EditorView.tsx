@@ -34,14 +34,11 @@ const EditorView: React.FC<EditorViewProps> = ({ content }) => {
         updateOrCreateAddedToken({ ...addedToken, content })
         return
       }
+
       updateOrCreateEditedToken({
         id: currEditableToken.id,
-        name:
-          getEditedTokenById(currEditableToken.id)?.name ||
-          currEditableToken.name,
-        slug:
-          getEditedTokenById(currEditableToken.id)?.slug ||
-          generateSlug(currEditableToken.name),
+        name: currEditableToken.name,
+        slug: currEditableToken.slug,
         content,
       })
     }
