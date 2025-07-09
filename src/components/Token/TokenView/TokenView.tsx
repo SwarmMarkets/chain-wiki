@@ -1,4 +1,3 @@
-import Flex from 'src/components/ui/Flex'
 import { useRef } from 'react'
 import { TokenViewProps } from '.'
 import TokenViewActions from './TokenViewActions'
@@ -12,22 +11,22 @@ export interface SelectedSection {
 
 export const TokenView: React.FC<TokenViewProps> = ({ token }) => {
   const { t } = useTranslation('token')
-
   const contentRef = useRef<HTMLDivElement>(null)
 
-  if (!token?.ipfsContent?.htmlContent)
+  if (!token?.ipfsContent?.htmlContent) {
     return <p className='text-center'>{t('messages.noContent')}</p>
+  }
 
   return (
-    <Flex flexDirection='column'>
+    <div className='flex flex-col'>
       <MarkdownRenderer
         markdown={token.ipfsContent.htmlContent}
         ref={contentRef}
       />
 
-      <Flex justifyContent='flex-end' mt={3}>
+      <div className='flex justify-end mt-3'>
         <TokenViewActions />
-      </Flex>
-    </Flex>
+      </div>
+    </div>
   )
 }

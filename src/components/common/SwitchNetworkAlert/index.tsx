@@ -1,11 +1,8 @@
-import Text from 'src/components/ui/Text'
+import { useTranslation } from 'react-i18next'
 import {
   checkNetworkSupported,
   getActiveOrDefaultChain,
 } from 'src/shared/utils'
-
-import { useTranslation } from 'react-i18next'
-import { AlertWrap, StyledButton } from './styled-components'
 import { useConfigStore } from 'src/shared/store/config-store'
 import useActiveOrDefaultChain from 'src/hooks/web3/useActiveOrDefaultChain'
 import staticConfig from 'src/config'
@@ -36,14 +33,17 @@ const SwitchNetworkAlert: React.FC = () => {
   if (isNetworkSupported || !isConnected) return null
 
   return (
-    <AlertWrap>
-      <Text.p color='white'>
+    <div className='flex items-center justify-center border border-white bg-black text-white px-4 py-2 gap-3'>
+      <p className='text-white'>
         {t('description', { networkName: supportedNetwork.name })}
-      </Text.p>
-      <StyledButton ml={3} color='white' onClick={handleSwitchNetwork}>
+      </p>
+      <button
+        onClick={handleSwitchNetwork}
+        className='text-white border border-white px-3 py-1 hover:bg-white hover:text-black transition'
+      >
         {t('button')}
-      </StyledButton>
-    </AlertWrap>
+      </button>
+    </div>
   )
 }
 

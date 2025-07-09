@@ -1,6 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import Card from 'src/components/ui/Card'
+import Card from 'src/components/ui-kit/Card'
 import { useCustomizationStore } from 'src/shared/store/customization-store'
 import { NFTWithMetadata } from 'src/shared/utils'
 import UploadFileButton from '../../UploadFileButton'

@@ -1,6 +1,5 @@
 import dayjs from 'dayjs'
 import { useTranslation } from 'react-i18next'
-import Flex from 'src/components/ui/Flex'
 import useModalState from 'src/hooks/useModalState'
 import UploadVoteProposalModal from '../UploadVoteProposal/UploadVoteProposalModal'
 import VoteOnProposalButton from '../VoteOnProposal'
@@ -23,16 +22,16 @@ const TokenViewActions: React.FC = () => {
   const isVotingEnabled = voteProposal && isVotingStarted && !isVotingEnded
 
   return (
-    <Flex justifyContent='flex-end' width='100%' $gap='20px'>
+    <div className='flex justify-end w-full gap-5'>
       {isVotingEnabled ? (
-        <VoteOnProposalButton px={4}>{t('vote')}</VoteOnProposalButton>
+        <VoteOnProposalButton>{t('vote')}</VoteOnProposalButton>
       ) : null}
 
       <UploadVoteProposalModal
         isOpen={uploadVoteProposal.isOpen}
         onClose={uploadVoteProposal.close}
       />
-    </Flex>
+    </div>
   )
 }
 

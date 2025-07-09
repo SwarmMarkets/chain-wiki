@@ -1,20 +1,14 @@
 import ExplorerLink from 'src/components/common/ExplorerLink'
-import Flex from 'src/components/ui/Flex'
 import Icon from 'src/components/ui-kit/Icon/Icon'
-import Text from 'src/components/ui/Text'
 import { IpfsVoteProposal } from 'src/shared/utils/ipfs/types'
 import { VoteProposal } from 'src/shared/types/vote-proposal'
 import { convertUnixToLocaleString } from 'src/shared/utils'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useTheme } from 'styled-components'
-import {
-  StepBack,
-  VoteProposalVariant,
-  VoteProposalWrap,
-} from './styled-components'
 import UpdateTokenContentButton from 'src/components/UpdateContent/UpdateTokenContentButton'
 import useFullTokenIdParam from 'src/hooks/useFullTokenIdParam'
+import Card from 'src/components/ui-kit/Card'
+import Button from 'src/components/ui-kit/Button/Button'
 
 interface ReviewVoteProposalProps {
   voteProposal: VoteProposal
@@ -30,7 +24,6 @@ const ReviewVoteProposal: React.FC<ReviewVoteProposalProps> = ({
   const { t } = useTranslation('token', { keyPrefix: 'reviewProposal' })
 
   const fullTokenId = useFullTokenIdParam()
-  const theme = useTheme()
 
   const { data, address, hash } = voteProposal
 
@@ -58,55 +51,44 @@ const ReviewVoteProposal: React.FC<ReviewVoteProposalProps> = ({
   }, [data.message, hash])
 
   return (
-    <Flex
-      py={2}
-      px={2}
-      flexDirection='column'
-      alignItems='flex-start'
-      justifyContent='space-between'
-      minHeight='inherit'
-    >
-      <StepBack onClick={backStep} mb={3}>
-        <Icon
-          name='chevronLeft'
-          color={theme.palette.linkPrimary}
-          size={13}
-          mr={1}
-        />
+    <div className="flex flex-col items-start justify-between min-h-[300px] w-full max-w-lg p-4">
+      <Button
+        variant="text"
+        onClick={backStep}
+        className="flex items-center text-primary hover:underline mb-4 px-0 py-0 h-auto border-none"
+      >
+        <Icon name="chevronLeft" size={16} className="mr-1" />
         {t('stepBack')}
-      </StepBack>
+      </Button>
 
-      <Text.h2 mb={3}>{t('title')}</Text.h2>
+      <h2 className="text-2xl font-bold mb-4">{t('title')}</h2>
 
-      <VoteProposalWrap mb={3}>
-        <Text.h3 color='nearBlack' mb={3}>
-          {data.message.title}
-        </Text.h3>
-        <Text.p mb={3} lineHeight={1.5}>
-          {data.message.body}
-        </Text.p>
+      <Card className="w-full mb-6 bg-gray-50 border border-gray-200 rounded-lg p-4">
+        <h3 className="text-lg font-semibold text-gray-800 mb-2">{data.message.title}</h3>
+        <p className="text-gray-700 mb-3 leading-relaxed">{data.message.body}</p>
 
-        <Text.p mb={2}>{`${t('proposal.choices')}:`}</Text.p>
-        <Flex $gap='10px' mb={3}>
+        <p className="mb-2 font-medium">{`${t('proposal.choices')}:`}</p>
+        <div className="flex flex-row gap-2 mb-3">
           {data.message.choices?.map(choice => (
-            <VoteProposalVariant key={choice}>{choice}</VoteProposalVariant>
+            <div key={choice} className="border-2 border-gray-300 rounded-lg bg-white px-4 py-2 text-sm font-medium">
+              {choice}
+            </div>
           ))}
-        </Flex>
+        </div>
 
-        <Flex $gap='10px' flexDirection='column' mb={3}>
-          <Text.p>{`${t('proposal.startDate')}: ${startDate}`}</Text.p>
-          <Text.p>{`${t('proposal.endDate')}: ${endDate}`}</Text.p>
-          <Text.p>{`${t('proposal.creationDate')}: ${creationDate}`}</Text.p>
-        </Flex>
+        <div className="flex flex-col gap-1 mb-3 text-sm text-gray-600">
+          <p>{`${t('proposal.startDate')}: ${startDate}`}</p>
+          <p>{`${t('proposal.endDate')}: ${endDate}`}</p>
+          <p>{`${t('proposal.creationDate')}: ${creationDate}`}</p>
+        </div>
 
         <ExplorerLink type='address' hash={address}>
           {`${t('proposal.creator')}: ${address}`}
         </ExplorerLink>
-      </VoteProposalWrap>
+      </Card>
 
       <UpdateTokenContentButton
-        mt={15}
-        width='100%'
+        className="w-full mt-4"
         tokenAddress={fullTokenId}
         tokenContentToUpdate={{ voteProposal: proposal }}
         nftAddress={nftId}
@@ -114,7 +96,7 @@ const ReviewVoteProposal: React.FC<ReviewVoteProposalProps> = ({
       >
         {t('submit')}
       </UpdateTokenContentButton>
-    </Flex>
+    </div>
   )
 }
 

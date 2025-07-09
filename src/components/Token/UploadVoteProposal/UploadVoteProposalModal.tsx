@@ -1,5 +1,4 @@
 import Modal from 'src/components/ui-kit/Modal'
-import SuccessContent from 'src/components/ui/SuccessScreens/SuccessContent'
 import useSteps from 'src/hooks/useSteps'
 import { BasicModalProps } from 'src/shared/types/common-props'
 import { VoteProposal } from 'src/shared/types/vote-proposal'
@@ -7,7 +6,8 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import ReviewVoteProposal from './ReviewVoteProposal'
 import UploadVoteProposal from './UploadVoteProposal'
-import Box from 'src/components/ui/Box'
+import Button from 'src/components/ui-kit/Button/Button'
+import Icon from 'src/components/ui-kit/Icon/Icon'
 
 const UploadVoteProposalModal: React.FC<BasicModalProps> = ({
   isOpen,
@@ -21,7 +21,6 @@ const UploadVoteProposalModal: React.FC<BasicModalProps> = ({
   const handleUploadVoteProposal = (value: VoteProposal) => {
     setVoteProposal(value)
   }
-
 
   const handleOnClose = () => {
     reset()
@@ -44,13 +43,14 @@ const UploadVoteProposalModal: React.FC<BasicModalProps> = ({
         />
       )}
       {step === 3 && (
-        <Box pt={3} minHeight='inherit'>
-          <SuccessContent
-            title={t('successProposal.title')}
-            description={t('successProposal.description')}
-            onClick={handleOnClose}
-          />
-        </Box>
+        <div className="flex flex-col items-center justify-center py-8 px-4 min-h-[300px] w-full max-w-lg">
+          <div className="flex items-center justify-center w-16 h-16 rounded-full bg-green-100 mb-4">
+            <Icon name="success-icon" size={40} color="#219653" />
+          </div>
+          <h2 className="text-2xl font-bold mb-2 text-center">{t('successProposal.title')}</h2>
+          <p className="text-gray-600 text-base mb-6 text-center">{t('successProposal.description')}</p>
+          <Button onClick={handleOnClose} className="w-full max-w-xs">{t('common:successModal.done')}</Button>
+        </div>
       )}
     </Modal>
   )

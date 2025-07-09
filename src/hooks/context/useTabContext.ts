@@ -1,4 +1,4 @@
-import { Context } from 'src/components/ui/Tabs/TabContext'
+import { Context } from 'src/components/ui-kit/Tabs/TabContext'
 import React from 'react'
 
 export function useTabContext() {

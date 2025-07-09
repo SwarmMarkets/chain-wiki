@@ -1,19 +1,12 @@
-import { ActionStateItem, ActionStateWrap } from 'src/components/ui/ActionState'
-import Box from 'src/components/ui/Box'
-import Button from 'src/components/ui/Button/Button'
-import LoadingButton from 'src/components/ui/Button/LoadingButton'
-import Flex from 'src/components/ui/Flex'
-import Text from 'src/components/ui/Text'
 import useVoteProposal from 'src/hooks/snapshot/useVoteProposal'
 import { VoteProposal } from 'src/shared/types/vote-proposal'
-import { ChangeEvent, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useTheme } from 'styled-components'
-import {
-  StyledList,
-  StyledListItem,
-  StyledTextField,
-} from './styled-components'
+import Card from 'src/components/ui-kit/Card'
+import Button from 'src/components/ui-kit/Button/Button'
+import TextField from 'src/components/ui-kit/TextField/TextField'
+import StatusLoader from 'src/components/ui-kit/StatusLoader/StatusLoader'
+import Alert from 'src/components/ui-kit/Alert'
 
 interface UploadVoteProposalProps {
   onUploadVoteProposal(value: VoteProposal): void
@@ -29,9 +22,8 @@ const UploadVoteProposal: React.FC<UploadVoteProposalProps> = ({
 
   const [proposalHash, setProposalHash] = useState('')
 
-  const handleUpdateProposalHash = (e: ChangeEvent<HTMLInputElement>) => {
-    const res = e.target.value
-    setProposalHash(res)
+  const handleUpdateProposalHash = (value: string) => {
+    setProposalHash(value)
   }
 
   const uploadProposal = async () => {
@@ -41,9 +33,15 @@ const UploadVoteProposal: React.FC<UploadVoteProposalProps> = ({
     }
   }
 
-  const theme = useTheme()
-
   const validProposal = Boolean(!loading && !error && result)
+
+  const status: 'pending' | 'loading' | 'success' = loading
+    ? 'loading'
+    : error
+    ? 'pending'
+    : validProposal
+    ? 'success'
+    : 'pending'
 
   const actionItemText = useMemo(() => {
     if (loading) {
@@ -55,54 +53,47 @@ const UploadVoteProposal: React.FC<UploadVoteProposalProps> = ({
     if (validProposal) {
       return t('successValidation')
     }
-
     return t('uploadToValidate')
   }, [error, loading, t, validProposal])
 
   return (
-    <Box py={2} px={2}>
-      <Text.h2 mb={3}>{t('title')}</Text.h2>
-
-      <Text.p
-        mb={3}
-        lineHeight={1.3}
-        fontSize={16}
-        color={theme.palette.darkGray}
-      >
-        {t('description')}
-      </Text.p>
-
-      <StyledList>
-        <StyledListItem>{t('steps.1')}</StyledListItem>
-        <StyledListItem>{t('steps.2')}</StyledListItem>
-      </StyledList>
-
-      <Flex flexDirection='row' $gap='10px' height='50px' mb={1}>
-        <StyledTextField
-          onChange={handleUpdateProposalHash}
-          width='100%'
-          placeholder={t('proposalHash')}
-        />
-
-        <LoadingButton height='40px' onClick={uploadProposal} loading={loading}>
+    <Card style={{ maxWidth: 500, margin: '0 auto' }}>
+      <div style={{ marginBottom: 24 }}>
+        <h2 style={{ marginBottom: 16 }}>{t('title')}</h2>
+        <div style={{ marginBottom: 16, color: '#666', fontSize: 16, lineHeight: 1.3 }}>
+          {t('description')}
+        </div>
+        <ul style={{ marginBottom: 16, paddingLeft: 20 }}>
+          <li>{t('steps.1')}</li>
+          <li>{t('steps.2')}</li>
+        </ul>
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'row', gap: 10, alignItems: 'center', marginBottom: 8 }}>
+        <div style={{ flex: 1 }}>
+          <TextField
+            value={proposalHash}
+            onChange={handleUpdateProposalHash}
+            inputProps={{ placeholder: t('proposalHash') }}
+            size='md'
+          />
+        </div>
+        <Button onClick={uploadProposal} loading={loading} style={{ height: 40, minWidth: 100 }}>
           {t('upload')}
-        </LoadingButton>
-      </Flex>
-
-      <ActionStateWrap mb={3}>
-        <ActionStateItem
-          loading={loading}
-          success={validProposal}
-          error={!!error}
-        >
+        </Button>
+      </div>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
+        <StatusLoader status={status} />
+        <span style={{ fontSize: 14 }}>
           {actionItemText}
-        </ActionStateItem>
-      </ActionStateWrap>
-
-      <Button disabled={!validProposal} onClick={nextStep} width='100%'>
+        </span>
+      </div>
+      {error && (
+        <Alert color='error' style={{ marginBottom: 16 }}>{error}</Alert>
+      )}
+      <Button disabled={!validProposal} onClick={nextStep} style={{ width: '100%' }}>
         {t('continue')}
       </Button>
-    </Box>
+    </Card>
   )
 }
 
