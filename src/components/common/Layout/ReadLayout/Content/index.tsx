@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ContentItemChild, ContentItemParent } from 'src/shared/types/content'
-import { ExpandableListItem } from 'src/shared/types/expandedList'
 import { buildContentHierarchy } from 'src/shared/utils'
 import SidebarTree from '../SidebarTree'
 import SidebarTreeNode, { ISidebarTreeNode } from '../SidebarTreeNode'
@@ -80,13 +79,6 @@ const Content: React.FC<ContentProps> = ({ contentElem, className }) => {
     }
   }, [contentData])
 
-  const findChildItem = (
-    item: ContentItemParent,
-    listItem: ExpandableListItem
-  ) => {
-    return item.childs?.find(child => child.id === listItem.id)
-  }
-
   const onClickTitle = (item: ContentItemParent) => {
     item.elem.scrollIntoView({ behavior: 'smooth' })
   }
@@ -99,6 +91,15 @@ const Content: React.FC<ContentProps> = ({ contentElem, className }) => {
     document.body.scrollIntoView({ behavior: 'smooth' })
   }
 
+  const generateSlug = (name: string): string => {
+    return name
+      .toLowerCase()
+      .trim()
+      .replace(/[^a-z0-9]+/g, '-') // Replace any non-alphanumeric chars with dash
+      .replace(/^-+|-+$/g, '') // Remove leading/trailing dashes
+      .replace(/-+/g, '-') // Replace multiple dashes with single dash
+  }
+
   if (!contentElem) {
     return <div className={className}>{t('contentNotFound')}</div>
   }
@@ -109,17 +110,18 @@ const Content: React.FC<ContentProps> = ({ contentElem, className }) => {
     return data.map(item => ({
       tokenId: item.id.toString(),
       title: item.title,
-      children: item.childs ? buildTreeData(item?.childs) : [],
+      slug: generateSlug(item.title),
+      children: item.childs ? buildTreeData(item.childs) : [],
     }))
   }
 
   const findItemRecursive = (
-    items: ContentItemParent[],
+    items: (ContentItemParent | ContentItemChild)[],
     id: string
   ): ContentItemChild | ContentItemParent | undefined => {
     for (const item of items) {
       if (item.id.toString() === id) return item
-      if (item.childs) {
+      if ('childs' in item && item.childs) {
         const found = findItemRecursive(item.childs, id)
         if (found) return found
       }
@@ -133,12 +135,22 @@ const Content: React.FC<ContentProps> = ({ contentElem, className }) => {
         className='mb-1'
         onSelect={onClickBeginning}
         selectedId={beginningActive ? 'beginning' : null}
-        node={{ tokenId: 'beginning', title: t('beginning'), children: [] }}
+        node={{
+          tokenId: 'beginning',
+          title: t('beginning'),
+          slug: 'beginning',
+          children: [],
+        }}
       />
       <SidebarTree
         data={buildTreeData(contentData)}
-        onSelect={id => {
-          onClickItem(findItemRecursive(contentData, id))
+        onSelect={node => {
+          const found = findItemRecursive(contentData, node.tokenId)
+          if (found && 'childs' in found) {
+            onClickTitle(found as ContentItemParent)
+          } else {
+            onClickItem(found as ContentItemChild)
+          }
         }}
         selectedId={beginningActive ? '' : firstHeadingInView.toString()}
       />
