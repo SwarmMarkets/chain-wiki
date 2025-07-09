@@ -25,7 +25,7 @@ const ExplorerLink: React.FC<ExplorerLinkProps> = ({
   const iconSizeWithDefault = iconSize || 16
   const explorerUrl = getExplorerUrl({ type, chainId, hash })
 
-  const handleCopyClick = (e: MouseEvent<HTMLDivElement>) => {
+  const handleCopyClick = (e: MouseEvent<SVGElement>) => {
     e.stopPropagation()
     e.preventDefault()
     if (hash) {
