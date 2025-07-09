@@ -98,7 +98,7 @@
     "test": "craco test",
     "eject": "react-scripts eject",
     "codegen:icons": "node codegen.icons.js --outputDirectory src/shared/types/",
-    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "lint:fix": "eslint . --ext ts,tsx --fix",
     "typechain": "typechain --target=ethers-v5 'src/contracts/abis/*.json' --out-dir src/contracts/typechain",
     "codegen": "graphql-codegen",
     "prepare": "husky install",

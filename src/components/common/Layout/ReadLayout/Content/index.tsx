@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ContentItemChild, ContentItemParent } from 'src/shared/types/content'
 import { buildContentHierarchy } from 'src/shared/utils'
@@ -24,7 +24,10 @@ const Content: React.FC<ContentProps> = ({ contentElem, className }) => {
 
   const headings = contentElem?.querySelectorAll('h1, h2')
 
-  const contentData = headings ? buildContentHierarchy(headings) : []
+  const contentData = useMemo(
+    () => (headings ? buildContentHierarchy(headings) : []),
+    [headings]
+  )
 
   useEffect(() => {
     const handleScroll = () => {

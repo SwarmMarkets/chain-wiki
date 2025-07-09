@@ -1,6 +1,6 @@
-import { useTabContext } from 'src/hooks/context/useTabContext'
 import React from 'react'
 import clsx from 'clsx'
+import { useTabContext } from './context'
 
 export interface TabProps {
   value: string

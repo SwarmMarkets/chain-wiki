@@ -1,7 +1,7 @@
-import { useTabContext } from 'src/hooks/context/useTabContext'
 import { ChildrenProp } from 'src/shared/types/common-props'
 import React from 'react'
 import styled from 'styled-components'
+import { useTabContext } from './context'
 
 const TabContent = styled.div`
   padding: 15px 0;

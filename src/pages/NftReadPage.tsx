@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useContentRef } from 'src/components/common/Layout/ReadLayout/ContentContext'
+import { useContentRef } from 'src/components/common/Layout/ReadLayout/Content/context'
 import MarkdownRenderer from 'src/components/Editor/MarkdownRenderer'
 import NftReadPageSkeleton from 'src/components/Nft/NftReadSkeleton'
 import AttestationDrawer from 'src/components/Token/Attestation/AttestationDrawer'

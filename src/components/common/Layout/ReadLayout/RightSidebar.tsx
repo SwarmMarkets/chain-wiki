@@ -6,7 +6,7 @@ import { useParams, generatePath, Link } from 'react-router-dom'
 import RoutePaths from 'src/shared/enums/routes-paths'
 import Button from 'src/components/ui-kit/Button/Button'
 import { splitTokenId } from 'src/shared/utils'
-import { useContentRef } from './ContentContext'
+import { useContentRef } from './Content/context'
 
 interface RightSidebarProps {
   preview?: boolean

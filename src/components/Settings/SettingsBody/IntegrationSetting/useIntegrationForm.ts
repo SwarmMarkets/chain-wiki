@@ -139,6 +139,7 @@ const useIntegrationForm = () => {
         })) || []
 
       const newIndexPages: IpfsIndexPage[] = indexPagesWithContent.map(
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         ({ content, ...ip }) => ip
       )
 

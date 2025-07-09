@@ -1,7 +1,6 @@
 import { ChildrenProp } from 'src/shared/types/common-props'
 import React from 'react'
-
-export const Context = React.createContext<string | null>(null)
+import { Context } from './context'
 
 interface TabContextProps extends ChildrenProp {
   value: string | null

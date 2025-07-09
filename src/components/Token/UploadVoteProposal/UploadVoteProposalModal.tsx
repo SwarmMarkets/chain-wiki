@@ -39,6 +39,7 @@ const UploadVoteProposalModal: React.FC<BasicModalProps> = ({
         <ReviewVoteProposal
           backStep={backStep}
           nextStep={nextStep}
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           voteProposal={voteProposal!}
         />
       )}
