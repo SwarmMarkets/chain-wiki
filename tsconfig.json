@@ -34,5 +34,5 @@
   "include": [
     "src",
   ],
-  "exclude": ["src/common/apollo/types/**"]
+  "exclude": ["src/common/apollo/types/**", "node_modules"]
 }

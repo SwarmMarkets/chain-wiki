@@ -1,8 +1,8 @@
-import React, { HTMLAttributes } from 'react'
+import React from 'react'
+import SVG, { Props } from 'react-inlinesvg'
+import { IconName } from 'src/shared/types/iconNames'
 import styled from 'styled-components'
 import { PositionProps, SpaceProps, position, space } from 'styled-system'
-import SVG from 'react-inlinesvg'
-import { IconName } from 'src/shared/types/iconNames'
 
 export type Cursor =
   | 'help'
@@ -15,7 +15,7 @@ export type Cursor =
   | 'default'
 
 export interface IconProps
-  extends HTMLAttributes<HTMLDivElement>,
+  extends Omit<Props, 'src'>,
     SpaceProps,
     PositionProps {
   name: IconName
