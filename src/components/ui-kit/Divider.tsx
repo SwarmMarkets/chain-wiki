@@ -5,7 +5,7 @@ interface DividerProps extends SpaceProps, LayoutProps {
   color?: string
 }
 
-const Divider: React.FC<DividerProps> = ({ ...props }) => {
+const Divider: React.FC<DividerProps> = () => {
   return <div className='h-px bg-gray-300 w-full'></div>
 }
 

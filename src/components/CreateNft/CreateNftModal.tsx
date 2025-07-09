@@ -1,11 +1,8 @@
 import { BasicModalProps } from 'src/shared/types/common-props'
 import Modal from '../ui-kit/Modal'
 import CreateNftForm from './CreateNftForm'
-import { useTranslation } from 'react-i18next'
 
 const CreateNftModal = ({ isOpen, onClose }: BasicModalProps) => {
-  const { t } = useTranslation('nft')
-
   const handleOnClose = () => {
     onClose()
   }

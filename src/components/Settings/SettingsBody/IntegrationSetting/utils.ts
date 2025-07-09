@@ -32,7 +32,10 @@ export function parseSummaryToFlatTree(
   for (const node of ast.children) {
     // Headings as groups (except "Table of contents")
     if (node.type === 'heading') {
-      const text = node.children?.find((c: any) => c.type === 'text')?.value
+      const textNode = node.children?.find((c: any) => c.type === 'text') as
+        | { value?: string }
+        | undefined
+      const text = textNode?.value
       if (text && text.trim().toLowerCase() !== 'table of contents') {
         const slug = text.trim().toLowerCase().replace(/\s+/g, '-')
         const tokenId = getUniqueId()

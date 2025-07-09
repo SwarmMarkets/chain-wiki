@@ -9,7 +9,7 @@ export const HtmlWrapper = styled.div.withConfig({
   shouldForwardProp,
 })<HtmlWrapperProps>`
   line-height: 1.4;
-  color: ${({ theme }) => theme.palette.textPrimary};
+  color: #2e3338;
 
   /* Styles for paragraphs and headings */
   p {
@@ -58,7 +58,7 @@ export const HtmlWrapper = styled.div.withConfig({
 
   /* Styles for links and images */
   a {
-    color: ${({ theme }) => theme.palette.linkPrimary};
+    color: #511dd7;
     text-decoration: underline;
   }
 

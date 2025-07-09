@@ -142,24 +142,6 @@ const Content: React.FC<ContentProps> = ({ contentElem, className }) => {
         }}
         selectedId={beginningActive ? '' : firstHeadingInView.toString()}
       />
-      {/* {contentData.map(item => (
-        <ExpandableList
-          id={item.id}
-          initialExpanded={true}
-          onClickTitle={() => onClickTitle(item)}
-          onClickItem={(listItem: ExpandableListItem) =>
-            onClickItem(findChildItem(item, listItem))
-          }
-          key={item.id}
-          title={item.title}
-          isActive={!beginningActive && firstHeadingInView === item.id}
-          items={item.childs?.map(child => ({
-            id: child.id,
-            value: child.title,
-            isActive: !beginningActive && firstHeadingInView === child.id,
-          }))}
-        />
-      ))} */}
     </div>
   )
 }
