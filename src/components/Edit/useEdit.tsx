@@ -63,7 +63,11 @@ const useEdit = (readonly?: boolean) => {
     refetching: refetchingFullTokens,
   } = useTokens(
     {
-      variables: { filter: { nft: unifyAddressToId(nftId) }, limit: 100 },
+      variables: {
+        filter: { nft: unifyAddressToId(nftId) },
+        limit: 100,
+      },
+      skip: !nftId,
     },
     { fetchFullData: true }
   )

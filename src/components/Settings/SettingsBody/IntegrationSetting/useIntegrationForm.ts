@@ -51,6 +51,7 @@ const useIntegrationForm = () => {
   } = useTokens(
     {
       variables: { filter: { nft: unifyAddressToId(nftId) }, limit: 100 },
+      skip: !nftId,
     },
     { fetchFullData: true }
   )

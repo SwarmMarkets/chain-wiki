@@ -29,6 +29,7 @@ const useToken = (
     variables: {
       id,
     },
+    skip: !id,
     async onCompleted(data) {
       if (data.token?.uri || data.token?.voteProposalUri) {
         const ipfsContent = data.token.uri

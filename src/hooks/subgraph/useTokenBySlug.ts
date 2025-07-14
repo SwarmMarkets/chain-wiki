@@ -5,7 +5,10 @@ import useTokens from './useTokens'
 export const useTokenBySlug = (nftId: string, slug?: string) => {
   const { fullTokens, loading, refetching, ...rest } = useTokens(
     {
-      variables: { filter: { nft: unifyAddressToId(nftId), slug }, limit: 100 },
+      variables: {
+        filter: { nft: unifyAddressToId(nftId), slug },
+        limit: 100,
+      },
       skip: !slug || !nftId,
     },
     { fetchFullData: true }

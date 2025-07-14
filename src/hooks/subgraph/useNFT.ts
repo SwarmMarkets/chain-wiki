@@ -28,6 +28,7 @@ const useNFT = (id: string, options?: UseNFTOptions) => {
     variables: {
       id,
     },
+    skip: !id,
   })
 
   const headerLinksUri = options?.fetchFullData ? data?.nft?.headerLinksUri : ''

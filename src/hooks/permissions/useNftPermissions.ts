@@ -3,9 +3,9 @@ import {
   useActiveWalletConnectionStatus,
 } from 'thirdweb/react'
 import { useCallback, useMemo } from 'react'
-import useNFTRoles from '../subgraph/useNFTRoles'
 import { isSameEthereumAddress, unifyAddressToId } from 'src/shared/utils/web3'
 import useSmartAccount from 'src/services/safe-protocol-kit/useSmartAccount'
+import useNFT from '../subgraph/useNFT'
 
 export interface Permissions {
   canCreateNft: boolean
@@ -31,7 +31,7 @@ const initialPermissions: Permissions = {
 
 const useNftPermissions = (nftAddress?: string) => {
   const address = nftAddress ? unifyAddressToId(nftAddress) : ''
-  const { nft, loadingNft, refetchingNft } = useNFTRoles(address)
+  const { nft, loadingNft, refetchingNft } = useNFT(address)
 
   const account = useActiveAccount()
   const { smartAccountInfo, isLoading: isSmartAccountLoading } =
