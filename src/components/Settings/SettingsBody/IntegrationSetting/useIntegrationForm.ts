@@ -149,54 +149,30 @@ const useIntegrationForm = () => {
         ...newIndexPages,
       ]
 
-      // Prepare all files to upload in one batch
-      const filesToUpload: string[] = []
-      // 1. Index pages content (first file)
       const indexPagesIpfsContent = generateIpfsIndexPagesContent({
         indexPages: indexPagesToUpdate,
         address: nftId,
       })
-      filesToUpload.push(indexPagesIpfsContent)
-      // 2. Token edits (toEdit)
-      const tokenEditFiles = toEdit.map(tokenToEdit =>
-        JSON.stringify({
-          address: nftId,
-          tokenId: +tokenToEdit.tokenId.split('-')[1],
-          htmlContent: tokenToEdit.content,
-        })
-      )
-      filesToUpload.push(...tokenEditFiles)
-      // 3. Token mints (toMint)
-      const tokenMintFiles = toMint.map(tokenToMint =>
-        JSON.stringify({
-          address: nftId,
-          tokenId: +tokenToMint.tokenId.split('-')[1],
-          htmlContent: tokenToMint.content,
-        })
-      )
-      filesToUpload.push(...tokenMintFiles)
-
-      // Upload all files in one batch
-      const uris = await upload(filesToUpload)
-      // uris is string[] if multiple files, string if one file
-      const uriArr = Array.isArray(uris) ? uris : [uris]
-      let uriIdx = 0
-      // 1. Index pages URI
-      const indexPagesUri = uriArr[uriIdx++]
-      if (indexPagesUri) {
+      const filesToUpload = [indexPagesIpfsContent]
+      const uri = (await upload(filesToUpload)) as string
+      console.log(uri)
+      if (uri) {
         const updateIndexPagesTx = prepareSetContractKyaTx({
-          Kya: JSON.stringify({ indexPagesUri }),
+          Kya: JSON.stringify({ indexPagesUri: uri }),
         })
         if (updateIndexPagesTx) {
           txs.push(updateIndexPagesTx)
         }
       }
-      // 2. Token edits
-      for (let i = 0; i < toEdit.length; i++) {
-        const tokenToEdit = toEdit[i]
-        const firstUri = uriArr[uriIdx++]
+
+      for (const tokenToEdit of toEdit) {
+        const tokenId = +tokenToEdit.tokenId.split('-')[1]
+        const firstUri = await uploadContent(tokenId, {
+          htmlContent: tokenToEdit.content,
+          address: nftId,
+          tokenId,
+        })
         if (firstUri) {
-          const tokenId = +tokenToEdit.tokenId.split('-')[1]
           const tokenContentUpdateTx = prepareSetTokenKyaTx({
             tokenId: BigInt(tokenId),
             Kya: JSON.stringify({ uri: firstUri, name: tokenToEdit.title }),
@@ -206,12 +182,14 @@ const useIntegrationForm = () => {
           }
         }
       }
-      // 3. Token mints
-      for (let i = 0; i < toMint.length; i++) {
-        const tokenToMint = toMint[i]
-        const firstUri = uriArr[uriIdx++]
+      for (const tokenToMint of toMint) {
+        const tokenId = +tokenToMint.tokenId.split('-')[1]
+        const firstUri = await uploadContent(tokenId, {
+          htmlContent: tokenToMint.content,
+          address: nftId,
+          tokenId,
+        })
         if (firstUri && account?.address) {
-          const tokenId = +tokenToMint.tokenId.split('-')[1]
           const tokenContentMintTx = prepareMintTx({
             to: account.address,
             quantity: 1n,
