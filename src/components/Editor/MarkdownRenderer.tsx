@@ -29,6 +29,7 @@ const MarkdownRenderer = forwardRef<HTMLDivElement, MarkdownRendererProps>(
         filter: { token: fullTokenId },
         limit: 1000,
       },
+      skip: !showComments,
     })
 
     const commentIdsBySectionId = groupBy(commentsIds, 'sectionId')

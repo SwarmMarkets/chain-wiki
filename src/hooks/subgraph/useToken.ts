@@ -10,7 +10,7 @@ import {
 } from 'src/shared/utils/ipfs/types'
 import { useIpfsDownload } from '../web3/useIpfsDownload'
 
-const POLL_INTERVAL = 15000
+const POLL_INTERVAL = 1000 * 100
 
 const useToken = (
   id: QueryTokenArgs['id'],

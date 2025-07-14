@@ -5,6 +5,7 @@ export const useNftBySlug = (slug?: string) => {
   const { nfts, loadingNfts, refetchingNfts, ...rest } = useNFTs(
     {
       variables: { filter: { slug: slug || '' }, limit: 100 },
+      pollInterval: undefined,
       skip: !slug,
     },
     { fetchFullData: false }

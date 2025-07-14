@@ -9,6 +9,7 @@ export const useTokenBySlug = (nftId: string, slug?: string) => {
         filter: { nft: unifyAddressToId(nftId), slug },
         limit: 100,
       },
+      pollInterval: undefined,
       skip: !slug || !nftId,
     },
     { fetchFullData: true }
