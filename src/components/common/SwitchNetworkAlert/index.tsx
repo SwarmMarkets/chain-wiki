@@ -4,15 +4,16 @@ import {
   getActiveOrDefaultChain,
 } from 'src/shared/utils'
 import { useConfigStore } from 'src/shared/store/config-store'
-import useActiveOrDefaultChain from 'src/hooks/web3/useActiveOrDefaultChain'
 import staticConfig from 'src/config'
 import {
+  useActiveWalletChain,
   useActiveWalletConnectionStatus,
   useSwitchActiveWalletChain,
 } from 'thirdweb/react'
+import Button from 'src/components/ui-kit/Button/Button'
 
 const SwitchNetworkAlert: React.FC = () => {
-  const { id: chainId } = useActiveOrDefaultChain()
+  const chain = useActiveWalletChain()
   const { t } = useTranslation('common', { keyPrefix: 'switchNetwork' })
   const supportedChains = staticConfig.supportedChains
   const connected = useActiveWalletConnectionStatus()
@@ -27,22 +28,23 @@ const SwitchNetworkAlert: React.FC = () => {
     window.location.reload()
   }
 
-  const isNetworkSupported = checkNetworkSupported(chainId)
+  const isNetworkSupported = checkNetworkSupported(chain?.id)
   const isConnected = connected === 'connected'
 
   if (isNetworkSupported || !isConnected) return null
 
   return (
-    <div className='flex items-center justify-center border border-white bg-black text-white px-4 py-2 gap-3'>
-      <p className='text-white'>
-        {t('description', { networkName: supportedNetwork.name })}
-      </p>
-      <button
+    <div className='flex justify-center items-center bg-gray-950 text-primary-contrast px-4 py-2 gap-5'>
+      <p>{t('description', { networkName: supportedNetwork.name })}</p>
+      <Button
+        size='sm'
+        color='primary-contrast'
+        style={{ background: 'transparent' }}
+        variant='outlined'
         onClick={handleSwitchNetwork}
-        className='text-white border border-white px-3 py-1 hover:bg-white hover:text-black transition'
       >
         {t('button')}
-      </button>
+      </Button>
     </div>
   )
 }
