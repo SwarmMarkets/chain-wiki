@@ -4,7 +4,6 @@ import {
 } from './arbitrum-sepolia'
 import { baseChainConfig, baseEnvironment } from './base'
 import { polygonChainConfig, polygonEnvironment } from './polygon'
-import { environment } from '..'
 import { Chain } from 'thirdweb/chains'
 
 export enum SupportedChainId {
@@ -13,9 +12,7 @@ export enum SupportedChainId {
   Polygon = polygonChainConfig.id,
 }
 
-const polygonConfig = environment.subgraphApiKey ? [polygonChainConfig] : []
-
-export const mainNetworks: Chain[] = [baseChainConfig, ...polygonConfig]
+export const mainNetworks: Chain[] = [baseChainConfig, polygonChainConfig]
 
 export const testNetworks: Chain[] = [arbitrumSepoliaChainConfig]
 
