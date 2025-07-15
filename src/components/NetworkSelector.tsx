@@ -21,6 +21,7 @@ import { getActiveOrDefaultChain } from 'src/shared/utils'
 const networksIcons: Record<SupportedChainId, IconName> = {
   [SupportedChainId.Base]: 'base',
   [SupportedChainId.Polygon]: 'polygon',
+  [SupportedChainId.ArbitrumSepolia]: 'arbitrum',
 }
 
 const getNetworkOptions = () => {
@@ -51,7 +52,7 @@ const NetworkSelector = () => {
   }
 
   const chainId = lastChainId || staticConfig.defaultChain.id
-
+  console.log(chainId)
   return (
     <Select<number>
       variant='filled'
