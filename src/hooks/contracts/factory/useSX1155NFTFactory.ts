@@ -2,7 +2,12 @@ import { Abi } from 'thirdweb/utils'
 import staticConfig from 'src/config'
 import { SX1155NFTFactoryABI } from 'src/contracts/abis'
 import useContract from 'src/hooks/web3/useContract'
-import { DeployChainWikiParams, deployChainWiki } from 'src/thirdweb/factory'
+import {
+  DeployChainWikiParams,
+  UpdateChainWikiSlugParams,
+  deployChainWiki,
+  updateChainWikiSlug,
+} from 'src/thirdweb/factory'
 
 const useSX1155NFTFactory = () => {
   const { contract } = useContract(
@@ -20,8 +25,18 @@ const useSX1155NFTFactory = () => {
 
     return deployChainWikiTx
   }
+  const prepareUpdateChainWikiSlugTx = (params: UpdateChainWikiSlugParams) => {
+    if (!contract) return null
 
-  return { contract, prepareDeployChainWikiTx }
+    const deployChainWikiTx = updateChainWikiSlug({
+      contract,
+      ...params,
+    })
+
+    return deployChainWikiTx
+  }
+
+  return { contract, prepareDeployChainWikiTx, prepareUpdateChainWikiSlugTx }
 }
 
 export default useSX1155NFTFactory

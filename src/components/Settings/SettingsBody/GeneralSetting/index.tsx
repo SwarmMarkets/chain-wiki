@@ -18,6 +18,7 @@ import useNFTIdParam from 'src/hooks/useNftIdParam'
 import { generateSiteLink } from 'src/shared/utils'
 import SettingCard from '../../SettingCard'
 import SiteNameSetting from './SiteNameSetting'
+import SiteSlugSetting from './SiteSlugSetting'
 
 const GeneralSetting = () => {
   const { nftId, slug } = useNFTIdParam()
@@ -42,6 +43,13 @@ const GeneralSetting = () => {
         title={t('siteName.title')}
       >
         <SiteNameSetting nftAddress={nftId} />
+      </SettingCard>
+      <SettingCard
+        description={t('siteSlug.description')}
+        subtitle={t('siteSlug.subtitle')}
+        title={t('siteSlug.title')}
+      >
+        <SiteSlugSetting nftAddress={nftId} />
       </SettingCard>
       <SettingCard
         description={
