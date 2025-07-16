@@ -26,7 +26,7 @@ const { supportedChains } = staticConfig
 
 const SetupENSForm = () => {
   const switchChain = useSwitchActiveWalletChain()
-  const { nftId, slug } = useNFTIdParam()
+  const { nftId } = useNFTIdParam()
 
   const { t } = useTranslation('nft', { keyPrefix: 'settings.ens' })
   const {
@@ -42,7 +42,7 @@ const SetupENSForm = () => {
   const onSubmit: SubmitHandler<SetupENSFormInputs> = async (data, e) => {
     e?.preventDefault()
     const { domain } = data
-    const siteUrl = generateSiteLink(slug || nftId)
+    const siteUrl = generateSiteLink(nftId)
 
     const uploadHtmlToIpfs = async (html: string): Promise<string> => {
       const file = new File([html], 'index.html', { type: 'text/html' })
