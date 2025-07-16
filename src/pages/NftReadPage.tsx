@@ -9,8 +9,10 @@ import useToken from 'src/hooks/subgraph/useToken'
 import useFullTokenIdParam from 'src/hooks/useFullTokenIdParam'
 import useNFTIdParam from 'src/hooks/useNftIdParam'
 import { findFirstNonGroupVisibleNode } from 'src/shared/utils/treeHelpers'
+import useUpdateRouteToSlug from 'src/hooks/useUpdateRouteToSlug'
 
 const NftReadPage = () => {
+  useUpdateRouteToSlug()
   const { t } = useTranslation('nft')
   const { nftId } = useNFTIdParam()
 
