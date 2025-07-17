@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import useNFTs from './useNFTs'
-import { isAddress } from 'viem' // или ethers.js: import { isAddress } from 'ethers'
+import { isAddress } from 'viem' 
 
 export const useNftBySlugOrAddress = (slugOrAddress?: string) => {
   const isValidAddress = !!slugOrAddress && isAddress(slugOrAddress)
