@@ -1,6 +1,5 @@
-import Flex from 'src/components/ui/Flex'
 import { ChildrenProp } from 'src/shared/types/common-props'
-import Card from '../ui/Card'
+import Card from '../ui-kit/Card'
 
 interface SettingCardProps extends ChildrenProp {
   description: React.ReactNode
@@ -15,7 +14,7 @@ const SettingCard: React.FC<SettingCardProps> = ({
   children,
 }) => {
   return (
-    <Flex flexGrow={1} flexDirection={'column'}>
+    <div className='flex flex-col flex-grow'>
       <div className='flex flex-col gap-3'>
         <h3 className='text-main-accent typo-title3 font-semibold'>{title}</h3>
         <Card className='flex flex-col gap-2'>
@@ -28,7 +27,8 @@ const SettingCard: React.FC<SettingCardProps> = ({
           {children}
         </Card>
       </div>
-    </Flex>
+    </div>
   )
 }
+
 export default SettingCard

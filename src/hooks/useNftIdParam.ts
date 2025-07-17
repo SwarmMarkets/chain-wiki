@@ -1,10 +1,10 @@
 import { useParams } from 'react-router-dom'
-import { useNftBySlug } from './subgraph/useNftBySlug'
+import { useNftBySlugOrAddress } from './subgraph/useNftBySlugOrAddress'
 import { isAddress } from 'ethers/lib/utils'
 
 const useNFTIdParam = () => {
   const { nftIdOrSlug = '' } = useParams()
-  const { nft, loading } = useNftBySlug(nftIdOrSlug)
+  const { nft, loading } = useNftBySlugOrAddress(nftIdOrSlug)
 
   if (!nftIdOrSlug) return { nftId: '', slug: '', loading }
 

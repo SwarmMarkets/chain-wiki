@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { Link, useLocation } from 'react-router-dom'
 import Checkbox from 'src/components/ui-kit/Checkbox/Checkbox'
 import { TokenUriUpdatesQuery } from 'src/queries/gql/graphql'
-import Card from '../../ui/Card'
+import Card from '../../ui-kit/Card'
 import dayjs from 'dayjs'
 
 interface HistoryTokenListProps {

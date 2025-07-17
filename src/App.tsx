@@ -6,7 +6,6 @@ import TokenPage from './pages/TokenPage'
 import client from './services/apollo'
 import RoutePaths from './shared/enums/routes-paths'
 import theme from './theme'
-import { GlobalStyle } from './globalStyle'
 import ConnectWalletPage from './pages/ConnectWalletPage'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import EditPage from './pages/EditPage'
@@ -83,7 +82,6 @@ function App() {
               </Routes>
               <ToastManager />
             </Router>
-            <GlobalStyle />
             <div id='drawers' />
             <div id='modals' />
           </ThemeProvider>

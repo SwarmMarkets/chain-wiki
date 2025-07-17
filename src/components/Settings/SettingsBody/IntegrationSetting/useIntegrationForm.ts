@@ -51,6 +51,7 @@ const useIntegrationForm = () => {
   } = useTokens(
     {
       variables: { filter: { nft: unifyAddressToId(nftId) }, limit: 100 },
+      skip: !nftId,
     },
     { fetchFullData: true }
   )
@@ -139,6 +140,7 @@ const useIntegrationForm = () => {
         })) || []
 
       const newIndexPages: IpfsIndexPage[] = indexPagesWithContent.map(
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         ({ content, ...ip }) => ip
       )
 

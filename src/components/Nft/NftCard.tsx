@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next'
 import useNFTUpdate from 'src/hooks/useNFTUpdate'
 import { isSameEthereumAddress, NFTsQueryFullData } from 'src/shared/utils'
 import dayjs from 'src/shared/utils/dayjsConfig'
-import RequirePermissions from '../common/RequirePermissions'
 import UploadFileButton from '../common/UploadFileButton'
 import Icon from '../ui-kit/Icon/Icon'
 import IconButton from '../ui-kit/IconButton'
@@ -58,16 +57,14 @@ const NftCard: React.FC<NftCardProps> = ({ nft, className }) => {
             className='max-w-44 max-h-16 p-1'
           />
         ) : (
-          <RequirePermissions nftAddress={nft.id} canUpdateContent>
-            <UploadFileButton
-              size='sm'
-              isLoading={tx.isPending}
-              onUpload={handleUploadLogo}
-              variant='outlined'
-            >
-              {t('addLogo', { ns: 'buttons' })}
-            </UploadFileButton>
-          </RequirePermissions>
+          <UploadFileButton
+            size='sm'
+            isLoading={tx.isPending}
+            onUpload={handleUploadLogo}
+            variant='outlined'
+          >
+            {t('addLogo', { ns: 'buttons' })}
+          </UploadFileButton>
         )}
       </div>
       <div>

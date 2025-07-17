@@ -1,7 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import EditHeaderLinks from 'src/components/Nft/NftView/EditHeaderLinks'
-import Card from 'src/components/ui/Card'
+import Card from 'src/components/ui-kit/Card'
 import { useCustomizationStore } from 'src/shared/store/customization-store'
 import { NFTWithMetadata } from 'src/shared/utils'
 import ColorField from '../../ColorFIeld'

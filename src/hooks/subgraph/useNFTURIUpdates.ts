@@ -8,7 +8,11 @@ import {
   NfturiUpdatesQueryVariables,
 } from 'src/queries/gql/graphql'
 import { unifyAddressToId } from 'src/shared/utils'
-import { NftUriUpdatesQueryFullData } from 'src/shared/utils/ipfs/types'
+import {
+  IpfsNftContent,
+  NftUriUpdatesQueryFullData,
+} from 'src/shared/utils/ipfs/types'
+import { useIpfsDownload } from '../web3/useIpfsDownload'
 
 const PAGE_LIMIT = 10
 const POLL_INTERVAL = 15000
@@ -28,6 +32,7 @@ const useNFTURIUpdates = (
   const [fullData, setFullData] = useState<NftUriUpdatesQueryFullData[] | null>(
     null
   )
+  const { download } = useIpfsDownload()
 
   const { data, loading, error, networkStatus, refetch, fetchMore } = useQuery(
     NFTURIUpdatesQuery,
@@ -51,19 +56,15 @@ const useNFTURIUpdates = (
         }
 
         const newUriPromises = data.nfturiupdates.map(item =>
-          storage?.downloadJSON(item.newURI)
+          download<IpfsNftContent>(item.newURI)
         )
         const prevUriPromises = data.nfturiupdates.map(item =>
-          storage?.downloadJSON(item.previousURI)
+          download<IpfsNftContent>(item.previousURI)
         )
         const newUriData = await Promise.all(newUriPromises)
         const prevUriData = await Promise.all(prevUriPromises)
 
         const fullData = data.nfturiupdates.map((item, index) => {
-          if (newUriData[index].error || prevUriData[index].error) {
-            return item
-          }
-
           return {
             ...item,
             ipfsNewUriContent: newUriData[index],

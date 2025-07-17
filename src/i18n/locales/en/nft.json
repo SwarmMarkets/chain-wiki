@@ -32,6 +32,11 @@
       "subtitle": "Rename site",
       "description": "Change the title of your website after it has been published."
     },
+    "siteSlug": {
+      "title": "Site slug",
+      "subtitle": "Edit slug",
+      "description": "Change the slug of your site to make it easier to share and remember."
+    },
     "siteLink": {
       "title": "Your site",
       "description": "Share this link with your audience."

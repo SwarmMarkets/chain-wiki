@@ -16,7 +16,6 @@ import {
 } from './utils'
 import { HIDDEN_INDEX_PAGES_ID } from './const'
 import { EditNodeModel } from './EditIndexPagesTree/types'
-import useTokenUpdate from 'src/hooks/useTokenUpdate'
 import { SafeClientTxStatus } from '@safe-global/sdk-starter-kit/dist/src/constants'
 import { findFirstNonGroupVisibleNode } from 'src/shared/utils/treeHelpers'
 import useNFTIdParam from 'src/hooks/useNftIdParam'
@@ -63,14 +62,17 @@ const useEdit = (readonly?: boolean) => {
     refetching: refetchingFullTokens,
   } = useTokens(
     {
-      variables: { filter: { nft: unifyAddressToId(nftId) }, limit: 100 },
+      variables: {
+        filter: { nft: unifyAddressToId(nftId) },
+        limit: 100,
+      },
+      skip: !nftId,
     },
     { fetchFullData: true }
   )
 
   const { mutateAsync: upload } = useIpfsUpload()
 
-  // Init the first editable token
   useEffect(() => {
     if (!fullTokens || currEditableToken) return
 
@@ -101,74 +103,98 @@ const useEdit = (readonly?: boolean) => {
   const [mergeLoading, setMergeLoading] = useState(false)
 
   const {
-    prepareMintTx,
     prepareSetTokenKyaTx,
     prepareUpdateTokenSlugTx,
     prepareSetContractKyaTx,
+    prepareMintBatchTx,
   } = useSX1155NFT(nftId)
-  const { uploadContent: uploadTokenContent } = useTokenUpdate(nftId)
 
   const merge = async () => {
     setMergeLoading(true)
     const txs: PreparedTransaction[] = []
     try {
-      if (editedTokens.length > 0) {
-        for (const editedToken of editedTokens) {
-          const tokenId = +editedToken.id.split('-')[1]
-          const firstUri = await uploadTokenContent(tokenId, {
-            htmlContent: editedToken.content,
+      // 1. Prepare all files for upload
+      const filesToUpload: string[] = []
+      const editedTokenIndices: number[] = []
+      const addedTokenIndices: number[] = []
+
+      editedTokens.forEach((token, i) => {
+        filesToUpload.push(
+          JSON.stringify({
+            tokenId: +token.id.split('-')[1],
             address: nftId,
-            tokenId,
+            htmlContent: token.content,
           })
-          if (firstUri) {
-            const tokenContentUpdateTx = prepareSetTokenKyaTx({
+        )
+        editedTokenIndices.push(i)
+      })
+      addedTokens.forEach((token, i) => {
+        filesToUpload.push(
+          JSON.stringify({
+            tokenId: +token.id.split('-')[1],
+            address: nftId,
+            htmlContent: token.content,
+          })
+        )
+        addedTokenIndices.push(editedTokens.length + i)
+      })
+
+      // 2. Batch upload
+      let uris: string[] = []
+      if (filesToUpload.length > 0) {
+        const uploadResult = await upload(filesToUpload)
+        uris = Array.isArray(uploadResult) ? uploadResult : [uploadResult]
+      }
+      console.log(uris)
+
+      // 3. Prepare txs for edited tokens
+      editedTokens.forEach((token, i) => {
+        const tokenId = +token.id.split('-')[1]
+        const uri = uris[editedTokenIndices[i]]
+        if (uri) {
+          const tokenContentUpdateTx = prepareSetTokenKyaTx({
+            tokenId: BigInt(tokenId),
+            Kya: JSON.stringify({ uri, name: token.name }),
+          })
+          if (tokenContentUpdateTx) {
+            txs.push(tokenContentUpdateTx)
+          }
+
+          const slugIsEdited =
+            fullTokens?.find(t => t.id === token.id)?.slug !== token.slug
+
+          if (slugIsEdited) {
+            const tokenSlugUpdateTx = prepareUpdateTokenSlugTx({
               tokenId: BigInt(tokenId),
-              Kya: JSON.stringify({ uri: firstUri, name: editedToken.name }),
+              slug: token.slug,
             })
-            if (tokenContentUpdateTx) {
-              txs.push(tokenContentUpdateTx)
-            }
-
-            const slugIsEdited =
-              fullTokens?.find(t => t.id === editedToken.id)?.slug !==
-              editedToken.slug
-
-            if (slugIsEdited) {
-              const tokenSlugUpdateTx = prepareUpdateTokenSlugTx({
-                tokenId: BigInt(tokenId),
-                slug: editedToken.slug,
-              })
-              if (tokenSlugUpdateTx) {
-                txs.push(tokenSlugUpdateTx)
-              }
+            if (tokenSlugUpdateTx) {
+              txs.push(tokenSlugUpdateTx)
             }
           }
         }
-      }
-      if (addedTokens.length > 0) {
-        for (const addedToken of addedTokens) {
-          const tokenId = +addedToken.id.split('-')[1]
-          const firstUri = await uploadTokenContent(tokenId, {
-            htmlContent: addedToken.content,
-            address: nftId,
-            tokenId,
-          })
-          if (firstUri && account?.address) {
-            const tokenContentMintTx = prepareMintTx({
-              to: account.address,
-              quantity: 1n,
-              tokenURI: JSON.stringify({
-                uri: firstUri,
-                name: addedToken.name,
-              }),
-              slug: addedToken.slug,
-            })
-            if (tokenContentMintTx) {
-              txs.push(tokenContentMintTx)
-            }
-          }
+      })
+
+      // 4. Prepare batch mint tx for added tokens
+      if (addedTokens.length > 0 && account?.address) {
+        const accounts = addedTokens.map(() => account.address)
+        const quantities = addedTokens.map(() => 1n)
+        const tokenURIs = addedTokens.map((_, i) => {
+          const uri = uris[addedTokenIndices[i]]
+          return JSON.stringify({ uri, name: addedTokens[i].name })
+        })
+        const slugs = addedTokens.map(token => token.slug)
+        const tokenContentMintBatchTx = prepareMintBatchTx({
+          accounts,
+          quantities,
+          tokenURIs,
+          slugs,
+        })
+        if (tokenContentMintBatchTx) {
+          txs.push(tokenContentMintBatchTx)
         }
       }
+
       if (editedIndexPages.isEdited) {
         const indexPagesIpfsContent = generateIpfsIndexPagesContent({
           indexPages: editedIndexPages.items,

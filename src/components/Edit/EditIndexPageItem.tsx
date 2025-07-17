@@ -83,11 +83,15 @@ const EditIndexPagesItem: React.FC<EditIndexPagesItemProps> = ({
                 !isFirstGroup && 'mt-6',
               ]
             : 'hover:bg-gray-100 cursor-pointer',
-          !isGroup && depth && depth > 0 && parent?.data?.type !== 'group' &&
-            [
-              active ? 'border-l-2 border-primary' : 'border-l-2 border-gray-200',
+          !isGroup &&
+            depth &&
+            depth > 0 &&
+            parent?.data?.type !== 'group' && [
+              active
+                ? 'border-l-2 border-primary'
+                : 'border-l-2 border-gray-200',
               'rounded-tl-none rounded-bl-none',
-              'transition-all duration-200'
+              'transition-all duration-200',
             ],
           className
         )}

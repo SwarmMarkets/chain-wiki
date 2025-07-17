@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useContentRef } from 'src/components/common/Layout/ReadLayout/ContentContext'
+import { useContentRef } from 'src/components/common/Layout/ReadLayout/Content/context'
 import MarkdownRenderer from 'src/components/Editor/MarkdownRenderer'
 import NftReadPageSkeleton from 'src/components/Nft/NftReadSkeleton'
 import AttestationDrawer from 'src/components/Token/Attestation/AttestationDrawer'
@@ -9,8 +9,10 @@ import useToken from 'src/hooks/subgraph/useToken'
 import useFullTokenIdParam from 'src/hooks/useFullTokenIdParam'
 import useNFTIdParam from 'src/hooks/useNftIdParam'
 import { findFirstNonGroupVisibleNode } from 'src/shared/utils/treeHelpers'
+import useUpdateRouteToSlug from 'src/hooks/useUpdateRouteToSlug'
 
 const NftReadPage = () => {
+  useUpdateRouteToSlug()
   const { t } = useTranslation('nft')
   const { nftId } = useNFTIdParam()
 

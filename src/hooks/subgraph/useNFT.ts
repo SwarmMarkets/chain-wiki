@@ -13,7 +13,7 @@ import {
 } from 'src/shared/utils/ipfs/consts'
 import { NFTWithMetadata } from 'src/shared/utils'
 
-const POLL_INTERVAL = 15000
+const POLL_INTERVAL = 1000 * 15
 
 interface UseNFTOptions {
   disableRefetch?: boolean
@@ -28,6 +28,7 @@ const useNFT = (id: string, options?: UseNFTOptions) => {
     variables: {
       id,
     },
+    skip: !id,
   })
 
   const headerLinksUri = options?.fetchFullData ? data?.nft?.headerLinksUri : ''

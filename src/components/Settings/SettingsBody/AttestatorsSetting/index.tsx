@@ -81,7 +81,7 @@ const AttestatorsSetting = () => {
                   <Button
                     className='w-full'
                     onClick={() => handleRemovePreferred(address)}
-                    loading={latestRemovePreferred === address && tx.txLoading}
+                    loading={latestRemovePreferred === address && tx.isPending}
                   >
                     {t('actions.removePreferred')}
                   </Button>

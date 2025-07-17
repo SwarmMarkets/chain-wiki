@@ -3,5 +3,5 @@ export enum SettingView {
   ROLES = 'roles',
   INTEGRATION = 'integration',
   ATTESTATORS = 'attestators',
-  ENS_DOMAIN = "ems-domain"
+  ENS_DOMAIN = "ens-domain"
 }

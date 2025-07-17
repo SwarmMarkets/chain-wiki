@@ -1,5 +1,6 @@
 import SafeApiKit from '@safe-global/api-kit'
 import Safe, {
+  Eip1193Provider,
   SafeConfigWithPredictedSafe,
   SafeConfigWithSafeAddress,
 } from '@safe-global/protocol-kit'
@@ -15,7 +16,7 @@ export const initSafeClient = async (
   if (!accountAddress || !chainId) return null
 
   const safeConfig: SafeConfigWithPredictedSafe | SafeConfigWithSafeAddress = {
-    provider: window.ethereum,
+    provider: window.ethereum as Eip1193Provider,
     signer: accountAddress,
     predictedSafe: {
       safeAccountConfig: {
@@ -34,7 +35,7 @@ export const initSafeClient = async (
     if (isDeployed) {
       const safeAddress = await protocolKit.getAddress()
       protocolKit = await protocolKit.connect({
-        provider: window.ethereum,
+        provider: window.ethereum  as Eip1193Provider,
         signer: accountAddress,
         safeAddress,
       })

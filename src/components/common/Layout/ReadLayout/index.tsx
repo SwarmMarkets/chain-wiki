@@ -4,8 +4,8 @@ import { generatePath, Outlet, useLocation, useParams } from 'react-router-dom'
 import useNFT from 'src/hooks/subgraph/useNFT'
 import RoutePaths from 'src/shared/enums/routes-paths'
 import { findFirstNonGroupVisibleNode } from 'src/shared/utils/treeHelpers'
-import ContentContext from './ContentContext'
-import LeftSidebar, { buildTree } from './LeftSidebar'
+import ContentContext from './Content/ContentContext'
+import LeftSidebar from './LeftSidebar'
 import RightSidebar from './RightSidebar'
 import useNFTIdParam from 'src/hooks/useNftIdParam'
 import Drawer from 'src/components/ui-kit/Drawer'
@@ -13,6 +13,7 @@ import ReadHeader from './ReadHeader'
 import useBreakpoint from 'src/hooks/ui/useBreakpoint'
 import SidebarTree from './SidebarTree'
 import useFullTokenIdParam from 'src/hooks/useFullTokenIdParam'
+import { buildTree } from './utils'
 
 interface ReadLayoutProps {
   preview?: boolean

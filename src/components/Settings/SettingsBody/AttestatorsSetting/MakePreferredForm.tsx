@@ -66,7 +66,7 @@ const MakePreferredForm: React.FC<MakePreferredFormProps> = ({
         }}
         errorMessage={errors.address?.message}
       />
-      <Button type='submit' loading={tx.txLoading} className='w-3/12'>
+      <Button type='submit' loading={tx.isPending} className='w-3/12'>
         {t('actions.makePreferred')}
       </Button>
     </form>
