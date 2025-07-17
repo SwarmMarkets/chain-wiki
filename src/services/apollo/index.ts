@@ -6,11 +6,7 @@ const client = new ApolloClient({
   uri: staticConfig.defaultNetworkEnv.subgraphURL,
   cache: new InMemoryCache(),
   headers: {
-    Authorization: `Bearer ${
-      staticConfig.isDevMode
-        ? environment.subgraphDevApiKey
-        : environment.subgraphApiKey
-    }`,
+    Authorization: `Bearer ${environment.subgraphApiKey}`,
   },
 })
 
