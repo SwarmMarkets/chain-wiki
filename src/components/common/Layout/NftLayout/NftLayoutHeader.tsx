@@ -9,7 +9,7 @@ import useNftPermissions from 'src/hooks/permissions/useNftPermissions'
 import useSmartAccount from 'src/services/safe-protocol-kit/useSmartAccount'
 import { Roles } from 'src/shared/enums'
 import RoutePaths, { RoutePathSetting } from 'src/shared/enums/routes-paths'
-import { NFTWithMetadata } from 'src/shared/utils'
+import { generateSiteLink, NFTWithMetadata } from 'src/shared/utils'
 import NftHeaderSkeleton from './NftHeaderSkeleton'
 import { useTranslation } from 'react-i18next'
 import Icon from 'src/components/ui-kit/Icon/Icon'
@@ -134,13 +134,8 @@ const NftLayoutHeader: React.FC<NftLayoutHeaderProps> = ({ nft, loading }) => {
             </Button>
           )}
         </Link>
-        {!isEditMode && (
-          <Link
-            to={generatePath(RoutePaths.NFT_READ, {
-              nftIdOrSlug: nft?.slug || '',
-            })}
-            target='_blank'
-          >
+        {!isEditMode && nft && (
+          <Link to={generateSiteLink(nft.slug)} target='_blank'>
             <Button
               size='sm'
               StartAdornment={

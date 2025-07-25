@@ -14,6 +14,7 @@ import useBreakpoint from 'src/hooks/ui/useBreakpoint'
 import SidebarTree from './SidebarTree'
 import useFullTokenIdParam from 'src/hooks/useFullTokenIdParam'
 import { buildTree } from './utils'
+import useHandleSwitchChain from 'src/hooks/web3/useHandleSwitchChain'
 
 interface ReadLayoutProps {
   preview?: boolean
@@ -23,6 +24,7 @@ const ReadLayout: React.FC<PropsWithChildren<ReadLayoutProps>> = ({
   children,
   preview,
 }) => {
+  useHandleSwitchChain()
   const { nftId } = useNFTIdParam()
   const { tokenIdOrSlug = '' } = useParams()
   const fullTokenid = useFullTokenIdParam()
