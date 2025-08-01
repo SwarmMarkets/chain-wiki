@@ -25,7 +25,7 @@ const GeneralSetting = () => {
 
   const { t } = useTranslation('nft', { keyPrefix: 'settings' })
 
-  const shareUrl = generateSiteLink(slug || nftId)
+  const shareUrl = generateSiteLink({ nftIdOrSlug: slug || nftId })
 
   const [showCheckmark, setShowCheckmark] = useState(false)
 

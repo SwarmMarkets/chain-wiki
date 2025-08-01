@@ -2,17 +2,26 @@ import { generatePath } from 'react-router-dom'
 import RoutePaths from '../enums/routes-paths'
 import staticConfig from 'src/config'
 import { baseChainConfig } from 'src/environment/networks/base'
+import { getChainById } from './web3'
 
-export const generateSiteLink = (
-  nftIdOrSlug: string,
+interface GenerateSiteLinkParams {
+  nftIdOrSlug: string
   tokenIdOrSlug?: string
-) => {
+  chain?: number
+}
+
+export const generateSiteLink = ({
+  nftIdOrSlug,
+  tokenIdOrSlug,
+  chain: chainParam,
+}: GenerateSiteLinkParams) => {
   const domain = window.location.origin
 
-  const network = staticConfig.defaultChain
+  const chain =
+    (chainParam ? getChainById(chainParam) : staticConfig.defaultChain) ||
+    staticConfig.defaultChain
 
-  const search =
-    network.id !== baseChainConfig.id ? `?chain=${network.name}` : ''
+  const search = chain.id !== baseChainConfig.id ? `?chain=${chain.name}` : ''
 
   if (tokenIdOrSlug) {
     return `${domain}${generatePath(RoutePaths.TOKEN_READ, {

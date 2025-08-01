@@ -1,9 +1,10 @@
 import { useTranslation } from 'react-i18next'
-import { generatePath, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import NftList from 'src/components/Nft/NftList'
 import Button from 'src/components/ui-kit/Button/Button'
 import useNFTExamples from 'src/hooks/subgraph/useNFTExamples'
 import RoutePaths from 'src/shared/enums/routes-paths'
+import { generateSiteLink } from 'src/shared/utils'
 
 const ExplorePage = () => {
   const { t } = useTranslation('explore')
@@ -45,7 +46,10 @@ const ExplorePage = () => {
               skeletonLength={10}
               className='mt-7'
               to={nft =>
-                generatePath(RoutePaths.NFT_READ, { nftIdOrSlug: nft.slug })
+                generateSiteLink({
+                  nftIdOrSlug: nft.slug,
+                  chain: nft.chain,
+                })
               }
             />
           )}

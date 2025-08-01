@@ -145,7 +145,6 @@ const useEdit = (readonly?: boolean) => {
         const uploadResult = await upload(filesToUpload)
         uris = Array.isArray(uploadResult) ? uploadResult : [uploadResult]
       }
-      console.log(uris)
 
       // 3. Prepare txs for edited tokens
       editedTokens.forEach((token, i) => {

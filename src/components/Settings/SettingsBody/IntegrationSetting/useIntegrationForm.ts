@@ -155,7 +155,6 @@ const useIntegrationForm = () => {
       })
       const filesToUpload = [indexPagesIpfsContent]
       const uri = (await upload(filesToUpload)) as string
-      console.log(uri)
       if (uri) {
         const updateIndexPagesTx = prepareSetContractKyaTx({
           Kya: JSON.stringify({ indexPagesUri: uri }),
