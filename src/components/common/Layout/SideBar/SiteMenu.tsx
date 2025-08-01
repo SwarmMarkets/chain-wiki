@@ -11,7 +11,7 @@ const SiteMenu: React.FC<SiteMenuProps> = ({ nftSlug }) => {
   const { t } = useTranslation('layout', { keyPrefix: 'siteMenu' })
   const { addToast } = useToastManager()
 
-  const siteUrl = generateSiteLink(nftSlug)
+  const siteUrl = generateSiteLink({ nftIdOrSlug: nftSlug })
 
   const handleCopyUrl = () => {
     navigator.clipboard.writeText(siteUrl)

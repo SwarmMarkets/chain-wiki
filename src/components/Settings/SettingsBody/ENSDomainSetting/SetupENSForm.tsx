@@ -42,7 +42,7 @@ const SetupENSForm = () => {
   const onSubmit: SubmitHandler<SetupENSFormInputs> = async (data, e) => {
     e?.preventDefault()
     const { domain } = data
-    const siteUrl = generateSiteLink(nftId)
+    const siteUrl = generateSiteLink({ nftIdOrSlug: nftId })
 
     const uploadHtmlToIpfs = async (html: string): Promise<string> => {
       const file = new File([html], 'index.html', { type: 'text/html' })

@@ -1,17 +1,19 @@
 import clsx from 'clsx'
 import React from 'react'
-import { generatePath, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { NfTsQuery } from 'src/queries/gql/graphql'
-import RoutePaths from 'src/shared/enums/routes-paths'
+import { generateSiteLink } from 'src/shared/utils'
 import NftCard from './NftCard'
 import NftSkeletonList from './NftSkeletonList'
 
+type NFTWithChain = NfTsQuery['nfts'][0] & { chain?: number }
+
 interface NftListProps {
   loading: boolean
-  nfts?: NfTsQuery['nfts'] | null
+  nfts?: NFTWithChain[]
   skeletonLength?: number
   className?: string
-  to?: (nft: NfTsQuery['nfts'][0]) => string
+  to?: (nft: NFTWithChain) => string
 }
 
 const NftList: React.FC<NftListProps> = ({
@@ -33,11 +35,7 @@ const NftList: React.FC<NftListProps> = ({
       ) : (
         nfts?.map(nft => (
           <Link
-            to={
-              to
-                ? to(nft)
-                : generatePath(RoutePaths.NFT, { nftIdOrSlug: nft.slug })
-            }
+            to={to ? to(nft) : generateSiteLink({ nftIdOrSlug: nft.slug })}
             key={nft.id}
           >
             <NftCard nft={nft} className='h-full' />

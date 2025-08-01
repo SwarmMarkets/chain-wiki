@@ -52,7 +52,7 @@ const NetworkSelector = () => {
   }
 
   const chainId = lastChainId || staticConfig.defaultChain.id
-  console.log(chainId)
+
   return (
     <Select<number>
       variant='filled'

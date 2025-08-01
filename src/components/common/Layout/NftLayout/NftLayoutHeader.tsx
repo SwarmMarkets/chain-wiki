@@ -135,7 +135,10 @@ const NftLayoutHeader: React.FC<NftLayoutHeaderProps> = ({ nft, loading }) => {
           )}
         </Link>
         {!isEditMode && nft && (
-          <Link to={generateSiteLink(nft.slug)} target='_blank'>
+          <Link
+            to={generateSiteLink({ nftIdOrSlug: nft.slug })}
+            target='_blank'
+          >
             <Button
               size='sm'
               StartAdornment={
