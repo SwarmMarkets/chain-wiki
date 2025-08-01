@@ -53,7 +53,9 @@ const useNFTExamples = () => {
     pollInterval: undefined,
   })
 
-  const isLoading = baseOrSepoliaNfts.loadingNfts || polygonNfts.loadingNfts
+  const isLoading =
+    (baseOrSepoliaNfts.loadingNfts && !baseOrSepoliaNfts.refetchingNfts) ||
+    (polygonNfts.loadingNfts && !polygonNfts.refetchingNfts)
   const isError = baseOrSepoliaNfts.error || polygonNfts.error
 
   const combinedData = useMemo(() => {
