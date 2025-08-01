@@ -32,14 +32,9 @@ const HomePage = () => {
     skip: !address,
   })
 
-  const {
-    nfts: exploreNfts,
-    loadingNfts: loadingExploreNfts,
-    refetchingNfts: refetchingExploreNfts,
-  } = useNFTExamples()
+  const { nfts: exploreNfts, loading: loadingExplore } = useNFTExamples()
 
   const loadingUser = loadingUserNfts && !refetchingUserNfts
-  const loadingExplore = loadingExploreNfts && !refetchingExploreNfts
 
   const hasUserNfts = !loadingUser && userNfts && userNfts.length > 0
 

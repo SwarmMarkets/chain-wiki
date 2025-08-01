@@ -7,9 +7,7 @@ import RoutePaths from 'src/shared/enums/routes-paths'
 
 const ExplorePage = () => {
   const { t } = useTranslation('explore')
-  const { nfts, loadingNfts, refetchingNfts } = useNFTExamples()
-
-  const loading = loadingNfts && !refetchingNfts
+  const { nfts, loading } = useNFTExamples()
 
   const noNfts = !loading && (!nfts || nfts?.length === 0)
 
