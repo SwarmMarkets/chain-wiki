@@ -1,18 +1,18 @@
-import { useActiveAccount } from 'thirdweb/react'
 import clsx from 'clsx'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Link } from 'react-router-dom'
 import useNFTUpdate from 'src/hooks/useNFTUpdate'
-import { isSameEthereumAddress, NFTsQueryFullData } from 'src/shared/utils'
+import { getExplorerUrl, isSameEthereumAddress } from 'src/shared/utils'
 import dayjs from 'src/shared/utils/dayjsConfig'
+import { useActiveAccount } from 'thirdweb/react'
 import UploadFileButton from '../common/UploadFileButton'
 import Icon from '../ui-kit/Icon/Icon'
 import IconButton from '../ui-kit/IconButton'
-import { generatePath, Link } from 'react-router-dom'
-import RoutePaths from 'src/shared/enums/routes-paths'
+import { NFTWithChain } from './NftList'
 
 interface NftCardProps {
-  nft: NFTsQueryFullData
+  nft: NFTWithChain
   addLogoButton?: boolean
   className?: string
 }
@@ -71,7 +71,11 @@ const NftCard: React.FC<NftCardProps> = ({ nft, className }) => {
         <div className='flex justify-between items-center'>
           <h3 className='text-lg font-semibold truncate'>{nft.name}</h3>
           <Link
-            to={generatePath(RoutePaths.NFT_READ, { nftIdOrSlug: nft.slug })}
+            to={getExplorerUrl({
+              type: 'address',
+              hash: nft.id,
+              chainId: nft.chain,
+            })}
             onClick={e => e.stopPropagation()}
             target='_blank'
           >

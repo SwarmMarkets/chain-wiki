@@ -11,7 +11,9 @@ export interface ExplorerUrlOptions {
 export const getExplorerUrl = ({ type, hash, chainId }: ExplorerUrlOptions) => {
   if (!hash) return ''
 
-  const chain = staticConfig.supportedChains.find(chain => chain.id === chainId)
+  const chain =
+    staticConfig.supportedChains.find(chain => chain.id === chainId) ||
+    staticConfig.defaultChain
 
   const explorerLinkPrefix = chain?.blockExplorers?.[0].url
 
