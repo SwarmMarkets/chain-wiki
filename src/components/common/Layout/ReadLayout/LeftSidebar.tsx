@@ -2,11 +2,12 @@ import clsx from 'clsx'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import useFullTokenIdParam from 'src/hooks/useFullTokenIdParam'
-import { NFTWithMetadata } from 'src/shared/utils'
+import { getExplorerUrl, NFTWithMetadata } from 'src/shared/utils'
 import LeftSidebarSkeleton from './Content/LeftSidebarSkeleton'
 import SidebarTree from './SidebarTree'
 import { ISidebarTreeNode } from './SidebarTreeNode'
 import { buildTree } from './utils'
+import Icon from 'src/components/ui-kit/Icon/Icon'
 
 interface LeftSidebarProps {
   nft: NFTWithMetadata | null
@@ -41,6 +42,18 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
     return <LeftSidebarSkeleton />
   }
 
+  const explorerUrl = getExplorerUrl({
+    type: 'address',
+    hash: nft.id,
+  })
+
+  let explorerName = 'Explorer'
+  if (explorerUrl.includes('polygonscan')) {
+    explorerName = 'Polygonscan'
+  } else if (explorerUrl.includes('basescan')) {
+    explorerName = 'Basescan'
+  }
+
   return (
     <aside
       className={clsx(
@@ -49,7 +62,7 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
       )}
       style={{ height: `calc(100vh - ${preview ? 20 : 9}rem)` }}
     >
-      <div className={clsx('flex-grow overflow-y-auto pr-2')}>
+      <div className='flex-grow overflow-y-auto pr-2'>
         {treeData.length > 0 ? (
           <SidebarTree
             data={treeData}
@@ -60,12 +73,22 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
           <p className='text-body2 px-4 py-2'>{t('noDataAvailable')}</p>
         )}
       </div>
-      <div className='p-3'>
+
+      <div className='mt-auto flex flex-col gap-2 p-3'>
+        <a
+          href={explorerUrl}
+          target='_blank'
+          rel='noopener noreferrer'
+          className='text-sm text-gray-400 hover:text-primary no-underline inline-flex items-center gap-1'
+        >
+          <Icon name='external-link' size={14} className='text-inherit' />
+          {t('sidebar.viewOnExplorer', { explorerName })}
+        </a>
         <a
           href='https://www.chainwiki.com'
           target='_blank'
           rel='noopener noreferrer'
-          className='text-sm text-gray-400 no-underline hover:text-primary inline-flex items-center gap-1'
+          className='text-sm text-gray-400 hover:text-primary no-underline inline-flex items-center gap-1'
         >
           <img
             src='/assets/icon-logo.png'

@@ -10,7 +10,8 @@
       "github": "GitHub Repository",
       "changelog": "Smart Contract Changelog",
       "docs": "Documentation"
-    }
+    },
+    "viewOnExplorer": "View on {{explorerName}}"
   },
   "siteMenu": {
     "visitSite": "Visit site",
