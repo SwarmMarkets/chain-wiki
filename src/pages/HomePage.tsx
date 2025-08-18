@@ -2,12 +2,10 @@
 import { useActiveAccount } from 'thirdweb/react'
 import clsx from 'clsx'
 import { useTranslation } from 'react-i18next'
-import { generatePath } from 'react-router-dom'
 import NftList from 'src/components/Nft/NftList'
 import useNFTExamples from 'src/hooks/subgraph/useNFTExamples'
 import useNFTs from 'src/hooks/subgraph/useNFTs'
 import { Nft_OrderBy, OrderDirection } from 'src/queries/gql/graphql'
-import RoutePaths from 'src/shared/enums/routes-paths'
 import { generateSiteLink } from 'src/shared/utils'
 
 const HomePage = () => {

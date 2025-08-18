@@ -2,10 +2,11 @@ import { ApolloClient, InMemoryCache } from '@apollo/client'
 import staticConfig from 'src/config'
 import { environment } from 'src/environment'
 
+
 export const commonAppoloClientConfig = {
   cache: new InMemoryCache(),
   headers: {
-    Authorization: `Bearer ${environment.subgraphApiKey}`,
+    Authorization: `Bearer ${staticConfig.isDevMode ? environment.subgraphDevApiKey : environment.subgraphApiKey}`,
   },
 }
 
