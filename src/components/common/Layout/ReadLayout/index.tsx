@@ -46,11 +46,8 @@ const ReadLayout: React.FC<PropsWithChildren<ReadLayoutProps>> = ({
       tokenIdOrSlug: tokenIdOrSlug,
     })
 
-  const firstTokenId = useMemo(() => {
-    return (
-      findFirstNonGroupVisibleNode(nft?.indexPagesContent?.indexPages)
-        ?.tokenId || ''
-    )
+  const firstToken = useMemo(() => {
+    return findFirstNonGroupVisibleNode(nft?.indexPagesContent?.indexPages)
   }, [nft?.indexPagesContent?.indexPages])
 
   useEffect(() => {
@@ -96,7 +93,7 @@ const ReadLayout: React.FC<PropsWithChildren<ReadLayoutProps>> = ({
             >
               <SidebarTree
                 data={treeData}
-                selectedId={fullTokenid || firstTokenId}
+                selectedId={fullTokenid || firstToken?.tokenId || ''}
                 onSelect={() => setLeftSidebarOpen(false)}
               />
             </Drawer>
@@ -104,7 +101,7 @@ const ReadLayout: React.FC<PropsWithChildren<ReadLayoutProps>> = ({
             <LeftSidebar
               nft={nft}
               preview={preview}
-              firstTokenId={firstTokenId}
+              firstTokenId={firstToken?.tokenId || ''}
             />
           )}
 
@@ -116,7 +113,7 @@ const ReadLayout: React.FC<PropsWithChildren<ReadLayoutProps>> = ({
             <RightSidebar
               preview={preview}
               isLoading={loading}
-              firstTokenId={firstTokenId}
+              firstTokenSlug={firstToken?.slug || ''}
             />
           )}
         </div>

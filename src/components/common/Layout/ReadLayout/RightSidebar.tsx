@@ -1,17 +1,17 @@
 import clsx from 'clsx'
 import React from 'react'
+import { generatePath, Link, Route, useParams } from 'react-router-dom'
 import Content from 'src/components/common/Layout/ReadLayout/Content'
-import RightSidebarSkeleton from './Content/RightSidebarSkeleton'
-import { useParams, generatePath, Link } from 'react-router-dom'
-import RoutePaths from 'src/shared/enums/routes-paths'
 import Button from 'src/components/ui-kit/Button/Button'
-import { splitTokenId } from 'src/shared/utils'
+import { generateSiteLink } from 'src/shared/utils'
 import { useContentRef } from './Content/context'
+import RightSidebarSkeleton from './Content/RightSidebarSkeleton'
+import RoutePaths from 'src/shared/enums/routes-paths'
 
 interface RightSidebarProps {
   preview?: boolean
   isLoading?: boolean
-  firstTokenId: string
+  firstTokenSlug: string
   className?: string
 }
 
@@ -19,20 +19,9 @@ const RightSidebar: React.FC<RightSidebarProps> = ({
   preview,
   isLoading,
   className,
-  firstTokenId,
+  firstTokenSlug,
 }) => {
-  const { nftId, tokenId } = useParams<{ nftId?: string; tokenId?: string }>()
-
-  const currentNftId = nftId ?? null
-  const currentTokenId = tokenId ?? null
-
-  const historyPath =
-    currentNftId && currentTokenId
-      ? generatePath(RoutePaths.TOKEN_READ_HISTORY, {
-          nftIdOrSlug: currentNftId,
-          tokenIdOrSlug: currentTokenId || splitTokenId(firstTokenId).tokenId,
-        })
-      : ''
+  const { nftIdOrSlug = '', tokenIdOrSlug = '' } = useParams()
 
   const { contentElem } = useContentRef()
 
@@ -48,18 +37,22 @@ const RightSidebar: React.FC<RightSidebarProps> = ({
       )}
     >
       <div className='mb-4'>
-        {currentNftId && historyPath ? (
-          <Link to={historyPath} className='no-underline'>
-            <Button
-              variant='contained'
-              size='sm'
-              color='primary'
-              className={className}
-            >
-              View page history
-            </Button>
-          </Link>
-        ) : null}
+        <Link
+          to={generatePath(RoutePaths.TOKEN_READ_HISTORY, {
+            nftIdOrSlug,
+            tokenIdOrSlug: tokenIdOrSlug || firstTokenSlug,
+          })}
+          className='no-underline'
+        >
+          <Button
+            variant='contained'
+            size='sm'
+            color='primary'
+            className={className}
+          >
+            View page history
+          </Button>
+        </Link>
       </div>
       <Content contentElem={contentElem} />
     </aside>
