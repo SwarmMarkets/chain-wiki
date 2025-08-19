@@ -2,10 +2,16 @@ import differenceWith from 'lodash/differenceWith'
 import React, { useEffect, useMemo, useState } from 'react'
 import useNFT from 'src/hooks/subgraph/useNFT'
 import useTokens from 'src/hooks/subgraph/useTokens'
-import { useEditingStore } from 'src/shared/store/editing-store'
+import {
+  EditedIndexPagesState,
+  EditingToken,
+  useEditingStore,
+} from 'src/shared/store/editing-store'
 import {
   generateIpfsIndexPagesContent,
+  IpfsIndexPage,
   isSameEthereumAddress,
+  TokensQueryFullData,
   unifyAddressToId,
 } from 'src/shared/utils'
 import {
@@ -71,6 +77,82 @@ const useEdit = (readonly?: boolean) => {
     { fetchFullData: true }
   )
 
+  // Генерация уникальных slug-ов с учётом связей токенов, indexPages и fullTokens
+  const normalizeSlugs = (
+    addedTokens: EditingToken[],
+    editedTokens: EditingToken[],
+    editedIndexPages: EditedIndexPagesState,
+    fullTokens: TokensQueryFullData[] = []
+  ) => {
+    // Collect all elements into a single list
+    const allItems = [
+      ...addedTokens.map(t => ({
+        id: t.id,
+        slug: t.slug,
+        name: t.name,
+      })),
+      ...editedTokens.map(t => ({
+        id: t.id,
+        slug: t.slug,
+        name: t.name,
+      })),
+    ]
+
+    // fullTokens are only taken into account for slug occupancy
+    const occupiedSlugs = new Set(fullTokens.map(t => t.slug))
+
+    const slugCount: Record<string, number> = {}
+    const updatedSlugs: Record<string, string> = {}
+
+    allItems.forEach(item => {
+      const baseSlug = item.slug
+      let newSlug = baseSlug
+      let i = 1
+
+      // check both busy slugs from fullTokens and those already processed
+      while (occupiedSlugs.has(newSlug) || slugCount[newSlug]) {
+        i++
+        newSlug = `${baseSlug}-${i}`
+      }
+
+      slugCount[newSlug] = 1
+      updatedSlugs[item.id] = newSlug
+
+      occupiedSlugs.add(newSlug) // to be taken into account in subsequent iterations
+    })
+
+    // Apply new slugs to tokens and indexPages
+    const normalizedAddedTokens: EditingToken[] = addedTokens.map(t => ({
+      ...t,
+      slug: updatedSlugs[t.id],
+    }))
+    const normalizedEditedTokens: EditingToken[] = editedTokens.map(t => ({
+      ...t,
+      slug: updatedSlugs[t.id],
+    }))
+    const normalizedEditedIndexPages: EditedIndexPagesState = {
+      isEdited: editedIndexPages.isEdited,
+      items: editedIndexPages.items.map(p => {
+        if (updatedSlugs[p.tokenId]) {
+          return { ...p, slug: updatedSlugs[p.tokenId] }
+        }
+        return p
+      }),
+    }
+
+    console.log({
+      normalizedAddedTokens,
+      normalizedEditedTokens,
+      normalizedEditedIndexPages,
+    })
+
+    return {
+      normalizedAddedTokens,
+      normalizedEditedTokens,
+      normalizedEditedIndexPages,
+    }
+  }
+
   const { mutateAsync: upload } = useIpfsUpload()
 
   useEffect(() => {
@@ -109,16 +191,68 @@ const useEdit = (readonly?: boolean) => {
     prepareMintBatchTx,
   } = useSX1155NFT(nftId)
 
+  const updateTokenName = (
+    id: string,
+    data: { name: string; slug: string }
+  ) => {
+    const addedToken = addedTokens.find(t => t.id === id)
+
+    if (addedToken) {
+      updateOrCreateAddedToken({
+        ...addedToken,
+        name: data.name,
+        slug: data.slug,
+      })
+    } else {
+      const token = fullTokens?.find(t => t.id === id)
+      const editedToken = getEditedTokenById(id)
+
+      if (token) {
+        const content =
+          editedToken?.content || token.ipfsContent?.htmlContent || ''
+
+        updateOrCreateEditedToken({
+          id: token.id,
+          name: data.name,
+          slug: data.slug,
+          content,
+        })
+      }
+    }
+
+    const indexPageToUpdate = editedIndexPages.items.find(p => p.tokenId === id)
+
+    if (indexPageToUpdate) {
+      updateIndexPage({
+        ...indexPageToUpdate,
+        title: data.name,
+        slug: data.slug,
+      })
+    }
+  }
+
   const merge = async () => {
     setMergeLoading(true)
     const txs: PreparedTransaction[] = []
     try {
-      // 1. Prepare all files for upload
+      // 1. Normalize slugs to avoid conflicts
+      const {
+        normalizedAddedTokens,
+        normalizedEditedIndexPages,
+        normalizedEditedTokens,
+      } = normalizeSlugs(
+        addedTokens,
+        editedTokens,
+        editedIndexPages,
+        fullTokens
+      )
+
+      // 2. Prepare all files for upload
       const filesToUpload: string[] = []
       const editedTokenIndices: number[] = []
       const addedTokenIndices: number[] = []
 
-      editedTokens.forEach((token, i) => {
+      normalizedEditedTokens.forEach((token, i) => {
         filesToUpload.push(
           JSON.stringify({
             tokenId: +token.id.split('-')[1],
@@ -128,7 +262,7 @@ const useEdit = (readonly?: boolean) => {
         )
         editedTokenIndices.push(i)
       })
-      addedTokens.forEach((token, i) => {
+      normalizedAddedTokens.forEach((token, i) => {
         filesToUpload.push(
           JSON.stringify({
             tokenId: +token.id.split('-')[1],
@@ -136,7 +270,7 @@ const useEdit = (readonly?: boolean) => {
             htmlContent: token.content,
           })
         )
-        addedTokenIndices.push(editedTokens.length + i)
+        addedTokenIndices.push(normalizedEditedTokens.length + i)
       })
 
       // 2. Batch upload
@@ -147,7 +281,7 @@ const useEdit = (readonly?: boolean) => {
       }
 
       // 3. Prepare txs for edited tokens
-      editedTokens.forEach((token, i) => {
+      normalizedEditedTokens.forEach((token, i) => {
         const tokenId = +token.id.split('-')[1]
         const uri = uris[editedTokenIndices[i]]
         if (uri) {
@@ -175,14 +309,14 @@ const useEdit = (readonly?: boolean) => {
       })
 
       // 4. Prepare batch mint tx for added tokens
-      if (addedTokens.length > 0 && account?.address) {
-        const accounts = addedTokens.map(() => account.address)
-        const quantities = addedTokens.map(() => 1n)
-        const tokenURIs = addedTokens.map((_, i) => {
+      if (normalizedAddedTokens.length > 0 && account?.address) {
+        const accounts = normalizedAddedTokens.map(() => account.address)
+        const quantities = normalizedAddedTokens.map(() => 1n)
+        const tokenURIs = normalizedAddedTokens.map((_, i) => {
           const uri = uris[addedTokenIndices[i]]
-          return JSON.stringify({ uri, name: addedTokens[i].name })
+          return JSON.stringify({ uri, name: normalizedAddedTokens[i].name })
         })
-        const slugs = addedTokens.map(token => token.slug)
+        const slugs = normalizedAddedTokens.map(token => token.slug)
         const tokenContentMintBatchTx = prepareMintBatchTx({
           accounts,
           quantities,
@@ -194,9 +328,9 @@ const useEdit = (readonly?: boolean) => {
         }
       }
 
-      if (editedIndexPages.isEdited) {
+      if (normalizedEditedIndexPages.isEdited) {
         const indexPagesIpfsContent = generateIpfsIndexPagesContent({
-          indexPages: editedIndexPages.items,
+          indexPages: normalizedEditedIndexPages.items,
           address: nftId,
         })
         const uri = (await upload([indexPagesIpfsContent])) as string
@@ -255,46 +389,6 @@ const useEdit = (readonly?: boolean) => {
       )
     )
   }, [editedIndexPages.items, fullTokens])
-
-  const updateTokenName = (
-    id: string,
-    data: { name: string; slug: string }
-  ) => {
-    const addedToken = addedTokens.find(t => t.id === id)
-
-    if (addedToken) {
-      updateOrCreateAddedToken({
-        ...addedToken,
-        name: data.name,
-        slug: data.slug,
-      })
-    } else {
-      const token = fullTokens?.find(t => t.id === id)
-      const editedToken = getEditedTokenById(id)
-
-      if (token) {
-        const content =
-          editedToken?.content || token.ipfsContent?.htmlContent || ''
-
-        updateOrCreateEditedToken({
-          id: token.id,
-          name: data.name,
-          slug: data.slug,
-          content,
-        })
-      }
-    }
-
-    const indexPageToUpdate = editedIndexPages.items.find(p => p.tokenId === id)
-
-    if (indexPageToUpdate) {
-      updateIndexPage({
-        ...indexPageToUpdate,
-        title: data.name,
-        slug: data.slug,
-      })
-    }
-  }
 
   const treeData = React.useMemo<EditNodeModel[]>(() => {
     const editedIndexPagesNodes = convertIndexPagesToNodes(

@@ -1,14 +1,14 @@
 import { create } from 'zustand'
 import { IpfsIndexPage } from '../utils'
 
-interface EditingToken {
+export interface EditingToken {
   id: string
   name: string
   slug: string
   content: string
 }
 
-interface EditedIndexPagesState {
+export interface EditedIndexPagesState {
   isEdited: boolean
   items: IpfsIndexPage[]
 }
