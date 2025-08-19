@@ -43,7 +43,7 @@ const SiteSlugSetting: React.FC<SiteSlugSettingProps> = ({ nftAddress }) => {
 
   const slugValue = slug === null ? nft?.slug || '' : slug
   const slugChanged = slugValue && slugValue !== nft?.slug
-  const slugError = !slugValue || !/^[a-z0-9-]+$/.test(slugValue)
+  const slugError = !slugValue || !/^[A-z0-9-]+$/.test(slugValue)
 
   // Check for slug uniqueness when format is valid and value is changed
   const slugToCheck = slugChanged && !slugError ? slugValue : undefined

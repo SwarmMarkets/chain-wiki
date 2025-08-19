@@ -40,7 +40,7 @@
         "slug": "Enter site URL (slug)"
       },
       "formErrors": {
-        "invalid": "Invalid slug (lowercase letters, numbers, dashes only)",
+        "invalid": "Invalid slug (letters, numbers, dashes only)",
         "exists": "Slug already exists"
       }
     },
@@ -250,7 +250,9 @@
         "invalid": "Editor address is invalid"
       },
       "slug": {
-        "required": "Site URL is required"
+        "required": "Site URL is required",
+        "invalid": "Invalid slug (letters, numbers, dashes only)",
+        "exists": "Slug already exists"
       }
     },
     "successMessage": "Site created."

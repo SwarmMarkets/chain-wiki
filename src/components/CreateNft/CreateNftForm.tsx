@@ -14,6 +14,8 @@ import { generateSlug } from '../Edit/utils'
 import { useEffect } from 'react'
 import useSX1155NFTFactory from 'src/hooks/contracts/factory/useSX1155NFTFactory'
 import useSendTx from 'src/hooks/web3/useSendTx'
+import { useNftBySlugOrAddress } from 'src/hooks/subgraph/useNftBySlugOrAddress'
+import useDebouncedValue from 'src/hooks/useDebouncedValue'
 
 interface CreateNftFormProps {
   onSuccessSubmit(): void
@@ -35,12 +37,23 @@ const CreateNftForm: React.FC<CreateNftFormProps> = ({ onSuccessSubmit }) => {
   const [uploadedLogoUrl, setUploadedLogoUrl] = useState<string | null>(null)
 
   const name = watch('name')
+  const slug = watch('slug')
 
   useEffect(() => {
     if (name) {
       setValue('slug', generateSlug(name))
     }
   }, [name, setValue])
+
+  // Slug validation (format + uniqueness)
+  const slugValue = slug || ''
+  const slugInvalid = !!slugValue && !/^[A-z0-9-]+$/.test(slugValue)
+  const slugToCheck = slugValue && !slugInvalid ? slugValue : undefined
+  const debouncedSlug = useDebouncedValue<string | undefined>(slugToCheck)
+  const { nft: existingNft, loading: checkingSlug } = useNftBySlugOrAddress(
+    debouncedSlug
+  )
+  const slugExistsError = !!existingNft
 
   const onSubmit: SubmitHandler<CreateNftFormInputs> = async (data, e) => {
     e?.preventDefault()
@@ -94,7 +107,14 @@ const CreateNftForm: React.FC<CreateNftFormProps> = ({ onSuccessSubmit }) => {
             placeholder: t('formPlaceholders.slug'),
             ...register('slug'),
           }}
-          errorMessage={errors.slug?.message}
+          errorMessage={
+            errors.slug?.message ||
+            (slugInvalid
+              ? t('formErrors.slug.invalid')
+              : slugExistsError
+              ? t('formErrors.slug.exists')
+              : undefined)
+          }
         />
         <div className='mb-2 mt-2'>
           {uploadedLogoUrl && (
@@ -106,7 +126,11 @@ const CreateNftForm: React.FC<CreateNftFormProps> = ({ onSuccessSubmit }) => {
             {t('form.uploadLogo')}
           </UploadFileButton>
         </div>
-        <Button type='submit' loading={isPending}>
+        <Button
+          type='submit'
+          loading={isPending}
+          disabled={isPending || slugInvalid || slugExistsError || checkingSlug}
+        >
           {t('form.submit')}
         </Button>
       </form>
