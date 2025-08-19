@@ -35,7 +35,14 @@
     "siteSlug": {
       "title": "Site slug",
       "subtitle": "Edit slug",
-      "description": "Change the slug of your site to make it easier to share and remember."
+      "description": "Change the slug of your site to make it easier to share and remember.",
+      "formPlaceholders": {
+        "slug": "Enter site URL (slug)"
+      },
+      "formErrors": {
+        "invalid": "Invalid slug (letters, numbers, dashes only)",
+        "exists": "Slug already exists"
+      }
     },
     "siteLink": {
       "title": "Your site",
@@ -243,7 +250,9 @@
         "invalid": "Editor address is invalid"
       },
       "slug": {
-        "required": "Site URL is required"
+        "required": "Site URL is required",
+        "invalid": "Invalid slug (letters, numbers, dashes only)",
+        "exists": "Slug already exists"
       }
     },
     "successMessage": "Site created."
