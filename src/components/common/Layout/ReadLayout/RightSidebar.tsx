@@ -1,12 +1,11 @@
 import clsx from 'clsx'
 import React from 'react'
-import { generatePath, Link, Route, useParams } from 'react-router-dom'
+import { generatePath, Link, useParams } from 'react-router-dom'
 import Content from 'src/components/common/Layout/ReadLayout/Content'
 import Button from 'src/components/ui-kit/Button/Button'
-import { generateSiteLink } from 'src/shared/utils'
+import RoutePaths from 'src/shared/enums/routes-paths'
 import { useContentRef } from './Content/context'
 import RightSidebarSkeleton from './Content/RightSidebarSkeleton'
-import RoutePaths from 'src/shared/enums/routes-paths'
 
 interface RightSidebarProps {
   preview?: boolean
