@@ -1,15 +1,15 @@
 enum RoutePaths {
   CONNECT_WALLET = '/connect',
-  TOKEN = '/page/:tokenIdOrSlug',
-  NFT = '/m/site/:nftIdOrSlug',
+  TOKEN = '/:tokenIdOrSlug',
+  NFT = '/m/:nftIdOrSlug',
   HOME = '/',
   EXPLORE = '/explore',
   EDIT = '/m/edit/:nftIdOrSlug',
-  NFT_READ = '/site/:nftIdOrSlug',
-  TOKEN_READ = '/site/:nftIdOrSlug/page/:tokenIdOrSlug',
-  SETTINGS = '/m/site/:nftIdOrSlug/settings/:setting',
-  HISTORY = '/m/site/:nftIdOrSlug/page/:tokenIdOrSlug/history',
-  TOKEN_READ_HISTORY = '/site/:nftIdOrSlug/page/:tokenIdOrSlug/history',
+  NFT_READ = '/:nftIdOrSlug',
+  TOKEN_READ = '/:nftIdOrSlug/:tokenIdOrSlug',
+  SETTINGS = '/m/:nftIdOrSlug/settings/:setting',
+  HISTORY = '/m/:nftIdOrSlug/:tokenIdOrSlug/history',
+  TOKEN_READ_HISTORY = '/:nftIdOrSlug/:tokenIdOrSlug/history',
 }
 
 export default RoutePaths
