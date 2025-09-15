@@ -17,7 +17,8 @@
           "label": "Slug",
           "placeholder": "Enter slug",
           "required": "Slug is required",
-          "help": "The slug will be automatically generated from the name. You can also edit it manually."
+          "help": "The slug will be automatically generated from the name. You can also edit it manually.",
+          "exists": "This slug already exists"
         }
       },
       "buttons": {
