@@ -14,6 +14,7 @@ import Icon from '../ui-kit/Icon/Icon'
 import IconButton from '../ui-kit/IconButton'
 import useCommentIds from 'src/hooks/subgraph/useCommentIds'
 import { groupBy } from 'lodash'
+import { useNavigate } from 'react-router-dom'
 
 interface MarkdownRendererProps {
   fullTokenId?: string
@@ -86,11 +87,30 @@ const MarkdownRenderer = forwardRef<HTMLDivElement, MarkdownRendererProps>(
           jsx: prod.jsx,
           jsxs: prod.jsxs,
           components: {
-            a: (props: any) => (
-              <a {...props} target='_blank' rel='noopener noreferrer'>
-                {props.children}
-              </a>
-            ),
+            a: (props: any) => {
+              // eslint-disable-next-line react-hooks/rules-of-hooks
+              const navigate = useNavigate()
+              const href: string = props.href || ''
+              const isRelative = href.startsWith('/')
+
+              const handleClick = (e: React.MouseEvent) => {
+                if (isRelative) {
+                  e.preventDefault()
+                  navigate(href) // клиентский редирект через React Router
+                }
+              }
+
+              return (
+                <a
+                  {...props}
+                  {...(isRelative
+                    ? { onClick: handleClick }
+                    : { target: '_blank', rel: 'noopener noreferrer' })}
+                >
+                  {props.children}
+                </a>
+              )
+            },
             ...(showComments && {
               p: (props: any) => (
                 <ParagraphWithComment
