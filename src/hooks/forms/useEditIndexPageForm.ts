@@ -8,7 +8,6 @@ import useNFTIdParam from 'src/hooks/useNftIdParam'
 import { useEditingStore } from 'src/shared/store/editing-store'
 import { unifyAddressToId } from 'src/shared/utils'
 import useDebouncedValue from '../useDebouncedValue'
-import useEdit from 'src/components/Edit/useEdit'
 
 export interface EditIndexPageFormInputs {
   name: string
@@ -69,7 +68,15 @@ const useEditIndexPageForm = (defaultValues?: EditIndexPageFormInputs) => {
   }, [methods])
 
   const { editedIndexPages, addedTokens, editedTokens } = useEditingStore()
-  const { fullTokens } = useEdit(true)
+  // Real-time uniqueness validation for manually edited slugs
+  const { nftId } = useNFTIdParam()
+  const { fullTokens } = useTokens(
+    {
+      variables: { filter: { nft: unifyAddressToId(nftId) }, limit: 200 },
+      skip: !nftId,
+    },
+    { fetchFullData: false }
+  )
 
   const occupiedSlugs = useMemo(() => {
     return new Set<string>([
