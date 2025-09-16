@@ -9,7 +9,6 @@ import {
 } from 'src/shared/store/editing-store'
 import {
   generateIpfsIndexPagesContent,
-  IpfsIndexPage,
   isSameEthereumAddress,
   TokensQueryFullData,
   unifyAddressToId,
@@ -77,74 +76,58 @@ const useEdit = (readonly?: boolean) => {
     { fetchFullData: true }
   )
 
-  // Генерация уникальных slug-ов с учётом связей токенов, indexPages и fullTokens
+  // Генерация уникальных slug-ов: авто-инкремент ТОЛЬКО для дефолтных slug-ов новых страниц
   const normalizeSlugs = (
     addedTokens: EditingToken[],
     editedTokens: EditingToken[],
     editedIndexPages: EditedIndexPagesState,
     fullTokens: TokensQueryFullData[] = []
   ) => {
-    // Collect all elements into a single list
-    const allItems = [
-      ...addedTokens.map(t => ({
-        id: t.id,
-        slug: t.slug,
-        name: t.name,
-      })),
-      ...editedTokens.map(t => ({
-        id: t.id,
-        slug: t.slug,
-        name: t.name,
-      })),
-    ]
+    const DEFAULT_PAGE_SLUG = 'page'
 
-    // fullTokens are only taken into account for slug occupancy
+    // Занятые slug'и текущего сайта (из блокчейна)
     const occupiedSlugs = new Set(fullTokens.map(t => t.slug))
 
-    const slugCount: Record<string, number> = {}
-    const updatedSlugs: Record<string, string> = {}
-
-    allItems.forEach(item => {
-      const baseSlug = item.slug
-      let newSlug = baseSlug
-      let i = 1
-
-      // check both busy slugs from fullTokens and those already processed
-      while (occupiedSlugs.has(newSlug) || slugCount[newSlug]) {
-        i++
-        newSlug = `${baseSlug}-${i}`
+    // 1) Обработать добавленные страницы: только дефолтные slug'и получают инкремент
+    const nextSlugForDefault = (base: string): string => {
+      if (base !== DEFAULT_PAGE_SLUG) return base
+      let index = 0
+      let candidate = base
+      while (occupiedSlugs.has(candidate)) {
+        index += 1
+        candidate = `${base}-${index}`
       }
+      occupiedSlugs.add(candidate)
+      return candidate
+    }
 
-      slugCount[newSlug] = 1
-      updatedSlugs[item.id] = newSlug
-
-      occupiedSlugs.add(newSlug) // to be taken into account in subsequent iterations
+    const normalizedAddedTokens: EditingToken[] = addedTokens.map(t => {
+      const finalSlug = nextSlugForDefault(t.slug)
+      return { ...t, slug: finalSlug }
     })
 
-    // Apply new slugs to tokens and indexPages
-    const normalizedAddedTokens: EditingToken[] = addedTokens.map(t => ({
-      ...t,
-      slug: updatedSlugs[t.id],
-    }))
-    const normalizedEditedTokens: EditingToken[] = editedTokens.map(t => ({
-      ...t,
-      slug: updatedSlugs[t.id],
-    }))
+    // 2) Отредактированные страницы: не меняем slug здесь (валидируется в форме)
+    // Но помечаем занятые, чтобы исключить коллизии с последующими шагами
+    const normalizedEditedTokens: EditingToken[] = editedTokens.map(t => {
+      occupiedSlugs.add(t.slug)
+      return t
+    })
+
+    // 3) Применить slug'и к indexPages
+    const updatedSlugsMap: Record<string, string> = Object.fromEntries(
+      [
+        ...normalizedAddedTokens.map(t => [t.id, t.slug] as const),
+        ...normalizedEditedTokens.map(t => [t.id, t.slug] as const),
+      ]
+    )
+
     const normalizedEditedIndexPages: EditedIndexPagesState = {
       isEdited: editedIndexPages.isEdited,
       items: editedIndexPages.items.map(p => {
-        if (updatedSlugs[p.tokenId]) {
-          return { ...p, slug: updatedSlugs[p.tokenId] }
-        }
-        return p
+        const updated = updatedSlugsMap[p.tokenId]
+        return updated ? { ...p, slug: updated } : p
       }),
     }
-
-    console.log({
-      normalizedAddedTokens,
-      normalizedEditedTokens,
-      normalizedEditedIndexPages,
-    })
 
     return {
       normalizedAddedTokens,
@@ -244,7 +227,7 @@ const useEdit = (readonly?: boolean) => {
         addedTokens,
         editedTokens,
         editedIndexPages,
-        fullTokens
+        fullTokens || []
       )
 
       // 2. Prepare all files for upload
@@ -454,17 +437,33 @@ const useEdit = (readonly?: boolean) => {
   const addEmptyIndexPage = () => {
     const newTokenId = `${nftId}-${Date.now()}`
     const newTitle = 'New Page'
-    const newSlug = 'new-page'
+    const DEFAULT_PAGE_SLUG = 'page'
+
+    // Соберём занятые slug'и: существующие и уже добавленные/отредактированные
+    const occupied = new Set<string>([
+      ...(fullTokens?.map(t => t.slug) || []),
+      ...editedIndexPages.items.map(p => p.slug),
+      ...addedTokens.map(t => t.slug),
+      ...editedTokens.map(t => t.slug),
+    ])
+
+    let candidate = DEFAULT_PAGE_SLUG
+    let i = 0
+    while (occupied.has(candidate)) {
+      i += 1
+      candidate = `${DEFAULT_PAGE_SLUG}-${i}`
+    }
+
     addIndexPage({
       tokenId: newTokenId,
       title: newTitle,
-      slug: newSlug,
+      slug: candidate,
     })
 
     updateOrCreateAddedToken({
       id: newTokenId,
       name: newTitle,
-      slug: newSlug,
+      slug: candidate,
       content: '',
     })
   }

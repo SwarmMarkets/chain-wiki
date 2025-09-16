@@ -46,24 +46,36 @@ const EditIndexPages = () => {
   const handleAddPage = () => {
     if (nextTokenId) {
       const initialName = t('initialTokenName')
-      const initialSlug = generateSlug(initialName)
+      const defaultSlug = 'page'
+
+      // Ensure uniqueness for default slug only
+      const occupied = new Set<string>([
+        ...(fullTokens?.map(t => t.slug) || []),
+        ...addedTokens.map(t => t.slug),
+      ])
+      let candidate = defaultSlug
+      let i = 0
+      while (occupied.has(candidate)) {
+        i += 1
+        candidate = `${defaultSlug}-${i}`
+      }
 
       addIndexPage({
         tokenId: nextTokenId,
         title: initialName,
-        slug: initialSlug,
+        slug: candidate,
         parent: 0,
       })
       updateOrCreateAddedToken({
         id: nextTokenId,
         name: initialName,
-        slug: initialSlug,
+        slug: candidate,
         content: '',
       })
       updateCurrEditableToken({
         id: nextTokenId,
         name: initialName,
-        slug: initialSlug,
+        slug: candidate,
         content: '',
       })
     }

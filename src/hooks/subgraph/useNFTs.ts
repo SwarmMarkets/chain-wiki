@@ -31,7 +31,7 @@ const useNFTs = (
   const { data, loading, error, fetchMore, networkStatus, refetch } = useQuery(
     NFTsQuery,
     {
-      fetchPolicy: 'cache-first',
+      fetchPolicy: 'cache-and-network',
       notifyOnNetworkStatusChange: true,
       pollInterval: POLL_INTERVAL,
       ...options,
