@@ -8,9 +8,9 @@ import { useEffect } from 'react'
 import { getChainByName } from 'src/shared/utils'
 import { useConfigStore } from 'src/shared/store/config-store'
 import useEffectCompare from '../useEffectCompare'
+import { baseChainConfig } from 'src/environment/networks/base'
 
-// Accept an optional disabled flag to noop in preview-like contexts
-const useHandleSwitchChain = (disabled?: boolean) => {
+const useHandleSwitchChain = () => {
   const chain = useActiveOrDefaultChain()
   const setLastChainId = useConfigStore(state => state.setLastChainId)
   const [searchParams] = useSearchParams()
@@ -21,28 +21,27 @@ const useHandleSwitchChain = (disabled?: boolean) => {
   const chainNameSearchParam = searchParams.get('chain')
   const chainBySearchParam = chainNameSearchParam
     ? getChainByName(chainNameSearchParam)
-    : undefined
+    : getChainByName(baseChainConfig.name || 'Base')
 
   useEffect(() => {
-    if (disabled) return
-
     const handleChainChange = async () => {
       if (status === 'connected') {
         await switchChain(chain)
       }
 
       if (chainBySearchParam) {
-        setLastChainId(chainBySearchParam.id)
+        {
+          setLastChainId(chainBySearchParam?.id)
+        }
       }
     }
     handleChainChange()
-  }, [status, disabled])
+  }, [status])
 
   useEffectCompare(() => {
-    if (disabled) return
     setLastChainId(chain.id)
     window.location.reload()
-  }, [chain.id, disabled])
+  }, [chain.id])
 }
 
 export default useHandleSwitchChain
