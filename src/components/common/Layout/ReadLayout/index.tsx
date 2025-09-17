@@ -24,7 +24,7 @@ const ReadLayout: React.FC<PropsWithChildren<ReadLayoutProps>> = ({
   children,
   preview,
 }) => {
-  useHandleSwitchChain()
+  useHandleSwitchChain(preview)
   const { nftId } = useNFTIdParam()
   const { tokenIdOrSlug = '' } = useParams()
   const fullTokenid = useFullTokenIdParam()
