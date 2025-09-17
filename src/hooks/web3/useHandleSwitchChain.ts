@@ -8,6 +8,7 @@ import { useEffect } from 'react'
 import { getChainByName } from 'src/shared/utils'
 import { useConfigStore } from 'src/shared/store/config-store'
 import useEffectCompare from '../useEffectCompare'
+import { baseChainConfig } from 'src/environment/networks/base'
 
 // Accept an optional disabled flag to noop in preview-like contexts
 const useHandleSwitchChain = (disabled?: boolean) => {
@@ -21,7 +22,7 @@ const useHandleSwitchChain = (disabled?: boolean) => {
   const chainNameSearchParam = searchParams.get('chain')
   const chainBySearchParam = chainNameSearchParam
     ? getChainByName(chainNameSearchParam)
-    : undefined
+    : baseChainConfig
 
   useEffect(() => {
     if (disabled) return
