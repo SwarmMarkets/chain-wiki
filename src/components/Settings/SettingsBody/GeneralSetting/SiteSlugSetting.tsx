@@ -43,7 +43,7 @@ const SiteSlugSetting: React.FC<SiteSlugSettingProps> = ({ nftAddress }) => {
 
   const slugValue = slug === null ? nft?.slug || '' : slug
   const slugChanged = slugValue && slugValue !== nft?.slug
-  const slugError = !slugValue || !/^[A-z0-9-]+$/.test(slugValue)
+  const slugError = !slugValue || !/^[A-Za-z0-9-.]+$/.test(slugValue)
 
   // Check for slug uniqueness when format is valid and value is changed
   const slugToCheck = slugChanged && !slugError ? slugValue : undefined
@@ -51,9 +51,8 @@ const SiteSlugSetting: React.FC<SiteSlugSettingProps> = ({ nftAddress }) => {
   // Debounce slug checks to avoid excessive queries
   const debouncedSlug = useDebouncedValue<string | undefined>(slugToCheck)
 
-  const { nft: existingNft, loading: checkingSlug } = useNftBySlugOrAddress(
-    debouncedSlug
-  )
+  const { nft: existingNft, loading: checkingSlug } =
+    useNftBySlugOrAddress(debouncedSlug)
   const slugExistsError = !!(
     slugChanged &&
     !slugError &&
@@ -79,7 +78,11 @@ const SiteSlugSetting: React.FC<SiteSlugSettingProps> = ({ nftAddress }) => {
         <Button
           onClick={handleSlugSave}
           disabled={
-            !slugChanged || slugError || slugExistsError || loading || checkingSlug
+            !slugChanged ||
+            slugError ||
+            slugExistsError ||
+            loading ||
+            checkingSlug
           }
           loading={loading}
         >
