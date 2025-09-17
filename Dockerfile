@@ -22,7 +22,7 @@ FROM nginx:latest
 
 # Install specific version of libaom3, clean caches
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends libaom3=3.6.0-1+deb12u1 \
+    && apt-get install -y --no-install-recommends --allow-downgrades libaom3=3.6.0-1+deb12u1 \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
