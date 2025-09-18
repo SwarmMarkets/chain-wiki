@@ -24,11 +24,17 @@ import { useSwitchActiveWalletChain } from 'thirdweb/react'
 import { SetupENSFormInputs } from './useSetupENSForm'
 import { generateRedirectHtml } from './utils'
 
-const SetupENSForm: React.FC<{
+interface SetupENSFormProps {
   isOwner: boolean
   form: UseFormReturn<SetupENSFormInputs, any, SetupENSFormInputs>
   ownerLoading: boolean
-}> = ({ isOwner, form, ownerLoading }) => {
+}
+
+const SetupENSForm: React.FC<SetupENSFormProps> = ({
+  isOwner,
+  form,
+  ownerLoading,
+}) => {
   const {
     register,
     handleSubmit,
