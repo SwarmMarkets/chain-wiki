@@ -6,6 +6,7 @@ import { SubmitHandler, UseFormReturn, useWatch } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import SmartButton from 'src/components/SmartButton'
 import TextField from 'src/components/ui-kit/TextField/TextField'
+import staticConfig from 'src/config'
 import {
   getENSResolver,
   getENSResolverInterface,
@@ -19,29 +20,26 @@ import { generateSiteLink } from 'src/shared/utils'
 import { multicall } from 'src/thirdweb/ens-resolver'
 import { Address } from 'thirdweb'
 import { ethereum } from 'thirdweb/chains'
-import { useActiveAccount, useSwitchActiveWalletChain } from 'thirdweb/react'
-import useResolvedDomain from './useResolvedDomain'
+import { useSwitchActiveWalletChain } from 'thirdweb/react'
 import { SetupENSFormInputs } from './useSetupENSForm'
 import { generateRedirectHtml } from './utils'
-import staticConfig from 'src/config'
 
 const SetupENSForm: React.FC<{
   isOwner: boolean
   form: UseFormReturn<SetupENSFormInputs, any, SetupENSFormInputs>
-}> = ({ isOwner, form }) => {
+  ownerLoading: boolean
+}> = ({ isOwner, form, ownerLoading }) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
     clearErrors,
     reset,
-    watch,
     setError,
   } = form
 
   const switchChain = useSwitchActiveWalletChain()
   const { nftId } = useNFTIdParam()
-  const account = useActiveAccount()
   const { nft } = useNFT(nftId, { disableRefetch: true })
   const { prepareUpdateChainWikiSlugTx } = useSX1155NFTFactory()
 
@@ -52,8 +50,6 @@ const SetupENSForm: React.FC<{
   const { sendTx } = useSendTx()
 
   const domain = useWatch({ control: form.control, name: 'domain' })
-
-  const { ownerAddress, ownerLoading } = useResolvedDomain(domain)
 
   const slugAndDomainMatch = nft?.slug === domain
 

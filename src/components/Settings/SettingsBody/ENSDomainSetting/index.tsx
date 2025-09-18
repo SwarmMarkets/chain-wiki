@@ -11,7 +11,7 @@ const ENSDomainSetting = () => {
   const account = useActiveAccount()
   const { watch, ...form } = useSetupENSForm()
   const domain = watch('domain')
-  const { ownerAddress } = useResolvedDomain(domain)
+  const { ownerAddress, ownerLoading } = useResolvedDomain(domain)
 
   const isOwner = isSameEthereumAddress(account?.address, ownerAddress)
 
@@ -26,7 +26,11 @@ const ENSDomainSetting = () => {
         </>
       }
     >
-      <SetupENSForm isOwner={isOwner} form={{ watch, ...form }} />
+      <SetupENSForm
+        ownerLoading={ownerLoading}
+        isOwner={isOwner}
+        form={{ watch, ...form }}
+      />
     </SettingCard>
   )
 }
