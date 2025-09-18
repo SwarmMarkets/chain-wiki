@@ -105,7 +105,7 @@ const SetupENSForm: React.FC<SetupENSFormProps> = ({
       // ENS connection (after slug update). Switch network if necessary
       await switchChain(ethereum)
 
-      const siteUrl = generateSiteLink({ nftIdOrSlug: nft?.slug || '' })
+      const siteUrl = generateSiteLink({ nftIdOrSlug: domain })
 
       const html = generateRedirectHtml(siteUrl)
       const ipfsUrl = await uploadHtmlToIpfs(html)
