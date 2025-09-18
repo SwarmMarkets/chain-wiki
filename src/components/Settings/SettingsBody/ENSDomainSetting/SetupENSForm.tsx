@@ -78,7 +78,6 @@ const SetupENSForm: React.FC<SetupENSFormProps> = ({
   const onSubmit: SubmitHandler<SetupENSFormInputs> = async (data, e) => {
     e?.preventDefault()
     const { domain } = data
-    const siteUrl = generateSiteLink({ nftIdOrSlug: nftId })
 
     const uploadHtmlToIpfs = async (html: string): Promise<string> => {
       const file = new File([html], 'index.html', { type: 'text/html' })
@@ -105,6 +104,8 @@ const SetupENSForm: React.FC<SetupENSFormProps> = ({
 
       // ENS connection (after slug update). Switch network if necessary
       await switchChain(ethereum)
+
+      const siteUrl = generateSiteLink({ nftIdOrSlug: nft?.slug || '' })
 
       const html = generateRedirectHtml(siteUrl)
       const ipfsUrl = await uploadHtmlToIpfs(html)
