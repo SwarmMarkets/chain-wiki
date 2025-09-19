@@ -59,7 +59,10 @@ const useSendTx = () => {
 
         return res
       } catch (e) {
-        addToast(e.message || errorMessage, {
+        const rawMessage = (e as any)?.message || String(e)
+        const isRolesUnauthorized = rawMessage?.includes('EnumerableRolesUnauthorized')
+        const rolesMessage = "You don’t have permission to perform this action"
+        addToast(isRolesUnauthorized ? rolesMessage : rawMessage || errorMessage, {
           type: 'error',
         })
       }
