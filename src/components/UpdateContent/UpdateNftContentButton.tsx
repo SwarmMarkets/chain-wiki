@@ -8,6 +8,8 @@ import {
 import { MouseEvent, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import Button, { ButtonProps } from '../ui-kit/Button/Button'
+import Tooltip, { TooltipPosition } from '../ui-kit/Tooltip/Tooltip'
+import useNftPermissions from 'src/hooks/permissions/useNftPermissions'
 
 interface UpdateNftContentButtonProps extends ButtonProps, ChildrenProp {
   nftAddress: string
@@ -15,6 +17,7 @@ interface UpdateNftContentButtonProps extends ButtonProps, ChildrenProp {
   ipfsNftToUpdate?: Partial<IpfsNftContent>
   ipfsIndexPagesToUpdate?: IpfsIndexPage[]
   ipfsHeaderLinkToUpdate?: Partial<IpfsHeaderLinksContent>
+  tooltipPosition?: TooltipPosition
   onSuccess?(): void
 }
 
@@ -24,12 +27,15 @@ const UpdateNftContentButton: React.FC<UpdateNftContentButtonProps> = ({
   ipfsNftToUpdate,
   ipfsIndexPagesToUpdate,
   ipfsHeaderLinkToUpdate,
+  tooltipPosition,
   onSuccess,
   children,
   ...buttonProps
 }) => {
   const [isLoading, setIsLoading] = useState(false)
   const { t } = useTranslation('buttons')
+
+  const { permissions } = useNftPermissions(nftAddress)
 
   const {
     uploadContent,
@@ -76,10 +82,16 @@ const UpdateNftContentButton: React.FC<UpdateNftContentButtonProps> = ({
 
   const caption = children || t('updateContent')
 
+  const tooltipContent = permissions.canUpdateContent
+    ? ''
+    : t('cannotUpdateContentTooltip')
+
   return (
-    <Button onClick={startContentUpdate} {...buttonProps} loading={isLoading}>
-      {caption}
-    </Button>
+    <Tooltip content={tooltipContent} position={tooltipPosition}>
+      <Button onClick={startContentUpdate} {...buttonProps} loading={isLoading}>
+        {caption}
+      </Button>
+    </Tooltip>
   )
 }
 

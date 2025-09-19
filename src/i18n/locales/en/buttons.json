@@ -1,5 +1,6 @@
 {
   "updateContent": "Publish",
+  "cannotUpdateContentTooltip": "You need to have the Editor role",
   "cancel": "Cancel",
   "compare": "Compare selected revisions",
   "retry": "Retry",
