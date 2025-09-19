@@ -33,7 +33,7 @@ const SiteNameSetting: React.FC<SiteNameSettingProps> = ({ nftAddress }) => {
             nftContentToUpdate={{ name: nameValue }}
             disabled={!nameValue || nameValue === nft?.name}
           >
-            {t('save')}
+            {t('save.save')}
           </UpdateNftContentButton>
         </div>
       </div>
