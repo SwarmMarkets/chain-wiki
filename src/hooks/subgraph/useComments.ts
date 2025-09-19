@@ -22,7 +22,6 @@ const useComments = (
   const [fullDataLoading, setFullDataLoading] = useState(false)
 
   const { fetch: getBatchIpfsData } = useIpfsData({
-    ipfsUris: [],
     validator: verifyAttestationValid,
   })
 
@@ -48,8 +47,8 @@ const useComments = (
 
         setFullDataLoading(false)
 
-        const fullData = data.comments.map(item => {
-          const ipfsData = commentsIpfsData.mappedResults.get(item.id)
+        const fullData = data.comments.map((item, index) => {
+          const ipfsData = commentsIpfsData.results[index]
           if (!ipfsData) return item
 
           return {
