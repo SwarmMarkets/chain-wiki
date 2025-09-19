@@ -86,7 +86,7 @@ const SiteSlugSetting: React.FC<SiteSlugSettingProps> = ({ nftAddress }) => {
           }
           loading={loading}
         >
-          {tButtons('save.save')}
+          {tButtons('save')}
         </Button>
       </div>
     </div>

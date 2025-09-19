@@ -4,10 +4,7 @@
   "compare": "Compare selected revisions",
   "retry": "Retry",
   "edit": "Edit",
-  "save": {
-    "save": "Save",
-    "cannotSaveTooltip": "You need the Editor role to save"
-  },
+  "save": "Save",
   "delete": "Delete",
   "chooseFile": "Choose file",
   "publish": "Publish",

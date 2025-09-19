@@ -10,18 +10,12 @@ import { useCustomizationStore } from 'src/shared/store/customization-store'
 import { useTranslation } from 'react-i18next'
 import SettingsBody from './SettingsBody'
 import useNFTIdParam from 'src/hooks/useNftIdParam'
-import useNftPermissions from 'src/hooks/permissions/useNftPermissions'
-import Tooltip from '../ui-kit/Tooltip/Tooltip'
 
 const Settings = () => {
   const { setting = '' } = useParams()
   const [searchParams] = useSearchParams()
   const actilveLink = searchParams.get('setting') || RoutePathSetting.GENERAL
   const { nftId } = useNFTIdParam()
-
-  const { permissions } = useNftPermissions(nftId)
-
-  const canSave = permissions.canUpdateSettings
 
   const {
     headerBackground,
@@ -31,7 +25,7 @@ const Settings = () => {
     iconLogoUrl,
     isEdited,
   } = useCustomizationStore()
-  const { t } = useTranslation('buttons', { keyPrefix: 'save' })
+  const { t } = useTranslation('buttons')
 
   return (
     <ConditionalRender value={setting}>
@@ -54,17 +48,17 @@ const Settings = () => {
           </ReadLayout>
         </div>
         <div className='flex justify-end'>
-          <Tooltip content={canSave ? '' : t('cannotSaveTooltip')} position='left'>
+          <RequirePermissions nftAddress={nftId}>
             <UpdateNftContentButton
               className='mt-4'
               nftAddress={nftId}
               ipfsHeaderLinkToUpdate={{ headerLinks, color: linksColor }}
               nftContentToUpdate={{ headerBackground, logoUrl, iconLogoUrl }}
-              disabled={!isEdited || !canSave}
+              disabled={!isEdited}
             >
               {t('save')}
             </UpdateNftContentButton>
-          </Tooltip>
+          </RequirePermissions>
         </div>
       </ConditionalItem>
     </ConditionalRender>

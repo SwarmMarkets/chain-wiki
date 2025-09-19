@@ -63,7 +63,7 @@ const EditIndexPageForm: React.FC<EditIndexPageFormProps> = ({
             type='submit'
             disabled={!isDirty || !isValid || !name || !slug}
           >
-            {t('buttons.save.save')}
+            {t('buttons.save')}
           </Button>
         </div>
       </form>
