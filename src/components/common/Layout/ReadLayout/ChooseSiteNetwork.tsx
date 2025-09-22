@@ -1,16 +1,27 @@
 import { useTranslation } from 'react-i18next'
-import { Link } from 'react-router-dom'
-import NftList from 'src/components/Nft/NftList'
+import { generatePath, Link } from 'react-router-dom'
+import NftList, { NFTWithChain } from 'src/components/Nft/NftList'
 import Button from 'src/components/ui-kit/Button/Button'
-import useNFTExamples from 'src/hooks/subgraph/useNFTExamples'
 import RoutePaths from 'src/shared/enums/routes-paths'
-import { generateSiteLink } from 'src/shared/utils'
 
-const ExplorePage = () => {
-  const { t } = useTranslation('explore')
-  const { nfts, loading } = useNFTExamples()
+interface ChooseSiteNetwork {
+  nfts: NFTWithChain[]
+  loading: boolean
+  onSelect: (nft: NFTWithChain) => void
+}
+
+const ChooseSiteNetwork: React.FC<ChooseSiteNetwork> = ({
+  nfts,
+  loading,
+  onSelect,
+}) => {
+  const { t } = useTranslation('layout', { keyPrefix: 'chooseNetwork' })
 
   const noNfts = !loading && (!nfts || nfts?.length === 0)
+
+  const handleCardClick = (nft: NFTWithChain) => {
+    onSelect?.(nft)
+  }
 
   return (
     <div
@@ -27,7 +38,7 @@ const ExplorePage = () => {
           </div>
           <Link to={RoutePaths.HOME}>
             <Button size='md' style={{ borderRadius: '50px', height: 43 }}>
-              Open App
+              {t('home')}
             </Button>
           </Link>
         </div>
@@ -36,22 +47,20 @@ const ExplorePage = () => {
           <h1 className='typo-heading1 text-main-accent font-medium'>
             {t('title')}
           </h1>
-          <h3 className='heading-md'>{t('subtitle')}</h3>
+          <h3 className='heading-md'>{t('description')}</h3>
           {noNfts ? (
             <div className='text-center mt-14 typo-title2'>{t('noNfts')}</div>
           ) : (
             <NftList
+              showChain
               loading={loading}
               nfts={nfts}
               skeletonLength={10}
               className='mt-7'
+              onClick={handleCardClick}
               to={nft =>
-                generateSiteLink({
-                  nftIdOrSlug: nft.slug,
-                  chain: nft.chain,
-                })
+                generatePath(RoutePaths.NFT_READ, { nftIdOrSlug: nft.slug })
               }
-              showChain
             />
           )}
         </div>
@@ -60,4 +69,4 @@ const ExplorePage = () => {
   )
 }
 
-export default ExplorePage
+export default ChooseSiteNetwork

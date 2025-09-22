@@ -1,21 +1,23 @@
 import clsx from 'clsx'
 import React, { PropsWithChildren, useEffect, useMemo, useState } from 'react'
 import { generatePath, Outlet, useLocation, useParams } from 'react-router-dom'
+import Drawer from 'src/components/ui-kit/Drawer'
 import useNFT from 'src/hooks/subgraph/useNFT'
+import useBreakpoint from 'src/hooks/ui/useBreakpoint'
+import useFullTokenIdParam from 'src/hooks/useFullTokenIdParam'
+import useNFTIdParam from 'src/hooks/useNftIdParam'
+import useHandleSwitchChain from 'src/hooks/web3/useHandleSwitchChain'
 import RoutePaths from 'src/shared/enums/routes-paths'
 import { findFirstNonGroupVisibleNode } from 'src/shared/utils/treeHelpers'
+import ChooseSiteNetwork from './ChooseSiteNetwork'
 import ContentContext from './Content/ContentContext'
 import LeftSidebar from './LeftSidebar'
-import RightSidebar from './RightSidebar'
-import useNFTIdParam from 'src/hooks/useNftIdParam'
-import Drawer from 'src/components/ui-kit/Drawer'
 import ReadHeader from './ReadHeader'
-import useBreakpoint from 'src/hooks/ui/useBreakpoint'
+import RightSidebar from './RightSidebar'
 import SidebarTree from './SidebarTree'
-import useFullTokenIdParam from 'src/hooks/useFullTokenIdParam'
 import { buildTree } from './utils'
-import useHandleSwitchChain from 'src/hooks/web3/useHandleSwitchChain'
-import ExplorePage from 'src/pages/ExplorePage'
+import { NFTWithChain } from 'src/components/Nft/NftList'
+import { getChainById } from 'src/shared/utils'
 
 interface ReadLayoutProps {
   preview?: boolean
@@ -25,7 +27,13 @@ const ReadLayout: React.FC<PropsWithChildren<ReadLayoutProps>> = ({
   children,
   preview,
 }) => {
-  const { conflict } = useHandleSwitchChain(preview)
+  const {
+    conflict,
+    baseNft,
+    polygonNft,
+    loading: loadingConflict,
+    switchLocalChain,
+  } = useHandleSwitchChain(preview)
   const { nftId } = useNFTIdParam()
   const { tokenIdOrSlug = '' } = useParams()
   const fullTokenid = useFullTokenIdParam()
@@ -38,7 +46,7 @@ const ReadLayout: React.FC<PropsWithChildren<ReadLayoutProps>> = ({
     fetchFullData: true,
   })
 
-  const loading = loadingNft && !refetchingNft
+  const loading = (loadingNft && !refetchingNft) || loadingConflict
 
   const isHistoryPage =
     location.pathname ===
@@ -69,7 +77,22 @@ const ReadLayout: React.FC<PropsWithChildren<ReadLayoutProps>> = ({
     return buildTree(nft?.indexPagesContent?.indexPages, nft.slug, 0)
   }, [nft?.indexPagesContent?.indexPages, nft?.slug])
 
-  if (conflict) return <ExplorePage />
+  const handleSelectNetwork = (nft: NFTWithChain) => {
+    const chain = nft.chain && getChainById(nft.chain)
+
+    if (chain) {
+      switchLocalChain(chain, true)
+    }
+  }
+
+  if (conflict)
+    return (
+      <ChooseSiteNetwork
+        onSelect={handleSelectNetwork}
+        nfts={[baseNft, polygonNft].filter(Boolean) as NFTWithChain[]}
+        loading={loadingConflict}
+      />
+    )
 
   return (
     <ContentContext>

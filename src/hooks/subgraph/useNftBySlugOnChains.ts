@@ -50,8 +50,6 @@ const useNftBySlugOnChains = (slug?: string) => {
     return nft ? { ...nft, chain: polygonChainConfig.id } : undefined
   }, [polygonQuery.nft])
 
-  console.log(baseQuery.nft?.slug, polygonQuery.nft?.slug)
-
   const loading = baseQuery.loading || polygonQuery.loading
 
   return {

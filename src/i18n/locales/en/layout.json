@@ -28,5 +28,11 @@
   },
   "poweredBy": "powered by",
   "createdWithChainWiki": "Created with ChainWiki",
-  "noDataAvailable": "No data available"
+  "noDataAvailable": "No data available",
+  "chooseNetwork": {
+    "home": "Home",
+    "title": "Select a Network",
+    "description": "This site exists on multiple networks. Please pick one to continue.",
+    "noNfts": "No site found on any network."
+  }
 }

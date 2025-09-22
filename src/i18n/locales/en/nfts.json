@@ -9,5 +9,6 @@
   },
   "addNft": "Add site",
   "roles": "Roles: ",
-  "noNfts": "Add a site to get started"
+  "noNfts": "Add a site to get started",
+  "openInExplorer": "Open in explorer"
 }
