@@ -15,7 +15,7 @@ import useNftBySlugOnChains from '../subgraph/useNftBySlugOnChains'
 const useHandleSwitchChain = (disabled?: boolean) => {
   const chain = useActiveOrDefaultChain()
   const setLastChainId = useConfigStore(state => state.setLastChainId)
-  const [searchParams] = useSearchParams()
+  const [searchParams, setSearchParams] = useSearchParams()
   const switchChain = useSwitchActiveWalletChain()
   const status = useActiveWalletConnectionStatus()
 
@@ -51,10 +51,9 @@ const useHandleSwitchChain = (disabled?: boolean) => {
         await switchChain(targetChain)
       }
 
-      console.log(targetChain)
-
       if (targetChain) {
         setLastChainId(targetChain.id)
+        setSearchParams([['chain', targetChain.name ?? '']])
       }
     }
 

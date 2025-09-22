@@ -15,6 +15,7 @@ import SidebarTree from './SidebarTree'
 import useFullTokenIdParam from 'src/hooks/useFullTokenIdParam'
 import { buildTree } from './utils'
 import useHandleSwitchChain from 'src/hooks/web3/useHandleSwitchChain'
+import ExplorePage from 'src/pages/ExplorePage'
 
 interface ReadLayoutProps {
   preview?: boolean
@@ -24,7 +25,7 @@ const ReadLayout: React.FC<PropsWithChildren<ReadLayoutProps>> = ({
   children,
   preview,
 }) => {
-  useHandleSwitchChain(preview)
+  const { conflict } = useHandleSwitchChain(preview)
   const { nftId } = useNFTIdParam()
   const { tokenIdOrSlug = '' } = useParams()
   const fullTokenid = useFullTokenIdParam()
@@ -67,6 +68,8 @@ const ReadLayout: React.FC<PropsWithChildren<ReadLayoutProps>> = ({
 
     return buildTree(nft?.indexPagesContent?.indexPages, nft.slug, 0)
   }, [nft?.indexPagesContent?.indexPages, nft?.slug])
+
+  if (conflict) return <ExplorePage />
 
   return (
     <ContentContext>

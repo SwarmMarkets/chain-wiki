@@ -1,8 +1,8 @@
 import clsx from 'clsx'
 import { AnimatePresence } from 'framer-motion'
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
 import DynamicComponent from 'src/components/DynamicComponent'
+import LinkPreserveSearch from 'src/components/LinkPreserveSearch'
 import Collapse from 'src/components/ui-kit/Animations/Collapse'
 import Icon from 'src/components/ui-kit/Icon/Icon'
 import IconButton from 'src/components/ui-kit/IconButton'
@@ -45,7 +45,7 @@ const SidebarTreeNode: React.FC<SidebarTreeNodeProps> = ({
   return (
     <li className='list-none'>
       <DynamicComponent
-        as={node?.to ? Link : 'div'}
+        as={node?.to ? LinkPreserveSearch : 'div'}
         to={node?.to}
         onClick={() => !isGroup && onSelect?.(node)}
         className={clsx(
