@@ -20,9 +20,8 @@ const useHandleSwitchChain = (disabled?: boolean) => {
   const status = useActiveWalletConnectionStatus()
 
   const chainNameSearchParam = searchParams.get('chain')
-  const chainBySearchParam = chainNameSearchParam
-    ? getChainByName(chainNameSearchParam)
-    : baseChainConfig
+  const chainBySearchParam =
+    chainNameSearchParam && getChainByName(chainNameSearchParam)
 
   const { nftIdOrSlug = '' } = useParams()
 
@@ -34,14 +33,15 @@ const useHandleSwitchChain = (disabled?: boolean) => {
     if (disabled || loading) return
 
     const handleChainChange = async () => {
-      if (baseNft && polygonNft) {
+      if (baseNft && polygonNft && !chainBySearchParam) {
         setConflict(true)
         return
       }
 
       let targetChain = chainBySearchParam
-
-      if (baseNft && !polygonNft) {
+      if (baseNft && polygonNft && chainBySearchParam) {
+        targetChain = chainBySearchParam
+      } else if (baseNft && !polygonNft) {
         targetChain = baseChainConfig
       } else if (!baseNft && polygonNft) {
         targetChain = polygonChainConfig
