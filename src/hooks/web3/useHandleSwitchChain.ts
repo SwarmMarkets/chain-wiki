@@ -4,7 +4,7 @@ import {
   useSwitchActiveWalletChain,
 } from 'thirdweb/react'
 import useActiveOrDefaultChain from './useActiveOrDefaultChain'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { getChainByName } from 'src/shared/utils'
 import { useConfigStore } from 'src/shared/store/config-store'
 import useEffectCompare from '../useEffectCompare'
@@ -16,6 +16,7 @@ import { Chain } from 'thirdweb'
 const useHandleSwitchChain = (disabled?: boolean) => {
   const chain = useActiveOrDefaultChain()
   const setLastChainId = useConfigStore(state => state.setLastChainId)
+  const lastChainId = useConfigStore(state => state.lastChainId)
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
   const switchChain = useSwitchActiveWalletChain()
@@ -30,7 +31,7 @@ const useHandleSwitchChain = (disabled?: boolean) => {
   const { baseNft, polygonNft, loading } = useNftBySlugOnChains(nftIdOrSlug)
 
   const switchLocalChain = async (chainParam: Chain, reload = false) => {
-    if (chainParam.name !== chainNameSearchParam) {
+    if (chainParam.id !== lastChainId) {
       setLastChainId(chainParam.id)
       navigate({ search: `?chain=${chainParam.name}` }, {})
     }
@@ -56,6 +57,8 @@ const useHandleSwitchChain = (disabled?: boolean) => {
       } else if (!baseNft && polygonNft) {
         targetChain = polygonChainConfig
       }
+
+      console.log(targetChain)
 
       if (targetChain) {
         switchLocalChain(targetChain)
