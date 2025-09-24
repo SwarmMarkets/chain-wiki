@@ -1,7 +1,8 @@
 import clsx from 'clsx'
 import React from 'react'
-import { generatePath, Link, useParams } from 'react-router-dom'
+import { generatePath, useParams } from 'react-router-dom'
 import Content from 'src/components/common/Layout/ReadLayout/Content'
+import LinkPreserveSearch from 'src/components/LinkPreserveSearch'
 import Button from 'src/components/ui-kit/Button/Button'
 import RoutePaths from 'src/shared/enums/routes-paths'
 import { useContentRef } from './Content/context'
@@ -36,7 +37,7 @@ const RightSidebar: React.FC<RightSidebarProps> = ({
       )}
     >
       <div className='mb-4'>
-        <Link
+        <LinkPreserveSearch
           to={generatePath(RoutePaths.TOKEN_READ_HISTORY, {
             nftIdOrSlug,
             tokenIdOrSlug: tokenIdOrSlug || firstTokenSlug,
@@ -51,7 +52,7 @@ const RightSidebar: React.FC<RightSidebarProps> = ({
           >
             View page history
           </Button>
-        </Link>
+        </LinkPreserveSearch>
       </div>
       <Content contentElem={contentElem} />
     </aside>

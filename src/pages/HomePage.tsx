@@ -67,6 +67,7 @@ const HomePage = () => {
           to={nft =>
             generateSiteLink({ nftIdOrSlug: nft.slug, chain: nft.chain })
           }
+          showChain
         />
       </div>
     </div>

@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { thirdwebClient } from 'src/shared/api-clients/thirdweb'
-import { download } from 'thirdweb/storage' // ✅ используем download
+import { useIpfsDownload } from './useIpfsDownload'
 
 type Key = string
 type Mapping<T> = Map<Key, T>
@@ -22,6 +21,7 @@ const useIpfsData = <T extends object>({
   const [data, setData] = useState<T[]>([])
   const [mappedData, setMappedData] = useState<Mapping<T>>(new Map())
   const immediateOnce = useRef<boolean>(immediate)
+  const { download } = useIpfsDownload()
 
   const getBatchIpfsData = useCallback(
     async (uris: string[]) => {
@@ -31,7 +31,7 @@ const useIpfsData = <T extends object>({
 
       const promises = uris.map(async uri => {
         try {
-          const res = (await download({ client: thirdwebClient, uri })) as T // Точный API
+          const res = (await download(uri)) as T
           validator(res)
           results.push(res)
           if (mapping) {
@@ -52,7 +52,7 @@ const useIpfsData = <T extends object>({
 
       return { results, mappedResults: map }
     },
-    [mapping, validator]
+    [download, mapping, validator]
   )
 
   useEffect(() => {

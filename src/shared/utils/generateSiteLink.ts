@@ -8,14 +8,16 @@ interface GenerateSiteLinkParams {
   nftIdOrSlug: string
   tokenIdOrSlug?: string
   chain?: number
+  relative?: boolean
 }
 
 export const generateSiteLink = ({
   nftIdOrSlug,
   tokenIdOrSlug,
   chain: chainParam,
+  relative = false
 }: GenerateSiteLinkParams) => {
-  const domain = window.location.origin
+  const domain = relative ? '' : window.location.origin
 
   const chain =
     (chainParam ? getChainById(chainParam) : staticConfig.defaultChain) ||

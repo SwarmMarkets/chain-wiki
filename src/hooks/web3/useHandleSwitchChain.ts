@@ -1,49 +1,79 @@
-import { useSearchParams } from 'react-router-dom'
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import {
   useActiveWalletConnectionStatus,
   useSwitchActiveWalletChain,
 } from 'thirdweb/react'
 import useActiveOrDefaultChain from './useActiveOrDefaultChain'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { getChainByName } from 'src/shared/utils'
 import { useConfigStore } from 'src/shared/store/config-store'
 import useEffectCompare from '../useEffectCompare'
 import { baseChainConfig } from 'src/environment/networks/base'
+import { polygonChainConfig } from 'src/environment/networks/polygon'
+import useNftBySlugOnChains from '../subgraph/useNftBySlugOnChains'
+import { Chain } from 'thirdweb'
 
-// Accept an optional disabled flag to noop in preview-like contexts
 const useHandleSwitchChain = (disabled?: boolean) => {
   const chain = useActiveOrDefaultChain()
   const setLastChainId = useConfigStore(state => state.setLastChainId)
   const [searchParams] = useSearchParams()
+  const navigate = useNavigate()
   const switchChain = useSwitchActiveWalletChain()
-
   const status = useActiveWalletConnectionStatus()
 
   const chainNameSearchParam = searchParams.get('chain')
-  const chainBySearchParam = chainNameSearchParam
-    ? getChainByName(chainNameSearchParam)
-    : baseChainConfig
+  const chainBySearchParam =
+    chainNameSearchParam && getChainByName(chainNameSearchParam)
+
+  const { nftIdOrSlug = '' } = useParams()
+
+  const { baseNft, polygonNft, loading } = useNftBySlugOnChains(nftIdOrSlug)
+
+  const switchLocalChain = async (chainParam: Chain, reload = false) => {
+    if (chainParam.name !== chainNameSearchParam) {
+      setLastChainId(chainParam.id)
+      navigate({ search: `?chain=${chainParam.name}` }, {})
+    }
+
+    if (reload) window.location.reload()
+  }
+
+  const conflict = baseNft && polygonNft && !chainBySearchParam
 
   useEffect(() => {
-    if (disabled) return
+    if (disabled || loading) return
 
     const handleChainChange = async () => {
-      if (status === 'connected') {
-        await switchChain(chain)
+      if (conflict) {
+        return
       }
 
-      if (chainBySearchParam) {
-        setLastChainId(chainBySearchParam.id)
+      let targetChain = chainBySearchParam
+      if (baseNft && polygonNft && chainBySearchParam) {
+        targetChain = chainBySearchParam
+      } else if (baseNft && !polygonNft) {
+        targetChain = baseChainConfig
+      } else if (!baseNft && polygonNft) {
+        targetChain = polygonChainConfig
+      }
+
+      if (targetChain) {
+        switchLocalChain(targetChain)
+        if (status === 'connected') await switchChain(chain)
       }
     }
+
     handleChainChange()
-  }, [status, disabled])
+  }, [status, disabled, loading, baseNft, polygonNft])
 
   useEffectCompare(() => {
     if (disabled) return
-    setLastChainId(chain.id)
-    window.location.reload()
+    if (chainBySearchParam) {
+      switchLocalChain(chainBySearchParam, true)
+    }
   }, [chain.id, disabled])
+
+  return { conflict, baseNft, polygonNft, loading, switchLocalChain }
 }
 
 export default useHandleSwitchChain

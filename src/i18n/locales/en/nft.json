@@ -195,8 +195,10 @@
       "title": "Connect ENS Domain",
       "subtitle": "Link your ENS domain to your ChainWiki site",
       "description": "Connect with the wallet that owns your ENS domain to link it to your ChainWiki site. Once configured, visiting your ENS domain will automatically redirect to your ChainWiki site.",
+      "slugInstruction": "Set your site slug to match your ENS domain (including .eth) so it’s clear the site belongs to you.",
       "actions": {
-        "set": "Set ENS"
+        "set": "Set ENS",
+        "updateSlug": "Update slug"
       },
       "formPlaceholders": {
         "domain": "Enter your ENS domain"

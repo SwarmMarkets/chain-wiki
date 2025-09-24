@@ -4,7 +4,6 @@ import { RoutePathSetting } from 'src/shared/enums'
 import { ConditionalItem, ConditionalRender } from '../common/ConditionalRender'
 import NftReadPage from 'src/pages/NftReadPage'
 import ReadLayout from '../common/Layout/ReadLayout'
-import RequirePermissions from '../common/RequirePermissions'
 import UpdateNftContentButton from '../UpdateContent/UpdateNftContentButton'
 import { useCustomizationStore } from 'src/shared/store/customization-store'
 import { useTranslation } from 'react-i18next'
@@ -41,24 +40,22 @@ const Settings = () => {
       <ConditionalItem case={RoutePathSetting.CUSTOMIZATION}>
         <div
           className='rounded-md border border-main overflow-y-auto pointer-events-none'
-          style={{ maxHeight: 'calc(100vh - 170px)' }}
+          style={{ maxHeight: 'calc(100vh - 200px)' }}
         >
           <ReadLayout preview>
             <NftReadPage />
           </ReadLayout>
         </div>
-        <div className='flex justify-end'>
-          <RequirePermissions nftAddress={nftId}>
-            <UpdateNftContentButton
-              className='mt-4'
-              nftAddress={nftId}
-              ipfsHeaderLinkToUpdate={{ headerLinks, color: linksColor }}
-              nftContentToUpdate={{ headerBackground, logoUrl, iconLogoUrl }}
-              disabled={!isEdited}
-            >
-              {t('save')}
-            </UpdateNftContentButton>
-          </RequirePermissions>
+        <div className='flex justify-end mt-4'>
+          <UpdateNftContentButton
+            tooltipPosition='left'
+            nftAddress={nftId}
+            ipfsHeaderLinkToUpdate={{ headerLinks, color: linksColor }}
+            nftContentToUpdate={{ headerBackground, logoUrl, iconLogoUrl }}
+            disabled={!isEdited}
+          >
+            {t('save')}
+          </UpdateNftContentButton>
         </div>
       </ConditionalItem>
     </ConditionalRender>

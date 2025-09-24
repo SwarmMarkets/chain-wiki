@@ -1,48 +1,83 @@
-import { SubmitHandler } from 'react-hook-form'
-import { useTranslation } from 'react-i18next'
-import TextField from 'src/components/ui-kit/TextField/TextField'
-import { generateSiteLink } from 'src/shared/utils'
-import useSetupENSForm, { SetupENSFormInputs } from './useSetupENSForm'
-import { generateRedirectHtml } from './utils'
 import { encode } from '@ensdomains/content-hash'
 import { ethers } from 'ethers'
 import { namehash } from 'ethers/lib/utils'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { SubmitHandler, UseFormReturn, useWatch } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 import SmartButton from 'src/components/SmartButton'
+import TextField from 'src/components/ui-kit/TextField/TextField'
 import staticConfig from 'src/config'
 import {
   getENSResolver,
   getENSResolverInterface,
 } from 'src/hooks/contracts/ens/getENSResolver'
+import useSX1155NFTFactory from 'src/hooks/contracts/factory/useSX1155NFTFactory'
+import useNFT from 'src/hooks/subgraph/useNFT'
 import useNFTIdParam from 'src/hooks/useNftIdParam'
-import { ethereum } from 'thirdweb/chains'
-import { useSwitchActiveWalletChain } from 'thirdweb/react'
-import { multicall } from 'src/thirdweb/ens-resolver'
-import { Address } from 'thirdweb'
 import { useIpfsUpload } from 'src/hooks/web3/useIpfsUpload'
 import useSendTx from 'src/hooks/web3/useSendTx'
+import { generateSiteLink } from 'src/shared/utils'
+import { multicall } from 'src/thirdweb/ens-resolver'
+import { Address } from 'thirdweb'
+import { ethereum } from 'thirdweb/chains'
+import { useSwitchActiveWalletChain } from 'thirdweb/react'
+import { SetupENSFormInputs } from './useSetupENSForm'
+import { generateRedirectHtml } from './utils'
 
-const { supportedChains } = staticConfig
+interface SetupENSFormProps {
+  isOwner: boolean
+  form: UseFormReturn<SetupENSFormInputs, any, SetupENSFormInputs>
+  ownerLoading: boolean
+}
 
-const SetupENSForm = () => {
-  const switchChain = useSwitchActiveWalletChain()
-  const { nftId } = useNFTIdParam()
-
-  const { t } = useTranslation('nft', { keyPrefix: 'settings.ens' })
+const SetupENSForm: React.FC<SetupENSFormProps> = ({
+  isOwner,
+  form,
+  ownerLoading,
+}) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
+    clearErrors,
     reset,
-  } = useSetupENSForm()
+    setError,
+  } = form
+
+  const switchChain = useSwitchActiveWalletChain()
+  const { nftId } = useNFTIdParam()
+  const { nft } = useNFT(nftId, { disableRefetch: true })
+  const { prepareUpdateChainWikiSlugTx } = useSX1155NFTFactory()
+
+  const { t } = useTranslation('nft', { keyPrefix: 'settings.ens' })
+
   const { mutateAsync: upload } = useIpfsUpload()
   const [submitLoading, setSubmitLoading] = useState(false)
   const { sendTx } = useSendTx()
 
+  const domain = useWatch({ control: form.control, name: 'domain' })
+
+  const slugAndDomainMatch = nft?.slug === domain
+
+  useEffect(() => {
+    if (!domain) {
+      clearErrors('domain')
+      return
+    }
+
+    if (!isOwner && domain.endsWith('.eth')) {
+      setError('domain', {
+        type: 'manual',
+        message: t('messages.notOwned') as string,
+      })
+    } else {
+      clearErrors('domain')
+    }
+  }, [domain, isOwner, setError, clearErrors, t])
+
   const onSubmit: SubmitHandler<SetupENSFormInputs> = async (data, e) => {
     e?.preventDefault()
     const { domain } = data
-    const siteUrl = generateSiteLink({ nftIdOrSlug: nftId })
 
     const uploadHtmlToIpfs = async (html: string): Promise<string> => {
       const file = new File([html], 'index.html', { type: 'text/html' })
@@ -52,18 +87,39 @@ const SetupENSForm = () => {
 
     try {
       setSubmitLoading(true)
+      // Slug check & optional update (separate from ENS connection)
+      const currentSlug = nft?.slug || ''
+      if (currentSlug !== domain) {
+        const updateSlugTx = prepareUpdateChainWikiSlugTx({
+          chainWiki: nftId,
+          slug: domain,
+        })
+        if (updateSlugTx) {
+          await sendTx(updateSlugTx, {
+            successMessage: 'Slug updated',
+          })
+          return
+        }
+      }
+
+      // ENS connection (after slug update). Switch network if necessary
+      await switchChain(ethereum)
+
+      const siteUrl = generateSiteLink({ nftIdOrSlug: domain })
+
       const html = generateRedirectHtml(siteUrl)
       const ipfsUrl = await uploadHtmlToIpfs(html)
       const ipfsCid = ipfsUrl.replace('ipfs://', '').split('/')[0]
       const encodedHash = '0x' + encode('ipfs', ipfsCid)
 
-      if (!window.ethereum) throw new Error()
-
+      if (!window.ethereum) throw new Error('No provider')
       const provider = new ethers.providers.Web3Provider(window.ethereum)
 
-      const node = namehash(domain)
       const resolverAddress = await provider.getResolver(domain)
-      if (!resolverAddress) throw new Error(t('messages.notOwned'))
+
+      if (!resolverAddress) throw new Error(t('messages.failed'))
+
+      const node = namehash(domain)
 
       const resolver = getENSResolver(resolverAddress?.address)
       const resolverInterface = getENSResolverInterface()
@@ -89,8 +145,8 @@ const SetupENSForm = () => {
       })
 
       reset()
-      switchChain(supportedChains[0])
     } finally {
+      await switchChain(staticConfig.defaultChain)
       setSubmitLoading(false)
     }
   }
@@ -109,12 +165,12 @@ const SetupENSForm = () => {
         errorMessage={errors.domain?.message}
       />
       <SmartButton
-        desiredChain={ethereum}
         type='submit'
-        loading={submitLoading}
+        loading={submitLoading || ownerLoading}
+        disabled={!isOwner}
         className='w-4/12'
       >
-        {t('actions.set')}
+        {slugAndDomainMatch ? t('actions.set') : t('actions.updateSlug')}
       </SmartButton>
     </form>
   )

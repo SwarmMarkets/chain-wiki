@@ -61,7 +61,7 @@ const useNftPermissions = (nftAddress?: string) => {
       return {
         canCreateNft: connected === 'connected',
         canManageRoles: isAdmin,
-        canUpdateSettings: isAdmin,
+        canUpdateSettings: isEditor,
         canUpdateContent: isEditor,
         canCreateToken: isEditor,
         canCreateAttestation: connected === 'connected',

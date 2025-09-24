@@ -48,28 +48,32 @@ const MarkdownRenderer = forwardRef<HTMLDivElement, MarkdownRendererProps>(
               node.type === 'heading' ||
               node.type === 'listItem'
             ) {
-              const textContent = node.children
-                ?.filter(
-                  (child: any) =>
-                    child.type === 'text' ||
-                    child.type === 'paragraph' ||
-                    child.type === 'strong' ||
-                    child.type === 'emphasis'
-                )
-                ?.map((child: any) => {
-                  if (child.type === 'text') return child.value
-                  if (child.children) {
-                    return child.children
-                      .filter((sub: any) => sub.type === 'text')
-                      .map((sub: any) => sub.value)
-                      .join(' ')
-                  }
-                  return ''
-                })
-                .join(' ')
+              const texts: string[] = []
+              visit(node, 'text', (textNode: any) => {
+                if (textNode.value) texts.push(String(textNode.value))
+              })
 
+              const textContent = texts.join(' ').trim()
               if (textContent) {
                 const id = `${fullTokenId}-${node.type}-${md5(textContent)}`
+                node.data = node.data || {}
+                node.data.hProperties = {
+                  ...(node.data.hProperties || {}),
+                  id,
+                }
+              }
+            }
+
+            if (node.type === 'table') {
+              const texts: string[] = []
+              visit(node, 'text', (textNode: any) => {
+                if (textNode.value) texts.push(String(textNode.value))
+              })
+
+              const textContent = texts.join(' ').trim()
+
+              if (textContent) {
+                const id = `${fullTokenId}-table-${md5(textContent)}`
                 node.data = node.data || {}
                 node.data.hProperties = {
                   ...(node.data.hProperties || {}),
@@ -150,6 +154,14 @@ const MarkdownRenderer = forwardRef<HTMLDivElement, MarkdownRendererProps>(
                   count={commentIdsBySectionId[props.id]?.length}
                   {...props}
                   tag='li'
+                />
+              ),
+              table: (props: any) => (
+                <ParagraphWithComment
+                  onClickComment={onClickComment}
+                  count={commentIdsBySectionId[props.id]?.length}
+                  {...props}
+                  tag='table'
                 />
               ),
             }),

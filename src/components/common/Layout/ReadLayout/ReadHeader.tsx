@@ -30,6 +30,7 @@ const ReadHeader: React.FC<ReadHeaderProps> = ({
   const headerLinksColor = preview
     ? customization.linksColor
     : nft?.headerLinksContent?.color
+
   const logoUrl = preview ? customization.logoUrl : nft?.logoUrl
 
   const linkStyle = headerLinksColor
@@ -117,7 +118,11 @@ const ReadHeader: React.FC<ReadHeaderProps> = ({
               onClick={toggleSidebar}
               hoverBackground='primary-contrast/10'
             >
-              <Icon name='hamburger' className='w-6 h-6' color='#fff' />
+              <Icon
+                name='hamburger'
+                className='w-6 h-6'
+                color={headerLinksColor || '#fff'}
+              />
             </IconButton>
           )}
           <img src={logoUrl} alt='Logo' className='max-w-80 max-h-12' />

@@ -3,21 +3,34 @@ import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import useNFTUpdate from 'src/hooks/useNFTUpdate'
-import { getExplorerUrl, isSameEthereumAddress } from 'src/shared/utils'
+import {
+  getChainById,
+  getExplorerUrl,
+  isSameEthereumAddress,
+} from 'src/shared/utils'
 import dayjs from 'src/shared/utils/dayjsConfig'
 import { useActiveAccount } from 'thirdweb/react'
 import UploadFileButton from '../common/UploadFileButton'
 import Icon from '../ui-kit/Icon/Icon'
 import IconButton from '../ui-kit/IconButton'
 import { NFTWithChain } from './NftList'
+import { SupportedChainId } from 'src/environment/networks'
+import { IconName } from 'src/shared/types/iconNames'
+import Tooltip from '../ui-kit/Tooltip/Tooltip'
 
 interface NftCardProps {
   nft: NFTWithChain
-  addLogoButton?: boolean
   className?: string
+  chainId?: SupportedChainId
+  showChain?: boolean
 }
 
-const NftCard: React.FC<NftCardProps> = ({ nft, className }) => {
+const NftCard: React.FC<NftCardProps> = ({
+  nft,
+  className,
+  chainId,
+  showChain = false,
+}) => {
   const { t } = useTranslation(['nft', 'nfts', 'buttons'])
   const account = useActiveAccount()
   const { signTransaction, tx } = useNFTUpdate(nft.id)
@@ -39,6 +52,8 @@ const NftCard: React.FC<NftCardProps> = ({ nft, className }) => {
     await signTransaction({ logoUrl: url })
   }
 
+  const chainConfig = chainId && getChainById(chainId)
+
   return (
     <div
       className={clsx(
@@ -57,32 +72,47 @@ const NftCard: React.FC<NftCardProps> = ({ nft, className }) => {
             className='max-w-44 max-h-16 p-1'
           />
         ) : (
-          <UploadFileButton
-            size='sm'
-            isLoading={tx.isPending}
-            onUpload={handleUploadLogo}
-            variant='outlined'
-          >
-            {t('addLogo', { ns: 'buttons' })}
-          </UploadFileButton>
+          roles.length > 0 && (
+            <UploadFileButton
+              size='sm'
+              isLoading={tx.isPending}
+              onUpload={handleUploadLogo}
+              variant='outlined'
+            >
+              {t('addLogo', { ns: 'buttons' })}
+            </UploadFileButton>
+          )
         )}
       </div>
       <div>
         <div className='flex justify-between items-center'>
-          <h3 className='text-lg font-semibold truncate'>{nft.name}</h3>
-          <Link
-            to={getExplorerUrl({
-              type: 'address',
-              hash: nft.id,
-              chainId: nft.chain,
-            })}
-            onClick={e => e.stopPropagation()}
-            target='_blank'
-          >
-            <IconButton>
-              <Icon name='externalLink' size={14} />
-            </IconButton>
-          </Link>
+          <div className='flex items-center gap-2'>
+            <h3 className='text-lg font-semibold truncate'>{nft.name}</h3>
+            {showChain && (
+              <Tooltip content={chainConfig?.name}>
+                <Icon
+                  name={
+                    (chainConfig?.name?.toLowerCase() as IconName) || 'base'
+                  }
+                />
+              </Tooltip>
+            )}
+          </div>
+          <Tooltip content={t('openInExplorer', { ns: 'nfts' })}>
+            <Link
+              to={getExplorerUrl({
+                type: 'address',
+                hash: nft.id,
+                chainId: nft.chain,
+              })}
+              onClick={e => e.stopPropagation()}
+              target='_blank'
+            >
+              <IconButton>
+                <Icon name='externalLink' size={14} />
+              </IconButton>
+            </Link>
+          </Tooltip>
         </div>
 
         {roles.length > 0 && (

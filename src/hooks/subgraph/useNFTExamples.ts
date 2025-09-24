@@ -9,6 +9,7 @@ import client, { commonAppoloClientConfig } from 'src/services/apollo'
 import useNFTs from './useNFTs'
 import { baseChainConfig, baseEnvironment } from 'src/environment/networks/base'
 import { useMemo } from 'react'
+import { SupportedChainId } from 'src/environment/networks'
 
 const EXAMPLE_ADDRESSES_BASE = [
   '0x4ea6e5b747e526362b1b8a7edb09791dfb44b925',
@@ -66,12 +67,12 @@ const useNFTExamples = () => {
     const base =
       baseOrSepoliaNfts.nfts?.map(item => ({
         ...item,
-        chain: baseChainConfig.id,
+        chain: baseChainConfig.id as SupportedChainId,
       })) || []
     const polygon =
       polygonNfts.nfts?.map(item => ({
         ...item,
-        chain: polygonChainConfig.id,
+        chain: polygonChainConfig.id as SupportedChainId,
       })) || []
     return [...base, ...polygon]
   }, [baseOrSepoliaNfts.nfts, polygonNfts.nfts])

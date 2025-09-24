@@ -5,8 +5,9 @@ import { NfTsQuery } from 'src/queries/gql/graphql'
 import NftCard from './NftCard'
 import NftSkeletonList from './NftSkeletonList'
 import RoutePaths from 'src/shared/enums/routes-paths'
+import { SupportedChainId } from 'src/environment/networks'
 
-export type NFTWithChain = NfTsQuery['nfts'][0] & { chain?: number }
+export type NFTWithChain = NfTsQuery['nfts'][0] & { chain?: SupportedChainId }
 
 interface NftListProps {
   loading: boolean
@@ -14,6 +15,8 @@ interface NftListProps {
   skeletonLength?: number
   className?: string
   to?: (nft: NFTWithChain) => string
+  onClick?: (nft: NFTWithChain) => void
+  showChain?: boolean
 }
 
 const NftList: React.FC<NftListProps> = ({
@@ -21,7 +24,9 @@ const NftList: React.FC<NftListProps> = ({
   nfts,
   skeletonLength,
   className,
+  onClick,
   to,
+  showChain = false,
 }) => {
   return (
     <div
@@ -35,6 +40,7 @@ const NftList: React.FC<NftListProps> = ({
       ) : (
         nfts?.map(nft => (
           <Link
+            onClick={() => onClick?.(nft)}
             to={
               to
                 ? to(nft)
@@ -42,7 +48,12 @@ const NftList: React.FC<NftListProps> = ({
             }
             key={nft.id}
           >
-            <NftCard nft={nft} className='h-full' />
+            <NftCard
+              nft={nft}
+              className='h-full'
+              chainId={nft.chain}
+              showChain={showChain}
+            />
           </Link>
         ))
       )}
