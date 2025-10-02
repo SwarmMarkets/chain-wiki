@@ -1,6 +1,6 @@
 {
   "name": "chain-wiki",
-  "version": "1.0.41",
+  "version": "1.0.42",
   "private": true,
   "dependencies": {
     "@apollo/client": "^3.9.2",
