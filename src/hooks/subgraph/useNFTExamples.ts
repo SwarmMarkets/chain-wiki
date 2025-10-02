@@ -17,6 +17,7 @@ const EXAMPLE_ADDRESSES_BASE = [
 ]
 const EXAMPLE_ADDRESSES_POLYGON: string[] = [
   '0xfed911d48c7dd9be7a59b2d22b9ce52eb312bc36',
+  '0x486db6f69ef40d1a6e086c9e7c7eff8c78c71d06'
 ]
 
 const baseSubgraphClient = new ApolloClient({
