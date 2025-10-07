@@ -1,3 +1,5 @@
+'use client'
+
 import { environment } from 'src/environment'
 import {
   mainNetworks,
@@ -9,11 +11,19 @@ import { baseChainConfig } from 'src/environment/networks/base'
 
 const { isProdMode, isDevMode } = environment
 
-const lastChainId = localStorage.getItem('last-chain-id')
-  ? Number(
-      JSON.parse(localStorage.getItem('last-chain-id') || '').state?.lastChainId
-    )
-  : undefined
+let lastChainId: number | undefined
+
+if (typeof window !== 'undefined') {
+  const raw = localStorage.getItem('last-chain-id')
+  if (raw) {
+    try {
+      lastChainId = Number(JSON.parse(raw)?.state?.lastChainId)
+    } catch {
+      lastChainId = undefined
+    }
+  }
+}
+
 const lastChain = mainNetworks.find(chain => chain.id === lastChainId)
 const prodDefaultChain = lastChain || baseChainConfig
 

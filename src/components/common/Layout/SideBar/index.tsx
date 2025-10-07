@@ -1,6 +1,9 @@
+'use client'
+
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { useActiveAccount } from 'thirdweb/react'
 import { useTranslation } from 'react-i18next'
-import { generatePath, NavLink } from 'react-router-dom'
 import ExpandableList from 'src/components/ExpandableList'
 import ExpandableListItem, {
   ExpandableListItem as IExpandableListItem,
@@ -21,6 +24,7 @@ const SideBar = () => {
   const account = useActiveAccount()
   const address = account?.address || ''
   const { nftId } = useNFTIdParam()
+  const pathname = usePathname() // текущий путь
 
   const { nfts } = useNFTs({
     variables: {
@@ -58,21 +62,21 @@ const SideBar = () => {
     }
   }
 
+  const isActiveLink = (href: string) => pathname === href
+
   return (
     <aside className='w-64 bg-gray-100 flex flex-col h-full border-r-gray-200 border-r'>
       <nav className='flex flex-col gap-1 flex-1 overflow-y-auto p-4'>
-        <NavLink to={RoutePaths.HOME}>
-          {({ isActive }) => (
-            <ExpandableListItem
-              item={{
-                id: 'my-nfts',
-                label: <div className='py-0.5'>{t('home')}</div>,
-                icon: 'four-squares',
-                active: isActive,
-              }}
-            />
-          )}
-        </NavLink>
+        <Link href={RoutePaths.HOME} className='block'>
+          <ExpandableListItem
+            item={{
+              id: 'my-nfts',
+              label: <div className='py-0.5'>{t('home')}</div>,
+              icon: 'four-squares',
+              active: isActiveLink(RoutePaths.HOME),
+            }}
+          />
+        </Link>
         <ExpandableList
           title={
             <div className='flex justify-between items-center w-full'>
@@ -99,7 +103,7 @@ const SideBar = () => {
             icon: 'internet',
             iconImageUrl: nft.iconLogoUrl,
             active: isSameEthereumAddress(nftId, nft.id),
-            to: generatePath(RoutePaths.NFT, { nftIdOrSlug: nft.slug || '' }),
+            to: `/nft/${nft.slug}`, // путь формируется вручную
           }))}
           noMarginLeft
         />
@@ -123,11 +127,6 @@ const SideBar = () => {
               label: t('helpItems.changelog'),
               icon: 'edit-paper',
             },
-            // {
-            //   id: 'docs',
-            //   label: t('helpItems.docs'),
-            //   icon: 'contentEditor',
-            // },
           ]}
           onClickItem={handleHelpItemClick}
           noMarginLeft
