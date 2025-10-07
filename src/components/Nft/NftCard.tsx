@@ -1,7 +1,8 @@
+'use client'
+
 import clsx from 'clsx'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Link } from 'react-router-dom'
 import useNFTUpdate from 'src/hooks/useNFTUpdate'
 import {
   getChainById,
@@ -17,6 +18,7 @@ import { NFTWithChain } from './NftList'
 import { SupportedChainId } from 'src/environment/networks'
 import { IconName } from 'src/shared/types/iconNames'
 import Tooltip from '../ui-kit/Tooltip/Tooltip'
+import Link from 'next/link'
 
 interface NftCardProps {
   nft: NFTWithChain
@@ -87,7 +89,7 @@ const NftCard: React.FC<NftCardProps> = ({
       <div>
         <div className='flex justify-between items-center'>
           <div className='flex items-center gap-2'>
-            <h3 className='text-lg font-semibold truncate'>{nft.name}</h3>
+            <h3 className='text-body2 font-semibold truncate'>{nft.name}</h3>
             {showChain && (
               <Tooltip content={chainConfig?.name}>
                 <Icon
@@ -100,7 +102,7 @@ const NftCard: React.FC<NftCardProps> = ({
           </div>
           <Tooltip content={t('openInExplorer', { ns: 'nfts' })}>
             <Link
-              to={getExplorerUrl({
+              href={getExplorerUrl({
                 type: 'address',
                 hash: nft.id,
                 chainId: nft.chain,

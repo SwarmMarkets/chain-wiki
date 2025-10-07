@@ -1,3 +1,5 @@
+'use client'
+
 import { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ChildrenProp } from 'src/shared/types/common-props'

@@ -1,11 +1,7 @@
-interface PageProps {
-  params: {
-    nftSlugOrId: string
-  }
-}
+import HomePage from 'src/pages/HomePage'
 
-const Page = ({ params }: PageProps) => {
-  return <h1 className='text-primary'>Hello, Next.js {params.nftSlugOrId}</h1>
+const Page = () => {
+  return <HomePage />
 }
 
 export default Page

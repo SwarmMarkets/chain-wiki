@@ -1,7 +1,8 @@
 import Layout from 'src/components/common/Layout'
-import './globals.css'
 import ServicesWrapper from './services-wrapper'
 import ToastManager from 'src/components/ui-kit/Toast/ToastManager'
+
+import './globals.css'
 
 export default function RootLayout({
   children,

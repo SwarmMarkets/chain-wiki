@@ -1,3 +1,5 @@
+'use client'
+
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { useActiveAccount } from 'thirdweb/react'
 import clsx from 'clsx'
