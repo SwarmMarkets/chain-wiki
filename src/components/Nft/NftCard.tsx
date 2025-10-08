@@ -56,6 +56,15 @@ const NftCard: React.FC<NftCardProps> = ({
 
   const chainConfig = chainId && getChainById(chainId)
 
+  const handleOpenExplorer = () => {
+    const explorerUrl = getExplorerUrl({
+      type: 'address',
+      hash: nft.id,
+      chainId: nft.chain,
+    })
+    window.open(explorerUrl, '_blank')
+  }
+
   return (
     <div
       className={clsx(
@@ -101,19 +110,9 @@ const NftCard: React.FC<NftCardProps> = ({
             )}
           </div>
           <Tooltip content={t('openInExplorer', { ns: 'nfts' })}>
-            <Link
-              href={getExplorerUrl({
-                type: 'address',
-                hash: nft.id,
-                chainId: nft.chain,
-              })}
-              onClick={e => e.stopPropagation()}
-              target='_blank'
-            >
-              <IconButton>
-                <Icon name='externalLink' size={14} />
-              </IconButton>
-            </Link>
+            <IconButton onClick={handleOpenExplorer}>
+              <Icon name='externalLink' size={14} />
+            </IconButton>
           </Tooltip>
         </div>
 

@@ -1,4 +1,5 @@
-import { generatePath, Link, useParams } from 'react-router-dom'
+'use client'
+
 import TokenContentSkeleton from 'src/components/Token/TokenContentSkeleton'
 import TokenView from 'src/components/Token/TokenView'
 import useToken from 'src/hooks/subgraph/useToken'
@@ -6,17 +7,19 @@ import useTabs from 'src/hooks/useTabs'
 import { TokenTabs } from 'src/shared/enums/tabs'
 import DotMenu from 'src/components/ui-kit/DotMenu/DotMenu'
 import { useTranslation } from 'react-i18next'
-import RoutePaths from 'src/shared/enums/routes-paths'
 import useFullTokenIdParam from 'src/hooks/useFullTokenIdParam'
 import useNFT from 'src/hooks/subgraph/useNFT'
 import { useMemo } from 'react'
 import { findFirstNonGroupVisibleNode } from 'src/shared/utils/treeHelpers'
 import useNFTIdParam from 'src/hooks/useNftIdParam'
+import Link from 'next/link'
+import Routes, { MParams } from 'src/shared/consts/routes'
+import { useParams } from 'next/navigation'
 
 const TokenPage = () => {
   const { t } = useTranslation('token')
 
-  const { tokenIdOrSlug = '' } = useParams()
+  const { tokenIdOrSlug = '' } = useParams<MParams['token']>()
   const { nftId } = useNFTIdParam()
   const fullTokenId = useFullTokenIdParam()
 
@@ -60,10 +63,7 @@ const TokenPage = () => {
             <h1 className='typo-heading1 text-main-accent'>{token?.name}</h1>
             <DotMenu>
               <Link
-                to={generatePath(RoutePaths.HISTORY, {
-                  nftIdOrSlug: nft?.slug || '',
-                  tokenIdOrSlug,
-                })}
+                href={Routes.manager.history(nftId, tokenIdOrSlug as string)}
               >
                 <li className='px-4 py-2 hover:bg-gray-100 cursor-pointer rounded'>
                   {t('menu.history')}

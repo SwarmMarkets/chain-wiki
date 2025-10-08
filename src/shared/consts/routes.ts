@@ -1,13 +1,18 @@
 import { RoutePathSetting } from '../enums'
 
 const Routes = {
-  home: '/',
   explore: '/explore',
   manager: {
+    home: '/m',
     nft: (nftIdOrSlug: string) => `/m/${nftIdOrSlug}`,
-    editNft: (nftIdOrSlug: string) => `/m/edit/${nftIdOrSlug}`,
+    token: (nftIdOrSlug: string, tokenIdOrSlug: string) =>
+      `/m/${nftIdOrSlug}/${tokenIdOrSlug}`,
+    edit: (nftIdOrSlug: string) => `/m/edit/${nftIdOrSlug}`,
+
     settings: (nftIdOrSlug: string, setting: RoutePathSetting) =>
       `/m/${nftIdOrSlug}/settings/${setting}`,
+    history: (nftIdOrSlug: string, tokenIdOrSlug: string) =>
+      `/m/${nftIdOrSlug}/${tokenIdOrSlug}/history`,
   },
   read: {
     nft: (nftIdOrSlug: string) => `/${nftIdOrSlug}`,
@@ -17,5 +22,17 @@ const Routes = {
       `/${nftIdOrSlug}/${tokenIdOrSlug}/history`,
   },
 } as const
+
+export interface MParams {
+  nft: { nftIdOrSlug: string }
+  token: { nftIdOrSlug: string; tokenIdOrSlug: string }
+  editNft: { nftIdOrSlug: string }
+  settings: { nftIdOrSlug: string; setting: RoutePathSetting }
+  history: { nftIdOrSlug: string; tokenIdOrSlug: string }
+}
+
+export interface RouteParams {
+  manager: MParams
+}
 
 export default Routes

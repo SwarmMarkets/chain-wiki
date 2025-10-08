@@ -1,18 +1,20 @@
+'use client'
+
 import React, { useMemo } from 'react'
-import { generatePath, useParams } from 'react-router-dom'
-import RoutePaths from 'src/shared/enums/routes-paths'
+import Routes, { MParams } from 'src/shared/consts/routes'
 import { NFTWithMetadata } from 'src/shared/utils/ipfs/types'
+import { findFirstNonGroupVisibleNode } from 'src/shared/utils/treeHelpers'
 import EditIndexPages from '../Edit/EditIndexPages'
 import EditIndexPagesTree from '../Edit/EditIndexPagesTree/EditIndexPagesTree'
 import useEdit from '../Edit/useEdit'
-import { findFirstNonGroupVisibleNode } from 'src/shared/utils/treeHelpers'
+import { useParams } from 'next/navigation'
 
 interface IndexPagesProps {
   nft: NFTWithMetadata | null
 }
 
 const IndexPages: React.FC<IndexPagesProps> = ({ nft }) => {
-  const { tokenIdOrSlug } = useParams()
+  const { tokenIdOrSlug } = useParams<MParams['token']>()
   const { treeData } = useEdit(true)
   const isEditMode = window.location.pathname.includes('edit')
 
@@ -33,12 +35,7 @@ const IndexPages: React.FC<IndexPagesProps> = ({ nft }) => {
     <>
       <EditIndexPagesTree
         activeTokenIdOrSlug={tokenIdOrSlug || firstNotGroupTokenId?.slug}
-        to={node =>
-          generatePath(RoutePaths.NFT + RoutePaths.TOKEN, {
-            tokenIdOrSlug: node.data?.slug,
-            nftIdOrSlug: nft.slug,
-          })
-        }
+        to={node => Routes.manager.token(nft.slug || '', node.data?.slug || '')}
         treeData={treeData}
         readonly
       />

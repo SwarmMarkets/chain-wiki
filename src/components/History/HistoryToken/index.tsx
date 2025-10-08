@@ -1,7 +1,9 @@
-import queryString from 'query-string'
+'use client'
+
 import { useMemo, useState } from 'react'
+import { useSearchParams, usePathname } from 'next/navigation'
+import Link from 'next/link'
 import { useTranslation } from 'react-i18next'
-import { Link, useLocation } from 'react-router-dom'
 import Button from 'src/components/ui-kit/Button/Button'
 import Skeleton from 'src/components/ui-kit/Skeleton/Skeleton'
 import useTokenURIUpdates from 'src/hooks/subgraph/useTokenURIUpdates'
@@ -13,10 +15,12 @@ import {
 import HistoryTokenDifference from './HistoryTokenDifference'
 import HistoryTokenList from './HistoryTokenList'
 import useFullTokenIdParam from 'src/hooks/useFullTokenIdParam'
+import queryString from 'query-string'
 
 const HistoryToken = () => {
   const { t } = useTranslation(['buttons', 'history'])
-  const location = useLocation()
+  const searchParams = useSearchParams()
+  const pathname = usePathname()
   const tokenId = useFullTokenIdParam()
 
   const { tokenUriUpdates, loading, refetching } = useTokenURIUpdates(tokenId, {
@@ -29,13 +33,11 @@ const HistoryToken = () => {
   const showSkeletons = loading && !refetching
 
   const mode = useMemo(() => {
-    const params = queryString.parse(location.search)
-    if (params.oldTokenId && params.newTokenId) {
-      return 'difference'
-    } else {
-      return 'list'
-    }
-  }, [location.search])
+    const oldTokenId = searchParams.get('oldTokenId')
+    const newTokenId = searchParams.get('newTokenId')
+    return oldTokenId && newTokenId ? 'difference' : 'list'
+  }, [searchParams])
+
   const [selectedTokens, setSelectedTokens] = useState<
     TokenUriUpdatesQuery['tokenURIUpdates']
   >([])
@@ -45,7 +47,7 @@ const HistoryToken = () => {
   }
 
   const sortedTokensByUpdatedAt = useMemo(
-    () => selectedTokens.sort((a, b) => +a.updatedAt - +b.updatedAt),
+    () => selectedTokens.slice().sort((a, b) => +a.updatedAt - +b.updatedAt),
     [selectedTokens]
   )
 
@@ -56,15 +58,16 @@ const HistoryToken = () => {
       </div>
     )
 
+  const currentQuery = Object.fromEntries(searchParams.entries())
+
   return (
     <div>
       {mode === 'list' ? (
         <div>
           {selectedTokens.length === 2 ? (
             <Link
-              onClick={() => onSelectTokens([])}
-              to={`?${queryString.stringify({
-                ...queryString.parse(location.search),
+              href={`${pathname}?${queryString.stringify({
+                ...currentQuery,
                 oldTokenId: sortedTokensByUpdatedAt[0]?.id,
                 newTokenId: sortedTokensByUpdatedAt[1]?.id,
               })}`}

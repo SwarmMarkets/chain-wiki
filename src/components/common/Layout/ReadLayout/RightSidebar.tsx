@@ -38,7 +38,7 @@ const RightSidebar: React.FC<RightSidebarProps> = ({
     >
       <div className='mb-4'>
         <LinkPreserveSearch
-          to={generatePath(RoutePaths.TOKEN_READ_HISTORY, {
+          href={generatePath(RoutePaths.TOKEN_READ_HISTORY, {
             nftIdOrSlug,
             tokenIdOrSlug: tokenIdOrSlug || firstTokenSlug,
           })}

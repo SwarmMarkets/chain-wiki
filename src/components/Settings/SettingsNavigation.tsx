@@ -1,17 +1,22 @@
+'use client'
+
 import { SettingView } from 'src/components/Settings/enums'
-import { useSearchParams } from 'react-router-dom'
+import { useSearchParams, usePathname } from 'next/navigation'
 import useSettingsLinks from './useSettingsLinks'
 import SelectableList from '../ExpandableList/SelectableList'
 
 const SettingsNavigation = () => {
-  const [searchParams] = useSearchParams()
+  const searchParams = useSearchParams()
+  const pathname = usePathname()
   const activeTab = searchParams.get('setting') || SettingView.GENERAL
   const settingsLinks = useSettingsLinks()
 
-  const getSearchParams = (newValue: string) => {
-    const newSearchParams = new URLSearchParams(searchParams)
-    newSearchParams.set('setting', newValue)
-    return newSearchParams.toString()
+  const getHref = (newValue: string) => {
+    const currentParams = Object.fromEntries(searchParams.entries())
+    return `${pathname}?${new URLSearchParams({
+      ...currentParams,
+      setting: newValue,
+    }).toString()}`
   }
 
   return (
@@ -22,7 +27,7 @@ const SettingsNavigation = () => {
           label,
           icon,
           active: activeTab === link,
-          to: `?${getSearchParams(link)}`,
+          to: getHref(link), // передаём ссылку с сохранением query
         }))}
         noMarginLeft
         lighter

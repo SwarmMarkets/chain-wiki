@@ -7,6 +7,7 @@ import Button from 'src/components/ui-kit/Button/Button'
 import useModalState from 'src/hooks/useModalState'
 import { useActiveAccount } from 'thirdweb/react'
 import ConnectWallet from '../ConnectWallet/ConnectWallet'
+import Routes from 'src/shared/consts/routes'
 
 const TopNavBar = () => {
   const { isOpen, open, close } = useModalState()
@@ -15,7 +16,7 @@ const TopNavBar = () => {
   return (
     <div className='bg-white border-b border-gray-200 flex items-center justify-between px-4 py-2 w-full'>
       <div className='flex items-center gap-4'>
-        <Link href='/' className='flex items-center'>
+        <Link href={Routes.manager.home} className='flex items-center'>
           <img src='/assets/logo.png' alt='ChainWiki' className='h-7' />
         </Link>
       </div>

@@ -29,9 +29,10 @@ import { PreparedTransaction } from 'thirdweb'
 import { useIpfsUpload } from 'src/hooks/web3/useIpfsUpload'
 import useSX1155NFT from 'src/hooks/contracts/nft/useSX1155NFT'
 import useSendBatchTxs from 'src/hooks/web3/useSendBatchTxs'
-import { generatePath, Link } from 'react-router-dom'
 import RoutePaths from 'src/shared/enums/routes-paths'
 import { useTranslation } from 'react-i18next'
+import Routes from 'src/shared/consts/routes'
+import Link from 'next/link'
 
 const useEdit = (readonly?: boolean) => {
   const { t } = useTranslation('common')
@@ -114,12 +115,10 @@ const useEdit = (readonly?: boolean) => {
     })
 
     // 3) Применить slug'и к indexPages
-    const updatedSlugsMap: Record<string, string> = Object.fromEntries(
-      [
-        ...normalizedAddedTokens.map(t => [t.id, t.slug] as const),
-        ...normalizedEditedTokens.map(t => [t.id, t.slug] as const),
-      ]
-    )
+    const updatedSlugsMap: Record<string, string> = Object.fromEntries([
+      ...normalizedAddedTokens.map(t => [t.id, t.slug] as const),
+      ...normalizedEditedTokens.map(t => [t.id, t.slug] as const),
+    ])
 
     const normalizedEditedIndexPages: EditedIndexPagesState = {
       isEdited: editedIndexPages.isEdited,
@@ -328,16 +327,14 @@ const useEdit = (readonly?: boolean) => {
         }
       }
 
-      const siteUrl = generatePath(RoutePaths.NFT_READ, {
-        nftIdOrSlug: nft?.slug || '',
-      })
+      const siteUrl = Routes.read.nft(nft?.slug || nftId)
 
       const receipt = await sendBatchTxs(txs, {
         successMessage: (
           <>
             {t('toasts.siteUpdated', { ns: 'common' })}{' '}
             <Link
-              to={siteUrl}
+              href={siteUrl}
               target='_blank'
               className='underline text-main-accent hover:text-main'
             >

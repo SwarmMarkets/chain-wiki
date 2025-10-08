@@ -1,4 +1,6 @@
-import { useParams, useSearchParams } from 'react-router-dom'
+'use client'
+
+import { useSearchParams, useParams } from 'next/navigation'
 import SettingsNavigation from './SettingsNavigation'
 import { RoutePathSetting } from 'src/shared/enums'
 import { ConditionalItem, ConditionalRender } from '../common/ConditionalRender'
@@ -11,9 +13,10 @@ import SettingsBody from './SettingsBody'
 import useNFTIdParam from 'src/hooks/useNftIdParam'
 
 const Settings = () => {
-  const { setting = '' } = useParams()
-  const [searchParams] = useSearchParams()
-  const actilveLink = searchParams.get('setting') || RoutePathSetting.GENERAL
+  const params = useParams() as { setting?: string }
+  const setting = params.setting || ''
+  const searchParams = useSearchParams()
+  const activeLink = searchParams.get('setting') || RoutePathSetting.GENERAL
   const { nftId } = useNFTIdParam()
 
   const {
@@ -34,7 +37,7 @@ const Settings = () => {
       >
         <div className='flex gap-12 w-full max-w-screen-lg mt-8'>
           <SettingsNavigation />
-          <SettingsBody activeLink={actilveLink} />
+          <SettingsBody activeLink={activeLink} />
         </div>
       </ConditionalItem>
       <ConditionalItem case={RoutePathSetting.CUSTOMIZATION}>

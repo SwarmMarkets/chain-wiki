@@ -1,22 +1,27 @@
+'use client'
+
 import { useTranslation } from 'react-i18next'
-import { Navigate, useNavigate } from 'react-router-dom'
-import { Link } from 'react-router-dom'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import ConnectWallet from 'src/components/common/ConnectWallet/ConnectWallet'
 import RoutePaths from 'src/shared/enums/routes-paths'
 import { useActiveWalletConnectionStatus } from 'thirdweb/react'
+import { useEffect } from 'react'
 
 const ConnectWalletPage = () => {
   const { t } = useTranslation('connectWallet')
-  const navigate = useNavigate()
+  const router = useRouter()
   const status = useActiveWalletConnectionStatus()
 
   const handleConnectWallet = () => {
-    navigate(RoutePaths.HOME)
+    router.push(RoutePaths.HOME)
   }
 
-  if (status === 'connected') {
-    return <Navigate to={RoutePaths.HOME} />
-  }
+  useEffect(() => {
+    if (status === 'connected') {
+      router.replace(RoutePaths.HOME)
+    }
+  }, [status, router])
 
   return (
     <div className='h-screen flex justify-center items-center bg-gradient-to-br from-[#c2ebfb] to-[#a1a7fd]'>
@@ -27,7 +32,7 @@ const ConnectWalletPage = () => {
         <p className='typo-body1 text-center mt-3'>
           {t('orExplorePublicWikisPart1')}{' '}
           <Link
-            to='/explore'
+            href='/explore'
             className='text-primary hover:text-primary-accent'
             target='_blank'
             rel='noopener noreferrer'

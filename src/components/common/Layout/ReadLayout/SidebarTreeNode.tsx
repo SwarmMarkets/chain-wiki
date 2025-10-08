@@ -46,7 +46,7 @@ const SidebarTreeNode: React.FC<SidebarTreeNodeProps> = ({
     <li className='list-none'>
       <DynamicComponent
         as={node?.to ? LinkPreserveSearch : 'div'}
-        to={node?.to}
+        href={node?.to}
         onClick={() => !isGroup && onSelect?.(node)}
         className={clsx(
           'group flex justify-between items-center transition-colors px-3 py-1.5',

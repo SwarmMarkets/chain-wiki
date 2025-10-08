@@ -14,7 +14,7 @@ import Icon from '../ui-kit/Icon/Icon'
 import IconButton from '../ui-kit/IconButton'
 import useCommentIds from 'src/hooks/subgraph/useCommentIds'
 import { groupBy } from 'lodash'
-import { useNavigate } from 'react-router-dom'
+import { useRouter } from 'next/navigation'
 
 interface MarkdownRendererProps {
   fullTokenId?: string
@@ -93,25 +93,25 @@ const MarkdownRenderer = forwardRef<HTMLDivElement, MarkdownRendererProps>(
           components: {
             a: (props: any) => {
               // eslint-disable-next-line react-hooks/rules-of-hooks
-              const navigate = useNavigate()
-              const href: string = props.href || ''
+              const router = useRouter()
+              const { href, children, ...rest } = props
               const isRelative = href.startsWith('/')
 
-              const handleClick = (e: React.MouseEvent) => {
+              const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
                 if (isRelative) {
                   e.preventDefault()
-                  navigate(href) // клиентский редирект через React Router
+                  router.push(href)
                 }
               }
 
               return (
                 <a
-                  {...props}
+                  {...rest}
                   {...(isRelative
                     ? { onClick: handleClick }
                     : { target: '_blank', rel: 'noopener noreferrer' })}
                 >
-                  {props.children}
+                  {children}
                 </a>
               )
             },
