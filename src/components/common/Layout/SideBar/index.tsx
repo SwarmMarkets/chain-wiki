@@ -18,13 +18,14 @@ import Icon from 'src/components/ui-kit/Icon/Icon'
 import IconButton from 'src/components/ui-kit/IconButton'
 import SiteMenu from './SiteMenu'
 import useNFTIdParam from 'src/hooks/useNftIdParam'
+import Routes from 'src/shared/consts/routes'
 
 const SideBar = () => {
   const { t } = useTranslation('layout', { keyPrefix: 'sidebar' })
   const account = useActiveAccount()
   const address = account?.address || ''
   const { nftId } = useNFTIdParam()
-  const pathname = usePathname() // текущий путь
+  const pathname = usePathname()
 
   const { nfts } = useNFTs({
     variables: {
@@ -103,7 +104,7 @@ const SideBar = () => {
             icon: 'internet',
             iconImageUrl: nft.iconLogoUrl,
             active: isSameEthereumAddress(nftId, nft.id),
-            to: `/nft/${nft.slug}`, // путь формируется вручную
+            to: Routes.manager.nft(nft.slug),
           }))}
           noMarginLeft
         />

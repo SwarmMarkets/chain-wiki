@@ -7,6 +7,7 @@ import NftCard from './NftCard'
 import NftSkeletonList from './NftSkeletonList'
 import { SupportedChainId } from 'src/environment/networks'
 import Link from 'next/link'
+import Routes from 'src/shared/consts/routes'
 
 export type NFTWithChain = NfTsQuery['nfts'][0] & { chain?: SupportedChainId }
 
@@ -40,7 +41,7 @@ const NftList: React.FC<NftListProps> = ({
         <NftSkeletonList skeletonLength={skeletonLength} />
       ) : (
         nfts?.map(nft => {
-          const href = to ? to(nft) : `/${nft.slug}` // напрямую формируем путь Next.js
+          const href = to ? to(nft) : Routes.manager.nft(nft.slug)
 
           return (
             <Link
@@ -48,7 +49,7 @@ const NftList: React.FC<NftListProps> = ({
               href={href}
               onClick={e => {
                 if (onClick) {
-                  e.preventDefault() // чтобы можно было вызвать onClick без навигации
+                  e.preventDefault()
                   onClick(nft)
                 }
               }}
