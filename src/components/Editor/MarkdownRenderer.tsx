@@ -204,18 +204,18 @@ const ParagraphWithComment: React.FC<ParagraphWithCommentProps> = ({
     <Tag id={id} className='group relative'>
       {children}
       {id && (
-        <div className='absolute right-0 top-0 opacity-0 group-hover:opacity-100 transition-opacity'>
-          <div className='relative'>
+        <span className='absolute right-0 top-0 opacity-0 group-hover:opacity-100 transition-opacity'>
+          <span className='relative'>
             <IconButton onClick={() => onClickComment?.(id)}>
               <Icon name='comment' size={16} />
             </IconButton>
             {count && (
-              <div className='absolute -top-1 -right-1 w-3.5 h-3.5 rounded-full bg-primary text-primary-contrast text-[10px] leading-none flex items-center justify-center'>
+              <span className='absolute -top-1 -right-1 w-3.5 h-3.5 rounded-full bg-primary text-primary-contrast text-[10px] leading-none flex items-center justify-center'>
                 {count}
-              </div>
+              </span>
             )}
-          </div>
-        </div>
+          </span>
+        </span>
       )}
     </Tag>
   )

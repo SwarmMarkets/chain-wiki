@@ -1,13 +1,14 @@
+'use client'
+
+import { useEffect, useMemo, useState, PropsWithChildren } from 'react'
 import clsx from 'clsx'
-import React, { PropsWithChildren, useEffect, useMemo, useState } from 'react'
-import { generatePath, Outlet, useLocation, useParams } from 'react-router-dom'
+import { useParams, usePathname } from 'next/navigation'
 import Drawer from 'src/components/ui-kit/Drawer'
 import useNFT from 'src/hooks/subgraph/useNFT'
 import useBreakpoint from 'src/hooks/ui/useBreakpoint'
 import useFullTokenIdParam from 'src/hooks/useFullTokenIdParam'
 import useNFTIdParam from 'src/hooks/useNftIdParam'
 import useHandleSwitchChain from 'src/hooks/web3/useHandleSwitchChain'
-import RoutePaths from 'src/shared/enums/routes-paths'
 import { findFirstNonGroupVisibleNode } from 'src/shared/utils/treeHelpers'
 import ChooseSiteNetwork from './ChooseSiteNetwork'
 import ContentContext from './Content/ContentContext'
@@ -18,6 +19,7 @@ import SidebarTree from './SidebarTree'
 import { buildTree } from './utils'
 import { NFTWithChain } from 'src/components/Nft/NftList'
 import { getChainById } from 'src/shared/utils'
+import { MParams } from 'src/shared/consts/routes'
 
 interface ReadLayoutProps {
   preview?: boolean
@@ -35,9 +37,10 @@ const ReadLayout: React.FC<PropsWithChildren<ReadLayoutProps>> = ({
     switchLocalChain,
   } = useHandleSwitchChain(preview)
   const { nftId } = useNFTIdParam()
-  const { tokenIdOrSlug = '' } = useParams()
+  const params = useParams<MParams['token']>()
+  const tokenIdOrSlug = params.tokenIdOrSlug || ''
   const fullTokenid = useFullTokenIdParam()
-  const location = useLocation()
+  const pathname = usePathname()
   const [isLeftSidebarOpen, setLeftSidebarOpen] = useState(false)
   const isMd = useBreakpoint('md')
   const isXl = useBreakpoint('xl')
@@ -45,24 +48,19 @@ const ReadLayout: React.FC<PropsWithChildren<ReadLayoutProps>> = ({
   const { nft, loadingNft, refetchingNft } = useNFT(nftId, {
     fetchFullData: true,
   })
-
   const loading = (loadingNft && !refetchingNft) || loadingConflict
 
   const isHistoryPage =
-    location.pathname ===
-    generatePath(RoutePaths.TOKEN_READ_HISTORY, {
-      nftIdOrSlug: nft?.slug || '',
-      tokenIdOrSlug: tokenIdOrSlug,
-    })
+    pathname === `/nft/${nft?.slug}/token/${tokenIdOrSlug}/history`
 
-  const firstToken = useMemo(() => {
-    return findFirstNonGroupVisibleNode(nft?.indexPagesContent?.indexPages)
-  }, [nft?.indexPagesContent?.indexPages])
+  const firstToken = useMemo(
+    () => findFirstNonGroupVisibleNode(nft?.indexPagesContent?.indexPages),
+    [nft?.indexPagesContent?.indexPages]
+  )
 
   useEffect(() => {
     if (preview) return
     if (nft?.name) document.title = nft.name
-
     if (nft?.iconLogoUrl) {
       const favicon = document.querySelector(
         "link[rel~='icon']"
@@ -73,16 +71,12 @@ const ReadLayout: React.FC<PropsWithChildren<ReadLayoutProps>> = ({
 
   const treeData = useMemo(() => {
     if (!nft?.indexPagesContent?.indexPages) return []
-
-    return buildTree(nft?.indexPagesContent?.indexPages, nft.slug, 0)
+    return buildTree(nft.indexPagesContent.indexPages, nft.slug, 0)
   }, [nft?.indexPagesContent?.indexPages, nft?.slug])
 
   const handleSelectNetwork = (nft: NFTWithChain) => {
     const chain = nft.chain && getChainById(nft.chain)
-
-    if (chain) {
-      switchLocalChain(chain, true)
-    }
+    if (chain) switchLocalChain(chain, true)
   }
 
   if (conflict)
@@ -132,7 +126,7 @@ const ReadLayout: React.FC<PropsWithChildren<ReadLayoutProps>> = ({
           )}
 
           <main className='flex-1 min-w-0 px-0 sm:px-8 md:px-12'>
-            {children || <Outlet />}
+            {children}
           </main>
 
           {!isXl && !isHistoryPage && (
