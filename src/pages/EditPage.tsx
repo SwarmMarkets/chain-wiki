@@ -1,3 +1,5 @@
+'use client'
+
 import EditorView from 'src/components/Edit/EditorView'
 import useEdit from 'src/components/Edit/useEdit'
 import NftContentSkeleton from 'src/components/Token/TokenContentSkeleton'

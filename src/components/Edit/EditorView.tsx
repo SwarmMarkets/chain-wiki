@@ -1,3 +1,5 @@
+'use client'
+
 import { MDXEditorMethods } from '@mdxeditor/editor'
 import React, { useRef } from 'react'
 import Editor from 'src/components/Editor'

@@ -16,7 +16,7 @@ interface IndexPagesProps {
 const IndexPages: React.FC<IndexPagesProps> = ({ nft }) => {
   const { tokenIdOrSlug } = useParams<MParams['token']>()
   const { treeData } = useEdit(true)
-  const isEditMode = window.location.pathname.includes('edit')
+  const isEditMode = window.location.pathname.includes('/edit/')
 
   const firstNotGroupTokenId = useMemo(
     () =>
