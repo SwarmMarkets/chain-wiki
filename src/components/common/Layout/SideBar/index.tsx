@@ -10,7 +10,6 @@ import ExpandableListItem, {
 } from 'src/components/ExpandableList/ExpandableListItem'
 import useNFTs from 'src/hooks/subgraph/useNFTs'
 import { Nft_OrderBy, OrderDirection } from 'src/queries/gql/graphql'
-import RoutePaths from 'src/shared/enums/routes-paths'
 import { isSameEthereumAddress } from 'src/shared/utils'
 import CreateNftModal from 'src/components/CreateNft/CreateNftModal'
 import useModalState from 'src/hooks/useModalState'
@@ -68,13 +67,13 @@ const SideBar = () => {
   return (
     <aside className='w-64 bg-gray-100 flex flex-col h-full border-r-gray-200 border-r'>
       <nav className='flex flex-col gap-1 flex-1 overflow-y-auto p-4'>
-        <Link href={RoutePaths.HOME} className='block'>
+        <Link href={Routes.manager.home} className='block'>
           <ExpandableListItem
             item={{
               id: 'my-nfts',
               label: <div className='py-0.5'>{t('home')}</div>,
               icon: 'four-squares',
-              active: isActiveLink(RoutePaths.HOME),
+              active: isActiveLink(Routes.manager.home),
             }}
           />
         </Link>
