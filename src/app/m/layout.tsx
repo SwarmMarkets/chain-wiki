@@ -1,11 +1,12 @@
 'use client'
 
 import { usePathname } from 'next/navigation'
+import { PropsWithChildren } from 'react'
 import Layout from 'src/components/common/Layout'
 import NftLayout from 'src/components/common/Layout/NftLayout'
 import Routes from 'src/shared/consts/routes'
 
-const ManagerLayout = ({ children }: { children: React.ReactNode }) => {
+const ManagerLayout: React.FC<PropsWithChildren> = ({ children }) => {
   const pathname = usePathname()
   const isHomePage = pathname === Routes.manager.home
 

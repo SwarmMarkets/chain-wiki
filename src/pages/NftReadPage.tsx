@@ -1,3 +1,5 @@
+'use client'
+
 import { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useContentRef } from 'src/components/common/Layout/ReadLayout/Content/context'

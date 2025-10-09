@@ -1,13 +1,10 @@
-import ServicesWrapper from './services-wrapper'
+import { PropsWithChildren } from 'react'
 import ToastManager from 'src/components/ui-kit/Toast/ToastManager'
+import ServicesWrapper from './services-wrapper'
 
 import './globals.css'
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+const RootLayout: React.FC<PropsWithChildren> = ({ children }) => {
   return (
     <html lang='en'>
       <head>
@@ -32,3 +29,5 @@ export default function RootLayout({
     </html>
   )
 }
+
+export default RootLayout

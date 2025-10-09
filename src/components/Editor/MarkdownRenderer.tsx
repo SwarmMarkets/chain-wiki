@@ -1,3 +1,5 @@
+'use client'
+
 import 'highlight.js/styles/atom-one-dark.css'
 import md5 from 'md5'
 import React, { forwardRef, useMemo } from 'react'

@@ -8,6 +8,7 @@ import SidebarTree from './SidebarTree'
 import { ISidebarTreeNode } from './SidebarTreeNode'
 import { buildTree } from './utils'
 import Icon from 'src/components/ui-kit/Icon/Icon'
+import i18n from 'src/i18n'
 
 interface LeftSidebarProps {
   nft: NFTWithMetadata | null
