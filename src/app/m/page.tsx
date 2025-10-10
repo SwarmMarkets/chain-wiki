@@ -1,6 +1,6 @@
 import HomePage from 'src/pages/HomePage'
 
-const Page = () => {
+const Page = async () => {
   return <HomePage />
 }
 

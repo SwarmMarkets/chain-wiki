@@ -3,8 +3,13 @@ import ToastManager from 'src/components/ui-kit/Toast/ToastManager'
 import ServicesWrapper from './services-wrapper'
 
 import './globals.css'
+import TranslationsProvider from 'src/components/TranslationProvider'
+import i18nConfig from 'src/config/i18n/i18nConfig'
+import initTranslations from 'src/config/i18n/i18n'
 
-const RootLayout: React.FC<PropsWithChildren> = ({ children }) => {
+const RootLayout: React.FC<PropsWithChildren> = async ({ children }) => {
+  const { resources } = await initTranslations('en', i18nConfig.namespaces)
+
   return (
     <html lang='en'>
       <head>
@@ -20,7 +25,15 @@ const RootLayout: React.FC<PropsWithChildren> = ({ children }) => {
         />
       </head>
       <body>
-        <ServicesWrapper>{children}</ServicesWrapper>
+        <ServicesWrapper>
+          <TranslationsProvider
+            locale={'en'}
+            namespaces={i18nConfig.namespaces}
+            resources={resources}
+          >
+            {children}
+          </TranslationsProvider>
+        </ServicesWrapper>
         <ToastManager />
         <div id='drawers' />
         <div id='modals' />

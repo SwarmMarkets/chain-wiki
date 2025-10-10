@@ -7,8 +7,6 @@ import { DndProvider } from 'react-dnd'
 import TopNavBar from './TopNavBar'
 import { PropsWithChildren } from 'react'
 
-import 'src/i18n'
-
 const Layout: React.FC<PropsWithChildren> = ({ children }) => {
   return (
     <DndProvider backend={MultiBackend} options={getBackendOptions()}>

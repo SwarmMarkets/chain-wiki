@@ -40,7 +40,7 @@
   "include": [
     "src",
     ".next/types/**/*.ts"
-  ],
+, "public/en", "public/locales/en/index.ts"  ],
   "exclude": [
     "src/common/apollo/types/**",
     "node_modules"
