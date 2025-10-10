@@ -1,4 +1,4 @@
-import EditPage from 'src/pages/EditPage'
+import EditPage from 'src/components/pages/EditPage'
 
 const Page = () => {
   return <EditPage />

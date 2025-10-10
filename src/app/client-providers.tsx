@@ -1,16 +1,16 @@
 'use client'
 
-import { ApolloProvider } from '@apollo/client'
+import { PropsWithChildren } from 'react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import React, { PropsWithChildren } from 'react'
-import client from 'src/services/apollo'
-import theme from 'src/theme'
-import { ThemeProvider } from 'styled-components'
+import { ApolloProvider } from '@apollo/client'
 import { ThirdwebProvider } from 'thirdweb/react'
+import { ThemeProvider } from 'styled-components'
+import theme from 'src/theme'
+import client from 'src/services/apollo'
 
 const queryClient = new QueryClient()
 
-const ServicesWrapper: React.FC<PropsWithChildren> = ({ children }) => {
+const ClientProviders: React.FC<PropsWithChildren> = ({ children }) => {
   return (
     <QueryClientProvider client={queryClient}>
       <ApolloProvider client={client}>
@@ -22,4 +22,4 @@ const ServicesWrapper: React.FC<PropsWithChildren> = ({ children }) => {
   )
 }
 
-export default ServicesWrapper
+export default ClientProviders

@@ -1,4 +1,4 @@
-import TokenPage from 'src/pages/TokenPage'
+import TokenPage from 'src/components/pages/TokenPage'
 
 const Page = () => {
   return <TokenPage />

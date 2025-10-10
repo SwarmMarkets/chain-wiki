@@ -1,11 +1,11 @@
 import { PropsWithChildren } from 'react'
 import ToastManager from 'src/components/ui-kit/Toast/ToastManager'
-import ServicesWrapper from './services-wrapper'
 
 import './globals.css'
 import TranslationsProvider from 'src/components/TranslationProvider'
 import i18nConfig from 'src/config/i18n/i18nConfig'
 import initTranslations from 'src/config/i18n/i18n'
+import ClientProviders from './client-providers'
 
 const RootLayout: React.FC<PropsWithChildren> = async ({ children }) => {
   const { resources } = await initTranslations('en', i18nConfig.namespaces)
@@ -25,15 +25,13 @@ const RootLayout: React.FC<PropsWithChildren> = async ({ children }) => {
         />
       </head>
       <body>
-        <ServicesWrapper>
-          <TranslationsProvider
-            locale={'en'}
-            namespaces={i18nConfig.namespaces}
-            resources={resources}
-          >
-            {children}
-          </TranslationsProvider>
-        </ServicesWrapper>
+        <TranslationsProvider
+          locale='en'
+          namespaces={i18nConfig.namespaces}
+          resources={resources}
+        >
+          <ClientProviders>{children}</ClientProviders>
+        </TranslationsProvider>
         <ToastManager />
         <div id='drawers' />
         <div id='modals' />

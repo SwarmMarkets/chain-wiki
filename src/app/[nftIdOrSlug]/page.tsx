@@ -1,4 +1,4 @@
-import NftReadPage from 'src/pages/NftReadPage'
+import NftReadPage from "src/components/pages/NftReadPage"
 
 const Page = () => {
   return <NftReadPage />

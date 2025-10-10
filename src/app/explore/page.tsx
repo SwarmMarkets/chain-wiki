@@ -1,4 +1,4 @@
-import ExplorePage from 'src/pages/ExplorePage'
+import ExplorePage from 'src/components/pages/ExplorePage'
 
 const Page = async () => {
   return <ExplorePage />

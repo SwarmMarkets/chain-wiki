@@ -1,4 +1,4 @@
-import NftSettingsPage from 'src/pages/NftSettingsPage'
+import NftSettingsPage from 'src/components/pages/NftSettingsPage'
 
 const Page = () => {
   return <NftSettingsPage />

@@ -4,13 +4,13 @@ import { useSearchParams, useParams } from 'next/navigation'
 import SettingsNavigation from './SettingsNavigation'
 import { RoutePathSetting } from 'src/shared/enums'
 import { ConditionalItem, ConditionalRender } from '../common/ConditionalRender'
-import NftReadPage from 'src/pages/NftReadPage'
 import ReadLayout from '../common/Layout/ReadLayout'
 import UpdateNftContentButton from '../UpdateContent/UpdateNftContentButton'
 import { useCustomizationStore } from 'src/shared/store/customization-store'
 import { useTranslation } from 'react-i18next'
 import SettingsBody from './SettingsBody'
 import useNFTIdParam from 'src/hooks/useNftIdParam'
+import NftReadPage from '../pages/NftReadPage'
 
 const Settings = () => {
   const params = useParams() as { setting?: string }
