@@ -26,13 +26,17 @@ const Routes = {
 export interface MParams {
   nft: { nftIdOrSlug: string }
   token: { nftIdOrSlug: string; tokenIdOrSlug: string }
-  editNft: { nftIdOrSlug: string }
   settings: { nftIdOrSlug: string; setting: RoutePathSetting }
-  history: { nftIdOrSlug: string; tokenIdOrSlug: string }
+}
+
+export interface ReadParams {
+  nft: { nftIdOrSlug: string }
+  token: { nftIdOrSlug: string; tokenIdOrSlug: string }
 }
 
 export interface RouteParams {
   manager: MParams
+  read: ReadParams
 }
 
 export default Routes

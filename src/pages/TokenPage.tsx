@@ -43,7 +43,7 @@ const TokenPage = () => {
   )
 
   const showSkeleton =
-    (loadingToken && !refetchingToken) || (loadingNft && !refetchingNft)
+    (loadingToken && !refetchingToken) || (loadingNft && !refetchingNft) || !nft
 
   const handleEditSite = () => {
     changeTab(TokenTabs.EDIT)
@@ -63,7 +63,7 @@ const TokenPage = () => {
             <h1 className='typo-heading1 text-main-accent'>{token?.name}</h1>
             <DotMenu>
               <Link
-                href={Routes.manager.history(nftId, tokenIdOrSlug as string)}
+                href={Routes.manager.history(nft.slug, tokenIdOrSlug as string)}
               >
                 <li className='px-4 py-2 hover:bg-gray-100 cursor-pointer rounded'>
                   {t('menu.history')}

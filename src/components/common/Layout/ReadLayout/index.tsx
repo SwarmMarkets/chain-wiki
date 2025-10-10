@@ -19,7 +19,7 @@ import SidebarTree from './SidebarTree'
 import { buildTree } from './utils'
 import { NFTWithChain } from 'src/components/Nft/NftList'
 import { getChainById } from 'src/shared/utils'
-import { MParams } from 'src/shared/consts/routes'
+import Routes, { MParams } from 'src/shared/consts/routes'
 
 interface ReadLayoutProps {
   preview?: boolean
@@ -51,7 +51,7 @@ const ReadLayout: React.FC<PropsWithChildren<ReadLayoutProps>> = ({
   const loading = (loadingNft && !refetchingNft) || loadingConflict
 
   const isHistoryPage =
-    pathname === `/nft/${nft?.slug}/token/${tokenIdOrSlug}/history`
+    pathname === Routes.read.history(nft?.slug || '', tokenIdOrSlug)
 
   const firstToken = useMemo(
     () => findFirstNonGroupVisibleNode(nft?.indexPagesContent?.indexPages),
