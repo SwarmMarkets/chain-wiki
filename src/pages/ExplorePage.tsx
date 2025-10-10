@@ -1,9 +1,11 @@
+'use client'
+
+import Link from 'next/link'
 import { useTranslation } from 'react-i18next'
-import { Link } from 'react-router-dom'
 import NftList from 'src/components/Nft/NftList'
 import Button from 'src/components/ui-kit/Button/Button'
 import useNFTExamples from 'src/hooks/subgraph/useNFTExamples'
-import RoutePaths from 'src/shared/enums/routes-paths'
+import Routes from 'src/shared/consts/routes'
 import { generateSiteLink } from 'src/shared/utils'
 
 const ExplorePage = () => {
@@ -25,7 +27,7 @@ const ExplorePage = () => {
           <div className='p-2.5'>
             <img className='max-h-7' src='assets/logo.png' alt='ChainWiki' />
           </div>
-          <Link to={RoutePaths.HOME}>
+          <Link href={Routes.manager.home}>
             <Button size='md' style={{ borderRadius: '50px', height: 43 }}>
               Open App
             </Button>
