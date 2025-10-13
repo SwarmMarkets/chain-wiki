@@ -6,7 +6,6 @@ import {
 } from 'thirdweb/react'
 import React, { MouseEvent } from 'react'
 import Button, { ButtonProps } from './ui-kit/Button/Button'
-import { useTranslation } from 'react-i18next'
 import { Chain } from 'thirdweb'
 import staticConfig from 'src/config'
 import { thirdwebCommonConnectConfig } from 'src/config/thirdweb'
@@ -29,7 +28,6 @@ const SmartButton: React.FC<SmartButtonProps> = ({
   loading,
   ...rest
 }) => {
-  const { t } = useTranslation('connectWallet')
   const account = useActiveAccount()
   const activeChain = useActiveWalletChain()
   const { connect } = useConnectModal()
@@ -61,8 +59,8 @@ const SmartButton: React.FC<SmartButtonProps> = ({
   }
 
   const renderButtonContent = () => {
-    if (needConnect) return t('connectWalletToComment')
-    if (needSwitch) return t('switchNetwork')
+    if (needConnect) return 'Connect wallet'
+    if (needSwitch) return 'Switch network'
     return children
   }
 

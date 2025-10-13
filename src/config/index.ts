@@ -1,5 +1,3 @@
-'use client'
-
 import { environment } from 'src/environment'
 import {
   mainNetworks,
