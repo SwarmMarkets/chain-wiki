@@ -2,11 +2,7 @@ import { ReactNode } from 'react'
 import { getNftBySlugOrAddress } from 'src/services/apollo/getNftBySlugOrAddress'
 import { getTokens } from 'src/services/apollo/getTokens'
 import { ReadParams } from 'src/shared/consts/routes'
-import {
-  getChainByName,
-  isSameEthereumAddress,
-  unifyAddressToId,
-} from 'src/shared/utils'
+import { getChainByName, unifyAddressToId } from 'src/shared/utils'
 import { findFirstNonGroupVisibleNode } from 'src/shared/utils/treeHelpers'
 import ClientReadLayout from './ClientReadLayout'
 import { createClientForChain } from 'src/services/apollo'
@@ -41,7 +37,12 @@ const ReadLayout = async ({
   )
 
   return (
-    <ClientReadLayout nft={nft} firstToken={firstToken} fullTokens={fullTokens} params={params}>
+    <ClientReadLayout
+      nft={nft}
+      firstToken={firstToken}
+      fullTokens={fullTokens}
+      params={params}
+    >
       {children}
     </ClientReadLayout>
   )
