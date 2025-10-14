@@ -3,7 +3,7 @@ import { RoutePathSetting } from '../enums'
 const Routes = {
   explore: '/explore',
   manager: {
-    home: '/m',
+    home: '/m/home',
     nft: (nftIdOrSlug: string) => `/m/${nftIdOrSlug}`,
     token: (nftIdOrSlug: string, tokenIdOrSlug: string) =>
       `/m/${nftIdOrSlug}/${tokenIdOrSlug}`,
