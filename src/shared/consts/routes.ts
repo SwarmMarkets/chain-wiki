@@ -15,11 +15,12 @@ const Routes = {
       `/m/${nftIdOrSlug}/${tokenIdOrSlug}/history`,
   },
   read: {
-    nft: (nftIdOrSlug: string) => `/${nftIdOrSlug}`,
-    token: (nftIdOrSlug: string, tokenIdOrSlug: string) =>
-      `/${nftIdOrSlug}/${tokenIdOrSlug}`,
-    history: (nftIdOrSlug: string, tokenIdOrSlug: string) =>
-      `/${nftIdOrSlug}/${tokenIdOrSlug}/history`,
+    nft: (nftIdOrSlug: string, chain = 'base') => `/${chain}/${nftIdOrSlug}`,
+    token: (nftIdOrSlug: string, tokenIdOrSlug: string, chain = 'base') =>
+      `/${chain}/${nftIdOrSlug}/${tokenIdOrSlug}`,
+    history: (nftIdOrSlug: string, tokenIdOrSlug: string, chain = 'base') =>
+      `/${chain}/${nftIdOrSlug}/${tokenIdOrSlug}/history`,
+    selectChain: (nftIdOrSlug: string) => `/${nftIdOrSlug}/select-chain`,
   },
 } as const
 
@@ -30,8 +31,8 @@ export interface MParams {
 }
 
 export interface ReadParams {
-  nft: { nftIdOrSlug: string }
-  token: { nftIdOrSlug: string; tokenIdOrSlug: string }
+  nft: { chain: string; nftIdOrSlug: string }
+  token: { chain: string; nftIdOrSlug: string; tokenIdOrSlug: string }
 }
 
 export interface RouteParams {

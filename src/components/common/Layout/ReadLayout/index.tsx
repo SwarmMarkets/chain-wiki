@@ -2,13 +2,19 @@ import { ReactNode } from 'react'
 import { getNftBySlugOrAddress } from 'src/services/apollo/getNftBySlugOrAddress'
 import { getTokens } from 'src/services/apollo/getTokens'
 import { ReadParams } from 'src/shared/consts/routes'
-import { unifyAddressToId } from 'src/shared/utils'
+import {
+  getChainByName,
+  isSameEthereumAddress,
+  unifyAddressToId,
+} from 'src/shared/utils'
 import { findFirstNonGroupVisibleNode } from 'src/shared/utils/treeHelpers'
 import ClientReadLayout from './ClientReadLayout'
+import { createClientForChain } from 'src/services/apollo'
+import { baseChainConfig } from 'src/environment/networks/base'
 
 interface ReadLayoutProps {
   children: ReactNode
-  params: Promise<ReadParams['nft']>
+  params: Promise<ReadParams['token']>
 }
 
 const ReadLayout = async ({
@@ -17,26 +23,25 @@ const ReadLayout = async ({
 }: ReadLayoutProps) => {
   const params = await paramsProp
   const nftIdOrSlug = params?.nftIdOrSlug
+  const chainName = params?.chain || 'base'
+  const chainId = getChainByName(chainName)?.id || baseChainConfig.id
+  const client = createClientForChain(chainId)
 
-  const { nft } = await getNftBySlugOrAddress(nftIdOrSlug)
+  const { nft } = await getNftBySlugOrAddress(nftIdOrSlug, { client })
 
-  if (!nft) {
-    return <p className='text-center text-gray-500'>NFT not found</p>
-  }
-
-  const firstToken = findFirstNonGroupVisibleNode(
-    nft?.indexPagesContent?.indexPages
-  )
+  const firstToken =
+    findFirstNonGroupVisibleNode(nft?.indexPagesContent?.indexPages) || null
 
   const { fullTokens } = await getTokens(
     {
       filter: { nft: unifyAddressToId(nft?.id || '') },
       limit: 1000,
     },
-    { fetchFullData: true }
+    { fetchFullData: true, client }
   )
+
   return (
-    <ClientReadLayout nft={nft} firstToken={firstToken} fullTokens={fullTokens}>
+    <ClientReadLayout nft={nft} firstToken={firstToken} fullTokens={fullTokens} params={params}>
       {children}
     </ClientReadLayout>
   )

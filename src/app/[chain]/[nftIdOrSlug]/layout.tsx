@@ -3,7 +3,7 @@ import { ReadParams } from 'src/shared/consts/routes'
 
 interface LayoutProps {
   children: React.ReactNode
-  params: Promise<ReadParams['nft']>
+  params: Promise<ReadParams['token']>
 }
 
 const Layout: React.FC<LayoutProps> = ({ children, params }) => {

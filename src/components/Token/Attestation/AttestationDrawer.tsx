@@ -33,6 +33,7 @@ const AttestationDrawer: React.FC<AttestationDrawerProps> = ({
   const { fullComments } = useComments(
     {
       variables: { filter: { sectionId: section.id } },
+      skip: !section.id,
     },
     { fetchFullData: true }
   )

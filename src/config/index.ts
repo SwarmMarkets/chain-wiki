@@ -30,6 +30,17 @@ const defaultNetworkEnv = networksEnvironments[defaultChain.id]
 
 const supportedChains = isProdMode ? mainNetworks : testNetworks
 
+const getDynamicDefaultChain = (chainIdParam?: number) => {
+  if (chainIdParam) {
+    const chain = isProdMode
+      ? mainNetworks.find(c => c.id === chainIdParam)
+      : testNetworks.find(c => c.id === chainIdParam)
+    return chain
+  }
+
+  return defaultChain
+}
+
 const staticConfig = Object.freeze({
   defaultChain,
   supportedChains,

@@ -5,7 +5,8 @@ import { ISidebarTreeNode } from './SidebarTreeNode'
 export const buildTree = (
   items: IpfsIndexPage[],
   nftSlug: string,
-  parentId?: number | string
+  parentId?: number | string,
+  chain?: string
 ): ISidebarTreeNode[] => {
   return items
     .filter(item => item.parent === parentId)
@@ -13,11 +14,11 @@ export const buildTree = (
       const to =
         item.type === 'group'
           ? undefined
-          : Routes.read.token(nftSlug, item.slug)
+          : Routes.read.token(nftSlug, item.slug, chain)
 
       return {
         ...item,
-        children: buildTree(items, nftSlug, item.tokenId),
+        children: buildTree(items, nftSlug, item.tokenId, chain || undefined),
         to,
       }
     })

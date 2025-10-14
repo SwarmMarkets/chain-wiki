@@ -130,7 +130,9 @@ export const getActiveOrDefaultChain = (chainId?: number) =>
   staticConfig.defaultChain
 
 export const getChainByName = (name: string) =>
-  supportedChains.find(chain => chain.name === name)
+  supportedChains.find(
+    chain => chain.name?.toLowerCase() === name.toLowerCase()
+  )
 
 export const getChainById = (id: number) =>
   supportedChains.find(chain => chain.id === id)

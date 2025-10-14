@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect } from 'react'
-import { useRouter, useParams, useSearchParams } from 'next/navigation'
+import { useRouter, useParams } from 'next/navigation'
 import {
   useActiveWalletConnectionStatus,
   useSwitchActiveWalletChain,
@@ -14,18 +14,19 @@ import { baseChainConfig } from 'src/environment/networks/base'
 import { polygonChainConfig } from 'src/environment/networks/polygon'
 import useNftBySlugOnChains from '../subgraph/useNftBySlugOnChains'
 import { Chain } from 'thirdweb'
-import { MParams } from 'src/shared/consts/routes'
+import Routes, { ReadParams } from 'src/shared/consts/routes'
 
 const useHandleSwitchChain = (disabled?: boolean) => {
   const chain = useActiveOrDefaultChain()
   const setLastChainId = useConfigStore(state => state.setLastChainId)
-  const searchParams = useSearchParams()
-  const { nftIdOrSlug } = useParams<MParams['nft']>()
+  // const searchParams = useSearchParams()
+  const { nftIdOrSlug, chain: chainNameParam } = useParams<ReadParams['nft']>()
   const router = useRouter()
   const switchChain = useSwitchActiveWalletChain()
   const status = useActiveWalletConnectionStatus()
 
-  const chainNameSearchParam = searchParams.get('chain')
+  const chainNameSearchParam =
+    chainNameParam[0].toUpperCase() + chainNameParam.slice(1)
   const chainBySearchParam =
     chainNameSearchParam && getChainByName(chainNameSearchParam)
 
@@ -36,13 +37,15 @@ const useHandleSwitchChain = (disabled?: boolean) => {
       setLastChainId(chainParam.id)
 
       // Формируем новый query-параметр и заменяем URL
-      const currentParams = Object.fromEntries(searchParams.entries())
-      const newParams = new URLSearchParams({
-        ...currentParams,
-        chain: chainParam.name ?? '',
-      })
+      // const currentParams = Object.fromEntries(searchParams.entries())
+      // const newParams = new URLSearchParams({
+      //   ...currentParams,
+      //   chain: chainParam.name ?? '',
+      // })
 
-      router.replace(`${window.location.pathname}?${newParams.toString()}`)
+      router.replace(
+        Routes.read.nft(nftIdOrSlug, chainParam.name?.toLowerCase())
+      )
     }
 
     if (reload) window.location.reload()

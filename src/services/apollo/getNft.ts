@@ -13,9 +13,10 @@ import {
   initialIndexPagesContent,
   initialNftContent,
 } from 'src/shared/utils/ipfs/consts'
-import client from '.'
+import defaultClient from '.'
 import { fetchIpfsDataServer } from './fetchIpfsData'
 import { NFTQuery } from 'src/queries'
+import { ApolloClient } from '@apollo/client'
 
 /**
  * Server-side version of useNFT.
@@ -24,18 +25,21 @@ import { NFTQuery } from 'src/queries'
 
 export async function getNft(
   id: string,
-  options?: { fetchFullData?: boolean }
+  options?: { fetchFullData?: boolean; client?: ApolloClient<any> }
 ): Promise<{
   nft: NFTWithMetadata | null
 }> {
   if (!id) return { nft: null }
 
   try {
-    const { data } = await client.query<NFTQueryGQL, NftQueryVariables>({
-      query: NFTQuery,
-      variables: { id },
-      fetchPolicy: 'no-cache',
-    })
+    const resolvedClient = options?.client || defaultClient
+    const { data } = await resolvedClient.query<NFTQueryGQL, NftQueryVariables>(
+      {
+        query: NFTQuery,
+        variables: { id },
+        fetchPolicy: 'no-cache',
+      }
+    )
 
     const nft = data?.nft
     if (!nft) return { nft: null }

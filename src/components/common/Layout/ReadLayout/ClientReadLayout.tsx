@@ -1,5 +1,6 @@
 'use client'
 
+import clsx from 'clsx'
 import {
   createContext,
   PropsWithChildren,
@@ -8,30 +9,27 @@ import {
   useMemo,
   useState,
 } from 'react'
-import clsx from 'clsx'
 import Drawer from 'src/components/ui-kit/Drawer'
 import useBreakpoint from 'src/hooks/ui/useBreakpoint'
-import useFullTokenIdParam from 'src/hooks/useFullTokenIdParam'
-import useHandleSwitchChain from 'src/hooks/web3/useHandleSwitchChain'
-import { NFTWithChain } from 'src/components/Nft/NftList'
+import { ReadParams } from 'src/shared/consts/routes'
 import {
-  getChainById,
   IpfsIndexPage,
   NFTWithMetadata,
   TokensQueryFullData,
 } from 'src/shared/utils'
-import ChooseSiteNetwork from './ChooseSiteNetwork'
 import ContentContext from './Content/ContentContext'
 import LeftSidebar from './LeftSidebar'
 import ReadHeader from './ReadHeader'
 import RightSidebar from './RightSidebar'
 import SidebarTree from './SidebarTree'
 import { buildTree } from './utils'
+import { useParams } from 'next/navigation'
 
 interface ReadContextProps {
   nft: NFTWithMetadata | null
   fullTokens?: TokensQueryFullData[] | null
   firstToken?: IpfsIndexPage | null
+  selectedToken?: TokensQueryFullData | null
 }
 
 const ReadContext = createContext<ReadContextProps | null>(null)
@@ -46,20 +44,25 @@ export function useReadContext() {
 const ClientReadLayout: React.FC<
   PropsWithChildren<{
     nft: NFTWithMetadata | null
-    firstToken?: any
+    firstToken: IpfsIndexPage | null
     preview?: boolean
-    fullTokens?: TokensQueryFullData[] | null
+    fullTokens: TokensQueryFullData[] | null
+    params: ReadParams['token']
   }>
-> = ({ children, nft, firstToken, preview, fullTokens }) => {
-  const {
-    conflict,
-    baseNft,
-    polygonNft,
-    loading: loadingConflict,
-    switchLocalChain,
-  } = useHandleSwitchChain(preview)
+> = ({ children, nft, firstToken, preview, fullTokens, params }) => {
+  // const {
+  //   conflict,
+  //   baseNft,
+  //   polygonNft,
+  //   loading: loadingConflict,
+  //   switchLocalChain,
+  // } = useHandleSwitchChain(preview)
 
-  const fullTokenid = useFullTokenIdParam()
+  const { chain } = params
+  const { tokenIdOrSlug } = useParams<ReadParams['token']>()
+
+  const resolvedTokenSlugOrId = tokenIdOrSlug || firstToken?.tokenId
+
   const [isLeftSidebarOpen, setLeftSidebarOpen] = useState(false)
   const isMd = useBreakpoint('md')
   const isXl = useBreakpoint('xl')
@@ -77,22 +80,28 @@ const ClientReadLayout: React.FC<
 
   const treeData = useMemo(() => {
     if (!nft?.indexPagesContent?.indexPages) return []
-    return buildTree(nft.indexPagesContent.indexPages, nft.slug, 0)
-  }, [nft?.indexPagesContent?.indexPages, nft?.slug])
+    return buildTree(nft.indexPagesContent.indexPages, nft.slug, 0, chain)
+  }, [chain, nft?.indexPagesContent?.indexPages, nft?.slug])
 
-  const handleSelectNetwork = (nft: NFTWithChain) => {
-    const chain = nft.chain && getChainById(nft.chain)
-    if (chain) switchLocalChain(chain, true)
-  }
+  // const handleSelectNetwork = (nft: NFTWithChain) => {
+  //   const chain = nft.chain && getChainById(nft.chain)
+  //   if (chain) switchLocalChain(chain, true)
+  // }
 
-  if (conflict)
-    return (
-      <ChooseSiteNetwork
-        onSelect={handleSelectNetwork}
-        nfts={[baseNft, polygonNft].filter(Boolean) as NFTWithChain[]}
-        loading={loadingConflict}
-      />
-    )
+  // if (conflict)
+  //   return (
+  //     <ChooseSiteNetwork
+  //       onSelect={handleSelectNetwork}
+  //       nfts={[baseNft, polygonNft].filter(Boolean) as NFTWithChain[]}
+  //       loading={loadingConflict}
+  //     />
+  //   )
+
+  const selectedToken = fullTokens?.find(
+    t =>
+      t.slug === resolvedTokenSlugOrId ||
+      t.id.toLowerCase() === resolvedTokenSlugOrId?.toLowerCase()
+  )
 
   return (
     <ContentContext>
@@ -119,7 +128,7 @@ const ClientReadLayout: React.FC<
             >
               <SidebarTree
                 data={treeData}
-                selectedId={fullTokenid || firstToken?.tokenId || ''}
+                selectedId={selectedToken?.id || ''}
                 onSelect={() => setLeftSidebarOpen(false)}
               />
             </Drawer>
@@ -127,12 +136,15 @@ const ClientReadLayout: React.FC<
             <LeftSidebar
               nft={nft}
               preview={preview}
-              firstTokenId={firstToken?.tokenId || ''}
+              token={selectedToken}
+              chainParam={chain}
             />
           )}
 
           <main className='flex-1 min-w-0 px-0 sm:px-8 md:px-12'>
-            <ReadContext.Provider value={{ nft, firstToken, fullTokens }}>
+            <ReadContext.Provider
+              value={{ nft, firstToken, fullTokens, selectedToken }}
+            >
               {children}
             </ReadContext.Provider>
           </main>

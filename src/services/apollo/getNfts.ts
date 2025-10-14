@@ -6,7 +6,8 @@ import { verifyNftValid, unifyAddressToId } from 'src/shared/utils'
 import { IpfsNftContent, NFTsQueryFullData } from 'src/shared/utils/ipfs/types'
 import { fetchIpfsDataServer } from './fetchIpfsData'
 import { NFTsQuery } from 'src/queries'
-import client from '.'
+import defaultClient from '.'
+import { ApolloClient, NormalizedCacheObject } from '@apollo/client'
 
 export const PAGE_LIMIT = 10
 
@@ -16,18 +17,24 @@ export const PAGE_LIMIT = 10
  */
 export async function getNfts(
   variables?: Partial<NfTsQueryVariables>,
-  config?: { fetchFullData?: boolean }
+  config?: {
+    fetchFullData?: boolean
+    client?: ApolloClient<NormalizedCacheObject>
+  }
 ) {
   try {
-    const result = await client.query<NFTsQueryGQL, NfTsQueryVariables>({
-      query: NFTsQuery,
-      variables: {
-        limit: PAGE_LIMIT,
-        skip: 0,
-        ...variables,
-      },
-      fetchPolicy: 'no-cache',
-    })
+    const resolvedClient = config?.client || defaultClient
+    const result = await resolvedClient.query<NFTsQueryGQL, NfTsQueryVariables>(
+      {
+        query: NFTsQuery,
+        variables: {
+          limit: PAGE_LIMIT,
+          skip: 0,
+          ...variables,
+        },
+        fetchPolicy: 'no-cache',
+      }
+    )
 
     const data = result?.data
 

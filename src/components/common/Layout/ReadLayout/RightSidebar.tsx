@@ -21,6 +21,7 @@ const RightSidebar: React.FC<RightSidebarProps> = ({
   className,
   firstTokenSlug,
 }) => {
+  const params = useParams<ReadParams['token']>()
   const { nftIdOrSlug, tokenIdOrSlug } = useParams<ReadParams['token']>()
 
   const { contentElem } = useContentRef()
@@ -40,7 +41,8 @@ const RightSidebar: React.FC<RightSidebarProps> = ({
         <LinkPreserveSearch
           href={Routes.read.history(
             nftIdOrSlug,
-            tokenIdOrSlug || firstTokenSlug
+            tokenIdOrSlug || firstTokenSlug,
+            params.chain
           )}
           className='no-underline'
         >

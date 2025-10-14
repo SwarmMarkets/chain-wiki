@@ -8,8 +8,9 @@ import {
   IpfsTokenContent,
   TokensQueryFullData,
 } from 'src/shared/utils/ipfs/types'
-import client from '.'
+import deafultClient from '.'
 import { fetchIpfsDataServer } from './fetchIpfsData'
+import { ApolloClient } from '@apollo/client'
 
 export const PAGE_LIMIT = 10
 
@@ -20,10 +21,12 @@ export const PAGE_LIMIT = 10
 
 export async function getTokens(
   variables?: Partial<TokensQueryVariables>,
-  config?: { fetchFullData?: boolean }
+  config?: { fetchFullData?: boolean; client?: ApolloClient<any> }
 ) {
   try {
-    const { data } = await client.query<TokensQueryGQL, TokensQueryVariables>({
+    const resolvedClient = config?.client || deafultClient
+
+    const { data } = await resolvedClient.query<TokensQueryGQL, TokensQueryVariables>({
       query: TokensQuery,
       variables: {
         limit: PAGE_LIMIT,
