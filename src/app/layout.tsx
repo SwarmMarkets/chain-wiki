@@ -13,6 +13,8 @@ const RootLayout: React.FC<PropsWithChildren> = async ({ children }) => {
   return (
     <html lang='en'>
       <head>
+        <title>ChainWiki</title>
+        <link rel='icon' type='image/svg+xml' href='/assets/icon-logo.png' />
         <link rel='preconnect' href='https://fonts.googleapis.com' />
         <link
           rel='preconnect'
