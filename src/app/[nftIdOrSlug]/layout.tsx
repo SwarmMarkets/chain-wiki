@@ -1,8 +1,13 @@
-import { PropsWithChildren } from 'react'
 import ReadLayout from 'src/components/common/Layout/ReadLayout'
+import { ReadParams } from 'src/shared/consts/routes'
 
-const Layout: React.FC<PropsWithChildren> = ({ children }) => {
-  return <ReadLayout>{children}</ReadLayout>
+interface LayoutProps {
+  children: React.ReactNode
+  params: Promise<ReadParams['nft']>
+}
+
+const Layout: React.FC<LayoutProps> = ({ children, params }) => {
+  return <ReadLayout params={params}>{children}</ReadLayout>
 }
 
 export default Layout

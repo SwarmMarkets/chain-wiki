@@ -1,22 +1,27 @@
 'use client'
 
-import {
-  NFTWithMetadata,
-  TokensQueryFullData,
-} from 'src/shared/utils/ipfs/types'
+import { useCallback, useState } from 'react'
+import { useReadContext } from '../common/Layout/ReadLayout/ClientReadLayout'
+import { useContentRef } from '../common/Layout/ReadLayout/Content/context'
 import MarkdownRenderer from '../Editor/MarkdownRenderer'
 import AttestationDrawer from './Attestation/AttestationDrawer'
-import { useState, useCallback } from 'react'
-import { useContentRef } from '../common/Layout/ReadLayout/Content/context'
+import { useParams } from 'next/navigation'
+import { ReadParams } from 'src/shared/consts/routes'
+import { isSameEthereumAddress } from 'src/shared/utils'
 
-interface Props {
-  nft: NFTWithMetadata
-  token: TokensQueryFullData
-}
-
-export default function ClientTokenViewer({ nft, token }: Props) {
+export default function ClientTokenViewer() {
   const { setContentElem } = useContentRef()
- 
+  const { tokenIdOrSlug } = useParams<ReadParams['token']>()
+  const { nft, fullTokens, firstToken } = useReadContext()
+
+  const resolvedTokenSlugOrId = tokenIdOrSlug || firstToken?.tokenId
+
+  const token = fullTokens?.find(
+    t =>
+      t.slug === resolvedTokenSlugOrId ||
+      isSameEthereumAddress(t.id, resolvedTokenSlugOrId)
+  )
+
   const [selectedSectionId, setSelectedSectionId] = useState<string | null>(
     null
   )
@@ -29,12 +34,16 @@ export default function ClientTokenViewer({ nft, token }: Props) {
     setSelectedSectionId(null)
   }, [])
 
+  if (!nft || !token) {
+    return null
+  }
+
   return (
     <>
       <MarkdownRenderer
-        markdown={token.ipfsContent?.htmlContent || ''}
+        markdown={token?.ipfsContent?.htmlContent || ''}
         showComments
-        fullTokenId={token.id}
+        fullTokenId={token?.id}
         onClickComment={handleSelectSection}
         ref={setContentElem}
       />
@@ -42,7 +51,7 @@ export default function ClientTokenViewer({ nft, token }: Props) {
       <AttestationDrawer
         nft={nft}
         isOpen={!!selectedSectionId}
-        fullTokenId={token.id}
+        fullTokenId={token?.id || ''}
         section={{
           id: selectedSectionId || '',
           htmlContent:

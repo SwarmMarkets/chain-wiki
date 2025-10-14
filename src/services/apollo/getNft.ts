@@ -44,8 +44,6 @@ export async function getNft(
       return { nft: nft as NFTWithMetadata }
     }
 
-    console.log('Fetching full NFT data for:', nft)
-
     const [headerLinksContentRes, ipfsContentRes, indexPagesContentRes] =
       await Promise.all([
         nft.headerLinksUri
