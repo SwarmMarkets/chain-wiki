@@ -8,11 +8,14 @@ import AttestationDrawer from './Attestation/AttestationDrawer'
 import { useParams } from 'next/navigation'
 import { ReadParams } from 'src/shared/consts/routes'
 import { isSameEthereumAddress } from 'src/shared/utils'
+import { useTranslation } from 'react-i18next'
 
 export default function ClientTokenViewer() {
   const { setContentElem } = useContentRef()
   const { tokenIdOrSlug } = useParams<ReadParams['token']>()
   const { nft, fullTokens, firstToken } = useReadContext()
+
+  const { t } = useTranslation('token')
 
   const resolvedTokenSlugOrId = tokenIdOrSlug || firstToken?.tokenId
 
@@ -35,7 +38,7 @@ export default function ClientTokenViewer() {
   }, [])
 
   if (!nft || !token) {
-    return null
+    return <div className='text-center'>{t('messages.noContent')}</div>
   }
 
   return (
