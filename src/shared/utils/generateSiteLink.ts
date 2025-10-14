@@ -1,5 +1,4 @@
 import staticConfig from 'src/config'
-import { baseChainConfig } from 'src/environment/networks/base'
 import { getChainById } from './web3'
 
 interface GenerateSiteLinkParams {
@@ -22,11 +21,11 @@ export const generateSiteLink = ({
     (chainParam ? getChainById(chainParam) : staticConfig.defaultChain) ||
     staticConfig.defaultChain
 
-  const search = chain.id !== baseChainConfig.id ? `?chain=${chain.name}` : ''
+  // const search = chain.id !== baseChainConfig.id ? `?chain=${chain.name}` : ''
 
   if (tokenIdOrSlug) {
-    return `${domain}/${nftIdOrSlug}/${tokenIdOrSlug}${search}`
+    return `${domain}/${chain.name?.toLowerCase()}${nftIdOrSlug}/${tokenIdOrSlug}`
   } else {
-    return `${domain}/${nftIdOrSlug}${search}`
+    return `${domain}/${chain.name?.toLowerCase()}/${nftIdOrSlug}$`
   }
 }
