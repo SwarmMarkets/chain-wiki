@@ -74,11 +74,7 @@ const AttestationDrawer: React.FC<AttestationDrawerProps> = ({
           />
         </div>
         <div className='flex flex-col'>
-          <LiteEditor
-            height={200}
-            onChange={handleChangeEditor}
-            value={editorContent}
-          />
+          <LiteEditor onChange={handleChangeEditor} content={editorContent} />
           <MakeAttestationButton
             onSuccess={handleSendAttestation}
             nftAddress={nft.id}
