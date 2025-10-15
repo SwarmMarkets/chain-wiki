@@ -26,6 +26,6 @@ export const generateSiteLink = ({
   if (tokenIdOrSlug) {
     return `${domain}/${chain.name?.toLowerCase()}${nftIdOrSlug}/${tokenIdOrSlug}`
   } else {
-    return `${domain}/${chain.name?.toLowerCase()}/${nftIdOrSlug}$`
+    return `${domain}/${chain.name?.toLowerCase()}/${nftIdOrSlug}`
   }
 }
