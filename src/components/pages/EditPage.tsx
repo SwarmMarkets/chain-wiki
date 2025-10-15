@@ -6,15 +6,15 @@ import NftContentSkeleton from 'src/components/Token/TokenContentSkeleton'
 import { useEditingStore } from 'src/shared/store/editing-store'
 
 const EditPage = () => {
-  const { nft, loading, fullTokens } = useEdit()
-  const { currEditableToken, getTokenById } = useEditingStore()
+  const { nft, loading, fullTokens, currEditableToken } = useEdit()
+  const { getTokenById } = useEditingStore()
 
   const showSkeleton = loading
   const allLoaded = !loading
 
   const currTokenHtmlContent =
-    getTokenById(currEditableToken?.id || '')?.content ??
-    (fullTokens?.find(t => t.id === currEditableToken?.id)?.ipfsContent
+    getTokenById(currEditableToken?.tokenId || '')?.content ??
+    (fullTokens?.find(t => t.id === currEditableToken?.tokenId)?.ipfsContent
       ?.htmlContent ||
       '')
 

@@ -5,6 +5,7 @@ import React, { useRef } from 'react'
 import Editor from 'src/components/Editor'
 import useEffectCompare from 'src/hooks/useEffectCompare'
 import { useEditingStore } from 'src/shared/store/editing-store'
+import useEdit from './useEdit'
 
 interface EditorViewProps {
   content: string
@@ -12,11 +13,11 @@ interface EditorViewProps {
 
 const EditorView: React.FC<EditorViewProps> = ({ content }) => {
   const {
-    currEditableToken,
     getAddedTokenById,
     updateOrCreateEditedToken,
     updateOrCreateAddedToken,
   } = useEditingStore()
+  const { currEditableToken } = useEdit()
 
   const mdxRef = useRef<MDXEditorMethods>(null)
 
@@ -28,7 +29,7 @@ const EditorView: React.FC<EditorViewProps> = ({ content }) => {
 
   const updateContent = (content: string) => {
     if (currEditableToken) {
-      const addedToken = getAddedTokenById(currEditableToken.id)
+      const addedToken = getAddedTokenById(currEditableToken.tokenId)
 
       if (addedToken) {
         updateOrCreateAddedToken({ ...addedToken, content })
@@ -36,8 +37,8 @@ const EditorView: React.FC<EditorViewProps> = ({ content }) => {
       }
 
       updateOrCreateEditedToken({
-        id: currEditableToken.id,
-        name: currEditableToken.name,
+        id: currEditableToken.tokenId,
+        name: currEditableToken.title,
         slug: currEditableToken.slug,
         content,
       })

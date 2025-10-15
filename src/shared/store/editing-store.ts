@@ -14,7 +14,6 @@ export interface EditedIndexPagesState {
 }
 
 interface EditingState {
-  currEditableToken: EditingToken | null
   editedTokens: EditingToken[]
   addedTokens: EditingToken[]
   editedIndexPages: EditedIndexPagesState
@@ -25,7 +24,6 @@ interface EditingState {
 
   updateOrCreateEditedToken: (token: EditingToken) => void
   updateOrCreateAddedToken: (token: EditingToken) => void
-  updateCurrEditableToken: (id: EditingToken | null) => void
 
   initIndexPages: (indexPages: IpfsIndexPage[]) => void
   updateIndexPages: (indexPages: IpfsIndexPage[]) => void
@@ -36,7 +34,6 @@ interface EditingState {
 }
 
 export const useEditingStore = create<EditingState>((set, get) => ({
-  currEditableToken: null,
   editedTokens: [],
   addedTokens: [],
   editedIndexPages: {
@@ -77,8 +74,6 @@ export const useEditingStore = create<EditingState>((set, get) => ({
         addedTokens: [...state.addedTokens, token],
       }
     }),
-  updateCurrEditableToken: (token: EditingToken | null) =>
-    set({ currEditableToken: token }),
   updateIndexPages: (indexPages: IpfsIndexPage[]) =>
     set({ editedIndexPages: { isEdited: true, items: indexPages } }),
   updateIndexPage: (indexPage: IpfsIndexPage) => {

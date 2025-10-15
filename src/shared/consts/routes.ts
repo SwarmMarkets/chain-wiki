@@ -1,5 +1,6 @@
 import { polygonChainConfig } from 'src/environment/networks/polygon'
 import { RoutePathSetting } from '../enums'
+import { baseChainConfig } from 'src/environment/networks/base'
 
 const Routes = {
   explore: '/explore',
@@ -8,8 +9,8 @@ const Routes = {
     nft: (nftIdOrSlug: string) => `/m/${nftIdOrSlug}`,
     token: (nftIdOrSlug: string, tokenIdOrSlug: string) =>
       `/m/${nftIdOrSlug}/${tokenIdOrSlug}`,
-    edit: (nftIdOrSlug: string) => `/m/edit/${nftIdOrSlug}`,
-
+    edit: (nftIdOrSlug: string, tokenIdOrSlug: string) =>
+      `/m/edit/${nftIdOrSlug}/${tokenIdOrSlug}`,
     settings: (nftIdOrSlug: string, setting: RoutePathSetting) =>
       `/m/${nftIdOrSlug}/settings/${setting}`,
     history: (nftIdOrSlug: string, tokenIdOrSlug: string) =>
@@ -47,8 +48,8 @@ export enum ChainParam {
 }
 
 export const chainParamResolver = {
-  [ChainParam.Polygon]: 'Polygon',
-  [ChainParam.Base]: 'Base',
+  [ChainParam.Polygon]: polygonChainConfig.name,
+  [ChainParam.Base]: baseChainConfig.name,
 }
 
 export default Routes
