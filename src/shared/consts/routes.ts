@@ -1,3 +1,4 @@
+import { polygonChainConfig } from 'src/environment/networks/polygon'
 import { RoutePathSetting } from '../enums'
 
 const Routes = {
@@ -15,10 +16,10 @@ const Routes = {
       `/m/${nftIdOrSlug}/${tokenIdOrSlug}/history`,
   },
   read: {
-    nft: (nftIdOrSlug: string, chain = 'base') => `/${chain}/${nftIdOrSlug}`,
-    token: (nftIdOrSlug: string, tokenIdOrSlug: string, chain = 'base') =>
+    nft: (nftIdOrSlug: string, chain: ChainParam) => `/${chain}/${nftIdOrSlug}`,
+    token: (nftIdOrSlug: string, tokenIdOrSlug: string, chain: ChainParam) =>
       `/${chain}/${nftIdOrSlug}/${tokenIdOrSlug}`,
-    history: (nftIdOrSlug: string, tokenIdOrSlug: string, chain = 'base') =>
+    history: (nftIdOrSlug: string, tokenIdOrSlug: string, chain: ChainParam) =>
       `/${chain}/${nftIdOrSlug}/${tokenIdOrSlug}/history`,
     selectChain: (nftIdOrSlug: string) => `/${nftIdOrSlug}/select-chain`,
   },
@@ -31,13 +32,23 @@ export interface MParams {
 }
 
 export interface ReadParams {
-  nft: { chain: string; nftIdOrSlug: string }
-  token: { chain: string; nftIdOrSlug: string; tokenIdOrSlug: string }
+  nft: { chain: ChainParam; nftIdOrSlug: string }
+  token: { chain: ChainParam; nftIdOrSlug: string; tokenIdOrSlug: string }
 }
 
 export interface RouteParams {
   manager: MParams
   read: ReadParams
+}
+
+export enum ChainParam {
+  Polygon = 'p',
+  Base = 'b',
+}
+
+export const chainParamResolver = {
+  [ChainParam.Polygon]: 'Polygon',
+  [ChainParam.Base]: 'Base',
 }
 
 export default Routes
