@@ -41,24 +41,23 @@ export function useReadContext() {
   return ctx
 }
 
-const ClientReadLayout: React.FC<
-  PropsWithChildren<{
-    nft: NFTWithMetadata | null
-    firstToken: IpfsIndexPage | null
-    preview?: boolean
-    fullTokens: TokensQueryFullData[] | null
-    params: ReadParams['token']
-  }>
-> = ({ children, nft, firstToken, preview, fullTokens, params }) => {
-  // const {
-  //   conflict,
-  //   baseNft,
-  //   polygonNft,
-  //   loading: loadingConflict,
-  //   switchLocalChain,
-  // } = useHandleSwitchChain(preview)
+interface ClientReadLayoutProps extends PropsWithChildren {
+  nft: NFTWithMetadata | null
+  firstToken?: IpfsIndexPage | null
+  preview?: boolean
+  fullTokens: TokensQueryFullData[] | null
+  params?: ReadParams['token']
+}
 
-  const { chain } = params
+const ClientReadLayout: React.FC<ClientReadLayoutProps> = ({
+  children,
+  nft,
+  firstToken,
+  preview,
+  fullTokens,
+  params,
+}) => {
+  const { chain } = params || {}
   const { tokenIdOrSlug } = useParams<ReadParams['token']>()
 
   const resolvedTokenSlugOrId = tokenIdOrSlug || firstToken?.tokenId
@@ -82,20 +81,6 @@ const ClientReadLayout: React.FC<
     if (!nft?.indexPagesContent?.indexPages) return []
     return buildTree(nft.indexPagesContent.indexPages, nft.slug, 0, chain)
   }, [chain, nft?.indexPagesContent?.indexPages, nft?.slug])
-
-  // const handleSelectNetwork = (nft: NFTWithChain) => {
-  //   const chain = nft.chain && getChainById(nft.chain)
-  //   if (chain) switchLocalChain(chain, true)
-  // }
-
-  // if (conflict)
-  //   return (
-  //     <ChooseSiteNetwork
-  //       onSelect={handleSelectNetwork}
-  //       nfts={[baseNft, polygonNft].filter(Boolean) as NFTWithChain[]}
-  //       loading={loadingConflict}
-  //     />
-  //   )
 
   const selectedToken = fullTokens?.find(
     t =>
