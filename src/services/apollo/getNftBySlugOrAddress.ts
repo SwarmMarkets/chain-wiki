@@ -1,7 +1,7 @@
-import { isAddress } from 'viem'
-import { getNfts } from './getNfts'
-import { getNft } from './getNft'
 import { ApolloClient } from '@apollo/client'
+import { isAddress } from 'viem'
+import { fetchNftMetadata } from './fetchIpfsData'
+import { getNfts } from './getNfts'
 
 /**
  * Server-side version of useNftBySlugOrAddress.
@@ -23,10 +23,7 @@ export async function getNftBySlugOrAddress(
     { fetchFullData: false, client: config?.client }
   )
 
-  const { nft } = await getNft(nfts?.[0]?.id || '', {
-    fetchFullData: true,
-    client: config?.client,
-  })
+  const nft = await fetchNftMetadata(nfts?.[0])
 
   return { nft }
 }

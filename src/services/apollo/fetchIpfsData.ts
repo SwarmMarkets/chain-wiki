@@ -1,11 +1,23 @@
+import { NfTsQuery } from 'src/queries/gql/graphql'
 import { thirdwebClient } from 'src/shared/api-clients/thirdweb'
+import {
+  IpfsHeaderLinksContent,
+  IpfsIndexPagesContent,
+  IpfsNftContent,
+  NFTsQueryFullData,
+  NFTWithMetadata,
+} from 'src/shared/utils'
+import {
+  initialHeaderLinks,
+  initialNftContent,
+  initialIndexPagesContent,
+} from 'src/shared/utils/ipfs/consts'
 import { download } from 'thirdweb/storage'
 
 export type BatchIpfsOptions<T> = {
   validator?: (data: T) => void
   mapping?: (data: T) => string
 }
-
 
 export const fetchIpfsDataServer = async <T>(
   uris: string[],
@@ -37,4 +49,35 @@ export const fetchIpfsDataServer = async <T>(
   await Promise.all(promises)
 
   return { results, mappedResults: map }
+}
+
+export const fetchNftMetadata = async (
+  nft: NfTsQuery['nfts'][0]
+): Promise<NFTWithMetadata> => {
+  const loadIpfs = async <T>(
+    uri: string | null | undefined,
+    fallback: T
+  ): Promise<T> =>
+    uri
+      ? fetchIpfsDataServer<T>([uri])
+          .then(res => res.results[0] || fallback)
+          .catch(() => fallback)
+      : fallback
+
+  const [headerLinksContent, ipfsContent, indexPagesContent] =
+    await Promise.all([
+      loadIpfs<IpfsHeaderLinksContent>(nft.headerLinksUri, initialHeaderLinks),
+      loadIpfs<IpfsNftContent>(nft.uri, initialNftContent),
+      loadIpfs<IpfsIndexPagesContent>(
+        nft.indexPagesUri,
+        initialIndexPagesContent
+      ),
+    ])
+
+  return {
+    ...nft,
+    headerLinksContent,
+    ipfsContent,
+    indexPagesContent,
+  }
 }
