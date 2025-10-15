@@ -7,7 +7,7 @@ import { findFirstNonGroupVisibleNode } from 'src/shared/utils/treeHelpers'
 import EditIndexPages from '../Edit/EditIndexPages'
 import EditIndexPagesTree from '../Edit/EditIndexPagesTree/EditIndexPagesTree'
 import useEdit from '../Edit/useEdit'
-import { useParams } from 'next/navigation'
+import { useParams, usePathname } from 'next/navigation'
 
 interface IndexPagesProps {
   nft: NFTWithMetadata | null
@@ -16,7 +16,8 @@ interface IndexPagesProps {
 const IndexPages: React.FC<IndexPagesProps> = ({ nft }) => {
   const { tokenIdOrSlug } = useParams<MParams['token']>()
   const { treeData } = useEdit(true)
-  const isEditMode = window.location.pathname.includes('/edit/')
+  const pathname = usePathname()
+  const isEditMode = pathname.includes('/edit/')
 
   const firstNotGroupTokenId = useMemo(
     () =>
