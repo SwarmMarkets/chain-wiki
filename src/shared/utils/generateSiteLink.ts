@@ -28,5 +28,5 @@ export const generateSiteLink = ({
     ? Routes.read.token(nftIdOrSlug, tokenIdOrSlug, chainParam)
     : Routes.read.nft(nftIdOrSlug, chainParam)
 
-  return `${domain}/${pathname}`
+  return `${domain}${pathname}`
 }
