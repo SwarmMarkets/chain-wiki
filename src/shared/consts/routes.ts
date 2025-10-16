@@ -1,6 +1,7 @@
 import { polygonChainConfig } from 'src/environment/networks/polygon'
 import { RoutePathSetting } from '../enums'
 import { baseChainConfig } from 'src/environment/networks/base'
+import { arbitrumSepoliaChainConfig } from 'src/environment/networks/arbitrum-sepolia'
 
 const Routes = {
   explore: '/explore',
@@ -45,11 +46,13 @@ export interface RouteParams {
 export enum ChainParam {
   Polygon = 'p',
   Base = 'b',
+  ArbitrumSepolia = 'a',
 }
 
 export const chainParamResolver = {
   [ChainParam.Polygon]: polygonChainConfig.name,
   [ChainParam.Base]: baseChainConfig.name,
+  [ChainParam.ArbitrumSepolia]: arbitrumSepoliaChainConfig.name,
 }
 
 export default Routes

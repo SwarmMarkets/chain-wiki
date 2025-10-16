@@ -6,10 +6,12 @@ import Routes, { ChainParam } from 'src/shared/consts/routes'
 export default async function NotFoundPage() {
   const h = await headers()
   const pathname = h.get('x-pathname') || ''
-  const parts = pathname.split('/').filter(Boolean) // убираем пустые строки
-  const nftIdOrSlug = parts.at(-1) // берём последний сегмент
+  const parts = pathname.split('/').filter(Boolean)
+  const nftIdOrSlug = parts.at(-1)
 
-  if (!nftIdOrSlug) {
+  const isManager = parts[0] === 'm'
+
+  if (!nftIdOrSlug || isManager) {
     redirect(Routes.manager.home)
   }
 
