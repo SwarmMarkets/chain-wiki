@@ -15,23 +15,28 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # 2. Set up Git (если нужен для тегов)
+      # 2. Set up Git
       - name: Set up Git
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-      # 3. Determine next version (пример: автоматически увеличить патч)
-      - name: Get next version
+      # 3. Get version from package.json and ensure unique tag
+      - name: Determine tag
         id: vars
         run: |
-          LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.0.0")
-          echo "Latest tag: $LATEST_TAG"
-          IFS='.' read -r MAJOR MINOR PATCH <<< "${LATEST_TAG#v}"
-          PATCH=$((PATCH + 1))
-          NEXT_TAG="v$MAJOR.$MINOR.$PATCH"
-          echo "Next tag: $NEXT_TAG"
-          echo "NEXT_TAG=$NEXT_TAG" >> $GITHUB_ENV
+          BASE_VERSION=$(node -p "require('./package.json').version")
+          TAG="v$BASE_VERSION"
+
+          while git ls-remote --tags origin | grep -q "refs/tags/$TAG"; do
+            echo "Tag $TAG exists, incrementing PATCH..."
+            IFS='.' read -r MAJOR MINOR PATCH <<< "${TAG#v}"
+            PATCH=$((PATCH + 1))
+            TAG="v$MAJOR.$MINOR.$PATCH"
+          done
+
+          echo "Using tag: $TAG"
+          echo "NEXT_TAG=$TAG" >> $GITHUB_ENV
 
       # 4. Create new tag
       - name: Create Tag
