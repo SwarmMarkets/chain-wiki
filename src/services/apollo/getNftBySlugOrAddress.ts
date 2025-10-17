@@ -23,6 +23,10 @@ export async function getNftBySlugOrAddress(
     { fetchFullData: false, client: config?.client }
   )
 
+  if (!nfts?.[0]) {
+    return { nft: null }
+  }
+
   const nft = await fetchNftMetadata(nfts?.[0])
 
   return { nft }
