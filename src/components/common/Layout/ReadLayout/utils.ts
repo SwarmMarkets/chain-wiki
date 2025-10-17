@@ -1,12 +1,12 @@
-import { generatePath } from 'react-router-dom'
-import RoutePaths from 'src/shared/enums/routes-paths'
+import Routes from 'src/shared/consts/routes'
 import { IpfsIndexPage } from 'src/shared/utils'
 import { ISidebarTreeNode } from './SidebarTreeNode'
 
 export const buildTree = (
   items: IpfsIndexPage[],
   nftSlug: string,
-  parentId?: number | string
+  parentId?: number | string,
+  chain?: string
 ): ISidebarTreeNode[] => {
   return items
     .filter(item => item.parent === parentId)
@@ -14,14 +14,11 @@ export const buildTree = (
       const to =
         item.type === 'group'
           ? undefined
-          : generatePath(RoutePaths.TOKEN_READ, {
-              tokenIdOrSlug: item.slug,
-              nftIdOrSlug: nftSlug,
-            })
+          : Routes.read.token(nftSlug, item.slug, chain)
 
       return {
         ...item,
-        children: buildTree(items, nftSlug, item.tokenId),
+        children: buildTree(items, nftSlug, item.tokenId, chain || undefined),
         to,
       }
     })

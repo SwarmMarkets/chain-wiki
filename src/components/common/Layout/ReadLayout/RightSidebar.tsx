@@ -1,12 +1,12 @@
 import clsx from 'clsx'
 import React from 'react'
-import { generatePath, useParams } from 'react-router-dom'
 import Content from 'src/components/common/Layout/ReadLayout/Content'
 import LinkPreserveSearch from 'src/components/LinkPreserveSearch'
 import Button from 'src/components/ui-kit/Button/Button'
-import RoutePaths from 'src/shared/enums/routes-paths'
 import { useContentRef } from './Content/context'
 import RightSidebarSkeleton from './Content/RightSidebarSkeleton'
+import { useParams } from 'next/navigation'
+import Routes, { ReadParams } from 'src/shared/consts/routes'
 
 interface RightSidebarProps {
   preview?: boolean
@@ -21,7 +21,8 @@ const RightSidebar: React.FC<RightSidebarProps> = ({
   className,
   firstTokenSlug,
 }) => {
-  const { nftIdOrSlug = '', tokenIdOrSlug = '' } = useParams()
+  const params = useParams<ReadParams['token']>()
+  const { nftIdOrSlug, tokenIdOrSlug } = useParams<ReadParams['token']>()
 
   const { contentElem } = useContentRef()
 
@@ -38,10 +39,11 @@ const RightSidebar: React.FC<RightSidebarProps> = ({
     >
       <div className='mb-4'>
         <LinkPreserveSearch
-          to={generatePath(RoutePaths.TOKEN_READ_HISTORY, {
+          href={Routes.read.history(
             nftIdOrSlug,
-            tokenIdOrSlug: tokenIdOrSlug || firstTokenSlug,
-          })}
+            tokenIdOrSlug || firstTokenSlug,
+            params.chain
+          )}
           className='no-underline'
         >
           <Button

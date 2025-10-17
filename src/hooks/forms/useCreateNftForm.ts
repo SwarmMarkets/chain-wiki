@@ -1,3 +1,5 @@
+"use client"
+
 import { useTranslation } from 'react-i18next'
 import useYupValidationResolver from '../useYupValidationResolver'
 import yup from 'src/shared/validations/yup'

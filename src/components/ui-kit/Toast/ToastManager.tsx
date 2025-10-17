@@ -1,10 +1,16 @@
+'use client'
+
 import React from 'react'
 import Toast from './Toast'
 import { createPortal } from 'react-dom'
 import { useToastManager } from 'src/hooks/useToastManager'
+import { usePortalTarget } from 'src/hooks/usePortalTarget'
 
 const ToastManager: React.FC = () => {
   const { toasts, removeToast } = useToastManager()
+  const container = usePortalTarget('#toasts')
+
+  if (!container) return null
 
   return createPortal(
     <div
@@ -19,7 +25,7 @@ const ToastManager: React.FC = () => {
         />
       ))}
     </div>,
-    document.body.querySelector('#root') || document.body
+    container
   )
 }
 

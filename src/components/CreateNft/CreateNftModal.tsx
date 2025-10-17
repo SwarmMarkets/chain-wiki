@@ -1,3 +1,5 @@
+'use client'
+
 import { BasicModalProps } from 'src/shared/types/common-props'
 import Modal from '../ui-kit/Modal'
 import CreateNftForm from './CreateNftForm'

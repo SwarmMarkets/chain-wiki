@@ -1,6 +1,7 @@
-import React from 'react'
+'use client'
+
+import { useRouter } from 'next/navigation'
 import HistoryToken from 'src/components/History/HistoryToken'
-import { useNavigate } from 'react-router-dom'
 import Button from 'src/components/ui-kit/Button/Button'
 
 interface NftReadHistoryProps {
@@ -8,10 +9,10 @@ interface NftReadHistoryProps {
 }
 
 const NftReadHistory: React.FC<NftReadHistoryProps> = ({ className }) => {
-  const navigate = useNavigate()
+  const router = useRouter()
 
   const handleBackClick = () => {
-    navigate(-1)
+    router.back()
   }
 
   return (

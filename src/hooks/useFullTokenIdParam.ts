@@ -1,9 +1,10 @@
-import { useParams } from 'react-router-dom'
+import { useParams } from 'next/navigation'
 import { useTokenBySlug } from './subgraph/useTokenBySlug'
 import useNFTIdParam from './useNftIdParam'
+import { MParams } from 'src/shared/consts/routes'
 
 const useFullTokenIdParam = () => {
-  const { tokenIdOrSlug = '' } = useParams()
+  const { tokenIdOrSlug = '' } = useParams<MParams['token']>()
   const { nftId } = useNFTIdParam()
 
   const { token } = useTokenBySlug(nftId, tokenIdOrSlug)

@@ -1,7 +1,8 @@
+'use client'
+
 import { AnimatePresence } from 'framer-motion'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { useParams } from 'react-router-dom'
 import IndexPages from 'src/components/IndexPages'
 import Collapse from 'src/components/ui-kit/Animations/Collapse'
 import Tabs from 'src/components/ui-kit/Tabs'
@@ -14,6 +15,8 @@ import { NFTWithMetadata } from 'src/shared/utils'
 import NftLayouSideBarLayoutTab from './NftLayouSideBarLayoutTab'
 import NftLayoutSideBarGeneralTab from './NftLayoutSideBarGeneralTab'
 import NftSideBarSkeleton from './NftSideBarSkeleton'
+import { useParams } from 'next/navigation'
+import { MParams } from 'src/shared/consts/routes'
 
 interface NftLayoutSideBarProps {
   nft: NFTWithMetadata | null
@@ -30,7 +33,7 @@ const NftLayoutSideBar: React.FC<NftLayoutSideBarProps> = ({
   loading,
 }) => {
   const { t } = useTranslation(['nft', 'layout'])
-  const { setting } = useParams()
+  const { setting } = useParams<MParams['settings']>()
   const { activeTab, changeTab } = useTabs<CustomizationTab>({
     defaultTab: CustomizationTab.GENERAL,
   })

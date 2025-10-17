@@ -1,3 +1,5 @@
+'use client'
+
 import 'highlight.js/styles/atom-one-dark.css'
 import md5 from 'md5'
 import React, { forwardRef, useMemo } from 'react'
@@ -14,7 +16,7 @@ import Icon from '../ui-kit/Icon/Icon'
 import IconButton from '../ui-kit/IconButton'
 import useCommentIds from 'src/hooks/subgraph/useCommentIds'
 import { groupBy } from 'lodash'
-import { useNavigate } from 'react-router-dom'
+import { useRouter } from 'next/navigation'
 
 interface MarkdownRendererProps {
   fullTokenId?: string
@@ -93,25 +95,25 @@ const MarkdownRenderer = forwardRef<HTMLDivElement, MarkdownRendererProps>(
           components: {
             a: (props: any) => {
               // eslint-disable-next-line react-hooks/rules-of-hooks
-              const navigate = useNavigate()
-              const href: string = props.href || ''
+              const router = useRouter()
+              const { href, children, ...rest } = props
               const isRelative = href.startsWith('/')
 
-              const handleClick = (e: React.MouseEvent) => {
+              const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
                 if (isRelative) {
                   e.preventDefault()
-                  navigate(href) // клиентский редирект через React Router
+                  router.push(href)
                 }
               }
 
               return (
                 <a
-                  {...props}
+                  {...rest}
                   {...(isRelative
                     ? { onClick: handleClick }
                     : { target: '_blank', rel: 'noopener noreferrer' })}
                 >
-                  {props.children}
+                  {children}
                 </a>
               )
             },
@@ -204,18 +206,18 @@ const ParagraphWithComment: React.FC<ParagraphWithCommentProps> = ({
     <Tag id={id} className='group relative'>
       {children}
       {id && (
-        <div className='absolute right-0 top-0 opacity-0 group-hover:opacity-100 transition-opacity'>
-          <div className='relative'>
+        <span className='absolute right-0 top-0 opacity-0 group-hover:opacity-100 transition-opacity'>
+          <span className='relative'>
             <IconButton onClick={() => onClickComment?.(id)}>
               <Icon name='comment' size={16} />
             </IconButton>
             {count && (
-              <div className='absolute -top-1 -right-1 w-3.5 h-3.5 rounded-full bg-primary text-primary-contrast text-[10px] leading-none flex items-center justify-center'>
+              <span className='absolute -top-1 -right-1 w-3.5 h-3.5 rounded-full bg-primary text-primary-contrast text-[10px] leading-none flex items-center justify-center'>
                 {count}
-              </div>
+              </span>
             )}
-          </div>
-        </div>
+          </span>
+        </span>
       )}
     </Tag>
   )

@@ -1,8 +1,10 @@
+'use client'
+
+import Link from 'next/link'
 import { useTranslation } from 'react-i18next'
-import { generatePath, Link } from 'react-router-dom'
 import NftList, { NFTWithChain } from 'src/components/Nft/NftList'
 import Button from 'src/components/ui-kit/Button/Button'
-import RoutePaths from 'src/shared/enums/routes-paths'
+import Routes from 'src/shared/consts/routes'
 
 interface ChooseSiteNetwork {
   nfts: NFTWithChain[]
@@ -36,7 +38,7 @@ const ChooseSiteNetwork: React.FC<ChooseSiteNetwork> = ({
           <div className='p-2.5'>
             <img className='max-h-7' src='assets/logo.png' alt='ChainWiki' />
           </div>
-          <Link to={RoutePaths.HOME}>
+          <Link href={Routes.manager.home}>
             <Button size='md' style={{ borderRadius: '50px', height: 43 }}>
               {t('home')}
             </Button>
@@ -58,9 +60,7 @@ const ChooseSiteNetwork: React.FC<ChooseSiteNetwork> = ({
               skeletonLength={10}
               className='mt-7'
               onClick={handleCardClick}
-              to={nft =>
-                generatePath(RoutePaths.NFT_READ, { nftIdOrSlug: nft.slug })
-              }
+              to={nft => Routes.read.nft(nft.slug)}
             />
           )}
         </div>

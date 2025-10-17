@@ -1,3 +1,5 @@
+'use client'
+
 import dayjs from 'dayjs'
 import { useTranslation } from 'react-i18next'
 import useModalState from 'src/hooks/useModalState'

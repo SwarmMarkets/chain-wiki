@@ -1,19 +1,22 @@
+import Link from 'next/link'
+import { useParams, usePathname, useRouter } from 'next/navigation'
 import React from 'react'
-import { generatePath, Link, useNavigate, useParams } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import useEdit from 'src/components/Edit/useEdit'
 import useNFTRoleManager from 'src/components/Nft/NftRoleManager/useNFTRoleManager'
 import Badge from 'src/components/ui-kit/Badge'
 import Button from 'src/components/ui-kit/Button/Button'
+import Icon from 'src/components/ui-kit/Icon/Icon'
 import RadioButtonGroup from 'src/components/ui-kit/RadioButton/RadioButtonGroup'
 import useNftPermissions from 'src/hooks/permissions/useNftPermissions'
-import useSmartAccount from 'src/services/safe-protocol-kit/useSmartAccount'
-import { Roles } from 'src/shared/enums'
-import RoutePaths, { RoutePathSetting } from 'src/shared/enums/routes-paths'
-import { generateSiteLink, NFTWithMetadata } from 'src/shared/utils'
-import NftHeaderSkeleton from './NftHeaderSkeleton'
-import { useTranslation } from 'react-i18next'
-import Icon from 'src/components/ui-kit/Icon/Icon'
 import useNFTIdParam from 'src/hooks/useNftIdParam'
+import useSmartAccount from 'src/services/safe-protocol-kit/useSmartAccount'
+import Routes, { MParams } from 'src/shared/consts/routes'
+import { Roles } from 'src/shared/enums'
+import { RoutePathSetting } from 'src/shared/enums/routes-paths'
+import { generateSiteLink, NFTWithMetadata } from 'src/shared/utils'
+import { findFirstNonGroupVisibleNode } from 'src/shared/utils/treeHelpers'
+import NftHeaderSkeleton from './NftHeaderSkeleton'
 
 interface NftLayoutHeaderProps {
   nft: NFTWithMetadata | null
@@ -23,15 +26,38 @@ interface NftLayoutHeaderProps {
 const NftLayoutHeader: React.FC<NftLayoutHeaderProps> = ({ nft, loading }) => {
   const { nftId } = useNFTIdParam()
   const { t } = useTranslation(['layout', 'buttons', 'common'])
-  const { setting = null } = useParams<{ setting: RoutePathSetting }>()
-  const navigate = useNavigate()
+  const { setting = null, tokenIdOrSlug } = useParams<
+    MParams['settings'] & MParams['token']
+  >()
+  const router = useRouter()
 
   const { smartAccountInfo } = useSmartAccount()
   const { smartAccountPermissions } = useNftPermissions(nftId)
   const { grantRole, txLoading } = useNFTRoleManager(nftId)
   const { merge, mergeLoading } = useEdit()
 
-  const isEditMode = window.location.pathname.includes('edit')
+  const pathname = usePathname()
+
+  const isEditMode = pathname.includes('/edit/')
+
+  const firstToken = findFirstNonGroupVisibleNode(
+    nft?.indexPagesContent?.indexPages
+  )
+
+  const editHref = Routes.manager.edit(
+    nft?.slug || '',
+    tokenIdOrSlug || firstToken?.slug || ''
+  )
+
+  const customizationHref = Routes.manager.settings(
+    nft?.slug || '',
+    RoutePathSetting.CUSTOMIZATION
+  )
+
+  const settingsHref = Routes.manager.settings(
+    nft?.slug || '',
+    RoutePathSetting.GENERAL
+  )
 
   const grantRoleForSmartAccount = async () => {
     if (smartAccountInfo?.address) {
@@ -46,9 +72,7 @@ const NftLayoutHeader: React.FC<NftLayoutHeaderProps> = ({ nft, loading }) => {
   return (
     <header className='bg-paper px-4 py-2 border-b border-gray-200 flex justify-between items-center'>
       <div className='flex items-center gap-2'>
-        <Link
-          to={generatePath(RoutePaths.NFT, { nftIdOrSlug: nft?.slug || '' })}
-        >
+        <Link href={Routes.manager.nft(nft?.slug || '')}>
           <h1 className='typo-title1 text-main-accent hover:bg-gray-100 px-2 py-1 rounded-md transition-colors'>
             {nft?.name}
           </h1>
@@ -57,20 +81,12 @@ const NftLayoutHeader: React.FC<NftLayoutHeaderProps> = ({ nft, loading }) => {
         <RadioButtonGroup
           value={setting}
           onChange={value =>
-            navigate(
-              generatePath(RoutePaths.SETTINGS, {
-                setting: value,
-                nftIdOrSlug: nft?.slug || '',
-              })
-            )
+            nft?.slug &&
+            value &&
+            router.push(Routes.manager.settings(nft.slug, value))
           }
         >
-          <Link
-            to={generatePath(RoutePaths.SETTINGS, {
-              nftIdOrSlug: nft?.slug || '',
-              setting: RoutePathSetting.CUSTOMIZATION,
-            })}
-          >
+          <Link href={customizationHref}>
             <Badge
               color='secondary'
               value={RoutePathSetting.CUSTOMIZATION}
@@ -79,12 +95,7 @@ const NftLayoutHeader: React.FC<NftLayoutHeaderProps> = ({ nft, loading }) => {
               Customization
             </Badge>
           </Link>
-          <Link
-            to={generatePath(RoutePaths.SETTINGS, {
-              nftIdOrSlug: nft?.slug || '',
-              setting: RoutePathSetting.GENERAL,
-            })}
-          >
+          <Link href={settingsHref}>
             <Badge
               color='secondary'
               value={RoutePathSetting.GENERAL}
@@ -97,29 +108,27 @@ const NftLayoutHeader: React.FC<NftLayoutHeaderProps> = ({ nft, loading }) => {
       </div>
 
       <div className='flex items-center gap-2'>
-        <Link
-          to={generatePath(RoutePaths.EDIT, { nftIdOrSlug: nft?.slug || '' })}
-        >
-          {isEditMode ? (
-            !smartAccountPermissions.canUpdateContent ? (
-              <Button
-                size='sm'
-                loading={txLoading}
-                onClick={grantRoleForSmartAccount}
-              >
-                {t('enableBatchEditing', { ns: 'buttons' })}
-              </Button>
-            ) : (
-              <Button
-                size='sm'
-                loading={mergeLoading}
-                onClick={merge}
-                disabled={!smartAccountPermissions.canUpdateContent}
-              >
-                {t('publish', { ns: 'buttons' })}
-              </Button>
-            )
+        {isEditMode ? (
+          !smartAccountPermissions.canUpdateContent ? (
+            <Button
+              size='sm'
+              loading={txLoading}
+              onClick={grantRoleForSmartAccount}
+            >
+              {t('enableBatchEditing', { ns: 'buttons' })}
+            </Button>
           ) : (
+            <Button
+              size='sm'
+              loading={mergeLoading}
+              onClick={merge}
+              disabled={!smartAccountPermissions.canUpdateContent}
+            >
+              {t('publish', { ns: 'buttons' })}
+            </Button>
+          )
+        ) : (
+          <Link href={editHref}>
             <Button
               StartAdornment={
                 <Icon
@@ -132,11 +141,11 @@ const NftLayoutHeader: React.FC<NftLayoutHeaderProps> = ({ nft, loading }) => {
             >
               {t('edit', { ns: 'buttons' })}
             </Button>
-          )}
-        </Link>
+          </Link>
+        )}
         {!isEditMode && nft && (
           <Link
-            to={generateSiteLink({ nftIdOrSlug: nft.slug })}
+            href={generateSiteLink({ nftIdOrSlug: nft.slug })}
             target='_blank'
           >
             <Button
