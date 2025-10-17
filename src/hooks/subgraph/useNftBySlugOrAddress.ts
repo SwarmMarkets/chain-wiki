@@ -1,3 +1,5 @@
+'use client'
+
 import { useMemo } from 'react'
 import useNFTs from './useNFTs'
 import { isAddress } from 'viem'

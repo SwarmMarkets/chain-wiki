@@ -1,59 +1,58 @@
+'use client'
+
 import {
   BoldItalicUnderlineToggles,
-  codeBlockPlugin,
-  headingsPlugin,
-  linkPlugin,
   listsPlugin,
   ListsToggle,
   markdownShortcutPlugin,
   MDXEditor,
-  quotePlugin,
-  tablePlugin,
-  thematicBreakPlugin,
+  MDXEditorMethods,
   toolbarPlugin,
   UndoRedo,
 } from '@mdxeditor/editor'
-import React from 'react'
 
-interface LiteEditorProps {
-  onChange?: (content: string) => void
-  height?: number
-  value: string
+import '@mdxeditor/editor/style.css'
+import { forwardRef } from 'react'
+
+interface EditorProps {
+  initialContent?: string
+  content?: string
+  onChange: (content: string) => void
+  onEditorInit?: (editorInit: boolean) => void
 }
 
-const LiteEditor: React.FC<LiteEditorProps> = ({ onChange, value }) => {
-  const onEditorChange = (content: string) => {
-    onChange?.(content)
+const Editor = forwardRef<MDXEditorMethods, EditorProps>(
+  ({ content = '', onChange }, ref) => {
+    const onEditorChange = (content: string) => {
+      onChange && onChange(content)
+    }
+
+    const allPlugins = [
+      toolbarPlugin({
+        toolbarClassName: 'bg-gray-100',
+        toolbarContents: () => (
+          <>
+            <UndoRedo />
+            <BoldItalicUnderlineToggles />
+            <ListsToggle />
+          </>
+        ),
+      }),
+      listsPlugin(),
+      markdownShortcutPlugin(),
+    ]
+
+    return (
+      <MDXEditor
+        className='w-full'
+        contentEditableClassName='prose font-[Inter] font-sans max-w-full h-40 overflow-y-auto'
+        ref={ref}
+        markdown={content}
+        onChange={onEditorChange}
+        plugins={allPlugins}
+      />
+    )
   }
+)
 
-  return (
-    <MDXEditor
-      className='w-full'
-      contentEditableClassName='prose h-40 overflow-y-auto'
-      markdown={value || ''}
-      onChange={onEditorChange}
-      plugins={[
-        headingsPlugin(),
-        listsPlugin(),
-        quotePlugin(),
-        thematicBreakPlugin(),
-        toolbarPlugin({
-          toolbarClassName: 'bg-gray-100',
-          toolbarContents: () => (
-            <>
-              <UndoRedo />
-              <BoldItalicUnderlineToggles />
-              <ListsToggle options={['bullet', 'number']} />
-            </>
-          ),
-        }),
-        markdownShortcutPlugin(),
-        linkPlugin(),
-        tablePlugin(),
-        codeBlockPlugin(),
-      ]}
-    />
-  )
-}
-
-export default LiteEditor
+export default Editor

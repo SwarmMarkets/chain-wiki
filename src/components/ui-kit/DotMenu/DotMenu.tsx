@@ -4,6 +4,7 @@ import { createPortal } from 'react-dom'
 import Icon, { IconProps } from '../Icon/Icon'
 import IconButton, { IconButtonProps } from '../IconButton'
 import useClickAway from '../hooks/useClickAway'
+import { usePortalTarget } from 'src/hooks/usePortalTarget'
 
 const menuVariants = {
   hidden: { opacity: 0, y: -5 },
@@ -31,6 +32,8 @@ export const DotMenu: React.FC<DotMenuProps> = ({
   const { active, toggle, ref } = useClickAway()
   const [menuPosition, setMenuPosition] = useState({ top: 0, left: 0 })
 
+  const documentBody = usePortalTarget()
+
   const handleToggle = (e: React.MouseEvent) => {
     e.preventDefault()
     e.stopPropagation()
@@ -50,6 +53,8 @@ export const DotMenu: React.FC<DotMenuProps> = ({
     e.preventDefault()
     e.stopPropagation()
   }
+
+  if (!documentBody) return null
 
   return (
     <>
@@ -90,7 +95,7 @@ export const DotMenu: React.FC<DotMenuProps> = ({
             </motion.ul>
           )}
         </AnimatePresence>,
-        document.body
+        documentBody
       )}
     </>
   )

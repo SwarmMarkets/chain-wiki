@@ -44,7 +44,9 @@ const useTokens = (
         }
 
         const promises = data.tokens.map(item =>
-          download<IpfsTokenContent>(item.uri)
+          item.uri
+            ? download<IpfsTokenContent>(item.uri)
+            : Promise.resolve(undefined)
         )
 
         const additionalData = await Promise.all(promises)

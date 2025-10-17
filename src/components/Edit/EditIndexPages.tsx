@@ -5,17 +5,16 @@ import Button from '../ui-kit/Button/Button'
 import EditIndexPagesTree from './EditIndexPagesTree/EditIndexPagesTree'
 import useEdit from './useEdit'
 import { generateSlug } from './utils'
+import { useParams, useRouter } from 'next/navigation'
+import Routes, { MParams } from 'src/shared/consts/routes'
 
 const EditIndexPages = () => {
   const { t } = useTranslation('edit', { keyPrefix: 'indexPages' })
+  const { nftIdOrSlug } = useParams<MParams['token']>()
 
-  const {
-    currEditableToken,
-    updateCurrEditableToken,
-    addIndexPage,
-    updateOrCreateAddedToken,
-    addedTokens,
-  } = useEditingStore()
+  const { addIndexPage, updateOrCreateAddedToken, addedTokens } =
+    useEditingStore()
+  const { currEditableToken } = useEdit()
 
   const {
     fullTokens,
@@ -25,21 +24,18 @@ const EditIndexPages = () => {
     updateTokenName,
   } = useEdit()
 
+  const router = useRouter()
+
   const handleIndexPageClick = (id: string) => {
     const token = fullTokens?.find(t => t.id === id)
     const addedToken = addedTokens.find(t => t.id === id)
 
     if (addedToken) {
-      updateCurrEditableToken(addedToken)
+      router.replace(Routes.manager.edit(nftIdOrSlug, addedToken.slug))
       return
     }
     if (token) {
-      updateCurrEditableToken({
-        id: token.id,
-        name: token.name,
-        content: token.ipfsContent?.htmlContent || '',
-        slug: token.slug,
-      })
+      router.replace(Routes.manager.edit(nftIdOrSlug, token.slug))
     }
   }
 
@@ -72,12 +68,7 @@ const EditIndexPages = () => {
         slug: candidate,
         content: '',
       })
-      updateCurrEditableToken({
-        id: nextTokenId,
-        name: initialName,
-        slug: candidate,
-        content: '',
-      })
+      router.replace(Routes.manager.edit(nftIdOrSlug, candidate))
     }
   }
 
@@ -99,7 +90,7 @@ const EditIndexPages = () => {
     <div className='flex flex-col h-full'>
       <div className='flex-1 overflow-auto'>
         <EditIndexPagesTree
-          activeTokenIdOrSlug={currEditableToken?.id}
+          activeTokenIdOrSlug={currEditableToken?.tokenId}
           activeSlug={currEditableToken?.slug}
           onClick={handleIndexPageClick}
           treeData={treeData}

@@ -46,13 +46,13 @@ const SidebarTreeNode: React.FC<SidebarTreeNodeProps> = ({
     <li className='list-none'>
       <DynamicComponent
         as={node?.to ? LinkPreserveSearch : 'div'}
-        to={node?.to}
+        href={node?.to}
         onClick={() => !isGroup && onSelect?.(node)}
         className={clsx(
           'group flex justify-between items-center transition-colors px-3 py-1.5',
           {
             'border-l border-gray-300': !isGroup && !isParentGroup && isChild,
-            'border-primary': isSelected,
+            'border-primary font-medium': isSelected,
             'hover:bg-primary-muted': isSelected && !isGroup,
             'hover:bg-gray-100': !isSelected && !isGroup,
             'cursor-pointer': !isGroup,

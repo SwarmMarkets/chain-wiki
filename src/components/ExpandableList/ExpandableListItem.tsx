@@ -2,7 +2,7 @@ import clsx from 'clsx'
 import React, { ReactNode } from 'react'
 import { IconName } from 'src/shared/types/iconNames'
 import Icon from '../ui-kit/Icon/Icon'
-import { Link } from 'react-router-dom'
+import Link from 'next/link'
 
 export interface ExpandableListItem {
   id: string
@@ -27,7 +27,7 @@ const ExpandableListItem: React.FC<ExpandableListItemProps> = ({
   const expandableItem = (
     <div
       className={clsx(
-        'group flex items-center px-1.5 py-1 gap-2 text-base rounded cursor-pointer transition-colors',
+        'group flex items-center px-1.5 py-1 gap-2 typo-body2 rounded cursor-pointer transition-colors',
         item.active && (lighter ? 'bg-gray-100' : 'bg-gray-200'),
         item.active ? 'text-gray-900' : 'text-gray-700',
         lighter ? 'hover:bg-gray-100' : 'hover:bg-gray-200'
@@ -50,7 +50,7 @@ const ExpandableListItem: React.FC<ExpandableListItemProps> = ({
   )
 
   if (item.to) {
-    return <Link to={item.to}>{expandableItem}</Link>
+    return <Link href={item.to}>{expandableItem}</Link>
   }
 
   return expandableItem

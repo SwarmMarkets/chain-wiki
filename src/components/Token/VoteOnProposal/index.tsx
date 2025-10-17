@@ -1,3 +1,5 @@
+'use client'
+
 import useModalState from 'src/hooks/useModalState'
 import { useTranslation } from 'react-i18next'
 import VoteOnProposalModal from './VoteOnProposalModal'

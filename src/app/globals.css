@@ -1,0 +1,136 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+  @apply bg-paper text-main;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 3px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #dcdcdc;
+  border-radius: 20px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #c0c0c0;
+}
+
+body ::-webkit-scrollbar {
+  width: 5px;
+  height: 3px;
+}
+
+@layer components {
+  .typo-base {
+    @apply font-sans font-normal text-main;
+  }
+
+  .typo-display3 {
+    @apply typo-base text-display3;
+  }
+
+  .typo-display2 {
+    @apply typo-base text-display2;
+  }
+
+  .typo-display1 {
+    @apply typo-base text-display1;
+  }
+
+  .typo-heading3 {
+    @apply typo-base text-heading3;
+  }
+
+  .typo-heading2 {
+    @apply typo-base text-heading2;
+  }
+
+  .typo-heading1 {
+    @apply typo-base text-heading1;
+  }
+
+  .typo-title3 {
+    @apply typo-base text-title3;
+  }
+
+  .typo-title2 {
+    @apply typo-base text-title2;
+  }
+
+  .typo-title1 {
+    @apply typo-base text-title1;
+  }
+
+  .typo-label2 {
+    @apply typo-base text-label2;
+  }
+
+  .typo-label1 {
+    @apply typo-base text-label1;
+  }
+
+  .typo-button {
+    @apply typo-base text-button;
+  }
+
+  .typo-body3 {
+    @apply typo-base text-body3;
+  }
+
+  .typo-body2 {
+    @apply typo-base text-body2;
+  }
+
+  .typo-body1 {
+    @apply typo-base text-body1;
+  }
+
+  .typo-caption {
+    @apply typo-base text-caption;
+  }
+
+  hr {
+    @apply border-main border border-b-0;
+  }
+
+  .divider {
+    @apply border-main border border-b-0 my-4;
+  }
+
+  .paper {
+    @apply bg-paper shadow-sm rounded-md;
+  }
+
+  .overlay {
+    @apply fixed inset-0 z-10 w-screen bg-gray-500 overflow-y-auto bg-opacity-75;
+  }
+
+  .loader {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 3.8px solid;
+    @apply border-main;
+    @apply border-r-primary;
+    animation: spinner-d3wgkg 1s infinite linear;
+  }
+
+  @keyframes spinner-d3wgkg {
+    to {
+      transform: rotate(1turn);
+    }
+  }
+}
