@@ -1,9 +1,10 @@
-import { useParams } from 'react-router-dom'
+import { useParams } from 'next/navigation'
 import { useNftBySlugOrAddress } from './subgraph/useNftBySlugOrAddress'
 import { isAddress } from 'ethers/lib/utils'
+import { MParams } from 'src/shared/consts/routes'
 
 const useNFTIdParam = () => {
-  const { nftIdOrSlug = '' } = useParams()
+  const { nftIdOrSlug = '' } = useParams<MParams['nft']>()
   const { nft, loading } = useNftBySlugOrAddress(nftIdOrSlug)
 
   if (!nftIdOrSlug) return { nftId: '', slug: '', loading }

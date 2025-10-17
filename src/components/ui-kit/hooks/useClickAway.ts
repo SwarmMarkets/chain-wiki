@@ -1,3 +1,5 @@
+"use client"
+
 import { useEffect, useRef, useState } from 'react'
 
 export default function useClickAway(callback?: (e: MouseEvent) => void) {

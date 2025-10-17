@@ -9,7 +9,6 @@ import {
 } from 'src/shared/store/editing-store'
 import {
   generateIpfsIndexPagesContent,
-  isSameEthereumAddress,
   TokensQueryFullData,
   unifyAddressToId,
 } from 'src/shared/utils'
@@ -22,16 +21,17 @@ import {
 import { HIDDEN_INDEX_PAGES_ID } from './const'
 import { EditNodeModel } from './EditIndexPagesTree/types'
 import { SafeClientTxStatus } from '@safe-global/sdk-starter-kit/dist/src/constants'
-import { findFirstNonGroupVisibleNode } from 'src/shared/utils/treeHelpers'
 import useNFTIdParam from 'src/hooks/useNftIdParam'
 import { useActiveAccount } from 'thirdweb/react'
 import { PreparedTransaction } from 'thirdweb'
 import { useIpfsUpload } from 'src/hooks/web3/useIpfsUpload'
 import useSX1155NFT from 'src/hooks/contracts/nft/useSX1155NFT'
 import useSendBatchTxs from 'src/hooks/web3/useSendBatchTxs'
-import { generatePath, Link } from 'react-router-dom'
-import RoutePaths from 'src/shared/enums/routes-paths'
 import { useTranslation } from 'react-i18next'
+import Routes, { ChainParam } from 'src/shared/consts/routes'
+import Link from 'next/link'
+import useActiveOrDefaultChain from 'src/hooks/web3/useActiveOrDefaultChain'
+import useFullTokenIdParam from 'src/hooks/useFullTokenIdParam'
 
 const useEdit = (readonly?: boolean) => {
   const { t } = useTranslation('common')
@@ -40,22 +40,28 @@ const useEdit = (readonly?: boolean) => {
     fetchFullData: true,
   })
   const account = useActiveAccount()
+  const chain = useActiveOrDefaultChain()
+  const fullTokenId = useFullTokenIdParam()
 
   const {
     editedTokens,
     addedTokens,
     editedIndexPages,
-    currEditableToken,
     initIndexPages,
     getEditedTokenById,
     updateOrCreateEditedToken,
     updateOrCreateAddedToken,
     updateIndexPage,
     updateIndexPages,
-    updateCurrEditableToken,
     addIndexPage,
     resetTokens,
   } = useEditingStore()
+
+  const currEditableToken = useMemo(() => {
+    return nft?.indexPagesContent?.indexPages.find(
+      ip => ip.tokenId === fullTokenId
+    )
+  }, [fullTokenId, nft?.indexPagesContent?.indexPages])
 
   useEffect(() => {
     initIndexPages(nft?.indexPagesContent?.indexPages || [])
@@ -114,12 +120,10 @@ const useEdit = (readonly?: boolean) => {
     })
 
     // 3) Применить slug'и к indexPages
-    const updatedSlugsMap: Record<string, string> = Object.fromEntries(
-      [
-        ...normalizedAddedTokens.map(t => [t.id, t.slug] as const),
-        ...normalizedEditedTokens.map(t => [t.id, t.slug] as const),
-      ]
-    )
+    const updatedSlugsMap: Record<string, string> = Object.fromEntries([
+      ...normalizedAddedTokens.map(t => [t.id, t.slug] as const),
+      ...normalizedEditedTokens.map(t => [t.id, t.slug] as const),
+    ])
 
     const normalizedEditedIndexPages: EditedIndexPagesState = {
       isEdited: editedIndexPages.isEdited,
@@ -137,31 +141,6 @@ const useEdit = (readonly?: boolean) => {
   }
 
   const { mutateAsync: upload } = useIpfsUpload()
-
-  useEffect(() => {
-    if (!fullTokens || currEditableToken) return
-
-    const firstToken = findFirstNonGroupVisibleNode(
-      nft?.indexPagesContent?.indexPages
-    )
-    const firstTokenContent =
-      fullTokens?.find(t => isSameEthereumAddress(t.id, firstToken?.tokenId))
-        ?.ipfsContent?.htmlContent || ''
-
-    if (firstToken) {
-      updateCurrEditableToken({
-        id: firstToken.tokenId,
-        name: firstToken.title,
-        content: firstTokenContent,
-        slug: firstToken.slug,
-      })
-    }
-  }, [
-    currEditableToken,
-    fullTokens,
-    nft?.indexPagesContent?.indexPages,
-    updateCurrEditableToken,
-  ])
 
   const { sendBatchTxs } = useSendBatchTxs()
 
@@ -328,16 +307,17 @@ const useEdit = (readonly?: boolean) => {
         }
       }
 
-      const siteUrl = generatePath(RoutePaths.NFT_READ, {
-        nftIdOrSlug: nft?.slug || '',
-      })
+      const siteUrl = Routes.read.nft(
+        nft?.slug || nftId,
+        chain.name?.[0].toLowerCase() as ChainParam
+      )
 
       const receipt = await sendBatchTxs(txs, {
         successMessage: (
           <>
             {t('toasts.siteUpdated', { ns: 'common' })}{' '}
             <Link
-              to={siteUrl}
+              href={siteUrl}
               target='_blank'
               className='underline text-main-accent hover:text-main'
             >
@@ -483,6 +463,7 @@ const useEdit = (readonly?: boolean) => {
     treeData,
     updateIndexPagesByTreeNodes,
     addEmptyIndexPage,
+    currEditableToken,
   }
 }
 

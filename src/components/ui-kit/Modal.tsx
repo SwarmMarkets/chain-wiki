@@ -1,3 +1,5 @@
+'use client'
+
 import clsx from 'clsx'
 import { AnimatePresence } from 'framer-motion'
 import React, { MouseEvent, ReactNode, useEffect } from 'react'
@@ -7,6 +9,7 @@ import Slide from './Animations/Slide'
 import IconButton from './IconButton'
 import Icon from './Icon/Icon'
 import useBreakpoint from 'src/hooks/ui/useBreakpoint'
+import { usePortalTarget } from 'src/hooks/usePortalTarget'
 
 export interface ModalProps {
   open?: boolean
@@ -33,6 +36,8 @@ const Modal: React.FC<ModalProps> = ({
 }: ModalProps) => {
   const isSm = useBreakpoint('sm')
 
+  const container = usePortalTarget('#modals')
+
   useEffect(() => {
     document.body.style.overflow = open ? 'hidden' : ''
   }, [open])
@@ -48,6 +53,8 @@ const Modal: React.FC<ModalProps> = ({
     e.stopPropagation()
     onClose?.()
   }
+
+  if (!container) return null
 
   return createPortal(
     <AnimatePresence>
@@ -87,7 +94,7 @@ const Modal: React.FC<ModalProps> = ({
         </div>
       )}
     </AnimatePresence>,
-    document.body.querySelector('#modals') || document.body
+    container
   )
 }
 

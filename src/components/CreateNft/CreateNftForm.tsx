@@ -1,3 +1,5 @@
+"use client"
+
 import { useActiveAccount } from 'thirdweb/react'
 import { useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'

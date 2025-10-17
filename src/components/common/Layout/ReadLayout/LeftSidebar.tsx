@@ -1,31 +1,35 @@
 import clsx from 'clsx'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import useFullTokenIdParam from 'src/hooks/useFullTokenIdParam'
-import { getExplorerUrl, NFTWithMetadata } from 'src/shared/utils'
+import Icon from 'src/components/ui-kit/Icon/Icon'
+import {
+  getExplorerUrl,
+  NFTWithMetadata,
+  TokensQueryFullData,
+} from 'src/shared/utils'
 import LeftSidebarSkeleton from './Content/LeftSidebarSkeleton'
 import SidebarTree from './SidebarTree'
 import { ISidebarTreeNode } from './SidebarTreeNode'
 import { buildTree } from './utils'
-import Icon from 'src/components/ui-kit/Icon/Icon'
 
 interface LeftSidebarProps {
   nft: NFTWithMetadata | null
   preview?: boolean
-  firstTokenId: string
   onSelect?: (node: ISidebarTreeNode) => void
   className?: string
+  token?: TokensQueryFullData | null
+  chainParam?: string
 }
 
 const LeftSidebar: React.FC<LeftSidebarProps> = ({
   nft,
   preview,
-  firstTokenId,
   className,
+  token,
   onSelect,
+  chainParam
 }) => {
   const { t } = useTranslation('layout')
-  const fullTokenId = useFullTokenIdParam()
 
   const treeData = nft?.indexPagesContent?.indexPages
     ? buildTree(
@@ -34,7 +38,8 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
           parent: ip.parent || 0,
         })),
         nft.slug || '',
-        0
+        0,
+        chainParam
       )
     : []
 
@@ -66,7 +71,7 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
         {treeData.length > 0 ? (
           <SidebarTree
             data={treeData}
-            selectedId={fullTokenId || firstTokenId}
+            selectedId={token?.id || ''}
             onSelect={onSelect}
           />
         ) : (

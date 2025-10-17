@@ -1,19 +1,26 @@
-import { Link, useLocation, LinkProps } from 'react-router-dom'
+'use client'
 
-const LinkPreserveSearch: React.FC<LinkProps> = ({ to, ...props }) => {
-  const location = useLocation()
+import Link, { LinkProps } from 'next/link'
+import { useSearchParams } from 'next/navigation'
+import React, { PropsWithChildren } from 'react'
 
-  let finalTo = to
-  if (typeof to === 'string') {
-    finalTo = to + location.search
-  } else {
-    finalTo = {
-      ...to,
-      search: location.search,
-    }
-  }
+interface LinkPreserveSearchProps extends PropsWithChildren, LinkProps {
+  className: string
+}
 
-  return <Link to={finalTo} {...props} />
+const LinkPreserveSearch: React.FC<LinkPreserveSearchProps> = ({
+  href,
+  children,
+  ...props
+}) => {
+  const searchParams = useSearchParams()
+  const search = searchParams?.toString() ? `?${searchParams.toString()}` : ''
+
+  return (
+    <Link href={href + search} {...props}>
+      {children}
+    </Link>
+  )
 }
 
 export default LinkPreserveSearch
