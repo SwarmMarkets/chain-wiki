@@ -28,7 +28,6 @@ jobs:
           BASE_VERSION=$(node -p "require('./package.json').version")
           TAG="v$BASE_VERSION"
 
-          # Проверяем, существует ли тег на удалённом
           while git ls-remote --tags origin | grep -q "refs/tags/$TAG"; do
             echo "Tag $TAG exists, incrementing PATCH..."
             IFS='.' read -r MAJOR MINOR PATCH <<< "${TAG#v}"
