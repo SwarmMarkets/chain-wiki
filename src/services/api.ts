@@ -78,5 +78,4 @@ export default {
   genericRequest,
   get,
   citiesdaoVote,
-  location,
 }

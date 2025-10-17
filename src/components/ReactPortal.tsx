@@ -6,7 +6,8 @@ interface ReactPortalProps extends React.PropsWithChildren {
 }
 
 const ReactPortal: React.FC<ReactPortalProps> = ({ children, wrapperId }) => {
-  const wrapper = document.getElementById(wrapperId)
+  const wrapper =
+    typeof document !== 'undefined' && document.getElementById(wrapperId)
 
   if (!wrapper) {
     return null

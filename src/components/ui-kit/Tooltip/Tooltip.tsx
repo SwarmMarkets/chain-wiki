@@ -1,3 +1,5 @@
+'use client'
+
 import React, { ReactNode, useEffect, useRef, useState } from 'react'
 import './styles.css'
 import clsx from 'clsx'

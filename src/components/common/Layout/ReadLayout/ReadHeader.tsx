@@ -125,7 +125,9 @@ const ReadHeader: React.FC<ReadHeaderProps> = ({
               />
             </IconButton>
           )}
-          <img src={logoUrl} alt='Logo' className='max-w-80 max-h-12' />
+          {logoUrl && (
+            <img src={logoUrl} alt='Logo' className='max-w-80 max-h-12' />
+          )}
         </div>
 
         <div className='flex items-center gap-6'>{renderLinks()}</div>

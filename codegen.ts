@@ -3,7 +3,7 @@ import type { CodegenConfig } from '@graphql-codegen/cli'
 const config: CodegenConfig = {
   overwrite: true,
   schema:
-    'https://api.studio.thegraph.com/query/60829/deprecated-chainwiki-base/version/latest',
+    'https://api.studio.thegraph.com/query/60829/chain-wiki-base/version/latest',
   documents: ['src/**/*.{ts,tsx}'],
   ignoreNoDocuments: true,
   generates: {

@@ -1,11 +1,13 @@
+'use client'
+
 import clsx from 'clsx'
 import React from 'react'
-import { generatePath, Link } from 'react-router-dom'
 import { NfTsQuery } from 'src/queries/gql/graphql'
 import NftCard from './NftCard'
 import NftSkeletonList from './NftSkeletonList'
-import RoutePaths from 'src/shared/enums/routes-paths'
 import { SupportedChainId } from 'src/environment/networks'
+import Link from 'next/link'
+import Routes from 'src/shared/consts/routes'
 
 export type NFTWithChain = NfTsQuery['nfts'][0] & { chain?: SupportedChainId }
 
@@ -38,24 +40,30 @@ const NftList: React.FC<NftListProps> = ({
       {loading ? (
         <NftSkeletonList skeletonLength={skeletonLength} />
       ) : (
-        nfts?.map(nft => (
-          <Link
-            onClick={() => onClick?.(nft)}
-            to={
-              to
-                ? to(nft)
-                : generatePath(RoutePaths.NFT, { nftIdOrSlug: nft.slug })
-            }
-            key={nft.id}
-          >
-            <NftCard
-              nft={nft}
-              className='h-full'
-              chainId={nft.chain}
-              showChain={showChain}
-            />
-          </Link>
-        ))
+        nfts?.map(nft => {
+          const href = to ? to(nft) : Routes.manager.nft(nft.slug)
+
+          return (
+            <Link
+              key={nft.id}
+              href={href}
+              onClick={e => {
+                if (onClick) {
+                  e.preventDefault()
+                  onClick(nft)
+                }
+              }}
+              className='block h-full'
+            >
+              <NftCard
+                nft={nft}
+                className='h-full'
+                chainId={nft.chain}
+                showChain={showChain}
+              />
+            </Link>
+          )
+        })
       )}
     </div>
   )

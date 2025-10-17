@@ -1,11 +1,13 @@
+'use client'
+
 import React from 'react'
-import { Link } from 'react-router-dom'
 import useToggle from 'src/hooks/useToggle'
 import Icon from '../ui-kit/Icon/Icon'
 import clsx from 'clsx'
 import IconButton from '../ui-kit/IconButton'
 import DynamicComponent from '../DynamicComponent'
 import EditIndexPageModal from './EditIndexPageModal'
+import Link from 'next/link'
 
 interface EditIndexPagesItemProps {
   to?: string
@@ -72,7 +74,7 @@ const EditIndexPagesItem: React.FC<EditIndexPagesItemProps> = ({
     <>
       <DynamicComponent
         as={to ? Link : 'div'}
-        to={to || ''}
+        {...(!to ? {} : { href: to })}
         className={clsx(
           'flex items-center justify-between w-full box-border rounded transition-colors overflow-hidden px-1.5 py-1 gap-2 group',
           active && 'bg-gray-100 text-main-accent',

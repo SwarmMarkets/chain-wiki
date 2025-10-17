@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react'
 import EditIndexPagesItem from '../EditIndexPageItem'
 import { EditNodeModel } from './types'

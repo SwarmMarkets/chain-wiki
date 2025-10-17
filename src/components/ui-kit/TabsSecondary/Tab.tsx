@@ -1,12 +1,22 @@
-import clsx from 'clsx'
-import React from 'react'
-import { NavLink, NavLinkProps } from 'react-router-dom'
+'use client'
 
-export interface TabProps extends NavLinkProps {
+import clsx from 'clsx'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import React from 'react'
+
+export interface TabProps {
   label: string
+  href: string
+  className?: string
+  exact?: boolean // если нужно проверять точное совпадение пути
 }
 
-const Tab: React.FC<TabProps> = ({ label, className, ...props }) => {
+const Tab: React.FC<TabProps> = ({ label, href, className, exact = false }) => {
+  const pathname = usePathname()
+
+  const isActive = exact ? pathname === href : pathname.startsWith(href)
+
   const baseClasses = clsx(
     'text-main text-center typo-label2 py-1 px-3 rounded-3xl box-border',
     'border',
@@ -17,14 +27,14 @@ const Tab: React.FC<TabProps> = ({ label, className, ...props }) => {
   const activeClasses = clsx('text-main-accent border-main-active bg-paper')
 
   return (
-    <NavLink
-      className={({ isActive }) =>
-        `${baseClasses} ${isActive ? activeClasses : 'border-transparent'}`
-      }
-      {...props}
+    <Link
+      href={href}
+      className={`${baseClasses} ${
+        isActive ? activeClasses : 'border-transparent'
+      }`}
     >
       {label}
-    </NavLink>
+    </Link>
   )
 }
 

@@ -14,7 +14,9 @@ const Content: React.FC<ContentProps> = ({ contentElem, className }) => {
   const { t } = useTranslation('contents')
 
   const [headingsInView, setHeadingsInView] = useState<number[]>([])
-  const [beginningActive, setBeginningActive] = useState(window.scrollY === 0)
+  const [beginningActive, setBeginningActive] = useState(
+    typeof window === 'undefined' ? false : window.scrollY === 0
+  )
   const firstHeadingInView = Math.min(...headingsInView)
 
   const addHeadingInView = (id: number) =>
@@ -31,6 +33,8 @@ const Content: React.FC<ContentProps> = ({ contentElem, className }) => {
 
   useEffect(() => {
     const handleScroll = () => {
+      if (typeof window === 'undefined') return
+
       setBeginningActive(window.scrollY === 0)
     }
 

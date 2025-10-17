@@ -1,3 +1,5 @@
+'use client'
+
 import { NetworkStatus, QueryHookOptions, useQuery } from '@apollo/client'
 import { useMemo, useState } from 'react'
 

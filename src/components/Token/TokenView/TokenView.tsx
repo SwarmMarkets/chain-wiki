@@ -1,3 +1,5 @@
+'use client'
+
 import { useRef } from 'react'
 import { TokenViewProps } from '.'
 import TokenViewActions from './TokenViewActions'

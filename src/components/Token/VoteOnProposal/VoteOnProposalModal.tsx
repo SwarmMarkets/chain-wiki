@@ -1,3 +1,5 @@
+'use client'
+
 import { BasicModalProps } from 'src/shared/types/common-props'
 import { useTranslation } from 'react-i18next'
 import VoteOnProposalForm from './VoteOnProposalForm'

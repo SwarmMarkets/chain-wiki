@@ -1,11 +1,14 @@
-import queryString from 'query-string'
+'use client'
+
 import React from 'react'
+import Link from 'next/link'
+import { useSearchParams, usePathname } from 'next/navigation'
 import { useTranslation } from 'react-i18next'
-import { Link, useLocation } from 'react-router-dom'
 import Checkbox from 'src/components/ui-kit/Checkbox/Checkbox'
 import { TokenUriUpdatesQuery } from 'src/queries/gql/graphql'
 import Card from '../../ui-kit/Card'
 import dayjs from 'dayjs'
+import queryString from 'query-string'
 
 interface HistoryTokenListProps {
   onSelectTokens: (tokens: TokenUriUpdatesQuery['tokenURIUpdates']) => void
@@ -18,7 +21,8 @@ const HistoryTokenList: React.FC<HistoryTokenListProps> = ({
   selectedTokens,
   history,
 }) => {
-  const location = useLocation()
+  const searchParams = useSearchParams()
+  const pathname = usePathname()
   const { t } = useTranslation('history')
 
   const onChangeCheckbox = (
@@ -39,6 +43,8 @@ const HistoryTokenList: React.FC<HistoryTokenListProps> = ({
     onSelectTokens([])
   }
 
+  const currentQuery = Object.fromEntries(searchParams.entries())
+
   return (
     <div className='flex flex-col gap-3'>
       {history &&
@@ -53,8 +59,8 @@ const HistoryTokenList: React.FC<HistoryTokenListProps> = ({
                 <Link
                   className='text-primary hover:text-primary-accent transition-colors'
                   onClick={resetSelectedTokens}
-                  to={`?${queryString.stringify({
-                    ...queryString.parse(location.search),
+                  href={`${pathname}?${queryString.stringify({
+                    ...currentQuery,
                     oldTokenId: history[0]?.id,
                     newTokenId: item.id,
                   })}`}
@@ -69,8 +75,8 @@ const HistoryTokenList: React.FC<HistoryTokenListProps> = ({
                 <Link
                   className='text-primary hover:text-primary-accent transition-colors'
                   onClick={resetSelectedTokens}
-                  to={`?${queryString.stringify({
-                    ...queryString.parse(location.search),
+                  href={`${pathname}?${queryString.stringify({
+                    ...currentQuery,
                     oldTokenId: history[index + 1]?.id,
                     newTokenId: item.id,
                   })}`}

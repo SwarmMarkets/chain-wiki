@@ -1,0 +1,54 @@
+name: Create Release on Master
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  release:
+    name: Create Release
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checkout the code
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # 2. Set up Git (если нужен для тегов)
+      - name: Set up Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      # 3. Determine next version (пример: автоматически увеличить патч)
+      - name: Get next version
+        id: vars
+        run: |
+          LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.0.0")
+          echo "Latest tag: $LATEST_TAG"
+          IFS='.' read -r MAJOR MINOR PATCH <<< "${LATEST_TAG#v}"
+          PATCH=$((PATCH + 1))
+          NEXT_TAG="v$MAJOR.$MINOR.$PATCH"
+          echo "Next tag: $NEXT_TAG"
+          echo "NEXT_TAG=$NEXT_TAG" >> $GITHUB_ENV
+
+      # 4. Create new tag
+      - name: Create Tag
+        run: |
+          git tag $NEXT_TAG
+          git push origin $NEXT_TAG
+
+      # 5. Create GitHub release
+      - name: Create Release
+        uses: actions/create-release@v1
+        with:
+          tag_name: ${{ env.NEXT_TAG }}
+          release_name: Release ${{ env.NEXT_TAG }}
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

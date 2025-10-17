@@ -1,23 +1,20 @@
-import useTokenURIUpdates from 'src/hooks/subgraph/useTokenURIUpdates'
-import queryString from 'query-string'
-import { useMemo } from 'react'
-import { useLocation } from 'react-router-dom'
+'use client'
+
+import { useSearchParams } from 'next/navigation'
 import HtmlDiffViewer from '../HtmlDiffViewer'
+import useTokenURIUpdates from 'src/hooks/subgraph/useTokenURIUpdates'
 import { OrderDirection, TokenUriUpdate_OrderBy } from 'src/queries/gql/graphql'
 import { useTranslation } from 'react-i18next'
 import dayjs from 'dayjs'
 import Skeleton from 'src/components/ui-kit/Skeleton/Skeleton'
 
 const HistoryTokenDifference = () => {
-  const location = useLocation()
+  const searchParams = useSearchParams()
   const { t } = useTranslation('history')
-  const {
-    oldTokenId,
-    newTokenId,
-  }: { oldTokenId?: string; newTokenId?: string } = useMemo(
-    () => queryString.parse(location.search),
-    [location.search]
-  )
+
+  const oldTokenId = searchParams.get('oldTokenId') || undefined
+  const newTokenId = searchParams.get('newTokenId') || undefined
+
   const { fullTokenUriTokens } = useTokenURIUpdates(
     oldTokenId || '',
     {
@@ -37,7 +34,7 @@ const HistoryTokenDifference = () => {
       {fullTokenUriTokens ? (
         <>
           <div className='flex'>
-            {fullTokenUriTokens?.map(token => (
+            {fullTokenUriTokens.map(token => (
               <div
                 className='flex flex-1 justify-center items-center flex-col'
                 key={token.id}
