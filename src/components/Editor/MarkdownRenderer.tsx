@@ -100,14 +100,13 @@ const MarkdownRenderer = forwardRef<HTMLDivElement, MarkdownRendererProps>(
               const isRelative = href.startsWith('/')
 
               const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-                if (isRelative) {
-                  e.preventDefault()
-                  router.push(href)
-                }
+                e.preventDefault()
+                router.push(href)
               }
 
               return (
                 <a
+                  href={href}
                   {...rest}
                   {...(isRelative
                     ? { onClick: handleClick }
