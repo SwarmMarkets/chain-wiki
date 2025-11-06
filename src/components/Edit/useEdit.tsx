@@ -82,7 +82,7 @@ const useEdit = (readonly?: boolean) => {
     { fetchFullData: true }
   )
 
-  // Генерация уникальных slug-ов: авто-инкремент ТОЛЬКО для дефолтных slug-ов новых страниц
+  // Generation of unique slugs: auto-increment ONLY for default slugs of new pages
   const normalizeSlugs = (
     addedTokens: EditingToken[],
     editedTokens: EditingToken[],
@@ -91,10 +91,10 @@ const useEdit = (readonly?: boolean) => {
   ) => {
     const DEFAULT_PAGE_SLUG = 'page'
 
-    // Занятые slug'и текущего сайта (из блокчейна)
+    // Busy slugs of the current site (from the blockchain)
     const occupiedSlugs = new Set(fullTokens.map(t => t.slug))
 
-    // 1) Обработать добавленные страницы: только дефолтные slug'и получают инкремент
+    // 1) Process added pages: only default slugs receive increments
     const nextSlugForDefault = (base: string): string => {
       if (base !== DEFAULT_PAGE_SLUG) return base
       let index = 0
@@ -112,14 +112,14 @@ const useEdit = (readonly?: boolean) => {
       return { ...t, slug: finalSlug }
     })
 
-    // 2) Отредактированные страницы: не меняем slug здесь (валидируется в форме)
-    // Но помечаем занятые, чтобы исключить коллизии с последующими шагами
+    // 2) Edited pages: we don't change the slug here (validated in the form)
+    // But we mark them as busy to avoid conflicts with subsequent steps
     const normalizedEditedTokens: EditingToken[] = editedTokens.map(t => {
       occupiedSlugs.add(t.slug)
       return t
     })
 
-    // 3) Применить slug'и к indexPages
+    // 3) Apply slugs to indexPages
     const updatedSlugsMap: Record<string, string> = Object.fromEntries([
       ...normalizedAddedTokens.map(t => [t.id, t.slug] as const),
       ...normalizedEditedTokens.map(t => [t.id, t.slug] as const),
@@ -419,7 +419,7 @@ const useEdit = (readonly?: boolean) => {
     const newTitle = 'New Page'
     const DEFAULT_PAGE_SLUG = 'page'
 
-    // Соберём занятые slug'и: существующие и уже добавленные/отредактированные
+    // Let's collect the busy slugs: existing and already added/edited ones
     const occupied = new Set<string>([
       ...(fullTokens?.map(t => t.slug) || []),
       ...editedIndexPages.items.map(p => p.slug),
