@@ -158,12 +158,14 @@ const MarkdownRenderer = forwardRef<HTMLDivElement, MarkdownRendererProps>(
                 />
               ),
               table: (props: any) => (
-                <ParagraphWithComment
-                  onClickComment={onClickComment}
-                  count={commentIdsBySectionId[props.id]?.length}
-                  {...props}
-                  tag='table'
-                />
+                <div className='overflow-x-auto'>
+                  <ParagraphWithComment
+                    onClickComment={onClickComment}
+                    count={commentIdsBySectionId[props.id]?.length}
+                    {...props}
+                    tag='table'
+                  />
+                </div>
               ),
             }),
           },
