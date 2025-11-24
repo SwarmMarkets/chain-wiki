@@ -31,10 +31,9 @@ const NftImplementationGuard: React.FC<Props> = ({ nftAddress, children }) => {
 
   const loading = loadingFactoryImpl || loadingNftImpl
   const mismatch =
-    true ||
-    (!!factoryImplementation &&
-      !!nftImplementation &&
-      !isSameEthereumAddress(factoryImplementation, nftImplementation))
+    !!factoryImplementation &&
+    !!nftImplementation &&
+    !isSameEthereumAddress(factoryImplementation, nftImplementation)
 
   if (!nftAddress || loading || !mismatch || upgradeInitiated) {
     return <>{children}</>
