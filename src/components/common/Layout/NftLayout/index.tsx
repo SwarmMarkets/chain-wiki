@@ -8,6 +8,7 @@ import useNFTIdParam from 'src/hooks/useNftIdParam'
 import NftLayoutHeader from './NftLayoutHeader'
 import NftLayoutSideBar from './NftLayoutSideBar'
 import Routes from 'src/shared/consts/routes'
+import NftImplementationGuard from '../NftImplementationGuard'
 
 const NftLayout: React.FC<PropsWithChildren> = ({ children }) => {
   const router = useRouter()
@@ -27,13 +28,15 @@ const NftLayout: React.FC<PropsWithChildren> = ({ children }) => {
   }, [loading, permissions, router])
 
   return (
-    <div className='h-full flex flex-col'>
-      <NftLayoutHeader nft={nft} loading={loading} />
-      <div className='flex flex-1 overflow-hidden'>
-        <NftLayoutSideBar nft={nft} loading={loading} />
-        <div className='flex-1 overflow-auto p-4'>{children}</div>
+    <NftImplementationGuard nftAddress={nft?.id || nftId}>
+      <div className='h-full flex flex-col'>
+        <NftLayoutHeader nft={nft} loading={loading} />
+        <div className='flex flex-1 overflow-hidden'>
+          <NftLayoutSideBar nft={nft} loading={loading} />
+          <div className='flex-1 overflow-auto p-4'>{children}</div>
+        </div>
       </div>
-    </div>
+    </NftImplementationGuard>
   )
 }
 
