@@ -34,8 +34,7 @@ const useNftPermissions = (nftAddress?: string) => {
   const { nft, loadingNft, refetchingNft } = useNFT(address)
 
   const account = useActiveAccount()
-  const { smartAccountInfo, isLoading: isSmartAccountLoading } =
-    useSmartAccount()
+  const { smartAccountInfo } = useSmartAccount()
   const connected = useActiveWalletConnectionStatus()
 
   const getPermissionsByAddress = useCallback(
@@ -90,7 +89,7 @@ const useNftPermissions = (nftAddress?: string) => {
     permissions,
     smartAccountPermissions,
     hasPermission,
-    loading: (loadingNft && !refetchingNft) || isSmartAccountLoading,
+    loading: loadingNft && !refetchingNft,
   }
 }
 

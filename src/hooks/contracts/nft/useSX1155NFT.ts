@@ -21,10 +21,12 @@ import {
   SetTokenKyaParams,
   updateTokenSlug,
   UpdateTokenSlugParams,
+  upgradeToAndCall,
+  UpgradeToAndCallParams,
 } from 'src/thirdweb/nft'
 
-const useSX1155NFT = (contractAddress: string) => {
-  const { contract } = useContract(contractAddress, SX1155NFTABI as Abi)
+const useSX1155NFT = (contractAddress?: string) => {
+  const { contract } = useContract(contractAddress || '', SX1155NFTABI as Abi)
 
   const prepareMintTx = (params: MintParams) => {
     if (!contract) return null
@@ -96,6 +98,13 @@ const useSX1155NFT = (contractAddress: string) => {
     return tx
   }
 
+  const prepareUpgradeToAndCallTx = (params: UpgradeToAndCallParams) => {
+    if (!contract) return null
+
+    const tx = upgradeToAndCall({ contract, ...params })
+    return tx
+  }
+
   return {
     contract,
     prepareMintTx,
@@ -108,6 +117,7 @@ const useSX1155NFT = (contractAddress: string) => {
     prepareSetTokenKyaTx,
     prepareSetContractSlugTx,
     prepareUpdateTokenSlugTx,
+    prepareUpgradeToAndCallTx,
   }
 }
 

@@ -34,5 +34,13 @@
     "title": "Select a Network",
     "description": "This site exists on multiple networks. Please pick one to continue.",
     "noNfts": "No site found on any network."
+  },
+  "factoryUpgrade": {
+    "title": "Update required",
+    "description": "This site is using an outdated implementation. Please upgrade to keep managing it.",
+    "action": "Upgrade implementation",
+    "expected": "Expected implementation",
+    "current": "Current implementation",
+    "successMessage": "Upgrade transaction sent"
   }
 }

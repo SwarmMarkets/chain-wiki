@@ -7,6 +7,7 @@ import {
   UpdateChainWikiSlugParams,
   deployChainWiki,
   updateChainWikiSlug,
+  upgradeImplementation,
 } from 'src/thirdweb/factory'
 
 const useSX1155NFTFactory = () => {
@@ -25,6 +26,7 @@ const useSX1155NFTFactory = () => {
 
     return deployChainWikiTx
   }
+
   const prepareUpdateChainWikiSlugTx = (params: UpdateChainWikiSlugParams) => {
     if (!contract) return null
 
@@ -36,7 +38,21 @@ const useSX1155NFTFactory = () => {
     return deployChainWikiTx
   }
 
-  return { contract, prepareDeployChainWikiTx, prepareUpdateChainWikiSlugTx }
+  const prepareUpgradeImplementationTx = (newImplementation: string) => {
+    if (!contract) return null
+
+    return upgradeImplementation({
+      contract,
+      newImplementation: newImplementation as '0x{string}',
+    })
+  }
+
+  return {
+    contract,
+    prepareDeployChainWikiTx,
+    prepareUpdateChainWikiSlugTx,
+    prepareUpgradeImplementationTx,
+  }
 }
 
 export default useSX1155NFTFactory

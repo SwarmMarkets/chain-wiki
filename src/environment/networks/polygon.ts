@@ -7,6 +7,8 @@ export const polygonEnvironment: NetworkConfiguration = Object.freeze({
   apiKey: 'f9tEp28A9xi7WP8hYoD11jSmeAnkwaAK9755i5NqoUE=',
   contracts: {
     sx1155NFTFactoryAddress: '0x9bfF9401F1807cDC9DcF48E67869Cf555244cE7C',
+    sx1155NFTImplementationAddress:
+      process.env.NEXT_PUBLIC_SX1155_IMPLEMENTATION_POLYGON || '',
   },
 })
 

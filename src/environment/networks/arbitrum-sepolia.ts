@@ -5,6 +5,8 @@ export const arbitrumSepoliaEnvironment: NetworkConfiguration = Object.freeze({
   subgraphURL: `https://gateway.thegraph.com/api/subgraphs/id/5e8ucLJSGPd2fy54u8GuaLctKHSWPctUPLYqtTHpL1JX`,
   contracts: {
     sx1155NFTFactoryAddress: '0xD80738Df6a3ad838fbD6c8aF93DEE55BD93070A9',
+    sx1155NFTImplementationAddress:
+      process.env.NEXT_PUBLIC_SX1155_IMPLEMENTATION_ARBITRUM_SEPOLIA || '',
   },
 })
 
