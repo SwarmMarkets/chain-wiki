@@ -9,11 +9,7 @@ import {
 export const commonAppoloClientConfig = {
   cache: new InMemoryCache(),
   headers: {
-    Authorization: `Bearer ${
-      staticConfig.isDevMode
-        ? environment.subgraphDevApiKey
-        : environment.subgraphApiKey
-    }`,
+    Authorization: `Bearer ${environment.subgraphApiKey}`,
   },
 }
 

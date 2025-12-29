@@ -7,13 +7,13 @@ import NftList from 'src/components/Nft/NftList'
 import useNFTExamples from 'src/hooks/subgraph/useNFTExamples'
 import useNFTs from 'src/hooks/subgraph/useNFTs'
 import { Nft_OrderBy, OrderDirection } from 'src/queries/gql/graphql'
-import { generateSiteLink } from 'src/shared/utils'
+import { generateSiteLink, unifyAddress } from 'src/shared/utils'
 import ClientProviders from 'src/app/client-providers'
 
 const HomePage = () => {
   const { t } = useTranslation(['nfts', 'explore'])
   const account = useActiveAccount()
-  const address = account?.address
+  const address = unifyAddress(account?.address || '')
 
   const {
     nfts: userNfts,
@@ -24,10 +24,7 @@ const HomePage = () => {
       orderBy: Nft_OrderBy.UpdatedAt,
       orderDirection: OrderDirection.Desc,
       filter: {
-        or: [
-          { admins_contains_nocase: [address!] },
-          { editors_contains_nocase: [address!] },
-        ],
+        or: [{ admins_contains: [address] }, { editors_contains: [address] }],
       },
     },
     skip: !address,

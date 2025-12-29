@@ -10,7 +10,7 @@ import ExpandableListItem, {
 } from 'src/components/ExpandableList/ExpandableListItem'
 import useNFTs from 'src/hooks/subgraph/useNFTs'
 import { Nft_OrderBy, OrderDirection } from 'src/queries/gql/graphql'
-import { isSameEthereumAddress } from 'src/shared/utils'
+import { isSameEthereumAddress, unifyAddress } from 'src/shared/utils'
 import CreateNftModal from 'src/components/CreateNft/CreateNftModal'
 import useModalState from 'src/hooks/useModalState'
 import Icon from 'src/components/ui-kit/Icon/Icon'
@@ -22,17 +22,14 @@ import Routes from 'src/shared/consts/routes'
 const SideBar = () => {
   const { t } = useTranslation('layout', { keyPrefix: 'sidebar' })
   const account = useActiveAccount()
-  const address = account?.address || ''
+  const address = unifyAddress(account?.address || '')
   const { nftId } = useNFTIdParam()
   const pathname = usePathname()
 
   const { nfts } = useNFTs({
     variables: {
       filter: {
-        or: [
-          { admins_contains_nocase: [address] },
-          { editors_contains_nocase: [address] },
-        ],
+        or: [{ admins_contains: [address] }, { editors_contains: [address] }],
       },
       orderBy: Nft_OrderBy.CreatedAt,
       orderDirection: OrderDirection.Desc,
