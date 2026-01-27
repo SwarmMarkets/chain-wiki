@@ -4,7 +4,7 @@ import { environment } from 'src/environment'
 const githubApi = axios.create({
   baseURL: 'https://api.github.com',
   headers: {
-    Authorization: `Bearer ${environment.girhubToken}`,
+    Authorization: `Bearer ${environment.githubToken}`,
   },
 })
 
