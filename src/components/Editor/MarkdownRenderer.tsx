@@ -38,6 +38,12 @@ const MarkdownRenderer = forwardRef<HTMLDivElement, MarkdownRendererProps>(
     const commentIdsBySectionId = groupBy(commentsIds, 'sectionId')
 
     const Content = useMemo(() => {
+      const normalizedMarkdown =
+        false
+          ? markdown.replace(/https?:\/\/[^\s)]+/g, match =>
+              match.replace(/\\/g, '')
+            )
+          : markdown
       const processor = unified()
         .use(remarkParse)
         .use(remarkGfm)
@@ -97,22 +103,38 @@ const MarkdownRenderer = forwardRef<HTMLDivElement, MarkdownRendererProps>(
               // eslint-disable-next-line react-hooks/rules-of-hooks
               const router = useRouter()
               const { href, children, ...rest } = props
-              const isRelative = href.startsWith('/')
+              console.log(href)
+              const normalizedHref =
+                typeof href === 'string'
+                  ? href.replace(/\\/g, '').replace(/%5C/gi, '')
+                  : href
+
+              console.log(normalizedHref)
+              const isRelative =
+                typeof normalizedHref === 'string' &&
+                normalizedHref.startsWith('/')
 
               const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
                 e.preventDefault()
-                router.push(href)
+                if (typeof normalizedHref === 'string') {
+                  router.push(normalizedHref)
+                }
               }
+
+              const normalizedChildren = React.Children.map(children, child => {
+                if (typeof child !== 'string') return child
+                return child.replace(/\\/g, '').replace(/%5C/gi, '')
+              })
 
               return (
                 <a
-                  href={href}
+                  href={normalizedHref}
                   {...rest}
                   {...(isRelative
                     ? { onClick: handleClick }
                     : { target: '_blank', rel: 'noopener noreferrer' })}
                 >
-                  {children}
+                  {normalizedChildren}
                 </a>
               )
             },
@@ -171,7 +193,7 @@ const MarkdownRenderer = forwardRef<HTMLDivElement, MarkdownRendererProps>(
           },
         })
 
-      const file = processor.processSync(markdown)
+      const file = processor.processSync(normalizedMarkdown)
       return file.result
     }, [
       commentIdsBySectionId,
