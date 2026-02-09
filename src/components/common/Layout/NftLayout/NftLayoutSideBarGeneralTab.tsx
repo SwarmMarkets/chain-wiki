@@ -2,7 +2,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import Card from 'src/components/ui-kit/Card'
 import { useCustomizationStore } from 'src/shared/store/customization-store'
-import { NFTWithMetadata } from 'src/shared/utils'
+import { ipfsToHttp, NFTWithMetadata } from 'src/shared/utils'
 import UploadFileButton from '../../UploadFileButton'
 import useOnFirstMount from 'src/components/ui-kit/hooks/useOnFirstMount'
 
@@ -40,6 +40,8 @@ const NftLayoutSideBarGeneralTab: React.FC<NftLayoutSideBarGeneralTabProps> = ({
     setLogoUrl(url)
   }
 
+  const displayIconLogoUrl = iconLogoUrl ? ipfsToHttp(iconLogoUrl) : iconLogoUrl
+
   return (
     <Card>
       <h4 className='typo-title2 text-main-accent font-semibold'>
@@ -55,7 +57,7 @@ const NftLayoutSideBarGeneralTab: React.FC<NftLayoutSideBarGeneralTabProps> = ({
           <div className='p-1 bg-gray-100 rounded-md flex items-center justify-center w-10 h-10 shrink-0'>
             {iconLogoUrl && (
               <img
-                src={iconLogoUrl}
+                src={displayIconLogoUrl}
                 className='w-5 h-5 object-contain rounded'
                 alt='icon'
               />

@@ -15,6 +15,7 @@ import { visit } from 'unist-util-visit'
 import Icon from '../ui-kit/Icon/Icon'
 import IconButton from '../ui-kit/IconButton'
 import useCommentIds from 'src/hooks/subgraph/useCommentIds'
+import { ipfsToHttp } from 'src/shared/utils'
 import { groupBy } from 'lodash'
 import { useRouter } from 'next/navigation'
 
@@ -137,6 +138,13 @@ const MarkdownRenderer = forwardRef<HTMLDivElement, MarkdownRendererProps>(
                   {normalizedChildren}
                 </a>
               )
+            },
+            img: (props: any) => {
+              const { src, ...rest } = props
+              const normalizedSrc =
+                typeof src === 'string' ? ipfsToHttp(src) : src
+
+              return <img src={normalizedSrc} {...rest} />
             },
             ...(showComments && {
               p: (props: any) => (

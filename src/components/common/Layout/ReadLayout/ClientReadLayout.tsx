@@ -13,6 +13,7 @@ import Drawer from 'src/components/ui-kit/Drawer'
 import useBreakpoint from 'src/hooks/ui/useBreakpoint'
 import { ReadParams } from 'src/shared/consts/routes'
 import {
+  ipfsToHttp,
   IpfsIndexPage,
   NFTWithMetadata,
   TokensQueryFullData,
@@ -73,7 +74,7 @@ const ClientReadLayout: React.FC<ClientReadLayoutProps> = ({
       const favicon = document.querySelector(
         "link[rel~='icon']"
       ) as HTMLLinkElement | null
-      if (favicon) favicon.href = nft.iconLogoUrl
+      if (favicon) favicon.href = ipfsToHttp(nft.iconLogoUrl)
     }
   }, [nft?.name, nft?.iconLogoUrl, preview])
 

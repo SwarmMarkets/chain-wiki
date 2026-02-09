@@ -10,7 +10,7 @@ import ExpandableListItem, {
 } from 'src/components/ExpandableList/ExpandableListItem'
 import useNFTs from 'src/hooks/subgraph/useNFTs'
 import { Nft_OrderBy, OrderDirection } from 'src/queries/gql/graphql'
-import { isSameEthereumAddress, unifyAddress } from 'src/shared/utils'
+import { ipfsToHttp, isSameEthereumAddress, unifyAddress } from 'src/shared/utils'
 import CreateNftModal from 'src/components/CreateNft/CreateNftModal'
 import useModalState from 'src/hooks/useModalState'
 import Icon from 'src/components/ui-kit/Icon/Icon'
@@ -98,7 +98,9 @@ const SideBar = () => {
               </div>
             ),
             icon: 'internet',
-            iconImageUrl: nft.iconLogoUrl,
+            iconImageUrl: nft.iconLogoUrl
+              ? ipfsToHttp(nft.iconLogoUrl)
+              : nft.iconLogoUrl,
             active: isSameEthereumAddress(nftId, nft.id),
             to: Routes.manager.nft(nft.slug),
           }))}
