@@ -1,7 +1,7 @@
 import clsx from 'clsx'
 import React from 'react'
 import { useCustomizationStore } from 'src/shared/store/customization-store'
-import { NFTWithMetadata } from 'src/shared/utils'
+import { ipfsToHttp, NFTWithMetadata } from 'src/shared/utils'
 import ReadHeaderSkeleton from './ReadHeaderSkeleton'
 import IconButton from 'src/components/ui-kit/IconButton'
 import Icon from 'src/components/ui-kit/Icon/Icon'
@@ -31,7 +31,8 @@ const ReadHeader: React.FC<ReadHeaderProps> = ({
     ? customization.linksColor
     : nft?.headerLinksContent?.color
 
-  const logoUrl = preview ? customization.logoUrl : nft?.logoUrl
+  const rawLogoUrl = preview ? customization.logoUrl : nft?.logoUrl
+  const logoUrl = rawLogoUrl ? ipfsToHttp(rawLogoUrl) : rawLogoUrl
 
   const linkStyle = headerLinksColor
     ? {
