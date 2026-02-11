@@ -1,9 +1,8 @@
 'use client'
 
 import { MDXEditorMethods } from '@mdxeditor/editor'
-import React, { useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import Editor from 'src/components/Editor'
-import useEffectCompare from 'src/hooks/useEffectCompare'
 import { useEditingStore } from 'src/shared/store/editing-store'
 import useEdit from './useEdit'
 
@@ -21,11 +20,24 @@ const EditorView: React.FC<EditorViewProps> = ({ content }) => {
 
   const mdxRef = useRef<MDXEditorMethods>(null)
 
-  useEffectCompare(() => {
+  const lastTokenIdRef = useRef<string | null>(null)
+
+  useEffect(() => {
     if (!currEditableToken) return
-    mdxRef.current?.setMarkdown(content)
-    mdxRef.current?.focus()
-  }, [currEditableToken])
+
+    const tokenId = currEditableToken.tokenId
+    const tokenChanged = lastTokenIdRef.current !== tokenId
+    const currentContent = mdxRef.current?.getMarkdown?.() ?? ''
+
+    if (tokenChanged || content !== currentContent) {
+      mdxRef.current?.setMarkdown(content)
+    }
+
+    if (tokenChanged) {
+      mdxRef.current?.focus()
+      lastTokenIdRef.current = tokenId
+    }
+  }, [content, currEditableToken])
 
   const updateContent = (content: string) => {
     if (currEditableToken) {
