@@ -1,7 +1,17 @@
+import { SafeClientTxStatus } from '@safe-global/sdk-starter-kit/dist/src/constants'
 import differenceWith from 'lodash/differenceWith'
+import Link from 'next/link'
+import { useParams, usePathname } from 'next/navigation'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import useSX1155NFT from 'src/hooks/contracts/nft/useSX1155NFT'
 import useNFT from 'src/hooks/subgraph/useNFT'
 import useTokens from 'src/hooks/subgraph/useTokens'
+import useNFTIdParam from 'src/hooks/useNftIdParam'
+import useActiveOrDefaultChain from 'src/hooks/web3/useActiveOrDefaultChain'
+import { useIpfsUpload } from 'src/hooks/web3/useIpfsUpload'
+import useSendBatchTxs from 'src/hooks/web3/useSendBatchTxs'
+import Routes, { ChainParam, MParams } from 'src/shared/consts/routes'
 import {
   EditedIndexPagesState,
   EditingToken,
@@ -12,27 +22,16 @@ import {
   TokensQueryFullData,
   unifyAddressToId,
 } from 'src/shared/utils'
+import { PreparedTransaction } from 'thirdweb'
+import { useActiveAccount } from 'thirdweb/react'
+import { HIDDEN_INDEX_PAGES_ID } from './const'
+import { EditNodeModel } from './EditIndexPagesTree/types'
 import {
   convertIndexPagesToNodes,
   convertNodesToIndexPages,
   convertTokensToIndexPages,
   isHiddenList,
 } from './utils'
-import { HIDDEN_INDEX_PAGES_ID } from './const'
-import { EditNodeModel } from './EditIndexPagesTree/types'
-import { SafeClientTxStatus } from '@safe-global/sdk-starter-kit/dist/src/constants'
-import useNFTIdParam from 'src/hooks/useNftIdParam'
-import { useActiveAccount } from 'thirdweb/react'
-import { PreparedTransaction } from 'thirdweb'
-import { useIpfsUpload } from 'src/hooks/web3/useIpfsUpload'
-import useSX1155NFT from 'src/hooks/contracts/nft/useSX1155NFT'
-import useSendBatchTxs from 'src/hooks/web3/useSendBatchTxs'
-import { useTranslation } from 'react-i18next'
-import Routes, { ChainParam } from 'src/shared/consts/routes'
-import Link from 'next/link'
-import useActiveOrDefaultChain from 'src/hooks/web3/useActiveOrDefaultChain'
-import useFullTokenIdParam from 'src/hooks/useFullTokenIdParam'
-import { usePathname } from 'next/navigation'
 
 const useEdit = (readonly?: boolean) => {
   const { t } = useTranslation('common')
@@ -45,7 +44,7 @@ const useEdit = (readonly?: boolean) => {
   })
   const account = useActiveAccount()
   const chain = useActiveOrDefaultChain()
-  const fullTokenId = useFullTokenIdParam()
+  const { tokenIdOrSlug = '' } = useParams<MParams['token']>()
 
   const {
     editedTokens,
@@ -62,10 +61,8 @@ const useEdit = (readonly?: boolean) => {
   } = useEditingStore()
 
   const currEditableToken = useMemo(() => {
-    return nft?.indexPagesContent?.indexPages.find(
-      ip => ip.tokenId === fullTokenId
-    )
-  }, [fullTokenId, nft?.indexPagesContent?.indexPages])
+    return editedIndexPages.items.find(ip => ip.slug === tokenIdOrSlug)
+  }, [editedIndexPages.items, tokenIdOrSlug])
 
   const prevNftIdRef = useRef<string | null>(null)
 
