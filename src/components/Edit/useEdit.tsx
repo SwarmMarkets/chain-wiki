@@ -32,6 +32,7 @@ import {
   convertTokensToIndexPages,
   isHiddenList,
 } from './utils'
+import useFullTokenIdParam from 'src/hooks/useFullTokenIdParam'
 
 const useEdit = (readonly?: boolean) => {
   const { t } = useTranslation('common')
@@ -44,7 +45,7 @@ const useEdit = (readonly?: boolean) => {
   })
   const account = useActiveAccount()
   const chain = useActiveOrDefaultChain()
-  const { tokenIdOrSlug = '' } = useParams<MParams['token']>()
+  const fullTokenId = useFullTokenIdParam()
 
   const {
     editedTokens,
@@ -61,8 +62,8 @@ const useEdit = (readonly?: boolean) => {
   } = useEditingStore()
 
   const currEditableToken = useMemo(() => {
-    return editedIndexPages.items.find(ip => ip.slug === tokenIdOrSlug)
-  }, [editedIndexPages.items, tokenIdOrSlug])
+    return editedIndexPages.items.find(ip => ip.slug === fullTokenId)
+  }, [editedIndexPages.items, fullTokenId])
 
   const prevNftIdRef = useRef<string | null>(null)
 
