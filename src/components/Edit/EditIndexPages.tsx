@@ -12,8 +12,13 @@ const EditIndexPages = () => {
   const { t } = useTranslation('edit', { keyPrefix: 'indexPages' })
   const { nftIdOrSlug } = useParams<MParams['token']>()
 
-  const { addIndexPage, updateOrCreateAddedToken, addedTokens } =
-    useEditingStore()
+  const {
+    addIndexPage,
+    updateOrCreateAddedToken,
+    addedTokens,
+    editedTokens,
+    editedIndexPages,
+  } = useEditingStore()
   const { currEditableToken } = useEdit()
 
   const {
@@ -27,13 +32,25 @@ const EditIndexPages = () => {
   const router = useRouter()
 
   const handleIndexPageClick = (id: string) => {
-    const token = fullTokens?.find(t => t.id === id)
     const addedToken = addedTokens.find(t => t.id === id)
-
     if (addedToken) {
       router.replace(Routes.manager.edit(nftIdOrSlug, addedToken.slug))
       return
     }
+
+    const editedIndexPage = editedIndexPages.items.find(p => p.tokenId === id)
+    if (editedIndexPage) {
+      router.replace(Routes.manager.edit(nftIdOrSlug, editedIndexPage.slug))
+      return
+    }
+
+    const editedToken = editedTokens.find(t => t.id === id)
+    if (editedToken) {
+      router.replace(Routes.manager.edit(nftIdOrSlug, editedToken.slug))
+      return
+    }
+
+    const token = fullTokens?.find(t => t.id === id)
     if (token) {
       router.replace(Routes.manager.edit(nftIdOrSlug, token.slug))
     }
@@ -86,6 +103,22 @@ const EditIndexPages = () => {
     }
   }
 
+  const handleUpdateName = (
+    id: string,
+    data: { name: string; slug: string }
+  ) => {
+    updateTokenName(id, data)
+
+    const isCurrent =
+      currEditableToken?.tokenId === id ||
+      currEditableToken?.slug === id ||
+      currEditableToken?.slug === data.slug
+
+    if (isCurrent && nftIdOrSlug && data.slug) {
+      router.replace(Routes.manager.edit(nftIdOrSlug, data.slug))
+    }
+  }
+
   return (
     <div className='flex flex-col h-full'>
       <div className='flex-1 overflow-auto'>
@@ -95,7 +128,7 @@ const EditIndexPages = () => {
           onClick={handleIndexPageClick}
           treeData={treeData}
           onDrop={updateIndexPagesByTreeNodes}
-          onUpdateName={updateTokenName}
+          onUpdateName={handleUpdateName}
         />
       </div>
 
