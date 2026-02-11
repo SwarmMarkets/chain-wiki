@@ -1,5 +1,5 @@
 import differenceWith from 'lodash/differenceWith'
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import useNFT from 'src/hooks/subgraph/useNFT'
 import useTokens from 'src/hooks/subgraph/useTokens'
 import {
@@ -32,12 +32,16 @@ import Routes, { ChainParam } from 'src/shared/consts/routes'
 import Link from 'next/link'
 import useActiveOrDefaultChain from 'src/hooks/web3/useActiveOrDefaultChain'
 import useFullTokenIdParam from 'src/hooks/useFullTokenIdParam'
+import { usePathname } from 'next/navigation'
 
 const useEdit = (readonly?: boolean) => {
   const { t } = useTranslation('common')
   const { nftId } = useNFTIdParam()
+  const pathname = usePathname()
+  const isEditMode = pathname.includes('/edit/')
   const { nft, loadingNft, refetchingNft } = useNFT(nftId, {
     fetchFullData: true,
+    disableRefetch: isEditMode,
   })
   const account = useActiveAccount()
   const chain = useActiveOrDefaultChain()
@@ -63,9 +67,44 @@ const useEdit = (readonly?: boolean) => {
     )
   }, [fullTokenId, nft?.indexPagesContent?.indexPages])
 
+  const prevNftIdRef = useRef<string | null>(null)
+
   useEffect(() => {
+    if (!nft) return
+
+    const prevNftId = prevNftIdRef.current
+    const isNewNft = Boolean(prevNftId && prevNftId !== nftId)
+
+    if (isNewNft) {
+      resetTokens()
+      initIndexPages(nft?.indexPagesContent?.indexPages || [])
+      prevNftIdRef.current = nftId
+      return
+    }
+
+    if (!prevNftId) {
+      prevNftIdRef.current = nftId
+    }
+
+    if (
+      editedIndexPages.isEdited ||
+      addedTokens.length > 0 ||
+      editedTokens.length > 0
+    ) {
+      return
+    }
+
     initIndexPages(nft?.indexPagesContent?.indexPages || [])
-  }, [initIndexPages, nft?.indexPagesContent?.indexPages])
+  }, [
+    addedTokens.length,
+    editedIndexPages.isEdited,
+    editedTokens.length,
+    initIndexPages,
+    nft,
+    nft?.indexPagesContent?.indexPages,
+    nftId,
+    resetTokens,
+  ])
 
   const {
     fullTokens,
@@ -79,7 +118,7 @@ const useEdit = (readonly?: boolean) => {
       },
       skip: !nftId,
     },
-    { fetchFullData: true }
+    { fetchFullData: true, disableRefetch: isEditMode }
   )
 
   // Generation of unique slugs: auto-increment ONLY for default slugs of new pages

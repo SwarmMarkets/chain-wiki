@@ -44,10 +44,11 @@ const NftLayoutHeader: React.FC<NftLayoutHeaderProps> = ({ nft, loading }) => {
     nft?.indexPagesContent?.indexPages
   )
 
-  const editHref = Routes.manager.edit(
-    nft?.slug || '',
-    tokenIdOrSlug || firstToken?.slug || ''
-  )
+  const editHref = tokenIdOrSlug
+    ? Routes.manager.edit(nft?.slug || '', tokenIdOrSlug)
+    : firstToken?.slug
+      ? Routes.manager.edit(nft?.slug || '', firstToken.slug)
+      : Routes.manager.editRoot(nft?.slug || '')
 
   const customizationHref = Routes.manager.settings(
     nft?.slug || '',

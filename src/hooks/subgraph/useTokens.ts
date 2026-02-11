@@ -17,6 +17,7 @@ const POLL_INTERVAL = 15000
 
 interface UseTokensConfig {
   fetchFullData?: boolean
+  disableRefetch?: boolean
 }
 
 const useTokens = (
@@ -31,7 +32,7 @@ const useTokens = (
     {
       fetchPolicy: 'cache-first',
       notifyOnNetworkStatusChange: true,
-      pollInterval: POLL_INTERVAL,
+      pollInterval: config?.disableRefetch ? undefined : POLL_INTERVAL,
       ...options,
       variables: {
         limit: PAGE_LIMIT,
