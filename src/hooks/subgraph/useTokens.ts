@@ -12,7 +12,7 @@ import {
 import { TokensQuery } from 'src/queries'
 import { useIpfsDownload } from '../web3/useIpfsDownload'
 
-const PAGE_LIMIT = 10
+const PAGE_LIMIT = 100
 const POLL_INTERVAL = 15000
 
 interface UseTokensConfig {

@@ -10,7 +10,7 @@ import { getChainByName } from 'src/shared/utils'
 
 interface LayoutProps {
   children: React.ReactNode
-  params: Promise<ReadParams['token']>
+  params: Promise<ReadParams['nft']>
 }
 
 const Layout: React.FC<LayoutProps> = async ({ children, params: _params }) => {
