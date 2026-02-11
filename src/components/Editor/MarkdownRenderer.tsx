@@ -104,13 +104,11 @@ const MarkdownRenderer = forwardRef<HTMLDivElement, MarkdownRendererProps>(
               // eslint-disable-next-line react-hooks/rules-of-hooks
               const router = useRouter()
               const { href, children, ...rest } = props
-              console.log(href)
               const normalizedHref =
                 typeof href === 'string'
                   ? href.replace(/\\/g, '').replace(/%5C/gi, '')
                   : href
 
-              console.log(normalizedHref)
               const isRelative =
                 typeof normalizedHref === 'string' &&
                 normalizedHref.startsWith('/')
