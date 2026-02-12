@@ -10,6 +10,7 @@ const Routes = {
     nft: (nftIdOrSlug: string) => `/m/${nftIdOrSlug}`,
     token: (nftIdOrSlug: string, tokenIdOrSlug: string) =>
       `/m/${nftIdOrSlug}/${tokenIdOrSlug}`,
+    editRoot: (nftIdOrSlug: string) => `/m/edit/${nftIdOrSlug}`,
     edit: (nftIdOrSlug: string, tokenIdOrSlug: string) =>
       `/m/edit/${nftIdOrSlug}/${tokenIdOrSlug}`,
     settings: (nftIdOrSlug: string, setting: RoutePathSetting) =>
