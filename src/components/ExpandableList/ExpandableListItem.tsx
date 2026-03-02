@@ -32,7 +32,6 @@ const ExpandableListItem: React.FC<ExpandableListItemProps> = ({
         item.active ? 'text-gray-900' : 'text-gray-700',
         lighter ? 'hover:bg-gray-100' : 'hover:bg-gray-200'
       )}
-      onClick={() => onClickItem?.(item)}
     >
       {item.iconImageUrl ? (
         <img src={item.iconImageUrl} className='max-w-3.5 max-h-3.5' />
@@ -50,10 +49,14 @@ const ExpandableListItem: React.FC<ExpandableListItemProps> = ({
   )
 
   if (item.to) {
-    return <Link href={item.to}>{expandableItem}</Link>
+    return (
+      <Link href={item.to} onClick={() => onClickItem?.(item)}>
+        {expandableItem}
+      </Link>
+    )
   }
 
-  return expandableItem
+  return <div onClick={() => onClickItem?.(item)}>{expandableItem}</div>
 }
 
 export default ExpandableListItem

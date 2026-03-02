@@ -1,5 +1,6 @@
 'use client'
 
+import clsx from 'clsx'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useActiveAccount } from 'thirdweb/react'
@@ -19,7 +20,12 @@ import SiteMenu from './SiteMenu'
 import useNFTIdParam from 'src/hooks/useNftIdParam'
 import Routes from 'src/shared/consts/routes'
 
-const SideBar = () => {
+interface SideBarProps {
+  className?: string
+  onNavigate?: () => void
+}
+
+const SideBar: React.FC<SideBarProps> = ({ className, onNavigate }) => {
   const { t } = useTranslation('layout', { keyPrefix: 'sidebar' })
   const account = useActiveAccount()
   const address = unifyAddress(account?.address || '')
@@ -62,9 +68,18 @@ const SideBar = () => {
   const isActiveLink = (href: string) => pathname === href
 
   return (
-    <aside className='w-64 bg-gray-100 flex flex-col h-full border-r-gray-200 border-r'>
+    <aside
+      className={clsx(
+        'w-64 bg-gray-100 flex flex-col h-full border-r-gray-200 border-r',
+        className
+      )}
+    >
       <nav className='flex flex-col gap-1 flex-1 overflow-y-auto p-4'>
-        <Link href={Routes.manager.home} className='block'>
+        <Link
+          href={Routes.manager.home}
+          className='block'
+          onClick={onNavigate}
+        >
           <ExpandableListItem
             item={{
               id: 'my-nfts',
@@ -104,6 +119,8 @@ const SideBar = () => {
             active: isSameEthereumAddress(nftId, nft.id),
             to: Routes.manager.nft(nft.slug),
           }))}
+          onClickItem={onNavigate ? () => onNavigate() : undefined}
+          defaultOpen
           noMarginLeft
         />
       </nav>
