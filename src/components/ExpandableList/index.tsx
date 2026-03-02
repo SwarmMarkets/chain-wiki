@@ -11,6 +11,7 @@ interface ExpandableListProps {
   items?: IExpandableListItem[]
   noMarginLeft?: boolean
   onClickItem?: (item: IExpandableListItem) => void
+  defaultOpen?: boolean
 }
 
 const ExpandableList: React.FC<ExpandableListProps> = ({
@@ -18,8 +19,9 @@ const ExpandableList: React.FC<ExpandableListProps> = ({
   items = [],
   noMarginLeft,
   onClickItem,
+  defaultOpen = false,
 }) => {
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(defaultOpen)
 
   return (
     <div className='flex flex-col'>
