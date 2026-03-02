@@ -85,10 +85,6 @@ const ClientReadLayout: React.FC<ClientReadLayoutProps> = ({
     }
   }, [nft?.name, nft?.iconLogoUrl, preview])
 
-  const treeData = useMemo(() => {
-    if (!nft?.indexPagesContent?.indexPages) return []
-    return buildTree(nft.indexPagesContent.indexPages, nft.slug, 0, chain)
-  }, [chain, nft?.indexPagesContent?.indexPages, nft?.slug])
   const chainClient = useMemo(() => {
     if (!chain) return null
     const chainName = chainParamResolver[chain]
@@ -138,6 +134,17 @@ const ClientReadLayout: React.FC<ClientReadLayoutProps> = ({
 
     return null
   }, [resolvedFullTokens, initialSelectedToken, resolvedTokenSlugOrId])
+
+  const treeData = useMemo(() => {
+    if (!nft?.indexPagesContent?.indexPages) return []
+    return buildTree(
+      nft.indexPagesContent.indexPages,
+      nft.slug,
+      0,
+      chain,
+      resolvedFullTokens
+    )
+  }, [chain, nft?.indexPagesContent?.indexPages, nft?.slug, resolvedFullTokens])
 
   return (
     <ContentContext>

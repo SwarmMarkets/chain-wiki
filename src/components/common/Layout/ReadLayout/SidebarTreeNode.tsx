@@ -11,6 +11,7 @@ import { IpfsIndexPage } from 'src/shared/utils'
 export interface ISidebarTreeNode extends IpfsIndexPage {
   children: ISidebarTreeNode[]
   to?: string
+  hasContent?: boolean
 }
 
 interface SidebarTreeNodeProps {
@@ -35,6 +36,9 @@ const SidebarTreeNode: React.FC<SidebarTreeNodeProps> = ({
   const isGroup = node.type === 'group'
   const isSelected = selectedId === node.tokenId
   const hasChildren = node.children.length > 0
+  const hasOwnHtmlContent = node.hasContent ?? true
+  const isBranchWithoutOwnContent = hasChildren && !isGroup && !hasOwnHtmlContent
+  const isClickable = !isGroup && !isBranchWithoutOwnContent
 
   const handleExpand = (e: React.MouseEvent) => {
     e.stopPropagation()
@@ -45,17 +49,17 @@ const SidebarTreeNode: React.FC<SidebarTreeNodeProps> = ({
   return (
     <li className='list-none'>
       <DynamicComponent
-        as={node?.to ? LinkPreserveSearch : 'div'}
-        href={node?.to}
-        onClick={() => !isGroup && onSelect?.(node)}
+        as={node?.to && isClickable ? LinkPreserveSearch : 'div'}
+        href={node?.to && isClickable ? node.to : undefined}
+        onClick={() => isClickable && onSelect?.(node)}
         className={clsx(
           'group flex justify-between items-center transition-colors px-3 py-1.5',
           {
             'border-l border-gray-300': !isGroup && !isParentGroup && isChild,
             'border-primary font-medium': isSelected,
-            'hover:bg-primary-muted': isSelected && !isGroup,
-            'hover:bg-gray-100': !isSelected && !isGroup,
-            'cursor-pointer': !isGroup,
+            'hover:bg-primary-muted': isSelected && isClickable,
+            'hover:bg-gray-100': !isSelected && isClickable,
+            'cursor-pointer': isClickable,
           },
           isChild && !isParentGroup ? 'rounded-r-md' : 'rounded-md',
           className
