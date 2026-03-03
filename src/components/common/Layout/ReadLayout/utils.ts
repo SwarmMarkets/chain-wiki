@@ -1,4 +1,4 @@
-import Routes from 'src/shared/consts/routes'
+import Routes, { ChainParam } from 'src/shared/consts/routes'
 import { IpfsIndexPage, TokensQueryFullData } from 'src/shared/utils'
 import { ISidebarTreeNode } from './SidebarTreeNode'
 
@@ -6,7 +6,7 @@ export const buildTree = (
   items: IpfsIndexPage[],
   nftSlug: string,
   parentId?: number | string,
-  chain?: string,
+  chain?: ChainParam,
   fullTokens?: TokensQueryFullData[] | null
 ): ISidebarTreeNode[] => {
   return items
@@ -18,7 +18,7 @@ export const buildTree = (
           token.id.toLowerCase() === item.tokenId.toLowerCase()
       )
       const to =
-        item.type === 'group'
+        item.type === 'group' || !chain
           ? undefined
           : Routes.read.token(nftSlug, item.slug, chain)
 
@@ -28,10 +28,12 @@ export const buildTree = (
           items,
           nftSlug,
           item.tokenId,
-          chain || undefined,
+          chain,
           fullTokens
         ),
-        hasContent: !!matchingToken?.ipfsContent?.htmlContent?.trim(),
+        hasContent: matchingToken
+          ? !!matchingToken.ipfsContent?.htmlContent?.trim()
+          : undefined,
         to,
       }
     })

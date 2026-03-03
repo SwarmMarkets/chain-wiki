@@ -2,6 +2,7 @@ import clsx from 'clsx'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import Icon from 'src/components/ui-kit/Icon/Icon'
+import { ChainParam } from 'src/shared/consts/routes'
 import {
   getExplorerUrl,
   NFTWithMetadata,
@@ -18,7 +19,8 @@ interface LeftSidebarProps {
   onSelect?: (node: ISidebarTreeNode) => void
   className?: string
   token?: TokensQueryFullData | null
-  chainParam?: string
+  chainParam?: ChainParam
+  fullTokens?: TokensQueryFullData[] | null
 }
 
 const LeftSidebar: React.FC<LeftSidebarProps> = ({
@@ -27,7 +29,8 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
   className,
   token,
   onSelect,
-  chainParam
+  chainParam,
+  fullTokens,
 }) => {
   const { t } = useTranslation('layout')
 
@@ -39,7 +42,8 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
         })),
         nft.slug || '',
         0,
-        chainParam
+        chainParam,
+        fullTokens
       )
     : []
 

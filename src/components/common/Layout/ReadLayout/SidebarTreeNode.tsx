@@ -36,8 +36,10 @@ const SidebarTreeNode: React.FC<SidebarTreeNodeProps> = ({
   const isGroup = node.type === 'group'
   const isSelected = selectedId === node.tokenId
   const hasChildren = node.children.length > 0
-  const hasOwnHtmlContent = node.hasContent ?? true
-  const isBranchWithoutOwnContent = hasChildren && !isGroup && !hasOwnHtmlContent
+  const hasOwnHtmlContent = node.hasContent
+  const isBranchWithoutOwnContent =
+    hasChildren && !isGroup && !hasOwnHtmlContent
+
   const isClickable = !isGroup && !isBranchWithoutOwnContent
 
   const handleExpand = (e: React.MouseEvent) => {
