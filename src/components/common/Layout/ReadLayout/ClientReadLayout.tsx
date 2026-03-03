@@ -181,6 +181,7 @@ const ClientReadLayout: React.FC<ClientReadLayoutProps> = ({
               preview={preview}
               token={selectedToken}
               chainParam={chain}
+              fullTokens={resolvedFullTokens}
             />
           )}
 
