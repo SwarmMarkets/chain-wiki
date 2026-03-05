@@ -28,6 +28,8 @@ interface MarkdownRendererProps {
 
 const MarkdownRenderer = forwardRef<HTMLDivElement, MarkdownRendererProps>(
   ({ markdown, showComments, onClickComment, fullTokenId }, ref) => {
+    const router = useRouter()
+
     const { commentsIds } = useCommentIds({
       variables: {
         filter: { token: fullTokenId },
@@ -36,18 +38,14 @@ const MarkdownRenderer = forwardRef<HTMLDivElement, MarkdownRendererProps>(
       skip: !showComments,
     })
 
-    const commentIdsBySectionId = groupBy(commentsIds, 'sectionId')
+    const commentIdsBySectionId = useMemo(
+      () => groupBy(commentsIds, 'sectionId'),
+      [commentsIds]
+    )
 
     const Content = useMemo(() => {
-      const normalizedMarkdown =
-        false
-          ? markdown.replace(/https?:\/\/[^\s)]+/g, match =>
-              match.replace(/\\/g, '')
-            )
-          : markdown
       const processor = unified()
         .use(remarkParse)
-        .use(remarkGfm)
         .use(remarkGfm)
         .use(() => tree => {
           visit(tree, (node: any) => {
@@ -101,8 +99,6 @@ const MarkdownRenderer = forwardRef<HTMLDivElement, MarkdownRendererProps>(
           jsxs: prod.jsxs,
           components: {
             a: (props: any) => {
-              // eslint-disable-next-line react-hooks/rules-of-hooks
-              const router = useRouter()
               const { href, children, ...rest } = props
               const normalizedHref =
                 typeof href === 'string'
@@ -199,13 +195,14 @@ const MarkdownRenderer = forwardRef<HTMLDivElement, MarkdownRendererProps>(
           },
         })
 
-      const file = processor.processSync(normalizedMarkdown)
+      const file = processor.processSync(markdown)
       return file.result
     }, [
       commentIdsBySectionId,
       fullTokenId,
       markdown,
       onClickComment,
+      router,
       showComments,
     ])
 

@@ -2,33 +2,22 @@
 
 import clsx from 'clsx'
 import { useParams } from 'next/navigation'
-import {
-  createContext,
-  PropsWithChildren,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react'
+import { createContext, PropsWithChildren, useContext, useState } from 'react'
 import Drawer from 'src/components/ui-kit/Drawer'
-import { allNetworks } from 'src/environment/networks'
-import useTokens from 'src/hooks/subgraph/useTokens'
 import useBreakpoint from 'src/hooks/ui/useBreakpoint'
-import { createClientForChain } from 'src/services/apollo'
-import { chainParamResolver, ReadParams } from 'src/shared/consts/routes'
+import { ReadParams } from 'src/shared/consts/routes'
 import {
-  ipfsToHttp,
   IpfsIndexPage,
   NFTWithMetadata,
   TokensQueryFullData,
-  unifyAddressToId,
 } from 'src/shared/utils'
 import ContentContext from './Content/ContentContext'
+import useReadDocumentMeta from './hooks/useReadDocumentMeta'
+import useReadLayoutData from './hooks/useReadLayoutData'
 import LeftSidebar from './LeftSidebar'
 import ReadHeader from './ReadHeader'
 import RightSidebar from './RightSidebar'
 import SidebarTree from './SidebarTree'
-import { buildTree } from './utils'
 
 interface ReadContextProps {
   nft: NFTWithMetadata | null
@@ -74,77 +63,20 @@ const ClientReadLayout: React.FC<ClientReadLayoutProps> = ({
   const isMd = useBreakpoint('md')
   const isXl = useBreakpoint('xl')
 
-  useEffect(() => {
-    if (preview) return
-    if (nft?.name) document.title = nft.name
-    if (nft?.iconLogoUrl) {
-      const favicon = document.querySelector(
-        "link[rel~='icon']"
-      ) as HTMLLinkElement | null
-      if (favicon) favicon.href = ipfsToHttp(nft.iconLogoUrl)
-    }
-  }, [nft?.name, nft?.iconLogoUrl, preview])
+  useReadDocumentMeta({
+    preview,
+    nftName: nft?.name,
+    nftIconLogoUrl: nft?.iconLogoUrl,
+  })
 
-  const chainClient = useMemo(() => {
-    if (!chain) return null
-    const chainName = chainParamResolver[chain]
-    const resolvedChain = allNetworks.find(
-      c => c.name?.toLowerCase() === chainName?.toLowerCase()
-    )
-    if (!resolvedChain) return null
-    return createClientForChain(resolvedChain.id)
-  }, [chain])
-
-  const { fullTokens: clientFullTokens } = useTokens(
-    {
-      client: chainClient || undefined,
-      variables: nft?.id
-        ? {
-            filter: { nft: unifyAddressToId(nft.id) },
-          }
-        : undefined,
-      skip: preview || !nft?.id || !chainClient,
-    },
-    { fetchFullData: true }
-  )
-
-  const resolvedFullTokens =
-    clientFullTokens ||
-    fullTokens ||
-    (initialSelectedToken ? [initialSelectedToken] : null)
-
-  const selectedToken = useMemo(() => {
-    if (!resolvedTokenSlugOrId) return initialSelectedToken || null
-
-    const fromFull = resolvedFullTokens?.find(
-      t =>
-        t.slug === resolvedTokenSlugOrId ||
-        t.id.toLowerCase() === resolvedTokenSlugOrId?.toLowerCase()
-    )
-    if (fromFull) return fromFull
-
-    if (
-      initialSelectedToken &&
-      (initialSelectedToken.slug === resolvedTokenSlugOrId ||
-        initialSelectedToken.id.toLowerCase() ===
-          resolvedTokenSlugOrId?.toLowerCase())
-    ) {
-      return initialSelectedToken
-    }
-
-    return null
-  }, [resolvedFullTokens, initialSelectedToken, resolvedTokenSlugOrId])
-
-  const treeData = useMemo(() => {
-    if (!nft?.indexPagesContent?.indexPages) return []
-    return buildTree(
-      nft.indexPagesContent.indexPages,
-      nft.slug,
-      0,
-      chain,
-      resolvedFullTokens
-    )
-  }, [chain, nft?.indexPagesContent?.indexPages, nft?.slug, resolvedFullTokens])
+  const { resolvedFullTokens, selectedToken, treeData } = useReadLayoutData({
+    chain,
+    nft,
+    preview,
+    fullTokens,
+    initialSelectedToken,
+    resolvedTokenSlugOrId,
+  })
 
   return (
     <ContentContext>

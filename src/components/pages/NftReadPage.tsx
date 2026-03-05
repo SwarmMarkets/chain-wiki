@@ -1,7 +1,7 @@
 'use client'
 
-import { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import useSelectedSection from 'src/hooks/useSelectedSection'
 import { useReadContext } from '../common/Layout/ReadLayout/ClientReadLayout'
 import { useContentRef } from '../common/Layout/ReadLayout/Content/context'
 import MarkdownRenderer from '../Editor/MarkdownRenderer'
@@ -12,18 +12,8 @@ const NftReadPage = () => {
   const { nft, selectedToken } = useReadContext()
 
   const { t } = useTranslation('token')
-
-  const [selectedSectionId, setSelectedSectionId] = useState<string | null>(
-    null
-  )
-
-  const handleSelectSection = useCallback((sectionId: string) => {
-    setSelectedSectionId(sectionId)
-  }, [])
-
-  const handleCloseDrawer = useCallback(() => {
-    setSelectedSectionId(null)
-  }, [])
+  const { selectedSection, isOpen, openSection, closeSection } =
+    useSelectedSection()
 
   if (!nft || !selectedToken) {
     return <div className='text-center'>{t('messages.noContent')}</div>
@@ -32,25 +22,26 @@ const NftReadPage = () => {
   return (
     <>
       <MarkdownRenderer
-        markdown={selectedToken?.ipfsContent?.htmlContent || ''}
+        markdown={selectedToken.ipfsContent?.htmlContent || ''}
         showComments
-        fullTokenId={selectedToken?.id}
-        onClickComment={handleSelectSection}
+        fullTokenId={selectedToken.id}
+        onClickComment={openSection}
         ref={setContentElem}
       />
 
       <AttestationDrawer
         nft={nft}
-        isOpen={!!selectedSectionId}
-        fullTokenId={selectedToken?.id || ''}
-        section={{
-          id: selectedSectionId || '',
-          htmlContent:
-            (selectedSectionId &&
-              document.getElementById(selectedSectionId)?.outerHTML) ||
-            '',
-        }}
-        onClose={handleCloseDrawer}
+        isOpen={isOpen}
+        fullTokenId={selectedToken.id}
+        section={
+          selectedSection
+            ? selectedSection
+            : {
+                id: '',
+                htmlContent: '',
+              }
+        }
+        onClose={closeSection}
       />
     </>
   )

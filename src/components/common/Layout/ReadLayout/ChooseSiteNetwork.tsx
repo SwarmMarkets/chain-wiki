@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next'
 import NftList, { NFTWithChain } from 'src/components/Nft/NftList'
 import Button from 'src/components/ui-kit/Button/Button'
 import Routes from 'src/shared/consts/routes'
+import { generateSiteLink } from 'src/shared/utils'
 
 interface ChooseSiteNetwork {
   nfts: NFTWithChain[]
@@ -60,7 +61,13 @@ const ChooseSiteNetwork: React.FC<ChooseSiteNetwork> = ({
               skeletonLength={10}
               className='mt-7'
               onClick={handleCardClick}
-              to={nft => Routes.read.nft(nft.slug)}
+              to={nft =>
+                generateSiteLink({
+                  nftIdOrSlug: nft.slug,
+                  chain: nft.chain,
+                  relative: true,
+                })
+              }
             />
           )}
         </div>

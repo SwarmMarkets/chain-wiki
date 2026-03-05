@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import LiteEditor from 'src/components/Editor/LiteEditor'
 import HtmlRender from 'src/components/HtmlRender'
@@ -9,8 +9,8 @@ import Divider from 'src/components/ui-kit/Divider'
 import MakeAttestationButton from 'src/components/UpdateContent/MakeAttestationButton'
 import useComments from 'src/hooks/subgraph/useComments'
 import { NFTWithMetadata } from 'src/shared/utils'
-import { SelectedSection } from '../TokenView/TokenView'
 import AttestationList from './AttestationList'
+import { SelectedSection } from 'src/hooks/useSelectedSection'
 
 interface AttestationDrawerProps {
   nft: NFTWithMetadata
@@ -46,13 +46,16 @@ const AttestationDrawer: React.FC<AttestationDrawerProps> = ({
     setEditorContent('')
   }
 
-  const sortedAttestationsByPreferred =
-    fullComments?.sort((a, b) => {
+  const sortedAttestationsByPreferred = useMemo(() => {
+    if (!fullComments) return null
+
+    return [...fullComments].sort((a, b) => {
       const aIsPreferred = nft.preferredAttestators.includes(a.commentator)
       const bIsPreferred = nft.preferredAttestators.includes(b.commentator)
 
       return Number(bIsPreferred) - Number(aIsPreferred)
-    }) ?? null
+    })
+  }, [fullComments, nft.preferredAttestators])
 
   return (
     <Drawer open={isOpen} onClose={onClose} position='right'>
